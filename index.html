@@ -69,7 +69,10 @@
     <div class="usub">Guthaben <span id="shopChips" style="color:var(--yellow)">◈ 0</span></div>
     <div class="usub" id="shopHint" style="font-size:11px;opacity:.8;margin-top:2px;"></div>
     <div id="shopCards"></div>
-    <button class="btn ghost" id="shopBackBtn" style="margin-top:26px;">← ZURÜCK</button>
+    <div class="btnrow" style="margin-top:24px;">
+      <button class="btn ghost" id="shopBackBtn">← ZURÜCK</button>
+      <button class="btn ghost" id="shopResetBtn" style="border-color:rgba(255,46,136,.45);color:#ff8ab5;">♻ ALLES ZURÜCKSETZEN</button>
+    </div>
   </div>
 
   <div id="settings" class="screen hidden">
@@ -81,7 +84,6 @@
       <button class="optrow" data-opt="fx">Bildschirm-Effekte · <b>AN</b></button>
       <button class="optrow" data-opt="curses">🎲 Lustige Flüche · <b>AN</b></button>
       <button class="optrow" data-opt="guns">🔫 Schießen / Waffen · <b>AN</b></button>
-      <button class="optrow" data-opt="dailyShop">🗓 Werkstatt täglich neu · <b>AN</b></button>
     </div>
     <button class="btn ghost" id="settingsBackBtn" style="margin-top:26px;">← ZURÜCK</button>
   </div>
@@ -101,7 +103,7 @@
   </div>
 
   <button id="mute" title="Ton an/aus">🔊</button>
-  <div class="credit">NEONDRIFT v14</div>
+  <div class="credit">NEONDRIFT v15</div>
 </div>
 
 <script src="js/game.js"></script>

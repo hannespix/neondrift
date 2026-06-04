@@ -50,6 +50,7 @@
   let daily=false;                                    // Daily-Challenge aktiv?
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
+  let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
   function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dailyShop:r.dailyShop==null?true:r.dailyShop}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dailyShop:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
@@ -309,6 +310,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
+    shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
   function curBest(){ return daily?(best.daily||0):(best[mode]||0); }
@@ -330,7 +332,7 @@
     useSeed=daily;
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
-    dailyShopCheck(); unlockAudio(); reset(); applyMeta(); state=S.PLAY;
+    unlockAudio(); reset(); applyMeta(); state=S.PLAY;
     document.getElementById('start').classList.add('hidden');
     document.getElementById('over').classList.add('hidden');
     document.getElementById('upgrade').classList.add('hidden');
@@ -880,14 +882,12 @@
       // player trail
       for(let i=0;i<player.trail.length;i++){ const t=player.trail[i],a=i/player.trail.length; ctx.globalAlpha=a*0.5; ctx.fillStyle='#19f0ff'; ctx.beginPath(); ctx.arc(t.x,t.y,player.r*a*0.8,0,6.28); ctx.fill(); } ctx.globalAlpha=1;
 
-      // player
+      // player (mitwachsendes Pixel-Raumschiff)
       if(state===S.PLAY||state===S.UPGRADE||state===S.PAUSE){ const blink=invuln>0&&Math.floor(invuln*16)%2===0;
-        if(!blink){ ctx.save(); ctx.shadowBlur=26; ctx.shadowColor='#19f0ff';
-          const grd=ctx.createRadialGradient(player.x,player.y,2,player.x,player.y,player.r); grd.addColorStop(0,'#fff'); grd.addColorStop(1,'#19f0ff'); ctx.fillStyle=grd;
-          ctx.beginPath();ctx.arc(player.x,player.y,player.r,0,6.28);ctx.fill(); ctx.restore(); }
+        if(!blink) drawShip();
         // shield rings
         for(let s=0;s<shields;s++){ ctx.save(); ctx.strokeStyle=hexA('#2effc0',0.8-s*0.12); ctx.lineWidth=2; ctx.shadowBlur=12; ctx.shadowColor='#2effc0';
-          ctx.beginPath(); ctx.arc(player.x,player.y,player.r+6+s*5,0,6.28); ctx.stroke(); ctx.restore(); }
+          ctx.beginPath(); ctx.arc(player.x,player.y,player.r+9+s*5,0,6.28); ctx.stroke(); ctx.restore(); }
       }
 
       // particles
@@ -930,6 +930,33 @@
     ctx.restore();
   }
 
+  function drawShip(){ const r=player.r, R=makeRng(shipSeed||1);
+    const accents=['#ff2e88','#ffe600','#2effc0','#c45bff','#ff9a2e'], acc=accents[(R()*accents.length)|0];
+    let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
+    const scale=1+Math.min(0.5,up*0.045);
+    const nCan=mods.gun?Math.max(1,Math.min(7,mods.multishot+(mods.bulletDmg>1?1:0)+(mods.pierce>0?1:0))):0;
+    const wing=1.15+Math.min(1.1,up*0.075), nEng=Math.max(1,Math.min(4,1+((up/4)|0)));
+    ctx.save(); ctx.translate(player.x,player.y); ctx.scale(scale,scale);
+    // Flügel (kosmetische Akzentfarbe)
+    ctx.shadowBlur=12; ctx.shadowColor=acc; ctx.fillStyle=hexA(acc,0.45); ctx.strokeStyle=acc; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(-r*0.35,-r*0.1); ctx.lineTo(-r*wing,r*0.95); ctx.lineTo(-r*0.3,r*0.75); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(r*0.35,-r*0.1); ctx.lineTo(r*wing,r*0.95); ctx.lineTo(r*0.3,r*0.75); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Triebwerke unten mit Flamme
+    for(let i=0;i<nEng;i++){ const ex=(i-(nEng-1)/2)*(r*0.5), fl=r*(0.55+0.45*Math.abs(Math.sin((elapsed||0)*28+i)));
+      ctx.fillStyle='#ffd000'; ctx.beginPath(); ctx.moveTo(ex-r*0.13,r*0.78); ctx.lineTo(ex+r*0.13,r*0.78); ctx.lineTo(ex,r*0.78+fl); ctx.closePath(); ctx.fill(); }
+    // Rumpf (Neon, zeigt nach oben)
+    ctx.shadowBlur=16; ctx.shadowColor='#19f0ff'; ctx.strokeStyle='#19f0ff'; ctx.lineWidth=2.5; ctx.fillStyle=hexA('#19f0ff',0.32);
+    ctx.beginPath(); ctx.moveTo(0,-r*1.6); ctx.lineTo(r*0.85,r*0.85); ctx.lineTo(-r*0.85,r*0.85); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Kanonen vorne (Anzahl je nach Waffen)
+    ctx.shadowBlur=8; ctx.fillStyle=acc; const cl=r*(0.45+Math.min(0.8,(mods.fireRate||0)*0.06));
+    for(let i=0;i<nCan;i++){ const cx=(i-(nCan-1)/2)*(r*0.34); ctx.fillRect(cx-r*0.08,-r*1.6-cl,r*0.16,cl); }
+    // zufällige Akzent-Pixel (Stil-Variation)
+    ctx.shadowBlur=0; for(let i=0;i<3;i++){ if(R()<0.6){ const bx=(R()*0.5)*r, by=(R()*1.1-0.2)*r; ctx.fillStyle=R()<0.5?acc:'#fff'; ctx.fillRect(bx-2,by-2,4,4); ctx.fillRect(-bx-2,by-2,4,4); } }
+    ctx.restore();
+    // heller Hitbox-Kern OBEN DRAUF = echte (kleine) Hitbox
+    ctx.save(); ctx.shadowBlur=18; ctx.shadowColor='#fff';
+    const grd=ctx.createRadialGradient(player.x,player.y,1,player.x,player.y,r); grd.addColorStop(0,'#fff'); grd.addColorStop(1,'#19f0ff'); ctx.fillStyle=grd;
+    ctx.beginPath(); ctx.arc(player.x,player.y,r,0,6.28); ctx.fill(); ctx.restore(); }
   function drawMouth(m,t){ const y=m.oy, w=m.w, h=w*0.4; ctx.save(); ctx.translate(0,y); ctx.fillStyle='#08010f';
     if(m.type==='grin'){ ctx.strokeStyle='#08010f'; ctx.lineWidth=Math.max(3,h*0.22); ctx.beginPath(); ctx.arc(0,-h*0.2,w*0.5,0.15*Math.PI,0.85*Math.PI); ctx.stroke(); }
     else if(m.type==='o'){ const r=w*0.26*(1+0.2*Math.sin(t*8)); ctx.beginPath(); ctx.arc(0,0,r,0,6.28); ctx.fill(); }
@@ -1067,12 +1094,13 @@
 
   // ---------- Werkstatt (Meta-Shop) ----------
   function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+(meta.chips||0)+((meta.won)?('  ·  🏆 '+meta.won):''); }
-  function openShop(){ dailyShopCheck(); document.getElementById('start').classList.add('hidden'); renderShop();
+  function openShop(){ document.getElementById('start').classList.add('hidden'); renderShop();
     document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
-  function closeShop(){ document.getElementById('shop').classList.add('hidden');
+  function closeShop(){ shopResetArmed=false; const rb=document.getElementById('shopResetBtn'); if(rb) rb.textContent='♻ ALLES ZURÜCKSETZEN';
+    document.getElementById('shop').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips(); }
   function renderShop(){ shopChipsEl.textContent='◈ '+(meta.chips||0);
-    if(shopHintEl) shopHintEl.textContent=opt.dailyShop?('🗓 setzt sich täglich zurück · heute '+dailyLabel()):'dauerhaft gespeichert';
+    if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     shopCards.innerHTML='';
     META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:m.costs[lvl], afford=(meta.chips||0)>=cost;
       const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
@@ -1083,6 +1111,12 @@
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return; const cost=m.costs[lvl]; if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
+  let shopResetArmed=false;
+  function shopReset(){ const b=document.getElementById('shopResetBtn');
+    if(shopResetArmed){ shopResetArmed=false; meta.chips=0; meta.lvl={}; saveMeta();
+      b.textContent='♻ ALLES ZURÜCKSETZEN'; beep(200,0.3,'sawtooth',0.3,-120); vibe([40,30,40]); renderShop(); updateMenuChips(); }
+    else { shopResetArmed=true; b.textContent='WIRKLICH? ✓ (tippen)'; beep(440,0.08,'square',0.2);
+      setTimeout(()=>{ if(shopResetArmed){ shopResetArmed=false; b.textContent='♻ ALLES ZURÜCKSETZEN'; } },4000); } }
 
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
@@ -1123,6 +1157,7 @@
   document.getElementById('shopBtn').addEventListener('click',openShop);
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
   document.getElementById('shopCloseBtn').addEventListener('click',closeShop);
+  document.getElementById('shopResetBtn').addEventListener('click',shopReset);
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
@@ -1130,7 +1165,7 @@
   document.getElementById('againBtn').addEventListener('click',()=>startGame());
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
-  dailyShopCheck(); updateMenuChips();
+  updateMenuChips();
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
