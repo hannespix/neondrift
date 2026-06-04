@@ -32,6 +32,7 @@
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'PUNKTE ✕2', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
       shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
+      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich."],
@@ -57,6 +58,7 @@
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'SCORE ✕2', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
       shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
+      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked',
       near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
@@ -82,6 +84,7 @@
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
       pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'SCORE ✕2', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
       shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
+      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé',
       near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
       quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
@@ -118,8 +121,10 @@
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||''}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:''}; }
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std'}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std'}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
+  function statN(k){ return (meta.stats&&meta.stats[k])||0; }
+  function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
   // Werkstatt-Upgrades: immer teurer (≈×2.2/Stufe) & immer krasser
   const META=[
     {id:'blasterStart',ico:'🔫',name:'Vorrüstung',  max:3,costs:[120,300,700],    txt:'Start mit Blaster · +Feuerrate je Stufe'},
@@ -146,6 +151,26 @@
     const scn=metaLvl('score'); if(scn) mods.scoreMult*=(1+0.15*scn);
     const lu=metaLvl('luck'); if(lu) mods.powerupRate*=(1+0.10*lu);
   }
+  // ---------- Erfolge / Achievements ----------
+  const ACH=[
+    {id:'firstNear',ico:'😎'},{id:'combo10',ico:'🔗'},{id:'combo20',ico:'⚡'},{id:'combo30',ico:'👑'},
+    {id:'perfect10',ico:'🎯'},{id:'boss5',ico:'🌊'},{id:'mega',ico:'🛸'},{id:'won',ico:'🏆'},
+    {id:'madness',ico:'☣'},{id:'orbs1000',ico:'🔷'},{id:'chips10k',ico:'◈'},{id:'allmodes',ico:'🎮'},
+    {id:'curse',ico:'🎲'},{id:'daily',ico:'🗓'}
+  ];
+  const ACHTR={
+    de:{firstNear:['Hauchzart','Erster Near-Miss'],combo10:['Im Flow','Combo x10'],combo20:['Brandheiß','Combo x20'],combo30:['Göttlich','Combo x30'],perfect10:['Millimeterarbeit','10× PERFEKT'],boss5:['Wellenbrecher','Boss 5 erreicht'],mega:['Drachentöter','Mega-Boss besiegt'],won:['Durchgespielt','Den Endgegner besiegt'],madness:['Wahnsinnig','60 s im Wahnsinn-Modus'],orbs1000:['Sammler','1.000 Orbs gesamt'],chips10k:['Reich','10.000 Chips verdient'],allmodes:['Vielspieler','Alle 3 Modi gespielt'],curse:['Risikofreudig','Einen Fluch eingesammelt'],daily:['Stammgast','Daily gespielt']},
+    en:{firstNear:['Hair’s Breadth','First near-miss'],combo10:['In the Flow','Combo x10'],combo20:['Red Hot','Combo x20'],combo30:['Godlike','Combo x30'],perfect10:['Precision','10× PERFECT'],boss5:['Wavebreaker','Reached boss 5'],mega:['Dragonslayer','Defeated a mega-boss'],won:['Completed','Beat the final boss'],madness:['Unhinged','60 s in madness mode'],orbs1000:['Collector','1,000 orbs total'],chips10k:['Rich','Earned 10,000 chips'],allmodes:['All-Rounder','Played all 3 modes'],curse:['Risk-Taker','Grabbed a curse'],daily:['Regular','Played the daily']},
+    fr:{firstNear:['À un cheveu','Premier near-miss'],combo10:['Dans le flow','Combo x10'],combo20:['Brûlant','Combo x20'],combo30:['Divin','Combo x30'],perfect10:['Précision','10× PARFAIT'],boss5:['Brise-vagues','Boss 5 atteint'],mega:['Tueur de dragon','Méga-boss vaincu'],won:['Terminé','Boss final vaincu'],madness:['Cinglé','60 s en mode folie'],orbs1000:['Collectionneur','1 000 orbes au total'],chips10k:['Riche','10 000 chips gagnés'],allmodes:['Polyvalent','Joué les 3 modes'],curse:['Téméraire','Ramassé une malédiction'],daily:['Habitué','Joué le daily']}
+  };
+  const achName=id=>((ACHTR[lang]&&ACHTR[lang][id])||ACHTR.en[id]||[id])[0];
+  const achDesc=id=>(((ACHTR[lang]&&ACHTR[lang][id])||ACHTR.en[id]||['',''])[1])||'';
+  let achToasts=[];
+  function unlockSkin(id){ meta.skins=meta.skins||{}; if(!meta.skins[id]){ meta.skins[id]=1; saveMeta(); } } // Phase 2
+  function unlockAch(id){ if(meta.ach&&meta.ach[id]) return; meta.ach=meta.ach||{}; meta.ach[id]=1; saveMeta();
+    achToasts.push({id,t:3.4}); try{ beep(880,0.09,'square',0.18); setTimeout(()=>beep(1320,0.12,'square',0.2),100); }catch(e){} vibe([20,30,20]);
+    if(id==='won') unlockSkin('gold'); if(id==='mega') unlockSkin('toxic'); if(id==='madness') unlockSkin('glitch'); }
+  function checkComboAch(m){ if(m>=10)unlockAch('combo10'); if(m>=20)unlockAch('combo20'); if(m>=30)unlockAch('combo30'); }
   let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount;
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
@@ -155,6 +180,7 @@
   let daily=false;                                    // Daily-Challenge aktiv?
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
+  let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0;          // Statistik pro Run
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let shipSprite=null, shipSig='';                     // gebackener Pixel-Sprite + Signatur
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
@@ -416,6 +442,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -439,6 +466,8 @@
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
     unlockAudio(); reset(); applyMeta(); state=S.PLAY;
+    if(daily) unlockAch('daily'); meta.stats=meta.stats||{}; meta.stats['mode_'+mode]=1;
+    if(meta.stats.mode_normal&&meta.stats.mode_hardcore&&meta.stats.mode_zen) unlockAch('allmodes'); saveMeta();
     document.getElementById('start').classList.add('hidden');
     document.getElementById('over').classList.add('hidden');
     document.getElementById('upgrade').classList.add('hidden');
@@ -452,7 +481,7 @@
     state=S.MENU; document.getElementById('hud').classList.add('hidden');
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
-    document.getElementById('settings').classList.add('hidden');
+    document.getElementById('settings').classList.add('hidden'); document.getElementById('ach').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
   function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
@@ -463,7 +492,7 @@
 
   function addScore(n){ score+=Math.round(n*mods.scoreMult*(effects.double>0?2:1)); }
   function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ multiplier=m; onComboUp(m); } else multiplier=m; }
-  function onComboUp(m){ floatText(player.x,player.y-30,'x'+m,'#ff2e88',20);
+  function onComboUp(m){ floatText(player.x,player.y-30,'x'+m,'#ff2e88',20); checkComboAch(m);
     const w=(P('combo')||{})[m];
     if(w){ banner={text:w,sub:'',t:1.4,color:'#ffe600'}; vibe([15,25,15]); } }
   function bumpCombo(){ comboEl.classList.remove('bump'); void comboEl.offsetWidth; comboEl.classList.add('bump'); }
@@ -519,7 +548,7 @@
     gems.push({x:rand(50,W-50),y:-28,r:17,vy:70+difficulty*14,u,curse,pulse:Math.random()*6.28,rot:0});
   }
   function applyPickup(u){ u.apply(); upgradeCounts[u.id]=(upgradeCounts[u.id]||0)+1; }
-  function collectGem(g){ const u=g.u, col=g.curse?'#ff2e88':'#ffe600'; applyPickup(u);
+  function collectGem(g){ const u=g.u, col=g.curse?'#ff2e88':'#ffe600'; applyPickup(u); if(g.curse) unlockAch('curse');
     spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.5,flash+0.16); flashColor=col;
     banner={text:(g.curse?'🎲 ':'')+uName(u.id).toUpperCase(),sub:uDesc(u.id),t:2.0,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
     if(g.curse){ beep(220,0.18,'sawtooth',0.3,-60); setTimeout(()=>beep(140,0.2,'square',0.25,-40),80); vibe([40,30,40]); }
@@ -527,6 +556,7 @@
 
   // ---------- Boss ----------
   function startBoss(){
+    if(bossNumber>=5) unlockAch('boss5');
     const isFinal = !endless && bossNumber===finalNum();
     // Mega-Boss bei jedem 2. Boss & im Wahnsinn-Modus immer – wenn man schießen kann
     if(opt.guns && (isFinal || endless || bossNumber%2===0)){ startMegaBoss(isFinal); return; }
@@ -604,12 +634,12 @@
     const bonus=(wasFinal?600:160)*multiplier*bossNumber, chips=(wasFinal?120:20)+bossNumber*8;
     addScore(bonus); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips();
     pixelBurst(W/2,H*0.28,'#2effc0',wasFinal?28:16); spawnParticles(W/2,H*0.28,'#ffe600',wasFinal?60:30,320);
-    flash=0.6; flashColor='#2effc0'; sfxWin(); vibe([20,30,40]);
+    flash=0.6; flashColor='#2effc0'; sfxWin(); vibe([20,30,40]); runBosses++; unlockAch('mega');
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
     boss=null; bossActive=false; bossNumber++;
     if(wasFinal) winGame();
     else { banner={text:t('defeated'),sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'}; bossTimer=(mode==='hardcore')?24:30; } }
-  function winGame(){ endless=true; madness=0; wonThisRun=true; meta.won=(meta.won||0)+1; saveMeta();
+  function winGame(){ endless=true; madness=0; wonThisRun=true; meta.won=(meta.won||0)+1; saveMeta(); unlockAch('won');
     banner={text:t('beaten'),sub:t('beatenSub'),t:4.5,color:'#ffe600'};
     flash=0.85; flashColor='#ffe600'; shake=26; effects.slowmo=Math.max(effects.slowmo,1.4);
     for(let i=0;i<6;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.18,H*0.6),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),10);
@@ -640,7 +670,7 @@
     spawnParticles(W/2,H*0.4,'#ffe600',wasFinal?60:36,300);
     flash=0.5; flashColor='#ffe600'; sfxWin(); vibe([20,30,40]);
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
-    bossNumber++;
+    bossNumber++; runBosses++;
     if(wasFinal){ const chips=120+bossNumber*8; meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
     else banner={text:t('survived'),sub:'+'+bonus,t:2.2,color:'#2effc0'}; }
   function spawnLaserWave(){ const mixed=bossNumber>=3, vert=(bossNumber%2===1);
@@ -733,7 +763,7 @@
     const od=multiplier>=8;
     if(od&&!overdrive){ banner={text:t('overdrive'),sub:t('overdriveSub'),t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
     overdrive=od;
-    if(endless) madness+=dt*0.0075;   // Wahnsinn-Modus eskaliert – aber gemächlich
+    if(endless){ madness+=dt*0.0075; madnessTime+=dt; if(madnessTime>=60) unlockAch('madness'); }   // Wahnsinn-Modus eskaliert – aber gemächlich
 
     player.r+= (mods.playerR-player.r)*0.2;
     player.x+=(tgt.x-player.x)*Math.min(1,dt*mods.follow);
@@ -850,7 +880,7 @@
       if(pull>0){ const dd=Math.hypot(player.x-orb.x,player.y-orb.y), rng=effects.magnet>0?9999:170;
         if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
       const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
-      if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
+      if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); runOrbs++; const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
         spawnParticles(orb.x,orb.y,'#19f0ff',14,220); sfxOrb(combo); bumpCombo(); vibe(8); floatText(orb.x,orb.y-14,'+'+g,'#19f0ff',15);
         flash=Math.min(0.5,flash+0.18); flashColor='#19f0ff'; orbs.splice(i,1); continue; }
       if(orb.y>H+20) orbs.splice(i,1);
@@ -887,12 +917,14 @@
     spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
     director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
+    unlockAch('firstNear');
     if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]); } }
   // Ultra-knapper Ausweicher → Extra-Bonus
   function perfectDodge(o){ const pb=Math.round(8*multiplier); addScore(pb); combo++; setMult(); refillCombo();
     floatText(player.x,player.y-50,t('perfect'),'#ff2e88',24); beep(1200,0.1,'square',0.2,520);
     flash=Math.min(0.6,flash+0.2); flashColor='#ff2e88'; nearGlow=1; shake=Math.max(shake,8); vibe([12,18,12]);
-    director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240); }
+    director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240);
+    runPerfect++; if(statN('perfect')+runPerfect>=10) unlockAch('perfect10'); }
   // ---------- Schuss / Explosionen ----------
   function fireGun(){ const n=mods.multishot||1, spd=640, baseY=player.y-player.r-2;
     for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*(mods.spread||0.12);
@@ -1175,7 +1207,10 @@
     spawnParticles(player.x,player.y,'#ff2e88',46,380); spawnParticles(player.x,player.y,'#19f0ff',26,260);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores(); }
     const earned=Math.max(0,Math.round((score/55 + nearCount*0.6 + (bossNumber-1)*30 + (wonThisRun?250:0))*chipMult()));
-    meta.chips=(meta.chips||0)+earned; saveMeta(); updateMenuChips();
+    meta.chips=(meta.chips||0)+earned;
+    addStat('orbs',runOrbs); addStat('near',nearCount); addStat('perfect',runPerfect); addStat('bosses',runBosses); addStat('runs',1); addStat('chipsTotal',earned);
+    if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
+    saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden');
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode);
     chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
@@ -1268,6 +1303,16 @@
     else opt[k]=!opt[k];
     saveOpt(); renderSettings(); beep(opt[k]===false?330:740,0.06,'square',0.2); }
   // Statische UI-Texte je Sprache setzen
+  // ---------- Erfolge-Galerie ----------
+  function openAch(){ document.getElementById('start').classList.add('hidden'); renderAch();
+    document.getElementById('ach').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
+  function closeAch(){ document.getElementById('ach').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); }
+  function renderAch(){ const got=ACH.filter(a=>meta.ach&&meta.ach[a.id]).length, sub=document.getElementById('achSub');
+    if(sub) sub.textContent=got+'/'+ACH.length;
+    const wrap=document.getElementById('achCards'); if(!wrap) return; wrap.innerHTML='';
+    ACH.forEach(a=>{ const has=!!(meta.ach&&meta.ach[a.id]); const c=document.createElement('div'); c.className='acard'+(has?' got':' lock');
+      c.innerHTML='<div class="ico">'+(has?a.ico:'🔒')+'</div><h5>'+achName(a.id)+'</h5><p>'+achDesc(a.id)+'</p>';
+      wrap.appendChild(c); }); }
   function applyI18n(){ try{ document.documentElement.lang=lang;
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
@@ -1279,6 +1324,7 @@
     setSel('#upgrade .utitle',t('chooseUp'));
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back')); set('shopResetBtn',t('resetAll'));
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
+    set('achBtn',t('achBtn')); setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
     setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     if(typeof renderSettings==='function') renderSettings();
@@ -1290,8 +1336,19 @@
     else { elapsed=(elapsed||0)+dt; for(const s of stars){s.y+=(20+s.z*40)*dt;if(s.y>H){s.y=-2;s.x=Math.random()*W;}}
       if(particles)for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
       shake=Math.max(0,(shake||0)-dt*60); }
-    draw(); requestAnimationFrame(loop);
+    if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
+    draw(); drawAchToast(); requestAnimationFrame(loop);
   }
+  function drawAchToast(){ if(!achToasts.length) return; const a=achToasts[0], id=a.id, al=Math.min(1,a.t,3.4-a.t+0.6);
+    const w=Math.min(W*0.86,360), x=W/2-w/2, y=Math.max(54,H*0.12);
+    ctx.save(); ctx.globalAlpha=Math.max(0,al);
+    ctx.fillStyle='rgba(8,1,15,0.85)'; ctx.strokeStyle='#ffe600'; ctx.lineWidth=2; ctx.shadowBlur=16; ctx.shadowColor='#ffe600';
+    ctx.beginPath(); rr(x,y,w,52,12); ctx.fill(); ctx.stroke(); ctx.shadowBlur=0;
+    ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.font='26px Space Mono, monospace'; ctx.fillStyle='#fff'; ctx.fillText(((ACH.find(z=>z.id===id)||{}).ico)||'🏅',x+16,y+27);
+    ctx.font='700 13px Orbitron, sans-serif'; ctx.fillStyle='#ffe600'; ctx.fillText(t('achGot'),x+52,y+16);
+    ctx.font='700 15px Orbitron, sans-serif'; ctx.fillStyle='#fff'; ctx.fillText(achName(id),x+52,y+36);
+    ctx.restore(); }
 
   // ---------- DOM ----------
   const scoreEl=document.getElementById('score'),comboEl=document.getElementById('combo'),bestHud=document.getElementById('best-hud'),
@@ -1309,6 +1366,9 @@
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
   document.getElementById('shopCloseBtn').addEventListener('click',closeShop);
   document.getElementById('shopResetBtn').addEventListener('click',shopReset);
+  document.getElementById('achBtn').addEventListener('click',openAch);
+  document.getElementById('achBackBtn').addEventListener('click',closeAch);
+  document.getElementById('achCloseBtn').addEventListener('click',closeAch);
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
