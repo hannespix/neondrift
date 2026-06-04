@@ -13,24 +13,33 @@
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0}; }catch(e){} return {chips:0,lvl:{},won:0}; }
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||''}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:''}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
+  // Werkstatt-Upgrades: immer teurer (≈×2.2/Stufe) & immer krasser
   const META=[
-    {id:'shield',ico:'🛡️',name:'Startschild',max:2,costs:[80,240],   txt:'Beginne jeden Run mit +1 Schild je Stufe'},
-    {id:'solid', ico:'🔻',name:'Solide Hülle',max:3,costs:[60,150,320],txt:'Start-Hitbox −5% je Stufe'},
-    {id:'reach', ico:'📡',name:'Fern-Sensor', max:3,costs:[50,130,280],txt:'Near-Miss-Radius +8% je Stufe'},
-    {id:'luck',  ico:'🎁',name:'Glückssträhne',max:3,costs:[70,170,330],txt:'Power-Ups +8% häufiger je Stufe'},
-    {id:'rich',  ico:'◈', name:'Chip-Magnet', max:5,costs:[40,90,160,260,400],txt:'+10% Chip-Ausbeute je Stufe'},
-    {id:'tough', ico:'💗',name:'Zähigkeit',   max:1,costs:[500],      txt:'Beginne jeden Run mit +1 Leben'}
+    {id:'blasterStart',ico:'🔫',name:'Vorrüstung',  max:3,costs:[120,300,700],    txt:'Start mit Blaster · +Feuerrate je Stufe'},
+    {id:'multiStart',  ico:'⚡',name:'Doppel-Start', max:2,costs:[450,1100],       txt:'Start mit +1 Bolzen je Stufe'},
+    {id:'shield',      ico:'🛡️',name:'Startschild',  max:3,costs:[80,220,560],     txt:'+1 Schild zu Beginn je Stufe'},
+    {id:'tough',       ico:'💗',name:'Zähigkeit',    max:2,costs:[350,900],        txt:'+1 Leben zu Beginn je Stufe'},
+    {id:'solid',       ico:'🔻',name:'Solide Hülle', max:4,costs:[60,150,360,800],  txt:'Start-Hitbox −5% je Stufe'},
+    {id:'reach',       ico:'📡',name:'Fern-Sensor',  max:4,costs:[50,140,330,720],  txt:'Near-Miss-Radius +9% je Stufe'},
+    {id:'score',       ico:'💎',name:'Punkte-Boost', max:4,costs:[100,260,600,1300],txt:'+15% Punkte je Stufe'},
+    {id:'luck',        ico:'🎁',name:'Glückssträhne',max:3,costs:[80,200,460],      txt:'Power-Ups +10% je Stufe'},
+    {id:'rich',        ico:'◈', name:'Chip-Magnet',  max:6,costs:[40,90,180,330,560,900],txt:'+12% Chip-Ausbeute je Stufe'}
   ];
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
-  function chipMult(){ return 1+0.10*metaLvl('rich'); }
+  function chipMult(){ return 1+0.12*metaLvl('rich'); }
+  // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
+  function dailyShopCheck(){ if(opt.dailyShop && meta.shopDate!==dailyLabel()){ meta.chips=0; meta.lvl={}; meta.shopDate=dailyLabel(); saveMeta(); } }
   function applyMeta(){
+    const bs=metaLvl('blasterStart'); if(bs){ mods.gun=1; mods.fireRate=Math.max(mods.fireRate,2.6+bs*0.9); }
+    const ms=metaLvl('multiStart'); if(ms){ mods.gun=1; if(!mods.fireRate)mods.fireRate=2.6; mods.multishot+=ms; mods.spread+=0.03*ms; }
     const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
-    const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
-    const re=metaLvl('reach'); if(re) mods.nearRadius*=(1+0.08*re);
-    const lu=metaLvl('luck'); if(lu) mods.powerupRate*=(1+0.08*lu);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
+    const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
+    const re=metaLvl('reach'); if(re) mods.nearRadius*=(1+0.09*re);
+    const scn=metaLvl('score'); if(scn) mods.scoreMult*=(1+0.15*scn);
+    const lu=metaLvl('luck'); if(lu) mods.powerupRate*=(1+0.10*lu);
   }
   let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount;
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
@@ -42,7 +51,7 @@
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
-  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true}; }
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dailyShop:r.dailyShop==null?true:r.dailyShop}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dailyShop:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
@@ -311,8 +320,8 @@
   function pwrSurv(){ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
     return up*0.6 + shields*0.4 + Math.max(0,lives-3)*0.5 + (13-mods.playerR)/13*4
       + Math.max(0,(mods.nearRadius-30)/30) + Math.max(0,(mods.follow-14)/8) + Math.max(0,mods.scoreMult-1); }
-  const difSpd =()=>1+Math.min(0.95,pwrSurv()*0.035)+(endless?madness:0);          // Obstacles schneller (+Wahnsinn)
-  const difDen =()=>Math.max(0.22,1-Math.min(0.45,pwrSurv()*0.02)-(endless?madness*0.45:0)); // dichter (+Wahnsinn)
+  const difSpd =()=>1+Math.min(0.7,pwrSurv()*0.026)+(endless?madness*0.85:0);     // Obstacles schneller (sanfter)
+  const difDen =()=>Math.max(0.32,1-Math.min(0.35,pwrSurv()*0.015)-(endless?madness*0.35:0)); // dichter (sanfter)
   const difHp  =()=>1+gunDps()*0.45;                    // Obstacles zäher je nach Schuss-DPS (konstante Treffer)
   function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
@@ -321,7 +330,7 @@
     useSeed=daily;
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
-    unlockAudio(); reset(); applyMeta(); state=S.PLAY;
+    dailyShopCheck(); unlockAudio(); reset(); applyMeta(); state=S.PLAY;
     document.getElementById('start').classList.add('hidden');
     document.getElementById('over').classList.add('hidden');
     document.getElementById('upgrade').classList.add('hidden');
@@ -366,7 +375,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(120+level*16+Math.min(elapsed*6,220))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
+    const sp=(110+level*13+Math.min(elapsed*4,150))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -463,16 +472,16 @@
       move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
       cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,150+tier*8), radY:Math.min(H*0.11,60+tier*8),
       ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1)*(final?1.15:1), r:sp.rad,
-      maxHp:Math.max(30,Math.round(bossDps()*(8+bossNumber*0.8)*(final?2.4:1))), hp:0, t:0,
-      limit:final?9999:(20+bossNumber*2),
-      hitFlash:0, shootT:1.4, warn:0, telegraph:false, fireGap:Math.max(0.7,2.3-bossNumber*0.12-Math.min(0.9,pwrSurv()*0.03)),
+      maxHp:Math.max(30,Math.round(bossDps()*(8+bossNumber*0.8)*(final?2.0:1))), hp:0, t:0,
+      limit:final?9999:(22+bossNumber*2),
+      hitFlash:0, shootT:1.5, warn:0, telegraph:false, fireGap:Math.max(0.9,2.5-bossNumber*0.1-Math.min(0.7,pwrSurv()*0.022)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0};
     boss.hp=boss.maxHp; ebullets=[];
     banner=final?{text:'👾 DER ENDGEGNER',sub:boss.name,t:3,color:'#ff2e88'}:{text:'🛸 MEGA-BOSS',sub:boss.name,t:2.6,color:'#ffe600'};
     shake=final?20:14; sfxBoss(); sfxWarn(); vibe([60,40,60,40,90]); }
   function eb(x,y,vx,vy){ return {x,y,vx,vy,r:7}; }
   function bossVolley(B){ sfxFire(); shake=Math.max(shake,5); vibe(15);
-    const xs=Math.min(7,Math.floor(pwrSurv()*0.4)), spd=(160+bossNumber*9)*(1+Math.min(0.4,pwrSurv()*0.015));
+    const xs=Math.min(5,Math.floor(pwrSurv()*0.28)), spd=(135+bossNumber*7)*(1+Math.min(0.28,pwrSurv()*0.01));
     const tier=Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
     const a0=Math.atan2(player.y-B.y,player.x-B.x);
     if(B.attack==='radial'){ const n=8+tier*2+xs; for(let i=0;i<n;i++){ const a=B.t*0.5+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
@@ -596,7 +605,7 @@
 
   // ---------- Update ----------
   function update(dt){
-    elapsed+=dt; const dGrow=mode==='hardcore'?0.07:0.05; difficulty=1+Math.min(elapsed,120)*dGrow;
+    elapsed+=dt; const dGrow=mode==='hardcore'?0.05:0.038; difficulty=1+Math.min(elapsed,150)*dGrow;
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
@@ -616,7 +625,7 @@
     const od=multiplier>=8;
     if(od&&!overdrive){ banner={text:'⚡ OVERDRIVE',sub:'du brennst!',t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
     overdrive=od;
-    if(endless) madness+=dt*0.02;   // Wahnsinn-Modus eskaliert unaufhaltsam
+    if(endless) madness+=dt*0.0075;   // Wahnsinn-Modus eskaliert – aber gemächlich
 
     player.r+= (mods.playerR-player.r)*0.2;
     player.x+=(tgt.x-player.x)*Math.min(1,dt*mods.follow);
@@ -650,7 +659,7 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.26,(0.95-difficulty*0.05-level*0.015)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()); } }
+        spawnT=Math.max(0.34,(1.0-difficulty*0.045-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     powerupT-=dt; if(powerupT<=0){ spawnPowerup(); powerupT=rand(10,16)/mods.powerupRate; }
@@ -1006,7 +1015,7 @@
   function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); shake=24; vibe([120,50,200]);
     spawnParticles(player.x,player.y,'#ff2e88',46,380); spawnParticles(player.x,player.y,'#19f0ff',26,260);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores(); }
-    const earned=Math.max(0,Math.round((score/80 + nearCount*0.5 + (bossNumber-1)*20)*chipMult()));
+    const earned=Math.max(0,Math.round((score/55 + nearCount*0.6 + (bossNumber-1)*30 + (wonThisRun?250:0))*chipMult()));
     meta.chips=(meta.chips||0)+earned; saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden');
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=daily?('TÄGLICH · '+dailyLabel()):mode.toUpperCase();
@@ -1058,11 +1067,13 @@
 
   // ---------- Werkstatt (Meta-Shop) ----------
   function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+(meta.chips||0)+((meta.won)?('  ·  🏆 '+meta.won):''); }
-  function openShop(){ document.getElementById('start').classList.add('hidden'); renderShop();
+  function openShop(){ dailyShopCheck(); document.getElementById('start').classList.add('hidden'); renderShop();
     document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
   function closeShop(){ document.getElementById('shop').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips(); }
-  function renderShop(){ shopChipsEl.textContent='◈ '+(meta.chips||0); shopCards.innerHTML='';
+  function renderShop(){ shopChipsEl.textContent='◈ '+(meta.chips||0);
+    if(shopHintEl) shopHintEl.textContent=opt.dailyShop?('🗓 setzt sich täglich zurück · heute '+dailyLabel()):'dauerhaft gespeichert';
+    shopCards.innerHTML='';
     META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:m.costs[lvl], afford=(meta.chips||0)>=cost;
       const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
       const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
@@ -1105,7 +1116,7 @@
         titleTag=document.getElementById('titleTag'),insultEl=document.getElementById('insult'),
         pauseSub=document.getElementById('pauseSub'),
         comboBarEl=document.getElementById('comboBar'),comboFillEl=comboBarEl.querySelector('i'),
-        menuChipsEl=document.getElementById('menuChips'),shopChipsEl=document.getElementById('shopChips'),
+        menuChipsEl=document.getElementById('menuChips'),shopChipsEl=document.getElementById('shopChips'),shopHintEl=document.getElementById('shopHint'),
         shopCards=document.getElementById('shopCards'),chipsEarnedEl=document.getElementById('chipsEarned');
   document.querySelectorAll('.mode').forEach(c=>c.addEventListener('click',()=>startGame(c.dataset.mode)));
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
@@ -1119,7 +1130,7 @@
   document.getElementById('againBtn').addEventListener('click',()=>startGame());
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
-  updateMenuChips();
+  dailyShopCheck(); updateMenuChips();
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
