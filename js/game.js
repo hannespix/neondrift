@@ -7,7 +7,7 @@
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
 
   let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets;
-  let fireT=0, bossPending=false;
+  let fireT=0, bossPending=false, boss=null, ebullets=[];
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
@@ -274,7 +274,7 @@
     {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
     {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Links/rechts vertauscht 💀, dafür +55% Punkte',max:1,curse:true,apply:()=>{mods.invertX=!mods.invertX;mods.scoreMult*=1.55;}},
     // ---- Arsenal (Schuss-Upgrades, cyan) ----
-    {id:'blaster',ico:'🔫',name:'Blaster',desc:'Auto-Feuer nach oben · +Feuerrate',max:4,weapon:true,apply:()=>{ if(!mods.gun){mods.gun=1;mods.fireRate=3;} else mods.fireRate=Math.min(9,mods.fireRate+1.3); }},
+    {id:'blaster',ico:'🔫',name:'Blaster',desc:'Auto-Feuer nach oben · +Feuerrate',max:4,weapon:true,apply:()=>{ if(!mods.gun){mods.gun=1;mods.fireRate=3.6;} else mods.fireRate=Math.min(9,mods.fireRate+1.4); }},
     {id:'twin',ico:'⚡',name:'Doppellauf',desc:'+1 Bolzen gleichzeitig (Fächer)',max:2,weapon:true,apply:()=>{ ensureGun(); mods.multishot+=1; mods.spread+=0.05; }},
     {id:'power',ico:'💥',name:'Schadenskern',desc:'+1 Schaden pro Bolzen',max:3,weapon:true,apply:()=>{ ensureGun(); mods.bulletDmg+=1; }},
     {id:'pierce',ico:'🎯',name:'Durchschlag',desc:'Bolzen durchschlägt +1 Ziel',max:2,weapon:true,apply:()=>{ ensureGun(); mods.pierce+=1; }}
@@ -297,7 +297,7 @@
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
-    director=0.5; overdrive=false; fireT=0; bossPending=false;
+    director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[];
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
   function curBest(){ return daily?(best.daily||0):(best[mode]||0); }
@@ -380,8 +380,54 @@
   function spawnPowerup(){ const t=gpick(PUP); powerups.push({x:grand(40,W-40),y:-24,r:16,vy:80+difficulty*18,type:t,pulse:Math.random()*6.28}); }
 
   // ---------- Boss ----------
-  function startBoss(){ bossActive=true; bossPhaseT=(mode==='hardcore')?10:8.5; laserSpawnT=0.6;
+  function startBoss(){
+    // Jeder zweite Boss (2,4,6…) ist ein Mega-Boss – aber nur, wenn man schießen kann
+    if(opt.guns && bossNumber%2===0){ startMegaBoss(); return; }
+    bossActive=true; bossPhaseT=(mode==='hardcore')?10:8.5; laserSpawnT=0.6;
     banner={text:'⚠ BOSS-WELLE '+bossNumber,sub:'',t:2.2,color:'#ffe600'}; shake=10; sfxBoss(); vibe([60,40,60]); }
+  // ---------- Mega-Boss (Pixel-Kreatur mit HP) ----------
+  const BOSS_NAMES={ufo:'UFO-ZERSTÖRER',eye:'DAS AUGE',worm:'NEON-WURM'};
+  const BOSS_COL={ufo:'#19f0ff',eye:'#c45bff',worm:'#2effc0'};
+  function startMegaBoss(){ bossActive=true;
+    const types=['ufo','eye','worm'], type=types[Math.floor(bossNumber/2-1)%3];
+    boss={type, cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,170), radY:Math.min(H*0.10,80),
+      ang:Math.random()*6.28, angVel:rand(0.7,1.0)*(Math.random()<.5?1:-1),
+      r:40+Math.min(22,bossNumber*2), maxHp:Math.round(24+bossNumber*9), hp:0,
+      t:0, limit:18+bossNumber*2, hitFlash:0, shootT:1.4, warn:0, telegraph:false, fireGap:Math.max(1.0,2.3-bossNumber*0.12),
+      dead:false, deathT:0, x:W/2, y:H*0.24};
+    boss.hp=boss.maxHp; ebullets=[];
+    banner={text:'🛸 MEGA-BOSS',sub:BOSS_NAMES[type],t:2.4,color:'#ffe600'};
+    shake=14; sfxBoss(); sfxWarn(); vibe([60,40,60,40,90]); }
+  function eb(x,y,vx,vy){ return {x,y,vx,vy,r:7}; }
+  function bossVolley(B){ sfxFire(); shake=Math.max(shake,5); vibe(15);
+    const spd=170+bossNumber*9;
+    if(B.type==='ufo'){ const n=8+Math.min(10,bossNumber); for(let i=0;i<n;i++){ const a=B.t*0.6+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
+    else if(B.type==='eye'){ const a0=Math.atan2(player.y-B.y,player.x-B.x); for(let i=-2;i<=2;i++){ const a=a0+i*0.22; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd*1.25,Math.sin(a)*spd*1.25)); } }
+    else { const n=11; for(let i=0;i<n;i++){ const a=B.t*1.6+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } } }
+  function startBossDeath(){ boss.dead=true; boss.deathT=1.2; ebullets=[];
+    flash=0.7; flashColor='#ffe600'; shake=22; effects.slowmo=Math.max(effects.slowmo,1.0);
+    sfxWin(); sfxKill(); pixelBurst(boss.x,boss.y,'#ffe600',12); vibe([120,60,160]); }
+  function defeatMegaBoss(){ const bonus=160*multiplier*bossNumber, chips=20+bossNumber*8;
+    addScore(bonus); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips();
+    banner={text:'BESIEGT! 💥',sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'};
+    pixelBurst(W/2,H*0.28,'#2effc0',16); spawnParticles(W/2,H*0.28,'#ffe600',30,300);
+    flash=0.5; flashColor='#2effc0'; sfxWin(); vibe([20,30,40]);
+    for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
+    boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
+  function bossFlee(){ banner={text:'🛸 ENTKOMMEN…',sub:'die Beute ist weg!',t:2.4,color:'#9a86c9'};
+    beep(300,0.3,'sawtooth',0.3,-120); vibe(40); ebullets=[];
+    boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
+  function updateMegaBoss(dt,ts){ const B=boss;
+    if(B.dead){ B.deathT-=dt; B.x+=rand(-2,2); B.y+=rand(-2,2);
+      if(Math.random()<0.6) pixelBurst(B.x+rand(-B.r,B.r),B.y+rand(-B.r,B.r),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),2);
+      if(B.deathT<=0) defeatMegaBoss(); return; }
+    B.t+=dt*ts; if(B.hitFlash>0) B.hitFlash-=dt;
+    if(B.t>B.limit){ bossFlee(); return; }      // Timeout: entkommt mit der Beute (kein Soft-Lock)
+    B.ang+=B.angVel*dt*ts;
+    B.x=B.cx+Math.cos(B.ang)*B.radX;
+    B.y=B.cy+Math.sin(B.ang*(B.type==='worm'?2:1))*B.radY;
+    if(!B.telegraph){ B.shootT-=dt*ts; if(B.shootT<=0){ B.telegraph=true; B.warn=0.55; sfxWarn(); } }
+    else { B.warn-=dt*ts; if(B.warn<=0){ bossVolley(B); B.telegraph=false; B.shootT=B.fireGap; } } }
   function endBoss(){ bossActive=false; bossTimer=(mode==='hardcore')?24:30;
     const bonus=100*multiplier*bossNumber; addScore(bonus);
     banner={text:'ÜBERLEBT!',sub:'+'+bonus,t:2.2,color:'#2effc0'}; spawnParticles(W/2,H*0.4,'#ffe600',36,300);
@@ -501,6 +547,7 @@
           if(armUp){ bossPending=true; openUpgrade(true); return; } else startBoss();
         } }
       }
+      else if(boss){ updateMegaBoss(dt,ts); }
       else { bossPhaseT-=dt;
         if(bossPhaseT>1.6){ laserSpawnT-=dt; if(laserSpawnT<=0){ spawnLaserWave(); laserSpawnT=Math.max(0.7,1.5-bossNumber*0.08); } }
         if(bossPhaseT<=0 && lasers.length===0) endBoss();
@@ -571,7 +618,19 @@
           break;
         }
       }
+      // Bolzen gegen Mega-Boss
+      if(!gone && boss && !boss.dead){ const bdx=b.x-boss.x, bdy=b.y-boss.y, br=boss.r+b.r;
+        if(bdx*bdx+bdy*bdy<br*br){ boss.hp-=b.dmg; boss.hitFlash=0.07; spawnParticles(b.x,b.y,'#ffe600',3,150); beep(660,0.03,'square',0.05,120);
+          if(boss.hp<=0) startBossDeath();
+          if(b.pierce>0){ b.pierce--; } else gone=true; } }
       if(gone) bullets.splice(bi,1);
+    }
+
+    // Gegner-Kugeln (Mega-Boss)
+    for(let i=ebullets.length-1;i>=0;i--){ const e=ebullets[i]; e.x+=e.vx*dt*ts; e.y+=e.vy*dt*ts;
+      if(e.x<-40||e.x>W+40||e.y<-40||e.y>H+40){ ebullets.splice(i,1); continue; }
+      const dx=player.x-e.x, dy=player.y-e.y, rr=player.r+e.r;
+      if(invuln<=0 && dx*dx+dy*dy<rr*rr){ ebullets.splice(i,1); if(hitPlayer('#ff2e88')) return; }
     }
 
     // Orbs
@@ -696,6 +755,11 @@
         ctx.beginPath(); ctx.moveTo(b.x,b.y); ctx.lineTo(b.x-b.vx*0.022,b.y-b.vy*0.022); ctx.stroke();
         ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.5,0,6.28); ctx.fill(); ctx.restore(); }
 
+      // mega-boss + gegner-kugeln
+      if(boss) drawBoss();
+      for(const e of ebullets){ ctx.save(); ctx.shadowBlur=14; ctx.shadowColor='#ff2e88'; ctx.fillStyle='#ff5ea8';
+        ctx.beginPath(); ctx.arc(e.x,e.y,e.r,0,6.28); ctx.fill(); ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(e.x,e.y,e.r*0.4,0,6.28); ctx.fill(); ctx.restore(); }
+
       // player trail
       for(let i=0;i<player.trail.length;i++){ const t=player.trail[i],a=i/player.trail.length; ctx.globalAlpha=a*0.5; ctx.fillStyle='#19f0ff'; ctx.beginPath(); ctx.arc(t.x,t.y,player.r*a*0.8,0,6.28); ctx.fill(); } ctx.globalAlpha=1;
 
@@ -744,6 +808,34 @@
     ctx.restore();
   }
 
+  function drawBoss(){ const B=boss; if(!B) return;
+    const col=B.hitFlash>0?'#ffffff':(BOSS_COL[B.type]||'#ffe600');
+    const tg=B.telegraph?(0.4+0.5*Math.abs(Math.sin(B.warn*22))):0; // Telegraph-Glühen
+    ctx.save(); ctx.translate(B.x,B.y); ctx.shadowBlur=24+tg*20; ctx.shadowColor=tg>0?'#ff2e88':col;
+    ctx.lineWidth=4; ctx.strokeStyle=col;
+    if(B.type==='ufo'){
+      ctx.fillStyle=hexA('#ff2e88',0.22); ctx.beginPath(); ctx.ellipse(0,6,B.r,B.r*0.42,0,0,6.28); ctx.fill(); ctx.stroke();
+      ctx.fillStyle=hexA('#19f0ff',0.5); ctx.beginPath(); ctx.arc(0,-4,B.r*0.5,Math.PI,0); ctx.fill(); ctx.stroke();
+      for(let i=-2;i<=2;i++){ ctx.fillStyle=(Math.floor(B.t*6+i)%2)?'#fff':'#ff2e88'; ctx.fillRect(i*B.r*0.34-3,10,6,6); }
+    } else if(B.type==='eye'){
+      ctx.fillStyle=hexA('#c45bff',0.22); ctx.beginPath(); ctx.arc(0,0,B.r,0,6.28); ctx.fill(); ctx.stroke();
+      const a=Math.atan2(player.y-B.y,player.x-B.x), ex=Math.cos(a)*B.r*0.4, ey=Math.sin(a)*B.r*0.4;
+      ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(ex,ey,B.r*0.36,0,6.28); ctx.fill();
+      ctx.fillStyle='#08010f'; ctx.beginPath(); ctx.arc(ex,ey,B.r*0.17,0,6.28); ctx.fill();
+    } else {
+      ctx.fillStyle=hexA('#2effc0',0.28); ctx.beginPath(); ctx.arc(0,0,B.r*0.62,0,6.28); ctx.fill(); ctx.stroke();
+      ctx.fillStyle='#fff'; ctx.fillRect(-B.r*0.26-3,-7,6,6); ctx.fillRect(B.r*0.26-3,-7,6,6);
+      ctx.fillStyle=col; for(let i=1;i<=3;i++){ ctx.globalAlpha=0.5-i*0.12; ctx.beginPath(); ctx.arc(-Math.cos(B.ang*2)*i*10,-Math.sin(B.ang*2)*i*10,B.r*0.4,0,6.28); ctx.fill(); } ctx.globalAlpha=1;
+    }
+    ctx.restore();
+    // HP-Leiste oben
+    if(!B.dead){ const bw=Math.min(W*0.62,360), bx=W/2-bw/2, by=(mode!=='zen'?48:30);
+      ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.font='700 12px Orbitron, sans-serif'; ctx.fillStyle=col; ctx.shadowBlur=8; ctx.shadowColor=col;
+      ctx.fillText('🛸 '+(BOSS_NAMES[B.type]||'MEGA-BOSS'),W/2,by-10);
+      ctx.shadowBlur=0; ctx.fillStyle='rgba(0,0,0,0.45)'; ctx.fillRect(bx-2,by-2,bw+4,10);
+      ctx.fillStyle=col; ctx.fillRect(bx,by,bw*Math.max(0,B.hp/B.maxHp),6); ctx.restore(); }
+  }
   function drawHearts(){
     const n=lives; if(!n||n<=0) return;
     const gap=30, y=26; let x=W/2-(n-1)*gap/2;
@@ -921,7 +1013,7 @@
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(CRAZY_TAGS); },3200);
   setInterval(()=>{ if(state===S.MENU && musicOn){ curSong=(curSong+1)%SONGS.length; sfxRiser(); titleTag.textContent='♪ jetzt: '+SONGS[curSong].name; } },12000);
 
-  particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[];
+  particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null;
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0;
   requestAnimationFrame(loop);
