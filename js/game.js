@@ -95,14 +95,14 @@
   };
   // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
   const UPTR={
-    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Ups +50% öfter'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen (Fächer)'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1']},
-    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-ups +50% more often'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt (spread)'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1']},
-    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Power-ups +50% plus souvent'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile (éventail)'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1']}
+    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Ups +50% öfter'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele']},
+    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-ups +50% more often'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets']},
+    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Power-ups +50% plus souvent'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles']}
   };
   const METATR={
-    de:{blasterStart:['Vorrüstung','Start mit Blaster · +Feuerrate je Stufe'],multiStart:['Doppel-Start','Start mit +1 Bolzen je Stufe'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Ups +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
-    en:{blasterStart:['Pre-Armed','Start with blaster · +fire rate per lvl'],multiStart:['Twin Start','Start with +1 bolt per lvl'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-ups +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
-    fr:{blasterStart:['Pré-Armé','Démarre avec blaster · +cadence/niv'],multiStart:['Double Départ','Démarre avec +1 projectile/niv'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Power-ups +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
+    de:{blasterStart:['Vorrüstung','Start mit Blaster · +Feuerrate je Stufe'],multiStart:['Doppel-Start','Start mit +1 Bolzen je Stufe'],missileStart:['Raketen-Start','Start mit Lenkraketen'],flameStart:['Brand-Start','Start mit Brandbolzen'],frostStart:['Frost-Start','Start mit Frostschuss'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Ups +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
+    en:{blasterStart:['Pre-Armed','Start with blaster · +fire rate per lvl'],multiStart:['Twin Start','Start with +1 bolt per lvl'],missileStart:['Missile Start','Start with homing missiles'],flameStart:['Flame Start','Start with flame bolts'],frostStart:['Frost Start','Start with frost shot'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-ups +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
+    fr:{blasterStart:['Pré-Armé','Démarre avec blaster · +cadence/niv'],multiStart:['Double Départ','Démarre avec +1 projectile/niv'],missileStart:['Départ Missiles','Démarre avec missiles guidés'],flameStart:['Départ Feu','Démarre avec tirs incendiaires'],frostStart:['Départ Givre','Démarre avec tir de givre'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Power-ups +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
   };
   const uName=id=>((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||[id])[0];
   const uDesc=id=>(((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||['',''])[1])||'';
@@ -115,7 +115,7 @@
   const modeLabel=m=>t('m_'+(m==='hardcore'?'hard':m));
 
   let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems;
-  let fireT=0, bossPending=false, boss=null, ebullets=[], gemT=0;
+  let fireT=0, missileT=0, bossPending=false, boss=null, ebullets=[], gemT=0;
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
@@ -126,18 +126,22 @@
   const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
-  // Werkstatt-Upgrades: immer teurer (≈×2.2/Stufe) & immer krasser
+  // Werkstatt-Upgrades: Kosten = Basis × Stufe^1.8 (zwischen linear & exponentiell) & immer krasser
   const META=[
-    {id:'blasterStart',ico:'🔫',name:'Vorrüstung',  max:3,costs:[120,300,700],    txt:'Start mit Blaster · +Feuerrate je Stufe'},
-    {id:'multiStart',  ico:'⚡',name:'Doppel-Start', max:2,costs:[450,1100],       txt:'Start mit +1 Bolzen je Stufe'},
-    {id:'shield',      ico:'🛡️',name:'Startschild',  max:3,costs:[80,220,560],     txt:'+1 Schild zu Beginn je Stufe'},
-    {id:'tough',       ico:'💗',name:'Zähigkeit',    max:2,costs:[350,900],        txt:'+1 Leben zu Beginn je Stufe'},
-    {id:'solid',       ico:'🔻',name:'Solide Hülle', max:4,costs:[60,150,360,800],  txt:'Start-Hitbox −5% je Stufe'},
-    {id:'reach',       ico:'📡',name:'Fern-Sensor',  max:4,costs:[50,140,330,720],  txt:'Near-Miss-Radius +9% je Stufe'},
-    {id:'score',       ico:'💎',name:'Punkte-Boost', max:4,costs:[100,260,600,1300],txt:'+15% Punkte je Stufe'},
-    {id:'luck',        ico:'🎁',name:'Glückssträhne',max:3,costs:[80,200,460],      txt:'Power-Ups +10% je Stufe'},
-    {id:'rich',        ico:'◈', name:'Chip-Magnet',  max:6,costs:[40,90,180,330,560,900],txt:'+12% Chip-Ausbeute je Stufe'}
+    {id:'blasterStart',ico:'🔫',name:'Vorrüstung',  base:140,max:3},
+    {id:'multiStart',  ico:'⚡',name:'Doppel-Start', base:480,max:2},
+    {id:'missileStart',ico:'🚀',name:'Raketen-Start',base:520,max:1},
+    {id:'flameStart',  ico:'🔥',name:'Brand-Start',  base:300,max:1},
+    {id:'frostStart',  ico:'❄️',name:'Frost-Start',  base:300,max:1},
+    {id:'shield',      ico:'🛡️',name:'Startschild',  base:110,max:3},
+    {id:'tough',       ico:'💗',name:'Zähigkeit',    base:420,max:2},
+    {id:'solid',       ico:'🔻',name:'Solide Hülle', base:80, max:4},
+    {id:'reach',       ico:'📡',name:'Fern-Sensor',  base:70, max:4},
+    {id:'score',       ico:'💎',name:'Punkte-Boost', base:130,max:4},
+    {id:'luck',        ico:'🎁',name:'Glückssträhne',base:100,max:3},
+    {id:'rich',        ico:'◈', name:'Chip-Magnet',  base:60, max:6}
   ];
+  const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,1.8)/10)*10;
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
   function chipMult(){ return 1+0.12*metaLvl('rich'); }
   // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
@@ -145,6 +149,9 @@
   function applyMeta(){
     const bs=metaLvl('blasterStart'); if(bs){ mods.gun=1; mods.fireRate=Math.max(mods.fireRate,2.6+bs*0.9); }
     const ms=metaLvl('multiStart'); if(ms){ mods.gun=1; if(!mods.fireRate)mods.fireRate=2.6; mods.multishot+=ms; mods.spread+=0.03*ms; }
+    const mi=metaLvl('missileStart'); if(mi){ ensureGun(); mods.missile+=mi; }
+    const fl=metaLvl('flameStart');   if(fl){ ensureGun(); mods.burn+=fl; }
+    const frs=metaLvl('frostStart');  if(frs){ ensureGun(); mods.frost+=frs; }
     const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
     const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
@@ -424,17 +431,22 @@
     {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
     {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Links/rechts vertauscht 💀, dafür +55% Punkte',max:1,curse:true,apply:()=>{mods.invertX=!mods.invertX;mods.scoreMult*=1.55;}},
     // ---- Arsenal (Schuss-Upgrades, cyan) ----
-    {id:'blaster',ico:'🔫',name:'Blaster',desc:'Auto-Feuer nach oben · +Feuerrate',max:4,weapon:true,apply:()=>{ if(!mods.gun){mods.gun=1;mods.fireRate=3.6;} else mods.fireRate=Math.min(9,mods.fireRate+1.4); }},
-    {id:'twin',ico:'⚡',name:'Doppellauf',desc:'+1 Bolzen gleichzeitig (Fächer)',max:2,weapon:true,apply:()=>{ ensureGun(); mods.multishot+=1; mods.spread+=0.05; }},
+    {id:'blaster',ico:'🔫',name:'Blaster',desc:'Auto-Feuer nach oben · +Feuerrate',max:4,weapon:true,apply:()=>{ if(!mods.gun){mods.gun=1;mods.fireRate=3.0;} else mods.fireRate=Math.min(6.6,mods.fireRate+0.85); }},
+    {id:'twin',ico:'⚡',name:'Doppellauf',desc:'+1 Bolzen (Fächer) · Einzelbolzen schwächer',max:3,weapon:true,apply:()=>{ ensureGun(); mods.multishot+=1; mods.spread+=0.05; }},
     {id:'power',ico:'💥',name:'Schadenskern',desc:'+1 Schaden pro Bolzen',max:3,weapon:true,apply:()=>{ ensureGun(); mods.bulletDmg+=1; }},
-    {id:'pierce',ico:'🎯',name:'Durchschlag',desc:'Bolzen durchschlägt +1 Ziel',max:2,weapon:true,apply:()=>{ ensureGun(); mods.pierce+=1; }}
+    {id:'pierce',ico:'🎯',name:'Durchschlag',desc:'Bolzen durchschlägt +1 Ziel',max:2,weapon:true,apply:()=>{ ensureGun(); mods.pierce+=1; }},
+    {id:'missile',ico:'🚀',name:'Lenkraketen',desc:'Zielsuchende Rakete · Explosion mit AoE-Schaden',max:3,weapon:true,apply:()=>{ ensureGun(); mods.missile+=1; }},
+    {id:'flame',ico:'🔥',name:'Brandbolzen',desc:'Treffer setzt Ziele in Flammen (Brennschaden)',max:3,weapon:true,apply:()=>{ ensureGun(); mods.burn+=1; }},
+    {id:'frost',ico:'❄️',name:'Frostschuss',desc:'Treffer vereist & verlangsamt Ziele',max:2,weapon:true,apply:()=>{ ensureGun(); mods.frost+=1; }},
+    {id:'chain',ico:'⛓️',name:'Kettenblitz',desc:'Kill springt als Blitz auf nahe Ziele über',max:2,weapon:true,apply:()=>{ ensureGun(); mods.chain+=1; }}
   ];
   function ensureGun(){ if(!mods.gun){ mods.gun=1; mods.fireRate=Math.max(mods.fireRate,2.6); } }
+  function boltDmg(){ return (mods.bulletDmg||1)*Math.pow(0.85,(mods.multishot||1)-1); } // mehr Bolzen → je Bolzen schwächer
 
   function reset(){
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
           obSpeed:1,spawnMult:1,fog:0,invertX:false,
-          gun:0,fireRate:0,bulletDmg:1,pierce:0,multishot:1,spread:0.12};
+          gun:0,fireRate:0,bulletDmg:1,pierce:0,multishot:1,spread:0.12,burn:0,frost:0,missile:0,chain:0};
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
     obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[];
@@ -447,7 +459,7 @@
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
-    director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
+    director=0.5; overdrive=false; fireT=0; missileT=rand(0.6,1.2); bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
     runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
@@ -464,7 +476,8 @@
       + Math.max(0,(mods.nearRadius-30)/30) + Math.max(0,(mods.follow-14)/8) + Math.max(0,mods.scoreMult-1); }
   const difSpd =()=>1+Math.min(0.7,pwrSurv()*0.026)+(endless?madness*0.85:0);     // Obstacles schneller (sanfter)
   const difDen =()=>Math.max(0.32,1-Math.min(0.35,pwrSurv()*0.015)-(endless?madness*0.35:0)); // dichter (sanfter)
-  const difHp  =()=>1+gunDps()*0.45;                    // Obstacles zäher je nach Schuss-DPS (konstante Treffer)
+  // Obstacles zäher je nach Schuss-DPS – plus Extra-Härte ab hoher Burst-Rate (gegen „unbesiegbar")
+  const difHp  =()=>1+gunDps()*0.42+Math.max(0,(mods.fireRate-4.5))*0.8+(mods.multishot-1)*0.45;
   function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
@@ -810,6 +823,7 @@
     powerupT-=dt; if(powerupT<=0){ spawnPowerup(); powerupT=rand(10,16)/mods.powerupRate; }
     // Auto-Fire (sobald eine Waffe ausgerüstet ist)
     if(opt.guns && mods.gun>0 && mods.fireRate>0){ fireT-=dt; if(fireT<=0){ fireGun(); fireT=1/mods.fireRate; } }
+    if(opt.guns && mods.missile>0){ missileT-=dt; if(missileT<=0){ fireMissile(); missileT=Math.max(0.55,1.7-mods.missile*0.28); } }
     if(egg67T>0) egg67T-=dt;
     if(!egg67done && score>=67){ egg67done=true; floatText(player.x,player.y-52,'6 7 !!','#ffe600',26); sfx67(); vibe([30,30]); }
     commentT-=dt; if(commentT<=0 && !bossActive){ floatText(W/2+rand(-30,30),H*0.2,pick(P('dumb')),'#9be7ff',16); commentT=rand(15,26); }
@@ -823,13 +837,19 @@
     // Obstacles
     for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i];
       if(o.hitFlash>0) o.hitFlash-=dt;
+      // Frost: verlangsamt die Bewegung; Brand: Schaden über Zeit
+      if(o.slow>0) o.slow-=dt;
+      if(o.burn>0){ o.burn-=dt; o.hp-=(o.burnDmg||0)*dt;
+        if(Math.random()<0.5) spawnParticles(o.cx+rand(-7,7),o.cy+rand(-7,7),'#ff9a2e',1,70);
+        if(o.hp<=0){ killObstacle(o); obstacles.splice(i,1); continue; } }
+      const mt=dt*ts*(o.slow>0?0.5:1);
       if(o.pattern!=='straight'){ o.trail.push({x:o.cx,y:o.cy}); if(o.trail.length>9) o.trail.shift(); }
-      if(o.pattern==='straight'){ o.cy+=o.vy*dt*ts; o.cx+=o.vx*dt*ts; if(o.shape==='diamond')o.rot+=o.vr*dt*ts; if(o.cx<o.w/2||o.cx>W-o.w/2)o.vx*=-1; }
-      else if(o.pattern==='sine'){ o.cy+=o.vy*dt*ts; o.cx=o.baseX+o.amp*Math.sin(o.cy*o.freq+o.phase); }
-      else if(o.pattern==='drift'){ o.vx+=o.ax*dt*ts; o.cx+=o.vx*dt*ts; o.cy+=o.vy*dt*ts; o.rot+=o.vr*dt*ts*0.3; }
-      else if(o.pattern==='orbit'){ o.centerY+=o.vy*dt*ts; o.ang+=o.angVel*dt*ts; o.cx=o.baseX+o.radius*Math.cos(o.ang); o.cy=o.centerY+o.radius*Math.sin(o.ang); }
-      else if(o.pattern==='zigzag'){ o.cy+=o.vy*dt*ts; o.cx+=o.vx*dt*ts; if(o.cx<o.w/2){o.cx=o.w/2;o.vx*=-1;} if(o.cx>W-o.w/2){o.cx=W-o.w/2;o.vx*=-1;} o.rot+=8*dt*ts; }
-      else if(o.pattern==='pendulum'){ o.cy+=o.vy*dt*ts; o.ang+=o.angVel*dt*ts; o.cx=o.baseX+o.swing*Math.sin(o.ang); }
+      if(o.pattern==='straight'){ o.cy+=o.vy*mt; o.cx+=o.vx*mt; if(o.shape==='diamond')o.rot+=o.vr*mt; if(o.cx<o.w/2||o.cx>W-o.w/2)o.vx*=-1; }
+      else if(o.pattern==='sine'){ o.cy+=o.vy*mt; o.cx=o.baseX+o.amp*Math.sin(o.cy*o.freq+o.phase); }
+      else if(o.pattern==='drift'){ o.vx+=o.ax*mt; o.cx+=o.vx*mt; o.cy+=o.vy*mt; o.rot+=o.vr*mt*0.3; }
+      else if(o.pattern==='orbit'){ o.centerY+=o.vy*mt; o.ang+=o.angVel*mt; o.cx=o.baseX+o.radius*Math.cos(o.ang); o.cy=o.centerY+o.radius*Math.sin(o.ang); }
+      else if(o.pattern==='zigzag'){ o.cy+=o.vy*mt; o.cx+=o.vx*mt; if(o.cx<o.w/2){o.cx=o.w/2;o.vx*=-1;} if(o.cx>W-o.w/2){o.cx=W-o.w/2;o.vx*=-1;} o.rot+=8*mt; }
+      else if(o.pattern==='pendulum'){ o.cy+=o.vy*mt; o.ang+=o.angVel*mt; o.cx=o.baseX+o.swing*Math.sin(o.ang); }
 
       const hw=o.w/2,hh=o.h/2;
       // Rotations- & formgenaue Hitbox (fairer als die alte AABB für alle Formen)
@@ -854,23 +874,30 @@
 
     // Bolzen (Auto-Fire): nach oben, treffen Hindernisse
     for(let bi=bullets.length-1;bi>=0;bi--){ const b=bullets[bi];
+      if(b.homing){ steerMissile(b,dt); b.life-=dt; if(b.life<=0){ explodeMissile(b); bullets.splice(bi,1); continue; }
+        if(Math.random()<0.6) spawnParticles(b.x,b.y+b.r*0.6,'#ff6a00',1,60); }
       b.x+=b.vx*dt; b.y+=b.vy*dt;
-      if(b.y<-24||b.x<-24||b.x>W+24){ bullets.splice(bi,1); continue; }
+      if(b.y<-40||b.x<-40||b.x>W+40||b.y>H+60){ bullets.splice(bi,1); continue; }
       let gone=false;
       for(let oi=obstacles.length-1;oi>=0;oi--){ const o=obstacles[oi];
         const er=Math.max(o.w,o.h)*0.5+b.r; const ddx=b.x-o.cx, ddy=b.y-o.cy;
         if(ddx*ddx+ddy*ddy<er*er){
-          o.hp-=b.dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,'#caffff',3,120);
-          if(o.hp<=0){ killObstacle(o); obstacles.splice(oi,1); }
+          if(b.homing){ explodeMissile(b); gone=true; break; }
+          o.hp-=b.dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,b.col||'#caffff',3,120);
+          if(b.burn){ o.burn=Math.max(o.burn||0,1.8); o.burnDmg=0.7+0.6*b.burn; }
+          if(b.frost){ o.slow=Math.max(o.slow||0,1.4); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
+          if(o.hp<=0){ const ox=o.cx,oy=o.cy,od=b.dmg; killObstacle(o); obstacles.splice(oi,1); if(mods.chain>0) chainLightning(ox,oy,od); }
           if(b.pierce>0){ b.pierce--; } else { gone=true; }
           break;
         }
       }
-      // Bolzen gegen Mega-Boss
+      // Bolzen/Rakete gegen Mega-Boss
       if(!gone && boss && !boss.dead){ const bdx=b.x-boss.x, bdy=b.y-boss.y, br=boss.r+b.r;
-        if(bdx*bdx+bdy*bdy<br*br){ boss.hp-=b.dmg; boss.hitFlash=0.07; spawnParticles(b.x,b.y,'#ffe600',3,150); beep(660,0.03,'square',0.05,120);
-          if(boss.hp<=0) startBossDeath();
-          if(b.pierce>0){ b.pierce--; } else gone=true; } }
+        if(bdx*bdx+bdy*bdy<br*br){
+          if(b.homing){ explodeMissile(b); gone=true; }
+          else { boss.hp-=b.dmg; boss.hitFlash=0.07; spawnParticles(b.x,b.y,'#ffe600',3,150); beep(660,0.03,'square',0.05,120);
+            if(boss.hp<=0) startBossDeath();
+            if(b.pierce>0){ b.pierce--; } else gone=true; } } }
       if(gone) bullets.splice(bi,1);
     }
 
@@ -933,12 +960,16 @@
     director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240);
     runPerfect++; if(statN('perfect')+runPerfect>=10) unlockAch('perfect10'); }
   // ---------- Schuss / Explosionen ----------
-  function fireGun(){ const n=mods.multishot||1, spd=640, baseY=player.y-player.r-2, col=curSkin().edge||'#caffff';
+  function fireGun(){ const n=mods.multishot||1, spd=640, baseY=player.y-player.r-2, bd=boltDmg();
+    const col=mods.frost?'#8fe8ff':(mods.burn?'#ffae4d':(curSkin().edge||'#caffff'));
     for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*(mods.spread||0.12);
-      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:mods.bulletDmg||1,pierce:mods.pierce||0,col}); }
+      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:bd,pierce:mods.pierce||0,col,burn:mods.burn,frost:mods.frost}); }
     // Mündungsblitz
     particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:col,size:rand(5,8)});
     sfxShoot(); }
+  function fireMissile(){ bullets.push({x:player.x,y:player.y-player.r-2,vx:rand(-40,40),vy:-340,r:7,dmg:2+(mods.missile||1),
+      pierce:0,homing:true,aoe:60+(mods.missile||1)*10,life:4,col:'#ff9a2e'});
+    beep(300,0.05,'square',0.12,160); }
   function pixelBurst(x,y,color,power){ const n=8+Math.min(20,(power||1)*5);
     for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:rand(0.02,0.045),color,size:rand(3,7)}); }
     for(let i=0;i<4;i++){ const a=Math.random()*6.28,s=rand(40,160); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.05,color:'#ffffff',size:rand(3,6)}); } }
@@ -946,6 +977,30 @@
     pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008); }
+  // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
+  function steerMissile(b,dt){ let tx=null,ty=null,bd=1e9;
+    for(const o of obstacles){ const dx=o.cx-b.x,dy=o.cy-b.y,d=dx*dx+dy*dy; if(d<bd){bd=d;tx=o.cx;ty=o.cy;} }
+    if(boss&&!boss.dead){ const dx=boss.x-b.x,dy=boss.y-b.y,d=dx*dx+dy*dy; if(d<bd){bd=d;tx=boss.x;ty=boss.y;} }
+    let spd=Math.hypot(b.vx,b.vy)||340; spd=Math.min(560,spd+520*dt);
+    if(tx!==null){ const desired=Math.atan2(ty-b.y,tx-b.x), cur=Math.atan2(b.vy,b.vx);
+      let dA=((desired-cur+Math.PI*3)%(Math.PI*2))-Math.PI; dA=Math.max(-3.4*dt,Math.min(3.4*dt,dA));
+      const na=cur+dA; b.vx=Math.cos(na)*spd; b.vy=Math.sin(na)*spd; }
+    else { const m=Math.hypot(b.vx,b.vy)||1; b.vx=b.vx/m*spd; b.vy=b.vy/m*spd; } }
+  // Rakete explodiert: AoE-Schaden an allen Zielen im Radius
+  function explodeMissile(b){ const R=b.aoe||64;
+    pixelBurst(b.x,b.y,'#ff9a2e',6); spawnParticles(b.x,b.y,'#ffe600',16,300);
+    flash=Math.min(0.5,flash+0.14); flashColor='#ff9a2e'; shake=Math.max(shake,6); beep(140,0.16,'sawtooth',0.3,-60); vibe([18,12]);
+    for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-b.x,dy=o.cy-b.y;
+      if(dx*dx+dy*dy<R*R){ o.hp-=b.dmg; o.hitFlash=0.12; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
+    if(boss&&!boss.dead){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=b.dmg*2; boss.hitFlash=0.07; if(boss.hp<=0) startBossDeath(); } } }
+  // Kettenblitz: Kill springt auf nahe Ziele über
+  function chainLightning(x,y,dmg){ let hops=mods.chain, cx=x, cy=y; const used=new Set();
+    while(hops-->0){ let best=null,bd=145*145; for(const o of obstacles){ if(used.has(o)) continue; const dx=o.cx-cx,dy=o.cy-cy,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
+      if(!best) break; used.add(best); arcParticles(cx,cy,best.cx,best.cy);
+      best.hp-=dmg*0.85; best.hitFlash=0.1; const nx=best.cx,ny=best.cy;
+      if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0) obstacles.splice(ix,1); }
+      cx=nx; cy=ny; } }
+  function arcParticles(x1,y1,x2,y2){ for(let i=0;i<=5;i++){ const tt=i/5; spawnParticles(x1+(x2-x1)*tt,y1+(y2-y1)*tt,'#9be7ff',1,50); } beep(1100,0.03,'square',0.07,260); }
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
     if(p.type==='shield'){ shields=Math.min(shields+1,6); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
@@ -1008,18 +1063,25 @@
       for(const o of obstacles){
         if(o.pattern!=='straight'&&o.trail.length){ for(let i=0;i<o.trail.length;i++){ const t=o.trail[i],a=i/o.trail.length;
           ctx.globalAlpha=a*0.28; ctx.fillStyle=o.color; ctx.beginPath(); ctx.arc(t.x,t.y,o.w*0.18*a,0,6.28); ctx.fill(); } ctx.globalAlpha=1; }
-        ctx.save(); ctx.translate(o.cx,o.cy); ctx.rotate(o.rot||0); ctx.shadowBlur=16; ctx.shadowColor=o.color;
-        const oc=(o.hitFlash>0)?'#ffffff':o.color;
+        ctx.save(); ctx.translate(o.cx,o.cy); ctx.rotate(o.rot||0);
+        ctx.shadowBlur=(o.burn>0)?22:16; ctx.shadowColor=(o.burn>0)?'#ff9a2e':((o.slow>0)?'#8fe8ff':o.color);
+        const oc=(o.hitFlash>0)?'#ffffff':((o.slow>0)?'#bdefff':o.color);
         if(o.shape==='ring'){ ctx.strokeStyle=oc; ctx.lineWidth=o.w*0.26; ctx.beginPath(); ctx.arc(0,0,o.w*0.4,0,6.28); ctx.stroke(); }
         else { ctx.strokeStyle=oc; ctx.lineWidth=3; ctx.fillStyle=hexA(o.color,o.hitFlash>0?0.4:0.16); shapePath(o.shape,o.w,o.h); ctx.fill(); ctx.stroke(); }
         ctx.restore();
       }
 
-      // bolzen (neon-laser, skin-farbig)
-      for(const b of bullets){ ctx.save(); ctx.shadowBlur=14; ctx.shadowColor=b.col||'#19f0ff';
-        ctx.strokeStyle=b.col||'#caffff'; ctx.lineWidth=b.r; ctx.lineCap='round';
-        ctx.beginPath(); ctx.moveTo(b.x,b.y); ctx.lineTo(b.x-b.vx*0.022,b.y-b.vy*0.022); ctx.stroke();
-        ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.5,0,6.28); ctx.fill(); ctx.restore(); }
+      // bolzen (neon-laser, skin-farbig) & raketen
+      for(const b of bullets){ ctx.save();
+        if(b.homing){ ctx.shadowBlur=16; ctx.shadowColor='#ff7a00';
+          ctx.fillStyle='#ff6a00'; ctx.beginPath(); ctx.arc(b.x-b.vx*0.012,b.y-b.vy*0.012,b.r*0.8,0,6.28); ctx.fill();
+          ctx.fillStyle='#ffd36b'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.28); ctx.fill();
+          ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.4,0,6.28); ctx.fill(); }
+        else { ctx.shadowBlur=14; ctx.shadowColor=b.col||'#19f0ff';
+          ctx.strokeStyle=b.col||'#caffff'; ctx.lineWidth=b.r; ctx.lineCap='round';
+          ctx.beginPath(); ctx.moveTo(b.x,b.y); ctx.lineTo(b.x-b.vx*0.022,b.y-b.vy*0.022); ctx.stroke();
+          ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.5,0,6.28); ctx.fill(); }
+        ctx.restore(); }
 
       // mega-boss + gegner-kugeln
       if(boss) drawBoss();
@@ -1298,14 +1360,14 @@
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     shopCards.innerHTML='';
-    META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:m.costs[lvl], afford=(meta.chips||0)>=cost;
+    META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
       const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
       const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
       card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+mName(m.id)+'</h4><p>'+mTxt(m.id)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
       const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
       shopCards.appendChild(card); }); }
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
-    if(lvl>=m.max) return; const cost=m.costs[lvl]; if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
+    if(lvl>=m.max) return; const cost=metaCost(m,lvl); if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
   let shopResetArmed=false;
   function shopReset(){ const b=document.getElementById('shopResetBtn');
