@@ -166,6 +166,12 @@
   };
   const achName=id=>((ACHTR[lang]&&ACHTR[lang][id])||ACHTR.en[id]||[id])[0];
   const achDesc=id=>(((ACHTR[lang]&&ACHTR[lang][id])||ACHTR.en[id]||['',''])[1])||'';
+  const STATTR={
+    de:{stats:'STATISTIK',runs:'Runs',orbs:'Orbs',near:'Near-Misses',perfect:'Perfekt',bosses:'Bosse',maxCombo:'Top-Combo',maxBoss:'Top-Boss',chipsTotal:'Chips gesamt',won:'Siege'},
+    en:{stats:'STATISTICS',runs:'Runs',orbs:'Orbs',near:'Near-misses',perfect:'Perfect',bosses:'Bosses',maxCombo:'Top combo',maxBoss:'Top boss',chipsTotal:'Total chips',won:'Wins'},
+    fr:{stats:'STATISTIQUES',runs:'Parties',orbs:'Orbes',near:'Near-miss',perfect:'Parfait',bosses:'Boss',maxCombo:'Combo max',maxBoss:'Boss max',chipsTotal:'Chips total',won:'Victoires'}
+  };
+  const stTxt=k=>((STATTR[lang]&&STATTR[lang][k])||STATTR.en[k]||k);
   let achToasts=[];
   function unlockSkin(id){ meta.skins=meta.skins||{}; if(!meta.skins[id]){ meta.skins[id]=1; saveMeta(); } } // Phase 2
   function unlockAch(id){ if(meta.ach&&meta.ach[id]) return; meta.ach=meta.ach||{}; meta.ach[id]=1; saveMeta();
@@ -181,7 +187,7 @@
   let daily=false;                                    // Daily-Challenge aktiv?
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
-  let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0;          // Statistik pro Run
+  let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1;  // Statistik pro Run
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let shipSprite=null, shipSig='';                     // gebackener Pixel-Sprite + Signatur
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
@@ -443,7 +449,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -492,7 +498,7 @@
     document.getElementById('pause').classList.add('hidden'); lastT=performance.now(); beep(660,0.08,'square',0.2); }
 
   function addScore(n){ score+=Math.round(n*mods.scoreMult*(effects.double>0?2:1)); }
-  function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ multiplier=m; onComboUp(m); } else multiplier=m; }
+  function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ multiplier=m; onComboUp(m); } else multiplier=m; if(m>runMaxMult)runMaxMult=m; }
   function onComboUp(m){ floatText(player.x,player.y-30,'x'+m,'#ff2e88',20); checkComboAch(m);
     const w=(P('combo')||{})[m];
     if(w){ banner={text:w,sub:'',t:1.4,color:'#ffe600'}; vibe([15,25,15]); } }
@@ -1231,6 +1237,7 @@
     const earned=Math.max(0,Math.round((score/55 + nearCount*0.6 + (bossNumber-1)*30 + (wonThisRun?250:0))*chipMult()));
     meta.chips=(meta.chips||0)+earned;
     addStat('orbs',runOrbs); addStat('near',nearCount); addStat('perfect',runPerfect); addStat('bosses',runBosses); addStat('runs',1); addStat('chipsTotal',earned);
+    meta.stats=meta.stats||{}; if(runMaxMult>statN('maxCombo')) meta.stats.maxCombo=runMaxMult; if(bossNumber>statN('maxBoss')) meta.stats.maxBoss=bossNumber;
     if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
     saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden');
@@ -1331,6 +1338,9 @@
   function closeAch(){ document.getElementById('ach').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); }
   function renderAch(){ const got=ACH.filter(a=>meta.ach&&meta.ach[a.id]).length, sub=document.getElementById('achSub');
     if(sub) sub.textContent=got+'/'+ACH.length;
+    const sp=document.getElementById('achStats');
+    if(sp){ const rows=[['runs','🎮',statN('runs')],['orbs','🔷',statN('orbs')],['near','😎',statN('near')],['perfect','🎯',statN('perfect')],['bosses','🛸',statN('bosses')],['maxCombo','🔗','x'+statN('maxCombo')],['maxBoss','🌊',statN('maxBoss')],['chipsTotal','◈',fmt(statN('chipsTotal'))],['won','🏆',meta.won||0]];
+      sp.innerHTML='<div class="stHead">'+stTxt('stats')+'</div><div class="stGrid">'+rows.map(r=>'<div class="sttile"><span class="i">'+r[1]+'</span><b>'+(typeof r[2]==='number'?fmt(r[2]):r[2])+'</b><span class="l">'+stTxt(r[0])+'</span></div>').join('')+'</div>'; }
     const wrap=document.getElementById('achCards'); if(!wrap) return; wrap.innerHTML='';
     ACH.forEach(a=>{ const has=!!(meta.ach&&meta.ach[a.id]); const c=document.createElement('div'); c.className='acard'+(has?' got':' lock');
       c.innerHTML='<div class="ico">'+(has?a.ico:'🔒')+'</div><h5>'+achName(a.id)+'</h5><p>'+achDesc(a.id)+'</p>';

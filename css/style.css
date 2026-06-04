@@ -60,6 +60,13 @@
   .skcard .pick{cursor:pointer;border:none;font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;color:#08010f;background:linear-gradient(120deg,var(--cyan),var(--yellow));padding:8px 16px;border-radius:40px;}
   .skcard .pick.lock{background:rgba(255,255,255,.12);color:#9a86c9;cursor:not-allowed;}
   .skcard .pick.on{background:transparent;color:var(--cyan);border:1px solid rgba(25,240,255,.5);cursor:default;}
+  #achStats{margin-top:16px;width:100%;max-width:560px;}
+  #achStats .stHead{font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;letter-spacing:.18em;color:#9a86c9;margin-bottom:10px;}
+  #achStats .stGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  #achStats .sttile{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:9px 6px;display:flex;flex-direction:column;align-items:center;gap:1px;}
+  #achStats .sttile .i{font-size:17px;line-height:1.1;}
+  #achStats .sttile b{font-family:'Orbitron',sans-serif;font-size:16px;color:#fff;}
+  #achStats .sttile .l{font-size:10px;color:#c9b9ef;letter-spacing:.02em;}
   #achCards{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:800px;}
   .acard{width:150px;max-width:42vw;padding:14px 12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);text-align:center;}
   .acard.got{border-color:var(--yellow);box-shadow:inset 0 0 18px rgba(255,230,0,.18);}
