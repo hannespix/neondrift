@@ -175,7 +175,7 @@
     // Pre-Run-Loadout: vorab gewählte Startwaffen (nur freigeschaltete Baupläne), auf Slots begrenzt
     arsenal.w={};
     // Roguelite-Start: jeder Run beginnt nur mit dem Blaster (Lvl 1); alle anderen Waffen baust du im Run per Skillpunkten auf.
-    if(opt.guns) arsenal.w.blaster={lvl:1,f1:null,f2:null};
+    if(opt.guns){ arsenal.w.blaster={lvl:1,f1:null,f2:null}; skillPts=1; }   // +1 Startpunkt → sofort 2. Waffe deiner Wahl
     const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
     const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
@@ -594,7 +594,7 @@
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(5,9); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
     level=1; levelDuration=(mode==='hardcore')?12:16; levelTimer=levelDuration; unlocked=['straight'];
-    upStep=450; nextUpgradeAt=450;
+    upStep=400; nextUpgradeAt=400;
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
@@ -635,7 +635,7 @@
   const difDen =()=>Math.max(0.32,1-Math.min(0.35,pwrSurv()*0.015)-(endless?madness*0.35:0)); // dichter (sanfter)
   // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
-  const difHp  =()=>1.3+gunDps()*0.5+(level-1)*0.18;
+  const difHp  =()=>1.25+gunDps()*0.32+(level-1)*0.26;
   function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
@@ -906,7 +906,7 @@
     document.getElementById('upgrade').classList.remove('hidden');
   }
   function closeUpgrade(){ document.getElementById('upgrade').classList.add('hidden');
-    upStep=Math.round(upStep*1.6); nextUpgradeAt=score+upStep;
+    upStep=Math.round(upStep*1.45); nextUpgradeAt=score+upStep;
     if(hasSkillSpend()){ openSkillScreen(); return; }     // weiter zum klickbaren Skill-Baum
     state=S.PLAY; invuln=Math.max(invuln,1.0); lastT=performance.now(); }
   function chooseOffer(o){ const before=Object.assign({},syn); let label='';
