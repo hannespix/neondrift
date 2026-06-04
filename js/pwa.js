@@ -3,7 +3,12 @@
 (function(){
   // Service Worker registrieren (nur über http/https, nicht file://)
   if('serviceWorker' in navigator && location.protocol.startsWith('http')){
-    window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
+    window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').then(reg=>{
+      if(reg) setInterval(()=>reg.update().catch(()=>{}), 60000); // regelmäßig auf Update prüfen
+    }).catch(()=>{}));
+    // Auto-Reload, sobald ein neuer Service Worker übernimmt (kein „hart neu laden" mehr nötig)
+    let reloaded=false;
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(reloaded) return; reloaded=true; location.reload(); });
   }
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   const installBtn = document.getElementById('installBtn');

@@ -123,6 +123,7 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std'}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std'}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
+  const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
   // Werkstatt-Upgrades: immer teurer (≈×2.2/Stufe) & immer krasser
@@ -472,7 +473,7 @@
     document.getElementById('over').classList.add('hidden');
     document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('hud').classList.remove('hidden');
-    modeNameEl.textContent=daily?(t('modeDaily')+' '+dailyLabel()):modeLabel(mode); bestHud.textContent=t('best')+' '+curBest();
+    modeNameEl.textContent=daily?(t('modeDaily')+' '+dailyLabel()):modeLabel(mode); bestHud.textContent=t('best')+' '+fmt(curBest());
     if(daily) banner={text:t('daily2'),sub:dailyLabel(),t:2.6,color:'#ffe600'};
     zenExitBtn.style.display='block';
     sfxStart(); vibe(20); lastT=performance.now();
@@ -908,7 +909,7 @@
     if(banner){ banner.t-=dt; if(banner.t<=0) banner=null; }
     displayScore+=(score-displayScore)*Math.min(1,dt*10);
     shake=Math.max(0,shake-dt*60); flash=Math.max(0,flash-dt*1.5); nearGlow=Math.max(0,nearGlow-dt*2);
-    scoreEl.textContent=Math.round(displayScore); comboEl.textContent='x'+multiplier;
+    scoreEl.textContent=fmt(displayScore); comboEl.textContent='x'+multiplier;
     const cf=(combo>0&&comboTimeMax>0)?Math.max(0,Math.min(1,comboTime/comboTimeMax)):0;
     comboFillEl.style.transform='scaleX('+cf+')'; comboBarEl.classList.toggle('on',combo>0);
   }
@@ -926,9 +927,11 @@
     director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240);
     runPerfect++; if(statN('perfect')+runPerfect>=10) unlockAch('perfect10'); }
   // ---------- Schuss / Explosionen ----------
-  function fireGun(){ const n=mods.multishot||1, spd=640, baseY=player.y-player.r-2;
+  function fireGun(){ const n=mods.multishot||1, spd=640, baseY=player.y-player.r-2, col=curSkin().edge||'#caffff';
     for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*(mods.spread||0.12);
-      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:mods.bulletDmg||1,pierce:mods.pierce||0}); }
+      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:mods.bulletDmg||1,pierce:mods.pierce||0,col}); }
+    // Mündungsblitz
+    particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:col,size:rand(5,8)});
     sfxShoot(); }
   function pixelBurst(x,y,color,power){ const n=8+Math.min(20,(power||1)*5);
     for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:rand(0.02,0.045),color,size:rand(3,7)}); }
@@ -1006,9 +1009,9 @@
         ctx.restore();
       }
 
-      // bolzen (neon-laser)
-      for(const b of bullets){ ctx.save(); ctx.shadowBlur=14; ctx.shadowColor='#19f0ff';
-        ctx.strokeStyle='#caffff'; ctx.lineWidth=b.r; ctx.lineCap='round';
+      // bolzen (neon-laser, skin-farbig)
+      for(const b of bullets){ ctx.save(); ctx.shadowBlur=14; ctx.shadowColor=b.col||'#19f0ff';
+        ctx.strokeStyle=b.col||'#caffff'; ctx.lineWidth=b.r; ctx.lineCap='round';
         ctx.beginPath(); ctx.moveTo(b.x,b.y); ctx.lineTo(b.x-b.vx*0.022,b.y-b.vy*0.022); ctx.stroke();
         ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.5,0,6.28); ctx.fill(); ctx.restore(); }
 
@@ -1222,7 +1225,9 @@
   const DUMB=["bro hat einfach... ja.","skibidi 🚽","das ist lowkey mid","real ones wissen Bescheid","+50 Aura für nix","kein Cap fr fr","gönn dir, digga","sigma move 🗿","Ohio-Level erreicht","goofy ahh ausweichen","valid. einfach valid.","NPC-Verhalten erkannt","slay 💅","krass Bruder","delulu ist die solulu","W oder L?","based ngl","gyatt 😳","mach mal kein L","ist das Aura oder Lag?","6 7 😶‍🌫️","kein Plan was hier abgeht","Hä? auch egal.","das ribbelt im Hirn"];
   function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); shake=24; vibe([120,50,200]);
     spawnParticles(player.x,player.y,'#ff2e88',46,380); spawnParticles(player.x,player.y,'#19f0ff',26,260);
-    const rec=score>curBest(); if(rec){ setBest(score); saveScores(); }
+    const rec=score>curBest(); if(rec){ setBest(score); saveScores();
+      for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
+      setTimeout(()=>{beep(660,0.1,'square',0.3);},120); setTimeout(()=>{beep(880,0.1,'square',0.3);},260); setTimeout(()=>{beep(1175,0.18,'square',0.35);},400); }
     const earned=Math.max(0,Math.round((score/55 + nearCount*0.6 + (bossNumber-1)*30 + (wonThisRun?250:0))*chipMult()));
     meta.chips=(meta.chips||0)+earned;
     addStat('orbs',runOrbs); addStat('near',nearCount); addStat('perfect',runPerfect); addStat('bosses',runBosses); addStat('runs',1); addStat('chipsTotal',earned);
@@ -1277,13 +1282,13 @@
   }
 
   // ---------- Werkstatt (Meta-Shop) ----------
-  function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+(meta.chips||0)+((meta.won)?('  ·  🏆 '+meta.won):''); }
+  function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+fmt(meta.chips)+((meta.won)?('  ·  🏆 '+meta.won):''); }
   function openShop(){ document.getElementById('start').classList.add('hidden'); renderShop();
     document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
   function closeShop(){ shopResetArmed=false; const rb=document.getElementById('shopResetBtn'); if(rb) rb.textContent=t('resetAll');
     document.getElementById('shop').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips(); }
-  function renderShop(){ shopChipsEl.textContent='◈ '+(meta.chips||0);
+  function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     shopCards.innerHTML='';
     META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:m.costs[lvl], afford=(meta.chips||0)>=cost;
@@ -1336,7 +1341,7 @@
   function selectSkin(id){ meta.skin=id; saveMeta(); shipSig=''; beep(740,0.06,'square',0.2); renderSkins(); }
   function buySkin(id){ const s=SKINS.find(x=>x.id===id); if(!s||!s.cost) return; if((meta.chips||0)<s.cost){ beep(200,0.12,'square',0.2,-60); return; }
     meta.chips-=s.cost; unlockSkin(id); meta.skin=id; saveMeta(); shipSig=''; sfxUpgrade(); vibe([15,20,15]); renderSkins(); updateMenuChips(); }
-  function renderSkins(){ const ch=document.getElementById('skinChips'); if(ch) ch.textContent='◈ '+(meta.chips||0);
+  function renderSkins(){ const ch=document.getElementById('skinChips'); if(ch) ch.textContent='◈ '+fmt(meta.chips);
     const wrap=document.getElementById('skinCards'); if(!wrap) return; wrap.innerHTML='';
     SKINS.forEach(s=>{ const unlocked=(s.id==='std')||(meta.skins&&meta.skins[s.id])||(!s.ach&&!s.cost), active=(meta.skin||'std')===s.id;
       const card=document.createElement('div'); card.className='skcard'+(active?' act':'');
