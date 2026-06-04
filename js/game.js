@@ -32,7 +32,7 @@
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'PUNKTE ✕2', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
       shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
-      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt',
+      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', skinBtn:'🎨 SKINS', skinTitle:'SKINS', active:'AKTIV', choose:'WÄHLEN',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich."],
@@ -58,7 +58,7 @@
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'SCORE ✕2', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
       shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked',
+      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', skinBtn:'🎨 SKINS', skinTitle:'SKINS', active:'ACTIVE', choose:'SELECT',
       near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
@@ -84,7 +84,7 @@
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
       pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'SCORE ✕2', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
       shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé',
+      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', skinBtn:'🎨 SKINS', skinTitle:'SKINS', active:'ACTIF', choose:'CHOISIR',
       near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
       quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
@@ -481,7 +481,7 @@
     state=S.MENU; document.getElementById('hud').classList.add('hidden');
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
-    document.getElementById('settings').classList.add('hidden'); document.getElementById('ach').classList.add('hidden');
+    document.getElementById('settings').classList.add('hidden'); document.getElementById('ach').classList.add('hidden'); document.getElementById('skins').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
   function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
@@ -1069,12 +1069,29 @@
   }
 
   const SHIP_ACC=['#ff2e88','#ffe600','#2effc0','#c45bff','#ff9a2e','#7cff2e'];
+  const SKINS=[
+    {id:'std',  cost:0,   hull:'#16384a',edge:'#19f0ff',acc:'#19f0ff'},
+    {id:'pink', cost:300, hull:'#3a0f25',edge:'#ff2e88',acc:'#ff5ea8'},
+    {id:'sun',  cost:300, hull:'#3a1f06',edge:'#ff9a2e',acc:'#ffe600'},
+    {id:'vapor',cost:600, hull:'#2a0f3a',edge:'#c45bff',acc:'#ff2e88'},
+    {id:'toxic',ach:'mega',   hull:'#0f3a1a',edge:'#7cff2e',acc:'#2effc0'},
+    {id:'gold', ach:'won',    hull:'#3a3206',edge:'#ffe600',acc:'#fff3a0'},
+    {id:'glitch',ach:'madness',hull:'#241a2a',edge:'#ff2e88',acc:'#19f0ff',rnd:true},
+    {id:'rainbow',cost:1500,  hull:'#16384a',edge:'#19f0ff',acc:'#19f0ff',rnd:true}
+  ];
+  const curSkin=()=>SKINS.find(s=>s.id===(meta.skin||'std'))||SKINS[0];
+  const SKINTR={
+    de:{std:'Standard',pink:'Magenta',sun:'Sonne',vapor:'Vapor',toxic:'Toxisch',gold:'Gold',glitch:'Glitch',rainbow:'Regenbogen'},
+    en:{std:'Default',pink:'Magenta',sun:'Sun',vapor:'Vapor',toxic:'Toxic',gold:'Gold',glitch:'Glitch',rainbow:'Rainbow'},
+    fr:{std:'Défaut',pink:'Magenta',sun:'Soleil',vapor:'Vapor',toxic:'Toxique',gold:'Or',glitch:'Glitch',rainbow:'Arc-en-ciel'}
+  };
+  const skinName=id=>((SKINTR[lang]&&SKINTR[lang][id])||SKINTR.en[id]||id);
   function buildShipSprite(r,up,nCan){
     const R=makeRng(shipSeed||1);
     const cp=Math.max(2,Math.round(r*0.34));                 // Pixel-Zellgröße
     const gh=8+Math.min(7,(up*0.45)|0), gw=4+Math.min(4,(up*0.3)|0);
     const wingLen=1+Math.min(5,(up*0.4)|0);
-    const acc=SHIP_ACC[(R()*SHIP_ACC.length)|0], hull='#16384a', edge='#19f0ff';
+    const sk=curSkin(), hull=sk.hull, edge=sk.edge, acc=sk.rnd?SHIP_ACC[(R()*SHIP_ACC.length)|0]:sk.acc;
     const pad=(wingLen+3)*cp, cw=(gw*2+1)*cp+pad*2, ch=(gh*2+1)*cp+pad*2, ox=pad+gw*cp, oy=pad+gh*cp;
     const grid=new Map(), setc=(x,y,c)=>{ grid.set(x+','+y,c); grid.set((-x)+','+y,c); };
     const harm=2+((R()*3)|0), ph=R()*6.28, edges={};
@@ -1108,7 +1125,7 @@
   function drawShip(){ const r=player.r;
     let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
     const nCan=mods.gun?Math.max(1,Math.min(8,mods.multishot+(mods.bulletDmg>1?1:0)+(mods.pierce>0?2:0))):0;
-    const sig=shipSeed+'|'+up+'|'+nCan+'|'+Math.round(r);
+    const sig=shipSeed+'|'+up+'|'+nCan+'|'+Math.round(r)+'|'+(meta.skin||'std');
     if(!shipSprite||shipSig!==sig){ shipSprite=buildShipSprite(r,up,nCan); shipSig=sig; }
     const S=shipSprite;
     ctx.save(); ctx.translate(player.x,player.y);
@@ -1313,6 +1330,25 @@
     ACH.forEach(a=>{ const has=!!(meta.ach&&meta.ach[a.id]); const c=document.createElement('div'); c.className='acard'+(has?' got':' lock');
       c.innerHTML='<div class="ico">'+(has?a.ico:'🔒')+'</div><h5>'+achName(a.id)+'</h5><p>'+achDesc(a.id)+'</p>';
       wrap.appendChild(c); }); }
+  // ---------- Skins ----------
+  function openSkins(){ document.getElementById('start').classList.add('hidden'); renderSkins(); document.getElementById('skins').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
+  function closeSkins(){ document.getElementById('skins').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); }
+  function selectSkin(id){ meta.skin=id; saveMeta(); shipSig=''; beep(740,0.06,'square',0.2); renderSkins(); }
+  function buySkin(id){ const s=SKINS.find(x=>x.id===id); if(!s||!s.cost) return; if((meta.chips||0)<s.cost){ beep(200,0.12,'square',0.2,-60); return; }
+    meta.chips-=s.cost; unlockSkin(id); meta.skin=id; saveMeta(); shipSig=''; sfxUpgrade(); vibe([15,20,15]); renderSkins(); updateMenuChips(); }
+  function renderSkins(){ const ch=document.getElementById('skinChips'); if(ch) ch.textContent='◈ '+(meta.chips||0);
+    const wrap=document.getElementById('skinCards'); if(!wrap) return; wrap.innerHTML='';
+    SKINS.forEach(s=>{ const unlocked=(s.id==='std')||(meta.skins&&meta.skins[s.id])||(!s.ach&&!s.cost), active=(meta.skin||'std')===s.id;
+      const card=document.createElement('div'); card.className='skcard'+(active?' act':'');
+      const prevBg=s.rnd?'linear-gradient(135deg,#ff2e88,#19f0ff,#ffe600)':s.hull;
+      let btn;
+      if(active) btn='<div class="pick on">'+t('active')+'</div>';
+      else if(unlocked) btn='<button class="pick" data-sk="'+s.id+'" data-act="sel">'+t('choose')+'</button>';
+      else if(s.cost){ const aff=(meta.chips||0)>=s.cost; btn='<button class="pick'+(aff?'':' lock')+'" data-sk="'+s.id+'" data-act="buy">◈ '+s.cost+'</button>'; }
+      else btn='<div class="pick lock">🏅 '+achName(s.ach)+'</div>';
+      card.innerHTML='<div class="prev" style="background:'+prevBg+';border-color:'+s.edge+'"></div><h5>'+skinName(s.id)+'</h5>'+btn;
+      const b=card.querySelector('button.pick'); if(b) b.addEventListener('click',()=>{ b.dataset.act==='buy'?buySkin(s.id):selectSkin(s.id); });
+      wrap.appendChild(card); }); }
   function applyI18n(){ try{ document.documentElement.lang=lang;
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
@@ -1325,6 +1361,7 @@
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back')); set('shopResetBtn',t('resetAll'));
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
     set('achBtn',t('achBtn')); setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
+    set('skinBtn',t('skinBtn')); setSel('#skins .utitle',t('skinTitle')); set('skinBalLbl',t('balance')); set('skinBackBtn',t('back'));
     setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     if(typeof renderSettings==='function') renderSettings();
@@ -1369,6 +1406,9 @@
   document.getElementById('achBtn').addEventListener('click',openAch);
   document.getElementById('achBackBtn').addEventListener('click',closeAch);
   document.getElementById('achCloseBtn').addEventListener('click',closeAch);
+  document.getElementById('skinBtn').addEventListener('click',openSkins);
+  document.getElementById('skinBackBtn').addEventListener('click',closeSkins);
+  document.getElementById('skinCloseBtn').addEventListener('click',closeSkins);
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
