@@ -48,6 +48,10 @@
   .ucard.curse:hover{border-color:var(--pink);box-shadow:0 0 30px rgba(255,46,136,.4);}
   .ucard.curse h4{color:var(--pink);}
   .ucard.curse .stack{color:var(--pink);}
+  .ucard.weapon{border-color:rgba(25,240,255,.5);background:rgba(25,240,255,.06);}
+  .ucard.weapon:hover{border-color:var(--cyan);box-shadow:0 0 30px rgba(25,240,255,.4);}
+  .ucard.weapon h4{color:var(--cyan);}
+  .ucard.weapon .stack{color:var(--cyan);}
   /* Werkstatt / Shop */
   #shopCards{margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:780px;}
   .ucard.maxed{opacity:.5;}
