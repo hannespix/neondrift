@@ -1562,9 +1562,9 @@
       card.addEventListener('click',()=>toggleLoadout(w.id)); wrap.appendChild(card); });
   }
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
-  function openArsenalView(){ if(state!==S.PAUSE) return; arsenalSkillMode=false; renderArsenalView(); document.getElementById('arsenalView').classList.remove('hidden'); sfxUpgrade(); }
+  function openArsenalView(){ if(state!==S.PAUSE) return; arsenalSkillMode=false; renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   // Skill-Screen: friert das Spiel ein, zeigt den klickbaren Baum zum Ausgeben der Skillpunkte
-  function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; renderArsenalView(); document.getElementById('arsenalView').classList.remove('hidden'); sfxUpgrade(); }
+  function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden');
     if(arsenalSkillMode){ arsenalSkillMode=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
   function dropWeapon(id){ delete arsenal.w[id]; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); renderArsenalView(); }
@@ -1703,6 +1703,9 @@
       if(particles)for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
       shake=Math.max(0,(shake||0)-dt*60); }
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
+    // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
+    // sonst rendert die Szene 60fps unter dem Backdrop-Blur weiter → mehrere Sekunden Lag auf Mobil.
+    if(state===S.UPGRADE||state===S.PAUSE){ requestAnimationFrame(loop); return; }
     draw(); drawAchToast(); requestAnimationFrame(loop);
   }
   function drawAchToast(){ if(!achToasts.length) return; const a=achToasts[0], id=a.id, al=Math.min(1,a.t,3.4-a.t+0.6);
