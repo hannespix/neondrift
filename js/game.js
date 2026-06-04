@@ -1038,30 +1038,34 @@
   function drawShip(){ const r=player.r, R=makeRng(shipSeed||1);
     const accents=['#ff2e88','#ffe600','#2effc0','#c45bff','#ff9a2e'], acc=accents[(R()*accents.length)|0];
     let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
-    const scale=1+Math.min(0.5,up*0.045);
+    const s=r*(1.8+Math.min(0.7,up*0.05));                 // Schiffsgröße – klar größer als der Kern
     const nCan=mods.gun?Math.max(1,Math.min(7,mods.multishot+(mods.bulletDmg>1?1:0)+(mods.pierce>0?1:0))):0;
-    const wing=1.15+Math.min(1.1,up*0.075), nEng=Math.max(1,Math.min(4,1+((up/4)|0)));
-    ctx.save(); ctx.translate(player.x,player.y); ctx.scale(scale,scale);
-    // Flügel (kosmetische Akzentfarbe)
-    ctx.shadowBlur=12; ctx.shadowColor=acc; ctx.fillStyle=hexA(acc,0.45); ctx.strokeStyle=acc; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(-r*0.35,-r*0.1); ctx.lineTo(-r*wing,r*0.95); ctx.lineTo(-r*0.3,r*0.75); ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(r*0.35,-r*0.1); ctx.lineTo(r*wing,r*0.95); ctx.lineTo(r*0.3,r*0.75); ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Triebwerke unten mit Flamme
-    for(let i=0;i<nEng;i++){ const ex=(i-(nEng-1)/2)*(r*0.5), fl=r*(0.55+0.45*Math.abs(Math.sin((elapsed||0)*28+i)));
-      ctx.fillStyle='#ffd000'; ctx.beginPath(); ctx.moveTo(ex-r*0.13,r*0.78); ctx.lineTo(ex+r*0.13,r*0.78); ctx.lineTo(ex,r*0.78+fl); ctx.closePath(); ctx.fill(); }
-    // Rumpf (Neon, zeigt nach oben)
-    ctx.shadowBlur=16; ctx.shadowColor='#19f0ff'; ctx.strokeStyle='#19f0ff'; ctx.lineWidth=2.5; ctx.fillStyle=hexA('#19f0ff',0.32);
-    ctx.beginPath(); ctx.moveTo(0,-r*1.6); ctx.lineTo(r*0.85,r*0.85); ctx.lineTo(-r*0.85,r*0.85); ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Kanonen vorne (Anzahl je nach Waffen)
-    ctx.shadowBlur=8; ctx.fillStyle=acc; const cl=r*(0.45+Math.min(0.8,(mods.fireRate||0)*0.06));
-    for(let i=0;i<nCan;i++){ const cx=(i-(nCan-1)/2)*(r*0.34); ctx.fillRect(cx-r*0.08,-r*1.6-cl,r*0.16,cl); }
-    // zufällige Akzent-Pixel (Stil-Variation)
-    ctx.shadowBlur=0; for(let i=0;i<3;i++){ if(R()<0.6){ const bx=(R()*0.5)*r, by=(R()*1.1-0.2)*r; ctx.fillStyle=R()<0.5?acc:'#fff'; ctx.fillRect(bx-2,by-2,4,4); ctx.fillRect(-bx-2,by-2,4,4); } }
-    ctx.restore();
-    // heller Hitbox-Kern OBEN DRAUF = echte (kleine) Hitbox
-    ctx.save(); ctx.shadowBlur=18; ctx.shadowColor='#fff';
-    const grd=ctx.createRadialGradient(player.x,player.y,1,player.x,player.y,r); grd.addColorStop(0,'#fff'); grd.addColorStop(1,'#19f0ff'); ctx.fillStyle=grd;
-    ctx.beginPath(); ctx.arc(player.x,player.y,r,0,6.28); ctx.fill(); ctx.restore(); }
+    const wing=1.0+Math.min(1.0,up*0.07), nEng=Math.max(1,Math.min(4,1+((up/4)|0)));
+    ctx.save(); ctx.translate(player.x,player.y);
+    // Triebwerksflammen (unten)
+    for(let i=0;i<nEng;i++){ const ex=(i-(nEng-1)/2)*(s*0.34), fl=s*(0.4+0.4*Math.abs(Math.sin((elapsed||0)*30+i)));
+      ctx.fillStyle='#ffd000'; ctx.shadowBlur=12; ctx.shadowColor='#ff9a2e';
+      ctx.beginPath(); ctx.moveTo(ex-s*0.12,s*0.5); ctx.lineTo(ex+s*0.12,s*0.5); ctx.lineTo(ex,s*0.5+fl); ctx.closePath(); ctx.fill(); }
+    // Flügel (kräftige Akzentfarbe, weiße Kante)
+    ctx.shadowBlur=14; ctx.shadowColor=acc; ctx.fillStyle=acc; ctx.strokeStyle='#fff'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(-s*0.2,-s*0.05); ctx.lineTo(-s*wing,s*0.65); ctx.lineTo(-s*0.15,s*0.5); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(s*0.2,-s*0.05); ctx.lineTo(s*wing,s*0.65); ctx.lineTo(s*0.15,s*0.5); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Kanonen vorne (je nach Waffen)
+    ctx.fillStyle=acc; ctx.shadowBlur=8; const cl=s*(0.3+Math.min(0.5,(mods.fireRate||0)*0.04));
+    for(let i=0;i<nCan;i++){ const cx=(i-(nCan-1)/2)*(s*0.26); ctx.fillRect(cx-s*0.06,-s-cl,s*0.12,cl); }
+    // Rumpf (satt gefüllt, Neon-Outline) – Nase zeigt nach oben
+    ctx.shadowBlur=16; ctx.shadowColor='#19f0ff'; ctx.fillStyle='#0b2233'; ctx.strokeStyle='#19f0ff'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(0,-s); ctx.lineTo(s*0.55,s*0.5); ctx.lineTo(s*0.32,s*0.6); ctx.lineTo(-s*0.32,s*0.6); ctx.lineTo(-s*0.55,s*0.5); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // zufällige Akzent-Pixel (Stil-Variation pro Run)
+    ctx.shadowBlur=0; for(let i=0;i<3;i++){ if(R()<0.6){ const bx=(R()*0.36)*s, by=(R()*0.5-0.05)*s; ctx.fillStyle=R()<0.5?acc:'#fff'; ctx.fillRect(bx-2,by-2,4,4); ctx.fillRect(-bx-2,by-2,4,4); } }
+    // dünner Hitbox-Ring (zeigt die echte, kleine Hitbox r – ohne das Schiff zu überdecken)
+    ctx.shadowBlur=6; ctx.shadowColor='#19f0ff'; ctx.strokeStyle=hexA('#19f0ff',0.5); ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(0,0,r,0,6.28); ctx.stroke();
+    // kleines Cockpit (heller Punkt, überlagert das Schiff nicht mehr)
+    ctx.shadowBlur=10; ctx.shadowColor='#fff';
+    const grd=ctx.createRadialGradient(0,-s*0.05,0.5,0,-s*0.05,r*0.5); grd.addColorStop(0,'#fff'); grd.addColorStop(1,'#19f0ff'); ctx.fillStyle=grd;
+    ctx.beginPath(); ctx.arc(0,-s*0.05,r*0.5,0,6.28); ctx.fill();
+    ctx.restore(); }
   function drawMouth(m,t){ const y=m.oy, w=m.w, h=w*0.4; ctx.save(); ctx.translate(0,y); ctx.fillStyle='#08010f';
     if(m.type==='grin'){ ctx.strokeStyle='#08010f'; ctx.lineWidth=Math.max(3,h*0.22); ctx.beginPath(); ctx.arc(0,-h*0.2,w*0.5,0.15*Math.PI,0.85*Math.PI); ctx.stroke(); }
     else if(m.type==='o'){ const r=w*0.26*(1+0.2*Math.sin(t*8)); ctx.beginPath(); ctx.arc(0,0,r,0,6.28); ctx.fill(); }

@@ -1,5 +1,5 @@
 // NEONDRIFT Service Worker – Offline-Cache
-const CACHE = 'neondrift-v17';
+const CACHE = 'neondrift-v18';
 const ASSETS = [
   './',
   './index.html',
