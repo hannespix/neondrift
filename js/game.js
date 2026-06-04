@@ -1084,8 +1084,10 @@
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
   document.getElementById('shopBtn').addEventListener('click',openShop);
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
+  document.getElementById('shopCloseBtn').addEventListener('click',closeShop);
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
+  document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
   document.querySelectorAll('#optRows .optrow').forEach(row=>row.addEventListener('click',()=>cycleOpt(row.dataset.opt)));
   document.getElementById('againBtn').addEventListener('click',()=>startGame());
   document.getElementById('menuBtn').addEventListener('click',toMenu);
