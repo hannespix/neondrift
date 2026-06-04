@@ -303,6 +303,15 @@
   function curBest(){ return daily?(best.daily||0):(best[mode]||0); }
   function setBest(v){ if(daily) best.daily=v; else best[mode]=v; }
   function refillCombo(){ comboTimeMax=Math.max(1.7,(mode==='zen'?4.4:3.4)-multiplier*0.12); comboTime=comboTimeMax; }
+  // ---------- Adaptives Balancing: Spielerstärke -> härtere Gegner ----------
+  function gunDps(){ return mods.gun? mods.fireRate*mods.bulletDmg : 0; }          // Single-Stream-DPS
+  function bossDps(){ return gunDps()*(1+(mods.multishot-1)*0.4); }               // effektiv gegen Einzelziel
+  function pwrSurv(){ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
+    return up*0.6 + shields*0.4 + Math.max(0,lives-3)*0.5 + (13-mods.playerR)/13*4
+      + Math.max(0,(mods.nearRadius-30)/30) + Math.max(0,(mods.follow-14)/8) + Math.max(0,mods.scoreMult-1); }
+  const difSpd =()=>1+Math.min(0.95,pwrSurv()*0.035);   // Obstacles schneller (max +95%)
+  const difDen =()=>1-Math.min(0.45,pwrSurv()*0.02);    // Obstacles dichter (Intervall, max −45%)
+  const difHp  =()=>1+gunDps()*0.45;                    // Obstacles zäher je nach Schuss-DPS (konstante Treffer)
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
@@ -354,7 +363,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(120+level*16+Math.min(elapsed*6,220))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12);
+    const sp=(120+level*16+Math.min(elapsed*6,220))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -370,7 +379,7 @@
     } else if(key==='pendulum'){ o.shape='ring'; o.color='#ff2eaa'; o.w=grand(36,52); o.h=o.w;
       o.baseX=grand(W*0.3,W*0.7); o.swing=grand(90,150); o.ang=grnd()*6.28; o.angVel=grand(2,3.2); o.vy=sp*0.8; o.cx=o.baseX; o.cy=-o.h;
     }
-    o.maxHp=Math.max(1,Math.round((o.w+o.h)/46)+(o.shape==='long'?2:0)+(o.shape==='rect'?1:0));
+    o.maxHp=Math.max(1,Math.round(((o.w+o.h)/46+(o.shape==='long'?2:0)+(o.shape==='rect'?1:0))*difHp()));
     o.hp=o.maxHp; o.hitFlash=0;
     obstacles.push(o);
   }
@@ -447,21 +456,22 @@
     boss={sp, name:genName(R), move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
       cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,150+tier*8), radY:Math.min(H*0.11,60+tier*8),
       ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1), r:sp.rad,
-      maxHp:Math.round(24+bossNumber*9), hp:0, t:0, limit:18+bossNumber*2,
-      hitFlash:0, shootT:1.4, warn:0, telegraph:false, fireGap:Math.max(0.9,2.3-bossNumber*0.12),
+      maxHp:Math.max(30,Math.round(bossDps()*(8+bossNumber*0.8))), hp:0, t:0, limit:20+bossNumber*2,
+      hitFlash:0, shootT:1.4, warn:0, telegraph:false, fireGap:Math.max(0.7,2.3-bossNumber*0.12-Math.min(0.9,pwrSurv()*0.03)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0};
     boss.hp=boss.maxHp; ebullets=[];
     banner={text:'🛸 MEGA-BOSS',sub:boss.name,t:2.6,color:'#ffe600'};
     shake=14; sfxBoss(); sfxWarn(); vibe([60,40,60,40,90]); }
   function eb(x,y,vx,vy){ return {x,y,vx,vy,r:7}; }
   function bossVolley(B){ sfxFire(); shake=Math.max(shake,5); vibe(15);
-    const spd=160+bossNumber*9, tier=Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
+    const xs=Math.min(7,Math.floor(pwrSurv()*0.4)), spd=(160+bossNumber*9)*(1+Math.min(0.4,pwrSurv()*0.015));
+    const tier=Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
     const a0=Math.atan2(player.y-B.y,player.x-B.x);
-    if(B.attack==='radial'){ const n=8+tier*2; for(let i=0;i<n;i++){ const a=B.t*0.5+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
-    else if(B.attack==='aimed'){ const n=2+tier; for(let i=0;i<n;i++){ const a=a0+(i-(n-1)/2)*0.2; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd*1.25,Math.sin(a)*spd*1.25)); } }
-    else if(B.attack==='spiral'){ const n=4+tier; for(let i=0;i<n;i++){ const a=B.t*2.2+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
-    else if(B.attack==='wall'){ const gap=rand(0.2,0.8); for(let i=0;i<=10;i++){ if(Math.abs(i/10-gap)<0.12) continue; ebullets.push(eb(W*i/10,B.y,0,spd*0.9)); } }
-    else { for(let i=0;i<8;i++){ const a=i*6.28/8; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } } }
+    if(B.attack==='radial'){ const n=8+tier*2+xs; for(let i=0;i<n;i++){ const a=B.t*0.5+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
+    else if(B.attack==='aimed'){ const n=2+tier+Math.floor(xs/2); for(let i=0;i<n;i++){ const a=a0+(i-(n-1)/2)*0.2; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd*1.25,Math.sin(a)*spd*1.25)); } }
+    else if(B.attack==='spiral'){ const n=4+tier+Math.floor(xs/2); for(let i=0;i<n;i++){ const a=B.t*2.2+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
+    else if(B.attack==='wall'){ const gap=rand(0.25,0.75), gw2=Math.max(0.06,0.12-xs*0.008); for(let i=0;i<=10;i++){ if(Math.abs(i/10-gap)<gw2) continue; ebullets.push(eb(W*i/10,B.y,0,spd*0.9)); } }
+    else { const n=8+xs; for(let i=0;i<n;i++){ const a=i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } } }
   function startBossDeath(){ boss.dead=true; boss.deathT=1.2; ebullets=[];
     flash=0.7; flashColor='#ffe600'; shake=22; effects.slowmo=Math.max(effects.slowmo,1.0);
     sfxWin(); sfxKill(); pixelBurst(boss.x,boss.y,'#ffe600',12); vibe([120,60,160]); }
@@ -496,10 +506,11 @@
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
     bossNumber++; }
   function spawnLaserWave(){ const mixed=bossNumber>=3, vert=(bossNumber%2===1);
-    const count=Math.min(4,1+Math.floor(bossNumber/2));
+    const count=Math.min(6,1+Math.floor(bossNumber/2)+Math.min(2,Math.floor(pwrSurv()*0.14)));
+    const warn=Math.max(0.4,1-bossNumber*0.05-Math.min(0.25,pwrSurv()*0.012));
     for(let i=0;i<count;i++){ const orient=mixed?(Math.random()<0.5?'v':'h'):(vert?'v':'h');
       const pos=orient==='v'?rand(W*0.1,W*0.9):rand(H*0.15,H*0.9);
-      lasers.push({orient,pos,thick:rand(42,64),state:'warn',t:0,warnDur:Math.max(0.55,1-bossNumber*0.05),fireDur:0.45}); }
+      lasers.push({orient,pos,thick:rand(42,64),state:'warn',t:0,warnDur:warn,fireDur:0.45}); }
     sfxWarn(); }
 
   // ---------- Level / Upgrade flow ----------
@@ -617,7 +628,7 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.30,(0.95-difficulty*0.05-level*0.015)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)); } }
+        spawnT=Math.max(0.26,(0.95-difficulty*0.05-level*0.015)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     powerupT-=dt; if(powerupT<=0){ spawnPowerup(); powerupT=rand(10,16)/mods.powerupRate; }
