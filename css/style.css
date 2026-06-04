@@ -134,6 +134,17 @@
   #arsenalSyn .synrow{font-size:12px;line-height:1.5;color:#e7d6ff;padding:5px 10px;margin:5px 0;border-radius:10px;background:rgba(255,46,136,.08);border:1px solid rgba(255,46,136,.25);}
   #arsenalSyn .synrow b{color:#ff7ab8;}
   #arsenalSyn .synrow.dim{color:#9a86c9;background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);}
+  /* Synergie-Rezeptbuch: aktiv / fast / fehlt */
+  #arsenalSyn .synrow{display:block;}
+  #arsenalSyn .synhead{display:flex;align-items:center;gap:7px;}
+  #arsenalSyn .synpair{font-size:15px;letter-spacing:1px;}
+  #arsenalSyn .synd{font-size:10.5px;color:#c9b9ef;margin-top:2px;opacity:.85;}
+  #arsenalSyn .synok{margin-left:auto;color:#7cff2e;font-weight:700;font-size:11px;}
+  #arsenalSyn .synneed{margin-left:auto;color:#ffd36b;font-weight:700;font-size:11px;}
+  #arsenalSyn .synrow.on{background:rgba(255,46,136,.12);border-color:rgba(255,46,136,.5);box-shadow:0 0 14px rgba(255,46,136,.18) inset;}
+  #arsenalSyn .synrow.near{background:rgba(255,211,107,.06);border-color:rgba(255,211,107,.3);}
+  #arsenalSyn .synrow.off{opacity:.5;background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);}
+  #arsenalSyn .synrow.off .synpair{filter:grayscale(.6);}
   /* Visueller Skill-Tree pro Waffe (In-Run, Arsenal-Overlay) */
   .wtree{display:flex;flex-direction:column;align-items:center;gap:6px;width:168px;max-width:44vw;padding:12px 10px 14px;border-radius:16px;
     background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);}
