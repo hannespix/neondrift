@@ -24,7 +24,7 @@
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', resetAll:'♻ ALLES ZURÜCKSETZEN', reallyQ:'WIRKLICH? ✓ (tippen)',
-      setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optLang:'🌐 Sprache',
+      setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
       lvl:'LEVEL', newForm:'Neue Form: ', faster:'Schneller & dichter!', bossWave:'⚠ BOSS-WELLE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 DER ENDGEGNER', finaleSub:'überlebe das Inferno!',
       survived:'ÜBERLEBT!', defeated:'BESIEGT! 💥', escaped:'🛸 ENTKOMMEN…', escapedSub:'die Beute ist weg!', armUp:'Rüste auf für den Boss · Level ',
@@ -51,7 +51,7 @@
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', resetAll:'♻ RESET EVERYTHING', reallyQ:'SURE? ✓ (tap)',
-      setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optLang:'🌐 Language',
+      setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
       lvl:'LEVEL', newForm:'New shape: ', faster:'Faster & denser!', bossWave:'⚠ BOSS WAVE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 THE FINAL BOSS', finaleSub:'survive the inferno!',
       survived:'SURVIVED!', defeated:'DEFEATED! 💥', escaped:'🛸 ESCAPED…', escapedSub:'the loot is gone!', armUp:'Gear up for the boss · Level ',
@@ -78,7 +78,7 @@
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
       newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', resetAll:'♻ TOUT RÉINITIALISER', reallyQ:'SÛR ? ✓ (touche)',
-      setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optLang:'🌐 Langue',
+      setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
       lvl:'NIVEAU', newForm:'Nouvelle forme : ', faster:'Plus vite & plus dense !', bossWave:'⚠ VAGUE DE BOSS ', megaBoss:'🛸 MÉGA-BOSS', endgegner:'👾 LE BOSS FINAL', finaleSub:'survis à l’enfer !',
       survived:'SURVÉCU !', defeated:'VAINCU ! 💥', escaped:'🛸 ENFUI…', escapedSub:'le butin s’envole !', armUp:'Équipe-toi pour le boss · Niveau ',
@@ -98,9 +98,9 @@
   };
   // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
   const UPTR={
-    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Ups +50% öfter'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+18% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 12% schneller']},
-    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-ups +50% more often'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+18% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 12% faster']},
-    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Power-ups +50% plus souvent'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+18% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 12% plus vite']}
+    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Ups +50% öfter'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+18% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 12% schneller'],crit:['Zielfokus','+10% Krit-Chance (×2 Schaden)']},
+    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-ups +50% more often'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+18% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 12% faster'],crit:['Focus','+10% crit chance (×2 damage)']},
+    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Power-ups +50% plus souvent'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+18% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 12% plus vite'],crit:['Focalisation','+10% chance de critique (×2 dégâts)']}
   };
   // Waffen (Basis), Skill-Pfade & Synergien – [Name, Beschreibung]
   const WTR={
@@ -225,7 +225,7 @@
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let shipSprite=null, shipSig='';                     // gebackener Pixel-Sprite + Signatur
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
-  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dailyShop:r.dailyShop==null?true:r.dailyShop}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dailyShop:true}; }
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
@@ -420,6 +420,9 @@
   function spawnParticles(x,y,color,n,spd){ for(let i=0;i<n;i++){const a=Math.random()*6.28,s=rand(spd*0.3,spd);
     particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:rand(0.012,0.03),color,size:rand(2,5)});} }
   function floatText(x,y,text,color,size){ floaters.push({x,y,text,color:color||'#fff',size:size||16,life:1,vy:-42}); }
+  // Schadenszahl (weiß = normal, rot = Krit). Mit Soft-Cap gegen Spam & nur wenn aktiviert.
+  function floatDamage(x,y,amt,crit){ if(!opt.dmg||floaters.length>66) return; const a=Math.round(amt); if(a<=0) return;
+    floaters.push({x:x+rand(-5,5),y,text:crit?(a+'!'):''+a,color:crit?'#ff3b3b':'#ffffff',size:crit?20:13,life:1,vy:-58,vx:rand(-14,14),dr:crit?1.25:1.8}); }
   function hexA(h,a){ const n=parseInt(h.slice(1),16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
 
   // ---------- Hintergrund-Themes (pro Level, weicher Crossfade) ----------
@@ -459,7 +462,8 @@
     {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Links/rechts vertauscht 💀, dafür +55% Punkte',max:1,curse:true,apply:()=>{mods.invertX=!mods.invertX;mods.scoreMult*=1.55;}},
     // ---- Globale Waffen-Passive (KEIN Slot, gelten für alle Waffen, multiplikativ = abnehmender Ertrag) ----
     {id:'amp',  ico:'💥',name:'Verstärker',desc:'+18% Schaden für ALLE Waffen',max:5,wpass:true,apply:()=>{ mods.wDmgMult*=1.18; }},
-    {id:'tempo',ico:'⏩',name:'Taktung',   desc:'ALLE Waffen feuern 12% schneller',max:4,wpass:true,apply:()=>{ mods.wRate*=1.12; }}
+    {id:'tempo',ico:'⏩',name:'Taktung',   desc:'ALLE Waffen feuern 12% schneller',max:4,wpass:true,apply:()=>{ mods.wRate*=1.12; }},
+    {id:'crit', ico:'🎯',name:'Zielfokus', desc:'+10% Kritische Treffer (×2 Schaden, rot)',max:4,wpass:true,apply:()=>{ mods.critBase=(mods.critBase||0)+0.10; }}
   ];
   // ---- ARSENAL: 5 eigenständige Auto-Feuer-Waffen, je mit 2 Skill-Gabelungen (D2-light) ----
   // Jede Waffe belegt 1 Slot. Pfad-Wahl = Sidegrade (gleich stark, anderer Stil).
@@ -507,8 +511,13 @@
       wpn.chain={rate:rate*rm,dmg:dmg*dm,jumps,stun,onHit:a.f2==='stormhit',aoe:a.f2==='dischargeaoe'}; }
     for(const s of SYNERGIES) syn[s.id]=has(s.pair[0])&&has(s.pair[1]);
     if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
+    // Krit: Passiv-Basis + Blaster-Pfad „Präzision"
+    mods.crit=Math.min(0.75,(mods.critBase||0)+((arsenal.w.blaster&&arsenal.w.blaster.f2==='precise')?0.15:0));
     mods.gun=has('blaster')?1:0;
   }
+  const critFactor=()=>1+(mods.crit||0)*((mods.critMult||2)-1);   // erwarteter Krit-Multiplikator
+  // Krit-Wurf auf einen Basis-Schaden → {dmg, crit}
+  function rollHit(base){ if((mods.crit||0)>0 && Math.random()<mods.crit) return {dmg:base*(mods.critMult||2),crit:true}; return {dmg:base,crit:false}; }
   // Waffen-Level/Fork-Logik: lvl1=Basis, lvl2=Gabelung1 gewählt, lvl3=Gabelung2 gewählt
   function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new'; if(!a.f1) return 'f1'; if(!a.f2) return 'f2'; return null; }
   function weaponMaxed(id){ return nextNode(id)===null; }
@@ -516,7 +525,7 @@
   function reset(){
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
           obSpeed:1,spawnMult:1,fog:0,invertX:false,
-          gun:0,wDmgMult:1,wRate:1};
+          gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2};
     arsenal={slots:3,w:{}}; wpn={}; syn={};
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
@@ -547,7 +556,7 @@
     if(wpn.flame)   d+=(wpn.flame.dmg+wpn.flame.dot*wpn.flame.dur)*wpn.flame.rate;
     if(wpn.frost)   d+=wpn.frost.dmg*wpn.frost.rate;
     if(wpn.chain)   d+=wpn.chain.dmg*wpn.chain.jumps*wpn.chain.rate*0.6;
-    return d; }
+    return d*critFactor(); }
   // Effektive Einzelziel-DPS gegen den Boss (kein Flächen-Bonus, Raketen ×2 wie in explodeMissile)
   function bossDps(){ let d=0.5;
     if(wpn.blaster) d+=wpn.blaster.dmg*wpn.blaster.bolts*wpn.blaster.rate;
@@ -555,14 +564,15 @@
     if(wpn.flame)   d+=(wpn.flame.dmg+wpn.flame.dot*wpn.flame.dur)*wpn.flame.rate;
     if(wpn.frost)   d+=wpn.frost.dmg*wpn.frost.rate;
     if(wpn.chain)   d+=wpn.chain.dmg*wpn.chain.rate;
-    return d; }
+    return d*critFactor(); }
   function pwrSurv(){ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
     return up*0.6 + shields*0.4 + Math.max(0,lives-3)*0.5 + (13-mods.playerR)/13*4
       + Math.max(0,(mods.nearRadius-30)/30) + Math.max(0,(mods.follow-14)/8) + Math.max(0,mods.scoreMult-1); }
   const difSpd =()=>1+Math.min(0.7,pwrSurv()*0.026)+(endless?madness*0.85:0);     // Obstacles schneller (sanfter)
   const difDen =()=>Math.max(0.32,1-Math.min(0.35,pwrSurv()*0.015)-(endless?madness*0.35:0)); // dichter (sanfter)
-  // Obstacles-HP skaliert mit Gesamt-DPS → konstante Time-to-Kill (robustester Balance-Hebel)
-  const difHp  =()=>1+gunDps()*0.5;
+  // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
+  // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
+  const difHp  =()=>1.3+gunDps()*0.5+(level-1)*0.18;
   function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
@@ -618,7 +628,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(110+level*13+Math.min(elapsed*4,150))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
+    const sp=(82+level*11+Math.min(elapsed*3.2,120))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -984,8 +994,9 @@
         const er=Math.max(o.w,o.h)*0.5+b.r; const ddx=b.x-o.cx, ddy=b.y-o.cy;
         if(ddx*ddx+ddy*ddy<er*er){
           if(b.homing){ explodeMissile(b); gone=true; break; }
-          let dmg=b.dmg; if(o.slow>0 && mods.brittle) dmg*=1.5;                          // SPRÖDE: +50% an Gefrorenen
-          o.hp-=dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,b.col||'#caffff',3,120);
+          const hit=rollHit(b.dmg); let dmg=hit.dmg; if(o.slow>0 && mods.brittle) dmg*=1.5;     // Krit + SPRÖDE
+          o.hp-=dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,hit.crit?'#ff3b3b':(b.col||'#caffff'),hit.crit?6:3,hit.crit?180:120);
+          if(!b.frag){ floatDamage(o.cx,o.cy-o.h*0.45,dmg,hit.crit); if(hit.crit) beep(1500,0.04,'square',0.1,420); }
           if(b.burn){ o.burn=Math.max(o.burn||0,b.burnDur||1.8); o.burnDmg=Math.max(o.burnDmg||0,b.burn); o.burnSpread=b.burnSpread; o.burnConsume=b.burnConsume; }
           if(b.frost){ o.slow=Math.max(o.slow||0,b.frostDur||1.4); const amt=(b.freeze&&Math.random()<0.4)?0.05:b.frost; o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,amt); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
           if(b.tesla){ chainLightning(o.cx,o.cy,(wpn.chain?wpn.chain.dmg:1.4)*0.8,2,{skip:[o]}); }  // TESLA-SALVE
@@ -1000,7 +1011,8 @@
       if(!gone && boss && !boss.dead){ const bdx=b.x-boss.x, bdy=b.y-boss.y, br=boss.r+b.r;
         if(bdx*bdx+bdy*bdy<br*br){
           if(b.homing){ explodeMissile(b); gone=true; }
-          else { boss.hp-=b.dmg; boss.hitFlash=0.07; spawnParticles(b.x,b.y,'#ffe600',3,150); beep(660,0.03,'square',0.05,120);
+          else { const h=rollHit(b.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; spawnParticles(b.x,b.y,h.crit?'#ff3b3b':'#ffe600',h.crit?6:3,150); beep(660,0.03,'square',0.05,120);
+            if(!b.frag){ floatDamage(boss.x+rand(-12,12),boss.y-boss.r*0.5,h.dmg,h.crit); if(h.crit) beep(1500,0.04,'square',0.1,420); }
             if(boss.hp<=0) startBossDeath();
             if(b.pierce>0){ b.pierce--; } else gone=true; } } }
       if(gone) bullets.splice(bi,1);
@@ -1042,7 +1054,7 @@
 
     // Particles & floaters
     for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; if(p.life<=0)particles.splice(i,1); }
-    for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.y+=f.vy*dt; f.vy*=0.96; f.life-=dt*0.9; if(f.life<=0)floaters.splice(i,1); }
+    for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.y+=f.vy*dt; f.vy*=0.96; if(f.vx){ f.x+=f.vx*dt; f.vx*=0.92; } f.life-=dt*(f.dr||0.9); if(f.life<=0)floaters.splice(i,1); }
 
     if(banner){ banner.t-=dt; if(banner.t<=0) banner=null; }
     displayScore+=(score-displayScore)*Math.min(1,dt*10);
@@ -1087,8 +1099,8 @@
       boss.hp-=w.dmg; boss.hitFlash=0.07; arcParticles(player.x,player.y-player.r,boss.x,boss.y); beep(1200,0.03,'square',0.08,260); if(boss.hp<=0)startBossDeath(); return; } }
     let best=null,bd=99999; for(const o of obstacles){ const dx=o.cx-player.x,dy=o.cy-player.y,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
     if(!best) return; arcParticles(player.x,player.y-player.r,best.cx,best.cy);
-    let dd=w.dmg; if(syn.super&&best.slow>0) dd*=1.5;
-    best.hp-=dd; best.hitFlash=0.1; if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+    const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.5;
+    best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,h0.crit); if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
     if(w.aoe) chainAoe(best.cx,best.cy,dd*0.5);
     const fx=best.cx,fy=best.cy,skip=[best]; if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0)obstacles.splice(ix,1); }
     chainLightning(fx,fy,w.dmg,w.jumps-1,{skip,stun:w.stun,aoe:w.aoe}); beep(1300,0.03,'square',0.06,260); }
@@ -1111,16 +1123,16 @@
       const na=cur+dA; b.vx=Math.cos(na)*spd; b.vy=Math.sin(na)*spd; }
     else { const m=Math.hypot(b.vx,b.vy)||1; b.vx=b.vx/m*spd; b.vy=b.vy/m*spd; } }
   // Rakete explodiert: AoE-Schaden an allen Zielen im Radius (+ Splitter/Napalm/Eisbombe)
-  function explodeMissile(b){ const R=b.aoe||64;
-    pixelBurst(b.x,b.y,'#ff9a2e',6); spawnParticles(b.x,b.y,'#ffe600',16,300);
+  function explodeMissile(b){ const R=b.aoe||64; const h=rollHit(b.dmg), edmg=h.dmg;
+    pixelBurst(b.x,b.y,h.crit?'#ff3b3b':'#ff9a2e',6); spawnParticles(b.x,b.y,'#ffe600',16,300); floatDamage(b.x,b.y,edmg,h.crit);
     flash=Math.min(0.5,flash+0.14); flashColor='#ff9a2e'; shake=Math.max(shake,6); beep(140,0.16,'sawtooth',0.3,-60); vibe([18,12]);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-b.x,dy=o.cy-b.y;
-      if(dx*dx+dy*dy<R*R){ o.hp-=b.dmg; o.hitFlash=0.12;
+      if(dx*dx+dy*dy<R*R){ o.hp-=edmg; o.hitFlash=0.12;
         if(b.incendiary||syn.napalm){ o.burn=Math.max(o.burn||0,2.2); o.burnDmg=Math.max(o.burnDmg||0,1.0*(mods.wDmgMult||1)); }  // Brandsatz / NAPALM
         if(syn.icebomb){ o.slow=Math.max(o.slow||0,1.6); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.45); }                 // EISBOMBE
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(b.shrapnel){ for(let i=0;i<8;i++){ const a=i/8*6.28; bullets.push({x:b.x,y:b.y,vx:Math.cos(a)*420,vy:Math.sin(a)*420,r:3,dmg:b.dmg*0.4,pierce:0,col:'#ffd36b',life:0.5,frag:true}); } } // Splittergranate
-    if(boss&&!boss.dead){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=b.dmg*2; boss.hitFlash=0.07; if(boss.hp<=0) startBossDeath(); } } }
+    if(boss&&!boss.dead){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=edmg*2; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,edmg*2,h.crit); if(boss.hp<=0) startBossDeath(); } } }
   // Splitterbruch: gefrorenes Ziel zerspringt beim Tod → Scherben-AoE
   function shatterBurst(x,y,dmg){ const R=70; spawnParticles(x,y,'#bdefff',14,260); beep(900,0.06,'square',0.12,-200); shake=Math.max(shake,5);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
@@ -1132,8 +1144,8 @@
   function chainLightning(x,y,dmg,jumps,opts){ opts=opts||{}; let cx=x,cy=y; const used=new Set(opts.skip||[]);
     for(let h=0;h<jumps;h++){ let best=null,bd=150*150; for(const o of obstacles){ if(used.has(o)) continue; const dx=o.cx-cx,dy=o.cy-cy,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
       if(!best) break; used.add(best); arcParticles(cx,cy,best.cx,best.cy);
-      let dd=dmg; if(syn.super&&best.slow>0) dd*=1.5;
-      best.hp-=dd; best.hitFlash=0.1; if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+      const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.5;
+      best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,hh.crit); if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
       if(opts.aoe) chainAoe(best.cx,best.cy,dd*0.5);
       const nx=best.cx,ny=best.cy;
       if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0) obstacles.splice(ix,1); }
@@ -1207,6 +1219,10 @@
         if(o.shape==='ring'){ ctx.strokeStyle=oc; ctx.lineWidth=o.w*0.26; ctx.beginPath(); ctx.arc(0,0,o.w*0.4,0,6.28); ctx.stroke(); }
         else { ctx.strokeStyle=oc; ctx.lineWidth=3; ctx.fillStyle=hexA(o.color,o.hitFlash>0?0.4:0.16); shapePath(o.shape,o.w,o.h); ctx.fill(); ctx.stroke(); }
         ctx.restore();
+        // Mini-HP-Balken über angeschlagenen Gegnern (macht Zähigkeit & Schaden lesbar)
+        if(o.hp<o.maxHp-0.01 && o.maxHp>1){ const bw=Math.max(18,o.w*0.7), bx=o.cx-bw/2, by=o.cy-o.h*0.5-9, f=Math.max(0,o.hp/o.maxHp);
+          ctx.shadowBlur=0; ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.fillRect(bx-1,by-1,bw+2,4);
+          ctx.fillStyle=f>0.5?'#7cff2e':(f>0.25?'#ffe600':'#ff3b3b'); ctx.fillRect(bx,by,bw*f,2); }
       }
 
       // bolzen (neon-laser, skin-farbig) & raketen
@@ -1564,7 +1580,7 @@
     document.getElementById('settings').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
   function closeSettings(){ document.getElementById('settings').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); }
-  const OPTLBL={shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',lang:'optLang'};
+  const OPTLBL={shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',dmg:'optDmg',lang:'optLang'};
   function renderSettings(){ document.querySelectorAll('#optRows .optrow').forEach(row=>{
     const k=row.dataset.opt; let v;
     if(k==='lang') v=lang.toUpperCase();
