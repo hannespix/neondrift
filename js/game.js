@@ -173,7 +173,11 @@
   function vibe(p){ if(navigator.vibrate){ try{ navigator.vibrate(p); }catch(e){} } }
 
   // ---------- Resize / Input ----------
-  function resize(){ DPR=Math.min(window.devicePixelRatio||1,2); W=window.innerWidth; H=window.innerHeight;
+  function resize(){ DPR=Math.min(window.devicePixelRatio||1,2);
+    // An die tatsächliche #wrap-Größe (100dvh) koppeln, nicht an innerHeight –
+    // sonst bleibt auf Mobil-Browsern unten ein heller Streifen in der Safe Area.
+    const wrap=document.getElementById('wrap');
+    W=wrap.clientWidth||window.innerWidth; H=wrap.clientHeight||window.innerHeight;
     canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
   window.addEventListener('resize',resize); resize();
   const tgt={x:W/2,y:H*0.72};
@@ -638,7 +642,14 @@
   window.addEventListener('keydown',e=>{ if(e.code==='Escape'){ if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
-  document.addEventListener('visibilitychange',()=>{ lastT=performance.now(); });
+  document.addEventListener('visibilitychange',()=>{ lastT=performance.now();
+    if(document.hidden){
+      if(state===S.PLAY) pauseGame();           // im Hintergrund nicht unbemerkt sterben
+      if(actx && actx.state==='running'){ try{ actx.suspend(); }catch(e){} } // Musik & SFX anhalten (auch im Browser)
+    } else {
+      if(actx && actx.state==='suspended' && !muted){ try{ actx.resume(); }catch(e){} }
+    }
+  });
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(CRAZY_TAGS); },3200);
   setInterval(()=>{ if(state===S.MENU && musicOn){ curSong=(curSong+1)%SONGS.length; sfxRiser(); titleTag.textContent='♪ jetzt: '+SONGS[curSong].name; } },12000);
 
