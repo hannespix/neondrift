@@ -233,12 +233,21 @@
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
-  let actx=null, muted=false, masterGain=null, musicGain=null;
+  let actx=null, muted=false, masterGain=null, musicGain=null, musicDelay=null, vibLFO=null, vibGain=null;
   function ensureCtx(){
     if(actx) return true;
     try{ actx=new (window.AudioContext||window.webkitAudioContext)();
       masterGain=actx.createGain(); masterGain.gain.value=0.9; masterGain.connect(actx.destination);
       musicGain=actx.createGain(); musicGain.gain.value=0.42; musicGain.connect(masterGain);
+      // Synthwave-Echo-Bus (tempo-naher Delay mit dunklem Feedback) → Tiefe statt trockener Sound
+      musicDelay=actx.createDelay(1.2); musicDelay.delayTime.value=0.315;
+      const dfb=actx.createGain(); dfb.gain.value=0.36;
+      const dlp=actx.createBiquadFilter(); dlp.type='lowpass'; dlp.frequency.value=2600;
+      const dwet=actx.createGain(); dwet.gain.value=0.85;
+      musicDelay.connect(dlp); dlp.connect(dfb); dfb.connect(musicDelay); musicDelay.connect(dwet); dwet.connect(masterGain);
+      // Vibrato-LFO für die Lead-Stimmen (leichtes Leben/Chorus)
+      vibLFO=actx.createOscillator(); vibLFO.type='sine'; vibLFO.frequency.value=5.2;
+      vibGain=actx.createGain(); vibGain.gain.value=5.5; vibLFO.connect(vibGain); vibLFO.start();
       return true;
     }catch(e){ actx=null; return false; }
   }
@@ -330,11 +339,27 @@
     {s:32,n:81,d:1},{s:33,n:83,d:1},{s:34,n:85,d:2},{s:36,n:88,d:2},{s:38,n:85,d:2},{s:40,n:83,d:1},{s:41,n:81,d:1},{s:42,n:78,d:2},{s:44,n:76,d:4},
     {s:48,n:73,d:1},{s:49,n:76,d:1},{s:50,n:78,d:1},{s:51,n:81,d:1},{s:52,n:83,d:2},{s:54,n:81,d:2},{s:56,n:76,d:4},{s:60,n:69,d:4}
   ];
+  // Menü-Lead – NEON CHILL (C-Dur, träumerisch, viel Raum, lange Töne)
+  const LEADM1=[
+    {s:0,n:72,d:6},{s:6,n:76,d:6},{s:12,n:74,d:4},
+    {s:16,n:72,d:6},{s:22,n:69,d:6},{s:28,n:71,d:4},
+    {s:32,n:69,d:6},{s:38,n:72,d:6},{s:44,n:74,d:4},
+    {s:48,n:74,d:4},{s:52,n:71,d:4},{s:56,n:67,d:8}
+  ];
+  const LEADM2=[
+    {s:0,n:79,d:4},{s:4,n:76,d:4},{s:8,n:72,d:4},{s:12,n:74,d:4},
+    {s:16,n:76,d:4},{s:20,n:72,d:4},{s:24,n:69,d:4},{s:28,n:67,d:4},
+    {s:32,n:72,d:4},{s:36,n:76,d:4},{s:40,n:79,d:6},{s:46,n:77,d:2},
+    {s:48,n:76,d:6},{s:54,n:72,d:4},{s:58,n:71,d:6}
+  ];
   const SONGS=[
     {name:'PROLOG',     lead1:LEAD1,  lead2:LEAD2,  bass:[36,45,41,43], chords:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]], lt:'square',   leadVol:0.16, bassEighths:false, fourFloor:false, hatEvery:2},
     {name:'NACHTFAHRT', lead1:LEADB1, lead2:LEADB2, bass:[38,34,36,33], chords:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]], lt:'sawtooth', leadVol:0.11, bassEighths:true,  fourFloor:false, hatEvery:4},
     {name:'ÜBERTAKTET', lead1:LEADC1, lead2:LEADC2, bass:[45,40,42,38], chords:[[57,61,64],[52,56,59],[54,57,61],[50,54,57]], lt:'square',   leadVol:0.14, bassEighths:false, fourFloor:true,  hatEvery:1}
   ];
+  // Eigener, entspannter Menü-Track (rotiert NICHT mit den Level-Songs)
+  const MENU_SONG={name:'NEON CHILL', lead1:LEADM1, lead2:LEADM2, bass:[36,45,41,43],
+    chords:[[60,64,67,71],[57,60,64,67],[53,57,60,64],[55,59,62,65]], lt:'triangle', leadVol:0.135, chill:true};
   let curSong=0;
   function mVoice(time,freq,dur,type,vol,atk=0.005){
     const o=actx.createOscillator(), g=actx.createGain();
@@ -342,6 +367,21 @@
     g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(vol,time+atk);
     g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
     o.connect(g); g.connect(musicGain); o.start(time); o.stop(time+dur+0.02);
+  }
+  // Fette Lead-Stimme: 2 leicht verstimmte Oszis (Chorus) + Sub-Oktave + Tiefpass-Sweep + Vibrato + Echo-Send
+  function mLead(time,freq,dur,type,vol,echo){
+    const g=actx.createGain();
+    g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(vol,time+0.014);
+    g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
+    const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=0.9;
+    lp.frequency.setValueAtTime(Math.min(9000,freq*5),time);
+    lp.frequency.linearRampToValueAtTime(Math.min(5200,freq*2.6),time+dur);
+    lp.connect(g); g.connect(musicGain);
+    if(echo&&musicDelay){ const s=actx.createGain(); s.gain.value=echo; g.connect(s); s.connect(musicDelay); }
+    for(const c of [-6,6]){ const o=actx.createOscillator(); o.type=type; o.frequency.setValueAtTime(freq,time); o.detune.setValueAtTime(c,time);
+      if(vibGain) vibGain.connect(o.detune); o.connect(lp); o.start(time); o.stop(time+dur+0.03); }
+    const sub=actx.createOscillator(); sub.type='triangle'; sub.frequency.setValueAtTime(freq/2,time);
+    const sg=actx.createGain(); sg.gain.value=0.32; sub.connect(sg); sg.connect(lp); sub.start(time); sub.stop(time+dur+0.03);
   }
   function mNoise(time,dur,vol,hp){
     const len=Math.max(1,Math.floor(actx.sampleRate*dur));
@@ -365,11 +405,18 @@
     o.connect(g); g.connect(masterGain); o.start(); o.stop(actx.currentTime+0.85);
   }catch(e){} }
   function scheduleStep(step,time){
-    const song=SONGS[curSong]||SONGS[0];
+    const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
     const lead=(loopCount%2===1)?song.lead2:song.lead1;
-    const lv=song.leadVol||0.16;
-    for(const e of lead) if(e.s===step) mVoice(time,midiF(e.n),e.d*secPerStep*0.92,song.lt,lv);
+    const lv=song.leadVol||0.16, echo=song.chill?0.72:0.45;
+    for(const e of lead) if(e.s===step) mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,lv,echo);
     const block=Math.floor(step/16), ls=step%16, root=song.bass[block];
+    if(song.chill){
+      if(ls===0||ls===8) mVoice(time,midiF(root),secPerStep*5,'triangle',0.20,0.012);                 // weicher, ruhiger Bass
+      if(ls===0){ for(const cn of song.chords[block]) mVoice(time,midiF(cn+12),secPerStep*15,'sine',0.03,0.06); } // sanfter Pad-Akkord
+      if(ls===0||ls===8) mKick(time);                                                                  // entspannter Puls
+      if(ls%4===2) mNoise(time,0.02,0.018,9000);                                                       // dezenter Shaker
+      return;
+    }
     if(song.bassEighths){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',0.27,0.004); } // treibender Achtel-Bass
     else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',0.30,0.004); else if(ls%4===2) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.16); }
     if(step%2===0){ const ch=song.chords[block]; mVoice(time,midiF(ch[(step/2)%ch.length]+12),secPerStep*0.8,'square',0.06,0.002); }
@@ -1830,7 +1877,7 @@
     }
   });
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
-  setInterval(()=>{ if(state===S.MENU && musicOn){ curSong=(curSong+1)%SONGS.length; sfxRiser(); titleTag.textContent='♪ jetzt: '+SONGS[curSong].name; } },12000);
+  // (Menü spielt jetzt den eigenen Chill-Track NEON CHILL – keine Song-Rotation mehr im Menü)
 
   particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
