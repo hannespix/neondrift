@@ -22,7 +22,7 @@
       m_hard:'HARDCORE', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', treeHint:'Pfade wählst du beim Level-Up',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', resetAll:'♻ ALLES ZURÜCKSETZEN', reallyQ:'WIRKLICH? ✓ (tippen)',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -49,7 +49,7 @@
       m_hard:'HARDCORE', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', treeHint:'Paths are chosen on level-up',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', resetAll:'♻ RESET EVERYTHING', reallyQ:'SURE? ✓ (tap)',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -76,7 +76,7 @@
       m_hard:'HARDCORE', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', treeHint:'Les voies se choisissent au level-up',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', resetAll:'♻ TOUT RÉINITIALISER', reallyQ:'SÛR ? ✓ (touche)',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -486,6 +486,7 @@
     {id:'icebomb',pair:['frost','missile'],ico:'🧊'}
   ];
   let arsenal={slots:3,w:{}}, wpn={}, syn={};       // arsenal.w[id]={lvl,f1,f2}; wpn=aufgelöste Werte; syn=aktive Synergien
+  let skillPts=0, arsenalSkillMode=false;            // Skillpunkte (pro Upgrade) → klickbarer Baum im Run
   const ownedW=()=>Object.keys(arsenal.w);
   const ownedCount=()=>ownedW().length;
   const synActive=id=>!!syn[id];
@@ -528,7 +529,7 @@
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
           obSpeed:1,spawnMult:1,fog:0,invertX:false,
           gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2};
-    arsenal={slots:3,w:{}}; wpn={}; syn={};
+    arsenal={slots:3,w:{}}; wpn={}; syn={}; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
     obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[];
@@ -808,15 +809,19 @@
     banner={text:t('lvl')+' '+level,sub,t:2.6,color:'#19f0ff'}; sfxLevel(); vibe([20,25,20]);
     flash=0.4; flashColor='#19f0ff';
   }
-  // Alle gerade wählbaren Angebote: neue Waffe (nur bei freiem Slot), Skill-Gabelung, Passiv-Upgrade
+  // Passiv-Upgrade-Angebote für die Level-Up-Karten. Waffen/Skills laufen jetzt über den klickbaren Baum (Skillpunkte).
   function offerPool(){ const out=[];
-    if(opt.guns && ownedCount()<arsenal.slots){ for(const w of WEAPONS){ if(!arsenal.w[w.id]) out.push({kind:'new',wid:w.id}); } }
-    if(opt.guns){ for(const id of ownedW()){ const node=nextNode(id); if(node){ const opts=WID[id].forks[node==='f1'?0:1];
-      out.push({kind:'fork',wid:id,slot:node,path:opts[0]}); out.push({kind:'fork',wid:id,slot:node,path:opts[1]}); } } }
     for(const u of UPGRADES){ if(u.curse||u.pickup) continue; if((upgradeCounts[u.id]||0)>=u.max) continue;
       if(u.wpass && (!opt.guns||ownedCount()===0)) continue; out.push({kind:'pass',u}); }
     return out; }
-  function openUpgrade(armed){ state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
+  // Gibt es überhaupt einen freischaltbaren Knoten/eine holbare Waffe? (unabhängig von Punkten)
+  function skillSpendable(){ if(!opt.guns) return false;
+    for(const id of ownedW()){ if(nextNode(id)) return true; }
+    return ownedCount()<arsenal.slots && WEAPONS.some(w=>!arsenal.w[w.id]); }
+  // Hat man einen Punkt UND etwas zum Ausgeben?
+  function hasSkillSpend(){ return skillPts>0 && skillSpendable(); }
+  function openUpgrade(armed){ if(skillSpendable()) skillPts++;   // jede Upgrade-Stufe = 1 Skillpunkt für den Baum (nur wenn ausgebbar)
+    state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
     if(utitleEl) utitleEl.textContent=armed?t('arsenal'):t('chooseUp');
     upgradeSub.textContent=armed?(t('armUp')+level):(t('level')+' '+level+' · '+t('points')+' '+Math.round(score));
@@ -837,8 +842,10 @@
     });
     document.getElementById('upgrade').classList.remove('hidden');
   }
-  function closeUpgrade(){ document.getElementById('upgrade').classList.add('hidden'); state=S.PLAY; invuln=Math.max(invuln,1.0);
-    upStep=Math.round(upStep*1.6); nextUpgradeAt=score+upStep; lastT=performance.now(); }
+  function closeUpgrade(){ document.getElementById('upgrade').classList.add('hidden');
+    upStep=Math.round(upStep*1.6); nextUpgradeAt=score+upStep;
+    if(hasSkillSpend()){ openSkillScreen(); return; }     // weiter zum klickbaren Skill-Baum
+    state=S.PLAY; invuln=Math.max(invuln,1.0); lastT=performance.now(); }
   function chooseOffer(o){ const before=Object.assign({},syn); let label='';
     if(o.kind==='new'){ arsenal.w[o.wid]={lvl:1,f1:null,f2:null}; label=wName(o.wid); }
     else if(o.kind==='fork'){ const a=arsenal.w[o.wid]; a[o.slot]=o.path; a.lvl++; label=wName(o.wid)+' · '+pName(o.path); }
@@ -908,9 +915,8 @@
       if(!bossActive){
         if(bossPending){ bossPending=false; startBoss(); }       // nach Arsenal-Pick: Boss starten
         else { bossTimer-=dt; if(bossTimer<=0){
-          // Kurz vor dem Boss: Arsenal anbieten (nur wenn Waffen-Karten verfügbar)
-          const armUp=opt.guns&&offerPool().some(o=>o.kind!=='pass');
-          if(armUp){ bossPending=true; openUpgrade(true); return; } else startBoss();
+          // Kurz vor dem Boss: Upgrade-Karte + Skillpunkt anbieten
+          if(opt.guns||offerPool().length){ bossPending=true; openUpgrade(true); return; } else startBoss();
         } }
       }
       else if(boss){ updateMegaBoss(dt,ts); }
@@ -1556,17 +1562,34 @@
       card.addEventListener('click',()=>toggleLoadout(w.id)); wrap.appendChild(card); });
   }
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
-  function openArsenalView(){ if(state!==S.PAUSE) return; renderArsenalView(); document.getElementById('arsenalView').classList.remove('hidden'); sfxUpgrade(); }
-  function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden'); }
+  function openArsenalView(){ if(state!==S.PAUSE) return; arsenalSkillMode=false; renderArsenalView(); document.getElementById('arsenalView').classList.remove('hidden'); sfxUpgrade(); }
+  // Skill-Screen: friert das Spiel ein, zeigt den klickbaren Baum zum Ausgeben der Skillpunkte
+  function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; renderArsenalView(); document.getElementById('arsenalView').classList.remove('hidden'); sfxUpgrade(); }
+  function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden');
+    if(arsenalSkillMode){ arsenalSkillMode=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
   function dropWeapon(id){ delete arsenal.w[id]; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); renderArsenalView(); }
+  function synBanner(before){ for(const s of SYNERGIES){ if(syn[s.id]&&!before[s.id]){
+    banner={text:s.ico+' '+synName(s.id)+' · '+t('synUnlocked'),sub:synDesc(s.id),t:2.8,color:'#ff2e88'};
+    if(player) floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,(flash||0)+0.3); flashColor='#ff2e88'; } } }
+  function afterSpend(){ if(arsenalSkillMode && !hasSkillSpend()) closeArsenalView(); else renderArsenalView(); }
+  function spendFork(id,slot,path){ if(skillPts<=0) return; const a=arsenal.w[id]; if(!a||a[slot]) return; const before=Object.assign({},syn);
+    a[slot]=path; a.lvl++; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
+    banner={text:(wName(id)+' · '+pName(path)).toUpperCase(),sub:t('activated'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
+  function addWeaponSkill(id){ if(skillPts<=0||arsenal.w[id]||ownedCount()>=arsenal.slots) return; const before=Object.assign({},syn);
+    arsenal.w[id]={lvl:1,f1:null,f2:null}; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
+    banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
   function nodeState(a,slot,path){ const sel=a[slot];
     if(sel===path) return 'chosen';
     if(sel) return 'dim';                       // in diesem Fork wurde schon der andere Pfad gewählt
     return (slot==='f1'||a.f1) ? 'avail' : 'locked'; }
-  function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(a,slot,path);
-    return `<div class="tnode ${st}" title="${pDesc(path)}"><span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span></div>`; }
-  function renderArsenalView(){ const sub=document.getElementById('arsenalViewSub'); if(sub) sub.textContent=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots+' · '+t('treeHint');
+  function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(a,slot,path), can=(st==='avail'&&skillPts>0&&opt.guns);
+    return `<div class="tnode ${st}${can?' pick':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${pDesc(path)}"><span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${can?'<span class="pickhint">+</span>':''}</div>`; }
+  function renderArsenalView(){ const sub=document.getElementById('arsenalViewSub');
+    if(sub){ let s=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots;
+      if(skillPts>0&&opt.guns) s+=' · 💠 '+skillPts+' '+t('skillPts');
+      sub.textContent=s+' · '+((skillPts>0&&opt.guns)?t('skillHint'):t('treeHint')); }
+    const bb=document.getElementById('arsenalBackBtn'); if(bb) bb.textContent=arsenalSkillMode?t('skillNext'):t('back');
     const wrap=document.getElementById('arsenalCards'); if(!wrap) return; wrap.innerHTML='';
     ownedW().forEach(id=>{ const a=arsenal.w[id], w=WID[id], f1=w.forks[0], f2=w.forks[1];
       const card=document.createElement('div'); card.className='wtree';
@@ -1577,19 +1600,29 @@
         `<div class="trow">${treeNode(id,'f1',f1[0])}${treeNode(id,'f1',f1[1])}</div>`+
         `<div class="tconn"></div>`+
         `<div class="trow">${treeNode(id,'f2',f2[0])}${treeNode(id,'f2',f2[1])}</div>`;
-      card.querySelector('button.drop').addEventListener('click',e=>{ e.stopPropagation(); dropWeapon(id); }); wrap.appendChild(card); });
-    for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); }
+      card.querySelector('button.drop').addEventListener('click',e=>{ e.stopPropagation(); dropWeapon(id); });
+      card.querySelectorAll('.tnode.pick').forEach(n=>n.addEventListener('click',()=>spendFork(n.dataset.wid,n.dataset.slot,n.dataset.path)));
+      wrap.appendChild(card); });
+    const free=arsenal.slots-ownedCount(), notOwned=WEAPONS.filter(w=>!arsenal.w[w.id]);
+    if(skillPts>0&&opt.guns&&free>0&&notOwned.length){ notOwned.forEach(w=>{ const card=document.createElement('div'); card.className='wtree addable';
+        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b></div>`+
+          `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
+          `<p class="adddesc">${wDesc(w.id)}</p>`+
+          `<button class="cost addw">➕ ${t('addWeapon')}</button>`;
+        card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
+    else { for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     const sd=document.getElementById('arsenalSyn'); if(sd){ const act=SYNERGIES.filter(s=>syn[s.id]);
       const legend=`<div class="tlegend"><span class="lc chosen"></span>${t('legChosen')}<span class="lc avail"></span>${t('legAvail')}<span class="lc locked"></span>${t('legLocked')}</div>`;
       sd.innerHTML=legend+'<h4>'+t('synTitle')+'</h4>'+(act.length?act.map(s=>`<div class="synrow">${s.ico} <b>${synName(s.id)}</b> — ${synDesc(s.id)}</div>`).join(''):('<div class="synrow dim">'+t('noSyn')+'</div>')); }
   }
   // In-Run HUD: Waffenleiste mit Level-Pips + Synergie-Badges
-  function drawArsenalHud(){ const ids=ownedW(); if(!ids.length) return;
+  function drawArsenalHud(){ const ids=ownedW();
     const y=H-24; let x=14; ctx.textAlign='left'; ctx.textBaseline='middle';
     for(const id of ids){ ctx.font='17px Space Mono, monospace'; ctx.shadowBlur=8; ctx.shadowColor=WID[id].col; ctx.fillStyle='#fff'; ctx.fillText(WID[id].ico,x,y);
       ctx.shadowBlur=0; const lv=arsenal.w[id].lvl; for(let i=0;i<3;i++){ ctx.fillStyle=i<lv?WID[id].col:'rgba(255,255,255,0.16)'; ctx.fillRect(x+1+i*6,y+12,4,3); }
       x+=30; }
     const act=SYNERGIES.filter(s=>syn[s.id]); if(act.length){ x+=4; ctx.font='14px Space Mono, monospace'; for(const s of act){ ctx.shadowBlur=9; ctx.shadowColor='#ff2e88'; ctx.fillStyle='#ff7ab8'; ctx.fillText(s.ico,x,y-1); x+=20; } }
+    if(skillPts>0&&opt.guns){ x+=6; ctx.font='700 13px Orbitron, sans-serif'; ctx.shadowBlur=10+(Math.sin((elapsed||0)*5)+1)*4; ctx.shadowColor='#19f0ff'; ctx.fillStyle='#19f0ff'; ctx.fillText('💠'+skillPts,x,y-1); }
     ctx.shadowBlur=0; }
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
@@ -1644,7 +1677,9 @@
   function applyI18n(){ try{ document.documentElement.lang=lang;
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
-    set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🛒 '+t('workshop')); set('settingsBtn',t('settings'));
+    const setIco=(id,ico,lbl)=>{ const e=document.getElementById(id); if(e){ e.textContent=ico; e.title=lbl; } };
+    set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🛒 '+t('workshop'));
+    setIco('achBtn','🏅',t('achBtn')); setIco('skinBtn','🎨',t('skinBtn')); setIco('settingsBtn','⚙️',t('settings'));
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
     document.querySelectorAll('.mode').forEach(c=>{ const m=c.dataset.mode==='hardcore'?'hard':c.dataset.mode;
       const h=c.querySelector('h3'),p=c.querySelector('p'); if(h)h.textContent=t('m_'+m); if(p)p.textContent=t('m_'+m+'D'); });
@@ -1654,8 +1689,8 @@
     setSel('#upgrade .utitle',t('chooseUp'));
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back')); set('shopResetBtn',t('resetAll'));
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
-    set('achBtn',t('achBtn')); setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
-    set('skinBtn',t('skinBtn')); setSel('#skins .utitle',t('skinTitle')); set('skinBalLbl',t('balance')); set('skinBackBtn',t('back'));
+    setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
+    setSel('#skins .utitle',t('skinTitle')); set('skinBalLbl',t('balance')); set('skinBackBtn',t('back'));
     setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     if(typeof renderSettings==='function') renderSettings();
