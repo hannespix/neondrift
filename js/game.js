@@ -456,8 +456,17 @@
       else if(o.pattern==='pendulum'){ o.cy+=o.vy*dt*ts; o.ang+=o.angVel*dt*ts; o.cx=o.baseX+o.swing*Math.sin(o.ang); }
 
       const hw=o.w/2,hh=o.h/2;
-      const nx=Math.max(o.cx-hw,Math.min(player.x,o.cx+hw)), ny=Math.max(o.cy-hh,Math.min(player.y,o.cy+hh));
-      const dx=player.x-nx, dy=player.y-ny, d2=dx*dx+dy*dy;
+      // Rotations- & formgenaue Hitbox (fairer als die alte AABB für alle Formen)
+      let lx=player.x-o.cx, ly=player.y-o.cy;
+      if(o.rot){ const c=Math.cos(o.rot), s=Math.sin(o.rot), rx=lx*c+ly*s; ly=-lx*s+ly*c; lx=rx; }
+      let d2;
+      if(o.shape==='rect'||o.shape==='long'||o.shape==='capsule'){
+        const qx=Math.max(-hw,Math.min(lx,hw)), qy=Math.max(-hh,Math.min(ly,hh)), ex=lx-qx, ey=ly-qy; d2=ex*ex+ey*ey;
+      } else if(o.shape==='ring'){
+        const R=o.w*0.4, t=o.w*0.13, dd=Math.max(0,Math.abs(Math.hypot(lx,ly)-R)-t); d2=dd*dd; // Loch in der Mitte ist sicher
+      } else { // diamond/tri/hex/star → eng anliegender effektiver Radius statt Eck-Leerraum
+        const er=o.w*({diamond:0.44,tri:0.44,hex:0.46,star:0.46}[o.shape]||0.45), dd=Math.max(0,Math.hypot(lx,ly)-er); d2=dd*dd;
+      }
       if(invuln<=0 && d2<player.r*player.r){ spawnParticles(player.x,player.y,o.color,10,180); obstacles.splice(i,1); if(hitPlayer(o.color)) return; continue; }
       const nr=player.r+mods.nearRadius;
       if(!o.near && invuln<=0 && d2<nr*nr && d2>player.r*player.r){ o.near=true; doNear(o); }
