@@ -22,6 +22,7 @@
       m_hard:'HARDCORE', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', resetAll:'♻ ALLES ZURÜCKSETZEN', reallyQ:'WIRKLICH? ✓ (tippen)',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -48,6 +49,7 @@
       m_hard:'HARDCORE', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', resetAll:'♻ RESET EVERYTHING', reallyQ:'SURE? ✓ (tap)',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -74,6 +76,7 @@
       m_hard:'HARDCORE', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', resetAll:'♻ TOUT RÉINITIALISER', reallyQ:'SÛR ? ✓ (touche)',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -95,14 +98,36 @@
   };
   // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
   const UPTR={
-    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Ups +50% öfter'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele']},
-    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-ups +50% more often'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets']},
-    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Power-ups +50% plus souvent'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles']}
+    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Ups +50% öfter'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+18% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 12% schneller']},
+    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-ups +50% more often'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+18% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 12% faster']},
+    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Power-ups +50% plus souvent'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+18% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 12% plus vite']}
   };
+  // Waffen (Basis), Skill-Pfade & Synergien – [Name, Beschreibung]
+  const WTR={
+    de:{blaster:['Blaster','Auto-Bolzen nach oben'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Zappt das nächste Ziel · Kette']},
+    en:{blaster:['Blaster','Auto-bolts upward'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn)'],frost:['Frost Shot','Freezes & slows'],chain:['Chain Lightning','Zaps nearest target · chains']},
+    fr:{blaster:['Blaster','Tirs auto vers le haut'],missile:['Missiles Guidés','À tête chercheuse · explosion'],flame:['Tirs Incendiaires','Enflamme (brûlure)'],frost:['Tir de Givre','Gèle et ralentit'],chain:['Éclair en Chaîne','Frappe la cible la plus proche · chaîne']}
+  };
+  const PTR={
+    de:{rapid:['Schnellfeuer','+50% Feuerrate, etwas weniger Schaden'],heavy:['Wuchtschuss','Langsamer, aber doppelter Schaden'],scatter:['Streuschuss','+2 Bolzen (Fächer), je schwächer'],precise:['Präzision','+2 Durchschlag, +40% Schaden'],swarm:['Schwarm','2 kleinere Raketen'],warhead:['Sprengkopf','1 große Rakete, +50% Radius'],shrapnel:['Splittergranate','Explosion schleudert Splitter'],incendiary:['Brandsatz','Explosion entzündet Ziele'],ember:['Glut','Fast doppelter Brennschaden'],wildfire:['Flächenbrand','Feuer springt beim Tod über'],accel:['Brandbeschleuniger','Brennt schneller (kürzer, härter)'],consume:['Verzehr','Brand-Kills geben Bonuspunkte'],permafrost:['Permafrost','Längere & stärkere Verlangsamung'],glaciate:['Vereisung','Chance, Ziele komplett einzufrieren'],shatter:['Splitterbruch','Gefrorene Ziele zerspringen (AoE)'],brittle:['Spröde','Gefrorene Ziele nehmen +50% Schaden'],fork:['Überschlag','+2 Sprünge, weniger Schaden je Sprung'],highv:['Hochspannung','Weniger Sprünge, viel Schaden + Stun'],stormhit:['Gewitter','Kette auch bei Bolzen-Kills'],dischargeaoe:['Entladung','Jeder Kettentreffer mit kleinem AoE']},
+    en:{rapid:['Rapid Fire','+50% fire rate, a bit less damage'],heavy:['Heavy Shot','Slower, but double damage'],scatter:['Scatter','+2 bolts (fan), each weaker'],precise:['Precision','+2 pierce, +40% damage'],swarm:['Swarm','2 smaller missiles'],warhead:['Warhead','1 big missile, +50% radius'],shrapnel:['Shrapnel','Explosion flings shards'],incendiary:['Incendiary','Explosion ignites targets'],ember:['Ember','Almost double burn damage'],wildfire:['Wildfire','Fire spreads on death'],accel:['Accelerant','Burns faster (shorter, harder)'],consume:['Consume','Burn-kills grant bonus points'],permafrost:['Permafrost','Longer & stronger slow'],glaciate:['Glaciate','Chance to fully freeze targets'],shatter:['Shatter','Frozen targets burst (AoE)'],brittle:['Brittle','Frozen targets take +50% damage'],fork:['Forking','+2 jumps, less damage each'],highv:['High Voltage','Fewer jumps, big damage + stun'],stormhit:['Storm','Chains also on bolt-kills'],dischargeaoe:['Discharge','Each chain hit with small AoE']},
+    fr:{rapid:['Tir Rapide','+50% cadence, un peu moins de dégâts'],heavy:['Tir Lourd','Plus lent, mais double dégâts'],scatter:['Dispersion','+2 projectiles (éventail), plus faibles'],precise:['Précision','+2 perforation, +40% dégâts'],swarm:['Essaim','2 missiles plus petits'],warhead:['Ogive','1 gros missile, +50% rayon'],shrapnel:['Éclats','L’explosion projette des éclats'],incendiary:['Incendiaire','L’explosion enflamme les cibles'],ember:['Braise','Brûlure presque doublée'],wildfire:['Embrasement','Le feu se propage à la mort'],accel:['Accélérant','Brûle plus vite (court, fort)'],consume:['Consumer','Les kills par feu donnent des points'],permafrost:['Permafrost','Ralenti plus long & plus fort'],glaciate:['Glaciation','Chance de geler totalement'],shatter:['Éclatement','Les cibles gelées éclatent (AoE)'],brittle:['Fragile','Les cibles gelées subissent +50%'],fork:['Ramification','+2 sauts, moins de dégâts'],highv:['Haute Tension','Moins de sauts, gros dégâts + stun'],stormhit:['Orage','Chaîne aussi sur les kills de tir'],dischargeaoe:['Décharge','Chaque saut avec petit AoE']}
+  };
+  const SYNTR={
+    de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +1 Sprung & +50% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 5. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele']},
+    en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +1 jump & +50% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 5th blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets']},
+    fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +1 saut & +50% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 5e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent']}
+  };
+  const wName=id=>((WTR[lang]&&WTR[lang][id])||WTR.en[id]||[id])[0];
+  const wDesc=id=>(((WTR[lang]&&WTR[lang][id])||WTR.en[id]||['',''])[1])||'';
+  const pName=id=>((PTR[lang]&&PTR[lang][id])||PTR.en[id]||[id])[0];
+  const pDesc=id=>(((PTR[lang]&&PTR[lang][id])||PTR.en[id]||['',''])[1])||'';
+  const synName=id=>((SYNTR[lang]&&SYNTR[lang][id])||SYNTR.en[id]||[id])[0];
+  const synDesc=id=>(((SYNTR[lang]&&SYNTR[lang][id])||SYNTR.en[id]||['',''])[1])||'';
   const METATR={
-    de:{blasterStart:['Vorrüstung','Start mit Blaster · +Feuerrate je Stufe'],multiStart:['Doppel-Start','Start mit +1 Bolzen je Stufe'],missileStart:['Raketen-Start','Start mit Lenkraketen'],flameStart:['Brand-Start','Start mit Brandbolzen'],frostStart:['Frost-Start','Start mit Frostschuss'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Ups +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
-    en:{blasterStart:['Pre-Armed','Start with blaster · +fire rate per lvl'],multiStart:['Twin Start','Start with +1 bolt per lvl'],missileStart:['Missile Start','Start with homing missiles'],flameStart:['Flame Start','Start with flame bolts'],frostStart:['Frost Start','Start with frost shot'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-ups +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
-    fr:{blasterStart:['Pré-Armé','Démarre avec blaster · +cadence/niv'],multiStart:['Double Départ','Démarre avec +1 projectile/niv'],missileStart:['Départ Missiles','Démarre avec missiles guidés'],flameStart:['Départ Feu','Démarre avec tirs incendiaires'],frostStart:['Départ Givre','Démarre avec tir de givre'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Power-ups +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
+    de:{slot:['Modul-Slot','+1 Waffen-Slot (max 5)'],bp_missile:['Bauplan: Raketen','Schaltet Lenkraketen fürs Loadout frei'],bp_flame:['Bauplan: Brand','Schaltet Brandbolzen fürs Loadout frei'],bp_frost:['Bauplan: Frost','Schaltet Frostschuss fürs Loadout frei'],bp_chain:['Bauplan: Kette','Schaltet Kettenblitz fürs Loadout frei'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Ups +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
+    en:{slot:['Module Slot','+1 weapon slot (max 5)'],bp_missile:['Blueprint: Missiles','Unlocks homing missiles for loadout'],bp_flame:['Blueprint: Flame','Unlocks flame bolts for loadout'],bp_frost:['Blueprint: Frost','Unlocks frost shot for loadout'],bp_chain:['Blueprint: Chain','Unlocks chain lightning for loadout'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-ups +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
+    fr:{slot:['Slot de Module','+1 slot d’arme (max 5)'],bp_missile:['Plan: Missiles','Débloque les missiles pour le loadout'],bp_flame:['Plan: Feu','Débloque les tirs incendiaires'],bp_frost:['Plan: Givre','Débloque le tir de givre'],bp_chain:['Plan: Chaîne','Débloque l’éclair en chaîne'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Power-ups +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
   };
   const uName=id=>((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||[id])[0];
   const uDesc=id=>(((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||['',''])[1])||'';
@@ -115,24 +140,24 @@
   const modeLabel=m=>t('m_'+(m==='hardcore'?'hard':m));
 
   let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems;
-  let fireT=0, missileT=0, bossPending=false, boss=null, ebullets=[], gemT=0;
+  let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0;
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std'}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std'}; }
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',loadout:Array.isArray(r.loadout)?r.loadout:['blaster']}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',loadout:['blaster']}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
   // Werkstatt-Upgrades: Kosten = Basis × Stufe^1.8 (zwischen linear & exponentiell) & immer krasser
   const META=[
-    {id:'blasterStart',ico:'🔫',name:'Vorrüstung',  base:140,max:3},
-    {id:'multiStart',  ico:'⚡',name:'Doppel-Start', base:480,max:2},
-    {id:'missileStart',ico:'🚀',name:'Raketen-Start',base:520,max:1},
-    {id:'flameStart',  ico:'🔥',name:'Brand-Start',  base:300,max:1},
-    {id:'frostStart',  ico:'❄️',name:'Frost-Start',  base:300,max:1},
+    {id:'slot',        ico:'🧩',name:'Modul-Slot',   base:600,max:2},
+    {id:'bp_missile',  ico:'🚀',name:'Bauplan: Raketen',base:260,max:1},
+    {id:'bp_flame',    ico:'🔥',name:'Bauplan: Brand',base:220,max:1},
+    {id:'bp_frost',    ico:'❄️',name:'Bauplan: Frost',base:220,max:1},
+    {id:'bp_chain',    ico:'⛓️',name:'Bauplan: Kette',base:300,max:1},
     {id:'shield',      ico:'🛡️',name:'Startschild',  base:110,max:3},
     {id:'tough',       ico:'💗',name:'Zähigkeit',    base:420,max:2},
     {id:'solid',       ico:'🔻',name:'Solide Hülle', base:80, max:4},
@@ -146,18 +171,20 @@
   function chipMult(){ return 1+0.12*metaLvl('rich'); }
   // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
   function dailyShopCheck(){ if(opt.dailyShop && meta.shopDate!==dailyLabel()){ meta.chips=0; meta.lvl={}; meta.shopDate=dailyLabel(); saveMeta(); } }
+  const weaponUnlocked=id=> id==='blaster' || metaLvl('bp_'+id)>0;
   function applyMeta(){
-    const bs=metaLvl('blasterStart'); if(bs){ mods.gun=1; mods.fireRate=Math.max(mods.fireRate,2.6+bs*0.9); }
-    const ms=metaLvl('multiStart'); if(ms){ mods.gun=1; if(!mods.fireRate)mods.fireRate=2.6; mods.multishot+=ms; mods.spread+=0.03*ms; }
-    const mi=metaLvl('missileStart'); if(mi){ ensureGun(); mods.missile+=mi; }
-    const fl=metaLvl('flameStart');   if(fl){ ensureGun(); mods.burn+=fl; }
-    const frs=metaLvl('frostStart');  if(frs){ ensureGun(); mods.frost+=frs; }
+    arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
+    // Pre-Run-Loadout: vorab gewählte Startwaffen (nur freigeschaltete Baupläne), auf Slots begrenzt
+    arsenal.w={};
+    if(opt.guns){ let lo=(meta.loadout&&meta.loadout.length)?meta.loadout.slice():['blaster'];
+      for(const id of lo){ if(WID[id]&&weaponUnlocked(id)&&!arsenal.w[id]&&ownedCount()<arsenal.slots) arsenal.w[id]={lvl:1,f1:null,f2:null}; } }
     const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
     const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
     const re=metaLvl('reach'); if(re) mods.nearRadius*=(1+0.09*re);
     const scn=metaLvl('score'); if(scn) mods.scoreMult*=(1+0.15*scn);
     const lu=metaLvl('luck'); if(lu) mods.powerupRate*=(1+0.10*lu);
+    recalcArsenal();
   }
   // ---------- Erfolge / Achievements ----------
   const ACH=[
@@ -430,23 +457,67 @@
     {id:'blind',ico:'🌫️',name:'Drip aber blind',desc:'Sicht eingeschränkt, dafür +90% Punkte',max:1,curse:true,apply:()=>{mods.fog=Math.min(0.82,mods.fog+0.55);mods.scoreMult*=1.9;}},
     {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
     {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Links/rechts vertauscht 💀, dafür +55% Punkte',max:1,curse:true,apply:()=>{mods.invertX=!mods.invertX;mods.scoreMult*=1.55;}},
-    // ---- Arsenal (Schuss-Upgrades, cyan) ----
-    {id:'blaster',ico:'🔫',name:'Blaster',desc:'Auto-Feuer nach oben · +Feuerrate',max:4,weapon:true,apply:()=>{ if(!mods.gun){mods.gun=1;mods.fireRate=3.0;} else mods.fireRate=Math.min(6.6,mods.fireRate+0.85); }},
-    {id:'twin',ico:'⚡',name:'Doppellauf',desc:'+1 Bolzen (Fächer) · Einzelbolzen schwächer',max:3,weapon:true,apply:()=>{ ensureGun(); mods.multishot+=1; mods.spread+=0.05; }},
-    {id:'power',ico:'💥',name:'Schadenskern',desc:'+1 Schaden pro Bolzen',max:3,weapon:true,apply:()=>{ ensureGun(); mods.bulletDmg+=1; }},
-    {id:'pierce',ico:'🎯',name:'Durchschlag',desc:'Bolzen durchschlägt +1 Ziel',max:2,weapon:true,apply:()=>{ ensureGun(); mods.pierce+=1; }},
-    {id:'missile',ico:'🚀',name:'Lenkraketen',desc:'Zielsuchende Rakete · Explosion mit AoE-Schaden',max:3,weapon:true,apply:()=>{ ensureGun(); mods.missile+=1; }},
-    {id:'flame',ico:'🔥',name:'Brandbolzen',desc:'Treffer setzt Ziele in Flammen (Brennschaden)',max:3,weapon:true,apply:()=>{ ensureGun(); mods.burn+=1; }},
-    {id:'frost',ico:'❄️',name:'Frostschuss',desc:'Treffer vereist & verlangsamt Ziele',max:2,weapon:true,apply:()=>{ ensureGun(); mods.frost+=1; }},
-    {id:'chain',ico:'⛓️',name:'Kettenblitz',desc:'Kill springt als Blitz auf nahe Ziele über',max:2,weapon:true,apply:()=>{ ensureGun(); mods.chain+=1; }}
+    // ---- Globale Waffen-Passive (KEIN Slot, gelten für alle Waffen, multiplikativ = abnehmender Ertrag) ----
+    {id:'amp',  ico:'💥',name:'Verstärker',desc:'+18% Schaden für ALLE Waffen',max:5,wpass:true,apply:()=>{ mods.wDmgMult*=1.18; }},
+    {id:'tempo',ico:'⏩',name:'Taktung',   desc:'ALLE Waffen feuern 12% schneller',max:4,wpass:true,apply:()=>{ mods.wRate*=1.12; }}
   ];
-  function ensureGun(){ if(!mods.gun){ mods.gun=1; mods.fireRate=Math.max(mods.fireRate,2.6); } }
-  function boltDmg(){ return (mods.bulletDmg||1)*Math.pow(0.85,(mods.multishot||1)-1); } // mehr Bolzen → je Bolzen schwächer
+  // ---- ARSENAL: 5 eigenständige Auto-Feuer-Waffen, je mit 2 Skill-Gabelungen (D2-light) ----
+  // Jede Waffe belegt 1 Slot. Pfad-Wahl = Sidegrade (gleich stark, anderer Stil).
+  const WEAPONS=[
+    {id:'blaster',ico:'🔫',col:'#caffff',forks:[['rapid','heavy'],['scatter','precise']]},
+    {id:'missile',ico:'🚀',col:'#ff9a2e',forks:[['swarm','warhead'],['shrapnel','incendiary']]},
+    {id:'flame',  ico:'🔥',col:'#ffae4d',forks:[['ember','wildfire'],['accel','consume']]},
+    {id:'frost',  ico:'❄️',col:'#8fe8ff',forks:[['permafrost','glaciate'],['shatter','brittle']]},
+    {id:'chain',  ico:'⛓️',col:'#9be7ff',forks:[['fork','highv'],['stormhit','dischargeaoe']]}
+  ];
+  const WID=Object.fromEntries(WEAPONS.map(w=>[w.id,w]));
+  // Synergien (auto, wenn beide Waffen besessen). [id, [weaponA, weaponB], ico]
+  const SYNERGIES=[
+    {id:'thermo', pair:['flame','frost'],  ico:'🌋'},
+    {id:'super',  pair:['frost','chain'],  ico:'🔱'},
+    {id:'napalm', pair:['missile','flame'],ico:'🧨'},
+    {id:'tesla',  pair:['blaster','chain'],ico:'🌩️'},
+    {id:'icebomb',pair:['frost','missile'],ico:'🧊'}
+  ];
+  let arsenal={slots:3,w:{}}, wpn={}, syn={};       // arsenal.w[id]={lvl,f1,f2}; wpn=aufgelöste Werte; syn=aktive Synergien
+  const ownedW=()=>Object.keys(arsenal.w);
+  const ownedCount=()=>ownedW().length;
+  const synActive=id=>!!syn[id];
+  // arsenal.w → aufgelöste Feuerwerte (wpn) + Synergie-Flags (syn). Nach jedem Pick/Drop & bei reset() aufrufen.
+  function recalcArsenal(){
+    const dm=mods.wDmgMult||1, rm=mods.wRate||1, has=id=>!!arsenal.w[id]; wpn={}; syn={};
+    if(has('blaster')){ const a=arsenal.w.blaster; let rate=3.2,dmg=1,bolts=1,spread=0.13,pierce=0;
+      if(a.f1==='rapid'){rate*=1.5;dmg*=0.8;} if(a.f1==='heavy'){rate*=0.7;dmg*=2.0;}
+      if(a.f2==='scatter'){bolts+=2;spread+=0.06;dmg*=0.78;} if(a.f2==='precise'){pierce+=2;dmg*=1.4;}
+      wpn.blaster={rate:rate*rm,dmg:dmg*dm,bolts,spread,pierce}; }
+    if(has('missile')){ const a=arsenal.w.missile; let rate=0.55,dmg=3,aoe=70,count=1;
+      if(a.f1==='swarm'){count=2;dmg*=0.62;aoe*=0.78;} if(a.f1==='warhead'){dmg*=1.55;aoe*=1.5;rate*=0.8;}
+      wpn.missile={rate:rate*rm,dmg:dmg*dm,aoe,count,shrapnel:a.f2==='shrapnel',incendiary:a.f2==='incendiary'}; }
+    if(has('flame')){ const a=arsenal.w.flame; let rate=2.2,dmg=0.4,dot=1.1,dur=2.0;
+      if(a.f1==='ember'){dot*=1.9;} let spread=a.f1==='wildfire';
+      if(a.f2==='accel'){dot*=1.5;dur*=0.6;}
+      wpn.flame={rate:rate*rm,dmg:dmg*dm,dot:dot*dm,dur,spread,consume:a.f2==='consume'}; }
+    mods.brittle=false; mods.shatter=false;
+    if(has('frost')){ const a=arsenal.w.frost; let rate=1.9,dmg=0.5,slowDur=1.4,slowAmt=0.5;
+      if(a.f1==='permafrost'){slowDur*=1.9;slowAmt=0.32;} let freeze=a.f1==='glaciate';
+      wpn.frost={rate:rate*rm,dmg:dmg*dm,slowDur,slowAmt,freeze,shatter:a.f2==='shatter',brittle:a.f2==='brittle'};
+      mods.brittle=a.f2==='brittle'; mods.shatter=a.f2==='shatter'; }   // SPRÖDE / SPLITTERBRUCH gelten global an gefrorenen Zielen
+    if(has('chain')){ const a=arsenal.w.chain; let rate=1.1,dmg=1.4,jumps=3,stun=0;
+      if(a.f1==='fork'){jumps+=2;dmg*=0.7;} if(a.f1==='highv'){jumps=Math.max(1,jumps-1);dmg*=1.9;stun=0.4;}
+      wpn.chain={rate:rate*rm,dmg:dmg*dm,jumps,stun,onHit:a.f2==='stormhit',aoe:a.f2==='dischargeaoe'}; }
+    for(const s of SYNERGIES) syn[s.id]=has(s.pair[0])&&has(s.pair[1]);
+    if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
+    mods.gun=has('blaster')?1:0;
+  }
+  // Waffen-Level/Fork-Logik: lvl1=Basis, lvl2=Gabelung1 gewählt, lvl3=Gabelung2 gewählt
+  function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new'; if(!a.f1) return 'f1'; if(!a.f2) return 'f2'; return null; }
+  function weaponMaxed(id){ return nextNode(id)===null; }
 
   function reset(){
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
           obSpeed:1,spawnMult:1,fog:0,invertX:false,
-          gun:0,fireRate:0,bulletDmg:1,pierce:0,multishot:1,spread:0.12,burn:0,frost:0,missile:0,chain:0};
+          gun:0,wDmgMult:1,wRate:1};
+    arsenal={slots:3,w:{}}; wpn={}; syn={};
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
     obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[];
@@ -459,7 +530,7 @@
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
-    director=0.5; overdrive=false; fireT=0; missileT=rand(0.6,1.2); bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
+    director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
     runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
@@ -469,15 +540,29 @@
   function setBest(v){ if(daily) best.daily=v; else best[mode]=v; }
   function refillCombo(){ comboTimeMax=Math.max(1.7,(mode==='zen'?4.4:3.4)-multiplier*0.12); comboTime=comboTimeMax; }
   // ---------- Adaptives Balancing: Spielerstärke -> härtere Gegner ----------
-  function gunDps(){ return mods.gun? mods.fireRate*mods.bulletDmg : 0; }          // Single-Stream-DPS
-  function bossDps(){ return gunDps()*(1+(mods.multishot-1)*0.4); }               // effektiv gegen Einzelziel
+  // Gesamt-DPS des Arsenals (Flächen-/Multi-Treffer eingerechnet) → für HP-Skalierung
+  function gunDps(){ let d=0;
+    if(wpn.blaster) d+=wpn.blaster.dmg*wpn.blaster.bolts*wpn.blaster.rate;
+    if(wpn.missile) d+=wpn.missile.dmg*wpn.missile.count*wpn.missile.rate*1.4;
+    if(wpn.flame)   d+=(wpn.flame.dmg+wpn.flame.dot*wpn.flame.dur)*wpn.flame.rate;
+    if(wpn.frost)   d+=wpn.frost.dmg*wpn.frost.rate;
+    if(wpn.chain)   d+=wpn.chain.dmg*wpn.chain.jumps*wpn.chain.rate*0.6;
+    return d; }
+  // Effektive Einzelziel-DPS gegen den Boss (kein Flächen-Bonus, Raketen ×2 wie in explodeMissile)
+  function bossDps(){ let d=0.5;
+    if(wpn.blaster) d+=wpn.blaster.dmg*wpn.blaster.bolts*wpn.blaster.rate;
+    if(wpn.missile) d+=wpn.missile.dmg*wpn.missile.count*wpn.missile.rate*2;
+    if(wpn.flame)   d+=(wpn.flame.dmg+wpn.flame.dot*wpn.flame.dur)*wpn.flame.rate;
+    if(wpn.frost)   d+=wpn.frost.dmg*wpn.frost.rate;
+    if(wpn.chain)   d+=wpn.chain.dmg*wpn.chain.rate;
+    return d; }
   function pwrSurv(){ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
     return up*0.6 + shields*0.4 + Math.max(0,lives-3)*0.5 + (13-mods.playerR)/13*4
       + Math.max(0,(mods.nearRadius-30)/30) + Math.max(0,(mods.follow-14)/8) + Math.max(0,mods.scoreMult-1); }
   const difSpd =()=>1+Math.min(0.7,pwrSurv()*0.026)+(endless?madness*0.85:0);     // Obstacles schneller (sanfter)
   const difDen =()=>Math.max(0.32,1-Math.min(0.35,pwrSurv()*0.015)-(endless?madness*0.35:0)); // dichter (sanfter)
-  // Obstacles zäher je nach Schuss-DPS – plus Extra-Härte ab hoher Burst-Rate (gegen „unbesiegbar")
-  const difHp  =()=>1+gunDps()*0.42+Math.max(0,(mods.fireRate-4.5))*0.8+(mods.multishot-1)*0.45;
+  // Obstacles-HP skaliert mit Gesamt-DPS → konstante Time-to-Kill (robustester Balance-Hebel)
+  const difHp  =()=>1+gunDps()*0.5;
   function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
@@ -502,6 +587,7 @@
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
     document.getElementById('settings').classList.add('hidden'); document.getElementById('ach').classList.add('hidden'); document.getElementById('skins').classList.add('hidden');
+    document.getElementById('loadout').classList.add('hidden'); document.getElementById('arsenalView').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
   function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
@@ -710,39 +796,46 @@
     banner={text:t('lvl')+' '+level,sub,t:2.6,color:'#19f0ff'}; sfxLevel(); vibe([20,25,20]);
     flash=0.4; flashColor='#19f0ff';
   }
-  function openUpgrade(arsenal){ state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
+  // Alle gerade wählbaren Angebote: neue Waffe (nur bei freiem Slot), Skill-Gabelung, Passiv-Upgrade
+  function offerPool(){ const out=[];
+    if(opt.guns && ownedCount()<arsenal.slots){ for(const w of WEAPONS){ if(!arsenal.w[w.id]) out.push({kind:'new',wid:w.id}); } }
+    if(opt.guns){ for(const id of ownedW()){ const node=nextNode(id); if(node){ const opts=WID[id].forks[node==='f1'?0:1];
+      out.push({kind:'fork',wid:id,slot:node,path:opts[0]}); out.push({kind:'fork',wid:id,slot:node,path:opts[1]}); } } }
+    for(const u of UPGRADES){ if(u.curse||u.pickup) continue; if((upgradeCounts[u.id]||0)>=u.max) continue;
+      if(u.wpass && (!opt.guns||ownedCount()===0)) continue; out.push({kind:'pass',u}); }
+    return out; }
+  function openUpgrade(armed){ state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
-    if(utitleEl) utitleEl.textContent=arsenal?t('arsenal'):t('chooseUp');
-    upgradeSub.textContent=arsenal?(t('armUp')+level):(t('level')+' '+level+' · '+t('points')+' '+Math.round(score));
-    // Karten = nur „besondere" Upgrades: Waffen/Kanonen, Leben & Core-Survival.
-    // Flüche & kleine Boni sind keine Karten mehr – die kommen als Sammel-Symbole.
-    const cards=UPGRADES.filter(u=>!u.curse&&!u.pickup);
-    const avail=cards.filter(u=>(upgradeCounts[u.id]||0)<u.max && (opt.guns||!u.weapon));
-    const weapons=avail.filter(u=>u.weapon), core=avail.filter(u=>!u.weapon);
-    let chosen=[];
-    if(arsenal && weapons.length){
-      // Arsenal: bevorzugt Waffen-Karten, mit Core-Karten auffüllen
-      const wp=weapons.slice(); while(chosen.length<3&&wp.length) chosen.push(wp.splice(Math.floor(Math.random()*wp.length),1)[0]);
-      const np=core.slice(); while(chosen.length<3&&np.length) chosen.push(np.splice(Math.floor(Math.random()*np.length),1)[0]);
-    } else {
-      const pool=avail.slice(); if(!pool.length) pool.push(...cards);
-      while(chosen.length<3&&pool.length) chosen.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
-    }
-    while(chosen.length<3) chosen.push(pick(cards));
-    for(let i=chosen.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [chosen[i],chosen[j]]=[chosen[j],chosen[i]]; } // mischen
+    if(utitleEl) utitleEl.textContent=armed?t('arsenal'):t('chooseUp');
+    upgradeSub.textContent=armed?(t('armUp')+level):(t('level')+' '+level+' · '+t('points')+' '+Math.round(score));
+    const pool=offerPool(); const wp=pool.filter(o=>o.kind!=='pass'), pp=pool.filter(o=>o.kind==='pass');
+    let chosen=[]; const take=arr=>{ if(arr.length) chosen.push(arr.splice(Math.floor(Math.random()*arr.length),1)[0]); };
+    if(armed){ while(chosen.length<2&&wp.length) take(wp); while(chosen.length<3&&pp.length) take(pp); while(chosen.length<3&&wp.length) take(wp); }
+    else { while(chosen.length<3){ if((chosen.length<2||!pp.length)&&wp.length) take(wp); else if(pp.length) take(pp); else break; } }
+    while(chosen.length<3 && (wp.length||pp.length)) take(wp.length?wp:pp);
+    if(!chosen.length){ closeUpgrade(); return; }   // alles maxed & Slots voll → einfach weiter
+    for(let i=chosen.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [chosen[i],chosen[j]]=[chosen[j],chosen[i]]; }
     upgradeCards.innerHTML='';
-    chosen.forEach(u=>{ const lvl=(upgradeCounts[u.id]||0);
-      const card=document.createElement('div'); card.className='ucard'+(u.weapon?' weapon':'');
-      card.innerHTML=`<div class="ico">${u.ico}</div><h4>${uName(u.id)}</h4><p>${uDesc(u.id)}</p><div class="stack">${u.weapon?('🔫 '+lvl+'/'+u.max):(lvl>0?(t('level')+' '+lvl+'/'+u.max):('0/'+u.max))}</div>`;
-      card.addEventListener('click',()=>chooseUpgrade(u));
-      upgradeCards.appendChild(card);
+    chosen.forEach(o=>{ const card=document.createElement('div'); let ico,name,desc,tag,cls='ucard';
+      if(o.kind==='new'){ ico=WID[o.wid].ico; name=wName(o.wid); desc=wDesc(o.wid); tag='🆕 '+t('newWeapon'); cls+=' weapon wnew'; }
+      else if(o.kind==='fork'){ ico=WID[o.wid].ico; name=wName(o.wid)+' · '+pName(o.path); desc=pDesc(o.path); tag='⌥ '+t('path'); cls+=' weapon wfork'; }
+      else { const u=o.u, lvl=(upgradeCounts[u.id]||0); ico=u.ico; name=uName(u.id); desc=uDesc(u.id); tag=(lvl>0?(t('level')+' '+lvl+'/'+u.max):('0/'+u.max)); if(u.wpass) cls+=' weapon'; }
+      card.className=cls; card.innerHTML=`<div class="ico">${ico}</div><h4>${name}</h4><p>${desc}</p><div class="stack">${tag}</div>`;
+      card.addEventListener('click',()=>chooseOffer(o)); upgradeCards.appendChild(card);
     });
     document.getElementById('upgrade').classList.remove('hidden');
   }
-  function chooseUpgrade(u){ u.apply(); upgradeCounts[u.id]=(upgradeCounts[u.id]||0)+1;
-    document.getElementById('upgrade').classList.add('hidden'); state=S.PLAY; invuln=Math.max(invuln,1.0);
-    upStep=Math.round(upStep*1.6); nextUpgradeAt=score+upStep; sfxPow(); vibe(15);
-    banner={text:uName(u.id).toUpperCase(),sub:t('activated'),t:1.6,color:'#ffe600'}; lastT=performance.now(); }
+  function closeUpgrade(){ document.getElementById('upgrade').classList.add('hidden'); state=S.PLAY; invuln=Math.max(invuln,1.0);
+    upStep=Math.round(upStep*1.6); nextUpgradeAt=score+upStep; lastT=performance.now(); }
+  function chooseOffer(o){ const before=Object.assign({},syn); let label='';
+    if(o.kind==='new'){ arsenal.w[o.wid]={lvl:1,f1:null,f2:null}; label=wName(o.wid); }
+    else if(o.kind==='fork'){ const a=arsenal.w[o.wid]; a[o.slot]=o.path; a.lvl++; label=wName(o.wid)+' · '+pName(o.path); }
+    else { o.u.apply(); upgradeCounts[o.u.id]=(upgradeCounts[o.u.id]||0)+1; label=uName(o.u.id); }
+    recalcArsenal(); sfxPow(); vibe(15);
+    banner={text:label.toUpperCase(),sub:t('activated'),t:1.6,color:'#ffe600'};
+    for(const s of SYNERGIES){ if(syn[s.id]&&!before[s.id]){ banner={text:s.ico+' '+synName(s.id)+' · '+t('synUnlocked'),sub:synDesc(s.id),t:2.8,color:'#ff2e88'};
+      floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,flash+0.3); flashColor='#ff2e88'; } }
+    closeUpgrade(); }
 
   // ---------- Hit ----------
   function hitPlayer(color){
@@ -804,7 +897,7 @@
         if(bossPending){ bossPending=false; startBoss(); }       // nach Arsenal-Pick: Boss starten
         else { bossTimer-=dt; if(bossTimer<=0){
           // Kurz vor dem Boss: Arsenal anbieten (nur wenn Waffen-Karten verfügbar)
-          const armUp=opt.guns&&UPGRADES.some(u=>u.weapon&&(upgradeCounts[u.id]||0)<u.max);
+          const armUp=opt.guns&&offerPool().some(o=>o.kind!=='pass');
           if(armUp){ bossPending=true; openUpgrade(true); return; } else startBoss();
         } }
       }
@@ -822,8 +915,14 @@
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     powerupT-=dt; if(powerupT<=0){ spawnPowerup(); powerupT=rand(10,16)/mods.powerupRate; }
     // Auto-Fire (sobald eine Waffe ausgerüstet ist)
-    if(opt.guns && mods.gun>0 && mods.fireRate>0){ fireT-=dt; if(fireT<=0){ fireGun(); fireT=1/mods.fireRate; } }
-    if(opt.guns && mods.missile>0){ missileT-=dt; if(missileT<=0){ fireMissile(); missileT=Math.max(0.55,1.7-mods.missile*0.28); } }
+    // Auto-Fire pro Waffe (touch-freundlich: feuert selbstständig sobald Cooldown bereit, Zielen automatisch)
+    if(opt.guns){
+      if(wpn.blaster){ tBlast-=dt; if(tBlast<=0){ fireBlaster(); tBlast=1/wpn.blaster.rate; } }
+      if(wpn.missile){ tMiss-=dt;  if(tMiss<=0){  fireMissileW(); tMiss=1/wpn.missile.rate; } }
+      if(wpn.flame){   tFlame-=dt; if(tFlame<=0){ fireFlame();    tFlame=1/wpn.flame.rate; } }
+      if(wpn.frost){   tFrost-=dt; if(tFrost<=0){ fireFrost();    tFrost=1/wpn.frost.rate; } }
+      if(wpn.chain){   tChain-=dt; if(tChain<=0){ fireChainW();   tChain=1/wpn.chain.rate; } }
+    }
     if(egg67T>0) egg67T-=dt;
     if(!egg67done && score>=67){ egg67done=true; floatText(player.x,player.y-52,'6 7 !!','#ffe600',26); sfx67(); vibe([30,30]); }
     commentT-=dt; if(commentT<=0 && !bossActive){ floatText(W/2+rand(-30,30),H*0.2,pick(P('dumb')),'#9be7ff',16); commentT=rand(15,26); }
@@ -839,10 +938,11 @@
       if(o.hitFlash>0) o.hitFlash-=dt;
       // Frost: verlangsamt die Bewegung; Brand: Schaden über Zeit
       if(o.slow>0) o.slow-=dt;
-      if(o.burn>0){ o.burn-=dt; o.hp-=(o.burnDmg||0)*dt;
+      if(o.burn>0){ o.burn-=dt; let bd=(o.burnDmg||0); if(syn.thermo&&o.slow>0) bd*=1.9;   // THERMOSCHOCK: brennend+gefroren
+        o.hp-=bd*dt;
         if(Math.random()<0.5) spawnParticles(o.cx+rand(-7,7),o.cy+rand(-7,7),'#ff9a2e',1,70);
-        if(o.hp<=0){ killObstacle(o); obstacles.splice(i,1); continue; } }
-      const mt=dt*ts*(o.slow>0?0.5:1);
+        if(o.hp<=0){ if(o.burnConsume) addScore(6); killObstacle(o); obstacles.splice(i,1); continue; } }
+      const mt=dt*ts*(o.slow>0?(o.slowAmt!=null?o.slowAmt:0.5):1);
       if(o.pattern!=='straight'){ o.trail.push({x:o.cx,y:o.cy}); if(o.trail.length>9) o.trail.shift(); }
       if(o.pattern==='straight'){ o.cy+=o.vy*mt; o.cx+=o.vx*mt; if(o.shape==='diamond')o.rot+=o.vr*mt; if(o.cx<o.w/2||o.cx>W-o.w/2)o.vx*=-1; }
       else if(o.pattern==='sine'){ o.cy+=o.vy*mt; o.cx=o.baseX+o.amp*Math.sin(o.cy*o.freq+o.phase); }
@@ -876,6 +976,7 @@
     for(let bi=bullets.length-1;bi>=0;bi--){ const b=bullets[bi];
       if(b.homing){ steerMissile(b,dt); b.life-=dt; if(b.life<=0){ explodeMissile(b); bullets.splice(bi,1); continue; }
         if(Math.random()<0.6) spawnParticles(b.x,b.y+b.r*0.6,'#ff6a00',1,60); }
+      else if(b.frag){ b.life-=dt; if(b.life<=0){ bullets.splice(bi,1); continue; } }
       b.x+=b.vx*dt; b.y+=b.vy*dt;
       if(b.y<-40||b.x<-40||b.x>W+40||b.y>H+60){ bullets.splice(bi,1); continue; }
       let gone=false;
@@ -883,10 +984,14 @@
         const er=Math.max(o.w,o.h)*0.5+b.r; const ddx=b.x-o.cx, ddy=b.y-o.cy;
         if(ddx*ddx+ddy*ddy<er*er){
           if(b.homing){ explodeMissile(b); gone=true; break; }
-          o.hp-=b.dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,b.col||'#caffff',3,120);
-          if(b.burn){ o.burn=Math.max(o.burn||0,1.8); o.burnDmg=0.7+0.6*b.burn; }
-          if(b.frost){ o.slow=Math.max(o.slow||0,1.4); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
-          if(o.hp<=0){ const ox=o.cx,oy=o.cy,od=b.dmg; killObstacle(o); obstacles.splice(oi,1); if(mods.chain>0) chainLightning(ox,oy,od); }
+          let dmg=b.dmg; if(o.slow>0 && mods.brittle) dmg*=1.5;                          // SPRÖDE: +50% an Gefrorenen
+          o.hp-=dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,b.col||'#caffff',3,120);
+          if(b.burn){ o.burn=Math.max(o.burn||0,b.burnDur||1.8); o.burnDmg=Math.max(o.burnDmg||0,b.burn); o.burnSpread=b.burnSpread; o.burnConsume=b.burnConsume; }
+          if(b.frost){ o.slow=Math.max(o.slow||0,b.frostDur||1.4); const amt=(b.freeze&&Math.random()<0.4)?0.05:b.frost; o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,amt); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
+          if(b.tesla){ chainLightning(o.cx,o.cy,(wpn.chain?wpn.chain.dmg:1.4)*0.8,2,{skip:[o]}); }  // TESLA-SALVE
+          if(o.hp<=0){ const ox=o.cx,oy=o.cy,wasSlow=o.slow>0; killObstacle(o); obstacles.splice(oi,1);
+            if(mods.shatter && wasSlow) shatterBurst(ox,oy,b.dmg);                        // SPLITTERBRUCH: Splitter-Explosion
+            if(wpn.chain && wpn.chain.onHit) chainLightning(ox,oy,wpn.chain.dmg*0.7,2,{}); } // GEWITTER: Kette auch bei Bolzen-Kill
           if(b.pierce>0){ b.pierce--; } else { gone=true; }
           break;
         }
@@ -960,23 +1065,42 @@
     director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240);
     runPerfect++; if(statN('perfect')+runPerfect>=10) unlockAch('perfect10'); }
   // ---------- Schuss / Explosionen ----------
-  function fireGun(){ const n=mods.multishot||1, spd=640, baseY=player.y-player.r-2, bd=boltDmg();
-    const col=mods.frost?'#8fe8ff':(mods.burn?'#ffae4d':(curSkin().edge||'#caffff'));
-    for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*(mods.spread||0.12);
-      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:bd,pierce:mods.pierce||0,col,burn:mods.burn,frost:mods.frost}); }
-    // Mündungsblitz
-    particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:col,size:rand(5,8)});
+  function fireBlaster(){ const w=wpn.blaster, n=w.bolts, spd=640, baseY=player.y-player.r-2;
+    let teslaShot=false; if(syn.tesla){ teslaCount++; teslaShot=(teslaCount%5===0); }   // TESLA-SALVE: jeder 5. Bolzen verzweigt
+    for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*w.spread;
+      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:'#caffff',tesla:teslaShot}); }
+    particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:teslaShot?'#9be7ff':'#caffff',size:rand(5,8)});
     sfxShoot(); }
-  function fireMissile(){ bullets.push({x:player.x,y:player.y-player.r-2,vx:rand(-40,40),vy:-340,r:7,dmg:2+(mods.missile||1),
-      pierce:0,homing:true,aoe:60+(mods.missile||1)*10,life:4,col:'#ff9a2e'});
+  function fireFlame(){ const w=wpn.flame, baseY=player.y-player.r-2;
+    bullets.push({x:player.x,y:baseY,vx:rand(-30,30),vy:-560,r:6,dmg:w.dmg,pierce:0,col:'#ffae4d',burn:w.dot,burnDur:w.dur,burnSpread:w.spread,burnConsume:w.consume});
+    particles.push({x:player.x,y:baseY,vx:0,vy:-20,life:1,decay:0.12,color:'#ff9a2e',size:rand(5,9)});
+    beep(360,0.04,'sawtooth',0.07,90); }
+  function fireFrost(){ const w=wpn.frost, baseY=player.y-player.r-2;
+    bullets.push({x:player.x,y:baseY,vx:rand(-20,20),vy:-600,r:5,dmg:w.dmg,pierce:1,col:'#8fe8ff',frost:w.slowAmt,frostDur:w.slowDur,freeze:w.freeze,shatter:w.shatter,brittle:w.brittle});
+    particles.push({x:player.x,y:baseY,vx:0,vy:-20,life:1,decay:0.12,color:'#8fe8ff',size:rand(4,7)});
+    beep(880,0.04,'sine',0.06,240); }
+  function fireMissileW(){ const w=wpn.missile; for(let i=0;i<w.count;i++){
+      bullets.push({x:player.x+rand(-8,8),y:player.y-player.r-2,vx:rand(-50,50),vy:-340,r:7,dmg:w.dmg,pierce:0,homing:true,aoe:w.aoe,life:4,col:'#ff9a2e',shrapnel:w.shrapnel,incendiary:w.incendiary}); }
     beep(300,0.05,'square',0.12,160); }
+  function fireChainW(){ const w=wpn.chain;
+    if(boss&&!boss.dead){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<260*260){
+      boss.hp-=w.dmg; boss.hitFlash=0.07; arcParticles(player.x,player.y-player.r,boss.x,boss.y); beep(1200,0.03,'square',0.08,260); if(boss.hp<=0)startBossDeath(); return; } }
+    let best=null,bd=99999; for(const o of obstacles){ const dx=o.cx-player.x,dy=o.cy-player.y,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
+    if(!best) return; arcParticles(player.x,player.y-player.r,best.cx,best.cy);
+    let dd=w.dmg; if(syn.super&&best.slow>0) dd*=1.5;
+    best.hp-=dd; best.hitFlash=0.1; if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+    if(w.aoe) chainAoe(best.cx,best.cy,dd*0.5);
+    const fx=best.cx,fy=best.cy,skip=[best]; if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0)obstacles.splice(ix,1); }
+    chainLightning(fx,fy,w.dmg,w.jumps-1,{skip,stun:w.stun,aoe:w.aoe}); beep(1300,0.03,'square',0.06,260); }
   function pixelBurst(x,y,color,power){ const n=8+Math.min(20,(power||1)*5);
     for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:rand(0.02,0.045),color,size:rand(3,7)}); }
     for(let i=0;i<4;i++){ const a=Math.random()*6.28,s=rand(40,160); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.05,color:'#ffffff',size:rand(3,6)}); } }
   function killObstacle(o){ const pts=3*(o.maxHp||1); addScore(pts);
     pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
-    shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008); }
+    shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008);
+    if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
+      if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
   function steerMissile(b,dt){ let tx=null,ty=null,bd=1e9;
     for(const o of obstacles){ const dx=o.cx-b.x,dy=o.cy-b.y,d=dx*dx+dy*dy; if(d<bd){bd=d;tx=o.cx;ty=o.cy;} }
@@ -986,18 +1110,32 @@
       let dA=((desired-cur+Math.PI*3)%(Math.PI*2))-Math.PI; dA=Math.max(-3.4*dt,Math.min(3.4*dt,dA));
       const na=cur+dA; b.vx=Math.cos(na)*spd; b.vy=Math.sin(na)*spd; }
     else { const m=Math.hypot(b.vx,b.vy)||1; b.vx=b.vx/m*spd; b.vy=b.vy/m*spd; } }
-  // Rakete explodiert: AoE-Schaden an allen Zielen im Radius
+  // Rakete explodiert: AoE-Schaden an allen Zielen im Radius (+ Splitter/Napalm/Eisbombe)
   function explodeMissile(b){ const R=b.aoe||64;
     pixelBurst(b.x,b.y,'#ff9a2e',6); spawnParticles(b.x,b.y,'#ffe600',16,300);
     flash=Math.min(0.5,flash+0.14); flashColor='#ff9a2e'; shake=Math.max(shake,6); beep(140,0.16,'sawtooth',0.3,-60); vibe([18,12]);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-b.x,dy=o.cy-b.y;
-      if(dx*dx+dy*dy<R*R){ o.hp-=b.dmg; o.hitFlash=0.12; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
+      if(dx*dx+dy*dy<R*R){ o.hp-=b.dmg; o.hitFlash=0.12;
+        if(b.incendiary||syn.napalm){ o.burn=Math.max(o.burn||0,2.2); o.burnDmg=Math.max(o.burnDmg||0,1.0*(mods.wDmgMult||1)); }  // Brandsatz / NAPALM
+        if(syn.icebomb){ o.slow=Math.max(o.slow||0,1.6); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.45); }                 // EISBOMBE
+        if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
+    if(b.shrapnel){ for(let i=0;i<8;i++){ const a=i/8*6.28; bullets.push({x:b.x,y:b.y,vx:Math.cos(a)*420,vy:Math.sin(a)*420,r:3,dmg:b.dmg*0.4,pierce:0,col:'#ffd36b',life:0.5,frag:true}); } } // Splittergranate
     if(boss&&!boss.dead){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=b.dmg*2; boss.hitFlash=0.07; if(boss.hp<=0) startBossDeath(); } } }
-  // Kettenblitz: Kill springt auf nahe Ziele über
-  function chainLightning(x,y,dmg){ let hops=mods.chain, cx=x, cy=y; const used=new Set();
-    while(hops-->0){ let best=null,bd=145*145; for(const o of obstacles){ if(used.has(o)) continue; const dx=o.cx-cx,dy=o.cy-cy,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
+  // Splitterbruch: gefrorenes Ziel zerspringt beim Tod → Scherben-AoE
+  function shatterBurst(x,y,dmg){ const R=70; spawnParticles(x,y,'#bdefff',14,260); beep(900,0.06,'square',0.12,-200); shake=Math.max(shake,5);
+    for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
+      if(dx*dx+dy*dy<R*R){ o.hp-=dmg*1.2; o.hitFlash=0.1; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } } }
+  // Kleiner AoE-Puls (Entladung-Fork des Kettenblitzes)
+  function chainAoe(x,y,dmg){ const R=46; for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
+      if(dx*dx+dy*dy<R*R){ o.hp-=dmg; o.hitFlash=0.1; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } } spawnParticles(x,y,'#9be7ff',5,120); }
+  // Kettenblitz: springt von Ziel zu Ziel (jumps), +50% an Gefrorenen via SUPRALEITER
+  function chainLightning(x,y,dmg,jumps,opts){ opts=opts||{}; let cx=x,cy=y; const used=new Set(opts.skip||[]);
+    for(let h=0;h<jumps;h++){ let best=null,bd=150*150; for(const o of obstacles){ if(used.has(o)) continue; const dx=o.cx-cx,dy=o.cy-cy,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
       if(!best) break; used.add(best); arcParticles(cx,cy,best.cx,best.cy);
-      best.hp-=dmg*0.85; best.hitFlash=0.1; const nx=best.cx,ny=best.cy;
+      let dd=dmg; if(syn.super&&best.slow>0) dd*=1.5;
+      best.hp-=dd; best.hitFlash=0.1; if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+      if(opts.aoe) chainAoe(best.cx,best.cy,dd*0.5);
+      const nx=best.cx,ny=best.cy;
       if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0) obstacles.splice(ix,1); }
       cx=nx; cy=ny; } }
   function arcParticles(x1,y1,x2,y2){ for(let i=0;i<=5;i++){ const tt=i/5; spawnParticles(x1+(x2-x1)*tt,y1+(y2-y1)*tt,'#9be7ff',1,50); } beep(1100,0.03,'square',0.07,260); }
@@ -1110,6 +1248,7 @@
       // effect HUD (top center)
       drawEffectHud();
       if((state===S.PLAY||state===S.UPGRADE||state===S.PAUSE)&&mode!=='zen') drawHearts();
+      if(state===S.PLAY||state===S.UPGRADE||state===S.PAUSE) drawArsenalHud();
 
       // banner
       if(banner){ const a=Math.min(1,banner.t*1.2); ctx.save(); ctx.globalAlpha=a; ctx.textAlign='center';
@@ -1194,8 +1333,8 @@
     return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5};
   }
   function drawShip(){ const r=player.r;
-    let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
-    const nCan=mods.gun?Math.max(1,Math.min(8,mods.multishot+(mods.bulletDmg>1?1:0)+(mods.pierce>0?2:0))):0;
+    let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]; up+=ownedCount()*2;
+    const nCan=Math.min(8, ownedCount() + (wpn.blaster?Math.max(0,wpn.blaster.bolts-1):0));
     const sig=shipSeed+'|'+up+'|'+nCan+'|'+Math.round(r)+'|'+(meta.skin||'std');
     if(!shipSprite||shipSig!==sig){ shipSprite=buildShipSprite(r,up,nCan); shipSig=sig; }
     const S=shipSprite;
@@ -1376,6 +1515,50 @@
     else { shopResetArmed=true; b.textContent=t('reallyQ'); beep(440,0.08,'square',0.2);
       setTimeout(()=>{ if(shopResetArmed){ shopResetArmed=false; b.textContent=t('resetAll'); } },4000); } }
 
+  // ---------- Loadout (Pre-Run: Startwaffen wählen) ----------
+  const loadoutSlots=()=>3+metaLvl('slot');
+  function openLoadout(){ document.getElementById('start').classList.add('hidden'); renderLoadout();
+    document.getElementById('loadout').classList.remove('hidden'); sfxUpgrade(); }
+  function closeLoadout(){ document.getElementById('loadout').classList.add('hidden');
+    document.getElementById('start').classList.remove('hidden'); }
+  function toggleLoadout(id){ if(!weaponUnlocked(id)){ closeLoadout(); openShop(); return; }  // gesperrt → ab in die Werkstatt
+    meta.loadout=(meta.loadout||['blaster']).slice(); const i=meta.loadout.indexOf(id);
+    if(i>=0){ if(meta.loadout.length<=1){ beep(200,0.1,'square',0.2,-60); return; } meta.loadout.splice(i,1); }
+    else { if(meta.loadout.length>=loadoutSlots()){ beep(200,0.1,'square',0.2,-60); return; } meta.loadout.push(id); }
+    saveMeta(); sfxPow(); vibe(12); renderLoadout(); }
+  function renderLoadout(){ const slots=loadoutSlots();
+    meta.loadout=(meta.loadout||['blaster']).filter(id=>WID[id]&&weaponUnlocked(id)); if(!meta.loadout.length) meta.loadout=['blaster'];
+    meta.loadout=meta.loadout.slice(0,slots); saveMeta();
+    const sub=document.getElementById('loadoutSub'); if(sub) sub.textContent=t('slotsLbl')+' '+meta.loadout.length+'/'+slots;
+    const wrap=document.getElementById('loadoutCards'); if(!wrap) return; wrap.innerHTML='';
+    WEAPONS.forEach(w=>{ const eq=meta.loadout.indexOf(w.id)>=0, lock=!weaponUnlocked(w.id);
+      const card=document.createElement('div'); card.className='ucard weapon'+(eq?' equipped':'')+(lock?' locked':'');
+      const tag=lock?t('lockedW'):(eq?'✓':t('freeSlot'));
+      card.innerHTML=`<div class="ico">${w.ico}</div><h4>${wName(w.id)}</h4><p>${wDesc(w.id)}</p><div class="stack">${tag}</div>`;
+      card.addEventListener('click',()=>toggleLoadout(w.id)); wrap.appendChild(card); });
+  }
+  // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
+  function openArsenalView(){ if(state!==S.PAUSE) return; renderArsenalView(); document.getElementById('arsenalView').classList.remove('hidden'); sfxUpgrade(); }
+  function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden'); }
+  function dropWeapon(id){ delete arsenal.w[id]; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); renderArsenalView(); }
+  function renderArsenalView(){ const sub=document.getElementById('arsenalViewSub'); if(sub) sub.textContent=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots;
+    const wrap=document.getElementById('arsenalCards'); if(!wrap) return; wrap.innerHTML='';
+    ownedW().forEach(id=>{ const a=arsenal.w[id], paths=[]; if(a.f1)paths.push(pName(a.f1)); if(a.f2)paths.push(pName(a.f2));
+      const card=document.createElement('div'); card.className='ucard weapon';
+      card.innerHTML=`<div class="ico">${WID[id].ico}</div><h4>${wName(id)}</h4><p>${paths.length?paths.join(' · '):wDesc(id)}</p><div class="stack">Lv ${a.lvl}/3</div><button class="cost drop">✕ ${t('drop')}</button>`;
+      card.querySelector('button.drop').addEventListener('click',e=>{ e.stopPropagation(); dropWeapon(id); }); wrap.appendChild(card); });
+    for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='ucard slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); }
+    const sd=document.getElementById('arsenalSyn'); if(sd){ const act=SYNERGIES.filter(s=>syn[s.id]);
+      sd.innerHTML='<h4>'+t('synTitle')+'</h4>'+(act.length?act.map(s=>`<div class="synrow">${s.ico} <b>${synName(s.id)}</b> — ${synDesc(s.id)}</div>`).join(''):('<div class="synrow dim">'+t('noSyn')+'</div>')); }
+  }
+  // In-Run HUD: Waffenleiste mit Level-Pips + Synergie-Badges
+  function drawArsenalHud(){ const ids=ownedW(); if(!ids.length) return;
+    const y=H-24; let x=14; ctx.textAlign='left'; ctx.textBaseline='middle';
+    for(const id of ids){ ctx.font='17px Space Mono, monospace'; ctx.shadowBlur=8; ctx.shadowColor=WID[id].col; ctx.fillStyle='#fff'; ctx.fillText(WID[id].ico,x,y);
+      ctx.shadowBlur=0; const lv=arsenal.w[id].lvl; for(let i=0;i<3;i++){ ctx.fillStyle=i<lv?WID[id].col:'rgba(255,255,255,0.16)'; ctx.fillRect(x+1+i*6,y+12,4,3); }
+      x+=30; }
+    const act=SYNERGIES.filter(s=>syn[s.id]); if(act.length){ x+=4; ctx.font='14px Space Mono, monospace'; for(const s of act){ ctx.shadowBlur=9; ctx.shadowColor='#ff2e88'; ctx.fillStyle='#ff7ab8'; ctx.fillText(s.ico,x,y-1); x+=20; } }
+    ctx.shadowBlur=0; }
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
     document.getElementById('settings').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
@@ -1433,7 +1616,9 @@
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
     document.querySelectorAll('.mode').forEach(c=>{ const m=c.dataset.mode==='hardcore'?'hard':c.dataset.mode;
       const h=c.querySelector('h3'),p=c.querySelector('p'); if(h)h.textContent=t('m_'+m); if(p)p.textContent=t('m_'+m+'D'); });
-    setSel('#pause .utitle',t('pause')); set('resumeBtn',t('resume')); set('pauseMenuBtn',t('mainmenu'));
+    setSel('#pause .utitle',t('pause')); set('resumeBtn',t('resume')); set('pauseMenuBtn',t('mainmenu')); set('arsenalViewBtn',t('arsenalBtn'));
+    set('loadoutBtn',t('loadoutBtn')); setSel('#loadout .utitle',t('loadoutTitle')); set('loadoutBackBtn',t('back'));
+    setSel('#arsenalView .utitle',t('arsenalTitle')); set('arsenalBackBtn',t('back'));
     setSel('#upgrade .utitle',t('chooseUp'));
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back')); set('shopResetBtn',t('resetAll'));
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
@@ -1497,11 +1682,21 @@
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
+  const lb=document.getElementById('loadoutBtn'); if(lb) lb.addEventListener('click',openLoadout);
+  const lbk=document.getElementById('loadoutBackBtn'); if(lbk) lbk.addEventListener('click',closeLoadout);
+  const lbc=document.getElementById('loadoutCloseBtn'); if(lbc) lbc.addEventListener('click',closeLoadout);
+  const av=document.getElementById('arsenalViewBtn'); if(av) av.addEventListener('click',openArsenalView);
+  const avc=document.getElementById('arsenalCloseBtn'); if(avc) avc.addEventListener('click',closeArsenalView);
+  const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
   const muteBtn=document.getElementById('mute');
   muteBtn.addEventListener('click',()=>{ muted=!muted; muteBtn.textContent=muted?'🔇':'🔊';
     if(masterGain) masterGain.gain.value=muted?0:0.9; if(!muted){ unlockAudio(); } });
   let lastKey='';
-  window.addEventListener('keydown',e=>{ if(e.code==='Escape'){ if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
+  const isOpen=id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hidden'); };
+  window.addEventListener('keydown',e=>{ if(e.code==='Escape'){
+      if(isOpen('arsenalView')){ closeArsenalView(); return; }
+      if(isOpen('loadout')){ closeLoadout(); return; }
+      if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
   document.addEventListener('visibilitychange',()=>{ lastT=performance.now();

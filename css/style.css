@@ -113,6 +113,24 @@
   .ucard h4{font-family:'Orbitron';font-weight:700;font-size:16px;letter-spacing:.05em;color:#fff;}
   .ucard p{font-size:12px;line-height:1.5;color:#c9b9ef;}
   .ucard .stack{font-size:10px;letter-spacing:.2em;color:#9a86c9;text-transform:uppercase;}
+  /* Arsenal: neue Waffen, Skill-Gabelungen, Loadout & In-Run-Ansicht */
+  .ucard.wnew{border-color:rgba(124,255,46,.55);background:rgba(124,255,46,.06);}
+  .ucard.wnew h4,.ucard.wnew .stack{color:#9bff5e;}
+  .ucard.wfork{border-color:rgba(196,91,255,.55);background:rgba(196,91,255,.06);}
+  .ucard.wfork h4,.ucard.wfork .stack{color:#d18bff;}
+  .ucard.equipped{border-color:var(--cyan);box-shadow:0 0 26px rgba(25,240,255,.35) inset;}
+  .ucard.equipped .stack{color:var(--cyan);font-size:16px;letter-spacing:0;}
+  .ucard.locked{opacity:.55;}
+  .ucard.locked .stack{color:#ffae4d;}
+  .ucard.slotEmpty{opacity:.4;border-style:dashed;cursor:default;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;}
+  .ucard.slotEmpty:hover{transform:none;border-color:rgba(255,255,255,.2);box-shadow:none;}
+  .ucard .cost.drop{background:rgba(255,46,136,.18);color:#ff8ab5;}
+  #loadoutCards,#arsenalCards{margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:780px;}
+  #arsenalSyn{margin-top:20px;max-width:560px;text-align:left;}
+  #arsenalSyn h4{font-family:'Orbitron';font-weight:700;font-size:13px;letter-spacing:.18em;color:var(--pink);text-transform:uppercase;margin-bottom:8px;text-align:center;}
+  #arsenalSyn .synrow{font-size:12px;line-height:1.5;color:#e7d6ff;padding:5px 10px;margin:5px 0;border-radius:10px;background:rgba(255,46,136,.08);border:1px solid rgba(255,46,136,.25);}
+  #arsenalSyn .synrow b{color:#ff7ab8;}
+  #arsenalSyn .synrow.dim{color:#9a86c9;background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);}
 
   /* Game over */
   .gover{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(32px,9vw,72px);color:var(--pink);text-shadow:0 0 18px var(--pink),0 0 48px rgba(255,46,136,.6);}
