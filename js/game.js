@@ -6,8 +6,8 @@
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
 
-  let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets;
-  let fireT=0, bossPending=false, boss=null, ebullets=[];
+  let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems;
+  let fireT=0, bossPending=false, boss=null, ebullets=[], gemT=0;
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
@@ -255,16 +255,16 @@
 
   // ---------- Upgrades ----------
   const UPGRADES=[
-    {id:'radar',ico:'📡',name:'Radar',desc:'Near-Miss-Radius +45%',max:3,apply:()=>{mods.nearRadius*=1.45;}},
+    {id:'radar',ico:'📡',name:'Radar',desc:'Near-Miss-Radius +45%',max:3,pickup:true,apply:()=>{mods.nearRadius*=1.45;}},
     {id:'shieldgen',ico:'🛡️',name:'Schildgenerator',desc:'+1 Schild jetzt & +1 nach jedem Boss',max:3,apply:()=>{shields=Math.min(shields+1,6);mods.shieldPerBoss++;}},
     {id:'glass',ico:'💎',name:'Glaskanone',desc:'+30% Punkte, aber +15% Hitbox',max:2,apply:()=>{mods.scoreMult*=1.3;mods.playerR*=1.15;player.r=mods.playerR;}},
     {id:'nimble',ico:'⚡',name:'Flink',desc:'Reaktion deutlich schneller',max:3,apply:()=>{mods.follow+=6;}},
     {id:'small',ico:'🔻',name:'Kompakt',desc:'Hitbox −18%',max:2,apply:()=>{mods.playerR*=0.82;player.r=mods.playerR;}},
-    {id:'orbval',ico:'🔷',name:'Orb-Veredelung',desc:'Orbs geben +60% Punkte',max:3,apply:()=>{mods.orbValueMult*=1.6;}},
-    {id:'magnet',ico:'🧲',name:'Magnetfeld',desc:'Dauerhafter Orb-Sog',max:3,apply:()=>{mods.magnetPassive+=130;}},
-    {id:'loot',ico:'🎁',name:'Glücksbringer',desc:'Power-Ups erscheinen 50% öfter',max:2,apply:()=>{mods.powerupRate*=1.5;}},
-    {id:'combo',ico:'🔗',name:'Combo-Anker',desc:'Jeder Near-Miss gibt +1 Combo extra',max:2,apply:()=>{mods.comboBonus+=1;}},
-    {id:'reflex',ico:'🕙',name:'Reflex-Kern',desc:'Slow-Mo hält 50% länger',max:2,apply:()=>{mods.slowmoMult*=1.5;}},
+    {id:'orbval',ico:'🔷',name:'Orb-Veredelung',desc:'Orbs geben +60% Punkte',max:3,pickup:true,apply:()=>{mods.orbValueMult*=1.6;}},
+    {id:'magnet',ico:'🧲',name:'Magnetfeld',desc:'Dauerhafter Orb-Sog',max:3,pickup:true,apply:()=>{mods.magnetPassive+=130;}},
+    {id:'loot',ico:'🎁',name:'Glücksbringer',desc:'Power-Ups erscheinen 50% öfter',max:2,pickup:true,apply:()=>{mods.powerupRate*=1.5;}},
+    {id:'combo',ico:'🔗',name:'Combo-Anker',desc:'Jeder Near-Miss gibt +1 Combo extra',max:2,pickup:true,apply:()=>{mods.comboBonus+=1;}},
+    {id:'reflex',ico:'🕙',name:'Reflex-Kern',desc:'Slow-Mo hält 50% länger',max:2,pickup:true,apply:()=>{mods.slowmoMult*=1.5;}},
     {id:'heart',ico:'💗',name:'Extra-Herz',desc:'+1 Leben (max 6)',max:3,apply:()=>{lives=Math.min(lives+1,6);}},
     // ---- Fluch-Karten (lustige Nerfs, Deal with the Devil) ----
     {id:'banana',ico:'🍌',name:'Bananen-Boden',desc:'Steuerung schlüpfrig af, aber +65% Punkte',max:1,curse:true,apply:()=>{mods.follow*=0.7;mods.scoreMult*=1.65;}},
@@ -287,7 +287,7 @@
           gun:0,fireRate:0,bulletDmg:1,pierce:0,multishot:1,spread:0.12};
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
-    obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[];
+    obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[];
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(5,9); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
@@ -297,7 +297,7 @@
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
-    director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[];
+    director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
   function curBest(){ return daily?(best.daily||0):(best[mode]||0); }
@@ -378,6 +378,23 @@
   const PUP=['shield','slow','magnet','bomb','double'];
   const PUPINFO={shield:{c:'#2effc0',g:'🛡'},slow:{c:'#5b9bff',g:'⏱'},magnet:{c:'#c45bff',g:'🧲'},bomb:{c:'#ff9a2e',g:'💣'},double:{c:'#ffe600',g:'✕2'}};
   function spawnPowerup(){ const t=gpick(PUP); powerups.push({x:grand(40,W-40),y:-24,r:16,vy:80+difficulty*18,type:t,pulse:Math.random()*6.28}); }
+  // ---------- Sammelbare Upgrade-Symbole (positiv & Flüche) ----------
+  function spawnGem(){
+    const pos=UPGRADES.filter(u=>u.pickup&&(upgradeCounts[u.id]||0)<u.max);
+    const cur=opt.curses?UPGRADES.filter(u=>u.curse&&(upgradeCounts[u.id]||0)<u.max):[];
+    let u,curse=false;
+    if(cur.length && Math.random()<0.32){ u=pick(cur); curse=true; }
+    else if(pos.length){ u=pick(pos); }
+    else if(cur.length){ u=pick(cur); curse=true; }
+    else return;
+    gems.push({x:rand(50,W-50),y:-28,r:17,vy:70+difficulty*14,u,curse,pulse:Math.random()*6.28,rot:0});
+  }
+  function applyPickup(u){ u.apply(); upgradeCounts[u.id]=(upgradeCounts[u.id]||0)+1; }
+  function collectGem(g){ const u=g.u, col=g.curse?'#ff2e88':'#ffe600'; applyPickup(u);
+    spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.5,flash+0.16); flashColor=col;
+    banner={text:(g.curse?'🎲 ':'')+u.name.toUpperCase(),sub:u.desc,t:2.0,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
+    if(g.curse){ beep(220,0.18,'sawtooth',0.3,-60); setTimeout(()=>beep(140,0.2,'square',0.25,-40),80); vibe([40,30,40]); }
+    else { sfxUpgrade(); vibe([15,20,15]); } }
 
   // ---------- Boss ----------
   function startBoss(){
@@ -454,26 +471,26 @@
     const utitleEl=document.querySelector('#upgrade .utitle');
     if(utitleEl) utitleEl.textContent=arsenal?'🔫 ARSENAL':'UPGRADE WÄHLEN';
     upgradeSub.textContent=arsenal?('Rüste auf für den Boss · Level '+level):('Level '+level+' · Punkte '+Math.round(score));
-    const avail=UPGRADES.filter(u=>(upgradeCounts[u.id]||0)<u.max && (opt.curses||!u.curse) && (opt.guns||!u.weapon));
-    const weapons=avail.filter(u=>u.weapon), curses=avail.filter(u=>u.curse), normals=avail.filter(u=>!u.curse&&!u.weapon);
+    // Karten = nur „besondere" Upgrades: Waffen/Kanonen, Leben & Core-Survival.
+    // Flüche & kleine Boni sind keine Karten mehr – die kommen als Sammel-Symbole.
+    const cards=UPGRADES.filter(u=>!u.curse&&!u.pickup);
+    const avail=cards.filter(u=>(upgradeCounts[u.id]||0)<u.max && (opt.guns||!u.weapon));
+    const weapons=avail.filter(u=>u.weapon), core=avail.filter(u=>!u.weapon);
     let chosen=[];
     if(arsenal && weapons.length){
-      // Arsenal: bevorzugt Waffen-Karten, mit normalen Karten auffüllen
+      // Arsenal: bevorzugt Waffen-Karten, mit Core-Karten auffüllen
       const wp=weapons.slice(); while(chosen.length<3&&wp.length) chosen.push(wp.splice(Math.floor(Math.random()*wp.length),1)[0]);
-      const np=normals.slice(); while(chosen.length<3&&np.length) chosen.push(np.splice(Math.floor(Math.random()*np.length),1)[0]);
+      const np=core.slice(); while(chosen.length<3&&np.length) chosen.push(np.splice(Math.floor(Math.random()*np.length),1)[0]);
     } else {
-      const pool=([].concat(normals,weapons)); if(!pool.length) pool.push(...avail);
-      // Mit ~50% Chance genau eine Fluch-Karte einstreuen (Deal with the Devil)
-      if(opt.curses && curses.length && Math.random()<0.5) chosen.push(curses.splice(Math.floor(Math.random()*curses.length),1)[0]);
+      const pool=avail.slice(); if(!pool.length) pool.push(...cards);
       while(chosen.length<3&&pool.length) chosen.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
-      while(chosen.length<3&&curses.length) chosen.push(curses.splice(Math.floor(Math.random()*curses.length),1)[0]);
     }
-    while(chosen.length<3) chosen.push(pick(UPGRADES));
+    while(chosen.length<3) chosen.push(pick(cards));
     for(let i=chosen.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [chosen[i],chosen[j]]=[chosen[j],chosen[i]]; } // mischen
     upgradeCards.innerHTML='';
     chosen.forEach(u=>{ const lvl=(upgradeCounts[u.id]||0);
-      const card=document.createElement('div'); card.className='ucard'+(u.curse?' curse':'')+(u.weapon?' weapon':'');
-      card.innerHTML=`<div class="ico">${u.ico}</div><h4>${u.name}</h4><p>${u.desc}</p><div class="stack">${u.curse?'🎲 FLUCH':(u.weapon?'🔫 ARSENAL · '+lvl+'/'+u.max:(lvl>0?('Stufe '+lvl+'/'+u.max):('0/'+u.max)))}</div>`;
+      const card=document.createElement('div'); card.className='ucard'+(u.weapon?' weapon':'');
+      card.innerHTML=`<div class="ico">${u.ico}</div><h4>${u.name}</h4><p>${u.desc}</p><div class="stack">${u.weapon?'🔫 ARSENAL · '+lvl+'/'+u.max:(lvl>0?('Stufe '+lvl+'/'+u.max):('0/'+u.max))}</div>`;
       card.addEventListener('click',()=>chooseUpgrade(u));
       upgradeCards.appendChild(card);
     });
@@ -652,6 +669,14 @@
       if(p.y>H+30) powerups.splice(i,1);
     }
 
+    // Sammel-Symbole (Upgrades & Flüche) – schwebende Items zum Aufsammeln
+    gemT-=dt; if(gemT<=0){ if(!bossActive) spawnGem(); gemT=rand(12,20); }
+    for(let i=gems.length-1;i>=0;i--){ const g=gems[i]; g.y+=g.vy*dt*ts; g.pulse+=dt*4; g.rot+=dt*1.5;
+      const dx=player.x-g.x,dy=player.y-g.y,rr=player.r+g.r+4;
+      if(dx*dx+dy*dy<rr*rr){ collectGem(g); gems.splice(i,1); continue; }
+      if(g.y>H+30) gems.splice(i,1);
+    }
+
     // Particles & floaters
     for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; if(p.life<=0)particles.splice(i,1); }
     for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.y+=f.vy*dt; f.vy*=0.96; f.life-=dt*0.9; if(f.life<=0)floaters.splice(i,1); }
@@ -737,6 +762,12 @@
       for(const p of powerups){ const inf=PUPINFO[p.type], pr=p.r+Math.sin(p.pulse)*2; ctx.save(); ctx.shadowBlur=22; ctx.shadowColor=inf.c;
         ctx.fillStyle=hexA(inf.c,0.22); ctx.strokeStyle=inf.c; ctx.lineWidth=2.5; ctx.beginPath();ctx.arc(p.x,p.y,pr,0,6.28);ctx.fill();ctx.stroke();
         ctx.shadowBlur=0; ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(inf.g,p.x,p.y+1); ctx.restore(); }
+
+      // sammel-symbole (rotierende raute, gold=positiv, pink=fluch)
+      for(const g of gems){ const pr=g.r+Math.sin(g.pulse)*2, col=g.curse?'#ff2e88':'#ffe600'; ctx.save(); ctx.translate(g.x,g.y);
+        ctx.shadowBlur=22; ctx.shadowColor=col; ctx.rotate(g.rot); ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.fillStyle=hexA(col,0.18);
+        ctx.beginPath(); ctx.moveTo(0,-pr); ctx.lineTo(pr,0); ctx.lineTo(0,pr); ctx.lineTo(-pr,0); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.rotate(-g.rot); ctx.shadowBlur=0; ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(g.u.ico,0,1); ctx.restore(); }
 
       // obstacles
       for(const o of obstacles){
@@ -1013,7 +1044,7 @@
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(CRAZY_TAGS); },3200);
   setInterval(()=>{ if(state===S.MENU && musicOn){ curSong=(curSong+1)%SONGS.length; sfxRiser(); titleTag.textContent='♪ jetzt: '+SONGS[curSong].name; } },12000);
 
-  particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null;
+  particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0;
   requestAnimationFrame(loop);
