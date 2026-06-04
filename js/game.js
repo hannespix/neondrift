@@ -10,6 +10,27 @@
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
+  // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
+  let meta=loadMeta();
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{}}; }catch(e){} return {chips:0,lvl:{}}; }
+  function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
+  const META=[
+    {id:'shield',ico:'🛡️',name:'Startschild',max:2,costs:[80,240],   txt:'Beginne jeden Run mit +1 Schild je Stufe'},
+    {id:'solid', ico:'🔻',name:'Solide Hülle',max:3,costs:[60,150,320],txt:'Start-Hitbox −5% je Stufe'},
+    {id:'reach', ico:'📡',name:'Fern-Sensor', max:3,costs:[50,130,280],txt:'Near-Miss-Radius +8% je Stufe'},
+    {id:'luck',  ico:'🎁',name:'Glückssträhne',max:3,costs:[70,170,330],txt:'Power-Ups +8% häufiger je Stufe'},
+    {id:'rich',  ico:'◈', name:'Chip-Magnet', max:5,costs:[40,90,160,260,400],txt:'+10% Chip-Ausbeute je Stufe'},
+    {id:'tough', ico:'💗',name:'Zähigkeit',   max:1,costs:[500],      txt:'Beginne jeden Run mit +1 Leben'}
+  ];
+  const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
+  function chipMult(){ return 1+0.10*metaLvl('rich'); }
+  function applyMeta(){
+    const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
+    const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
+    const re=metaLvl('reach'); if(re) mods.nearRadius*=(1+0.08*re);
+    const lu=metaLvl('luck'); if(lu) mods.powerupRate*=(1+0.08*lu);
+    const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
+  }
   let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount;
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
@@ -264,7 +285,7 @@
     useSeed=daily;
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
-    unlockAudio(); reset(); state=S.PLAY;
+    unlockAudio(); reset(); applyMeta(); state=S.PLAY;
     document.getElementById('start').classList.add('hidden');
     document.getElementById('over').classList.add('hidden');
     document.getElementById('upgrade').classList.add('hidden');
@@ -277,8 +298,8 @@
   function toMenu(){ if((state===S.PLAY||state===S.UPGRADE||state===S.PAUSE)&&score>curBest()){ setBest(score); saveScores(); }
     state=S.MENU; document.getElementById('hud').classList.add('hidden');
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
-    document.getElementById('pause').classList.add('hidden');
-    document.getElementById('start').classList.remove('hidden');
+    document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
+    document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
   function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
     pauseSub.textContent=mode.toUpperCase()+' · '+Math.round(score)+' Punkte';
@@ -653,8 +674,11 @@
   function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); shake=24; vibe([120,50,200]);
     spawnParticles(player.x,player.y,'#ff2e88',46,380); spawnParticles(player.x,player.y,'#19f0ff',26,260);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores(); }
+    const earned=Math.max(0,Math.round((score/80 + nearCount*0.5 + (bossNumber-1)*20)*chipMult()));
+    meta.chips=(meta.chips||0)+earned; saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden');
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=daily?('TÄGLICH · '+dailyLabel()):mode.toUpperCase();
+    chipsEarnedEl.textContent='◈ +'+earned+'  ·  Guthaben ◈ '+(meta.chips||0);
     quipEl.textContent=pick(QUIPS); insultEl.textContent=pick(INSULTS); newrecEl.style.display=rec?'block':'none';
     setTimeout(()=>document.getElementById('over').classList.remove('hidden'),560);
   }
@@ -700,6 +724,23 @@
     }catch(e){}
   }
 
+  // ---------- Werkstatt (Meta-Shop) ----------
+  function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+(meta.chips||0); }
+  function openShop(){ document.getElementById('start').classList.add('hidden'); renderShop();
+    document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
+  function closeShop(){ document.getElementById('shop').classList.add('hidden');
+    document.getElementById('start').classList.remove('hidden'); updateMenuChips(); }
+  function renderShop(){ shopChipsEl.textContent='◈ '+(meta.chips||0); shopCards.innerHTML='';
+    META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:m.costs[lvl], afford=(meta.chips||0)>=cost;
+      const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
+      const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
+      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+m.name+'</h4><p>'+m.txt+'</p><div class="stack">Stufe '+lvl+'/'+m.max+'</div>'+btn;
+      const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
+      shopCards.appendChild(card); }); }
+  function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
+    if(lvl>=m.max) return; const cost=m.costs[lvl]; if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
+    meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
+
   // ---------- Loop ----------
   function loop(now){ let dt=(now-lastT)/1000; lastT=now; if(dt>0.05)dt=0.05;
     if(state===S.PLAY) update(dt);
@@ -716,12 +757,17 @@
         zenExitBtn=document.getElementById('zenExit'),upgradeCards=document.getElementById('upgradeCards'),upgradeSub=document.getElementById('upgradeSub'),
         titleTag=document.getElementById('titleTag'),insultEl=document.getElementById('insult'),
         pauseSub=document.getElementById('pauseSub'),
-        comboBarEl=document.getElementById('comboBar'),comboFillEl=comboBarEl.querySelector('i');
+        comboBarEl=document.getElementById('comboBar'),comboFillEl=comboBarEl.querySelector('i'),
+        menuChipsEl=document.getElementById('menuChips'),shopChipsEl=document.getElementById('shopChips'),
+        shopCards=document.getElementById('shopCards'),chipsEarnedEl=document.getElementById('chipsEarned');
   document.querySelectorAll('.mode').forEach(c=>c.addEventListener('click',()=>startGame(c.dataset.mode)));
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
+  document.getElementById('shopBtn').addEventListener('click',openShop);
+  document.getElementById('shopBackBtn').addEventListener('click',closeShop);
   document.getElementById('againBtn').addEventListener('click',()=>startGame());
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
+  updateMenuChips();
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
