@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>NEONDRIFT</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#08010f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NEONDRIFT">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="wrap">
+  <canvas id="c"></canvas>
+
+  <div id="hud" class="hidden">
+    <div id="left-hud">
+      <div id="score">0</div>
+      <div id="modeName">NORMAL</div>
+      <button id="zenExit">⏸ PAUSE</button>
+    </div>
+    <div id="combo-wrap"><div id="combo">x1</div><div id="best-hud">BEST 0</div></div>
+  </div>
+
+  <div id="start" class="screen">
+    <div class="logo">NEON<span>DRIFT</span></div>
+    <div class="tag" id="titleTag">weiche aus · sammle · überlebe</div>
+    <div class="modes">
+      <div class="mode normal" data-mode="normal"><h3>NORMAL</h3><p>Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.</p></div>
+      <div class="mode hardcore" data-mode="hardcore"><h3>HARDCORE</h3><p>Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.</p></div>
+      <div class="mode zen" data-mode="zen"><h3>ZEN</h3><p>Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.</p></div>
+    </div>
+    <div class="how">Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü · 🔊 unten rechts</div>
+    <div id="installRow">
+      <button id="installBtn">📲 App installieren</button>
+      <div id="iosHint">Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.</div>
+    </div>
+  </div>
+
+  <div id="pause" class="screen hidden">
+    <div class="utitle" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">PAUSE</div>
+    <div class="usub" id="pauseSub">NORMAL</div>
+    <div class="btnrow">
+      <button class="btn" id="resumeBtn">▶ WEITER</button>
+      <button class="btn ghost" id="pauseMenuBtn">☰ HAUPTMENÜ</button>
+    </div>
+  </div>
+
+  <div id="upgrade" class="screen hidden">
+    <div class="utitle">UPGRADE WÄHLEN</div>
+    <div class="usub" id="upgradeSub">Level 2</div>
+    <div id="upgradeCards"></div>
+  </div>
+
+  <div id="over" class="screen hidden">
+    <div class="gover">CRASH</div>
+    <div class="insult" id="insult"></div>
+    <div class="quip" id="quip"></div>
+    <div class="modetag" id="overMode">NORMAL</div>
+    <div class="scorebox">
+      <div><span class="lbl">Punkte</span><span class="val v-score" id="finalScore">0</span></div>
+      <div><span class="lbl">Rekord</span><span class="val v-best" id="finalBest">0</span></div>
+    </div>
+    <div class="newrec" id="newrec">★ NEUER REKORD ★</div>
+    <div class="btnrow"><button class="btn" id="againBtn">NOCHMAL</button><button class="btn ghost" id="menuBtn">MENÜ</button></div>
+  </div>
+
+  <button id="mute" title="Ton an/aus">🔊</button>
+  <div class="credit">NEONDRIFT v3</div>
+</div>
+
+<script src="js/game.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

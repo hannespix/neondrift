@@ -1,0 +1,13 @@
+{
+  "name": "neondrift",
+  "version": "3.0.0",
+  "description": "Süchtig machendes Neon-Synthwave-Arcade-Spiel (Vanilla JS, Canvas, Web Audio) als installierbare PWA.",
+  "scripts": {
+    "dev": "npx --yes serve -l 8000 .",
+    "start": "npx --yes serve -l 8000 .",
+    "check": "node --check js/game.js && node --check js/pwa.js && node --check service-worker.js"
+  },
+  "keywords": ["game", "arcade", "synthwave", "canvas", "webaudio", "pwa", "vanilla-js", "chiptune"],
+  "license": "MIT",
+  "private": true
+}
