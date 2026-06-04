@@ -39,11 +39,15 @@
       <div class="mode zen" data-mode="zen"><h3>ZEN</h3><p>Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.</p></div>
     </div>
     <button id="dailyBtn" data-mode="daily">🗓 TÄGLICHE CHALLENGE</button>
-    <button id="shopBtn"><span id="shopLbl">🛒 WERKSTATT</span> · <span id="menuChips">◈ 0</span></button>
-    <button id="loadoutBtn">🎒 LOADOUT</button>
-    <button id="achBtn">🏅 ERFOLGE</button>
-    <button id="skinBtn">🎨 SKINS</button>
-    <button id="settingsBtn">⚙️ EINSTELLUNGEN</button>
+    <div class="prepRow">
+      <button id="shopBtn"><span id="shopLbl">🛒 WERKSTATT</span> · <span id="menuChips">◈ 0</span></button>
+      <button id="loadoutBtn">🎒 LOADOUT</button>
+    </div>
+    <div class="iconRow">
+      <button id="achBtn" title="Erfolge">🏅</button>
+      <button id="skinBtn" title="Skins">🎨</button>
+      <button id="settingsBtn" title="Einstellungen">⚙️</button>
+    </div>
     <div class="how">Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü · 🔊 unten rechts</div>
     <div id="installRow">
       <button id="installBtn">📲 App installieren</button>
@@ -143,7 +147,7 @@
   </div>
 
   <button id="mute" title="Ton an/aus">🔊</button>
-  <div class="credit">NEONDRIFT v26</div>
+  <div class="credit">NEONDRIFT v27</div>
 </div>
 
 <script src="js/game.js"></script>

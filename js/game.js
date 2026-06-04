@@ -1644,7 +1644,9 @@
   function applyI18n(){ try{ document.documentElement.lang=lang;
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
-    set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🛒 '+t('workshop')); set('settingsBtn',t('settings'));
+    const setIco=(id,ico,lbl)=>{ const e=document.getElementById(id); if(e){ e.textContent=ico; e.title=lbl; } };
+    set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🛒 '+t('workshop'));
+    setIco('achBtn','🏅',t('achBtn')); setIco('skinBtn','🎨',t('skinBtn')); setIco('settingsBtn','⚙️',t('settings'));
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
     document.querySelectorAll('.mode').forEach(c=>{ const m=c.dataset.mode==='hardcore'?'hard':c.dataset.mode;
       const h=c.querySelector('h3'),p=c.querySelector('p'); if(h)h.textContent=t('m_'+m); if(p)p.textContent=t('m_'+m+'D'); });
@@ -1654,8 +1656,8 @@
     setSel('#upgrade .utitle',t('chooseUp'));
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back')); set('shopResetBtn',t('resetAll'));
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
-    set('achBtn',t('achBtn')); setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
-    set('skinBtn',t('skinBtn')); setSel('#skins .utitle',t('skinTitle')); set('skinBalLbl',t('balance')); set('skinBackBtn',t('back'));
+    setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
+    setSel('#skins .utitle',t('skinTitle')); set('skinBalLbl',t('balance')); set('skinBackBtn',t('back'));
     setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     if(typeof renderSettings==='function') renderSettings();
