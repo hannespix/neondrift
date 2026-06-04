@@ -6,6 +6,111 @@
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
 
+  // ---------- i18n (DE / EN / FR, Jugendsprache je Sprache) ----------
+  function detectLang(){ const l=((navigator.language||navigator.userLanguage||'en')+'').slice(0,2).toLowerCase(); return (l==='de'||l==='fr')?l:'en'; }
+  function loadLang(){ try{ const s=localStorage.getItem('neondrift_lang'); if(s==='de'||s==='en'||s==='fr') return s; }catch(e){} return detectLang(); }
+  let lang=loadLang();
+  function saveLang(){ try{ localStorage.setItem('neondrift_lang',lang); }catch(e){} }
+  function t(k){ const o=TR[lang]||TR.en; return (o[k]!=null?o[k]:(TR.en[k]!=null?TR.en[k]:k)); }
+  function P(k){ const o=TR[lang]||TR.en; return o[k]||TR.en[k]||[]; }   // lokalisierter Pool
+  const TR={
+    de:{
+      tag:'weiche aus · sammle · überlebe', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
+      how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
+      ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.',
+      m_normal:'NORMAL', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
+      m_hard:'HARDCORE', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
+      m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
+      pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
+      balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', resetAll:'♻ ALLES ZURÜCKSETZEN', reallyQ:'WIRKLICH? ✓ (tippen)',
+      setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optLang:'🌐 Sprache',
+      on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
+      lvl:'LEVEL', newForm:'Neue Form: ', faster:'Schneller & dichter!', bossWave:'⚠ BOSS-WELLE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 DER ENDGEGNER', finaleSub:'überlebe das Inferno!',
+      survived:'ÜBERLEBT!', defeated:'BESIEGT! 💥', escaped:'🛸 ENTKOMMEN…', escapedSub:'die Beute ist weg!', armUp:'Rüste auf für den Boss · Level ',
+      overdrive:'⚡ OVERDRIVE', overdriveSub:'du brennst!', enrage:'🔥 ENRAGE!', enrageSub:'es dreht völlig durch!',
+      beaten:'🏆 DURCHGESPIELT!', beatenSub:'…aber es hört nicht auf.', madness:'☣ WAHNSINN-MODUS', madnessSub:'wie weit kommst du?', clearedTag:'🏆 DURCHGESPIELT!  ·  ',
+      shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
+      pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'PUNKTE ✕2', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
+      shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
+      near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
+      combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
+      quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich."],
+      insults:["Schwach. Richtig schwach.","Loser-Alarm. 🚨","Meine Oma weicht besser aus.","Git gud, sagt man da.","Setzen. Sechs.","skill issue tbh.","−1000 Aura, digga.","mid. einfach mid.","sit down, bro.","0 rizz, 0 skill.","ratio. L. cope.","NPC-Tod erkannt."],
+      dumb:["bro hat einfach... ja.","skibidi 🚽","das ist lowkey mid","real ones wissen Bescheid","kein Cap fr fr","gönn dir, digga","sigma move 🗿","Ohio-Level erreicht","valid. einfach valid.","slay 💅","based ngl","gyatt 😳","6 7 😶‍🌫️","das ribbelt im Hirn"],
+      crazy:["weiche aus · sammle · überlebe","probier nicht zu sterben (du wirst)","100% chiptune, 0% gnade","heute schon explodiert?","no cap, das wird mid","6 7 enjoyer welcome"]
+    },
+    en:{
+      tag:'dodge · collect · survive', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
+      how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
+      ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then NEONDRIFT runs fullscreen.',
+      m_normal:'NORMAL', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
+      m_hard:'HARDCORE', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
+      m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
+      pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
+      balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', resetAll:'♻ RESET EVERYTHING', reallyQ:'SURE? ✓ (tap)',
+      setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optLang:'🌐 Language',
+      on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
+      lvl:'LEVEL', newForm:'New shape: ', faster:'Faster & denser!', bossWave:'⚠ BOSS WAVE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 THE FINAL BOSS', finaleSub:'survive the inferno!',
+      survived:'SURVIVED!', defeated:'DEFEATED! 💥', escaped:'🛸 ESCAPED…', escapedSub:'the loot is gone!', armUp:'Gear up for the boss · Level ',
+      overdrive:'⚡ OVERDRIVE', overdriveSub:"you're on fire!", enrage:'🔥 ENRAGE!', enrageSub:'it totally loses it!',
+      beaten:'🏆 YOU BEAT IT!', beatenSub:'…but it never stops.', madness:'☣ MADNESS MODE', madnessSub:'how far can you go?', clearedTag:'🏆 BEATEN!  ·  ',
+      shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
+      pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'SCORE ✕2', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
+      shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
+      near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
+      combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
+      quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
+      insults:["Weak. Real weak.","Loser alert. 🚨","My grandma dodges better.","Git gud, they say.","Sit down. Zero.","skill issue tbh.","−1000 aura, bro.","mid. just mid.","sit down, bro.","0 rizz, 0 skill.","ratio. L. cope.","NPC death detected."],
+      dumb:["bro just... yeah.","skibidi 🚽","this is lowkey mid","real ones know","no cap fr fr","treat yourself, bro","sigma move 🗿","reached Ohio level","valid. just valid.","slay 💅","based ngl","gyatt 😳","6 7 😶‍🌫️","that's brain-tingling"],
+      crazy:["dodge · collect · survive","try not to die (you will)","100% chiptune, 0% mercy","exploded yet today?","no cap, this'll be mid","6 7 enjoyer welcome"]
+    },
+    fr:{
+      tag:'esquive · collecte · survis', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
+      how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
+      ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – NEONDRIFT passe en plein écran.',
+      m_normal:'NORMAL', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
+      m_hard:'HARDCORE', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
+      m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
+      pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
+      balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', resetAll:'♻ TOUT RÉINITIALISER', reallyQ:'SÛR ? ✓ (touche)',
+      setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optLang:'🌐 Langue',
+      on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
+      lvl:'NIVEAU', newForm:'Nouvelle forme : ', faster:'Plus vite & plus dense !', bossWave:'⚠ VAGUE DE BOSS ', megaBoss:'🛸 MÉGA-BOSS', endgegner:'👾 LE BOSS FINAL', finaleSub:'survis à l’enfer !',
+      survived:'SURVÉCU !', defeated:'VAINCU ! 💥', escaped:'🛸 ENFUI…', escapedSub:'le butin s’envole !', armUp:'Équipe-toi pour le boss · Niveau ',
+      overdrive:'⚡ OVERDRIVE', overdriveSub:'tu es en feu !', enrage:'🔥 ENRAGE !', enrageSub:'il pète un câble !',
+      beaten:'🏆 TERMINÉ !', beatenSub:'…mais ça ne s’arrête pas.', madness:'☣ MODE FOLIE', madnessSub:'jusqu’où iras-tu ?', clearedTag:'🏆 TERMINÉ !  ·  ',
+      shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
+      pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'SCORE ✕2', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
+      shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
+      near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
+      combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
+      quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
+      insults:["Faible. Vraiment faible.","Alerte loser. 🚨","Ma mamie esquive mieux.","Git gud, qu’ils disent.","Assieds-toi. Zéro.","skill issue tbh.","−1000 d’aura, mec.","mid. juste mid.","assieds-toi, frère.","0 rizz, 0 skill.","ratio. L. cope.","mort de PNJ détectée."],
+      dumb:["le frère a juste… ouais.","skibidi 🚽","c’est lowkey mid","les vrais savent","no cap fr fr","fais-toi plaisir, mec","sigma move 🗿","niveau Ohio atteint","valide. juste valide.","slay 💅","based ngl","gyatt 😳","6 7 😶‍🌫️","ça gratte le cerveau"],
+      crazy:["esquive · collecte · survis","essaie de pas mourir (tu vas mourir)","100% chiptune, 0% pitié","déjà explosé aujourd’hui ?","no cap, ça va être mid","6 7 enjoyer welcome"]
+    }
+  };
+  // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
+  const UPTR={
+    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Ups +50% öfter'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen (Fächer)'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1']},
+    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-ups +50% more often'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt (spread)'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1']},
+    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Power-ups +50% plus souvent'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile (éventail)'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1']}
+  };
+  const METATR={
+    de:{blasterStart:['Vorrüstung','Start mit Blaster · +Feuerrate je Stufe'],multiStart:['Doppel-Start','Start mit +1 Bolzen je Stufe'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Ups +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
+    en:{blasterStart:['Pre-Armed','Start with blaster · +fire rate per lvl'],multiStart:['Twin Start','Start with +1 bolt per lvl'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-ups +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
+    fr:{blasterStart:['Pré-Armé','Démarre avec blaster · +cadence/niv'],multiStart:['Double Départ','Démarre avec +1 projectile/niv'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Power-ups +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
+  };
+  const uName=id=>((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||[id])[0];
+  const uDesc=id=>(((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||['',''])[1])||'';
+  const mName=id=>((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||[id])[0];
+  const mTxt =id=>(((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||['',''])[1])||'';
+  const FORMTR={de:{sine:'Wellenflug',drift:'Gleiter',orbit:'Kreisel',zigzag:'Irrläufer',pendulum:'Pendler'},
+    en:{sine:'Wave Flight',drift:'Glider',orbit:'Orbiter',zigzag:'Zigzagger',pendulum:'Pendulum'},
+    fr:{sine:'Vol Ondulé',drift:'Planeur',orbit:'Orbiteur',zigzag:'Zigzagueur',pendulum:'Pendule'}};
+  const formName=k=>((FORMTR[lang]&&FORMTR[lang][k])||FORMTR.en[k]||k);
+  const modeLabel=m=>t('m_'+(m==='hardcore'?'hard':m));
+
   let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems;
   let fireT=0, bossPending=false, boss=null, ebullets=[], gemT=0;
   let score, displayScore, combo, multiplier, best=loadScores();
@@ -337,8 +442,8 @@
     document.getElementById('over').classList.add('hidden');
     document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('hud').classList.remove('hidden');
-    modeNameEl.textContent=daily?('TÄGLICH '+dailyLabel()):mode.toUpperCase(); bestHud.textContent='BEST '+curBest();
-    if(daily) banner={text:'🗓 DAILY',sub:dailyLabel(),t:2.6,color:'#ffe600'};
+    modeNameEl.textContent=daily?(t('modeDaily')+' '+dailyLabel()):modeLabel(mode); bestHud.textContent=t('best')+' '+curBest();
+    if(daily) banner={text:t('daily2'),sub:dailyLabel(),t:2.6,color:'#ffe600'};
     zenExitBtn.style.display='block';
     sfxStart(); vibe(20); lastT=performance.now();
   }
@@ -350,7 +455,7 @@
     document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
   function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
-    pauseSub.textContent=mode.toUpperCase()+' · '+Math.round(score)+' Punkte';
+    pauseSub.textContent=modeLabel(mode)+' · '+Math.round(score)+' '+t('points');
     document.getElementById('pause').classList.remove('hidden'); beep(440,0.08,'square',0.2); }
   function resumeGame(){ if(state!==S.PAUSE) return; state=S.PLAY; invuln=Math.max(invuln,0.9);
     document.getElementById('pause').classList.add('hidden'); lastT=performance.now(); beep(660,0.08,'square',0.2); }
@@ -358,7 +463,7 @@
   function addScore(n){ score+=Math.round(n*mods.scoreMult*(effects.double>0?2:1)); }
   function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ multiplier=m; onComboUp(m); } else multiplier=m; }
   function onComboUp(m){ floatText(player.x,player.y-30,'x'+m,'#ff2e88',20);
-    const w={3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'}[m];
+    const w=(P('combo')||{})[m];
     if(w){ banner={text:w,sub:'',t:1.4,color:'#ffe600'}; vibe([15,25,15]); } }
   function bumpCombo(){ comboEl.classList.remove('bump'); void comboEl.offsetWidth; comboEl.classList.add('bump'); }
 
@@ -415,7 +520,7 @@
   function applyPickup(u){ u.apply(); upgradeCounts[u.id]=(upgradeCounts[u.id]||0)+1; }
   function collectGem(g){ const u=g.u, col=g.curse?'#ff2e88':'#ffe600'; applyPickup(u);
     spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.5,flash+0.16); flashColor=col;
-    banner={text:(g.curse?'🎲 ':'')+u.name.toUpperCase(),sub:u.desc,t:2.0,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
+    banner={text:(g.curse?'🎲 ':'')+uName(u.id).toUpperCase(),sub:uDesc(u.id),t:2.0,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
     if(g.curse){ beep(220,0.18,'sawtooth',0.3,-60); setTimeout(()=>beep(140,0.2,'square',0.25,-40),80); vibe([40,30,40]); }
     else { sfxUpgrade(); vibe([15,20,15]); } }
 
@@ -426,7 +531,7 @@
     if(opt.guns && (isFinal || endless || bossNumber%2===0)){ startMegaBoss(isFinal); return; }
     // Laser-Boss (bzw. Laser-Finale, wenn Schießen aus)
     bossActive=true; laserFinal=isFinal; bossPhaseT=isFinal?((mode==='hardcore')?16:14):((mode==='hardcore')?10:8.5); laserSpawnT=0.6;
-    banner=isFinal?{text:'👾 DER ENDGEGNER',sub:'überlebe das Inferno!',t:2.6,color:'#ff2e88'}:{text:'⚠ BOSS-WELLE '+bossNumber,sub:'',t:2.2,color:'#ffe600'};
+    banner=isFinal?{text:t('endgegner'),sub:t('finaleSub'),t:2.6,color:'#ff2e88'}:{text:t('bossWave')+bossNumber,sub:'',t:2.2,color:'#ffe600'};
     shake=isFinal?16:10; sfxBoss(); sfxWarn(); vibe([60,40,60]); }
   // ---------- Mega-Boss: prozeduraler Pixel-Sprite-Generator ----------
   function makeRng(s){ s=(s>>>0)||1; return ()=>{ s=(Math.imul(s,1664525)+1013904223)>>>0; return s/4294967296; }; }
@@ -479,7 +584,7 @@
       hitFlash:0, shootT:1.5, warn:0, telegraph:false, fireGap:Math.max(0.9,2.5-bossNumber*0.1-Math.min(0.7,pwrSurv()*0.022)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0};
     boss.hp=boss.maxHp; ebullets=[];
-    banner=final?{text:'👾 DER ENDGEGNER',sub:boss.name,t:3,color:'#ff2e88'}:{text:'🛸 MEGA-BOSS',sub:boss.name,t:2.6,color:'#ffe600'};
+    banner=final?{text:t('endgegner'),sub:boss.name,t:3,color:'#ff2e88'}:{text:t('megaBoss'),sub:boss.name,t:2.6,color:'#ffe600'};
     shake=final?20:14; sfxBoss(); sfxWarn(); vibe([60,40,60,40,90]); }
   function eb(x,y,vx,vy){ return {x,y,vx,vy,r:7}; }
   function bossVolley(B){ sfxFire(); shake=Math.max(shake,5); vibe(15);
@@ -502,15 +607,15 @@
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
     boss=null; bossActive=false; bossNumber++;
     if(wasFinal) winGame();
-    else { banner={text:'BESIEGT! 💥',sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'}; bossTimer=(mode==='hardcore')?24:30; } }
+    else { banner={text:t('defeated'),sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'}; bossTimer=(mode==='hardcore')?24:30; } }
   function winGame(){ endless=true; madness=0; wonThisRun=true; meta.won=(meta.won||0)+1; saveMeta();
-    banner={text:'🏆 DURCHGESPIELT!',sub:'…aber es hört nicht auf.',t:4.5,color:'#ffe600'};
+    banner={text:t('beaten'),sub:t('beatenSub'),t:4.5,color:'#ffe600'};
     flash=0.85; flashColor='#ffe600'; shake=26; effects.slowmo=Math.max(effects.slowmo,1.4);
     for(let i=0;i<6;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.18,H*0.6),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),10);
     sfxWin(); setTimeout(()=>{sfxWin();},220); setTimeout(()=>{sfxRiser();},520); vibe([120,40,120,40,200,60,220]);
-    setTimeout(()=>{ if(state===S.PLAY) banner={text:'☣ WAHNSINN-MODUS',sub:'wie weit kommst du?',t:3,color:'#ff2e88'}; },2700);
+    setTimeout(()=>{ if(state===S.PLAY) banner={text:t('madness'),sub:t('madnessSub'),t:3,color:'#ff2e88'}; },2700);
     bossTimer=(mode==='hardcore')?9:12; }
-  function bossFlee(){ banner={text:'🛸 ENTKOMMEN…',sub:'die Beute ist weg!',t:2.4,color:'#9a86c9'};
+  function bossFlee(){ banner={text:t('escaped'),sub:t('escapedSub'),t:2.4,color:'#9a86c9'};
     beep(300,0.3,'sawtooth',0.3,-120); vibe(40); ebullets=[];
     boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
   function updateMegaBoss(dt,ts){ const B=boss;
@@ -521,7 +626,7 @@
     if(B.t>B.limit){ bossFlee(); return; }      // Timeout: entkommt mit der Beute (kein Soft-Lock)
     if(B.blink<=0 && Math.random()<0.012) B.blink=0.16;   // gelegentliches Blinzeln
     if(B.final && !B.enraged && B.hp<=B.maxHp*0.5){ B.enraged=true; B.angVel*=1.6; B.fireGap*=0.55; B.attack='spiral';
-      banner={text:'🔥 ENRAGE!',sub:'es dreht völlig durch!',t:2,color:'#ff2e88'}; flash=0.5; flashColor='#ff2e88'; shake=18; sfxWarn(); vibe([40,30,40,30,60]); }
+      banner={text:t('enrage'),sub:t('enrageSub'),t:2,color:'#ff2e88'}; flash=0.5; flashColor='#ff2e88'; shake=18; sfxWarn(); vibe([40,30,40,30,60]); }
     B.ang+=B.angVel*dt*ts;
     if(B.move==='fig8'){ B.x=B.cx+Math.cos(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang*2)*B.radY; }
     else if(B.move==='sway'){ B.x=B.cx+Math.sin(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang*0.5)*B.radY*0.5; }
@@ -536,7 +641,7 @@
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
     bossNumber++;
     if(wasFinal){ const chips=120+bossNumber*8; meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
-    else banner={text:'ÜBERLEBT!',sub:'+'+bonus,t:2.2,color:'#2effc0'}; }
+    else banner={text:t('survived'),sub:'+'+bonus,t:2.2,color:'#2effc0'}; }
   function spawnLaserWave(){ const mixed=bossNumber>=3, vert=(bossNumber%2===1);
     const count=Math.min(6,1+Math.floor(bossNumber/2)+Math.min(2,Math.floor(pwrSurv()*0.14)));
     const warn=Math.max(0.4,1-bossNumber*0.05-Math.min(0.25,pwrSurv()*0.012));
@@ -548,16 +653,16 @@
   // ---------- Level / Upgrade flow ----------
   const UNLOCK={2:{key:'sine',name:'Wellenflug'},3:{key:'drift',name:'Gleiter'},4:{key:'orbit',name:'Kreisel'},5:{key:'zigzag',name:'Irrläufer'},6:{key:'pendulum',name:'Pendler'}};
   function levelUp(){ level++; levelTimer=levelDuration;
-    const u=UNLOCK[level]; let sub='Schneller & dichter!';
-    if(u){ unlocked.push(u.key); sub='Neue Form: '+u.name; }
+    const u=UNLOCK[level]; let sub=t('faster');
+    if(u){ unlocked.push(u.key); sub=t('newForm')+formName(u.key); }
     const ns=(level-1)%SONGS.length; if(ns!==curSong){ curSong=ns; sfxRiser(); floatText(W/2,H*0.44,'♪ '+SONGS[ns].name,'#ffe600',20); }
-    banner={text:'LEVEL '+level,sub,t:2.6,color:'#19f0ff'}; sfxLevel(); vibe([20,25,20]);
+    banner={text:t('lvl')+' '+level,sub,t:2.6,color:'#19f0ff'}; sfxLevel(); vibe([20,25,20]);
     flash=0.4; flashColor='#19f0ff';
   }
   function openUpgrade(arsenal){ state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
-    if(utitleEl) utitleEl.textContent=arsenal?'🔫 ARSENAL':'UPGRADE WÄHLEN';
-    upgradeSub.textContent=arsenal?('Rüste auf für den Boss · Level '+level):('Level '+level+' · Punkte '+Math.round(score));
+    if(utitleEl) utitleEl.textContent=arsenal?t('arsenal'):t('chooseUp');
+    upgradeSub.textContent=arsenal?(t('armUp')+level):(t('level')+' '+level+' · '+t('points')+' '+Math.round(score));
     // Karten = nur „besondere" Upgrades: Waffen/Kanonen, Leben & Core-Survival.
     // Flüche & kleine Boni sind keine Karten mehr – die kommen als Sammel-Symbole.
     const cards=UPGRADES.filter(u=>!u.curse&&!u.pickup);
@@ -577,7 +682,7 @@
     upgradeCards.innerHTML='';
     chosen.forEach(u=>{ const lvl=(upgradeCounts[u.id]||0);
       const card=document.createElement('div'); card.className='ucard'+(u.weapon?' weapon':'');
-      card.innerHTML=`<div class="ico">${u.ico}</div><h4>${u.name}</h4><p>${u.desc}</p><div class="stack">${u.weapon?'🔫 ARSENAL · '+lvl+'/'+u.max:(lvl>0?('Stufe '+lvl+'/'+u.max):('0/'+u.max))}</div>`;
+      card.innerHTML=`<div class="ico">${u.ico}</div><h4>${uName(u.id)}</h4><p>${uDesc(u.id)}</p><div class="stack">${u.weapon?('🔫 '+lvl+'/'+u.max):(lvl>0?(t('level')+' '+lvl+'/'+u.max):('0/'+u.max))}</div>`;
       card.addEventListener('click',()=>chooseUpgrade(u));
       upgradeCards.appendChild(card);
     });
@@ -586,7 +691,7 @@
   function chooseUpgrade(u){ u.apply(); upgradeCounts[u.id]=(upgradeCounts[u.id]||0)+1;
     document.getElementById('upgrade').classList.add('hidden'); state=S.PLAY; invuln=Math.max(invuln,1.0);
     upStep=Math.round(upStep*1.6); nextUpgradeAt=score+upStep; sfxPow(); vibe(15);
-    banner={text:u.name.toUpperCase(),sub:'aktiviert',t:1.6,color:'#ffe600'}; lastT=performance.now(); }
+    banner={text:uName(u.id).toUpperCase(),sub:t('activated'),t:1.6,color:'#ffe600'}; lastT=performance.now(); }
 
   // ---------- Hit ----------
   function hitPlayer(color){
@@ -594,14 +699,14 @@
     director=Math.max(0,director-0.2);   // Director: bei Treffer Druck rausnehmen
     if(shields>0){ shields--; invuln=1.1; flash=0.5; flashColor='#2effc0'; shake=14;
       spawnParticles(player.x,player.y,'#2effc0',22,260); sfxShieldBreak(); vibe([30,40,30]);
-      floatText(player.x,player.y-26,'SCHILD WEG!','#2effc0',18); return false; }
+      floatText(player.x,player.y-26,t('shieldGone'),'#2effc0',18); return false; }
     if(mode==='zen'){ combo=0; multiplier=1; invuln=0.8; flash=0.5; flashColor='#ff2e88'; shake=12;
       spawnParticles(player.x,player.y,'#ff2e88',16,220); beep(200,0.18,'square',0.3,-80); vibe(40);
-      floatText(player.x,player.y-24,'COMBO WEG','#ff2e88',16); return false; }
+      floatText(player.x,player.y-24,t('comboGoneZ'),'#ff2e88',16); return false; }
     lives--;
     if(lives>0){ invuln=1.25; flash=0.6; flashColor='#ff2e88'; shake=16; combo=0; multiplier=1;
       spawnParticles(player.x,player.y,'#ff4d6d',26,300); sfxShieldBreak(); beep(220,0.3,'sawtooth',0.4,-120); vibe([70,40,70]);
-      floatText(player.x,player.y-28,'−1 ♥','#ff4d6d',20); banner={text:lives+' ♥ ÜBRIG',sub:'',t:1.3,color:'#ff4d6d'}; return false; }
+      floatText(player.x,player.y-28,t('lifeLost'),'#ff4d6d',20); banner={text:lives+t('livesLeft'),sub:'',t:1.3,color:'#ff4d6d'}; return false; }
     gameOver(); return true;
   }
 
@@ -619,13 +724,13 @@
 
     // Combo-Decay: Streak verfällt, wenn man zu lange nichts riskiert
     if(combo>0){ comboTime-=dt; if(comboTime<=0){ combo=0; multiplier=1; comboTime=0;
-      floatText(player.x,player.y-30,'COMBO AUS','#9a86c9',16); beep(330,0.12,'sine',0.14,-120); } }
+      floatText(player.x,player.y-30,t('comboOut'),'#9a86c9',16); beep(330,0.12,'sine',0.14,-120); } }
 
     // Adaptiver Director: pendelt langsam zur Mitte zurück (Near-Miss/Hit schubsen ihn)
     director+=(0.5-director)*Math.min(1,dt*0.25);
     // Combo-Overdrive ab x8
     const od=multiplier>=8;
-    if(od&&!overdrive){ banner={text:'⚡ OVERDRIVE',sub:'du brennst!',t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
+    if(od&&!overdrive){ banner={text:t('overdrive'),sub:t('overdriveSub'),t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
     overdrive=od;
     if(endless) madness+=dt*0.0075;   // Wahnsinn-Modus eskaliert – aber gemächlich
 
@@ -669,7 +774,7 @@
     if(opt.guns && mods.gun>0 && mods.fireRate>0){ fireT-=dt; if(fireT<=0){ fireGun(); fireT=1/mods.fireRate; } }
     if(egg67T>0) egg67T-=dt;
     if(!egg67done && score>=67){ egg67done=true; floatText(player.x,player.y-52,'6 7 !!','#ffe600',26); sfx67(); vibe([30,30]); }
-    commentT-=dt; if(commentT<=0 && !bossActive){ floatText(W/2+rand(-30,30),H*0.2,pick(DUMB),'#9be7ff',16); commentT=rand(15,26); }
+    commentT-=dt; if(commentT<=0 && !bossActive){ floatText(W/2+rand(-30,30),H*0.2,pick(P('dumb')),'#9be7ff',16); commentT=rand(15,26); }
 
     // Lasers
     for(let i=lasers.length-1;i>=0;i--){ const L=lasers[i]; L.t+=dt*ts;
@@ -781,10 +886,10 @@
     spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
     director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
-    if(nearCount%5===0){ floatText(player.x,player.y-46,pick(['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!']),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]); } }
+    if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]); } }
   // Ultra-knapper Ausweicher → Extra-Bonus
   function perfectDodge(o){ const pb=Math.round(8*multiplier); addScore(pb); combo++; setMult(); refillCombo();
-    floatText(player.x,player.y-50,'PERFEKT! 🎯','#ff2e88',24); beep(1200,0.1,'square',0.2,520);
+    floatText(player.x,player.y-50,t('perfect'),'#ff2e88',24); beep(1200,0.1,'square',0.2,520);
     flash=Math.min(0.6,flash+0.2); flashColor='#ff2e88'; nearGlow=1; shake=Math.max(shake,8); vibe([12,18,12]);
     director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240); }
   // ---------- Schuss / Explosionen ----------
@@ -801,12 +906,12 @@
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008); }
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
-    if(p.type==='shield'){ shields=Math.min(shields+1,6); floatText(p.x,p.y-18,'SCHILD','#2effc0',16); }
-    else if(p.type==='slow'){ effects.slowmo=5*mods.slowmoMult; floatText(p.x,p.y-18,'SLOW-MO','#5b9bff',16); }
-    else if(p.type==='magnet'){ effects.magnet=6; floatText(p.x,p.y-18,'MAGNET','#c45bff',16); }
-    else if(p.type==='double'){ effects.double=7; floatText(p.x,p.y-18,'PUNKTE ✕2','#ffe600',16); }
+    if(p.type==='shield'){ shields=Math.min(shields+1,6); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
+    else if(p.type==='slow'){ effects.slowmo=5*mods.slowmoMult; floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); }
+    else if(p.type==='magnet'){ effects.magnet=6; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); }
+    else if(p.type==='double'){ effects.double=7; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); }
     else if(p.type==='bomb'){ let n=0; for(const o of obstacles){ spawnParticles(o.cx,o.cy,o.color,8,200); n++; addScore(3*multiplier); }
-      obstacles=[]; lasers=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:'BOOM!',sub:n+' pulverisiert',t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,'BOMBE','#ff9a2e',16); }
+      obstacles=[]; lasers=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:t('boom'),sub:n+t('boomSub'),t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,t('pBomb'),'#ff9a2e',16); }
   }
 
   // ---------- Shapes ----------
@@ -1045,9 +1150,9 @@
     const earned=Math.max(0,Math.round((score/55 + nearCount*0.6 + (bossNumber-1)*30 + (wonThisRun?250:0))*chipMult()));
     meta.chips=(meta.chips||0)+earned; saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden');
-    finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=daily?('TÄGLICH · '+dailyLabel()):mode.toUpperCase();
-    chipsEarnedEl.textContent=(wonThisRun?'🏆 DURCHGESPIELT!  ·  ':'')+'◈ +'+earned+'  ·  Guthaben ◈ '+(meta.chips||0);
-    quipEl.textContent=pick(QUIPS); insultEl.textContent=pick(INSULTS); newrecEl.style.display=rec?'block':'none';
+    finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode);
+    chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
+    quipEl.textContent=pick(P('quips')); insultEl.textContent=pick(P('insults')); newrecEl.style.display=rec?'block':'none';
     setTimeout(()=>document.getElementById('over').classList.remove('hidden'),560);
   }
 
@@ -1064,12 +1169,12 @@
     x.fillStyle='#fff'; x.shadowColor='#ff2e88'; x.shadowBlur=42; x.font='900 116px Orbitron, sans-serif';
     x.fillText('NEONDRIFT',540,250);
     x.shadowBlur=0; x.fillStyle='#9a86c9'; x.font='700 34px Orbitron, sans-serif';
-    x.fillText(daily?('TÄGLICH · '+dailyLabel()):mode.toUpperCase(),540,322);
+    x.fillText(daily?(t('dailyLbl')+' · '+dailyLabel()):modeLabel(mode),540,322);
     x.fillStyle='#19f0ff'; x.shadowColor='#19f0ff'; x.shadowBlur=46; x.font='900 230px Orbitron, sans-serif';
     x.fillText(String(Math.round(score)),540,600);
-    x.shadowBlur=0; x.fillStyle='#ffe600'; x.font='700 40px Orbitron, sans-serif'; x.fillText('PUNKTE',540,672);
-    x.fillStyle='#c9b9ef'; x.font='400 36px "Space Mono", monospace'; x.fillText('Rekord '+curBest(),540,840);
-    x.fillStyle='#ff2e88'; x.shadowColor='#ff2e88'; x.shadowBlur=20; x.font='900 52px Orbitron, sans-serif'; x.fillText('SCHLAG MICH. 🔥',540,930);
+    x.shadowBlur=0; x.fillStyle='#ffe600'; x.font='700 40px Orbitron, sans-serif'; x.fillText(t('pointsBig'),540,672);
+    x.fillStyle='#c9b9ef'; x.font='400 36px "Space Mono", monospace'; x.fillText(t('record')+' '+curBest(),540,840);
+    x.fillStyle='#ff2e88'; x.shadowColor='#ff2e88'; x.shadowBlur=20; x.font='900 52px Orbitron, sans-serif'; x.fillText(t('beatMe'),540,930);
     x.shadowBlur=0; x.fillStyle='#5b4a85'; x.font='400 30px "Space Mono", monospace'; x.fillText('hannespix.github.io/neondrift',540,1020);
     return c;
   }
@@ -1077,7 +1182,7 @@
     let blobUrl=null;
     try{
       const c=buildShareCanvas();
-      const text='NEONDRIFT'+(daily?(' · Daily '+dailyLabel()):(' · '+mode.toUpperCase()))+': '+Math.round(score)+' Punkte! Schlag mich 🔥 https://hannespix.github.io/neondrift/';
+      const text='NEONDRIFT'+(daily?(' · '+t('dailyLbl')+' '+dailyLabel()):(' · '+modeLabel(mode)))+': '+Math.round(score)+t('shareScore')+'https://hannespix.github.io/neondrift/';
       c.toBlob(blob=>{ if(!blob) return;
         const file=new File([blob],'neondrift-'+Math.round(score)+'.png',{type:'image/png'});
         if(navigator.canShare && navigator.canShare({files:[file]})){
@@ -1096,7 +1201,7 @@
   function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+(meta.chips||0)+((meta.won)?('  ·  🏆 '+meta.won):''); }
   function openShop(){ document.getElementById('start').classList.add('hidden'); renderShop();
     document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
-  function closeShop(){ shopResetArmed=false; const rb=document.getElementById('shopResetBtn'); if(rb) rb.textContent='♻ ALLES ZURÜCKSETZEN';
+  function closeShop(){ shopResetArmed=false; const rb=document.getElementById('shopResetBtn'); if(rb) rb.textContent=t('resetAll');
     document.getElementById('shop').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips(); }
   function renderShop(){ shopChipsEl.textContent='◈ '+(meta.chips||0);
@@ -1105,7 +1210,7 @@
     META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:m.costs[lvl], afford=(meta.chips||0)>=cost;
       const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
       const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
-      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+m.name+'</h4><p>'+m.txt+'</p><div class="stack">Stufe '+lvl+'/'+m.max+'</div>'+btn;
+      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+mName(m.id)+'</h4><p>'+mTxt(m.id)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
       const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
       shopCards.appendChild(card); }); }
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
@@ -1114,24 +1219,43 @@
   let shopResetArmed=false;
   function shopReset(){ const b=document.getElementById('shopResetBtn');
     if(shopResetArmed){ shopResetArmed=false; meta.chips=0; meta.lvl={}; saveMeta();
-      b.textContent='♻ ALLES ZURÜCKSETZEN'; beep(200,0.3,'sawtooth',0.3,-120); vibe([40,30,40]); renderShop(); updateMenuChips(); }
-    else { shopResetArmed=true; b.textContent='WIRKLICH? ✓ (tippen)'; beep(440,0.08,'square',0.2);
-      setTimeout(()=>{ if(shopResetArmed){ shopResetArmed=false; b.textContent='♻ ALLES ZURÜCKSETZEN'; } },4000); } }
+      b.textContent=t('resetAll'); beep(200,0.3,'sawtooth',0.3,-120); vibe([40,30,40]); renderShop(); updateMenuChips(); }
+    else { shopResetArmed=true; b.textContent=t('reallyQ'); beep(440,0.08,'square',0.2);
+      setTimeout(()=>{ if(shopResetArmed){ shopResetArmed=false; b.textContent=t('resetAll'); } },4000); } }
 
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
     document.getElementById('settings').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
   function closeSettings(){ document.getElementById('settings').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); }
+  const OPTLBL={shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',lang:'optLang'};
   function renderSettings(){ document.querySelectorAll('#optRows .optrow').forEach(row=>{
     const k=row.dataset.opt; let v;
-    if(k==='shake') v=(opt.shake===0?'AUS':(opt.shake<1?'REDUZIERT':'AN'));
-    else v=(opt[k]?'AN':'AUS');
-    row.querySelector('b').textContent=v; }); }
+    if(k==='lang') v=lang.toUpperCase();
+    else if(k==='shake') v=(opt.shake===0?t('off'):(opt.shake<1?t('reduced'):t('on')));
+    else v=(opt[k]?t('on'):t('off'));
+    row.innerHTML=t(OPTLBL[k])+' · <b>'+v+'</b>'; }); }
   function cycleOpt(k){
+    if(k==='lang'){ const order=['de','en','fr']; lang=order[(order.indexOf(lang)+1)%3]; saveLang(); applyI18n(); beep(740,0.06,'square',0.2); return; }
     if(k==='shake') opt.shake=(opt.shake>=1?0.4:(opt.shake>0?0:1));
     else opt[k]=!opt[k];
     saveOpt(); renderSettings(); beep(opt[k]===false?330:740,0.06,'square',0.2); }
+  // Statische UI-Texte je Sprache setzen
+  function applyI18n(){ try{ document.documentElement.lang=lang;
+    const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
+    const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
+    set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🛒 '+t('workshop')); set('settingsBtn',t('settings'));
+    setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
+    document.querySelectorAll('.mode').forEach(c=>{ const m=c.dataset.mode==='hardcore'?'hard':c.dataset.mode;
+      const h=c.querySelector('h3'),p=c.querySelector('p'); if(h)h.textContent=t('m_'+m); if(p)p.textContent=t('m_'+m+'D'); });
+    setSel('#pause .utitle',t('pause')); set('resumeBtn',t('resume')); set('pauseMenuBtn',t('mainmenu'));
+    setSel('#upgrade .utitle',t('chooseUp'));
+    setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back')); set('shopResetBtn',t('resetAll'));
+    setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
+    setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
+    const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
+    if(typeof renderSettings==='function') renderSettings();
+  }catch(e){} }
 
   // ---------- Loop ----------
   function loop(now){ let dt=(now-lastT)/1000; lastT=now; if(dt>0.05)dt=0.05;
@@ -1165,7 +1289,7 @@
   document.getElementById('againBtn').addEventListener('click',()=>startGame());
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
-  updateMenuChips();
+  applyI18n(); updateMenuChips();
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
@@ -1184,7 +1308,7 @@
       if(actx && actx.state==='suspended' && !muted){ try{ actx.resume(); }catch(e){} }
     }
   });
-  setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(CRAZY_TAGS); },3200);
+  setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
   setInterval(()=>{ if(state===S.MENU && musicOn){ curSong=(curSong+1)%SONGS.length; sfxRiser(); titleTag.textContent='♪ jetzt: '+SONGS[curSong].name; } },12000);
 
   particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[];
