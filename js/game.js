@@ -402,25 +402,66 @@
     if(opt.guns && bossNumber%2===0){ startMegaBoss(); return; }
     bossActive=true; bossPhaseT=(mode==='hardcore')?10:8.5; laserSpawnT=0.6;
     banner={text:'⚠ BOSS-WELLE '+bossNumber,sub:'',t:2.2,color:'#ffe600'}; shake=10; sfxBoss(); vibe([60,40,60]); }
-  // ---------- Mega-Boss (Pixel-Kreatur mit HP) ----------
-  const BOSS_NAMES={ufo:'UFO-ZERSTÖRER',eye:'DAS AUGE',worm:'NEON-WURM'};
-  const BOSS_COL={ufo:'#19f0ff',eye:'#c45bff',worm:'#2effc0'};
+  // ---------- Mega-Boss: prozeduraler Pixel-Sprite-Generator ----------
+  function makeRng(s){ s=(s>>>0)||1; return ()=>{ s=(Math.imul(s,1664525)+1013904223)>>>0; return s/4294967296; }; }
+  const NPRE=['MEGA','GIGA','TURBO','OBER','HYPER','ULTRA','PROTO','OMEGA','KILLER'];
+  const NCORE=['GLIBBER','ZAHN','AUGEN','SCHLEIM','NEON','BROCKEN','GRUSEL','WUSEL','KNORP','MATSCH','ZACKEN','BLUBB','GNUBBEL'];
+  const NSUF=['MONSTER','VIEH','ZILLA','TRON','KRAKE','KLOPS','BIEST','WUMMS','SCHRECK'];
+  const BPALS=[['#ff2e88','#19f0ff','#ffe600'],['#2effc0','#19f0ff','#ff2e88'],['#c45bff','#ff2e88','#19f0ff'],['#ff9a2e','#ffe600','#ff2e88'],['#19f0ff','#2effc0','#ffe600'],['#ff2e6e','#ffd000','#19f0ff'],['#7cff2e','#19f0ff','#ff2e88']];
+  function genBossSprite(R,tier){
+    const gw=4+tier+((R()*3)|0), gh=4+tier+((R()*3)|0), cp=6+((R()*3)|0), pal=BPALS[(R()*BPALS.length)|0];
+    const pad=(tier+4)*cp, cols=gw*2+1, rows=gh*2+1, cw=cols*cp+pad*2, ch=rows*cp+pad*2, ox=pad+gw*cp, oy=pad+gh*cp;
+    const grid=new Map(), setc=(x,y,c)=>{ grid.set(x+','+y,c); grid.set((-x)+','+y,c); };
+    const h0=R()*6.28,h1=R()*6.28,a3=0.12+R()*0.14,a5=0.05+R()*0.12,squash=0.8+R()*0.5;
+    for(let y=-gh;y<=gh;y++) for(let x=0;x<=gw;x++){ const nx=x/gw, ny=(y/gh)/squash, ang=Math.atan2(ny,nx+1e-4);
+      if(Math.hypot(nx,ny)<=0.74+a3*Math.sin(ang*3+h0)+a5*Math.sin(ang*5+h1)) setc(x,y,pal[0]); }
+    if(R()<0.85){ const py=((gh*0.15+R()*gh*0.4)|0), pw=1+((R()*gw*0.55)|0), ph=1+((R()*2)|0);
+      for(let y=py;y<=py+ph;y++) for(let x=0;x<=pw;x++) if(grid.has(x+','+y)) setc(x,y,pal[1]); }
+    const horns=R()<0.6?1+((R()*2)|0):0;
+    if(horns){ const hx=gw-((R()*2)|0); for(let k=0;k<=tier+1;k++) setc(hx-k,-gh-1-k,pal[2]); }
+    if(tier>=3){ for(let y=-gh;y<=gh;y+=2){ if(grid.has(gw+','+y)) setc(gw+1,y,pal[2]); } } // Seitenstacheln
+    // backen (Farbe + Weiß-Maske für Trefferblitz)
+    const cv=document.createElement('canvas'); cv.width=cw; cv.height=ch; const cx2=cv.getContext('2d');
+    const wv=document.createElement('canvas'); wv.width=cw; wv.height=ch; const wx=wv.getContext('2d');
+    grid.forEach((c,k)=>{ const p=k.split(','), gx=+p[0], gy=+p[1], px=ox+gx*cp, py=oy+gy*cp;
+      cx2.fillStyle=c; cx2.fillRect(px-cp/2,py-cp/2,cp-1,cp-1); wx.fillStyle='#fff'; wx.fillRect(px-cp/2,py-cp/2,cp-1,cp-1); });
+    // dynamische Teile (in px relativ zur Mitte)
+    const nEyes=[1,2,2,2,3][(R()*5)|0], eyes=[], es=cp*(1.3+R()*1.1), eyY=-((gh*0.25)|0)*cp;
+    if(nEyes===1) eyes.push({ox:0,oy:eyY,s:es*1.3,ph:R()*6.28});
+    else { const exx=((gw*0.42)|0)*cp; eyes.push({ox:-exx,oy:eyY,s:es,ph:R()*6.28},{ox:exx,oy:eyY,s:es,ph:R()*6.28}); if(nEyes===3) eyes.push({ox:0,oy:eyY-es,s:es*0.8,ph:R()*6.28}); }
+    const mouths=['grin','fangs','o','teeth'], mouth={type:mouths[(R()*4)|0], oy:((gh*0.46)|0)*cp, w:gw*cp*(0.6+R()*0.3)};
+    const nT=Math.min(5,((R()*(tier+1))|0)+ (R()<0.5?1:0)), tents=[];
+    for(let i=0;i<nT;i++) tents.push({ox:((-gw*0.7+R()*gw*1.4)|0)*cp, len:2+((R()*tier)|0), ph:R()*6.28, col:pal[(R()*3)|0]});
+    const nA=R()<0.7?1+((R()*2)|0):0, ants=[];
+    for(let i=0;i<nA;i++) ants.push({ox:((i===0?-1:1)*(gw*0.3)|0)*cp, ph:R()*6.28, col:pal[2]});
+    const brows=R()<0.55, lights=[]; const bodyKeys=[...grid.keys()];
+    for(let i=0;i<2+((R()*3)|0);i++){ const k=bodyKeys[(R()*bodyKeys.length)|0].split(','); lights.push({ox:(+k[0])*cp,oy:(+k[1])*cp,ph:R()*6.28}); }
+    return {cv,white:wv,ox,oy,pal,rad:(gw+0.6)*cp,eyes,mouth,tents,ants,brows,lights,cp};
+  }
+  function genName(R){ return NPRE[(R()*NPRE.length)|0]+'-'+NCORE[(R()*NCORE.length)|0]+'-'+NSUF[(R()*NSUF.length)|0]; }
   function startMegaBoss(){ bossActive=true;
-    const types=['ufo','eye','worm'], type=types[Math.floor(bossNumber/2-1)%3];
-    boss={type, cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,170), radY:Math.min(H*0.10,80),
-      ang:Math.random()*6.28, angVel:rand(0.7,1.0)*(Math.random()<.5?1:-1),
-      r:40+Math.min(22,bossNumber*2), maxHp:Math.round(24+bossNumber*9), hp:0,
-      t:0, limit:18+bossNumber*2, hitFlash:0, shootT:1.4, warn:0, telegraph:false, fireGap:Math.max(1.0,2.3-bossNumber*0.12),
-      dead:false, deathT:0, x:W/2, y:H*0.24};
+    const tier=Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
+    const R=makeRng(((daily?dailySeed():(Math.random()*1e9))|0)^Math.imul(bossNumber,2654435761));
+    const sp=genBossSprite(R,tier);
+    const moves=['orbit','fig8','sway','bob'], atks=['radial','aimed','spiral','wall','cross'];
+    boss={sp, name:genName(R), move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
+      cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,150+tier*8), radY:Math.min(H*0.11,60+tier*8),
+      ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1), r:sp.rad,
+      maxHp:Math.round(24+bossNumber*9), hp:0, t:0, limit:18+bossNumber*2,
+      hitFlash:0, shootT:1.4, warn:0, telegraph:false, fireGap:Math.max(0.9,2.3-bossNumber*0.12),
+      dead:false, deathT:0, x:W/2, y:H*0.24, blink:0};
     boss.hp=boss.maxHp; ebullets=[];
-    banner={text:'🛸 MEGA-BOSS',sub:BOSS_NAMES[type],t:2.4,color:'#ffe600'};
+    banner={text:'🛸 MEGA-BOSS',sub:boss.name,t:2.6,color:'#ffe600'};
     shake=14; sfxBoss(); sfxWarn(); vibe([60,40,60,40,90]); }
   function eb(x,y,vx,vy){ return {x,y,vx,vy,r:7}; }
   function bossVolley(B){ sfxFire(); shake=Math.max(shake,5); vibe(15);
-    const spd=170+bossNumber*9;
-    if(B.type==='ufo'){ const n=8+Math.min(10,bossNumber); for(let i=0;i<n;i++){ const a=B.t*0.6+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
-    else if(B.type==='eye'){ const a0=Math.atan2(player.y-B.y,player.x-B.x); for(let i=-2;i<=2;i++){ const a=a0+i*0.22; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd*1.25,Math.sin(a)*spd*1.25)); } }
-    else { const n=11; for(let i=0;i<n;i++){ const a=B.t*1.6+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } } }
+    const spd=160+bossNumber*9, tier=Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
+    const a0=Math.atan2(player.y-B.y,player.x-B.x);
+    if(B.attack==='radial'){ const n=8+tier*2; for(let i=0;i<n;i++){ const a=B.t*0.5+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
+    else if(B.attack==='aimed'){ const n=2+tier; for(let i=0;i<n;i++){ const a=a0+(i-(n-1)/2)*0.2; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd*1.25,Math.sin(a)*spd*1.25)); } }
+    else if(B.attack==='spiral'){ const n=4+tier; for(let i=0;i<n;i++){ const a=B.t*2.2+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
+    else if(B.attack==='wall'){ const gap=rand(0.2,0.8); for(let i=0;i<=10;i++){ if(Math.abs(i/10-gap)<0.12) continue; ebullets.push(eb(W*i/10,B.y,0,spd*0.9)); } }
+    else { for(let i=0;i<8;i++){ const a=i*6.28/8; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } } }
   function startBossDeath(){ boss.dead=true; boss.deathT=1.2; ebullets=[];
     flash=0.7; flashColor='#ffe600'; shake=22; effects.slowmo=Math.max(effects.slowmo,1.0);
     sfxWin(); sfxKill(); pixelBurst(boss.x,boss.y,'#ffe600',12); vibe([120,60,160]); }
@@ -438,11 +479,14 @@
     if(B.dead){ B.deathT-=dt; B.x+=rand(-2,2); B.y+=rand(-2,2);
       if(Math.random()<0.6) pixelBurst(B.x+rand(-B.r,B.r),B.y+rand(-B.r,B.r),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),2);
       if(B.deathT<=0) defeatMegaBoss(); return; }
-    B.t+=dt*ts; if(B.hitFlash>0) B.hitFlash-=dt;
+    B.t+=dt*ts; if(B.hitFlash>0) B.hitFlash-=dt; if(B.blink>0) B.blink-=dt;
     if(B.t>B.limit){ bossFlee(); return; }      // Timeout: entkommt mit der Beute (kein Soft-Lock)
+    if(B.blink<=0 && Math.random()<0.012) B.blink=0.16;   // gelegentliches Blinzeln
     B.ang+=B.angVel*dt*ts;
-    B.x=B.cx+Math.cos(B.ang)*B.radX;
-    B.y=B.cy+Math.sin(B.ang*(B.type==='worm'?2:1))*B.radY;
+    if(B.move==='fig8'){ B.x=B.cx+Math.cos(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang*2)*B.radY; }
+    else if(B.move==='sway'){ B.x=B.cx+Math.sin(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang*0.5)*B.radY*0.5; }
+    else if(B.move==='bob'){ B.x=B.cx+Math.sin(B.t*1.2)*B.radX*0.85; B.y=B.cy+Math.abs(Math.sin(B.t*1.7))*B.radY; }
+    else { B.x=B.cx+Math.cos(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang)*B.radY; }
     if(!B.telegraph){ B.shootT-=dt*ts; if(B.shootT<=0){ B.telegraph=true; B.warn=0.55; sfxWarn(); } }
     else { B.warn-=dt*ts; if(B.warn<=0){ bossVolley(B); B.telegraph=false; B.shootT=B.fireGap; } } }
   function endBoss(){ bossActive=false; bossTimer=(mode==='hardcore')?24:30;
@@ -839,31 +883,44 @@
     ctx.restore();
   }
 
-  function drawBoss(){ const B=boss; if(!B) return;
-    const col=B.hitFlash>0?'#ffffff':(BOSS_COL[B.type]||'#ffe600');
-    const tg=B.telegraph?(0.4+0.5*Math.abs(Math.sin(B.warn*22))):0; // Telegraph-Glühen
-    ctx.save(); ctx.translate(B.x,B.y); ctx.shadowBlur=24+tg*20; ctx.shadowColor=tg>0?'#ff2e88':col;
-    ctx.lineWidth=4; ctx.strokeStyle=col;
-    if(B.type==='ufo'){
-      ctx.fillStyle=hexA('#ff2e88',0.22); ctx.beginPath(); ctx.ellipse(0,6,B.r,B.r*0.42,0,0,6.28); ctx.fill(); ctx.stroke();
-      ctx.fillStyle=hexA('#19f0ff',0.5); ctx.beginPath(); ctx.arc(0,-4,B.r*0.5,Math.PI,0); ctx.fill(); ctx.stroke();
-      for(let i=-2;i<=2;i++){ ctx.fillStyle=(Math.floor(B.t*6+i)%2)?'#fff':'#ff2e88'; ctx.fillRect(i*B.r*0.34-3,10,6,6); }
-    } else if(B.type==='eye'){
-      ctx.fillStyle=hexA('#c45bff',0.22); ctx.beginPath(); ctx.arc(0,0,B.r,0,6.28); ctx.fill(); ctx.stroke();
-      const a=Math.atan2(player.y-B.y,player.x-B.x), ex=Math.cos(a)*B.r*0.4, ey=Math.sin(a)*B.r*0.4;
-      ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(ex,ey,B.r*0.36,0,6.28); ctx.fill();
-      ctx.fillStyle='#08010f'; ctx.beginPath(); ctx.arc(ex,ey,B.r*0.17,0,6.28); ctx.fill();
-    } else {
-      ctx.fillStyle=hexA('#2effc0',0.28); ctx.beginPath(); ctx.arc(0,0,B.r*0.62,0,6.28); ctx.fill(); ctx.stroke();
-      ctx.fillStyle='#fff'; ctx.fillRect(-B.r*0.26-3,-7,6,6); ctx.fillRect(B.r*0.26-3,-7,6,6);
-      ctx.fillStyle=col; for(let i=1;i<=3;i++){ ctx.globalAlpha=0.5-i*0.12; ctx.beginPath(); ctx.arc(-Math.cos(B.ang*2)*i*10,-Math.sin(B.ang*2)*i*10,B.r*0.4,0,6.28); ctx.fill(); } ctx.globalAlpha=1;
-    }
+  function drawMouth(m,t){ const y=m.oy, w=m.w, h=w*0.4; ctx.save(); ctx.translate(0,y); ctx.fillStyle='#08010f';
+    if(m.type==='grin'){ ctx.strokeStyle='#08010f'; ctx.lineWidth=Math.max(3,h*0.22); ctx.beginPath(); ctx.arc(0,-h*0.2,w*0.5,0.15*Math.PI,0.85*Math.PI); ctx.stroke(); }
+    else if(m.type==='o'){ const r=w*0.26*(1+0.2*Math.sin(t*8)); ctx.beginPath(); ctx.arc(0,0,r,0,6.28); ctx.fill(); }
+    else if(m.type==='fangs'){ ctx.beginPath(); ctx.ellipse(0,0,w*0.42,h*0.5,0,0,6.28); ctx.fill(); ctx.fillStyle='#fff';
+      ctx.beginPath(); ctx.moveTo(-w*0.28,-h*0.4); ctx.lineTo(-w*0.16,h*0.55); ctx.lineTo(-w*0.04,-h*0.4); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(w*0.28,-h*0.4); ctx.lineTo(w*0.16,h*0.55); ctx.lineTo(w*0.04,-h*0.4); ctx.fill(); }
+    else { ctx.fillRect(-w*0.45,-h*0.4,w*0.9,h*0.8); ctx.fillStyle='#fff'; for(let i=0;i<5;i++) ctx.fillRect(-w*0.45+i*w*0.18+2,-h*0.4,w*0.06,h*0.8); }
+    ctx.restore(); }
+  function drawBoss(){ const B=boss, S=B&&B.sp; if(!B||!S) return;
+    const tg=B.telegraph?(0.4+0.5*Math.abs(Math.sin(B.warn*22))):0;
+    ctx.save(); ctx.translate(B.x,B.y);
+    const wjx=1+0.07*Math.sin(B.t*5), wjy=1+0.07*Math.sin(B.t*5+1.6); ctx.scale(wjx,wjy);
+    // Tentakel (hinter dem Körper, wedeln)
+    for(const t of S.tents){ ctx.strokeStyle=t.col; ctx.lineWidth=S.cp; ctx.lineCap='round'; ctx.shadowBlur=10; ctx.shadowColor=t.col; ctx.beginPath(); ctx.moveTo(t.ox,B.r*0.45);
+      for(let s=1;s<=t.len;s++) ctx.lineTo(t.ox+Math.sin(B.t*5+s*0.7+t.ph)*S.cp*1.4,B.r*0.45+s*S.cp*1.3); ctx.stroke(); }
+    // Fühler (oben, wippen)
+    for(const a of S.ants){ ctx.strokeStyle=a.col; ctx.lineWidth=Math.max(2,S.cp*0.4); ctx.shadowBlur=8; ctx.shadowColor=a.col;
+      const tx=a.ox+Math.sin(B.t*4+a.ph)*S.cp*1.6, ty=-B.r*0.55-S.cp*2.6; ctx.beginPath(); ctx.moveTo(a.ox,-B.r*0.42); ctx.lineTo(tx,ty); ctx.stroke();
+      ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(tx,ty,S.cp*0.6,0,6.28); ctx.fill(); }
+    // Körper-Sprite (gebacken) mit Neon-Glühen
+    ctx.shadowBlur=22+tg*22; ctx.shadowColor=tg>0?'#ff2e88':S.pal[0]; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
+    if(B.hitFlash>0){ ctx.globalAlpha=Math.min(1,B.hitFlash*9); ctx.drawImage(S.white,-S.ox,-S.oy); ctx.globalAlpha=1; }
+    // Augen (verfolgen Spieler + blinzeln) & Augenbrauen
+    const pa=Math.atan2(player.y-B.y,player.x-B.x), bk=B.blink>0;
+    for(const e of S.eyes){ ctx.save(); ctx.translate(e.ox,e.oy);
+      ctx.fillStyle='#fff'; ctx.beginPath(); ctx.ellipse(0,0,e.s,bk?e.s*0.12:e.s,0,0,6.28); ctx.fill();
+      if(!bk){ ctx.fillStyle='#08010f'; ctx.beginPath(); ctx.arc(Math.cos(pa)*e.s*0.42,Math.sin(pa)*e.s*0.42,e.s*0.46,0,6.28); ctx.fill(); }
+      if(S.brows){ ctx.strokeStyle='#08010f'; ctx.lineWidth=Math.max(2,S.cp*0.5); ctx.beginPath(); ctx.moveTo(-e.s,-e.s*1.05); ctx.lineTo(e.s*0.6,-e.s*0.6); ctx.stroke(); }
+      ctx.restore(); }
+    drawMouth(S.mouth,B.t);
+    // Blink-Lichter auf dem Körper
+    for(const l of S.lights){ if(Math.floor(B.t*5+l.ph)%2){ ctx.fillStyle='#fff'; ctx.fillRect(l.ox-S.cp*0.4,l.oy-S.cp*0.4,S.cp*0.8,S.cp*0.8); } }
     ctx.restore();
     // HP-Leiste oben
-    if(!B.dead){ const bw=Math.min(W*0.62,360), bx=W/2-bw/2, by=(mode!=='zen'?48:30);
+    if(!B.dead){ const bw=Math.min(W*0.66,380), bx=W/2-bw/2, by=(mode!=='zen'?48:30), col=S.pal[0];
       ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.font='700 12px Orbitron, sans-serif'; ctx.fillStyle=col; ctx.shadowBlur=8; ctx.shadowColor=col;
-      ctx.fillText('🛸 '+(BOSS_NAMES[B.type]||'MEGA-BOSS'),W/2,by-10);
+      ctx.fillText('🛸 '+B.name,W/2,by-10);
       ctx.shadowBlur=0; ctx.fillStyle='rgba(0,0,0,0.45)'; ctx.fillRect(bx-2,by-2,bw+4,10);
       ctx.fillStyle=col; ctx.fillRect(bx,by,bw*Math.max(0,B.hp/B.maxHp),6); ctx.restore(); }
   }
