@@ -164,6 +164,18 @@
   .tlegend .lc.chosen{border-color:#7cff2e;background:rgba(124,255,46,.2);}
   .tlegend .lc.avail{border-color:#19f0ff;background:rgba(25,240,255,.15);}
   .tlegend .lc.locked{border-color:rgba(255,255,255,.4);border-style:dashed;opacity:.5;}
+  /* Klickbare Knoten (Skillpunkt ausgeben) */
+  .tnode.pick{cursor:pointer;border-color:#19f0ff;background:rgba(25,240,255,.12);animation:none;box-shadow:0 0 12px rgba(25,240,255,.45);}
+  .tnode.pick:hover{transform:scale(1.07);box-shadow:0 0 20px rgba(25,240,255,.8);}
+  .tnode.pick:active{transform:scale(.97);}
+  .tnode .pickhint{position:absolute;top:-7px;right:-7px;width:19px;height:19px;border-radius:50%;background:#19f0ff;color:#08010f;
+    font-size:14px;font-weight:900;line-height:19px;text-align:center;box-shadow:0 0 9px rgba(25,240,255,.9);}
+  /* Waffe-holen-Karte (freier Slot + Skillpunkt) */
+  .wtree.addable{border-color:rgba(25,240,255,.4);background:rgba(25,240,255,.06);}
+  .wtree.addable .adddesc{font-size:9px;line-height:1.35;color:#c9b9ef;text-align:center;margin:4px 2px 2px;}
+  .wtree.addable .addw{margin-top:auto;cursor:pointer;border:none;font-family:'Orbitron',sans-serif;font-weight:700;font-size:11px;letter-spacing:.04em;
+    color:#08010f;background:linear-gradient(120deg,var(--cyan),var(--yellow));padding:8px 14px;border-radius:30px;transition:transform .12s;}
+  .wtree.addable .addw:hover{transform:scale(1.06);}
 
   /* Game over */
   .gover{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(32px,9vw,72px);color:var(--pink);text-shadow:0 0 18px var(--pink),0 0 48px rgba(255,46,136,.6);}
