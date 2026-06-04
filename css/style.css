@@ -34,6 +34,20 @@
   #shopBtn:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 0 24px rgba(25,240,255,.35);}
   #shopBtn:active{transform:translateY(-1px);}
   #menuChips{color:var(--yellow);}
+  #settingsBtn{margin-top:12px;cursor:pointer;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.04);color:#c9b9ef;
+    font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;padding:11px 24px;border-radius:50px;transition:transform .12s,border-color .14s;}
+  #settingsBtn:hover{transform:translateY(-3px);border-color:#c9b9ef;}
+  #settingsBtn:active{transform:translateY(-1px);}
+  #optRows{margin-top:26px;display:flex;flex-direction:column;gap:12px;width:min(360px,86vw);}
+  .optrow{cursor:pointer;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#e7defc;
+    font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.06em;padding:14px 18px;border-radius:14px;text-align:left;transition:border-color .14s,background .14s;}
+  .optrow:hover{border-color:var(--cyan);}
+  .optrow b{float:right;color:var(--cyan);font-family:'Orbitron',sans-serif;}
+  /* Fluch-Karten */
+  .ucard.curse{border-color:rgba(255,46,136,.55);background:rgba(255,46,136,.06);box-shadow:0 0 18px rgba(255,46,136,.15) inset;}
+  .ucard.curse:hover{border-color:var(--pink);box-shadow:0 0 30px rgba(255,46,136,.4);}
+  .ucard.curse h4{color:var(--pink);}
+  .ucard.curse .stack{color:var(--pink);}
   /* Werkstatt / Shop */
   #shopCards{margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:780px;}
   .ucard.maxed{opacity:.5;}

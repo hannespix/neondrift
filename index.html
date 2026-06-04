@@ -40,6 +40,7 @@
     </div>
     <button id="dailyBtn" data-mode="daily">🗓 TÄGLICHE CHALLENGE</button>
     <button id="shopBtn">🛒 WERKSTATT · <span id="menuChips">◈ 0</span></button>
+    <button id="settingsBtn">⚙️ EINSTELLUNGEN</button>
     <div class="how">Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü · 🔊 unten rechts</div>
     <div id="installRow">
       <button id="installBtn">📲 App installieren</button>
@@ -69,6 +70,17 @@
     <button class="btn ghost" id="shopBackBtn" style="margin-top:26px;">← ZURÜCK</button>
   </div>
 
+  <div id="settings" class="screen hidden">
+    <div class="utitle" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">EINSTELLUNGEN</div>
+    <div class="usub">Tippen zum Umschalten</div>
+    <div id="optRows">
+      <button class="optrow" data-opt="shake">Screenshake · <b>AN</b></button>
+      <button class="optrow" data-opt="fx">Bildschirm-Effekte · <b>AN</b></button>
+      <button class="optrow" data-opt="curses">🎲 Lustige Flüche · <b>AN</b></button>
+    </div>
+    <button class="btn ghost" id="settingsBackBtn" style="margin-top:26px;">← ZURÜCK</button>
+  </div>
+
   <div id="over" class="screen hidden">
     <div class="gover">CRASH</div>
     <div class="insult" id="insult"></div>
@@ -84,7 +96,7 @@
   </div>
 
   <button id="mute" title="Ton an/aus">🔊</button>
-  <div class="credit">NEONDRIFT v5</div>
+  <div class="credit">NEONDRIFT v6</div>
 </div>
 
 <script src="js/game.js"></script>

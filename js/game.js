@@ -38,6 +38,10 @@
   let comboTime=0, comboTimeMax=3.4;                 // Combo-Decay-Timer
   let beatIdx=0, beatPulse=0, spawnQueued=false, orbQueued=false; // Beat-Sync
   let daily=false;                                    // Daily-Challenge aktiv?
+  let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
+  let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses}; }catch(e){} return {shake:1,fx:1,curses:true}; }
+  function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
   let actx=null, muted=false, masterGain=null, musicGain=null;
@@ -205,7 +209,7 @@
     canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
   window.addEventListener('resize',resize); resize();
   const tgt={x:W/2,y:H*0.72};
-  function setT(x,y){tgt.x=x;tgt.y=y;}
+  function setT(x,y){ if(mods&&mods.invertX) x=W-x; tgt.x=x; tgt.y=y; }   // Spiegelwelt-Fluch
   function onMove(e){ const r=canvas.getBoundingClientRect();
     if(e.touches&&e.touches[0]) setT(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top); else setT(e.clientX-r.left,e.clientY-r.top); }
   canvas.addEventListener('mousemove',onMove);
@@ -257,11 +261,19 @@
     {id:'loot',ico:'🎁',name:'Glücksbringer',desc:'Power-Ups erscheinen 50% öfter',max:2,apply:()=>{mods.powerupRate*=1.5;}},
     {id:'combo',ico:'🔗',name:'Combo-Anker',desc:'Jeder Near-Miss gibt +1 Combo extra',max:2,apply:()=>{mods.comboBonus+=1;}},
     {id:'reflex',ico:'🕙',name:'Reflex-Kern',desc:'Slow-Mo hält 50% länger',max:2,apply:()=>{mods.slowmoMult*=1.5;}},
-    {id:'heart',ico:'💗',name:'Extra-Herz',desc:'+1 Leben (max 6)',max:3,apply:()=>{lives=Math.min(lives+1,6);}}
+    {id:'heart',ico:'💗',name:'Extra-Herz',desc:'+1 Leben (max 6)',max:3,apply:()=>{lives=Math.min(lives+1,6);}},
+    // ---- Fluch-Karten (lustige Nerfs, Deal with the Devil) ----
+    {id:'banana',ico:'🍌',name:'Bananen-Boden',desc:'Steuerung schlüpfrig af, aber +65% Punkte',max:1,curse:true,apply:()=>{mods.follow*=0.7;mods.scoreMult*=1.65;}},
+    {id:'smol',ico:'🫠',name:'Smol Brain',desc:'Hitbox +28% (dicke Erbse), dafür +2 Schild',max:1,curse:true,apply:()=>{mods.playerR*=1.28;player.r=mods.playerR;shields=Math.min(shields+2,6);}},
+    {id:'energy',ico:'⚡',name:'Energy-Drink-OD',desc:'Hindernisse +22% schneller, Near-Radius +75%',max:1,curse:true,apply:()=>{mods.obSpeed*=1.22;mods.nearRadius*=1.75;}},
+    {id:'blind',ico:'🌫️',name:'Drip aber blind',desc:'Sicht eingeschränkt, dafür +90% Punkte',max:1,curse:true,apply:()=>{mods.fog=Math.min(0.82,mods.fog+0.55);mods.scoreMult*=1.9;}},
+    {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
+    {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Links/rechts vertauscht 💀, dafür +55% Punkte',max:1,curse:true,apply:()=>{mods.invertX=!mods.invertX;mods.scoreMult*=1.55;}}
   ];
 
   function reset(){
-    mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1};
+    mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
+          obSpeed:1,spawnMult:1,fog:0,invertX:false};
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
     obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[];
@@ -274,6 +286,7 @@
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
+    director=0.5; overdrive=false;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
   function curBest(){ return daily?(best.daily||0):(best[mode]||0); }
@@ -299,6 +312,7 @@
     state=S.MENU; document.getElementById('hud').classList.add('hidden');
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
+    document.getElementById('settings').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
   function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
@@ -329,7 +343,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(120+level*16+Math.min(elapsed*6,220))*hc*zc;
+    const sp=(120+level*16+Math.min(elapsed*6,220))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12);
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -379,14 +393,19 @@
   }
   function openUpgrade(){ state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     upgradeSub.textContent='Level '+level+' · Punkte '+Math.round(score);
-    const avail=UPGRADES.filter(u=>(upgradeCounts[u.id]||0)<u.max);
-    const poolArr=(avail.length?avail:UPGRADES).slice(); const chosen=[];
-    while(chosen.length<3&&poolArr.length) chosen.push(poolArr.splice(Math.floor(Math.random()*poolArr.length),1)[0]);
+    const avail=UPGRADES.filter(u=>(upgradeCounts[u.id]||0)<u.max && (opt.curses||!u.curse));
+    const curses=avail.filter(u=>u.curse), normals=avail.filter(u=>!u.curse);
+    const pool=(normals.length?normals:avail).slice(), chosen=[];
+    // Mit ~50% Chance genau eine Fluch-Karte einstreuen (Deal with the Devil)
+    if(opt.curses && curses.length && Math.random()<0.5) chosen.push(curses.splice(Math.floor(Math.random()*curses.length),1)[0]);
+    while(chosen.length<3&&pool.length) chosen.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+    while(chosen.length<3&&curses.length) chosen.push(curses.splice(Math.floor(Math.random()*curses.length),1)[0]);
     while(chosen.length<3) chosen.push(pick(UPGRADES));
+    for(let i=chosen.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [chosen[i],chosen[j]]=[chosen[j],chosen[i]]; } // mischen
     upgradeCards.innerHTML='';
     chosen.forEach(u=>{ const lvl=(upgradeCounts[u.id]||0);
-      const card=document.createElement('div'); card.className='ucard';
-      card.innerHTML=`<div class="ico">${u.ico}</div><h4>${u.name}</h4><p>${u.desc}</p><div class="stack">${lvl>0?('Stufe '+lvl+'/'+u.max):('0/'+u.max)}</div>`;
+      const card=document.createElement('div'); card.className='ucard'+(u.curse?' curse':'');
+      card.innerHTML=`<div class="ico">${u.ico}</div><h4>${u.name}</h4><p>${u.desc}</p><div class="stack">${u.curse?'🎲 FLUCH':(lvl>0?('Stufe '+lvl+'/'+u.max):('0/'+u.max))}</div>`;
       card.addEventListener('click',()=>chooseUpgrade(u));
       upgradeCards.appendChild(card);
     });
@@ -400,6 +419,7 @@
   // ---------- Hit ----------
   function hitPlayer(color){
     if(invuln>0) return false;
+    director=Math.max(0,director-0.2);   // Director: bei Treffer Druck rausnehmen
     if(shields>0){ shields--; invuln=1.1; flash=0.5; flashColor='#2effc0'; shake=14;
       spawnParticles(player.x,player.y,'#2effc0',22,260); sfxShieldBreak(); vibe([30,40,30]);
       floatText(player.x,player.y-26,'SCHILD WEG!','#2effc0',18); return false; }
@@ -429,6 +449,13 @@
     if(combo>0){ comboTime-=dt; if(comboTime<=0){ combo=0; multiplier=1; comboTime=0;
       floatText(player.x,player.y-30,'COMBO AUS','#9a86c9',16); beep(330,0.12,'sine',0.14,-120); } }
 
+    // Adaptiver Director: pendelt langsam zur Mitte zurück (Near-Miss/Hit schubsen ihn)
+    director+=(0.5-director)*Math.min(1,dt*0.25);
+    // Combo-Overdrive ab x8
+    const od=multiplier>=8;
+    if(od&&!overdrive){ banner={text:'⚡ OVERDRIVE',sub:'du brennst!',t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
+    overdrive=od;
+
     player.r+= (mods.playerR-player.r)*0.2;
     player.x+=(tgt.x-player.x)*Math.min(1,dt*mods.follow);
     player.y+=(tgt.y-player.y)*Math.min(1,dt*mods.follow);
@@ -452,7 +479,8 @@
     }
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
-      if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false; spawnT=Math.max(0.36,0.95-difficulty*0.05-level*0.015); } }
+      if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
+        spawnT=Math.max(0.30,(0.95-difficulty*0.05-level*0.015)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     powerupT-=dt; if(powerupT<=0){ spawnPowerup(); powerupT=rand(10,16)/mods.powerupRate; }
@@ -490,8 +518,11 @@
       }
       if(invuln<=0 && d2<player.r*player.r){ spawnParticles(player.x,player.y,o.color,10,180); obstacles.splice(i,1); if(hitPlayer(o.color)) return; continue; }
       const nr=player.r+mods.nearRadius;
-      if(!o.near && invuln<=0 && d2<nr*nr && d2>player.r*player.r){ o.near=true; doNear(o); }
-      if(o.cy-hh>H+40){ if(!o.scored){addScore(1);o.scored=true;} obstacles.splice(i,1); }
+      if(invuln<=0 && o.near){ const gap=Math.sqrt(d2)-player.r; if(gap<o.minGap) o.minGap=gap; }
+      if(!o.near && invuln<=0 && d2<nr*nr && d2>player.r*player.r){ o.near=true; o.minGap=Math.sqrt(d2)-player.r; doNear(o); }
+      if(o.cy-hh>H+40){ if(!o.scored){addScore(1);o.scored=true;}
+        if(o.near && o.minGap<player.r*0.5) perfectDodge(o);
+        obstacles.splice(i,1); }
     }
 
     // Orbs
@@ -500,7 +531,7 @@
       if(pull>0){ const dd=Math.hypot(player.x-orb.x,player.y-orb.y), rng=effects.magnet>0?9999:170;
         if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
       const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
-      if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
+      if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
         spawnParticles(orb.x,orb.y,'#19f0ff',14,220); sfxOrb(combo); bumpCombo(); vibe(8); floatText(orb.x,orb.y-14,'+'+g,'#19f0ff',15);
         flash=Math.min(0.5,flash+0.18); flashColor='#19f0ff'; orbs.splice(i,1); continue; }
       if(orb.y>H+20) orbs.splice(i,1);
@@ -527,8 +558,14 @@
 
   function doNear(o){ combo+=1+mods.comboBonus; setMult(); refillCombo(); const g=5*multiplier; addScore(g);
     spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
+    director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
     if(nearCount%5===0){ floatText(player.x,player.y-46,pick(['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!']),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]); } }
+  // Ultra-knapper Ausweicher → Extra-Bonus
+  function perfectDodge(o){ const pb=Math.round(8*multiplier); addScore(pb); combo++; setMult(); refillCombo();
+    floatText(player.x,player.y-50,'PERFEKT! 🎯','#ff2e88',24); beep(1200,0.1,'square',0.2,520);
+    flash=Math.min(0.6,flash+0.2); flashColor='#ff2e88'; nearGlow=1; shake=Math.max(shake,8); vibe([12,18,12]);
+    director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240); }
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
     if(p.type==='shield'){ shields=Math.min(shields+1,6); floatText(p.x,p.y-18,'SCHILD','#2effc0',16); }
@@ -552,7 +589,8 @@
 
   // ---------- Draw ----------
   function draw(){
-    ctx.save(); if(shake>0) ctx.translate(rand(-shake,shake),rand(-shake,shake));
+    const sh=shake*(opt.shake==null?1:opt.shake);
+    ctx.save(); if(sh>0) ctx.translate(rand(-sh,sh),rand(-sh,sh));
     lerpBg(bossActive?BOSS_THEME:THEMES[((level||1)-1)%THEMES.length]);
     const g=ctx.createLinearGradient(0,0,0,H);
     g.addColorStop(0,rgbS(curBg.top)); g.addColorStop(.55,rgbS(curBg.mid)); g.addColorStop(1,rgbS(curBg.bot));
@@ -626,7 +664,15 @@
     const rg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.72);
     rg.addColorStop(0,'rgba(0,0,0,0)'); rg.addColorStop(1,`rgba(${bossActive?'40,5,5':'10,0,20'},${vig})`); ctx.fillStyle=rg; ctx.fillRect(-40,-40,W+80,H+80);
     if(effects&&effects.slowmo>0){ ctx.fillStyle='rgba(40,80,160,0.10)'; ctx.fillRect(-40,-40,W+80,H+80); }
-    if(flash>0){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.2):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }
+    // Fluch „Drip aber blind": Sicht-Tunnel um den Spieler
+    if(mods&&mods.fog>0&&player&&(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE)){
+      const fr=ctx.createRadialGradient(player.x,player.y,player.r*2.4,player.x,player.y,Math.max(W,H)*0.55);
+      fr.addColorStop(0,'rgba(4,1,10,0)'); fr.addColorStop(1,`rgba(4,1,10,${mods.fog})`); ctx.fillStyle=fr; ctx.fillRect(-40,-40,W+80,H+80); }
+    // Combo-Overdrive: pulsierender Chroma-Schimmer
+    if(overdrive&&opt.fx){ const hue=(elapsed||0)*0.7,
+      r=Math.floor(128+127*Math.sin(hue)),g2=Math.floor(128+127*Math.sin(hue+2.09)),b=Math.floor(128+127*Math.sin(hue+4.19));
+      ctx.fillStyle=`rgba(${r},${g2},${b},${0.05+0.03*(beatPulse||0)})`; ctx.fillRect(-40,-40,W+80,H+80); }
+    if(flash>0&&opt.fx){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.2):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }
     ctx.restore();
   }
 
@@ -648,7 +694,7 @@
       ctx.shadowBlur=0; ctx.fillStyle=hexA(it[2],0.3); ctx.fillRect(x-16,y+6,32,4); ctx.fillStyle=it[2]; ctx.fillRect(x-16,y+6,32*Math.max(0,it[1]/it[3]),4); ctx.restore(); x+=40; }
   }
 
-  function drawGrid(){ const hz=H*0.42,vx=W/2, bp=1+(beatPulse||0)*0.55; // bp = Beat-Puls
+  function drawGrid(){ const hz=H*0.42,vx=W/2, bp=1+(beatPulse||0)*0.55+(overdrive?0.35:0); // bp = Beat-Puls (+Overdrive)
     const gc=curBg.grid, sc=curBg.sun;
     ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
     for(let i=-10;i<=10;i++){ctx.beginPath();ctx.moveTo(vx+i*40,hz);ctx.lineTo(vx+i*220,H);ctx.stroke();}
@@ -741,6 +787,21 @@
     if(lvl>=m.max) return; const cost=m.costs[lvl]; if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
 
+  // ---------- Einstellungen ----------
+  function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
+    document.getElementById('settings').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
+  function closeSettings(){ document.getElementById('settings').classList.add('hidden');
+    document.getElementById('start').classList.remove('hidden'); }
+  function renderSettings(){ document.querySelectorAll('#optRows .optrow').forEach(row=>{
+    const k=row.dataset.opt; let v;
+    if(k==='shake') v=(opt.shake===0?'AUS':(opt.shake<1?'REDUZIERT':'AN'));
+    else v=(opt[k]?'AN':'AUS');
+    row.querySelector('b').textContent=v; }); }
+  function cycleOpt(k){
+    if(k==='shake') opt.shake=(opt.shake>=1?0.4:(opt.shake>0?0:1));
+    else opt[k]=!opt[k];
+    saveOpt(); renderSettings(); beep(opt[k]===false?330:740,0.06,'square',0.2); }
+
   // ---------- Loop ----------
   function loop(now){ let dt=(now-lastT)/1000; lastT=now; if(dt>0.05)dt=0.05;
     if(state===S.PLAY) update(dt);
@@ -764,6 +825,9 @@
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
   document.getElementById('shopBtn').addEventListener('click',openShop);
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
+  document.getElementById('settingsBtn').addEventListener('click',openSettings);
+  document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
+  document.querySelectorAll('#optRows .optrow').forEach(row=>row.addEventListener('click',()=>cycleOpt(row.dataset.opt)));
   document.getElementById('againBtn').addEventListener('click',()=>startGame());
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
