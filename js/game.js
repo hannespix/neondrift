@@ -13,7 +13,7 @@
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{}}; }catch(e){} return {chips:0,lvl:{}}; }
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0}; }catch(e){} return {chips:0,lvl:{},won:0}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   const META=[
     {id:'shield',ico:'🛡️',name:'Startschild',max:2,costs:[80,240],   txt:'Beginne jeden Run mit +1 Schild je Stufe'},
@@ -40,6 +40,7 @@
   let beatIdx=0, beatPulse=0, spawnQueued=false, orbQueued=false; // Beat-Sync
   let daily=false;                                    // Daily-Challenge aktiv?
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
+  let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
   function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
@@ -298,6 +299,7 @@
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; fireT=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
+    endless=false; madness=0; wonThisRun=false; laserFinal=false;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
   function curBest(){ return daily?(best.daily||0):(best[mode]||0); }
@@ -309,9 +311,10 @@
   function pwrSurv(){ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
     return up*0.6 + shields*0.4 + Math.max(0,lives-3)*0.5 + (13-mods.playerR)/13*4
       + Math.max(0,(mods.nearRadius-30)/30) + Math.max(0,(mods.follow-14)/8) + Math.max(0,mods.scoreMult-1); }
-  const difSpd =()=>1+Math.min(0.95,pwrSurv()*0.035);   // Obstacles schneller (max +95%)
-  const difDen =()=>1-Math.min(0.45,pwrSurv()*0.02);    // Obstacles dichter (Intervall, max −45%)
+  const difSpd =()=>1+Math.min(0.95,pwrSurv()*0.035)+(endless?madness:0);          // Obstacles schneller (+Wahnsinn)
+  const difDen =()=>Math.max(0.22,1-Math.min(0.45,pwrSurv()*0.02)-(endless?madness*0.45:0)); // dichter (+Wahnsinn)
   const difHp  =()=>1+gunDps()*0.45;                    // Obstacles zäher je nach Schuss-DPS (konstante Treffer)
+  function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
@@ -407,10 +410,13 @@
 
   // ---------- Boss ----------
   function startBoss(){
-    // Jeder zweite Boss (2,4,6…) ist ein Mega-Boss – aber nur, wenn man schießen kann
-    if(opt.guns && bossNumber%2===0){ startMegaBoss(); return; }
-    bossActive=true; bossPhaseT=(mode==='hardcore')?10:8.5; laserSpawnT=0.6;
-    banner={text:'⚠ BOSS-WELLE '+bossNumber,sub:'',t:2.2,color:'#ffe600'}; shake=10; sfxBoss(); vibe([60,40,60]); }
+    const isFinal = !endless && bossNumber===finalNum();
+    // Mega-Boss bei jedem 2. Boss & im Wahnsinn-Modus immer – wenn man schießen kann
+    if(opt.guns && (isFinal || endless || bossNumber%2===0)){ startMegaBoss(isFinal); return; }
+    // Laser-Boss (bzw. Laser-Finale, wenn Schießen aus)
+    bossActive=true; laserFinal=isFinal; bossPhaseT=isFinal?((mode==='hardcore')?16:14):((mode==='hardcore')?10:8.5); laserSpawnT=0.6;
+    banner=isFinal?{text:'👾 DER ENDGEGNER',sub:'überlebe das Inferno!',t:2.6,color:'#ff2e88'}:{text:'⚠ BOSS-WELLE '+bossNumber,sub:'',t:2.2,color:'#ffe600'};
+    shake=isFinal?16:10; sfxBoss(); sfxWarn(); vibe([60,40,60]); }
   // ---------- Mega-Boss: prozeduraler Pixel-Sprite-Generator ----------
   function makeRng(s){ s=(s>>>0)||1; return ()=>{ s=(Math.imul(s,1664525)+1013904223)>>>0; return s/4294967296; }; }
   const NPRE=['MEGA','GIGA','TURBO','OBER','HYPER','ULTRA','PROTO','OMEGA','KILLER'];
@@ -448,20 +454,22 @@
     return {cv,white:wv,ox,oy,pal,rad:(gw+0.6)*cp,eyes,mouth,tents,ants,brows,lights,cp};
   }
   function genName(R){ return NPRE[(R()*NPRE.length)|0]+'-'+NCORE[(R()*NCORE.length)|0]+'-'+NSUF[(R()*NSUF.length)|0]; }
-  function startMegaBoss(){ bossActive=true;
-    const tier=Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
+  function startMegaBoss(final){ bossActive=true;
+    const tier=final?7:Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
     const R=makeRng(((daily?dailySeed():(Math.random()*1e9))|0)^Math.imul(bossNumber,2654435761));
     const sp=genBossSprite(R,tier);
     const moves=['orbit','fig8','sway','bob'], atks=['radial','aimed','spiral','wall','cross'];
-    boss={sp, name:genName(R), move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
+    boss={sp, final:!!final, enraged:false, name:final?('FINALE: '+genName(R)):genName(R),
+      move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
       cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,150+tier*8), radY:Math.min(H*0.11,60+tier*8),
-      ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1), r:sp.rad,
-      maxHp:Math.max(30,Math.round(bossDps()*(8+bossNumber*0.8))), hp:0, t:0, limit:20+bossNumber*2,
+      ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1)*(final?1.15:1), r:sp.rad,
+      maxHp:Math.max(30,Math.round(bossDps()*(8+bossNumber*0.8)*(final?2.4:1))), hp:0, t:0,
+      limit:final?9999:(20+bossNumber*2),
       hitFlash:0, shootT:1.4, warn:0, telegraph:false, fireGap:Math.max(0.7,2.3-bossNumber*0.12-Math.min(0.9,pwrSurv()*0.03)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0};
     boss.hp=boss.maxHp; ebullets=[];
-    banner={text:'🛸 MEGA-BOSS',sub:boss.name,t:2.6,color:'#ffe600'};
-    shake=14; sfxBoss(); sfxWarn(); vibe([60,40,60,40,90]); }
+    banner=final?{text:'👾 DER ENDGEGNER',sub:boss.name,t:3,color:'#ff2e88'}:{text:'🛸 MEGA-BOSS',sub:boss.name,t:2.6,color:'#ffe600'};
+    shake=final?20:14; sfxBoss(); sfxWarn(); vibe([60,40,60,40,90]); }
   function eb(x,y,vx,vy){ return {x,y,vx,vy,r:7}; }
   function bossVolley(B){ sfxFire(); shake=Math.max(shake,5); vibe(15);
     const xs=Math.min(7,Math.floor(pwrSurv()*0.4)), spd=(160+bossNumber*9)*(1+Math.min(0.4,pwrSurv()*0.015));
@@ -475,13 +483,22 @@
   function startBossDeath(){ boss.dead=true; boss.deathT=1.2; ebullets=[];
     flash=0.7; flashColor='#ffe600'; shake=22; effects.slowmo=Math.max(effects.slowmo,1.0);
     sfxWin(); sfxKill(); pixelBurst(boss.x,boss.y,'#ffe600',12); vibe([120,60,160]); }
-  function defeatMegaBoss(){ const bonus=160*multiplier*bossNumber, chips=20+bossNumber*8;
+  function defeatMegaBoss(){ const wasFinal=boss&&boss.final;
+    const bonus=(wasFinal?600:160)*multiplier*bossNumber, chips=(wasFinal?120:20)+bossNumber*8;
     addScore(bonus); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips();
-    banner={text:'BESIEGT! 💥',sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'};
-    pixelBurst(W/2,H*0.28,'#2effc0',16); spawnParticles(W/2,H*0.28,'#ffe600',30,300);
-    flash=0.5; flashColor='#2effc0'; sfxWin(); vibe([20,30,40]);
+    pixelBurst(W/2,H*0.28,'#2effc0',wasFinal?28:16); spawnParticles(W/2,H*0.28,'#ffe600',wasFinal?60:30,320);
+    flash=0.6; flashColor='#2effc0'; sfxWin(); vibe([20,30,40]);
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
-    boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
+    boss=null; bossActive=false; bossNumber++;
+    if(wasFinal) winGame();
+    else { banner={text:'BESIEGT! 💥',sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'}; bossTimer=(mode==='hardcore')?24:30; } }
+  function winGame(){ endless=true; madness=0; wonThisRun=true; meta.won=(meta.won||0)+1; saveMeta();
+    banner={text:'🏆 DURCHGESPIELT!',sub:'…aber es hört nicht auf.',t:4.5,color:'#ffe600'};
+    flash=0.85; flashColor='#ffe600'; shake=26; effects.slowmo=Math.max(effects.slowmo,1.4);
+    for(let i=0;i<6;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.18,H*0.6),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),10);
+    sfxWin(); setTimeout(()=>{sfxWin();},220); setTimeout(()=>{sfxRiser();},520); vibe([120,40,120,40,200,60,220]);
+    setTimeout(()=>{ if(state===S.PLAY) banner={text:'☣ WAHNSINN-MODUS',sub:'wie weit kommst du?',t:3,color:'#ff2e88'}; },2700);
+    bossTimer=(mode==='hardcore')?9:12; }
   function bossFlee(){ banner={text:'🛸 ENTKOMMEN…',sub:'die Beute ist weg!',t:2.4,color:'#9a86c9'};
     beep(300,0.3,'sawtooth',0.3,-120); vibe(40); ebullets=[];
     boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
@@ -492,6 +509,8 @@
     B.t+=dt*ts; if(B.hitFlash>0) B.hitFlash-=dt; if(B.blink>0) B.blink-=dt;
     if(B.t>B.limit){ bossFlee(); return; }      // Timeout: entkommt mit der Beute (kein Soft-Lock)
     if(B.blink<=0 && Math.random()<0.012) B.blink=0.16;   // gelegentliches Blinzeln
+    if(B.final && !B.enraged && B.hp<=B.maxHp*0.5){ B.enraged=true; B.angVel*=1.6; B.fireGap*=0.55; B.attack='spiral';
+      banner={text:'🔥 ENRAGE!',sub:'es dreht völlig durch!',t:2,color:'#ff2e88'}; flash=0.5; flashColor='#ff2e88'; shake=18; sfxWarn(); vibe([40,30,40,30,60]); }
     B.ang+=B.angVel*dt*ts;
     if(B.move==='fig8'){ B.x=B.cx+Math.cos(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang*2)*B.radY; }
     else if(B.move==='sway'){ B.x=B.cx+Math.sin(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang*0.5)*B.radY*0.5; }
@@ -499,12 +518,14 @@
     else { B.x=B.cx+Math.cos(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang)*B.radY; }
     if(!B.telegraph){ B.shootT-=dt*ts; if(B.shootT<=0){ B.telegraph=true; B.warn=0.55; sfxWarn(); } }
     else { B.warn-=dt*ts; if(B.warn<=0){ bossVolley(B); B.telegraph=false; B.shootT=B.fireGap; } } }
-  function endBoss(){ bossActive=false; bossTimer=(mode==='hardcore')?24:30;
-    const bonus=100*multiplier*bossNumber; addScore(bonus);
-    banner={text:'ÜBERLEBT!',sub:'+'+bonus,t:2.2,color:'#2effc0'}; spawnParticles(W/2,H*0.4,'#ffe600',36,300);
+  function endBoss(){ bossActive=false; const wasFinal=laserFinal; laserFinal=false; bossTimer=(mode==='hardcore')?24:30;
+    const bonus=(wasFinal?500:100)*multiplier*bossNumber; addScore(bonus);
+    spawnParticles(W/2,H*0.4,'#ffe600',wasFinal?60:36,300);
     flash=0.5; flashColor='#ffe600'; sfxWin(); vibe([20,30,40]);
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
-    bossNumber++; }
+    bossNumber++;
+    if(wasFinal){ const chips=120+bossNumber*8; meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
+    else banner={text:'ÜBERLEBT!',sub:'+'+bonus,t:2.2,color:'#2effc0'}; }
   function spawnLaserWave(){ const mixed=bossNumber>=3, vert=(bossNumber%2===1);
     const count=Math.min(6,1+Math.floor(bossNumber/2)+Math.min(2,Math.floor(pwrSurv()*0.14)));
     const warn=Math.max(0.4,1-bossNumber*0.05-Math.min(0.25,pwrSurv()*0.012));
@@ -595,6 +616,7 @@
     const od=multiplier>=8;
     if(od&&!overdrive){ banner={text:'⚡ OVERDRIVE',sub:'du brennst!',t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
     overdrive=od;
+    if(endless) madness+=dt*0.02;   // Wahnsinn-Modus eskaliert unaufhaltsam
 
     player.r+= (mods.playerR-player.r)*0.2;
     player.x+=(tgt.x-player.x)*Math.min(1,dt*mods.follow);
@@ -891,6 +913,11 @@
       r=Math.floor(128+127*Math.sin(hue)),g2=Math.floor(128+127*Math.sin(hue+2.09)),b=Math.floor(128+127*Math.sin(hue+4.19));
       ctx.fillStyle=`rgba(${r},${g2},${b},${0.05+0.03*(beatPulse||0)})`; ctx.fillRect(-40,-40,W+80,H+80); }
     if(flash>0&&opt.fx){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.2):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }
+    // Wahnsinn-Modus: zunehmende Glitch-Scanlines (gestörter Look)
+    if(endless&&opt.fx){ const m=Math.min(1,madness);
+      for(let i=0;i<3+((m*6)|0);i++){ const yy=Math.random()*H;
+        ctx.fillStyle=`rgba(${Math.random()<.5?255:25},${(Math.random()*255)|0},${Math.random()<.5?136:255},${0.05+0.13*m})`;
+        ctx.fillRect(-40,yy,W+80,2+Math.random()*7); } }
     ctx.restore();
   }
 
@@ -983,7 +1010,7 @@
     meta.chips=(meta.chips||0)+earned; saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden');
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=daily?('TÄGLICH · '+dailyLabel()):mode.toUpperCase();
-    chipsEarnedEl.textContent='◈ +'+earned+'  ·  Guthaben ◈ '+(meta.chips||0);
+    chipsEarnedEl.textContent=(wonThisRun?'🏆 DURCHGESPIELT!  ·  ':'')+'◈ +'+earned+'  ·  Guthaben ◈ '+(meta.chips||0);
     quipEl.textContent=pick(QUIPS); insultEl.textContent=pick(INSULTS); newrecEl.style.display=rec?'block':'none';
     setTimeout(()=>document.getElementById('over').classList.remove('hidden'),560);
   }
@@ -1030,7 +1057,7 @@
   }
 
   // ---------- Werkstatt (Meta-Shop) ----------
-  function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+(meta.chips||0); }
+  function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+(meta.chips||0)+((meta.won)?('  ·  🏆 '+meta.won):''); }
   function openShop(){ document.getElementById('start').classList.add('hidden'); renderShop();
     document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
   function closeShop(){ document.getElementById('shop').classList.add('hidden');
