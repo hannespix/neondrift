@@ -5,6 +5,7 @@
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
+  const MAXPART=260;   // Obergrenze aktiver Partikel (Perf-Cap gegen Render-Spikes)
 
   // ---------- i18n (DE / EN / FR, Jugendsprache je Sprache) ----------
   function detectLang(){ const l=((navigator.language||navigator.userLanguage||'en')+'').slice(0,2).toLowerCase(); return (l==='de'||l==='fr')?l:'en'; }
@@ -1296,6 +1297,7 @@
 
     // Particles & floaters
     for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; if(p.life<=0)particles.splice(i,1); }
+    if(particles.length>MAXPART) particles.splice(0,particles.length-MAXPART);   // Cap gegen Render-Spike bei Massen-Explosionen (älteste = verblassendste zuerst)
     for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.y+=f.vy*dt; f.vy*=0.96; if(f.vx){ f.x+=f.vx*dt; f.vx*=0.92; } f.life-=dt*(f.dr||0.9); if(f.life<=0)floaters.splice(i,1); }
 
     if(banner){ banner.t-=dt; if(banner.t<=0) banner=null; }
@@ -1560,14 +1562,19 @@
           ctx.beginPath(); ctx.arc(player.x,player.y,player.r+9+s*5,0,6.28); ctx.stroke(); ctx.restore(); }
       }
 
-      // particles (additiv -> Funkenregen leuchtet übereinander)
-      ctx.globalCompositeOperation='lighter';
-      for(const p of particles){ ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.color; ctx.shadowBlur=10; ctx.shadowColor=p.color; ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size); } ctx.globalAlpha=1; ctx.shadowBlur=0; ctx.globalCompositeOperation='source-over';
+      // particles (additiv -> Funkenregen leuchtet übereinander). Glow via Halo+Kern statt teurem shadowBlur (mobil flüssig)
+      ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=0;
+      for(const p of particles){ const a=Math.max(0,p.life), s=p.size; ctx.fillStyle=p.color;
+        ctx.globalAlpha=a*0.35; ctx.fillRect(p.x-s,p.y-s,s*2,s*2);                 // weicher additiver Halo
+        ctx.globalAlpha=a;      ctx.fillRect(p.x-s/2,p.y-s/2,s,s); }               // heller Kern
+      ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
 
       // floaters
       ctx.textAlign='center'; ctx.textBaseline='middle';
-      for(const f of floaters){ ctx.globalAlpha=Math.max(0,f.life); ctx.fillStyle=f.color; ctx.shadowBlur=10; ctx.shadowColor=f.color;
-        ctx.font='700 '+f.size+'px Orbitron, sans-serif'; ctx.fillText(f.text,f.x,f.y); } ctx.globalAlpha=1; ctx.shadowBlur=0;
+      ctx.shadowBlur=0;
+      for(const f of floaters){ const a=Math.max(0,f.life); ctx.font='700 '+f.size+'px Orbitron, sans-serif';
+        ctx.globalAlpha=a*0.5; ctx.fillStyle='#000'; ctx.fillText(f.text,f.x+1.5,f.y+1.5);     // billiger Schlagschatten (kein Blur) für Kontrast
+        ctx.globalAlpha=a;     ctx.fillStyle=f.color; ctx.fillText(f.text,f.x,f.y); } ctx.globalAlpha=1;
 
       // effect HUD (top center)
       drawEffectHud();
