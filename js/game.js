@@ -187,7 +187,9 @@
     arsenal.w={};
     // Roguelite-Start: jeder Run beginnt nur mit dem Blaster (Lvl 1); alle anderen Waffen baust du im Run per Skillpunkten auf.
     if(opt.guns){ arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts=1; }   // +1 Startpunkt → sofort 2. Waffe deiner Wahl
-    if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length; for(const w of WEAPONS) arsenal.w[w.id]={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts=0; }   // ZEN = Sandbox: alle Waffen sofort freigeschaltet
+    if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length;   // ZEN = Sandbox: alle Waffen VOLL ausgebaut (Lvl 5, alle 4 Skill-Pfade zufällig) statt nackt auf Lvl 1
+      for(const w of WEAPONS) arsenal.w[w.id]={lvl:5, f1:w.forks[0][Math.random()<0.5?0:1], f2:w.forks[1][Math.random()<0.5?0:1], f3:w.forks[2][Math.random()<0.5?0:1], f4:w.forks[3][Math.random()<0.5?0:1]};
+      skillPts=0; }
     const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
     const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
