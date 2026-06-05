@@ -1276,7 +1276,7 @@
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008);
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
-    if(Math.random() < 0.03*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.7:1)) dropPowerup(o.cx,o.cy);
+    if(Math.random() < 0.08*(mods.powerupRate||1)*((o.maxHp||1)>=3?2.0:1)) dropPowerup(o.cx,o.cy);
     if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
       if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
