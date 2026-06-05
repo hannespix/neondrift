@@ -127,9 +127,9 @@
   // Icons für die Skill-Pfad-Knoten (visueller Baum)
   const PATHICO={rapid:'⏩',heavy:'💢',scatter:'🌬️',precise:'🎯',swarm:'🐝',warhead:'💣',shrapnel:'🎇',incendiary:'🔥',ember:'🥵',wildfire:'🌋',accel:'♨️',consume:'🍽️',permafrost:'🧊',glaciate:'❄️',shatter:'💥',brittle:'🩹',fork:'🌿',highv:'⚡',stormhit:'⛈️',dischargeaoe:'🔆',shock:'🌐',overload:'🟪',repel:'↗️',staticfield:'🕸️',charged:'🔋',autoload:'🔁',wide:'↔️',overdrive:'🚀'};
   const METATR={
-    de:{slot:['Modul-Slot','+1 Waffen-Slot (max 5)'],bp_missile:['Bauplan: Raketen','Schaltet Lenkraketen fürs Loadout frei'],bp_flame:['Bauplan: Brand','Schaltet Brandbolzen fürs Loadout frei'],bp_frost:['Bauplan: Frost','Schaltet Frostschuss fürs Loadout frei'],bp_chain:['Bauplan: Kette','Schaltet Kettenblitz fürs Loadout frei'],bp_nova:['Bauplan: Nova','Schaltet den Nova-Puls fürs Loadout frei'],bp_rail:['Bauplan: Railgun','Schaltet die Railgun fürs Loadout frei'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Up-Droprate +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
-    en:{slot:['Module Slot','+1 weapon slot (max 5)'],bp_missile:['Blueprint: Missiles','Unlocks homing missiles for loadout'],bp_flame:['Blueprint: Flame','Unlocks flame bolts for loadout'],bp_frost:['Blueprint: Frost','Unlocks frost shot for loadout'],bp_chain:['Blueprint: Chain','Unlocks chain lightning for loadout'],bp_nova:['Blueprint: Nova','Unlocks the Nova pulse for loadout'],bp_rail:['Blueprint: Railgun','Unlocks the railgun for loadout'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-up drop rate +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
-    fr:{slot:['Slot de Module','+1 slot d’arme (max 5)'],bp_missile:['Plan: Missiles','Débloque les missiles pour le loadout'],bp_flame:['Plan: Feu','Débloque les tirs incendiaires'],bp_frost:['Plan: Givre','Débloque le tir de givre'],bp_chain:['Plan: Chaîne','Débloque l’éclair en chaîne'],bp_nova:['Plan: Nova','Débloque le pulsar nova'],bp_rail:['Plan: Railgun','Débloque le railgun'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Taux de drop +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
+    de:{slot:['Modul-Slot','+1 Waffen-Slot (max 5)'],bp_missile:['Bauplan: Raketen','Schaltet Lenkraketen dauerhaft frei – im Run baubar'],bp_flame:['Bauplan: Brand','Schaltet Brandbolzen dauerhaft frei – im Run baubar'],bp_frost:['Bauplan: Frost','Schaltet Frostschuss dauerhaft frei – im Run baubar'],bp_chain:['Bauplan: Kette','Schaltet Kettenblitz dauerhaft frei – im Run baubar'],bp_nova:['Bauplan: Nova','Schaltet den Nova-Puls dauerhaft frei – im Run baubar'],bp_rail:['Bauplan: Railgun','Schaltet die Railgun dauerhaft frei – im Run baubar'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Up-Droprate +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
+    en:{slot:['Module Slot','+1 weapon slot (max 5)'],bp_missile:['Blueprint: Missiles','Unlocks homing missiles permanently · build it in-run'],bp_flame:['Blueprint: Flame','Unlocks flame bolts permanently · build it in-run'],bp_frost:['Blueprint: Frost','Unlocks frost shot permanently · build it in-run'],bp_chain:['Blueprint: Chain','Unlocks chain lightning permanently · build it in-run'],bp_nova:['Blueprint: Nova','Unlocks the Nova pulse permanently · build it in-run'],bp_rail:['Blueprint: Railgun','Unlocks the railgun permanently · build it in-run'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-up drop rate +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
+    fr:{slot:['Slot de Module','+1 slot d’arme (max 5)'],bp_missile:['Plan: Missiles','Débloque les missiles (jouable en partie)'],bp_flame:['Plan: Feu','Débloque les tirs incendiaires'],bp_frost:['Plan: Givre','Débloque le tir de givre'],bp_chain:['Plan: Chaîne','Débloque l’éclair en chaîne'],bp_nova:['Plan: Nova','Débloque le pulsar nova'],bp_rail:['Plan: Railgun','Débloque le railgun'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Taux de drop +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
   };
   const uName=id=>((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||[id])[0];
   const uDesc=id=>(((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||['',''])[1])||'';
@@ -155,6 +155,13 @@
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
   // Werkstatt-Upgrades: Kosten = Basis × Stufe^1.8 (zwischen linear & exponentiell) & immer krasser
   const META=[
+    // Waffen-Baupläne: dauerhafte Freischaltung (max 1) → danach im Run per Skillpunkten baubar. Langsame Sammel-Progression.
+    {id:'bp_missile',  ico:'🚀',name:'Bauplan: Raketen',base:250, max:1},
+    {id:'bp_flame',    ico:'🔥',name:'Bauplan: Brand',  base:350, max:1},
+    {id:'bp_frost',    ico:'❄️',name:'Bauplan: Frost',  base:450, max:1},
+    {id:'bp_chain',    ico:'⛓️',name:'Bauplan: Kette',  base:600, max:1},
+    {id:'bp_nova',     ico:'🟣',name:'Bauplan: Nova',   base:800, max:1},
+    {id:'bp_rail',     ico:'⚡',name:'Bauplan: Railgun', base:1000,max:1},
     {id:'slot',        ico:'🧩',name:'Modul-Slot',   base:600,max:2},
     {id:'shield',      ico:'🛡️',name:'Startschild',  base:110,max:3},
     {id:'tough',       ico:'💗',name:'Zähigkeit',    base:420,max:2},
@@ -880,7 +887,7 @@
   // Gibt es überhaupt einen freischaltbaren Knoten/eine holbare Waffe? (unabhängig von Punkten)
   function skillSpendable(){ if(!opt.guns) return false;
     for(const id of ownedW()){ if(nextNode(id)) return true; }
-    return ownedCount()<arsenal.slots && WEAPONS.some(w=>!arsenal.w[w.id]); }
+    return ownedCount()<arsenal.slots && WEAPONS.some(w=>!arsenal.w[w.id] && weaponUnlocked(w.id)); }
   // Hat man einen Punkt UND etwas zum Ausgeben?
   function hasSkillSpend(){ return skillPts>0 && skillSpendable(); }
   function openUpgrade(armed){ if(skillSpendable()) skillPts++;   // jede Upgrade-Stufe = 1 Skillpunkt für den Baum (nur wenn ausgebbar)
@@ -1667,7 +1674,7 @@
   function spendFork(id,slot,path){ if(skillPts<=0) return; const a=arsenal.w[id]; if(!a||a[slot]) return; const before=Object.assign({},syn);
     a[slot]=path; a.lvl++; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:(wName(id)+' · '+pName(path)).toUpperCase(),sub:t('activated'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
-  function addWeaponSkill(id){ if(skillPts<=0||arsenal.w[id]||ownedCount()>=arsenal.slots) return; const before=Object.assign({},syn);
+  function addWeaponSkill(id){ if(skillPts<=0||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; const before=Object.assign({},syn);
     arsenal.w[id]={lvl:1,f1:null,f2:null}; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
@@ -1696,13 +1703,21 @@
       card.querySelectorAll('.tnode.pick').forEach(n=>n.addEventListener('click',()=>spendFork(n.dataset.wid,n.dataset.slot,n.dataset.path)));
       wrap.appendChild(card); });
     const free=arsenal.slots-ownedCount(), notOwned=WEAPONS.filter(w=>!arsenal.w[w.id]);
-    if(skillPts>0&&opt.guns&&free>0&&notOwned.length){ notOwned.forEach(w=>{ const card=document.createElement('div'); card.className='wtree addable';
+    const addable=notOwned.filter(w=>weaponUnlocked(w.id)), locked=notOwned.filter(w=>!weaponUnlocked(w.id));
+    if(skillPts>0&&opt.guns&&free>0&&addable.length){ addable.forEach(w=>{ const card=document.createElement('div'); card.className='wtree addable';
         card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b></div>`+
           `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
           `<button class="cost addw">➕ ${t('addWeapon')}</button>`;
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
-    else { for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
+    else if(!locked.length){ for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
+    // Gesperrte Waffen als Teaser zeigen → Anreiz, in der Werkstatt freizuschalten
+    if(opt.guns) locked.forEach(w=>{ const card=document.createElement('div'); card.className='wtree wlocked'; card.style.opacity='.5';
+        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b></div>`+
+          `<div class="tnode base locked"><span class="ti">🔒</span></div>`+
+          `<p class="adddesc">${wDesc(w.id)}</p>`+
+          `<div class="cost done">${t('lockedW')}</div>`;
+        wrap.appendChild(card); });
     const sd=document.getElementById('arsenalSyn'); if(sd){
       const legend=`<div class="tlegend"><span class="lc chosen"></span>${t('legChosen')}<span class="lc avail"></span>${t('legAvail')}<span class="lc locked"></span>${t('legLocked')}</div>`;
       // Synergie-„Rezeptbuch": ALLE Kombis zeigen (aktiv / fast / fehlt), damit man weiß, was man kombinieren muss
