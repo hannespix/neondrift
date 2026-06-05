@@ -1747,15 +1747,23 @@
 
   function drawGrid(){ const hz=H*0.42,vx=W/2, bp=1+(beatPulse||0)*0.55+(overdrive?0.35:0); // bp = Beat-Puls (+Overdrive)
     const gc=curBg.grid, sc=curBg.sun;
-    ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
+    ctx.shadowBlur=0; ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
     for(let i=-10;i<=10;i++){ctx.beginPath();ctx.moveTo(vx+i*40,hz);ctx.lineTo(vx+i*220,H);ctx.stroke();}
     const t=(elapsed||0)*0.5%1;
     for(let i=0;i<14;i++){const f=(i+t)/14,y=hz+Math.pow(f,2.2)*(H-hz); ctx.globalAlpha=Math.min(0.7,(0.1+f*0.25)*bp); ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();} ctx.globalAlpha=1;
-    const sg=ctx.createRadialGradient(W/2,hz,4,W/2,hz,180); sg.addColorStop(0,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${Math.min(0.7,0.4*bp)})`); sg.addColorStop(1,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},0)`); ctx.fillStyle=sg; ctx.fillRect(W/2-180,hz-180,360,360);
-    // klassische Synthwave-Sonnenstreifen: Lücken in der unteren Sonnenhälfte (dicht am Horizont, breiter nach unten)
-    const bc=curBg.bot; ctx.fillStyle=`rgba(${bc[0]|0},${bc[1]|0},${bc[2]|0},0.5)`;
-    for(let i=0;i<7;i++){ const yy=hz+10+i*i*4; if(yy>hz+172) break;
-      const hw=Math.sqrt(Math.max(0,180*180-(yy-hz)*(yy-hz)))*0.7; ctx.fillRect(W/2-hw,yy,hw*2,2.5+i*1.4); }
+    // weicher Halo um die Sonne
+    const sg=ctx.createRadialGradient(W/2,hz,4,W/2,hz,200); sg.addColorStop(0,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${Math.min(0.55,0.32*bp)})`); sg.addColorStop(1,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},0)`); ctx.fillStyle=sg; ctx.fillRect(W/2-200,hz-200,400,400);
+    // klassische Synthwave-Sonne: SOLIDE Scheibe mit Vertikalverlauf; Streifen-Lücken per destination-out (echte Lücken statt blasser Balken)
+    const sr=120, sa=Math.min(1,0.85*bp);
+    ctx.save(); ctx.beginPath(); ctx.arc(W/2,hz,sr,0,6.28); ctx.clip();
+    const dg=ctx.createLinearGradient(0,hz-sr,0,hz+sr);
+    dg.addColorStop(0,`rgba(255,244,196,${sa})`);                                                  // heller Kern oben
+    dg.addColorStop(0.5,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${sa})`);
+    dg.addColorStop(1,`rgba(${Math.min(255,sc[0]+30)|0},${(sc[1]*0.45)|0},${(sc[2]*0.7)|0},${sa})`); // satter Richtung Horizont
+    ctx.fillStyle=dg; ctx.fillRect(W/2-sr,hz-sr,sr*2,sr*2);
+    ctx.globalCompositeOperation='destination-out';                                                // Streifen ausstanzen → Hintergrund scheint durch
+    for(let i=0;i<7;i++){ const yy=hz+6+i*i*3.4; if(yy>hz+sr) break; ctx.fillRect(W/2-sr,yy,sr*2,2.4+i*1.7); }
+    ctx.restore();
   }
 
   // ---------- Game Over ----------
