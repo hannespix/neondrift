@@ -286,6 +286,7 @@
     setTimeout(()=>{ beep(98,0.7,'square',0.4,-40); beep(196,0.7,'triangle',0.18,-30); },1340); // tiefer Schluss-Thud
   }
   function sfxBoss(){beep(140,0.25,'square',0.4,120);beep(70,0.4,'sawtooth',0.35,40);}
+  function sfxLaugh(){ [0,120,235,345,450].forEach((d,i)=>setTimeout(()=>{ const f=300-i*22; beep(f,0.10,'square',0.22,-50); beep(f*0.5,0.10,'triangle',0.13,-25); },d)); } // höhnisches „ha-ha-ha"
   function sfxWin(){beep(523,0.12,'triangle',0.4);setTimeout(()=>beep(784,0.18,'triangle',0.4),110);}
   const sfxWarn=()=>beep(760,0.05,'square',0.12);
   const sfxFire=()=>beep(120,0.35,'sawtooth',0.4,-50);
@@ -654,6 +655,7 @@
   // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
   const difHp  =()=>1.15+gunDps()*0.23+(level-1)*0.20;
+  const introT =()=>Math.max(0,1-elapsed/12);   // Butter-Start: starke Schonung in den ersten ~12s, fadet linear aus
   function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
@@ -709,7 +711,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
+    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT());
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -846,13 +848,26 @@
     sfxWin(); setTimeout(()=>{sfxWin();},220); setTimeout(()=>{sfxRiser();},520); vibe([120,40,120,40,200,60,220]);
     setTimeout(()=>{ if(state===S.PLAY) banner={text:t('madness'),sub:t('madnessSub'),t:3,color:'#ff2e88'}; },2700);
     bossTimer=(mode==='hardcore')?9:12; }
-  function bossFlee(){ banner={text:t('escaped'),sub:t('escapedSub'),t:2.4,color:'#9a86c9'};
-    beep(300,0.3,'sawtooth',0.3,-120); vibe(40); ebullets=[];
+  function bossFlee(){ ebullets=[];
+    if(boss && !boss.fleeing){   // Mega-Boss: lachend, wachsend davonfliegen (statt sofort weg)
+      boss.fleeing=true; boss.fleeT=1.9; boss.scale=1; boss.laughT=0; boss.telegraph=false;
+      banner={text:t('escaped'),sub:t('escapedSub'),t:2.4,color:'#9a86c9'};
+      sfxLaugh(); flash=0.3; flashColor='#c45bff'; shake=10; vibe([30,40,30,40,60]); return; }
+    endBossFlee(); }
+  function endBossFlee(){ banner=banner||{text:t('escaped'),sub:t('escapedSub'),t:2.4,color:'#9a86c9'};
     boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
   function updateMegaBoss(dt,ts){ const B=boss;
     if(B.dead){ B.deathT-=dt; B.x+=rand(-2,2); B.y+=rand(-2,2);
       if(Math.random()<0.6) pixelBurst(B.x+rand(-B.r,B.r),B.y+rand(-B.r,B.r),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),2);
       if(B.deathT<=0) defeatMegaBoss(); return; }
+    if(B.fleeing){ B.fleeT-=dt; B.t+=dt*3.4;                       // lacht & wackelt schneller
+      B.scale=Math.min(2.4,(B.scale||1)+dt*0.95);                  // wird größer
+      B.y-=dt*(70+(1.9-B.fleeT)*300);                             // fliegt hoch (beschleunigt)
+      B.x+=Math.sin(B.t*1.4)*3.2;                                 // schlenkert
+      B.laughT-=dt; if(B.laughT<=0){ sfxLaugh(); B.laughT=0.64; }
+      if(Math.random()<0.4) pixelBurst(B.x+rand(-B.r,B.r),B.y+rand(-B.r,B.r),pick(['#ffe600','#c45bff','#19f0ff','#2effc0']),2);
+      if(B.fleeT<=0 || B.y < -B.r*2.6*(B.scale||1)) endBossFlee();
+      return; }
     B.t+=dt*ts; if(B.hitFlash>0) B.hitFlash-=dt; if(B.blink>0) B.blink-=dt;
     if(B.t>B.limit){ bossFlee(); return; }      // Timeout: entkommt mit der Beute (kein Soft-Lock)
     if(B.blink<=0 && Math.random()<0.012) B.blink=0.16;   // gelegentliches Blinzeln
@@ -1009,7 +1024,7 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.40,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()); } }
+        spawnT=Math.max(0.40,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     // (Power-Ups droppen jetzt aus zerstörten Gegnern, siehe killObstacle — kein Timer-Spawn mehr)
@@ -1100,7 +1115,7 @@
         }
       }
       // Bolzen/Rakete gegen Mega-Boss
-      if(!gone && boss && !boss.dead){ const bdx=b.x-boss.x, bdy=b.y-boss.y, br=boss.r+b.r;
+      if(!gone && boss && !boss.dead && !boss.fleeing){ const bdx=b.x-boss.x, bdy=b.y-boss.y, br=boss.r+b.r;
         if(bdx*bdx+bdy*bdy<br*br){
           if(b.homing){ explodeMissile(b); gone=true; }
           else { const h=rollHit(b.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; spawnParticles(b.x,b.y,h.crit?'#ff3b3b':'#ffe600',h.crit?6:3,150); beep(660,0.03,'square',0.05,120);
@@ -1187,7 +1202,7 @@
       bullets.push({x:player.x+rand(-8,8),y:player.y-player.r-2,vx:rand(-50,50),vy:-340,r:7,dmg:w.dmg,pierce:0,homing:true,aoe:w.aoe,life:4,col:'#ff9a2e',shrapnel:w.shrapnel,incendiary:w.incendiary}); }
     beep(300,0.05,'square',0.12,160); }
   function fireChainW(){ const w=wpn.chain;
-    if(boss&&!boss.dead){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<260*260){
+    if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<260*260){
       boss.hp-=w.dmg; boss.hitFlash=0.07; arcParticles(player.x,player.y-player.r,boss.x,boss.y); beep(1200,0.03,'square',0.08,260); if(boss.hp<=0)startBossDeath(); return; } }
     let best=null,bd=99999; for(const o of obstacles){ const dx=o.cx-player.x,dy=o.cy-player.y,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
     if(!best) return; arcParticles(player.x,player.y-player.r,best.cx,best.cy);
@@ -1203,7 +1218,7 @@
         if(w.slow){ o.slow=Math.max(o.slow||0,1.2); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.5); }
         if(w.knock){ o.cy-=26; }
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
-    if(boss&&!boss.dead){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ const h=rollHit(w.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); } }
+    if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ const h=rollHit(w.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); } }
     for(let i=0;i<24;i++){ const a=i/24*6.28, s=R*3; particles.push({x:player.x+Math.cos(a)*18,y:player.y+Math.sin(a)*18,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.07,color:'#c45bff',size:rand(3,6)}); }
     flash=Math.min(0.4,flash+0.1); flashColor='#c45bff'; shake=Math.max(shake,4); beep(170,0.13,'sine',0.18,200); vibe(8); }
   // Railgun: sofortige Schiene auf die nächste Bedrohung – trifft alle Ziele in der Spalte
@@ -1214,7 +1229,7 @@
       if(Math.abs(o.cx-bx)<w.width+(o.w?o.w/2:0)){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.12; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
         if(w.burn){ o.burn=Math.max(o.burn||0,2.0); o.burnDmg=Math.max(o.burnDmg||0,0.9*(mods.wDmgMult||1)); }
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
-    if(boss&&!boss.dead && Math.abs(boss.x-bx)<w.width+boss.r && boss.y<baseY){ const h=rollHit(w.dmg*1.5); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); }
+    if(boss&&!boss.dead&&!boss.fleeing && Math.abs(boss.x-bx)<w.width+boss.r && boss.y<baseY){ const h=rollHit(w.dmg*1.5); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); }
     beams.push({x:bx,w:w.width,t:0.16}); flash=Math.min(0.45,flash+0.12); flashColor='#fff27a'; shake=Math.max(shake,5); beep(120,0.14,'sawtooth',0.28,-40); }
   function pixelBurst(x,y,color,power){ const n=8+Math.min(20,(power||1)*5);
     for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:rand(0.02,0.045),color,size:rand(3,7)}); }
@@ -1230,7 +1245,7 @@
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
   function steerMissile(b,dt){ let tx=null,ty=null,bd=1e9;
     for(const o of obstacles){ const dx=o.cx-b.x,dy=o.cy-b.y,d=dx*dx+dy*dy; if(d<bd){bd=d;tx=o.cx;ty=o.cy;} }
-    if(boss&&!boss.dead){ const dx=boss.x-b.x,dy=boss.y-b.y,d=dx*dx+dy*dy; if(d<bd){bd=d;tx=boss.x;ty=boss.y;} }
+    if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-b.x,dy=boss.y-b.y,d=dx*dx+dy*dy; if(d<bd){bd=d;tx=boss.x;ty=boss.y;} }
     let spd=Math.hypot(b.vx,b.vy)||340; spd=Math.min(560,spd+520*dt);
     if(tx!==null){ const desired=Math.atan2(ty-b.y,tx-b.x), cur=Math.atan2(b.vy,b.vx);
       let dA=((desired-cur+Math.PI*3)%(Math.PI*2))-Math.PI; dA=Math.max(-3.4*dt,Math.min(3.4*dt,dA));
@@ -1246,7 +1261,7 @@
         if(syn.icebomb){ o.slow=Math.max(o.slow||0,1.6); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.45); }                 // EISBOMBE
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(b.shrapnel){ for(let i=0;i<8;i++){ const a=i/8*6.28; bullets.push({x:b.x,y:b.y,vx:Math.cos(a)*420,vy:Math.sin(a)*420,r:3,dmg:b.dmg*0.4,pierce:0,col:'#ffd36b',life:0.5,frag:true}); } } // Splittergranate
-    if(boss&&!boss.dead){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=edmg*2; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,edmg*2,h.crit); if(boss.hp<=0) startBossDeath(); } } }
+    if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=edmg*2; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,edmg*2,h.crit); if(boss.hp<=0) startBossDeath(); } } }
   // Splitterbruch: gefrorenes Ziel zerspringt beim Tod → Scherben-AoE
   function shatterBurst(x,y,dmg){ const R=70; spawnParticles(x,y,'#bdefff',14,260); beep(900,0.06,'square',0.12,-200); shake=Math.max(shake,5);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
@@ -1493,7 +1508,8 @@
   function drawBoss(){ const B=boss, S=B&&B.sp; if(!B||!S) return;
     const tg=B.telegraph?(0.4+0.5*Math.abs(Math.sin(B.warn*22))):0;
     ctx.save(); ctx.translate(B.x,B.y);
-    const wjx=1+0.07*Math.sin(B.t*5), wjy=1+0.07*Math.sin(B.t*5+1.6); ctx.scale(wjx,wjy);
+    const bz=B.fleeing?0.17:0.07, sc=B.scale||1;   // beim Fliehen: dickes Lach-Wackeln + Wachstum
+    const wjx=1+bz*Math.sin(B.t*5), wjy=1+bz*Math.sin(B.t*5+1.6); ctx.scale(wjx*sc,wjy*sc);
     // Tentakel (hinter dem Körper, wedeln)
     for(const t of S.tents){ ctx.strokeStyle=t.col; ctx.lineWidth=S.cp; ctx.lineCap='round'; ctx.shadowBlur=10; ctx.shadowColor=t.col; ctx.beginPath(); ctx.moveTo(t.ox,B.r*0.45);
       for(let s=1;s<=t.len;s++) ctx.lineTo(t.ox+Math.sin(B.t*5+s*0.7+t.ph)*S.cp*1.4,B.r*0.45+s*S.cp*1.3); ctx.stroke(); }
@@ -1515,8 +1531,12 @@
     // Blink-Lichter auf dem Körper
     for(const l of S.lights){ if(Math.floor(B.t*5+l.ph)%2){ ctx.fillStyle='#fff'; ctx.fillRect(l.ox-S.cp*0.4,l.oy-S.cp*0.4,S.cp*0.8,S.cp*0.8); } }
     ctx.restore();
+    if(B.fleeing){ ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';   // höhnisches Lach-Emote über dem Boss
+      ctx.font='800 24px Orbitron, sans-serif'; ctx.fillStyle='#ffe600'; ctx.shadowBlur=16; ctx.shadowColor='#ff2e88';
+      const wob=Math.sin(B.t*1.6)*7;
+      ctx.fillText('😂 HA HA HA!', B.x+wob, B.y-B.r*(B.scale||1)*1.25-14); ctx.restore(); }
     // HP-Leiste oben
-    if(!B.dead){ const bw=Math.min(W*0.66,380), bx=W/2-bw/2, by=(mode!=='zen'?48:30), col=S.pal[0];
+    if(!B.dead && !B.fleeing){ const bw=Math.min(W*0.66,380), bx=W/2-bw/2, by=(mode!=='zen'?48:30), col=S.pal[0];
       ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.font='700 12px Orbitron, sans-serif'; ctx.fillStyle=col; ctx.shadowBlur=8; ctx.shadowColor=col;
       ctx.fillText('🛸 '+B.name,W/2,by-10);
