@@ -42,12 +42,15 @@
     font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;padding:11px 24px;border-radius:50px;transition:transform .12s,box-shadow .14s,border-color .14s;}
   #dailyBtn:hover{transform:translateY(-3px);border-color:var(--yellow);box-shadow:0 0 24px rgba(255,230,0,.35);}
   #dailyBtn:active{transform:translateY(-1px);}
-  /* Prep-Gruppe: Werkstatt + Loadout (vor dem Run), gemeinsame violette Identität */
-  .prepRow{margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;width:100%;max-width:520px;}
-  #shopBtn,#loadoutBtn{margin:0;flex:1 1 210px;max-width:300px;cursor:pointer;border:1px solid rgba(176,107,255,.45);background:rgba(176,107,255,.07);color:#cda9ff;
-    font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;padding:12px 20px;border-radius:50px;white-space:nowrap;transition:transform .12s,box-shadow .14s,border-color .14s;}
-  #shopBtn:hover,#loadoutBtn:hover{transform:translateY(-3px);border-color:#b06bff;box-shadow:0 0 24px rgba(176,107,255,.35);}
-  #shopBtn:active,#loadoutBtn:active{transform:translateY(-1px);}
+  /* Prep-Gruppe: Werkstatt (vor dem Run) – bewusst prominent als Meta-Progression-Einstieg */
+  .prepRow{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;width:100%;max-width:520px;}
+  #shopBtn{margin:0;width:100%;max-width:360px;cursor:pointer;border:2px solid rgba(176,107,255,.85);
+    background:linear-gradient(135deg,rgba(176,107,255,.24),rgba(110,60,200,.12));color:#efe0ff;
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:16px;letter-spacing:.12em;padding:16px 26px;border-radius:50px;white-space:nowrap;
+    text-shadow:0 0 12px rgba(176,107,255,.6);transition:transform .12s,box-shadow .14s,border-color .14s;animation:shopPulse 2.6s ease-in-out infinite;}
+  #shopBtn:hover{transform:translateY(-3px);border-color:#c98bff;box-shadow:0 0 36px rgba(176,107,255,.6);}
+  #shopBtn:active{transform:translateY(-1px);}
+  @keyframes shopPulse{0%,100%{box-shadow:0 0 18px rgba(176,107,255,.30);}50%{box-shadow:0 0 32px rgba(176,107,255,.55);}}
   #menuChips{color:var(--yellow);}
   /* Sekundäre Meta-Aktionen als kompakte Icon-Leiste (Erfolge/Skins/Einstellungen) */
   .iconRow{margin-top:16px;display:flex;gap:14px;justify-content:center;}
