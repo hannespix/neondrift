@@ -47,12 +47,15 @@ Eine IIFE mit gemeinsamem Scope. Grobe Reihenfolge im Code:
 |---|---|
 | Neue Musik / Song anpassen | `SONGS`-Array + Lead-Arrays (`LEAD1`, `LEADB1`, …) |
 | Schwierigkeit / Tempo | `spawnObstacle()` (Formel `sp`), `update()` (`difficulty`, Spawn-Interval) |
+| Endgame-Druck (DDA) | `ddaPush()`/`difSpd()`/`difDen()` – Zusatzdruck nur bei hohem `director` (souveränes Spiel), Grund-Cap schützt schwache Spieler |
+| Elite-/Panzer-Gegner | `eliteChance()` (skaliert mit `coverage()` = Waffen+Fusionen) + Elite-Block in `spawnObstacle()`, Telegraph in `draw()` |
+| Crowd-Control (Slow/Freeze) | **zentral** über `applySlow()` – mit CC-Sättigung (`o.ccSat`) + Elite-Widerstand (`o.ccRes`). Nicht direkt `o.slow`/`o.slowAmt` setzen. |
 | Neue Hindernis-Form | Muster in `spawnObstacle()` + Bewegung in `update()` + Form in `shapePath()` |
 | Upgrade-Karten | `UPGRADES`-Array (jeweils mit `apply()`) |
 | Upgrade-Häufigkeit | `upStep` (Reset = Startwert, `chooseUpgrade` = Wachstumsfaktor) |
 | Power-Ups | `PUP`/`PUPINFO` + `collectPup()` |
 | Hintergründe | `THEMES`-Array |
-| Sprüche / Humor / Jugendsprache | `QUIPS`, `INSULTS`, `DUMB`, `CRAZY_TAGS`, Combo-/Near-Worte in `onComboUp`/`doNear` |
+| Sprüche / Humor / Jugendsprache | Übersetzungs-Pools `quips`/`insults`/`dumb`/`crazy`/`near`/`combo` im `TR`-Objekt (je Sprache `de`/`en`/`fr`) |
 | Easteregg | `trigger67()` / `sfx67()` |
 | Leben | `lives` in `reset()`, Logik in `hitPlayer()` |
 

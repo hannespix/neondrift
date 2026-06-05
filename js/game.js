@@ -704,6 +704,14 @@
   const critFactor=()=>1+(mods.crit||0)*((mods.critMult||2)-1);   // erwarteter Krit-Multiplikator
   // Krit-Wurf auf einen Basis-Schaden → {dmg, crit}
   function rollHit(base){ if((mods.crit||0)>0 && Math.random()<mods.crit) return {dmg:base*(mods.critMult||2),crit:true}; return {dmg:base,crit:false}; }
+  // Zentrale CC-Anwendung (Slow/Freeze) – respektiert Elite-Widerstand (o.ccRes) & CC-Sättigung (o.ccSat).
+  // Wiederholtes Vereisen wirkt zunehmend schwächer → kein „dauerhaft eingefrorenes" Lategame, Ausweichen bleibt relevant.
+  function applySlow(o,dur,amt){ if(!o) return;
+    const res=o.ccRes||0;
+    o.ccSat=Math.min(0.55,(o.ccSat||0)+0.10);              // Gegner „gewöhnt sich" an die Kälte
+    const floor=Math.max(res,o.ccSat);                     // Slow-Boden: nie langsamer als das
+    o.slow=Math.max(o.slow||0,dur*(1-res*0.5));            // Elites: kürzere Slow-Dauer
+    o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,Math.max(floor,amt)); }
   // Waffen-Level/Fork-Logik: lvl1=Basis, lvl2=Gabelung1 gewählt, lvl3=Gabelung2 gewählt
   function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new'; if(!a.f1) return 'f1'; if(!a.f2) return 'f2'; if(!a.f3) return 'f3'; if(!a.f4) return 'f4'; return null; }
   function weaponMaxed(id){ return nextNode(id)===null; }
@@ -757,8 +765,16 @@
   function pwrSurv(){ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k];
     return up*0.6 + shields*0.4 + Math.max(0,lives-3)*0.5 + (13-mods.playerR)/13*4
       + Math.max(0,(mods.nearRadius-30)/30) + Math.max(0,(mods.follow-14)/8) + Math.max(0,mods.scoreMult-1); }
-  const difSpd =()=>1+Math.min(0.55,pwrSurv()*0.020)+(endless?madness*0.85:0);     // Obstacles schneller (sanfter)
-  const difDen =()=>Math.max(0.40,1-Math.min(0.30,pwrSurv()*0.012)-(endless?madness*0.35:0)); // dichter (sanfter)
+  // DDA-Kopplung: ein UNgedeckelter Zusatzdruck, der nur greift, wenn der Spieler souverän cruist
+  // (director hoch = viele Near-Misses/Orbs ohne Treffer). Wird man getroffen, fällt director → Druck lässt nach.
+  // So bleibt der Grund-Cap als Schutz für schwache Spieler, starke laufen der Schwierigkeit aber nicht mehr davon.
+  const ddaPush=()=>Math.max(0,director-0.55)*2.2;
+  const difSpd =()=>1+Math.min(0.55,pwrSurv()*0.020)+pwrSurv()*0.011*ddaPush()+(endless?madness*0.85:0);
+  const difDen =()=>Math.max(0.32,1-Math.min(0.30,pwrSurv()*0.012)-pwrSurv()*0.006*ddaPush()-(endless?madness*0.35:0));
+  // „Coverage": echtes Screen-Clear-Potenzial (Waffen + aktive Fusionen) – treibt die Elite-Häufigkeit,
+  // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
+  const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
+  const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.42,0.015+(level-1)*0.018+coverage()*0.022+(endless?madness*0.5:0)):0;
   // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
   const difHp  =()=>1.15+gunDps()*0.27+(level-1)*0.20;
@@ -836,6 +852,13 @@
     }
     o.maxHp=Math.max(1,Math.round(((o.w+o.h)/46+(o.shape==='long'?2:0)+(o.shape==='rect'?1:0))*difHp()));
     o.hp=o.maxHp; o.hitFlash=0;
+    // ---- Elite/Panzer: überlebt den Screen-Clear & widersteht CC → erzwingt im Lategame wieder echtes Ausweichen ----
+    if(grnd()<eliteChance()){
+      o.elite=true; o.ccRes=0.5;                      // halbe CC-Wirkung, nie einfrierbar
+      o.maxHp=Math.round(o.maxHp*2.4)+2; o.hp=o.maxHp; // zäh: weglasern dauert, er kommt näher
+      o.vy*=0.84; if(o.vx) o.vx*=0.84;                // langsamer = lesbarer, bedrohlich heranschwebender Tank
+      o.color='#c45bff';
+    }
     obstacles.push(o);
   }
   function spawnOrb(){ orbs.push({x:grand(30,W-30),y:-20,r:9,vy:90+difficulty*30,pulse:Math.random()*6.28}); }
@@ -1216,7 +1239,7 @@
           o.hp-=dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,hit.crit?'#ff3b3b':(b.col||'#caffff'),hit.crit?6:3,hit.crit?180:120);
           if(!b.frag){ floatDamage(o.cx,o.cy-o.h*0.45,dmg,hit.crit); if(hit.crit) beep(1500,0.04,'square',0.1,420); }
           if(b.burn){ o.burn=Math.max(o.burn||0,b.burnDur||1.8); o.burnDmg=Math.max(o.burnDmg||0,b.burn); o.burnSpread=b.burnSpread; o.burnConsume=b.burnConsume; }
-          if(b.frost){ o.slow=Math.max(o.slow||0,b.frostDur||1.4); const amt=(b.freeze&&Math.random()<0.4)?0.05:b.frost; o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,amt); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
+          if(b.frost){ const amt=(b.freeze&&Math.random()<0.4)?0.05:b.frost; applySlow(o,b.frostDur||1.4,amt); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
           if(b.tesla){ chainLightning(o.cx,o.cy,(wpn.chain?wpn.chain.dmg:1.4)*0.8,2,{skip:[o]}); }  // TESLA-SALVE
           if(b.splash) chainAoe(o.cx,o.cy,dmg*0.45);                                       // SPERRFEUER: kleiner Explosions-Splash
           if(o.hp<=0){ const ox=o.cx,oy=o.cy,wasSlow=o.slow>0; if(b.novakill) synNovas.push({x:ox,y:oy}); killObstacle(o); obstacles.splice(oi,1);   // SCHOCK-BOLZEN: Mini-Nova beim Kill
@@ -1331,7 +1354,7 @@
   function fireNova(){ const w=wpn.nova, R=w.radius;
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-player.x,dy=o.cy-player.y;
       if(dx*dx+dy*dy<R*R){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.1; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
-        if(w.slow){ o.slow=Math.max(o.slow||0,1.2); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.5); }
+        if(w.slow){ applySlow(o,1.2,0.5); }
         if(syn.embernova){ o.burn=Math.max(o.burn||0,1.8); o.burnDmg=Math.max(o.burnDmg||0,0.85*(mods.wDmgMult||1)); }   // GLUT-NOVA: Puls entzündet
         if(w.knock){ o.cy-=26; }
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
@@ -1354,7 +1377,7 @@
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; if(o.cy>baseY+12) continue;
       if(Math.abs(o.cx-bx)<w.width+(o.w?o.w/2:0)){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.12; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
         if(w.burn){ o.burn=Math.max(o.burn||0,2.0); o.burnDmg=Math.max(o.burnDmg||0,0.9*(mods.wDmgMult||1)); }
-        if(syn.cryorail){ o.slow=Math.max(o.slow||0,1.5); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.4); }   // FROST-SCHIENE: vereist die Spalte
+        if(syn.cryorail){ applySlow(o,1.5,0.4); }   // FROST-SCHIENE: vereist die Spalte
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(boss&&!boss.dead&&!boss.fleeing && Math.abs(boss.x-bx)<w.width+boss.r && boss.y<baseY){ const h=rollHit(w.dmg*1.5); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); }
     if(syn.railnova) synNovas.push({x:bx,y:baseY-40});                                   // SCHIENEN-NOVA: Nova in der Schussspalte
@@ -1387,7 +1410,7 @@
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-b.x,dy=o.cy-b.y;
       if(dx*dx+dy*dy<R*R){ o.hp-=edmg; o.hitFlash=0.12;
         if(b.incendiary||syn.napalm){ o.burn=Math.max(o.burn||0,2.2); o.burnDmg=Math.max(o.burnDmg||0,1.0*(mods.wDmgMult||1)); }  // Brandsatz / NAPALM
-        if(syn.icebomb){ o.slow=Math.max(o.slow||0,1.6); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.45); }                 // EISBOMBE
+        if(syn.icebomb){ applySlow(o,1.6,0.45); }                 // EISBOMBE
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(syn.novabomb) synNovas.push({x:b.x,y:b.y});                  // NOVA-BOMBE: Explosion löst zusätzlich eine Nova aus
     if(syn.clusterarc && wpn.chain) chainLightning(b.x,b.y,wpn.chain.dmg*0.7,wpn.chain.jumps,{});   // CLUSTER-BOGEN: Explosion startet Kettenblitz
@@ -1498,7 +1521,10 @@
         ctx.shadowBlur=(o.burn>0)?22:16; ctx.shadowColor=(o.burn>0)?'#ff9a2e':((o.slow>0)?'#8fe8ff':o.color);
         const oc=(o.hitFlash>0)?'#ffffff':((o.slow>0)?'#bdefff':o.color);
         if(o.shape==='ring'){ ctx.strokeStyle=oc; ctx.lineWidth=o.w*0.26; ctx.beginPath(); ctx.arc(0,0,o.w*0.4,0,6.28); ctx.stroke(); }
-        else { ctx.strokeStyle=oc; ctx.lineWidth=3; ctx.fillStyle=hexA(o.color,o.hitFlash>0?0.4:0.16); shapePath(o.shape,o.w,o.h); ctx.fill(); ctx.stroke(); }
+        else { ctx.strokeStyle=oc; ctx.lineWidth=o.elite?4:3; ctx.fillStyle=hexA(o.color,o.hitFlash>0?0.4:0.16); shapePath(o.shape,o.w,o.h); ctx.fill(); ctx.stroke(); }
+        if(o.elite){ const er=Math.max(o.w,o.h)*0.62, pw=1+Math.sin((elapsed||0)*6)*0.18;   // Panzer-Telegraph: pulsierender Achteck-Schild
+          ctx.shadowBlur=20; ctx.shadowColor='#d98bff'; ctx.strokeStyle=o.hitFlash>0?'#ffffff':'#e6b3ff'; ctx.lineWidth=2.4*pw;
+          ctx.beginPath(); for(let k=0;k<8;k++){ const a=k/8*6.28, px=Math.cos(a)*er, py=Math.sin(a)*er; k?ctx.lineTo(px,py):ctx.moveTo(px,py); } ctx.closePath(); ctx.stroke(); }
         ctx.restore();
         // Mini-HP-Balken über angeschlagenen Gegnern (macht Zähigkeit & Schaden lesbar)
         if(o.hp<o.maxHp-0.01 && o.maxHp>1){ const bw=Math.max(18,o.w*0.7), bx=o.cx-bw/2, by=o.cy-o.h*0.5-9, f=Math.max(0,o.hp/o.maxHp);
