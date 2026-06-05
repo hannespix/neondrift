@@ -142,7 +142,7 @@
   const modeLabel=m=>t('m_'+(m==='hardcore'?'hard':m));
 
   let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems;
-  let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, tNova=0, tRail=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0, beams=[];
+  let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, tNova=0, tRail=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0, beams=[], zaps=[], novas=[];
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
@@ -600,7 +600,7 @@
       if(a.f1==='rapid'){rate*=1.5;dmg*=0.8;} if(a.f1==='heavy'){rate*=0.7;dmg*=2.0;}
       if(a.f2==='scatter'){bolts+=2;spread+=0.06;dmg*=0.78;} if(a.f2==='precise'){pierce+=2;dmg*=1.4;}
       wpn.blaster={rate:rate*rm,dmg:dmg*dm,bolts,spread,pierce}; }
-    if(has('missile')){ const a=arsenal.w.missile; let rate=0.55,dmg=3.5,aoe=70,count=1;
+    if(has('missile')){ const a=arsenal.w.missile; let rate=0.6,dmg=4.4,aoe=70,count=1;
       if(a.f1==='swarm'){count=2;dmg*=0.62;aoe*=0.78;} if(a.f1==='warhead'){dmg*=1.55;aoe*=1.5;rate*=0.8;}
       wpn.missile={rate:rate*rm,dmg:dmg*dm,aoe,count,shrapnel:a.f2==='shrapnel',incendiary:a.f2==='incendiary'}; }
     if(has('flame')){ const a=arsenal.w.flame; let rate=2.2,dmg=0.5,dot=1.3,dur=2.0;
@@ -608,11 +608,11 @@
       if(a.f2==='accel'){dot*=1.5;dur*=0.6;}
       wpn.flame={rate:rate*rm,dmg:dmg*dm,dot:dot*dm,dur,spread,consume:a.f2==='consume'}; }
     mods.brittle=false; mods.shatter=false;
-    if(has('frost')){ const a=arsenal.w.frost; let rate=1.9,dmg=0.6,slowDur=1.4,slowAmt=0.5;
+    if(has('frost')){ const a=arsenal.w.frost; let rate=2.2,dmg=1.4,slowDur=1.4,slowAmt=0.5;
       if(a.f1==='permafrost'){slowDur*=1.9;slowAmt=0.32;} let freeze=a.f1==='glaciate';
       wpn.frost={rate:rate*rm,dmg:dmg*dm,slowDur,slowAmt,freeze,shatter:a.f2==='shatter',brittle:a.f2==='brittle'};
       mods.brittle=a.f2==='brittle'; mods.shatter=a.f2==='shatter'; }   // SPRÖDE / SPLITTERBRUCH gelten global an gefrorenen Zielen
-    if(has('chain')){ const a=arsenal.w.chain; let rate=1.1,dmg=1.7,jumps=3,stun=0;
+    if(has('chain')){ const a=arsenal.w.chain; let rate=1.25,dmg=2.2,jumps=3,stun=0;
       if(a.f1==='fork'){jumps+=2;dmg*=0.7;} if(a.f1==='highv'){jumps=Math.max(1,jumps-1);dmg*=1.9;stun=0.4;}
       wpn.chain={rate:rate*rm,dmg:dmg*dm,jumps,stun,onHit:a.f2==='stormhit',aoe:a.f2==='dischargeaoe'}; }
     if(has('nova')){ const a=arsenal.w.nova; let rate=0.85,dmg=1.9,radius=92,knock=false,slow=false;
@@ -645,7 +645,7 @@
     arsenal={slots:3,w:{}}; wpn={}; syn={}; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
-    obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[];
+    obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[];
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
@@ -1077,6 +1077,8 @@
       if(wpn.nova){    tNova-=dt;  if(tNova<=0){  fireNova();     tNova=1/wpn.nova.rate; } }
       if(wpn.rail){    tRail-=dt;  if(tRail<=0){  fireRail();     tRail=1/wpn.rail.rate; } }
       for(let i=beams.length-1;i>=0;i--){ beams[i].t-=dt; if(beams[i].t<=0) beams.splice(i,1); }
+      for(let i=zaps.length-1;i>=0;i--){ zaps[i].t-=dt; if(zaps[i].t<=0) zaps.splice(i,1); }
+      for(let i=novas.length-1;i>=0;i--){ novas[i].t+=dt; if(novas[i].t>=novas[i].life) novas.splice(i,1); }
     }
     if(egg67T>0) egg67T-=dt;
     if(!egg67done && score>=67){ egg67done=true; floatText(player.x,player.y-52,'6 7 !!','#ffe600',26); sfx67(); vibe([30,30]); }
@@ -1257,8 +1259,10 @@
         if(w.knock){ o.cy-=26; }
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ const h=rollHit(w.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); } }
-    for(let i=0;i<24;i++){ const a=i/24*6.28, s=R*3; particles.push({x:player.x+Math.cos(a)*18,y:player.y+Math.sin(a)*18,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.07,color:'#c45bff',size:rand(3,6)}); }
-    flash=Math.min(0.4,flash+0.1); flashColor='#c45bff'; shake=Math.max(shake,4); beep(170,0.13,'sine',0.18,200); vibe(8); }
+    const col=w.slow?'#8fe8ff':'#c45bff';
+    novas.push({x:player.x,y:player.y,r0:14,rMax:R,t:0,life:0.36,col});                       // expandierender Schockwellen-Ring
+    for(let i=0;i<16;i++){ const a=i/16*6.28, s=R*2.4; particles.push({x:player.x+Math.cos(a)*16,y:player.y+Math.sin(a)*16,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.08,color:col,size:rand(3,6)}); }
+    flash=Math.min(0.4,flash+0.1); flashColor=col; shake=Math.max(shake,4); beep(170,0.13,'sine',0.18,200); vibe(8); }
   // Railgun: sofortige Schiene auf die nächste Bedrohung – trifft alle Ziele in der Spalte
   function fireRail(){ const w=wpn.rail; let bx=player.x,bd=1e9;
     for(const o of obstacles){ if(o.cy>player.y) continue; const dx=Math.abs(o.cx-player.x); if(dx<bd){bd=dx;bx=o.cx;} }
@@ -1317,7 +1321,12 @@
       const nx=best.cx,ny=best.cy;
       if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0) obstacles.splice(ix,1); }
       cx=nx; cy=ny; } }
-  function arcParticles(x1,y1,x2,y2){ for(let i=0;i<=5;i++){ const tt=i/5; spawnParticles(x1+(x2-x1)*tt,y1+(y2-y1)*tt,'#9be7ff',1,50); } beep(1100,0.03,'square',0.07,260); }
+  function arcParticles(x1,y1,x2,y2){
+    // gezackter Blitz-Bogen: Zwischenpunkte mit seitlichem Versatz → sichtbarer Kettenblitz
+    const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len, seg=Math.max(4,Math.min(9,(len/26)|0)), pts=[[x1,y1]];
+    for(let i=1;i<seg;i++){ const tt=i/seg, j=(Math.random()-0.5)*Math.min(30,len*0.32); pts.push([x1+dx*tt+nx*j, y1+dy*tt+ny*j]); }
+    pts.push([x2,y2]); zaps.push({pts,t:0.14,life:0.14});
+    spawnParticles(x2,y2,'#caffff',3,90); beep(1100,0.03,'square',0.07,260); }
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
     if(p.type==='shield'){ shields=Math.min(shields+1,6); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
@@ -1355,6 +1364,17 @@
       if(player) for(const bm of beams){ const a=Math.max(0,bm.t/0.16); ctx.save(); ctx.shadowBlur=24; ctx.shadowColor='#fff27a';
         const grd=ctx.createLinearGradient(bm.x-bm.w,0,bm.x+bm.w,0); grd.addColorStop(0,'rgba(255,242,122,0)'); grd.addColorStop(.5,'rgba(255,255,255,'+(0.85*a)+')'); grd.addColorStop(1,'rgba(255,242,122,0)');
         ctx.fillStyle=grd; ctx.fillRect(bm.x-bm.w,0,bm.w*2,player.y); ctx.restore(); }
+      // Kettenblitz-Bögen (gezackt, glühend)
+      for(const z of zaps){ const a=Math.max(0,z.t/z.life); ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.shadowBlur=16; ctx.shadowColor='#19f0ff';
+        ctx.beginPath(); ctx.moveTo(z.pts[0][0],z.pts[0][1]); for(let i=1;i<z.pts.length;i++) ctx.lineTo(z.pts[i][0],z.pts[i][1]);
+        ctx.strokeStyle='rgba(120,231,255,'+(0.55*a)+')'; ctx.lineWidth=6; ctx.stroke();          // weiches Glühen
+        ctx.strokeStyle='rgba(255,255,255,'+(0.95*a)+')'; ctx.lineWidth=2; ctx.stroke();           // heller Kern
+        ctx.restore(); }
+      // Nova-Schockwellen-Ringe (expandierend, ausblendend)
+      for(const nv of novas){ const p=nv.t/nv.life, r=nv.r0+(nv.rMax-nv.r0)*p, a=Math.max(0,1-p); ctx.save(); ctx.shadowBlur=20; ctx.shadowColor=nv.col;
+        ctx.strokeStyle=hexA(nv.col,0.85*a); ctx.lineWidth=5*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();
+        ctx.strokeStyle=hexA('#ffffff',0.45*a); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(nv.x,nv.y,r*0.92,0,6.28); ctx.stroke();
+        ctx.restore(); }
       // lasers
       for(const L of lasers){ ctx.save();
         if(L.state==='warn'){ const a=0.25+0.35*Math.abs(Math.sin(L.t*16)); ctx.strokeStyle=`rgba(255,230,0,${a})`; ctx.setLineDash([10,10]); ctx.lineWidth=3; ctx.shadowBlur=12; ctx.shadowColor='#ffe600'; ctx.beginPath();
@@ -1975,7 +1995,7 @@
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
   // (Menü spielt jetzt den eigenen Chill-Track NEON CHILL – keine Song-Rotation mehr im Menü)
 
-  particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[];
+  particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0;
   requestAnimationFrame(loop);
