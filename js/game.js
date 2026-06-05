@@ -329,7 +329,7 @@
   ];
   // Lead B – NACHTFAHRT: eigenständig, der Korobeiniki-(Tetris-)Quintsprung als Auftakt-Zelle, danach neu & durchgedreht
   const LEADB1=[
-    {s:0,n:74,d:2},{s:2,n:69,d:2},{s:4,n:72,d:1},{s:5,n:74,d:1},{s:6,n:77,d:2},{s:8,n:76,d:2},{s:10,n:74,d:2},{s:12,n:72,d:4},
+    {s:0,n:74,d:2},{s:2,n:72,d:2},{s:4,n:70,d:1},{s:5,n:69,d:1},{s:6,n:77,d:2},{s:8,n:76,d:2},{s:10,n:74,d:2},{s:12,n:72,d:4},
     {s:16,n:70,d:2},{s:18,n:74,d:2},{s:20,n:77,d:2},{s:22,n:79,d:1},{s:23,n:77,d:1},{s:24,n:74,d:2},{s:26,n:70,d:2},{s:28,n:67,d:4},
     {s:32,n:69,d:2},{s:34,n:72,d:2},{s:36,n:76,d:2},{s:38,n:74,d:1},{s:39,n:72,d:1},{s:40,n:69,d:2},{s:42,n:67,d:2},{s:44,n:64,d:4},
     {s:48,n:70,d:2},{s:50,n:67,d:2},{s:52,n:74,d:2},{s:54,n:72,d:1},{s:55,n:70,d:1},{s:56,n:69,d:2},{s:58,n:67,d:2},{s:60,n:74,d:4}
@@ -404,7 +404,7 @@
   // Eigener, entspannter Menü-Track (rotiert NICHT mit den Level-Songs)
   const MENU_SONG={name:'NEON CHILL', lead1:LEADM1, lead2:LEADM2, bass:[36,45,41,43],
     chords:[[60,64,67,71],[57,60,64,67],[53,57,60,64],[55,59,62,65]], lt:'triangle', leadVol:0.135, chill:true};
-  let curSong=0;
+  let curSong=0, pendingSong=-1;   // pendingSong: gewählter Folge-Song, wird erst an einer ruhigen Stelle (Intro/Verse) eingeblendet → schleichend
   // ---- Game-Boy-Pulswellen (Tastverhältnis) ----
   // Der GB/NES-Soundchip hat keine echte Säge, sondern Pulskanäle mit 12,5%/25%/50% Duty –
   // genau dieser dünne, nasale Ton macht den „Game-Boy"-Charakter. Wir bauen ihn per Fourierreihe.
@@ -510,8 +510,8 @@
     const big=drop||chorus;                           // volle Energie (Drop/Chorus)
     const kt=bridge?5:0;                              // Bridge: Melodie + Harmonie eine Quarte hoch = klar neues Songteil
     const root=song.bass[block]+kt;
-    // ---- LEAD = Hauptmelodie klar VORN. Verse am lautesten; im Build pausiert sie (Spannung vor dem Drop) ----
-    if(!build){ const lvol=verse?lv*1.32:(big?lv*1.14:(intro?lv*0.82:lv));
+    // ---- LEAD = Hauptmelodie klar VORN. Verse am lautesten; im Build läuft sie sanft aus (kein harter Schnitt → fließt) ----
+    if(!build || step<32){ const lvol=build?lv*0.7*(1-step/32):(verse?lv*1.32:(big?lv*1.14:(intro?lv*0.82:lv)));
       for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n+kt),e.d*secPerStep*0.94,song.lt,lvol,echo);
         if(big && e.d>=2) mVoice(time,midiF(e.n+kt+12),e.d*secPerStep*0.6,'p50',lv*0.3,0.012); } }   // Drop/Chorus: Oktav-Harmonie drauf
     if(song.chill){
@@ -528,19 +528,19 @@
       const roll=step<32?8:step<48?4:step<56?2:1;                                                       // 8tel → 16tel → 32tel: immer dichter
       if(ls%roll===0) mNoise(time,0.05,0.05+0.16*(step/64),1700);                                       // Snare-Roll, lauter zum Ende
       mNoise(time,0.045,0.015+0.10*(step/64),900+step*60);                                              // Riser-Sweep (steigt durchgehend an)
-      if(ls%2===0){ const sc=song.chords[block]; mVoice(time,midiF(sc[(step/2)%sc.length]+12+(step>=48?12:0)),secPerStep*0.4,'p25',0.035,0.002); } // aufsteigender Chip-Riser
-      if(step>=60) mVoice(time,midiF(root),secPerStep*0.5,'triangle',0.22,0.004);                       // Bass-Stotter kurz vor dem Drop
+      if(ls%2===0){ mVoice(time,midiF(root),secPerStep*1.4,'triangle',0.22,0.004);                       // durchlaufender Bass = Kontinuität (kein Totalausfall)
+        const sc=song.chords[block]; mVoice(time,midiF(sc[(step/2)%sc.length]+12+(step>=48?12:0)),secPerStep*0.4,'p25',0.035,0.002); } // aufsteigender Chip-Riser
       return;
     }
     // ---- BASS (Drop/Chorus: NES-Oktav-Bounce · Intro sparsam) ----
     if(song.bassEighths && !intro){ if(ls%2===0) mVoice(time,midiF(root+((big&&ls%4===2)?12:0)),secPerStep*1.5,'triangle',big?0.30:0.24,0.004); } // treibender Achtel-Bass
     else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',big?0.33:(intro?0.2:0.27),0.004); else if(ls%4===2 && !intro) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
     // ---- DROP = Impact mit Wucht: Crash + Powerchord + EIN kurzer Wob + aufsteigende Arcade-Laser-Fanfare (weniger wawa!) ----
-    if(drop && ls===0){ mNoise(time,0.32,0.18,2400); mWobble(time,midiF(root-12),secPerStep*5);             // Crash + nur EIN Wob
-      for(let z=0;z<4;z++) mLaser(time+z*secPerStep*0.5,midiF(root+12+[0,4,7,12][z]),secPerStep*0.55,true,0.06); } // Laser-Fanfare hoch
-    if(drop && ls===8) mLaser(time,midiF(root+24),secPerStep*1.3,false,0.075);                              // Abwärts-Laser-Zap statt 2. Wobble
-    if(chorus && ls===0){ mNoise(time,0.22,0.13,3000); for(let z=0;z<3;z++) mLaser(time+z*secPerStep*0.4,midiF(root+19+z*5),secPerStep*0.42,true,0.05); } // Chorus: Laser-Fanfare statt Wobble
-    if(big && (ls===6||ls===14)) mLaser(time,midiF(root+24+(ls===14?5:0)),secPerStep*0.9,false,0.04);        // Arcade-Laser-Akzente zwischendurch
+    if(drop && ls===0){ mNoise(time,0.32,0.11,2400); mWobble(time,midiF(root-12),secPerStep*5);             // dezenter Crash + EIN Wob
+      for(let z=0;z<4;z++) mLaser(time+z*secPerStep*0.5,midiF(root+12+[0,4,7,12][z]),secPerStep*0.55,true,0.04); } // Laser-Fanfare hoch (dezenter)
+    if(drop && ls===8) mLaser(time,midiF(root+24),secPerStep*1.3,false,0.05);                               // Abwärts-Laser-Zap statt 2. Wobble
+    if(chorus && ls===0){ mNoise(time,0.22,0.085,3000); for(let z=0;z<3;z++) mLaser(time+z*secPerStep*0.4,midiF(root+19+z*5),secPerStep*0.42,true,0.035); } // Chorus: leise Laser-Fanfare statt Wobble
+    if(big && (ls===6||ls===14)) mLaser(time,midiF(root+24+(ls===14?5:0)),secPerStep*0.9,false,0.03);        // dezente Laser-Akzente zwischendurch
     // ---- EPISCHE Power-Akkorde im Drop & Chorus ----
     if(big && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'p50',drop?0.085:0.07,0.012); }
     // ---- Chiptune-Arpeggio: im Drop/Chorus breit & laut + Trill-Wahnsinn, im Verse dezent (Melodie bleibt vorn), Intro aus ----
@@ -568,7 +568,10 @@
     while(nextStepTime < actx.currentTime+0.1){
       scheduleStep(step16,nextStepTime);
       nextStepTime+=secPerStep; step16++;
-      if(step16>=64){ step16=0; loopCount++; }
+      if(step16>=64){ step16=0; loopCount++;
+        // Schleichender Song-Wechsel: vorgemerkten Song nur einblenden, wenn der nächste Loop eine ruhige Sektion ist
+        if(pendingSong>=0){ const nm=FORM[loopCount%FORM.length].m; if(nm==='intro'||nm==='verse'){ curSong=pendingSong; pendingSong=-1; } }
+      }
     }
   }
   function startMusic(){ if(!actx||musicOn) return; musicOn=true; step16=0; loopCount=0; nextStepTime=actx.currentTime+0.08; schedTimer=setInterval(scheduler,25); }
@@ -1115,8 +1118,7 @@
   function levelUp(){ level++; levelTimer=levelDuration;
     const u=UNLOCK[level]; let sub=t('faster');
     if(u){ unlocked.push(u.key); sub=t('newForm')+formName(u.key); }
-    let ns=curSong; if(SONGS.length>1){ do{ ns=Math.floor(Math.random()*SONGS.length); }while(ns===curSong); }   // pro Level ein zufälliger NEUER Song
-    curSong=ns; sfxRiser(); floatText(W/2,H*0.44,'♪ '+SONGS[ns].name,'#ffe600',20);
+    if(SONGS.length>1){ do{ pendingSong=Math.floor(Math.random()*SONGS.length); }while(pendingSong===curSong); }   // neuen Song nur VORMERKEN – Einblendung erfolgt schleichend an ruhiger Stelle (kein Riser/Ansage)
     banner={text:t('lvl')+' '+level,sub,t:2.6,color:'#19f0ff'}; sfxLevel(); vibe([20,25,20]);
     flash=0.4; flashColor='#19f0ff';
   }
@@ -1843,7 +1845,7 @@
       ctx.shadowBlur=0; ctx.fillStyle=hexA(it[2],0.3); ctx.fillRect(x-16,y+6,32,4); ctx.fillStyle=it[2]; ctx.fillRect(x-16,y+6,32*Math.max(0,it[1]/it[3]),4); ctx.restore(); x+=40; }
   }
 
-  let sunOff=null, sunOffCtx=null, sunLo=null, sunLoCtx=null;   // Offscreen-Canvas für die Sonne (scharf + günstiger Downscale-Bloom)
+  let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null;   // Sonne (scharf, KEIN Bloom) + separate Wellen-Ebene (nur DIE wird gebloomt)
   function drawGrid(){ const hz=H*0.42,vx=W/2, bp=1+(beatPulse||0)*0.55+(overdrive?0.35:0); // bp = Beat-Puls (+Overdrive)
     const gc=curBg.grid, sc=curBg.sun;
     ctx.shadowBlur=0; ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
@@ -1855,6 +1857,7 @@
     // Sonne auf Offscreen-Canvas: SOLIDE Scheibe mit Vertikalverlauf + ausgestanzte Streifen (destination-out)
     const sr=120, sa=Math.min(1,0.85*bp), SS=sr*2, LO=80;
     if(!sunOff){ sunOff=document.createElement('canvas'); sunOff.width=SS; sunOff.height=SS; sunOffCtx=sunOff.getContext('2d');
+      waveOff=document.createElement('canvas'); waveOff.width=SS; waveOff.height=SS; waveOffCtx=waveOff.getContext('2d');
       sunLo=document.createElement('canvas'); sunLo.width=LO; sunLo.height=LO; sunLoCtx=sunLo.getContext('2d'); }
     const so=sunOffCtx; so.clearRect(0,0,SS,SS);
     so.save(); so.beginPath(); so.arc(sr,sr,sr,0,6.28); so.clip();
@@ -1865,25 +1868,28 @@
     so.fillStyle=dg; so.fillRect(0,0,SS,SS);
     so.globalCompositeOperation='destination-out';                                                // Streifen ausstanzen → durchsichtige Lücken
     for(let i=0;i<7;i++){ const yy=sr+6+i*i*3.4; if(yy>SS) break; so.fillRect(0,yy,SS,2.4+i*1.7); }
-    // ---- Audio-Visualizer: bunte Wellenform der Musik quer durch die Sonne (additiv → leuchtet; Bloom blurrt sie weich) ----
-    if(analyser && !muted){ analyser.getByteTimeDomainData(waveData);
-      so.globalCompositeOperation='lighter'; so.lineWidth=2.7; so.lineJoin='round'; so.lineCap='round';
-      const N=waveData.length, midY=sr, amp=sr*0.62*bp, eh=(elapsed||0)*70;       // schnellere Farbrotation = bunter
-      for(let lay=0;lay<5;lay++){ const hue=(eh+lay*48)%360;                       // 5 Regenbogen-Layer (vorher 3)
-        so.strokeStyle=`hsla(${hue},100%,${66-lay*4}%,${0.5-lay*0.07})`;
-        so.beginPath();
-        for(let i=0;i<N;i++){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-2)*5; i?so.lineTo(x,y):so.moveTo(x,y); }
-        so.stroke(); }
-    }
     so.restore();
-    // Bloom günstig: kleine Kopie (Downscale) + bilineares Hochskalieren = weicher Glow ohne teuren ctx.filter (mobil flüssig)
-    sunLoCtx.clearRect(0,0,LO,LO); sunLoCtx.drawImage(sunOff,0,0,LO,LO);
+    // ---- Audio-Visualizer: bunte Wellenform auf EIGENER Ebene (nur sie wird gebloomt) ----
+    const wo=waveOffCtx; wo.clearRect(0,0,SS,SS); const hasWave=analyser && !muted;
+    if(hasWave){ analyser.getByteTimeDomainData(waveData);
+      wo.save(); wo.beginPath(); wo.arc(sr,sr,sr,0,6.28); wo.clip();
+      wo.globalCompositeOperation='lighter'; wo.lineWidth=2.7; wo.lineJoin='round'; wo.lineCap='round';
+      const N=waveData.length, midY=sr, amp=sr*0.62*bp, eh=(elapsed||0)*70;       // schnelle Farbrotation = bunt
+      for(let lay=0;lay<5;lay++){ const hue=(eh+lay*48)%360;                       // 5 Regenbogen-Layer
+        wo.strokeStyle=`hsla(${hue},100%,${66-lay*4}%,${0.5-lay*0.07})`;
+        wo.beginPath();
+        for(let i=0;i<N;i++){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-2)*5; i?wo.lineTo(x,y):wo.moveTo(x,y); }
+        wo.stroke(); }
+      wo.restore();
+    }
     const dx=W/2-sr, dy=hz-sr;
     ctx.save();
-    ctx.drawImage(sunOff,dx,dy);                                                                   // scharfe Sonne (klare Streifen)
-    ctx.imageSmoothingEnabled=true; ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.62;
-    ctx.drawImage(sunLo,dx-15,dy-15,SS+30,SS+30);                                                  // geblurrte Bloom-Überlagerung (etwas mehr Glow + Spread)
-    ctx.globalAlpha=0.28; ctx.drawImage(sunLo,dx-26,dy-26,SS+52,SS+52);                            // 2. weiterer Bloom-Ring für satteren Schein
+    ctx.drawImage(sunOff,dx,dy);                                                                   // Sonne scharf – KEIN Bloom drauf
+    if(hasWave){ ctx.imageSmoothingEnabled=true; ctx.globalCompositeOperation='lighter';
+      ctx.globalAlpha=1; ctx.drawImage(waveOff,dx,dy);                                             // scharfe Welle
+      sunLoCtx.clearRect(0,0,LO,LO); sunLoCtx.drawImage(waveOff,0,0,LO,LO);                         // Downscale NUR der Welle
+      ctx.globalAlpha=0.7; ctx.drawImage(sunLo,dx-12,dy-12,SS+24,SS+24);                            // weicher Glow nur um die Welle
+      ctx.globalAlpha=0.4; ctx.drawImage(sunLo,dx-24,dy-24,SS+48,SS+48); }
     ctx.restore();
   }
 
