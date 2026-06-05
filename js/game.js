@@ -5,7 +5,6 @@
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
-  const MAXPART=260;   // Obergrenze aktiver Partikel (Perf-Cap gegen Render-Spikes)
 
   // ---------- i18n (DE / EN / FR, Jugendsprache je Sprache) ----------
   function detectLang(){ const l=((navigator.language||navigator.userLanguage||'en')+'').slice(0,2).toLowerCase(); return (l==='de'||l==='fr')?l:'en'; }
@@ -543,8 +542,18 @@
   const gpick=a=>a[Math.floor(grnd()*a.length)];
   function dailySeed(){ const d=new Date(); return ((d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate())>>>0)||1; }
   function dailyLabel(){ const d=new Date(), p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
+  // ---- Partikel-Pool (Ring-Buffer) ----
+  // Statt pro Treffer neue {}-Objekte zu erzeugen und per splice zu loeschen (→ GC-Ruckler bei
+  // partikelstarken Waffen), werden PMAX Objekte EINMAL angelegt und danach nur recycelt.
+  // emit() ueberschreibt das aelteste Slot → automatischer Cap, keine Allokation, kein splice.
+  const PMAX=320; let pHead=0;
+  function initParticlePool(){ particles=[]; for(let i=0;i<PMAX;i++) particles.push({x:0,y:0,vx:0,vy:0,life:0,decay:0,color:'#fff',size:0}); pHead=0; }
+  initParticlePool();   // einmalig: Pool fuellen, danach nie wieder neu allokieren
+  function emitP(x,y,vx,vy,decay,color,size){ const p=particles[pHead]; pHead=(pHead+1)%PMAX;
+    p.x=x;p.y=y;p.vx=vx;p.vy=vy;p.life=1;p.decay=decay;p.color=color;p.size=size; }
+  function clearParticles(){ for(let i=0;i<particles.length;i++) particles[i].life=0; pHead=0; }
   function spawnParticles(x,y,color,n,spd){ for(let i=0;i<n;i++){const a=Math.random()*6.28,s=rand(spd*0.3,spd);
-    particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:rand(0.012,0.03),color,size:rand(2,5)});} }
+    emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,rand(0.012,0.03),color,rand(2,5));} }
   function floatText(x,y,text,color,size){ floaters.push({x,y,text,color:color||'#fff',size:size||16,life:1,vy:-42}); }
   // Schadenszahl (weiß = normal, rot = Krit). Mit Soft-Cap gegen Spam & nur wenn aktiviert.
   function floatDamage(x,y,amt,crit){ if(!opt.dmg||floaters.length>66) return; const a=Math.round(amt); if(a<=0) return;
@@ -732,7 +741,7 @@
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
-    obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[];
+    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[];
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
@@ -1304,8 +1313,7 @@
     }
 
     // Particles & floaters
-    for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; if(p.life<=0)particles.splice(i,1); }
-    if(particles.length>MAXPART) particles.splice(0,particles.length-MAXPART);   // Cap gegen Render-Spike bei Massen-Explosionen (älteste = verblassendste zuerst)
+    for(const p of particles){ if(p.life<=0) continue; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; }   // Pool: tote Slots ueberspringen, kein splice
     for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.y+=f.vy*dt; f.vy*=0.96; if(f.vx){ f.x+=f.vx*dt; f.vx*=0.92; } f.life-=dt*(f.dr||0.9); if(f.life<=0)floaters.splice(i,1); }
 
     if(banner){ banner.t-=dt; if(banner.t<=0) banner=null; }
@@ -1336,15 +1344,15 @@
     const pcol=pyro?'#ff9a2e':(cryo?'#8fe8ff':'#caffff');
     for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*w.spread;
       bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?1.6:0,frost:cryo?camt:0,frostDur:cryo?cdur:0,splash:syn.barrage,novakill:syn.shockbolt}); }
-    particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:teslaShot?'#9be7ff':pcol,size:rand(5,8)});
+    emitP(player.x,baseY,0,-30,0.14,teslaShot?'#9be7ff':pcol,rand(5,8));
     sfxShoot(); }
   function fireFlame(){ const w=wpn.flame, baseY=player.y-player.r-2;
     bullets.push({x:player.x,y:baseY,vx:rand(-30,30),vy:-560,r:6,dmg:w.dmg,pierce:0,col:'#ffae4d',burn:w.dot,burnDur:w.dur,burnSpread:w.spread,burnConsume:w.consume});
-    particles.push({x:player.x,y:baseY,vx:0,vy:-20,life:1,decay:0.12,color:'#ff9a2e',size:rand(5,9)});
+    emitP(player.x,baseY,0,-20,0.12,'#ff9a2e',rand(5,9));
     beep(360,0.04,'sawtooth',0.07,90); }
   function fireFrost(){ const w=wpn.frost, baseY=player.y-player.r-2;
     bullets.push({x:player.x,y:baseY,vx:rand(-20,20),vy:-600,r:5,dmg:w.dmg,pierce:1,col:'#8fe8ff',frost:w.slowAmt,frostDur:w.slowDur,freeze:w.freeze,shatter:w.shatter,brittle:w.brittle});
-    particles.push({x:player.x,y:baseY,vx:0,vy:-20,life:1,decay:0.12,color:'#8fe8ff',size:rand(4,7)});
+    emitP(player.x,baseY,0,-20,0.12,'#8fe8ff',rand(4,7));
     beep(880,0.04,'sine',0.06,240); }
   function fireMissileW(){ const w=wpn.missile; for(let i=0;i<w.count;i++){
       bullets.push({x:player.x+rand(-8,8),y:player.y-player.r-2,vx:rand(-50,50),vy:-340,r:7,dmg:w.dmg,pierce:0,homing:true,aoe:w.aoe,life:4,col:'#ff9a2e',shrapnel:w.shrapnel,incendiary:w.incendiary}); }
@@ -1371,14 +1379,14 @@
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ const h=rollHit(w.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); } }
     const col=w.slow?'#8fe8ff':'#c45bff';
     novas.push({x:player.x,y:player.y,r0:14,rMax:R,t:0,life:0.36,col});                       // expandierender Schockwellen-Ring
-    for(let i=0;i<16;i++){ const a=i/16*6.28, s=R*2.4; particles.push({x:player.x+Math.cos(a)*16,y:player.y+Math.sin(a)*16,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.08,color:col,size:rand(3,6)}); }
+    for(let i=0;i<16;i++){ const a=i/16*6.28, s=R*2.4; emitP(player.x+Math.cos(a)*16,player.y+Math.sin(a)*16,Math.cos(a)*s,Math.sin(a)*s,0.08,col,rand(3,6)); }
     flash=Math.min(0.4,flash+0.1); flashColor=col; shake=Math.max(shake,4); beep(170,0.13,'sine',0.18,200); vibe(8); }
   // VOLTBOGEN: kleine Nova an einem Ketten-Treffer (entkoppelt verarbeitet, damit das Splicen die Kette nicht stört)
   function miniNova(x,y){ const R=56, dmg=(wpn.nova?wpn.nova.dmg*0.5:1.6)*(mods.wDmgMult||1);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
       if(dx*dx+dy*dy<R*R){ o.hp-=dmg; o.hitFlash=0.1; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     novas.push({x,y,r0:6,rMax:R,t:0,life:0.28,col:'#c45bff'});
-    for(let i=0;i<7;i++){ const a=i/7*6.28; particles.push({x,y,vx:Math.cos(a)*R*2,vy:Math.sin(a)*R*2,life:1,decay:0.12,color:'#c45bff',size:rand(2,4)}); }
+    for(let i=0;i<7;i++){ const a=i/7*6.28; emitP(x,y,Math.cos(a)*R*2,Math.sin(a)*R*2,0.12,'#c45bff',rand(2,4)); }
     beep(220,0.06,'sine',0.10,160); }
   // Railgun: sofortige Schiene auf die nächste Bedrohung – trifft alle Ziele in der Spalte
   function fireRail(){ const w=wpn.rail; let bx=player.x,bd=1e9;
@@ -1394,8 +1402,8 @@
     if(syn.railchain && wpn.chain) chainLightning(bx,baseY-40,wpn.chain.dmg*0.8,wpn.chain.jumps,{});   // SCHIENEN-KETTE
     beams.push({x:bx,w:w.width,t:0.16}); flash=Math.min(0.45,flash+0.12); flashColor='#fff27a'; shake=Math.max(shake,5); beep(120,0.14,'sawtooth',0.28,-40); }
   function pixelBurst(x,y,color,power){ const n=8+Math.min(20,(power||1)*5);
-    for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:rand(0.02,0.045),color,size:rand(3,7)}); }
-    for(let i=0;i<4;i++){ const a=Math.random()*6.28,s=rand(40,160); particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.05,color:'#ffffff',size:rand(3,6)}); } }
+    for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,rand(0.02,0.045),color,rand(3,7)); }
+    for(let i=0;i<4;i++){ const a=Math.random()*6.28,s=rand(40,160); emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,0.05,'#ffffff',rand(3,6)); } }
   function killObstacle(o){ const pts=3*(o.maxHp||1); addScore(pts);
     pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
@@ -1580,7 +1588,7 @@
 
       // particles (additiv -> Funkenregen leuchtet übereinander). Glow via Halo+Kern statt teurem shadowBlur (mobil flüssig)
       ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=0;
-      for(const p of particles){ const a=Math.max(0,p.life), s=p.size; ctx.fillStyle=p.color;
+      for(const p of particles){ if(p.life<=0) continue; const a=p.life, s=p.size; ctx.fillStyle=p.color;
         ctx.globalAlpha=a*0.35; ctx.fillRect(p.x-s,p.y-s,s*2,s*2);                 // weicher additiver Halo
         ctx.globalAlpha=a;      ctx.fillRect(p.x-s/2,p.y-s/2,s,s); }               // heller Kern
       ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
@@ -2060,7 +2068,7 @@
   function loop(now){ let dt=(now-lastT)/1000; lastT=now; if(dt>0.05)dt=0.05;
     if(state===S.PLAY) update(dt);
     else { elapsed=(elapsed||0)+dt; for(const s of stars){s.y+=(20+s.z*40)*dt;if(s.y>H){s.y=-2;s.x=Math.random()*W;}}
-      if(particles)for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
+      if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
       shake=Math.max(0,(shake||0)-dt*60); }
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
     // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
@@ -2137,7 +2145,7 @@
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
   // (Menü spielt jetzt den eigenen Chill-Track NEON CHILL – keine Song-Rotation mehr im Menü)
 
-  particles=[]; floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[];
+  clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0;
   requestAnimationFrame(loop);
