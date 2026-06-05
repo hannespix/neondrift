@@ -114,9 +114,9 @@
     fr:{rapid:['Tir Rapide','+50% cadence, un peu moins de dégâts'],heavy:['Tir Lourd','Plus lent, mais double dégâts'],scatter:['Dispersion','+2 projectiles (éventail), plus faibles'],precise:['Précision','+2 perforation, +40% dégâts'],swarm:['Essaim','2 missiles plus petits'],warhead:['Ogive','1 gros missile, +50% rayon'],shrapnel:['Éclats','L’explosion projette des éclats'],incendiary:['Incendiaire','L’explosion enflamme les cibles'],ember:['Braise','Brûlure presque doublée'],wildfire:['Embrasement','Le feu se propage à la mort'],accel:['Accélérant','Brûle plus vite (court, fort)'],consume:['Consumer','Les kills par feu donnent des points'],permafrost:['Permafrost','Ralenti plus long & plus fort'],glaciate:['Glaciation','Chance de geler totalement'],shatter:['Éclatement','Les cibles gelées éclatent (AoE)'],brittle:['Fragile','Les cibles gelées subissent +50%'],fork:['Ramification','+2 sauts, moins de dégâts'],highv:['Haute Tension','Moins de sauts, gros dégâts + stun'],stormhit:['Orage','Chaîne aussi sur les kills de tir'],dischargeaoe:['Décharge','Chaque saut avec petit AoE'],shock:['Onde de Choc','+40% de rayon'],overload:['Surcharge','+70% dégâts, plus lent'],repel:['Répulsion','Repousse les cibles touchées'],staticfield:['Champ Statique','Le pulsar ralentit les cibles'],charged:['Chargé','+80% dégâts, plus lent'],autoload:['Rechargeur','+70% cadence, moins de dégâts'],wide:['Rail Large','Rail deux fois plus large'],overdrive:['Overdrive','+50% dégâts du rail'],overcharge:['Haute Pression','+40% dégâts, plus lent'],stabil:['Stabilisateur','Éventail serré, +20% cadence'],volley:['Salve','+1 projectile, plus faibles'],lance:['Lance','+2 perforation, +30% dégâts'],cluster:['Grappe','+1 missile, plus faibles'],bunker:['Anti-Bunker','+50% dégâts, plus lent'],wide_aoe:['Grosse Explosion','+50% de rayon'],rapidload:['Chargeur Rapide','+60% cadence, moins de dégâts'],inferno:['Enfer','+60% dégâts de brûlure'],lingering:['Combustion','Brûle 80% plus longtemps'],blaze:['Embrasement','+50% cadence, un peu moins de dégâts'],firestorm:['Tempête de Feu','Plus de brûlure & durée, propage'],deepfreeze:['Grand Froid','Ralenti plus fort & long'],blizzard:['Blizzard','+50% cadence, moins de dégâts'],absolute:['Zéro Absolu','Gèle les cibles de façon fiable'],frostbite:['Gelure','+60% dégâts, plus lent'],arc:['Arc','+2 sauts, moins de dégâts'],conduit:['Conducteur','+60% dégâts, plus lent'],tempest:['Tempête','+50% cadence, moins de dégâts'],paralyze:['Paralysie','Stun plus long, +dégâts'],expand:['Expansion','+40% de rayon'],collapse:['Implosion','+60% dégâts, plus serré'],pulsar:['Pulsar','+60% cadence, moins de dégâts'],singularity:['Singularité','Repousse & ralentit'],piercebeam:['Voie Large','+60% largeur du faisceau'],hypervelocity:['Hypervitesse','+60% dégâts, plus lent'],gigawatt:['Gigawatt','+80% dégâts, bien plus lent'],repeater:['Rail Rapide','+80% cadence, moins de dégâts']}
   };
   const SYNTR={
-    de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +1 Sprung & +50% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 5. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele'],cryonova:['Cryonova','Nova-Puls verlangsamt zusätzlich alle Ziele'],plasma:['Plasma-Schiene','Railgun entzündet getroffene Ziele'],voltspark:['Voltbogen','Jeder Ketten-Treffer zündet eine Mini-Nova'],pyrobolt:['Pyro-Bolzen','Blaster-Bolzen entzünden getroffene Ziele'],railnova:['Schienen-Nova','Railgun-Schuss löst eine Nova aus'],cryoshot:['Frost-Salve','Blaster-Bolzen verlangsamen getroffene Ziele'],novabomb:['Nova-Bombe','Raketen-Explosion löst eine Nova aus'],railchain:['Schienen-Kette','Railgun-Treffer starten einen Kettenblitz']},
-    en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +1 jump & +50% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 5th blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets'],cryonova:['Cryonova','Nova pulse also slows all targets'],plasma:['Plasma Rail','Railgun ignites targets it hits'],voltspark:['Volt Arc','Each chain hit triggers a mini nova'],pyrobolt:['Pyro Bolt','Blaster bolts ignite the targets they hit'],railnova:['Rail Nova','Railgun shot triggers a nova'],cryoshot:['Frost Volley','Blaster bolts slow the targets they hit'],novabomb:['Nova Bomb','Missile blast triggers a nova'],railchain:['Rail Chain','Railgun hits start a chain lightning']},
-    fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +1 saut & +50% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 5e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent'],cryonova:['Cryonova','Le pulsar nova ralentit aussi les cibles'],plasma:['Rail Plasma','Le railgun enflamme les cibles touchées'],voltspark:['Arc Volt','Chaque saut de chaîne déclenche une mini-nova'],pyrobolt:['Boulon Pyro','Les tirs du blaster enflamment les cibles'],railnova:['Nova Rail','Le tir du railgun déclenche une nova'],cryoshot:['Salve de Givre','Les tirs du blaster ralentissent les cibles'],novabomb:['Bombe Nova','L’explosion de missile déclenche une nova'],railchain:['Chaîne Rail','Les tirs du railgun lancent un éclair en chaîne']}
+    de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +1 Sprung & +50% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 5. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele'],cryonova:['Cryonova','Nova-Puls verlangsamt zusätzlich alle Ziele'],plasma:['Plasma-Schiene','Railgun entzündet getroffene Ziele'],voltspark:['Voltbogen','Jeder Ketten-Treffer zündet eine Mini-Nova'],pyrobolt:['Pyro-Bolzen','Blaster-Bolzen entzünden getroffene Ziele'],railnova:['Schienen-Nova','Railgun-Schuss löst eine Nova aus'],cryoshot:['Frost-Salve','Blaster-Bolzen verlangsamen getroffene Ziele'],novabomb:['Nova-Bombe','Raketen-Explosion löst eine Nova aus'],railchain:['Schienen-Kette','Railgun-Treffer starten einen Kettenblitz'],barrage:['Sperrfeuer','Blaster-Bolzen explodieren klein beim Treffer'],shockbolt:['Schock-Bolzen','Jeder Blaster-Kill löst eine Mini-Nova aus'],overclock:['Übertaktung','Blaster feuert 40% schneller'],clusterarc:['Cluster-Bogen','Raketen-Explosion startet einen Kettenblitz'],siege:['Belagerung','Raketen +30% Schaden & Radius'],wildarc:['Brand-Bogen','Kettenblitz entzündet getroffene Ziele'],embernova:['Glut-Nova','Nova-Puls entzündet alle Ziele'],cryorail:['Frost-Schiene','Railgun vereist die getroffene Spalte']},
+    en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +1 jump & +50% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 5th blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets'],cryonova:['Cryonova','Nova pulse also slows all targets'],plasma:['Plasma Rail','Railgun ignites targets it hits'],voltspark:['Volt Arc','Each chain hit triggers a mini nova'],pyrobolt:['Pyro Bolt','Blaster bolts ignite the targets they hit'],railnova:['Rail Nova','Railgun shot triggers a nova'],cryoshot:['Frost Volley','Blaster bolts slow the targets they hit'],novabomb:['Nova Bomb','Missile blast triggers a nova'],railchain:['Rail Chain','Railgun hits start a chain lightning'],barrage:['Barrage','Blaster bolts burst on hit'],shockbolt:['Shock Bolt','Every blaster kill triggers a mini nova'],overclock:['Overclock','Blaster fires 40% faster'],clusterarc:['Cluster Arc','Missile blast starts a chain lightning'],siege:['Siege','Missiles +30% damage & radius'],wildarc:['Wild Arc','Chain lightning ignites the targets it hits'],embernova:['Ember Nova','Nova pulse ignites all targets'],cryorail:['Cryo Rail','Railgun freezes the column it hits']},
+    fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +1 saut & +50% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 5e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent'],cryonova:['Cryonova','Le pulsar nova ralentit aussi les cibles'],plasma:['Rail Plasma','Le railgun enflamme les cibles touchées'],voltspark:['Arc Volt','Chaque saut de chaîne déclenche une mini-nova'],pyrobolt:['Boulon Pyro','Les tirs du blaster enflamment les cibles'],railnova:['Nova Rail','Le tir du railgun déclenche une nova'],cryoshot:['Salve de Givre','Les tirs du blaster ralentissent les cibles'],novabomb:['Bombe Nova','L’explosion de missile déclenche une nova'],railchain:['Chaîne Rail','Les tirs du railgun lancent un éclair en chaîne'],barrage:['Barrage','Les tirs du blaster explosent à l’impact'],shockbolt:['Boulon Choc','Chaque kill du blaster déclenche une mini-nova'],overclock:['Surcadence','Le blaster tire 40% plus vite'],clusterarc:['Arc en Grappe','L’explosion de missile lance un éclair en chaîne'],siege:['Siège','Missiles +30% dégâts & rayon'],wildarc:['Arc Sauvage','L’éclair en chaîne enflamme les cibles'],embernova:['Nova Braise','Le pulsar nova enflamme toutes les cibles'],cryorail:['Rail Cryo','Le railgun gèle la colonne touchée']}
   };
   const wName=id=>((WTR[lang]&&WTR[lang][id])||WTR.en[id]||[id])[0];
   const wDesc=id=>(((WTR[lang]&&WTR[lang][id])||WTR.en[id]||['',''])[1])||'';
@@ -624,7 +624,15 @@
     {id:'railnova', pair:['rail','nova'],   ico:'🌀'},
     {id:'cryoshot', pair:['blaster','frost'],ico:'🧊'},
     {id:'novabomb', pair:['missile','nova'],ico:'🌑'},
-    {id:'railchain',pair:['rail','chain'],  ico:'🔗'}
+    {id:'railchain',pair:['rail','chain'],  ico:'🔗'},
+    {id:'barrage',  pair:['blaster','missile'],ico:'💢'},
+    {id:'shockbolt',pair:['blaster','nova'],   ico:'🟪'},
+    {id:'overclock',pair:['blaster','rail'],   ico:'⏩'},
+    {id:'clusterarc',pair:['missile','chain'], ico:'🪢'},
+    {id:'siege',    pair:['missile','rail'],   ico:'💣'},
+    {id:'wildarc',  pair:['flame','chain'],    ico:'🔥'},
+    {id:'embernova',pair:['flame','nova'],     ico:'🌋'},
+    {id:'cryorail', pair:['frost','rail'],     ico:'❄️'}
   ];
   const SID=Object.fromEntries(SYNERGIES.map(s=>[s.id,s]));
   const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
@@ -684,6 +692,8 @@
     if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
     if(syn.cryonova&&wpn.nova) wpn.nova.slow=true;              // CRYONOVA: Puls verlangsamt
     if(syn.plasma&&wpn.rail) wpn.rail.burn=true;                // PLASMA: Schiene entzündet
+    if(syn.overclock&&wpn.blaster) wpn.blaster.rate*=1.4;       // ÜBERTAKTUNG: Blaster schneller
+    if(syn.siege&&wpn.missile){ wpn.missile.dmg*=1.3; wpn.missile.aoe*=1.3; }   // BELAGERUNG: Raketen stärker & größer
     // Krit: Passiv-Basis + Blaster-Pfad „Präzision"
     mods.crit=Math.min(0.75,(mods.critBase||0)+((arsenal.w.blaster&&arsenal.w.blaster.f2==='precise')?0.15:0));
     mods.gun=has('blaster')?1:0;
@@ -1205,7 +1215,8 @@
           if(b.burn){ o.burn=Math.max(o.burn||0,b.burnDur||1.8); o.burnDmg=Math.max(o.burnDmg||0,b.burn); o.burnSpread=b.burnSpread; o.burnConsume=b.burnConsume; }
           if(b.frost){ o.slow=Math.max(o.slow||0,b.frostDur||1.4); const amt=(b.freeze&&Math.random()<0.4)?0.05:b.frost; o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,amt); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
           if(b.tesla){ chainLightning(o.cx,o.cy,(wpn.chain?wpn.chain.dmg:1.4)*0.8,2,{skip:[o]}); }  // TESLA-SALVE
-          if(o.hp<=0){ const ox=o.cx,oy=o.cy,wasSlow=o.slow>0; killObstacle(o); obstacles.splice(oi,1);
+          if(b.splash) chainAoe(o.cx,o.cy,dmg*0.45);                                       // SPERRFEUER: kleiner Explosions-Splash
+          if(o.hp<=0){ const ox=o.cx,oy=o.cy,wasSlow=o.slow>0; if(b.novakill) synNovas.push({x:ox,y:oy}); killObstacle(o); obstacles.splice(oi,1);   // SCHOCK-BOLZEN: Mini-Nova beim Kill
             if(mods.shatter && wasSlow) shatterBurst(ox,oy,b.dmg);                        // SPLITTERBRUCH: Splitter-Explosion
             if(wpn.chain && wpn.chain.onHit) chainLightning(ox,oy,wpn.chain.dmg*0.7,2,{}); } // GEWITTER: Kette auch bei Bolzen-Kill
           if(b.pierce>0){ b.pierce--; } else { gone=true; }
@@ -1288,7 +1299,7 @@
     const cryo=syn.cryoshot, camt=wpn.frost?wpn.frost.slowAmt:0.55, cdur=wpn.frost?wpn.frost.slowDur:1.2;            // FROST-SALVE: verlangsamen
     const pcol=pyro?'#ff9a2e':(cryo?'#8fe8ff':'#caffff');
     for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*w.spread;
-      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?1.6:0,frost:cryo?camt:0,frostDur:cryo?cdur:0}); }
+      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?1.6:0,frost:cryo?camt:0,frostDur:cryo?cdur:0,splash:syn.barrage,novakill:syn.shockbolt}); }
     particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:teslaShot?'#9be7ff':pcol,size:rand(5,8)});
     sfxShoot(); }
   function fireFlame(){ const w=wpn.flame, baseY=player.y-player.r-2;
@@ -1309,6 +1320,7 @@
     if(!best) return; arcParticles(player.x,player.y-player.r,best.cx,best.cy);
     const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.5;
     best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,h0.crit); if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+    if(syn.wildarc){ best.burn=Math.max(best.burn||0,1.8); best.burnDmg=Math.max(best.burnDmg||0,0.9*(mods.wDmgMult||1)); }   // BRAND-BOGEN
     if(w.aoe) chainAoe(best.cx,best.cy,dd*0.5);
     const fx=best.cx,fy=best.cy,skip=[best]; if(syn.voltspark) synNovas.push({x:fx,y:fy}); if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0)obstacles.splice(ix,1); }
     chainLightning(fx,fy,w.dmg,w.jumps-1,{skip,stun:w.stun,aoe:w.aoe}); beep(1300,0.03,'square',0.06,260); }
@@ -1317,6 +1329,7 @@
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-player.x,dy=o.cy-player.y;
       if(dx*dx+dy*dy<R*R){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.1; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
         if(w.slow){ o.slow=Math.max(o.slow||0,1.2); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.5); }
+        if(syn.embernova){ o.burn=Math.max(o.burn||0,1.8); o.burnDmg=Math.max(o.burnDmg||0,0.85*(mods.wDmgMult||1)); }   // GLUT-NOVA: Puls entzündet
         if(w.knock){ o.cy-=26; }
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ const h=rollHit(w.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); } }
@@ -1338,6 +1351,7 @@
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; if(o.cy>baseY+12) continue;
       if(Math.abs(o.cx-bx)<w.width+(o.w?o.w/2:0)){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.12; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
         if(w.burn){ o.burn=Math.max(o.burn||0,2.0); o.burnDmg=Math.max(o.burnDmg||0,0.9*(mods.wDmgMult||1)); }
+        if(syn.cryorail){ o.slow=Math.max(o.slow||0,1.5); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.4); }   // FROST-SCHIENE: vereist die Spalte
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(boss&&!boss.dead&&!boss.fleeing && Math.abs(boss.x-bx)<w.width+boss.r && boss.y<baseY){ const h=rollHit(w.dmg*1.5); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); }
     if(syn.railnova) synNovas.push({x:bx,y:baseY-40});                                   // SCHIENEN-NOVA: Nova in der Schussspalte
@@ -1373,6 +1387,7 @@
         if(syn.icebomb){ o.slow=Math.max(o.slow||0,1.6); o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,0.45); }                 // EISBOMBE
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(syn.novabomb) synNovas.push({x:b.x,y:b.y});                  // NOVA-BOMBE: Explosion löst zusätzlich eine Nova aus
+    if(syn.clusterarc && wpn.chain) chainLightning(b.x,b.y,wpn.chain.dmg*0.7,wpn.chain.jumps,{});   // CLUSTER-BOGEN: Explosion startet Kettenblitz
     if(b.shrapnel){ for(let i=0;i<8;i++){ const a=i/8*6.28; bullets.push({x:b.x,y:b.y,vx:Math.cos(a)*420,vy:Math.sin(a)*420,r:3,dmg:b.dmg*0.4,pierce:0,col:'#ffd36b',life:0.5,frag:true}); } } // Splittergranate
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=edmg*2; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,edmg*2,h.crit); if(boss.hp<=0) startBossDeath(); } } }
   // Splitterbruch: gefrorenes Ziel zerspringt beim Tod → Scherben-AoE
@@ -1388,6 +1403,7 @@
       if(!best) break; used.add(best); arcParticles(cx,cy,best.cx,best.cy);
       const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.5;
       best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,hh.crit); if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+      if(syn.wildarc){ best.burn=Math.max(best.burn||0,1.8); best.burnDmg=Math.max(best.burnDmg||0,0.9*(mods.wDmgMult||1)); }   // BRAND-BOGEN (je Sprung)
       if(opts.aoe) chainAoe(best.cx,best.cy,dd*0.5);
       const nx=best.cx,ny=best.cy; if(syn.voltspark) synNovas.push({x:nx,y:ny});
       if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0) obstacles.splice(ix,1); }
