@@ -314,31 +314,31 @@
   let musicShift=0;                                  // globale Transposition (pro Level andere Tonart)
   const midiF=n=>440*Math.pow(2,(n-69+musicShift)/12);
   const levelKey=lv=>{ let s=((Math.max(1,lv)-1)*5)%12; if(s>6) s-=12; return s; };  // Quartenzirkel, ±6 Halbtöne → jedes Level klar andere Tonart
-  // Lead A – PROLOG: „Ode an die Freude" (Beethoven, gemeinfrei) als erkennbarer europäischer Anthem
+  // Lead A – PROLOG: eigenständige Melodie, die den Stufengang-Bogen von „Ode an die Freude" nur ANDEUTET (nicht kopiert)
   const LEAD1=[
-    {s:0,n:76,d:4},{s:4,n:76,d:4},{s:8,n:77,d:4},{s:12,n:79,d:4},
-    {s:16,n:79,d:4},{s:20,n:77,d:4},{s:24,n:76,d:4},{s:28,n:74,d:4},
-    {s:32,n:72,d:4},{s:36,n:72,d:4},{s:40,n:74,d:4},{s:44,n:76,d:4},
-    {s:48,n:76,d:4},{s:52,n:74,d:4},{s:56,n:74,d:8}
+    {s:0,n:72,d:2},{s:2,n:76,d:2},{s:4,n:77,d:1},{s:5,n:79,d:1},{s:6,n:79,d:2},{s:8,n:77,d:2},{s:10,n:76,d:2},{s:12,n:74,d:4},
+    {s:16,n:79,d:2},{s:18,n:77,d:2},{s:20,n:76,d:2},{s:22,n:74,d:2},{s:24,n:72,d:2},{s:26,n:74,d:2},{s:28,n:71,d:4},
+    {s:32,n:72,d:2},{s:34,n:76,d:2},{s:36,n:81,d:2},{s:38,n:79,d:1},{s:39,n:77,d:1},{s:40,n:76,d:2},{s:42,n:72,d:2},{s:44,n:69,d:4},
+    {s:48,n:72,d:2},{s:50,n:76,d:2},{s:52,n:79,d:2},{s:54,n:77,d:1},{s:55,n:76,d:1},{s:56,n:74,d:2},{s:58,n:71,d:2},{s:60,n:72,d:4}
   ];
   const LEAD2=[
-    {s:0,n:76,d:4},{s:4,n:76,d:4},{s:8,n:77,d:4},{s:12,n:79,d:4},
-    {s:16,n:79,d:4},{s:20,n:77,d:4},{s:24,n:76,d:4},{s:28,n:74,d:4},
-    {s:32,n:72,d:4},{s:36,n:72,d:4},{s:40,n:74,d:4},{s:44,n:76,d:4},
-    {s:48,n:74,d:4},{s:52,n:72,d:4},{s:56,n:72,d:8}
+    {s:0,n:84,d:2},{s:2,n:83,d:2},{s:4,n:79,d:2},{s:6,n:76,d:2},{s:8,n:77,d:2},{s:10,n:79,d:2},{s:12,n:84,d:4},
+    {s:16,n:83,d:2},{s:18,n:79,d:2},{s:20,n:74,d:2},{s:22,n:79,d:2},{s:24,n:83,d:2},{s:26,n:79,d:1},{s:27,n:77,d:1},{s:28,n:74,d:4},
+    {s:32,n:81,d:2},{s:34,n:84,d:2},{s:36,n:88,d:2},{s:38,n:84,d:1},{s:39,n:81,d:1},{s:40,n:79,d:2},{s:42,n:76,d:2},{s:44,n:72,d:4},
+    {s:48,n:79,d:2},{s:50,n:84,d:2},{s:52,n:88,d:2},{s:54,n:84,d:1},{s:55,n:79,d:1},{s:56,n:76,d:2},{s:58,n:74,d:2},{s:60,n:72,d:4}
   ];
-  // Lead B – NACHTFAHRT: „Korobeiniki" (russisches Volkslied = Tetris-Thema, gemeinfrei) in d-Moll
+  // Lead B – NACHTFAHRT: eigenständig, der Korobeiniki-(Tetris-)Quintsprung als Auftakt-Zelle, danach neu & durchgedreht
   const LEADB1=[
-    {s:0,n:74,d:4},{s:4,n:69,d:2},{s:6,n:70,d:2},{s:8,n:72,d:4},{s:12,n:70,d:2},{s:14,n:69,d:2},
-    {s:16,n:67,d:4},{s:20,n:67,d:2},{s:22,n:70,d:2},{s:24,n:74,d:4},{s:28,n:72,d:2},{s:30,n:70,d:2},
-    {s:32,n:69,d:6},{s:38,n:70,d:2},{s:40,n:72,d:4},{s:44,n:74,d:4},
-    {s:48,n:70,d:4},{s:52,n:67,d:4},{s:56,n:67,d:8}
+    {s:0,n:74,d:2},{s:2,n:69,d:2},{s:4,n:72,d:1},{s:5,n:74,d:1},{s:6,n:77,d:2},{s:8,n:76,d:2},{s:10,n:74,d:2},{s:12,n:72,d:4},
+    {s:16,n:70,d:2},{s:18,n:74,d:2},{s:20,n:77,d:2},{s:22,n:79,d:1},{s:23,n:77,d:1},{s:24,n:74,d:2},{s:26,n:70,d:2},{s:28,n:67,d:4},
+    {s:32,n:69,d:2},{s:34,n:72,d:2},{s:36,n:76,d:2},{s:38,n:74,d:1},{s:39,n:72,d:1},{s:40,n:69,d:2},{s:42,n:67,d:2},{s:44,n:64,d:4},
+    {s:48,n:70,d:2},{s:50,n:67,d:2},{s:52,n:74,d:2},{s:54,n:72,d:1},{s:55,n:70,d:1},{s:56,n:69,d:2},{s:58,n:67,d:2},{s:60,n:74,d:4}
   ];
   const LEADB2=[
-    {s:0,n:72,d:4},{s:4,n:76,d:2},{s:6,n:79,d:2},{s:8,n:77,d:4},{s:12,n:76,d:2},{s:14,n:74,d:2},
-    {s:16,n:74,d:4},{s:20,n:70,d:2},{s:22,n:74,d:2},{s:24,n:72,d:4},{s:28,n:70,d:2},{s:30,n:69,d:2},
-    {s:32,n:69,d:6},{s:38,n:70,d:2},{s:40,n:72,d:4},{s:44,n:74,d:4},
-    {s:48,n:70,d:4},{s:52,n:67,d:4},{s:56,n:67,d:8}
+    {s:0,n:81,d:2},{s:2,n:74,d:2},{s:4,n:77,d:1},{s:5,n:79,d:1},{s:6,n:81,d:2},{s:8,n:79,d:2},{s:10,n:77,d:2},{s:12,n:74,d:4},
+    {s:16,n:74,d:2},{s:18,n:77,d:2},{s:20,n:82,d:2},{s:22,n:79,d:2},{s:24,n:77,d:2},{s:26,n:74,d:2},{s:28,n:70,d:4},
+    {s:32,n:76,d:2},{s:34,n:81,d:2},{s:36,n:84,d:2},{s:38,n:81,d:1},{s:39,n:79,d:1},{s:40,n:76,d:2},{s:42,n:72,d:2},{s:44,n:69,d:4},
+    {s:48,n:74,d:2},{s:50,n:79,d:2},{s:52,n:82,d:2},{s:54,n:79,d:1},{s:55,n:77,d:1},{s:56,n:74,d:2},{s:58,n:70,d:2},{s:60,n:62,d:4}
   ];
   // Lead C – ÜBERTAKTET (A-Dur, hoch, hektisch 16tel)
   const LEADC1=[
@@ -462,13 +462,22 @@
     const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=12; lp.frequency.setValueAtTime(480,time);
     const lfo=actx.createOscillator(); lfo.type='sine'; lfo.frequency.setValueAtTime(1/(secPerStep*2),time);   // achtelsynchroner Wobble
     const lg=actx.createGain(); lg.gain.value=900; lfo.connect(lg); lg.connect(lp.frequency);                  // tiefe Cutoff-Modulation = fetter Grind
-    const g=actx.createGain(); g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(0.17,time+0.02);
-    g.gain.setValueAtTime(0.17,time+dur*0.8); g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
+    const g=actx.createGain(); g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(0.12,time+0.02);
+    g.gain.setValueAtTime(0.12,time+dur*0.8); g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
     const sub=actx.createOscillator(); sub.type='sine'; sub.frequency.setValueAtTime(freq/2,time); sub.connect(lp);
     const oscs=[sub];
     for(const det of [-9,9]){ const o=actx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(freq,time); o.detune.setValueAtTime(det,time); o.connect(lp); oscs.push(o); } // 2 verstimmte Sägen = breit/grindig
     lp.connect(g); g.connect(musicGain);
     const end=time+dur+0.02; lfo.start(time); lfo.stop(end); for(const o of oscs){ o.start(time); o.stop(end); }
+  }
+  // Arcade-Laser „Pew": Puls mit schnellem Frequenz-Sweep (up=aufsteigend) → 80er-Spielhallen-Zap
+  function mLaser(time,freq,dur,up,vol){
+    const o=actx.createOscillator(); setOsc(o,'p25'); o.frequency.setValueAtTime(freq,time);
+    o.frequency.exponentialRampToValueAtTime(Math.max(60, up?freq*2.8:freq/3.2), time+dur);
+    const g=actx.createGain(); g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(vol||0.07,time+0.004); g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
+    o.connect(g); g.connect(musicGain);
+    if(musicDelay){ const s=actx.createGain(); s.gain.value=0.35; g.connect(s); s.connect(musicDelay); }
+    o.start(time); o.stop(time+dur+0.02);
   }
   // Heller, kurzer Arpeggio-/Twinkle-Ton mit Echo – Basis der prozeduralen Variation
   function mArp(time,freq,dur,vol){
@@ -526,16 +535,19 @@
     // ---- BASS (Drop/Chorus: NES-Oktav-Bounce · Intro sparsam) ----
     if(song.bassEighths && !intro){ if(ls%2===0) mVoice(time,midiF(root+((big&&ls%4===2)?12:0)),secPerStep*1.5,'triangle',big?0.30:0.24,0.004); } // treibender Achtel-Bass
     else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',big?0.33:(intro?0.2:0.27),0.004); else if(ls%4===2 && !intro) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
-    // ---- DROP = der Dubstep-Moment: fetter Wobble + Powerchord-Impact auf der 1, „wawawa" auf der 8 (mit Druck) ----
-    if(drop && ls===0){ mNoise(time,0.32,0.18,2400); mWobble(time,midiF(root-12),secPerStep*7.5); }      // Impact-Crash + fetter Wobble
-    if(drop && ls===8) mWobble(time,midiF(root-12),secPerStep*6);                                        // zweiter Wob
-    if(chorus && ls===0){ mWobble(time,midiF(root-12),secPerStep*4.5); mNoise(time,0.22,0.13,3000); }    // Chorus: nur EIN kurzer Wob + Crash auf der 1
+    // ---- DROP = Impact mit Wucht: Crash + Powerchord + EIN kurzer Wob + aufsteigende Arcade-Laser-Fanfare (weniger wawa!) ----
+    if(drop && ls===0){ mNoise(time,0.32,0.18,2400); mWobble(time,midiF(root-12),secPerStep*5);             // Crash + nur EIN Wob
+      for(let z=0;z<4;z++) mLaser(time+z*secPerStep*0.5,midiF(root+12+[0,4,7,12][z]),secPerStep*0.55,true,0.06); } // Laser-Fanfare hoch
+    if(drop && ls===8) mLaser(time,midiF(root+24),secPerStep*1.3,false,0.075);                              // Abwärts-Laser-Zap statt 2. Wobble
+    if(chorus && ls===0){ mNoise(time,0.22,0.13,3000); for(let z=0;z<3;z++) mLaser(time+z*secPerStep*0.4,midiF(root+19+z*5),secPerStep*0.42,true,0.05); } // Chorus: Laser-Fanfare statt Wobble
+    if(big && (ls===6||ls===14)) mLaser(time,midiF(root+24+(ls===14?5:0)),secPerStep*0.9,false,0.04);        // Arcade-Laser-Akzente zwischendurch
     // ---- EPISCHE Power-Akkorde im Drop & Chorus ----
     if(big && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'p50',drop?0.085:0.07,0.012); }
-    // ---- Chiptune-Arpeggio: im Drop/Chorus breit & laut, im Verse dezent (Melodie bleibt vorn), Intro aus ----
-    if(!intro){ const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',big?0.07:0.038,0.001);
-      if(big && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.045,0.001);     // 2. Oktave = breiter Chip-Sound
-      if(big && ls%4===2){ for(const cn of ch) mVoice(time,midiF(cn+12+kt),secPerStep*0.5,'p25',0.03,0.002); } } // punchy Chip-Stab auf dem Backbeat
+    // ---- Chiptune-Arpeggio: im Drop/Chorus breit & laut + Trill-Wahnsinn, im Verse dezent (Melodie bleibt vorn), Intro aus ----
+    if(!intro){ const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',big?0.075:0.038,0.001);
+      if(big && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.05,0.001);      // 2. Oktave = breiter Chip-Sound
+      if(big && ls%4===2){ for(const cn of ch) mVoice(time,midiF(cn+12+kt),secPerStep*0.5,'p25',0.03,0.002); }   // punchy Chip-Stab auf dem Backbeat
+      if(big && (ls===14||ls===15)){ mVoice(time,midiF(ch[(step%2?0:2)%ch.length]+24+kt),secPerStep*0.22,'p12',0.05,0.001); } } // 16tel-Trill am Taktende = durchgedreht
     // ---- DRUMS: Intro = nur Eins · Drop/Chorus = Four-on-the-floor + fette Snare · Verse/Bridge = sparsam ----
     if(intro){ if(ls===0) mKick(time); }
     else if(big){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
