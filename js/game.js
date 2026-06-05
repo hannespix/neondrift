@@ -248,11 +248,11 @@
     try{ actx=new (window.AudioContext||window.webkitAudioContext)();
       masterGain=actx.createGain(); masterGain.gain.value=0.9; masterGain.connect(actx.destination);
       musicGain=actx.createGain(); musicGain.gain.value=0.42; musicGain.connect(masterGain);
-      // Synthwave-Echo-Bus (tempo-naher Delay mit dunklem Feedback) → Tiefe statt trockener Sound
+      // Synthwave-Echo-Bus (tempo-naher Delay mit dunklem Feedback) → Tiefe statt trockener Sound. Dezent gehalten, sonst „hallig/verwaschen".
       musicDelay=actx.createDelay(1.2); musicDelay.delayTime.value=0.315;
-      const dfb=actx.createGain(); dfb.gain.value=0.36;
+      const dfb=actx.createGain(); dfb.gain.value=0.27;
       const dlp=actx.createBiquadFilter(); dlp.type='lowpass'; dlp.frequency.value=2600;
-      const dwet=actx.createGain(); dwet.gain.value=0.85;
+      const dwet=actx.createGain(); dwet.gain.value=0.45;
       musicDelay.connect(dlp); dlp.connect(dfb); dfb.connect(musicDelay); musicDelay.connect(dwet); dwet.connect(masterGain);
       // Vibrato-LFO für die Lead-Stimmen (leichtes Leben/Chorus)
       vibLFO=actx.createOscillator(); vibLFO.type='sine'; vibLFO.frequency.value=5.2;
@@ -445,7 +445,7 @@
     g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(vol,time+0.004);
     g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
     o.connect(g); g.connect(musicGain);
-    if(musicDelay){ const s=actx.createGain(); s.gain.value=0.55; g.connect(s); s.connect(musicDelay); }
+    if(musicDelay){ const s=actx.createGain(); s.gain.value=0.4; g.connect(s); s.connect(musicDelay); }
     o.start(time); o.stop(time+dur+0.02);
   }
   function sfxRiser(){ if(!actx||muted) return; try{
@@ -460,7 +460,7 @@
     secPerStep=60/((BPM+(playing?Math.min(((level||1)-1)*4,40):0))*4);        // Tempo zieht pro Level an (bis +40 BPM)
     const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
     const lead=(loopCount%2===1)?song.lead2:song.lead1;
-    const lv=song.leadVol||0.16, echo=song.chill?0.72:0.45;
+    const lv=song.leadVol||0.16, echo=song.chill?0.5:0.3;
     const block=Math.floor(step/16), ls=step%16, root=song.bass[block];
     const chorus=!song.chill && (loopCount%4)>=2;     // 2 Loops Verse (atmen) · 2 Loops Chorus (episch) → Build/Release
     // ---- LEAD (im Chorus lauter + Oktav-Harmonie = hymnische Höhe) ----
