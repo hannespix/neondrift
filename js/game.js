@@ -143,7 +143,7 @@
   const modeLabel=m=>t('m_'+(m==='hardcore'?'hard':m));
 
   let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems;
-  let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, tNova=0, tRail=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0, beams=[], zaps=[], novas=[];
+  let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, tNova=0, tRail=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0, beams=[], zaps=[], novas=[], gibs=[];
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
@@ -311,6 +311,17 @@
   let shootTick=0;
   function sfxShoot(){ shootTick^=1; beep(shootTick?900:980,0.035,'square',0.07,260); } // leiser, hoher Neon-Pew
   function sfxKill(){ beep(360,0.12,'square',0.22,-180); beep(140,0.18,'sawtooth',0.18,-60); } // Pixel-Boom
+  // ---- Boss-Tod-Sounds (je nach Abgangs-Animation) ----
+  function sfxBoom(){ beep(120,0.55,'square',0.5,-80); beep(60,0.7,'sawtooth',0.42,-34); beep(220,0.3,'triangle',0.3,-160);
+    for(let i=0;i<5;i++) setTimeout(()=>beep(rand(80,260),0.06,'square',0.18,-rand(20,90)),i*22); } // Donner + Geprassel
+  function sfxBloat(){ beep(180,1.0,'sawtooth',0.26,520); beep(360,1.0,'square',0.12,1040);            // ansteigendes Aufpump-Pfeifen
+    for(let i=0;i<6;i++) setTimeout(()=>beep(300+i*70,0.05,'triangle',0.12),i*180); }
+  function sfxBalloonPop(){ beep(1300,0.04,'square',0.32,-1000); beep(420,0.14,'sawtooth',0.34,-260);   // Knall
+    beep(170,0.2,'square',0.26,-90); for(let i=0;i<4;i++) setTimeout(()=>beep(rand(200,600),0.05,'square',0.16,-rand(80,200)),i*18); } // Splatter
+  function sfxMeltdown(){ for(let i=0;i<10;i++) setTimeout(()=>beep(rand(700,2200),0.04,'square',0.14,-rand(100,400)),i*70); // E-Knistern
+    setTimeout(()=>{ beep(400,0.6,'sawtooth',0.34,-360); beep(120,0.7,'square',0.3,-70); },720); }      // Power-Down
+  function sfxImplode(){ beep(900,0.55,'sine',0.32,-760); beep(1300,0.5,'triangle',0.18,-1000);          // einsaugendes Vwoop
+    setTimeout(()=>{ beep(1800,0.1,'triangle',0.32,200); beep(120,0.4,'square',0.34,-50); },560); }      // Ping + Bass-Hit
 
   // ---------- Chiptune-Engine (Original-Komposition, loopt in Variationen) ----------
   const BPM=142;
@@ -814,7 +825,7 @@
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
-    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[];
+    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
@@ -1050,14 +1061,35 @@
     else if(B.attack==='spiral'){ const n=4+tier+Math.floor(xs/2); for(let i=0;i<n;i++){ const a=B.t*2.2+i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } }
     else if(B.attack==='wall'){ const gap=rand(0.25,0.75), gw2=Math.max(0.06,0.12-xs*0.008); for(let i=0;i<=10;i++){ if(Math.abs(i/10-gap)<gw2) continue; ebullets.push(eb(W*i/10,B.y,0,spd*0.9)); } }
     else { const n=8+xs; for(let i=0;i<n;i++){ const a=i*6.28/n; ebullets.push(eb(B.x,B.y,Math.cos(a)*spd,Math.sin(a)*spd)); } } }
-  function startBossDeath(){ boss.dead=true; boss.deathT=1.2; ebullets=[];
-    flash=0.7; flashColor='#ffe600'; shake=22; effects.slowmo=Math.max(effects.slowmo,1.0);
-    sfxWin(); sfxKill(); pixelBurst(boss.x,boss.y,'#ffe600',12); vibe([120,60,160]); }
-  function defeatMegaBoss(){ const wasFinal=boss&&boss.final;
+  function startBossDeath(){ const B=boss; B.dead=true; B.scale=1; ebullets=[];
+    effects.slowmo=Math.max(effects.slowmo,1.0); shake=22; vibe([120,60,160]); sfxWin();
+    // Zufälliger spektakulärer Abgang (Final-Boss nie als simpler Ballon-Pop)
+    B.style=pick(B.final?['bloat','meltdown','implode']:['bloat','balloon','meltdown','implode']);
+    if(B.style==='balloon'){            // zerplatzt sofort in rote/weiße Fetzen + Splatter
+      B.deathT=0.7;
+      spawnGibs(B.x,B.y,44,['#ff2e88','#ff3b3b','#ffffff','#ffd0e0','#ff6a9a'],380,560);
+      spawnParticles(B.x,B.y,'#ff3b3b',42,360); spawnParticles(B.x,B.y,'#ffffff',26,300);
+      flash=0.6; flashColor='#ff3b6b'; sfxBalloonPop(); }
+    else if(B.style==='bloat'){         // pumpt sich auf → Explosion am Ende
+      B.deathT=1.4; flash=0.3; flashColor='#ffe600'; sfxBloat(); }
+    else if(B.style==='meltdown'){      // strobt & zerfällt elektrisch
+      B.deathT=1.5; flash=0.4; flashColor='#19f0ff'; sfxMeltdown(); }
+    else {                              // implode: schrumpft in einen Punkt → Schockwelle
+      B.deathT=1.1; flash=0.25; flashColor='#c45bff'; sfxImplode(); } }
+  function defeatMegaBoss(){ const B=boss, wasFinal=B&&B.final, st=B&&B.style, bx=B?B.x:W/2, by=B?B.y:H*0.28;
     const bonus=(wasFinal?600:160)*multiplier*bossNumber, chips=(wasFinal?120:20)+bossNumber*8;
     addScore(bonus); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips();
-    pixelBurst(W/2,H*0.28,'#2effc0',wasFinal?28:16); spawnParticles(W/2,H*0.28,'#ffe600',wasFinal?60:30,320);
-    flash=0.6; flashColor='#2effc0'; sfxWin(); vibe([20,30,40]); runBosses++; unlockAch('mega');
+    // ---- Stil-Finale am Boss-Ort ----
+    if(st==='bloat'){ flash=0.85; flashColor='#ffe600'; shake=28; sfxBoom();
+      pixelBurst(bx,by,'#ffe600',30); pixelBurst(bx,by,'#ff9a2e',22); spawnParticles(bx,by,'#ffffff',40,440);
+      if(novas.length<18) novas.push({x:bx,y:by,r0:20,rMax:Math.max(W,H)*0.6,t:0,life:0.5,col:'#ffe600'}); }
+    else if(st==='implode'){ flash=0.9; flashColor='#ffffff'; shake=22; sfxBoom();
+      pixelBurst(bx,by,'#ffffff',26); pixelBurst(bx,by,'#c45bff',18);
+      if(novas.length<18) novas.push({x:bx,y:by,r0:6,rMax:Math.max(W,H)*0.7,t:0,life:0.45,col:'#c45bff'}); }
+    else if(st==='meltdown'){ flash=0.6; flashColor='#19f0ff'; shake=18; sfxBoom();
+      pixelBurst(bx,by,'#19f0ff',26); spawnGibs(bx,by,18,['#19f0ff','#caffff','#ffffff'],320,520); }
+    else { spawnParticles(bx,by,'#ff3b3b',16,300); spawnParticles(bx,by,'#ffffff',10,260); }   // balloon: schon zerfetzt → kleiner Nachschlag
+    vibe([20,30,40]); runBosses++; unlockAch('mega');
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
     boss=null; bossActive=false; bossNumber++;
     if(wasFinal) winGame();
@@ -1078,8 +1110,15 @@
   function endBossFlee(){ banner=banner||{text:t('escaped'),sub:t('escapedSub'),t:2.4,color:'#9a86c9'};
     boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
   function updateMegaBoss(dt,ts){ const B=boss;
-    if(B.dead){ B.deathT-=dt; B.x+=rand(-2,2); B.y+=rand(-2,2);
-      if(Math.random()<0.6) pixelBurst(B.x+rand(-B.r,B.r),B.y+rand(-B.r,B.r),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),2);
+    if(B.dead){ B.deathT-=dt; const st=B.style;
+      if(st==='bloat'){ B.scale=(B.scale||1)+dt*1.05; const j=B.scale*1.4; B.x+=rand(-j,j); B.y+=rand(-j,j);   // pumpt sich auf & bebt
+        if(Math.random()<0.5) pixelBurst(B.x+rand(-B.r,B.r)*B.scale,B.y+rand(-B.r,B.r)*B.scale,pick(['#ffe600','#ff9a2e','#ffffff']),2); }
+      else if(st==='balloon'){ B.scale=Math.max(0.04,(B.scale||1)-dt*3.2); B.x+=Math.sin(B.deathT*70)*5; B.y+=Math.cos(B.deathT*58)*4; }   // entleert sich zischend
+      else if(st==='meltdown'){ B.flick=Math.random()<0.5; B.x+=rand(-3,3); B.y+=rand(-2,2);                  // strobt & knistert
+        if(Math.random()<0.55 && zaps.length<26){ const a=Math.random()*6.28; zaps.push({pts:[[B.x,B.y],[B.x+Math.cos(a)*B.r,B.y+Math.sin(a)*B.r],[B.x+Math.cos(a)*B.r*1.7+rand(-20,20),B.y+Math.sin(a)*B.r*1.7+rand(-20,20)]],t:0.12,life:0.12}); }
+        if(Math.random()<0.4) pixelBurst(B.x+rand(-B.r,B.r),B.y+rand(-B.r,B.r),pick(['#19f0ff','#caffff','#ffffff']),1); }
+      else { B.scale=Math.max(0,(B.scale||1)-dt*0.92);                                                        // implodiert: saugt Funken nach innen
+        if(Math.random()<0.8){ const a=Math.random()*6.28, rr=B.r*2.4; emitP(B.x+Math.cos(a)*rr,B.y+Math.sin(a)*rr,-Math.cos(a)*300,-Math.sin(a)*300,0.05,pick(['#c45bff','#ff2e88','#caffff']),rand(2,4)); } }
       if(B.deathT<=0) defeatMegaBoss(); return; }
     if(B.fleeing){ B.fleeT-=dt; B.t+=dt*3.4;                       // lacht & wackelt schneller
       B.scale=Math.min(2.4,(B.scale||1)+dt*0.95);                  // wird größer
@@ -1265,6 +1304,7 @@
       for(let i=zaps.length-1;i>=0;i--){ zaps[i].t-=dt; if(zaps[i].t<=0) zaps.splice(i,1); }
       for(let i=novas.length-1;i>=0;i--){ novas[i].t+=dt; if(novas[i].t>=novas[i].life) novas.splice(i,1); }
     }
+    for(let i=gibs.length-1;i>=0;i--){ const g=gibs[i]; g.x+=g.vx*dt; g.y+=g.vy*dt; g.vy+=g.grav*dt; g.vx*=0.99; g.rot+=g.vr*dt; g.life-=dt; if(g.life<=0||g.y>H+50) gibs.splice(i,1); }   // Gibs immer (auch ohne Waffen, z.B. Boss-Splatter)
     if(egg67T>0) egg67T-=dt;
     if(!egg67done && score>=67){ egg67done=true; floatText(player.x,player.y-52,'6 7 !!','#ffe600',26); sfx67(); vibe([30,30]); }
     commentT-=dt; if(commentT<=0 && !bossActive){ floatText(W/2+rand(-30,30),H*0.2,pick(P('dumb')),'#9be7ff',16); commentT=rand(15,26); }
@@ -1477,6 +1517,10 @@
   function pixelBurst(x,y,color,power){ const n=Math.max(3,Math.round((8+Math.min(20,(power||1)*5))*fxQ)), wn=Math.max(1,Math.round(4*fxQ));   // fxQ: Burst bei Lag kleiner
     for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,rand(0.02,0.045),color,rand(3,7)); }
     for(let i=0;i<wn;i++){ const a=Math.random()*6.28,s=rand(40,160); emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,0.05,'#ffffff',rand(3,6)); } }
+  // Fliegende Fetzen/Chunks mit Schwerkraft (Boss-Splatter „wie ein Luftballon")
+  function spawnGibs(x,y,n,cols,spd,grav){ n=Math.max(2,Math.round(n*fxQ));
+    for(let i=0;i<n;i++){ if(gibs.length>140) gibs.shift(); const a=Math.random()*6.28, s=rand(spd*0.35,spd);
+      gibs.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-rand(60,200),rot:Math.random()*6.28,vr:rand(-10,10),size:rand(4,12),color:cols[(Math.random()*cols.length)|0],life:rand(0.8,1.6),grav:grav||520}); } }
   function killObstacle(o){ const pts=3*(o.maxHp||1); addScore(pts);
     pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
@@ -1581,6 +1625,11 @@
         ctx.strokeStyle=hexA(nv.col,0.85*a); ctx.lineWidth=4*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();
         ctx.strokeStyle=hexA('#ffffff',0.45*a); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(nv.x,nv.y,r*0.92,0,6.28); ctx.stroke();
         ctx.restore(); }
+      // Gibs (fliegende Fetzen mit Schatten – Boss-Splatter)
+      for(const g of gibs){ const a=Math.min(1,g.life*1.6); ctx.save(); ctx.translate(g.x,g.y); ctx.rotate(g.rot); ctx.globalAlpha=a;
+        ctx.fillStyle='rgba(0,0,0,0.35)'; ctx.fillRect(-g.size*0.5+1.5,-g.size*0.35+1.5,g.size,g.size*0.7);   // billiger Schatten
+        ctx.fillStyle=g.color; ctx.fillRect(-g.size*0.5,-g.size*0.35,g.size,g.size*0.7); ctx.restore(); }
+      ctx.globalAlpha=1;
       // lasers
       for(const L of lasers){ ctx.save();
         if(L.state==='warn'){ const a=0.25+0.35*Math.abs(Math.sin(L.t*16)); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,230,0,${a})`; ctx.setLineDash([10,10]); ctx.lineWidth=3; ctx.beginPath();
@@ -1811,7 +1860,8 @@
       const tx=a.ox+Math.sin(B.t*4+a.ph)*S.cp*1.6, ty=-B.r*0.55-S.cp*2.6; ctx.beginPath(); ctx.moveTo(a.ox,-B.r*0.42); ctx.lineTo(tx,ty); ctx.stroke();
       ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(tx,ty,S.cp*0.6,0,6.28); ctx.fill(); }
     // Körper-Sprite (gebacken) mit Neon-Glühen
-    ctx.shadowBlur=22+tg*22; ctx.shadowColor=tg>0?'#ff2e88':S.pal[0]; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
+    if(B.dead && B.style==='meltdown' && B.flick){ ctx.drawImage(S.white,-S.ox,-S.oy); }   // elektrisches Strobe-Flackern
+    else { ctx.shadowBlur=22+tg*22; ctx.shadowColor=tg>0?'#ff2e88':S.pal[0]; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0; }
     if(B.hitFlash>0){ ctx.globalAlpha=Math.min(1,B.hitFlash*9); ctx.drawImage(S.white,-S.ox,-S.oy); ctx.globalAlpha=1; }
     // Augen (verfolgen Spieler + blinzeln) & Augenbrauen
     const pa=Math.atan2(player.y-B.y,player.x-B.x), bk=B.blink>0;
@@ -2251,7 +2301,7 @@
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
   // (Menü spielt jetzt den eigenen Chill-Track NEON CHILL – keine Song-Rotation mehr im Menü)
 
-  clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[];
+  clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0;
   requestAnimationFrame(loop);
