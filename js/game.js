@@ -242,11 +242,14 @@
 
   // ---------- Audio ----------
   let actx=null, muted=false, masterGain=null, musicGain=null, musicDelay=null, vibLFO=null, vibGain=null;
+  let analyser=null, waveData=null;   // Audio-Abgriff für den Sonnen-Visualizer (Wellenform der Musik)
   function ensureCtx(){
     if(actx) return true;
     try{ actx=new (window.AudioContext||window.webkitAudioContext)();
       masterGain=actx.createGain(); masterGain.gain.value=0.9; masterGain.connect(actx.destination);
       musicGain=actx.createGain(); musicGain.gain.value=0.42; musicGain.connect(masterGain);
+      analyser=actx.createAnalyser(); analyser.fftSize=256; analyser.smoothingTimeConstant=0.6; musicGain.connect(analyser); // Seiten-Abgriff (Wellenform), kein Audio-Ausgang
+      waveData=new Uint8Array(analyser.fftSize);
       // Synthwave-Echo-Bus (tempo-naher Delay mit dunklem Feedback) → Tiefe statt trockener Sound. Dezent gehalten, sonst „hallig/verwaschen".
       musicDelay=actx.createDelay(1.2); musicDelay.delayTime.value=0.315;
       const dfb=actx.createGain(); dfb.gain.value=0.27;
@@ -1836,6 +1839,16 @@
     so.fillStyle=dg; so.fillRect(0,0,SS,SS);
     so.globalCompositeOperation='destination-out';                                                // Streifen ausstanzen → durchsichtige Lücken
     for(let i=0;i<7;i++){ const yy=sr+6+i*i*3.4; if(yy>SS) break; so.fillRect(0,yy,SS,2.4+i*1.7); }
+    // ---- Audio-Visualizer: bunte Wellenform der Musik quer durch die Sonne (additiv → leuchtet; Bloom blurrt sie weich) ----
+    if(analyser && !muted){ analyser.getByteTimeDomainData(waveData);
+      so.globalCompositeOperation='lighter'; so.lineWidth=2.6; so.lineJoin='round'; so.lineCap='round';
+      const N=waveData.length, midY=sr, amp=sr*0.6*bp, eh=(elapsed||0)*55;
+      for(let lay=0;lay<3;lay++){ const hue=(eh+lay*65)%360;
+        so.strokeStyle=`hsla(${hue},100%,${64-lay*7}%,${0.5-lay*0.11})`;
+        so.beginPath();
+        for(let i=0;i<N;i++){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-1)*6; i?so.lineTo(x,y):so.moveTo(x,y); }
+        so.stroke(); }
+    }
     so.restore();
     // Bloom günstig: kleine Kopie (Downscale) + bilineares Hochskalieren = weicher Glow ohne teuren ctx.filter (mobil flüssig)
     sunLoCtx.clearRect(0,0,LO,LO); sunLoCtx.drawImage(sunOff,0,0,LO,LO);
