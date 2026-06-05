@@ -1731,11 +1731,12 @@
 
   // ---------- Werkstatt (Meta-Shop) ----------
   function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+fmt(meta.chips)+((meta.won)?('  ·  🏆 '+meta.won):''); }
-  function openShop(){ document.getElementById('start').classList.add('hidden'); renderShop();
+  let shopFrom='start';                                  // Werkstatt kann aus Menü ODER Game-Over geöffnet werden
+  function openShop(from){ shopFrom=(from==='over')?'over':'start'; document.getElementById(shopFrom).classList.add('hidden'); renderShop();
     document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
   function closeShop(){ shopResetArmed=false; const rb=document.getElementById('shopResetBtn'); if(rb) rb.textContent=t('resetAll');
     document.getElementById('shop').classList.add('hidden');
-    document.getElementById('start').classList.remove('hidden'); updateMenuChips(); }
+    document.getElementById(shopFrom).classList.remove('hidden'); updateMenuChips(); }
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     shopCards.innerHTML='';
@@ -1902,7 +1903,7 @@
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
     setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
     setSel('#skins .utitle',t('skinTitle')); set('skinBalLbl',t('balance')); set('skinBackBtn',t('back'));
-    setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
+    setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('overShopBtn','🛒 '+t('workshop')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     if(typeof renderSettings==='function') renderSettings();
   }catch(e){} }
@@ -1942,7 +1943,8 @@
         shopCards=document.getElementById('shopCards'),chipsEarnedEl=document.getElementById('chipsEarned');
   document.querySelectorAll('.mode').forEach(c=>c.addEventListener('click',()=>startGame(c.dataset.mode)));
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
-  document.getElementById('shopBtn').addEventListener('click',openShop);
+  document.getElementById('shopBtn').addEventListener('click',()=>openShop('start'));
+  document.getElementById('overShopBtn').addEventListener('click',()=>openShop('over'));
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
   document.getElementById('shopCloseBtn').addEventListener('click',closeShop);
   document.getElementById('shopResetBtn').addEventListener('click',shopReset);
