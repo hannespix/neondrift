@@ -109,9 +109,9 @@
     fr:{blaster:['Blaster','Tirs auto vers le haut'],missile:['Missiles Guidés','À tête chercheuse · explosion'],flame:['Tirs Incendiaires','Enflamme (brûlure)'],frost:['Tir de Givre','Gèle et ralentit'],chain:['Éclair en Chaîne','Frappe la cible la plus proche · chaîne'],nova:['Pulsar Nova','Onde de choc autour de toi (AoE)'],rail:['Railgun','Rail instantané · toute la colonne']}
   };
   const PTR={
-    de:{rapid:['Schnellfeuer','+50% Feuerrate, etwas weniger Schaden'],heavy:['Wuchtschuss','Langsamer, aber doppelter Schaden'],scatter:['Streuschuss','+2 Bolzen (Fächer), je schwächer'],precise:['Präzision','+2 Durchschlag, +40% Schaden'],swarm:['Schwarm','2 kleinere Raketen'],warhead:['Sprengkopf','1 große Rakete, +50% Radius'],shrapnel:['Splittergranate','Explosion schleudert Splitter'],incendiary:['Brandsatz','Explosion entzündet Ziele'],ember:['Glut','Fast doppelter Brennschaden'],wildfire:['Flächenbrand','Feuer springt beim Tod über'],accel:['Brandbeschleuniger','Brennt schneller (kürzer, härter)'],consume:['Verzehr','Brand-Kills geben Bonuspunkte'],permafrost:['Permafrost','Längere & stärkere Verlangsamung'],glaciate:['Vereisung','Chance, Ziele komplett einzufrieren'],shatter:['Splitterbruch','Gefrorene Ziele zerspringen (AoE)'],brittle:['Spröde','Gefrorene Ziele nehmen +50% Schaden'],fork:['Überschlag','+2 Sprünge, weniger Schaden je Sprung'],highv:['Hochspannung','Weniger Sprünge, viel Schaden + Stun'],stormhit:['Gewitter','Kette auch bei Bolzen-Kills'],dischargeaoe:['Entladung','Jeder Kettentreffer mit kleinem AoE'],shock:['Schockwelle','+40% Puls-Radius'],overload:['Überladung','+70% Schaden, langsamer'],repel:['Abstoßung','Stößt getroffene Ziele zurück'],staticfield:['Statikfeld','Puls verlangsamt getroffene Ziele'],charged:['Aufgeladen','+80% Schaden, langsamer'],autoload:['Schnelllader','+70% Feuerrate, weniger Schaden'],wide:['Breitstrahl','Doppelt so breite Schiene'],overdrive:['Overdrive','+50% Schienen-Schaden']},
-    en:{rapid:['Rapid Fire','+50% fire rate, a bit less damage'],heavy:['Heavy Shot','Slower, but double damage'],scatter:['Scatter','+2 bolts (fan), each weaker'],precise:['Precision','+2 pierce, +40% damage'],swarm:['Swarm','2 smaller missiles'],warhead:['Warhead','1 big missile, +50% radius'],shrapnel:['Shrapnel','Explosion flings shards'],incendiary:['Incendiary','Explosion ignites targets'],ember:['Ember','Almost double burn damage'],wildfire:['Wildfire','Fire spreads on death'],accel:['Accelerant','Burns faster (shorter, harder)'],consume:['Consume','Burn-kills grant bonus points'],permafrost:['Permafrost','Longer & stronger slow'],glaciate:['Glaciate','Chance to fully freeze targets'],shatter:['Shatter','Frozen targets burst (AoE)'],brittle:['Brittle','Frozen targets take +50% damage'],fork:['Forking','+2 jumps, less damage each'],highv:['High Voltage','Fewer jumps, big damage + stun'],stormhit:['Storm','Chains also on bolt-kills'],dischargeaoe:['Discharge','Each chain hit with small AoE'],shock:['Shockwave','+40% pulse radius'],overload:['Overload','+70% damage, slower'],repel:['Repel','Knocks hit targets back'],staticfield:['Static Field','Pulse slows hit targets'],charged:['Charged','+80% damage, slower'],autoload:['Autoloader','+70% fire rate, less damage'],wide:['Wide Beam','Twice as wide rail'],overdrive:['Overdrive','+50% rail damage']},
-    fr:{rapid:['Tir Rapide','+50% cadence, un peu moins de dégâts'],heavy:['Tir Lourd','Plus lent, mais double dégâts'],scatter:['Dispersion','+2 projectiles (éventail), plus faibles'],precise:['Précision','+2 perforation, +40% dégâts'],swarm:['Essaim','2 missiles plus petits'],warhead:['Ogive','1 gros missile, +50% rayon'],shrapnel:['Éclats','L’explosion projette des éclats'],incendiary:['Incendiaire','L’explosion enflamme les cibles'],ember:['Braise','Brûlure presque doublée'],wildfire:['Embrasement','Le feu se propage à la mort'],accel:['Accélérant','Brûle plus vite (court, fort)'],consume:['Consumer','Les kills par feu donnent des points'],permafrost:['Permafrost','Ralenti plus long & plus fort'],glaciate:['Glaciation','Chance de geler totalement'],shatter:['Éclatement','Les cibles gelées éclatent (AoE)'],brittle:['Fragile','Les cibles gelées subissent +50%'],fork:['Ramification','+2 sauts, moins de dégâts'],highv:['Haute Tension','Moins de sauts, gros dégâts + stun'],stormhit:['Orage','Chaîne aussi sur les kills de tir'],dischargeaoe:['Décharge','Chaque saut avec petit AoE'],shock:['Onde de Choc','+40% de rayon'],overload:['Surcharge','+70% dégâts, plus lent'],repel:['Répulsion','Repousse les cibles touchées'],staticfield:['Champ Statique','Le pulsar ralentit les cibles'],charged:['Chargé','+80% dégâts, plus lent'],autoload:['Rechargeur','+70% cadence, moins de dégâts'],wide:['Rail Large','Rail deux fois plus large'],overdrive:['Overdrive','+50% dégâts du rail']}
+    de:{rapid:['Schnellfeuer','+50% Feuerrate, etwas weniger Schaden'],heavy:['Wuchtschuss','Langsamer, aber doppelter Schaden'],scatter:['Streuschuss','+2 Bolzen (Fächer), je schwächer'],precise:['Präzision','+2 Durchschlag, +40% Schaden'],swarm:['Schwarm','2 kleinere Raketen'],warhead:['Sprengkopf','1 große Rakete, +50% Radius'],shrapnel:['Splittergranate','Explosion schleudert Splitter'],incendiary:['Brandsatz','Explosion entzündet Ziele'],ember:['Glut','Fast doppelter Brennschaden'],wildfire:['Flächenbrand','Feuer springt beim Tod über'],accel:['Brandbeschleuniger','Brennt schneller (kürzer, härter)'],consume:['Verzehr','Brand-Kills geben Bonuspunkte'],permafrost:['Permafrost','Längere & stärkere Verlangsamung'],glaciate:['Vereisung','Chance, Ziele komplett einzufrieren'],shatter:['Splitterbruch','Gefrorene Ziele zerspringen (AoE)'],brittle:['Spröde','Gefrorene Ziele nehmen +50% Schaden'],fork:['Überschlag','+2 Sprünge, weniger Schaden je Sprung'],highv:['Hochspannung','Weniger Sprünge, viel Schaden + Stun'],stormhit:['Gewitter','Kette auch bei Bolzen-Kills'],dischargeaoe:['Entladung','Jeder Kettentreffer mit kleinem AoE'],shock:['Schockwelle','+40% Puls-Radius'],overload:['Überladung','+70% Schaden, langsamer'],repel:['Abstoßung','Stößt getroffene Ziele zurück'],staticfield:['Statikfeld','Puls verlangsamt getroffene Ziele'],charged:['Aufgeladen','+80% Schaden, langsamer'],autoload:['Schnelllader','+70% Feuerrate, weniger Schaden'],wide:['Breitstrahl','Doppelt so breite Schiene'],overdrive:['Overdrive','+50% Schienen-Schaden'],overcharge:['Hochdruck','+40% Schaden, etwas langsamer'],stabil:['Stabilisator','Enger Fächer, +20% Feuerrate'],volley:['Salve','+1 Bolzen, je etwas schwächer'],lance:['Lanze','+2 Durchschlag, +30% Schaden'],cluster:['Cluster','+1 Rakete, je schwächer'],bunker:['Bunkerbrecher','+50% Schaden, langsamer'],wide_aoe:['Großsprengung','+50% Explosionsradius'],rapidload:['Schnellschacht','+60% Feuerrate, weniger Schaden'],inferno:['Inferno','+60% Brennschaden'],lingering:['Schwelbrand','Brennt 80% länger'],blaze:['Lodern','+50% Feuerrate, etwas weniger Schaden'],firestorm:['Feuersturm','Mehr Glut & Dauer, springt über'],deepfreeze:['Tiefkühlung','Stärkere & längere Verlangsamung'],blizzard:['Blizzard','+50% Feuerrate, weniger Schaden'],absolute:['Absolut-Null','Friert Ziele zuverlässig ein'],frostbite:['Erfrierung','+60% Schaden, langsamer'],arc:['Lichtbogen','+2 Sprünge, weniger Schaden'],conduit:['Hochleiter','+60% Schaden, langsamer'],tempest:['Sturmfront','+50% Feuerrate, weniger Schaden'],paralyze:['Lähmung','Längerer Stun, +Schaden'],expand:['Ausdehnung','+40% Puls-Radius'],collapse:['Implosion','+60% Schaden, enger'],pulsar:['Pulsar','+60% Pulsrate, weniger Schaden'],singularity:['Singularität','Stößt zurück & verlangsamt'],piercebeam:['Breitbahn','+60% Strahlbreite'],hypervelocity:['Hypergeschoss','+60% Schaden, langsamer'],gigawatt:['Gigawatt','+80% Schaden, deutlich langsamer'],repeater:['Schnellschiene','+80% Feuerrate, weniger Schaden']},
+    en:{rapid:['Rapid Fire','+50% fire rate, a bit less damage'],heavy:['Heavy Shot','Slower, but double damage'],scatter:['Scatter','+2 bolts (fan), each weaker'],precise:['Precision','+2 pierce, +40% damage'],swarm:['Swarm','2 smaller missiles'],warhead:['Warhead','1 big missile, +50% radius'],shrapnel:['Shrapnel','Explosion flings shards'],incendiary:['Incendiary','Explosion ignites targets'],ember:['Ember','Almost double burn damage'],wildfire:['Wildfire','Fire spreads on death'],accel:['Accelerant','Burns faster (shorter, harder)'],consume:['Consume','Burn-kills grant bonus points'],permafrost:['Permafrost','Longer & stronger slow'],glaciate:['Glaciate','Chance to fully freeze targets'],shatter:['Shatter','Frozen targets burst (AoE)'],brittle:['Brittle','Frozen targets take +50% damage'],fork:['Forking','+2 jumps, less damage each'],highv:['High Voltage','Fewer jumps, big damage + stun'],stormhit:['Storm','Chains also on bolt-kills'],dischargeaoe:['Discharge','Each chain hit with small AoE'],shock:['Shockwave','+40% pulse radius'],overload:['Overload','+70% damage, slower'],repel:['Repel','Knocks hit targets back'],staticfield:['Static Field','Pulse slows hit targets'],charged:['Charged','+80% damage, slower'],autoload:['Autoloader','+70% fire rate, less damage'],wide:['Wide Beam','Twice as wide rail'],overdrive:['Overdrive','+50% rail damage'],overcharge:['High Pressure','+40% damage, a bit slower'],stabil:['Stabilizer','Tighter fan, +20% fire rate'],volley:['Volley','+1 bolt, each a bit weaker'],lance:['Lance','+2 pierce, +30% damage'],cluster:['Cluster','+1 missile, each weaker'],bunker:['Bunker Buster','+50% damage, slower'],wide_aoe:['Big Blast','+50% explosion radius'],rapidload:['Fast Rack','+60% fire rate, less damage'],inferno:['Inferno','+60% burn damage'],lingering:['Smoulder','Burns 80% longer'],blaze:['Blaze','+50% fire rate, slightly less damage'],firestorm:['Firestorm','More burn & duration, spreads'],deepfreeze:['Deep Freeze','Stronger & longer slow'],blizzard:['Blizzard','+50% fire rate, less damage'],absolute:['Absolute Zero','Reliably freezes targets'],frostbite:['Frostbite','+60% damage, slower'],arc:['Arc','+2 jumps, less damage'],conduit:['Conduit','+60% damage, slower'],tempest:['Tempest','+50% fire rate, less damage'],paralyze:['Paralyze','Longer stun, +damage'],expand:['Expand','+40% pulse radius'],collapse:['Collapse','+60% damage, tighter'],pulsar:['Pulsar','+60% pulse rate, less damage'],singularity:['Singularity','Knocks back & slows'],piercebeam:['Wide Track','+60% beam width'],hypervelocity:['Hypervelocity','+60% damage, slower'],gigawatt:['Gigawatt','+80% damage, much slower'],repeater:['Fast Rail','+80% fire rate, less damage']},
+    fr:{rapid:['Tir Rapide','+50% cadence, un peu moins de dégâts'],heavy:['Tir Lourd','Plus lent, mais double dégâts'],scatter:['Dispersion','+2 projectiles (éventail), plus faibles'],precise:['Précision','+2 perforation, +40% dégâts'],swarm:['Essaim','2 missiles plus petits'],warhead:['Ogive','1 gros missile, +50% rayon'],shrapnel:['Éclats','L’explosion projette des éclats'],incendiary:['Incendiaire','L’explosion enflamme les cibles'],ember:['Braise','Brûlure presque doublée'],wildfire:['Embrasement','Le feu se propage à la mort'],accel:['Accélérant','Brûle plus vite (court, fort)'],consume:['Consumer','Les kills par feu donnent des points'],permafrost:['Permafrost','Ralenti plus long & plus fort'],glaciate:['Glaciation','Chance de geler totalement'],shatter:['Éclatement','Les cibles gelées éclatent (AoE)'],brittle:['Fragile','Les cibles gelées subissent +50%'],fork:['Ramification','+2 sauts, moins de dégâts'],highv:['Haute Tension','Moins de sauts, gros dégâts + stun'],stormhit:['Orage','Chaîne aussi sur les kills de tir'],dischargeaoe:['Décharge','Chaque saut avec petit AoE'],shock:['Onde de Choc','+40% de rayon'],overload:['Surcharge','+70% dégâts, plus lent'],repel:['Répulsion','Repousse les cibles touchées'],staticfield:['Champ Statique','Le pulsar ralentit les cibles'],charged:['Chargé','+80% dégâts, plus lent'],autoload:['Rechargeur','+70% cadence, moins de dégâts'],wide:['Rail Large','Rail deux fois plus large'],overdrive:['Overdrive','+50% dégâts du rail'],overcharge:['Haute Pression','+40% dégâts, plus lent'],stabil:['Stabilisateur','Éventail serré, +20% cadence'],volley:['Salve','+1 projectile, plus faibles'],lance:['Lance','+2 perforation, +30% dégâts'],cluster:['Grappe','+1 missile, plus faibles'],bunker:['Anti-Bunker','+50% dégâts, plus lent'],wide_aoe:['Grosse Explosion','+50% de rayon'],rapidload:['Chargeur Rapide','+60% cadence, moins de dégâts'],inferno:['Enfer','+60% dégâts de brûlure'],lingering:['Combustion','Brûle 80% plus longtemps'],blaze:['Embrasement','+50% cadence, un peu moins de dégâts'],firestorm:['Tempête de Feu','Plus de brûlure & durée, propage'],deepfreeze:['Grand Froid','Ralenti plus fort & long'],blizzard:['Blizzard','+50% cadence, moins de dégâts'],absolute:['Zéro Absolu','Gèle les cibles de façon fiable'],frostbite:['Gelure','+60% dégâts, plus lent'],arc:['Arc','+2 sauts, moins de dégâts'],conduit:['Conducteur','+60% dégâts, plus lent'],tempest:['Tempête','+50% cadence, moins de dégâts'],paralyze:['Paralysie','Stun plus long, +dégâts'],expand:['Expansion','+40% de rayon'],collapse:['Implosion','+60% dégâts, plus serré'],pulsar:['Pulsar','+60% cadence, moins de dégâts'],singularity:['Singularité','Repousse & ralentit'],piercebeam:['Voie Large','+60% largeur du faisceau'],hypervelocity:['Hypervitesse','+60% dégâts, plus lent'],gigawatt:['Gigawatt','+80% dégâts, bien plus lent'],repeater:['Rail Rapide','+80% cadence, moins de dégâts']}
   };
   const SYNTR={
     de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +1 Sprung & +50% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 5. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele'],cryonova:['Cryonova','Nova-Puls verlangsamt zusätzlich alle Ziele'],plasma:['Plasma-Schiene','Railgun entzündet getroffene Ziele']},
@@ -125,11 +125,11 @@
   const synName=id=>((SYNTR[lang]&&SYNTR[lang][id])||SYNTR.en[id]||[id])[0];
   const synDesc=id=>(((SYNTR[lang]&&SYNTR[lang][id])||SYNTR.en[id]||['',''])[1])||'';
   // Icons für die Skill-Pfad-Knoten (visueller Baum)
-  const PATHICO={rapid:'⏩',heavy:'💢',scatter:'🌬️',precise:'🎯',swarm:'🐝',warhead:'💣',shrapnel:'🎇',incendiary:'🔥',ember:'🥵',wildfire:'🌋',accel:'♨️',consume:'🍽️',permafrost:'🧊',glaciate:'❄️',shatter:'💥',brittle:'🩹',fork:'🌿',highv:'⚡',stormhit:'⛈️',dischargeaoe:'🔆',shock:'🌐',overload:'🟪',repel:'↗️',staticfield:'🕸️',charged:'🔋',autoload:'🔁',wide:'↔️',overdrive:'🚀'};
+  const PATHICO={rapid:'⏩',heavy:'💢',scatter:'🌬️',precise:'🎯',swarm:'🐝',warhead:'💣',shrapnel:'🎇',incendiary:'🔥',ember:'🥵',wildfire:'🌋',accel:'♨️',consume:'🍽️',permafrost:'🧊',glaciate:'❄️',shatter:'💥',brittle:'🩹',fork:'🌿',highv:'⚡',stormhit:'⛈️',dischargeaoe:'🔆',shock:'🌐',overload:'🟪',repel:'↗️',staticfield:'🕸️',charged:'🔋',autoload:'🔁',wide:'↔️',overdrive:'🚀',overcharge:'🔺',stabil:'🎚️',volley:'🔱',lance:'🗡️',cluster:'🧫',bunker:'🏚️',wide_aoe:'💥',rapidload:'⏬',inferno:'😈',lingering:'🕯️',blaze:'🔆',firestorm:'🌪️',deepfreeze:'🧊',blizzard:'🌨️',absolute:'❄️',frostbite:'🦷',arc:'🌈',conduit:'🔌',tempest:'🌩️',paralyze:'💫',expand:'⭕',collapse:'🕳️',pulsar:'💠',singularity:'🌌',piercebeam:'🛤️',hypervelocity:'☄️',gigawatt:'🔋',repeater:'🚄'};
   const METATR={
-    de:{slot:['Modul-Slot','+1 Waffen-Slot (max 5)'],bp_missile:['Bauplan: Raketen','Schaltet Lenkraketen dauerhaft frei – im Run baubar'],bp_flame:['Bauplan: Brand','Schaltet Brandbolzen dauerhaft frei – im Run baubar'],bp_frost:['Bauplan: Frost','Schaltet Frostschuss dauerhaft frei – im Run baubar'],bp_chain:['Bauplan: Kette','Schaltet Kettenblitz dauerhaft frei – im Run baubar'],bp_nova:['Bauplan: Nova','Schaltet den Nova-Puls dauerhaft frei – im Run baubar'],bp_rail:['Bauplan: Railgun','Schaltet die Railgun dauerhaft frei – im Run baubar'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Up-Droprate +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe']},
-    en:{slot:['Module Slot','+1 weapon slot (max 5)'],bp_missile:['Blueprint: Missiles','Unlocks homing missiles permanently · build it in-run'],bp_flame:['Blueprint: Flame','Unlocks flame bolts permanently · build it in-run'],bp_frost:['Blueprint: Frost','Unlocks frost shot permanently · build it in-run'],bp_chain:['Blueprint: Chain','Unlocks chain lightning permanently · build it in-run'],bp_nova:['Blueprint: Nova','Unlocks the Nova pulse permanently · build it in-run'],bp_rail:['Blueprint: Railgun','Unlocks the railgun permanently · build it in-run'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-up drop rate +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl']},
-    fr:{slot:['Slot de Module','+1 slot d’arme (max 5)'],bp_missile:['Plan: Missiles','Débloque les missiles (jouable en partie)'],bp_flame:['Plan: Feu','Débloque les tirs incendiaires'],bp_frost:['Plan: Givre','Débloque le tir de givre'],bp_chain:['Plan: Chaîne','Débloque l’éclair en chaîne'],bp_nova:['Plan: Nova','Débloque le pulsar nova'],bp_rail:['Plan: Railgun','Débloque le railgun'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Taux de drop +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv']}
+    de:{slot:['Modul-Slot','+1 Waffen-Slot (max 5)'],bp_missile:['Bauplan: Raketen','Schaltet Lenkraketen dauerhaft frei – im Run baubar'],bp_flame:['Bauplan: Brand','Schaltet Brandbolzen dauerhaft frei – im Run baubar'],bp_frost:['Bauplan: Frost','Schaltet Frostschuss dauerhaft frei – im Run baubar'],bp_chain:['Bauplan: Kette','Schaltet Kettenblitz dauerhaft frei – im Run baubar'],bp_nova:['Bauplan: Nova','Schaltet den Nova-Puls dauerhaft frei – im Run baubar'],bp_rail:['Bauplan: Railgun','Schaltet die Railgun dauerhaft frei – im Run baubar'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Up-Droprate +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe'],veteran:['Veteran','+1 Start-Skillpunkt je Stufe'],wcore:['Waffenkern','ALLE Waffen +6% Schaden je Stufe'],wtempo:['Taktchip','ALLE Waffen +5% Feuerrate je Stufe'],critcore:['Zielkern','+3% Krit-Chance je Stufe']},
+    en:{slot:['Module Slot','+1 weapon slot (max 5)'],bp_missile:['Blueprint: Missiles','Unlocks homing missiles permanently · build it in-run'],bp_flame:['Blueprint: Flame','Unlocks flame bolts permanently · build it in-run'],bp_frost:['Blueprint: Frost','Unlocks frost shot permanently · build it in-run'],bp_chain:['Blueprint: Chain','Unlocks chain lightning permanently · build it in-run'],bp_nova:['Blueprint: Nova','Unlocks the Nova pulse permanently · build it in-run'],bp_rail:['Blueprint: Railgun','Unlocks the railgun permanently · build it in-run'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-up drop rate +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl'],veteran:['Veteran','+1 start skill point per lvl'],wcore:['Weapon Core','ALL weapons +6% damage per lvl'],wtempo:['Cadence Chip','ALL weapons +5% fire rate per lvl'],critcore:['Focus Core','+3% crit chance per lvl']},
+    fr:{slot:['Slot de Module','+1 slot d’arme (max 5)'],bp_missile:['Plan: Missiles','Débloque les missiles (jouable en partie)'],bp_flame:['Plan: Feu','Débloque les tirs incendiaires'],bp_frost:['Plan: Givre','Débloque le tir de givre'],bp_chain:['Plan: Chaîne','Débloque l’éclair en chaîne'],bp_nova:['Plan: Nova','Débloque le pulsar nova'],bp_rail:['Plan: Railgun','Débloque le railgun'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Taux de drop +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv'],veteran:['Vétéran','+1 point de skill au départ/niv'],wcore:['Noyau d’Arme','TOUTES les armes +6% dégâts/niv'],wtempo:['Puce de Cadence','TOUTES les armes +5% cadence/niv'],critcore:['Noyau de Focus','+3% chance de critique/niv']}
   };
   const uName=id=>((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||[id])[0];
   const uDesc=id=>(((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||['',''])[1])||'';
@@ -163,6 +163,10 @@
     {id:'bp_nova',     ico:'🟣',name:'Bauplan: Nova',   base:800, max:1},
     {id:'bp_rail',     ico:'⚡',name:'Bauplan: Railgun', base:1000,max:1},
     {id:'slot',        ico:'🧩',name:'Modul-Slot',   base:600,max:2},
+    {id:'veteran',     ico:'🎖️',name:'Veteran',      base:300,max:2},
+    {id:'wcore',       ico:'💥',name:'Waffenkern',   base:240,max:4},
+    {id:'wtempo',      ico:'⏩',name:'Taktchip',     base:240,max:4},
+    {id:'critcore',    ico:'🎯',name:'Zielkern',     base:280,max:3},
     {id:'shield',      ico:'🛡️',name:'Startschild',  base:110,max:3},
     {id:'tough',       ico:'💗',name:'Zähigkeit',    base:420,max:2},
     {id:'solid',       ico:'🔻',name:'Solide Hülle', base:80, max:4},
@@ -181,13 +185,17 @@
     arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
     arsenal.w={};
     // Roguelite-Start: jeder Run beginnt nur mit dem Blaster (Lvl 1); alle anderen Waffen baust du im Run per Skillpunkten auf.
-    if(opt.guns){ arsenal.w.blaster={lvl:1,f1:null,f2:null}; skillPts=1; }   // +1 Startpunkt → sofort 2. Waffe deiner Wahl
+    if(opt.guns){ arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts=1; }   // +1 Startpunkt → sofort 2. Waffe deiner Wahl
     const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
     const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
     const re=metaLvl('reach'); if(re) mods.nearRadius*=(1+0.09*re);
     const scn=metaLvl('score'); if(scn) mods.scoreMult*=(1+0.15*scn);
     const lu=metaLvl('luck'); if(lu) mods.powerupRate*=(1+0.10*lu);
+    const vt=metaLvl('veteran'); if(vt && opt.guns) skillPts+=vt;                      // Werkstatt: Start-Skillpunkte → tiefere Forks schneller erreichbar
+    const wc=metaLvl('wcore');  if(wc) mods.wDmgMult=(mods.wDmgMult||1)*(1+0.06*wc);   // ALLE Waffen mehr Schaden
+    const wt=metaLvl('wtempo'); if(wt) mods.wRate=(mods.wRate||1)*(1+0.05*wt);         // ALLE Waffen schneller
+    const cr=metaLvl('critcore'); if(cr) mods.critBase=(mods.critBase||0)+0.03*cr;     // Krit-Basis
     recalcArsenal();
   }
   // ---------- Erfolge / Achievements ----------
@@ -300,7 +308,9 @@
   // ---------- Chiptune-Engine (Original-Komposition, loopt in Variationen) ----------
   const BPM=142;
   let musicOn=false, schedTimer=null, step16=0, nextStepTime=0, loopCount=0, secPerStep=60/(BPM*4);
-  const midiF=n=>440*Math.pow(2,(n-69)/12);
+  let musicShift=0;                                  // globale Transposition (pro Level andere Tonart)
+  const midiF=n=>440*Math.pow(2,(n-69+musicShift)/12);
+  const levelKey=lv=>{ let s=((Math.max(1,lv)-1)*5)%12; if(s>6) s-=12; return s; };  // Quartenzirkel, ±6 Halbtöne → jedes Level klar andere Tonart
   // Lead A (C-Dur, heroisch)
   const LEAD1=[
     {s:0,n:72,d:2},{s:2,n:76,d:2},{s:4,n:79,d:3},{s:7,n:77,d:1},{s:8,n:76,d:2},{s:10,n:72,d:2},{s:12,n:74,d:4},
@@ -444,6 +454,9 @@
     o.connect(g); g.connect(masterGain); o.start(); o.stop(actx.currentTime+0.85);
   }catch(e){} }
   function scheduleStep(step,time){
+    const playing=(state!==S.MENU);
+    musicShift=playing?levelKey(level||1):0;                                  // Tonart steigt pro Level
+    secPerStep=60/((BPM+(playing?Math.min(((level||1)-1)*4,40):0))*4);        // Tempo zieht pro Level an (bis +40 BPM)
     const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
     const lead=(loopCount%2===1)?song.lead2:song.lead1;
     const lv=song.leadVol||0.16, echo=song.chill?0.72:0.45;
@@ -577,13 +590,13 @@
   // ---- ARSENAL: 5 eigenständige Auto-Feuer-Waffen, je mit 2 Skill-Gabelungen (D2-light) ----
   // Jede Waffe belegt 1 Slot. Pfad-Wahl = Sidegrade (gleich stark, anderer Stil).
   const WEAPONS=[
-    {id:'blaster',ico:'🔫',col:'#caffff',forks:[['rapid','heavy'],['scatter','precise']]},
-    {id:'missile',ico:'🚀',col:'#ff9a2e',forks:[['swarm','warhead'],['shrapnel','incendiary']]},
-    {id:'flame',  ico:'🔥',col:'#ffae4d',forks:[['ember','wildfire'],['accel','consume']]},
-    {id:'frost',  ico:'❄️',col:'#8fe8ff',forks:[['permafrost','glaciate'],['shatter','brittle']]},
-    {id:'chain',  ico:'⛓️',col:'#9be7ff',forks:[['fork','highv'],['stormhit','dischargeaoe']]},
-    {id:'nova',   ico:'🟣',col:'#c45bff',forks:[['shock','overload'],['repel','staticfield']]},
-    {id:'rail',   ico:'⚡',col:'#fff27a',forks:[['charged','autoload'],['wide','overdrive']]}
+    {id:'blaster',ico:'🔫',col:'#caffff',forks:[['rapid','heavy'],['scatter','precise'],['overcharge','stabil'],['volley','lance']]},
+    {id:'missile',ico:'🚀',col:'#ff9a2e',forks:[['swarm','warhead'],['shrapnel','incendiary'],['cluster','bunker'],['wide_aoe','rapidload']]},
+    {id:'flame',  ico:'🔥',col:'#ffae4d',forks:[['ember','wildfire'],['accel','consume'],['inferno','lingering'],['blaze','firestorm']]},
+    {id:'frost',  ico:'❄️',col:'#8fe8ff',forks:[['permafrost','glaciate'],['shatter','brittle'],['deepfreeze','blizzard'],['absolute','frostbite']]},
+    {id:'chain',  ico:'⛓️',col:'#9be7ff',forks:[['fork','highv'],['stormhit','dischargeaoe'],['arc','conduit'],['tempest','paralyze']]},
+    {id:'nova',   ico:'🟣',col:'#c45bff',forks:[['shock','overload'],['repel','staticfield'],['expand','collapse'],['pulsar','singularity']]},
+    {id:'rail',   ico:'⚡',col:'#fff27a',forks:[['charged','autoload'],['wide','overdrive'],['piercebeam','hypervelocity'],['gigawatt','repeater']]}
   ];
   const WID=Object.fromEntries(WEAPONS.map(w=>[w.id,w]));
   // Spielstil-Archetypen je Waffe → sofort lesbare Build-Identität (Karte zeigt Stil, man muss keine Stats rechnen)
@@ -618,29 +631,43 @@
     if(has('blaster')){ const a=arsenal.w.blaster; let rate=3.2,dmg=1.15,bolts=1,spread=0.13,pierce=0;
       if(a.f1==='rapid'){rate*=1.5;dmg*=0.8;} if(a.f1==='heavy'){rate*=0.7;dmg*=2.0;}
       if(a.f2==='scatter'){bolts+=2;spread+=0.06;dmg*=0.78;} if(a.f2==='precise'){pierce+=2;dmg*=1.4;}
+      if(a.f3==='overcharge'){dmg*=1.4;rate*=0.85;} if(a.f3==='stabil'){spread*=0.4;rate*=1.2;}
+      if(a.f4==='volley'){bolts+=1;dmg*=0.85;} if(a.f4==='lance'){pierce+=2;dmg*=1.3;}
       wpn.blaster={rate:rate*rm,dmg:dmg*dm,bolts,spread,pierce}; }
     if(has('missile')){ const a=arsenal.w.missile; let rate=0.6,dmg=4.4,aoe=70,count=1;
       if(a.f1==='swarm'){count=2;dmg*=0.62;aoe*=0.78;} if(a.f1==='warhead'){dmg*=1.55;aoe*=1.5;rate*=0.8;}
+      if(a.f3==='cluster'){count+=1;dmg*=0.7;} if(a.f3==='bunker'){dmg*=1.5;rate*=0.8;}
+      if(a.f4==='wide_aoe'){aoe*=1.5;} if(a.f4==='rapidload'){rate*=1.6;dmg*=0.7;}
       wpn.missile={rate:rate*rm,dmg:dmg*dm,aoe,count,shrapnel:a.f2==='shrapnel',incendiary:a.f2==='incendiary'}; }
     if(has('flame')){ const a=arsenal.w.flame; let rate=2.2,dmg=0.5,dot=1.1,dur=2.0;
       if(a.f1==='ember'){dot*=1.9;} let spread=a.f1==='wildfire';
       if(a.f2==='accel'){dot*=1.5;dur*=0.6;}
+      if(a.f3==='inferno'){dot*=1.6;} if(a.f3==='lingering'){dur*=1.8;}
+      if(a.f4==='blaze'){rate*=1.5;dmg*=0.8;} if(a.f4==='firestorm'){dot*=1.3;dur*=1.3;spread=true;}
       wpn.flame={rate:rate*rm,dmg:dmg*dm,dot:dot*dm,dur,spread,consume:a.f2==='consume'}; }
     mods.brittle=false; mods.shatter=false;
     if(has('frost')){ const a=arsenal.w.frost; let rate=2.2,dmg=1.4,slowDur=1.4,slowAmt=0.5;
       if(a.f1==='permafrost'){slowDur*=1.9;slowAmt=0.32;} let freeze=a.f1==='glaciate';
+      if(a.f3==='deepfreeze'){slowAmt*=0.6;slowDur*=1.4;} if(a.f3==='blizzard'){rate*=1.5;dmg*=0.75;}
+      if(a.f4==='absolute'){freeze=true;} if(a.f4==='frostbite'){dmg*=1.6;rate*=0.85;}
       wpn.frost={rate:rate*rm,dmg:dmg*dm,slowDur,slowAmt,freeze,shatter:a.f2==='shatter',brittle:a.f2==='brittle'};
       mods.brittle=a.f2==='brittle'; mods.shatter=a.f2==='shatter'; }   // SPRÖDE / SPLITTERBRUCH gelten global an gefrorenen Zielen
     if(has('chain')){ const a=arsenal.w.chain; let rate=1.25,dmg=2.2,jumps=3,stun=0;
       if(a.f1==='fork'){jumps+=2;dmg*=0.7;} if(a.f1==='highv'){jumps=Math.max(1,jumps-1);dmg*=1.9;stun=0.4;}
+      if(a.f3==='arc'){jumps+=2;dmg*=0.8;} if(a.f3==='conduit'){dmg*=1.6;rate*=0.85;}
+      if(a.f4==='tempest'){rate*=1.5;dmg*=0.8;} if(a.f4==='paralyze'){stun+=0.5;dmg*=1.2;}
       wpn.chain={rate:rate*rm,dmg:dmg*dm,jumps,stun,onHit:a.f2==='stormhit',aoe:a.f2==='dischargeaoe'}; }
     if(has('nova')){ const a=arsenal.w.nova; let rate=0.9,dmg=2.9,radius=104,knock=false,slow=false;
       if(a.f1==='shock'){radius*=1.4;} if(a.f1==='overload'){dmg*=1.7;rate*=0.7;}
       if(a.f2==='repel'){knock=true;} if(a.f2==='staticfield'){slow=true;}
+      if(a.f3==='expand'){radius*=1.4;} if(a.f3==='collapse'){dmg*=1.6;radius*=0.85;}
+      if(a.f4==='pulsar'){rate*=1.6;dmg*=0.75;} if(a.f4==='singularity'){knock=true;slow=true;dmg*=1.2;}
       wpn.nova={rate:rate*rm,dmg:dmg*dm,radius,knock,slow}; }
     if(has('rail')){ const a=arsenal.w.rail; let rate=0.7,dmg=4.8,width=22;
       if(a.f1==='charged'){dmg*=1.8;rate*=0.65;} if(a.f1==='autoload'){rate*=1.7;dmg*=0.65;}
       if(a.f2==='wide'){width*=2;} if(a.f2==='overdrive'){dmg*=1.5;}
+      if(a.f3==='piercebeam'){width*=1.6;} if(a.f3==='hypervelocity'){dmg*=1.6;rate*=0.8;}
+      if(a.f4==='gigawatt'){dmg*=1.8;rate*=0.7;} if(a.f4==='repeater'){rate*=1.8;dmg*=0.6;}
       wpn.rail={rate:rate*rm,dmg:dmg*dm,width,burn:false}; }
     for(const s of SYNERGIES) syn[s.id]=has(s.pair[0])&&has(s.pair[1]);
     if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
@@ -654,7 +681,7 @@
   // Krit-Wurf auf einen Basis-Schaden → {dmg, crit}
   function rollHit(base){ if((mods.crit||0)>0 && Math.random()<mods.crit) return {dmg:base*(mods.critMult||2),crit:true}; return {dmg:base,crit:false}; }
   // Waffen-Level/Fork-Logik: lvl1=Basis, lvl2=Gabelung1 gewählt, lvl3=Gabelung2 gewählt
-  function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new'; if(!a.f1) return 'f1'; if(!a.f2) return 'f2'; return null; }
+  function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new'; if(!a.f1) return 'f1'; if(!a.f2) return 'f2'; if(!a.f3) return 'f3'; if(!a.f4) return 'f4'; return null; }
   function weaponMaxed(id){ return nextNode(id)===null; }
 
   function reset(){
@@ -668,8 +695,8 @@
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
-    level=1; levelDuration=(mode==='hardcore')?15:20; levelTimer=levelDuration; unlocked=['straight'];
-    upStep=400; nextUpgradeAt=400;
+    level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
+    upStep=500; nextUpgradeAt=500;                                                                       // Upgrade-Karten/Skillpunkte etwas seltener
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
@@ -995,11 +1022,11 @@
     document.getElementById('upgrade').classList.remove('hidden');
   }
   function closeUpgrade(){ document.getElementById('upgrade').classList.add('hidden');
-    upStep=Math.round(upStep*1.45); nextUpgradeAt=score+upStep;
+    upStep=Math.round(upStep*1.55); nextUpgradeAt=score+upStep;
     if(hasSkillSpend()){ openSkillScreen(); return; }     // weiter zum klickbaren Skill-Baum
     state=S.PLAY; invuln=Math.max(invuln,1.0); lastT=performance.now(); }
   function chooseOffer(o){ const before=Object.assign({},syn); let label='';
-    if(o.kind==='new'){ arsenal.w[o.wid]={lvl:1,f1:null,f2:null}; label=wName(o.wid); }
+    if(o.kind==='new'){ arsenal.w[o.wid]={lvl:1,f1:null,f2:null,f3:null,f4:null}; label=wName(o.wid); }
     else if(o.kind==='fork'){ const a=arsenal.w[o.wid]; a[o.slot]=o.path; a.lvl++; label=wName(o.wid)+' · '+pName(o.path); }
     else { o.u.apply(); upgradeCounts[o.u.id]=(upgradeCounts[o.u.id]||0)+1; label=uName(o.u.id); }
     recalcArsenal(); sfxPow(); vibe(15);
@@ -1772,13 +1799,14 @@
     a[slot]=path; a.lvl++; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:(wName(id)+' · '+pName(path)).toUpperCase(),sub:t('activated'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
   function addWeaponSkill(id){ if(skillPts<=0||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; const before=Object.assign({},syn);
-    arsenal.w[id]={lvl:1,f1:null,f2:null}; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
+    arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
   function nodeState(a,slot,path){ const sel=a[slot];
     if(sel===path) return 'chosen';
     if(sel) return 'dim';                       // in diesem Fork wurde schon der andere Pfad gewählt
-    return (slot==='f1'||a.f1) ? 'avail' : 'locked'; }
+    const open={f1:true, f2:!!a.f1, f3:!!a.f2, f4:!!a.f3};   // Gabelung erst frei, wenn die vorige gewählt ist
+    return open[slot] ? 'avail' : 'locked'; }
   function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(a,slot,path), can=(st==='avail'&&skillPts>0&&opt.guns);
     return `<div class="tnode ${st}${can?' pick':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${pDesc(path)}"><span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${can?'<span class="pickhint">+</span>':''}</div>`; }
   function renderArsenalView(){ const sub=document.getElementById('arsenalViewSub');
@@ -1787,16 +1815,20 @@
       sub.textContent=s+' · '+((skillPts>0&&opt.guns)?t('skillHint'):t('treeHint')); }
     const bb=document.getElementById('arsenalBackBtn'); if(bb) bb.textContent=arsenalSkillMode?t('skillNext'):t('back');
     const wrap=document.getElementById('arsenalCards'); if(!wrap) return; wrap.innerHTML='';
-    ownedW().forEach(id=>{ const a=arsenal.w[id], w=WID[id], f1=w.forks[0], f2=w.forks[1];
+    ownedW().forEach(id=>{ const a=arsenal.w[id], w=WID[id], f1=w.forks[0], f2=w.forks[1], f3=w.forks[2], f4=w.forks[3];
       const card=document.createElement('div'); card.className='wtree';
       card.innerHTML=
-        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/3</span><button class="cost drop">✕</button></div>`+
+        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span><button class="cost drop">✕</button></div>`+
         `<div class="warctag" style="--wc:${w.col}">${wArch(id)}</div>`+
         `<div class="tnode base chosen"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
         `<div class="tconn"></div>`+
         `<div class="trow">${treeNode(id,'f1',f1[0])}${treeNode(id,'f1',f1[1])}</div>`+
         `<div class="tconn"></div>`+
-        `<div class="trow">${treeNode(id,'f2',f2[0])}${treeNode(id,'f2',f2[1])}</div>`;
+        `<div class="trow">${treeNode(id,'f2',f2[0])}${treeNode(id,'f2',f2[1])}</div>`+
+        `<div class="tconn"></div>`+
+        `<div class="trow">${treeNode(id,'f3',f3[0])}${treeNode(id,'f3',f3[1])}</div>`+
+        `<div class="tconn"></div>`+
+        `<div class="trow">${treeNode(id,'f4',f4[0])}${treeNode(id,'f4',f4[1])}</div>`;
       card.querySelector('button.drop').addEventListener('click',e=>{ e.stopPropagation(); dropWeapon(id); });
       card.querySelectorAll('.tnode.pick').forEach(n=>n.addEventListener('click',()=>spendFork(n.dataset.wid,n.dataset.slot,n.dataset.path)));
       wrap.appendChild(card); });
@@ -1832,8 +1864,8 @@
   function drawArsenalHud(){ const ids=ownedW();
     const y=H-24; let x=14; ctx.textAlign='left'; ctx.textBaseline='middle';
     for(const id of ids){ ctx.font='17px Space Mono, monospace'; ctx.shadowBlur=8; ctx.shadowColor=WID[id].col; ctx.fillStyle='#fff'; ctx.fillText(WID[id].ico,x,y);
-      ctx.shadowBlur=0; const lv=arsenal.w[id].lvl; for(let i=0;i<3;i++){ ctx.fillStyle=i<lv?WID[id].col:'rgba(255,255,255,0.16)'; ctx.fillRect(x+1+i*6,y+12,4,3); }
-      x+=30; }
+      ctx.shadowBlur=0; const lv=arsenal.w[id].lvl; for(let i=0;i<5;i++){ ctx.fillStyle=i<lv?WID[id].col:'rgba(255,255,255,0.16)'; ctx.fillRect(x+1+i*5,y+12,3,3); }
+      x+=34; }
     const act=SYNERGIES.filter(s=>syn[s.id]); if(act.length){ x+=4; ctx.font='14px Space Mono, monospace'; for(const s of act){ ctx.shadowBlur=9; ctx.shadowColor='#ff2e88'; ctx.fillStyle='#ff7ab8'; ctx.fillText(s.ico,x,y-1); x+=20; } }
     if(skillPts>0&&opt.guns){ x+=6; ctx.font='700 13px Orbitron, sans-serif'; ctx.shadowBlur=10+(Math.sin((elapsed||0)*5)+1)*4; ctx.shadowColor='#19f0ff'; ctx.fillStyle='#19f0ff'; ctx.fillText('💠'+skillPts,x,y-1); }
     ctx.shadowBlur=0; }
