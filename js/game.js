@@ -529,6 +529,17 @@
     {id:'rail',   ico:'⚡',col:'#fff27a',forks:[['charged','autoload'],['wide','overdrive']]}
   ];
   const WID=Object.fromEntries(WEAPONS.map(w=>[w.id,w]));
+  // Spielstil-Archetypen je Waffe → sofort lesbare Build-Identität (Karte zeigt Stil, man muss keine Stats rechnen)
+  const ARCH={
+    blaster:{ico:'⚡',de:'Dauerfeuer',en:'Sustained',fr:'Tir continu'},
+    missile:{ico:'💥',de:'Fläche',    en:'Splash',   fr:'Zone'},
+    flame:  {ico:'🔥',de:'Anhaltend', en:'Burn',     fr:'Brûlure'},
+    frost:  {ico:'🧊',de:'Kontrolle', en:'Control',  fr:'Contrôle'},
+    chain:  {ico:'🔗',de:'Ketten',    en:'Chains',   fr:'Chaînes'},
+    nova:   {ico:'🌀',de:'Puls',      en:'Pulse',    fr:'Pulsation'},
+    rail:   {ico:'🩸',de:'Burst',     en:'Burst',    fr:'Burst'}
+  };
+  const wArch=id=>{ const a=ARCH[id]; return a?(a.ico+' '+(a[lang]||a.en)):''; };
   // Synergien (auto, wenn beide Waffen besessen). [id, [weaponA, weaponB], ico]
   const SYNERGIES=[
     {id:'thermo', pair:['flame','frost'],  ico:'🌋'},
@@ -1625,7 +1636,8 @@
     META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
       const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
       const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
-      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+mName(m.id)+'</h4><p>'+mTxt(m.id)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
+      let mdesc=mTxt(m.id); if(m.id.indexOf('bp_')===0) mdesc+=' · '+wArch(m.id.slice(3));   // Bauplan zeigt Spielstil
+      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+mName(m.id)+'</h4><p>'+mdesc+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
       const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
       shopCards.appendChild(card); }); }
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
@@ -1694,6 +1706,7 @@
       const card=document.createElement('div'); card.className='wtree';
       card.innerHTML=
         `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/3</span><button class="cost drop">✕</button></div>`+
+        `<div class="warctag" style="--wc:${w.col}">${wArch(id)}</div>`+
         `<div class="tnode base chosen"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
         `<div class="tconn"></div>`+
         `<div class="trow">${treeNode(id,'f1',f1[0])}${treeNode(id,'f1',f1[1])}</div>`+
@@ -1706,6 +1719,7 @@
     const addable=notOwned.filter(w=>weaponUnlocked(w.id)), locked=notOwned.filter(w=>!weaponUnlocked(w.id));
     if(skillPts>0&&opt.guns&&free>0&&addable.length){ addable.forEach(w=>{ const card=document.createElement('div'); card.className='wtree addable';
         card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b></div>`+
+          `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
           `<button class="cost addw">➕ ${t('addWeapon')}</button>`;
@@ -1714,6 +1728,7 @@
     // Gesperrte Waffen als Teaser zeigen → Anreiz, in der Werkstatt freizuschalten
     if(opt.guns) locked.forEach(w=>{ const card=document.createElement('div'); card.className='wtree wlocked'; card.style.opacity='.5';
         card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b></div>`+
+          `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base locked"><span class="ti">🔒</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
           `<div class="cost done">${t('lockedW')}</div>`;
