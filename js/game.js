@@ -434,9 +434,11 @@
     const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
     const lead=(loopCount%2===1)?song.lead2:song.lead1;
     const lv=song.leadVol||0.16, echo=song.chill?0.72:0.45;
-    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,lv,echo);
-      if(loopCount%4===3 && e.d>=2 && !song.chill) mVoice(time,midiF(e.n+12),e.d*secPerStep*0.55,'triangle',lv*0.30,0.012); }  // Oktav-Schimmer (jeder 4. Loop)
     const block=Math.floor(step/16), ls=step%16, root=song.bass[block];
+    const chorus=!song.chill && (loopCount%4)>=2;     // 2 Loops Verse (atmen) · 2 Loops Chorus (episch) → Build/Release
+    // ---- LEAD (im Chorus lauter + Oktav-Harmonie = hymnische Höhe) ----
+    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,chorus?lv*1.12:lv,echo);
+      if(chorus && e.d>=2) mVoice(time,midiF(e.n+12),e.d*secPerStep*0.6,'triangle',lv*0.34,0.012); }
     if(song.chill){
       if(ls===0||ls===8) mVoice(time,midiF(root),secPerStep*5,'triangle',0.20,0.012);                 // weicher, ruhiger Bass
       if(ls===0){ for(const cn of song.chords[block]) mVoice(time,midiF(cn+12),secPerStep*15,'sine',0.03,0.06); } // sanfter Pad-Akkord
@@ -445,23 +447,25 @@
       if((ls===6||ls===14) && loopCount%2===0){ const c=song.chords[block]; mArp(time,midiF(c[(ls/2)%c.length]+24),secPerStep*1.6,0.022); } // träumerische Sparkle
       return;
     }
-    if(song.bassEighths){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',0.27,0.004); } // treibender Achtel-Bass
-    else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',0.30,0.004); else if(ls%4===2) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.16); }
-    if(step%2===0){ const ch=song.chords[block]; mVoice(time,midiF(ch[(step/2)%ch.length]+12),secPerStep*0.8,'square',0.06,0.002); }
-    if(song.fourFloor){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
-    if(ls===4||ls===12) mNoise(time,0.12,0.16,1800);
-    if(state===S.PLAY && ls%(song.hatEvery||2)===0) mNoise(time,0.025,0.05,8000);
-    if(loopCount%2===1 && step>=60) mNoise(time,0.04,0.12,5000);
-    // ---- Prozedurale Schicht: Arpeggio-Twinkle (Muster & Dichte variieren pro Loop) + Loop-Ende-Fill ----
-    if(state===S.PLAY){
-      const ch=song.chords[block], V=loopCount, dens=[0,4,2,4,8,2,0,4][V%8];   // 0=Pause-Loop (lässt den Lead atmen)
-      if(dens && ls%dens===0){
-        const pat=V%3, k=Math.floor(step/dens), seq=ch.length;                // 0 auf · 1 ab · 2 pendel
+    // ---- BASS (im Chorus voller) ----
+    if(song.bassEighths){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',chorus?0.30:0.24,0.004); } // treibender Achtel-Bass
+    else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:0.27,0.004); else if(ls%4===2) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
+    // ---- EPISCHE Power-Akkorde NUR im Chorus (Quinte+Oktave, Sägezahn = Wucht) ----
+    if(chorus && (ls===0||ls===8)){ for(const n of [root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.4,'sawtooth',0.06,0.012); }
+    // ---- Akkord-Stabs (im Chorus dichter) ----
+    if(step%(chorus?2:4)===0){ const ch=song.chords[block]; mVoice(time,midiF(ch[(step/2)%ch.length]+12),secPerStep*0.8,'square',chorus?0.07:0.05,0.002); }
+    // ---- DRUMS: Chorus = Four-on-the-floor + fette Snare · Verse = sparsam ----
+    if(chorus){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
+    if(ls===4||ls===12) mNoise(time,0.12,chorus?0.20:0.13,1800);                                       // Snare
+    if(state===S.PLAY && ls%((song.hatEvery||2)*(chorus?1:2))===0) mNoise(time,0.025,chorus?0.06:0.04,8000); // Hats
+    if((loopCount%4)===1 && step>=58) mNoise(time,0.05,0.04+0.13*((step-58)/6),4200);                  // Riser in den Chorus
+    // ---- Prozedurale Arp-Schicht (im Chorus präsenter, im Verse luftig) ----
+    if(state===S.PLAY){ const ch=song.chords[block], V=loopCount;
+      const dens=chorus?[2,2,4,2][V%4]:[0,4,0,8][V%4];
+      if(dens && ls%dens===0){ const pat=V%3, k=Math.floor(step/dens), seq=ch.length;
         const idx=pat===0?k%seq:pat===1?(seq-1-(k%seq)):[0,1,2,1][k%4]%seq;
-        const oc=(V%4===1?12:0);                                              // mal eine Oktave höher
-        mArp(time,midiF(ch[idx]+12+oc),secPerStep*0.62,song.fourFloor?0.038:0.05);
-      }
-      if(step>=58 && V%3!==2){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24),secPerStep*0.42,0.05); } // kleiner Lauf am Loop-Ende
+        mArp(time,midiF(ch[idx]+12+(V%4===1?12:0)),secPerStep*0.62,chorus?0.055:0.035); }
+      if(chorus && step>=58){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24),secPerStep*0.42,0.05); }
     }
   }
   function scheduler(){
@@ -603,7 +607,7 @@
     if(has('missile')){ const a=arsenal.w.missile; let rate=0.6,dmg=4.4,aoe=70,count=1;
       if(a.f1==='swarm'){count=2;dmg*=0.62;aoe*=0.78;} if(a.f1==='warhead'){dmg*=1.55;aoe*=1.5;rate*=0.8;}
       wpn.missile={rate:rate*rm,dmg:dmg*dm,aoe,count,shrapnel:a.f2==='shrapnel',incendiary:a.f2==='incendiary'}; }
-    if(has('flame')){ const a=arsenal.w.flame; let rate=2.2,dmg=0.5,dot=1.3,dur=2.0;
+    if(has('flame')){ const a=arsenal.w.flame; let rate=2.2,dmg=0.5,dot=1.1,dur=2.0;
       if(a.f1==='ember'){dot*=1.9;} let spread=a.f1==='wildfire';
       if(a.f2==='accel'){dot*=1.5;dur*=0.6;}
       wpn.flame={rate:rate*rm,dmg:dmg*dm,dot:dot*dm,dur,spread,consume:a.f2==='consume'}; }
@@ -615,7 +619,7 @@
     if(has('chain')){ const a=arsenal.w.chain; let rate=1.25,dmg=2.2,jumps=3,stun=0;
       if(a.f1==='fork'){jumps+=2;dmg*=0.7;} if(a.f1==='highv'){jumps=Math.max(1,jumps-1);dmg*=1.9;stun=0.4;}
       wpn.chain={rate:rate*rm,dmg:dmg*dm,jumps,stun,onHit:a.f2==='stormhit',aoe:a.f2==='dischargeaoe'}; }
-    if(has('nova')){ const a=arsenal.w.nova; let rate=0.85,dmg=1.9,radius=92,knock=false,slow=false;
+    if(has('nova')){ const a=arsenal.w.nova; let rate=0.9,dmg=2.9,radius=104,knock=false,slow=false;
       if(a.f1==='shock'){radius*=1.4;} if(a.f1==='overload'){dmg*=1.7;rate*=0.7;}
       if(a.f2==='repel'){knock=true;} if(a.f2==='staticfield'){slow=true;}
       wpn.nova={rate:rate*rm,dmg:dmg*dm,radius,knock,slow}; }
@@ -672,7 +676,7 @@
     if(wpn.flame)   d+=(wpn.flame.dmg+wpn.flame.dot*wpn.flame.dur)*wpn.flame.rate;
     if(wpn.frost)   d+=wpn.frost.dmg*wpn.frost.rate;
     if(wpn.chain)   d+=wpn.chain.dmg*wpn.chain.jumps*wpn.chain.rate*0.6;
-    if(wpn.nova)    d+=wpn.nova.dmg*wpn.nova.rate*3;
+    if(wpn.nova)    d+=wpn.nova.dmg*wpn.nova.rate*2;   // kleiner Radius → moderateres Flächengewicht (faire HP-Skalierung)
     if(wpn.rail)    d+=wpn.rail.dmg*wpn.rail.rate*1.6;
     return d*critFactor(); }
   // Effektive Einzelziel-DPS gegen den Boss (kein Flächen-Bonus, Raketen ×2 wie in explodeMissile)
