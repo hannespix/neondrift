@@ -148,7 +148,7 @@
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',loadout:Array.isArray(r.loadout)?r.loadout:['blaster']}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',loadout:['blaster']}; }
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std'}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std'}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
@@ -179,7 +179,6 @@
   const weaponUnlocked=id=> id==='blaster' || metaLvl('bp_'+id)>0;
   function applyMeta(){
     arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
-    // Pre-Run-Loadout: vorab gewählte Startwaffen (nur freigeschaltete Baupläne), auf Slots begrenzt
     arsenal.w={};
     // Roguelite-Start: jeder Run beginnt nur mit dem Blaster (Lvl 1); alle anderen Waffen baust du im Run per Skillpunkten auf.
     if(opt.guns){ arsenal.w.blaster={lvl:1,f1:null,f2:null}; skillPts=1; }   // +1 Startpunkt → sofort 2. Waffe deiner Wahl
@@ -452,8 +451,9 @@
     else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:0.27,0.004); else if(ls%4===2) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
     // ---- EPISCHE Power-Akkorde NUR im Chorus (Quinte+Oktave, Sägezahn = Wucht) ----
     if(chorus && (ls===0||ls===8)){ for(const n of [root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.4,'sawtooth',0.06,0.012); }
-    // ---- Akkord-Stabs (im Chorus dichter) ----
-    if(step%(chorus?2:4)===0){ const ch=song.chords[block]; mVoice(time,midiF(ch[(step/2)%ch.length]+12),secPerStep*0.8,'square',chorus?0.07:0.05,0.002); }
+    // ---- Klassischer Chiptune-Arpeggio-Akkord (Akkordtöne im schnellen 16tel-Wechsel auf einem Kanal = NES-Sound) ----
+    { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12),secPerStep*0.42,'square',chorus?0.05:0.038,0.001);
+      if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24),secPerStep*0.3,'square',0.03,0.001); }   // im Chorus zweite Oktave drauf = breiter Chip-Sound
     // ---- DRUMS: Chorus = Four-on-the-floor + fette Snare · Verse = sparsam ----
     if(chorus){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
     if(ls===4||ls===12) mNoise(time,0.12,chorus?0.20:0.13,1800);                                       // Snare
@@ -464,7 +464,7 @@
       const dens=chorus?[2,2,4,2][V%4]:[0,4,0,8][V%4];
       if(dens && ls%dens===0){ const pat=V%3, k=Math.floor(step/dens), seq=ch.length;
         const idx=pat===0?k%seq:pat===1?(seq-1-(k%seq)):[0,1,2,1][k%4]%seq;
-        mArp(time,midiF(ch[idx]+12+(V%4===1?12:0)),secPerStep*0.62,chorus?0.055:0.035); }
+        mArp(time,midiF(ch[idx]+12+(V%4===1?12:0)),secPerStep*0.62,chorus?0.045:0.026); }
       if(chorus && step>=58){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24),secPerStep*0.42,0.05); }
     }
   }
@@ -721,7 +721,7 @@
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
     document.getElementById('settings').classList.add('hidden'); document.getElementById('ach').classList.add('hidden'); document.getElementById('skins').classList.add('hidden');
-    document.getElementById('loadout').classList.add('hidden'); document.getElementById('arsenalView').classList.add('hidden');
+    document.getElementById('arsenalView').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
   function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
@@ -1741,28 +1741,6 @@
     else { shopResetArmed=true; b.textContent=t('reallyQ'); beep(440,0.08,'square',0.2);
       setTimeout(()=>{ if(shopResetArmed){ shopResetArmed=false; b.textContent=t('resetAll'); } },4000); } }
 
-  // ---------- Loadout (Pre-Run: Startwaffen wählen) ----------
-  const loadoutSlots=()=>3+metaLvl('slot');
-  function openLoadout(){ document.getElementById('start').classList.add('hidden'); renderLoadout();
-    document.getElementById('loadout').classList.remove('hidden'); sfxUpgrade(); }
-  function closeLoadout(){ document.getElementById('loadout').classList.add('hidden');
-    document.getElementById('start').classList.remove('hidden'); }
-  function toggleLoadout(id){ if(!weaponUnlocked(id)){ closeLoadout(); openShop(); return; }  // gesperrt → ab in die Werkstatt
-    meta.loadout=(meta.loadout||['blaster']).slice(); const i=meta.loadout.indexOf(id);
-    if(i>=0){ if(meta.loadout.length<=1){ beep(200,0.1,'square',0.2,-60); return; } meta.loadout.splice(i,1); }
-    else { if(meta.loadout.length>=loadoutSlots()){ beep(200,0.1,'square',0.2,-60); return; } meta.loadout.push(id); }
-    saveMeta(); sfxPow(); vibe(12); renderLoadout(); }
-  function renderLoadout(){ const slots=loadoutSlots();
-    meta.loadout=(meta.loadout||['blaster']).filter(id=>WID[id]&&weaponUnlocked(id)); if(!meta.loadout.length) meta.loadout=['blaster'];
-    meta.loadout=meta.loadout.slice(0,slots); saveMeta();
-    const sub=document.getElementById('loadoutSub'); if(sub) sub.textContent=t('slotsLbl')+' '+meta.loadout.length+'/'+slots;
-    const wrap=document.getElementById('loadoutCards'); if(!wrap) return; wrap.innerHTML='';
-    WEAPONS.forEach(w=>{ const eq=meta.loadout.indexOf(w.id)>=0, lock=!weaponUnlocked(w.id);
-      const card=document.createElement('div'); card.className='ucard weapon'+(eq?' equipped':'')+(lock?' locked':'');
-      const tag=lock?t('lockedW'):(eq?'✓':t('freeSlot'));
-      card.innerHTML=`<div class="ico">${w.ico}</div><h4>${wName(w.id)}</h4><p>${wDesc(w.id)}</p><div class="stack">${tag}</div>`;
-      card.addEventListener('click',()=>toggleLoadout(w.id)); wrap.appendChild(card); });
-  }
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
   function openArsenalView(){ if(state!==S.PAUSE) return; arsenalSkillMode=false; renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   // Skill-Screen: friert das Spiel ein, zeigt den klickbaren Baum zum Ausgeben der Skillpunkte
@@ -1903,7 +1881,6 @@
     document.querySelectorAll('.mode').forEach(c=>{ const m=c.dataset.mode==='hardcore'?'hard':c.dataset.mode;
       const h=c.querySelector('h3'),p=c.querySelector('p'); if(h)h.textContent=t('m_'+m); if(p)p.textContent=t('m_'+m+'D'); });
     setSel('#pause .utitle',t('pause')); set('resumeBtn',t('resume')); set('pauseMenuBtn',t('mainmenu')); set('arsenalViewBtn',t('arsenalBtn'));
-    set('loadoutBtn',t('loadoutBtn')); setSel('#loadout .utitle',t('loadoutTitle')); set('loadoutBackBtn',t('back'));
     setSel('#arsenalView .utitle',t('arsenalTitle')); set('arsenalBackBtn',t('back'));
     setSel('#upgrade .utitle',t('chooseUp'));
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back')); set('shopResetBtn',t('resetAll'));
@@ -1971,9 +1948,6 @@
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
-  const lb=document.getElementById('loadoutBtn'); if(lb) lb.addEventListener('click',openLoadout);
-  const lbk=document.getElementById('loadoutBackBtn'); if(lbk) lbk.addEventListener('click',closeLoadout);
-  const lbc=document.getElementById('loadoutCloseBtn'); if(lbc) lbc.addEventListener('click',closeLoadout);
   const av=document.getElementById('arsenalViewBtn'); if(av) av.addEventListener('click',openArsenalView);
   const avc=document.getElementById('arsenalCloseBtn'); if(avc) avc.addEventListener('click',closeArsenalView);
   const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
@@ -1984,7 +1958,6 @@
   const isOpen=id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hidden'); };
   window.addEventListener('keydown',e=>{ if(e.code==='Escape'){
       if(isOpen('arsenalView')){ closeArsenalView(); return; }
-      if(isOpen('loadout')){ closeLoadout(); return; }
       if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
