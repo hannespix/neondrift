@@ -22,7 +22,7 @@
       m_hard:'HARDCORE', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', resetAll:'♻ ALLES ZURÜCKSETZEN', reallyQ:'WIRKLICH? ✓ (tippen)',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -49,7 +49,7 @@
       m_hard:'HARDCORE', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', resetAll:'♻ RESET EVERYTHING', reallyQ:'SURE? ✓ (tap)',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -76,7 +76,7 @@
       m_hard:'HARDCORE', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', loadoutTitle:'🎒 LOADOUT', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', loadoutBtn:'🎒 LOADOUT', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', resetAll:'♻ TOUT RÉINITIALISER', reallyQ:'SÛR ? ✓ (touche)',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -353,6 +353,19 @@
     {s:32,n:84,d:2},{s:34,n:83,d:2},{s:36,n:79,d:2},{s:38,n:76,d:2},{s:40,n:79,d:4},{s:44,n:83,d:4},
     {s:48,n:84,d:2},{s:50,n:83,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:72,d:6}
   ];
+  // Lead E – ARKADE (A-Moll, eingängiger Chiptune-Ohrwurm, treibend)
+  const LEADE1=[
+    {s:0,n:76,d:2},{s:2,n:71,d:1},{s:3,n:72,d:1},{s:4,n:74,d:2},{s:6,n:72,d:1},{s:7,n:71,d:1},{s:8,n:69,d:2},{s:10,n:69,d:1},{s:11,n:72,d:1},{s:12,n:76,d:2},{s:14,n:74,d:2},
+    {s:16,n:72,d:2},{s:18,n:74,d:2},{s:20,n:71,d:2},{s:22,n:67,d:2},{s:24,n:67,d:4},{s:28,n:74,d:4},
+    {s:32,n:72,d:2},{s:34,n:69,d:2},{s:36,n:65,d:2},{s:38,n:69,d:2},{s:40,n:72,d:4},{s:44,n:69,d:4},
+    {s:48,n:71,d:2},{s:50,n:74,d:2},{s:52,n:72,d:2},{s:54,n:71,d:2},{s:56,n:69,d:4},{s:60,n:67,d:4}
+  ];
+  const LEADE2=[
+    {s:0,n:81,d:2},{s:2,n:79,d:2},{s:4,n:76,d:2},{s:6,n:79,d:2},{s:8,n:81,d:4},{s:12,n:84,d:4},
+    {s:16,n:83,d:2},{s:18,n:79,d:2},{s:20,n:74,d:2},{s:22,n:79,d:2},{s:24,n:83,d:4},{s:28,n:81,d:4},
+    {s:32,n:81,d:2},{s:34,n:77,d:2},{s:36,n:72,d:2},{s:38,n:77,d:2},{s:40,n:81,d:4},{s:44,n:84,d:4},
+    {s:48,n:83,d:2},{s:50,n:81,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:74,d:6}
+  ];
   // Menü-Lead – NEON CHILL (C-Dur, träumerisch, viel Raum, lange Töne)
   const LEADM1=[
     {s:0,n:72,d:6},{s:6,n:76,d:6},{s:12,n:74,d:4},
@@ -370,7 +383,8 @@
     {name:'PROLOG',     lead1:LEAD1,  lead2:LEAD2,  bass:[36,45,41,43], chords:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]], lt:'square',   leadVol:0.16, bassEighths:false, fourFloor:false, hatEvery:2},
     {name:'NACHTFAHRT', lead1:LEADB1, lead2:LEADB2, bass:[38,34,36,33], chords:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]], lt:'sawtooth', leadVol:0.11, bassEighths:true,  fourFloor:false, hatEvery:4},
     {name:'ÜBERTAKTET', lead1:LEADC1, lead2:LEADC2, bass:[45,40,42,38], chords:[[57,61,64],[52,56,59],[54,57,61],[50,54,57]], lt:'square',   leadVol:0.14, bassEighths:false, fourFloor:true,  hatEvery:1},
-    {name:'STRATOSPHÄRE',lead1:LEADD1, lead2:LEADD2, bass:[43,38,40,36], chords:[[55,59,62],[50,54,57],[52,55,59],[48,52,55]], lt:'sawtooth', leadVol:0.13, bassEighths:true,  fourFloor:false, hatEvery:2}
+    {name:'STRATOSPHÄRE',lead1:LEADD1, lead2:LEADD2, bass:[43,38,40,36], chords:[[55,59,62],[50,54,57],[52,55,59],[48,52,55]], lt:'sawtooth', leadVol:0.13, bassEighths:true,  fourFloor:false, hatEvery:2},
+    {name:'ARKADE',     lead1:LEADE1, lead2:LEADE2, bass:[45,43,41,43], chords:[[57,60,64],[55,59,62],[53,57,60],[55,59,62]], lt:'square',   leadVol:0.15, bassEighths:true,  fourFloor:true,  hatEvery:2}
   ];
   // Eigener, entspannter Menü-Track (rotiert NICHT mit den Level-Songs)
   const MENU_SONG={name:'NEON CHILL', lead1:LEADM1, lead2:LEADM2, bass:[36,45,41,43],
@@ -436,7 +450,7 @@
     const block=Math.floor(step/16), ls=step%16, root=song.bass[block];
     const chorus=!song.chill && (loopCount%4)>=2;     // 2 Loops Verse (atmen) · 2 Loops Chorus (episch) → Build/Release
     // ---- LEAD (im Chorus lauter + Oktav-Harmonie = hymnische Höhe) ----
-    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,chorus?lv*1.12:lv,echo);
+    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,chorus?lv*1.18:lv,echo);
       if(chorus && e.d>=2) mVoice(time,midiF(e.n+12),e.d*secPerStep*0.6,'triangle',lv*0.34,0.012); }
     if(song.chill){
       if(ls===0||ls===8) mVoice(time,midiF(root),secPerStep*5,'triangle',0.20,0.012);                 // weicher, ruhiger Bass
@@ -449,8 +463,9 @@
     // ---- BASS (im Chorus voller) ----
     if(song.bassEighths){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',chorus?0.30:0.24,0.004); } // treibender Achtel-Bass
     else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:0.27,0.004); else if(ls%4===2) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
-    // ---- EPISCHE Power-Akkorde NUR im Chorus (Quinte+Oktave, Sägezahn = Wucht) ----
-    if(chorus && (ls===0||ls===8)){ for(const n of [root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.4,'sawtooth',0.06,0.012); }
+    // ---- EPISCHE Power-Akkorde NUR im Chorus (tiefe Oktave + Quinte + Oktave, Sägezahn = Wucht) ----
+    if(chorus && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'sawtooth',0.085,0.012); }
+    if(chorus && ls===0) mNoise(time,0.22,0.13,3000);   // Crash auf der Chorus-Eins (Bombast)
     // ---- Klassischer Chiptune-Arpeggio-Akkord (Akkordtöne im schnellen 16tel-Wechsel auf einem Kanal = NES-Sound) ----
     { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12),secPerStep*0.42,'square',chorus?0.05:0.038,0.001);
       if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24),secPerStep*0.3,'square',0.03,0.001); }   // im Chorus zweite Oktave drauf = breiter Chip-Sound
