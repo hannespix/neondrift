@@ -1842,7 +1842,7 @@
   function addWeaponSkill(id){ if(skillPts<=0||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; const before=Object.assign({},syn);
     arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
-  // Fusions-Slot belegen/wechseln: jederzeit, max 2. Bei vollem Slot ersetzt der älteste (FIFO) → flüssiges Umschalten.
+  // Fusions-Slot belegen/wechseln: jederzeit, max MAXSYN. Bei vollem Slot ersetzt der älteste (FIFO) → flüssiges Umschalten.
   function synAvail(id){ const s=SID[id]; return !!(s && arsenal.w[s.pair[0]] && arsenal.w[s.pair[1]]); }
   function toggleSyn(id){ if(!synAvail(id)) return; const i=activeSyn.indexOf(id);
     if(i>=0){ activeSyn.splice(i,1); }
