@@ -314,32 +314,31 @@
   let musicShift=0;                                  // globale Transposition (pro Level andere Tonart)
   const midiF=n=>440*Math.pow(2,(n-69+musicShift)/12);
   const levelKey=lv=>{ let s=((Math.max(1,lv)-1)*5)%12; if(s>6) s-=12; return s; };  // Quartenzirkel, ±6 Halbtöne → jedes Level klar andere Tonart
-  // Lead A (C-Dur, heroisch)
+  // Lead A – PROLOG: „Ode an die Freude" (Beethoven, gemeinfrei) als erkennbarer europäischer Anthem
   const LEAD1=[
-    {s:0,n:72,d:2},{s:2,n:76,d:2},{s:4,n:79,d:2},{s:6,n:76,d:1},{s:7,n:74,d:1},{s:8,n:72,d:2},{s:10,n:71,d:1},{s:11,n:69,d:1},
-    {s:12,n:67,d:4},{s:16,n:69,d:2},{s:18,n:72,d:2},{s:20,n:76,d:2},{s:22,n:74,d:1},{s:23,n:72,d:1},{s:24,n:69,d:2},{s:26,n:72,d:2},
-    {s:28,n:64,d:4},{s:32,n:65,d:2},{s:34,n:69,d:2},{s:36,n:72,d:2},{s:38,n:74,d:1},{s:39,n:76,d:1},{s:40,n:77,d:2},{s:42,n:72,d:2},
-    {s:44,n:69,d:4},{s:48,n:74,d:2},{s:50,n:71,d:2},{s:52,n:67,d:2},{s:54,n:69,d:1},{s:55,n:71,d:1},{s:56,n:74,d:2},{s:58,n:79,d:2},
-    {s:60,n:72,d:4}
+    {s:0,n:76,d:4},{s:4,n:76,d:4},{s:8,n:77,d:4},{s:12,n:79,d:4},
+    {s:16,n:79,d:4},{s:20,n:77,d:4},{s:24,n:76,d:4},{s:28,n:74,d:4},
+    {s:32,n:72,d:4},{s:36,n:72,d:4},{s:40,n:74,d:4},{s:44,n:76,d:4},
+    {s:48,n:76,d:4},{s:52,n:74,d:4},{s:56,n:74,d:8}
   ];
   const LEAD2=[
-    {s:0,n:84,d:2},{s:2,n:79,d:2},{s:4,n:76,d:2},{s:6,n:72,d:2},{s:8,n:74,d:1},{s:9,n:76,d:1},{s:10,n:79,d:2},{s:12,n:84,d:4},
-    {s:16,n:81,d:2},{s:18,n:76,d:2},{s:20,n:72,d:2},{s:22,n:69,d:2},{s:24,n:76,d:2},{s:26,n:72,d:1},{s:27,n:69,d:1},{s:28,n:64,d:4},
-    {s:32,n:77,d:2},{s:34,n:72,d:2},{s:36,n:69,d:2},{s:38,n:65,d:2},{s:40,n:72,d:1},{s:41,n:74,d:1},{s:42,n:77,d:2},{s:44,n:81,d:4},
-    {s:48,n:79,d:2},{s:50,n:74,d:2},{s:52,n:71,d:2},{s:54,n:67,d:2},{s:56,n:74,d:2},{s:58,n:71,d:1},{s:59,n:74,d:1},{s:60,n:79,d:4}
+    {s:0,n:76,d:4},{s:4,n:76,d:4},{s:8,n:77,d:4},{s:12,n:79,d:4},
+    {s:16,n:79,d:4},{s:20,n:77,d:4},{s:24,n:76,d:4},{s:28,n:74,d:4},
+    {s:32,n:72,d:4},{s:36,n:72,d:4},{s:40,n:74,d:4},{s:44,n:76,d:4},
+    {s:48,n:74,d:4},{s:52,n:72,d:4},{s:56,n:72,d:8}
   ];
-  // Lead B – NACHTFAHRT (d-Moll, tief, gezogen/dunkel)
+  // Lead B – NACHTFAHRT: „Korobeiniki" (russisches Volkslied = Tetris-Thema, gemeinfrei) in d-Moll
   const LEADB1=[
-    {s:0,n:74,d:2},{s:2,n:69,d:2},{s:4,n:70,d:1},{s:5,n:72,d:1},{s:6,n:70,d:1},{s:7,n:69,d:1},{s:8,n:65,d:2},{s:10,n:69,d:2},{s:12,n:74,d:4},
-    {s:16,n:70,d:2},{s:18,n:74,d:2},{s:20,n:77,d:2},{s:22,n:74,d:1},{s:23,n:70,d:1},{s:24,n:69,d:2},{s:26,n:65,d:2},{s:28,n:62,d:4},
-    {s:32,n:72,d:2},{s:34,n:76,d:2},{s:36,n:79,d:2},{s:38,n:76,d:1},{s:39,n:72,d:1},{s:40,n:70,d:2},{s:42,n:67,d:2},{s:44,n:64,d:4},
-    {s:48,n:69,d:2},{s:50,n:72,d:2},{s:52,n:76,d:2},{s:54,n:72,d:1},{s:55,n:69,d:1},{s:56,n:65,d:2},{s:58,n:69,d:2},{s:60,n:62,d:4}
+    {s:0,n:74,d:4},{s:4,n:69,d:2},{s:6,n:70,d:2},{s:8,n:72,d:4},{s:12,n:70,d:2},{s:14,n:69,d:2},
+    {s:16,n:67,d:4},{s:20,n:67,d:2},{s:22,n:70,d:2},{s:24,n:74,d:4},{s:28,n:72,d:2},{s:30,n:70,d:2},
+    {s:32,n:69,d:6},{s:38,n:70,d:2},{s:40,n:72,d:4},{s:44,n:74,d:4},
+    {s:48,n:70,d:4},{s:52,n:67,d:4},{s:56,n:67,d:8}
   ];
   const LEADB2=[
-    {s:0,n:81,d:2},{s:2,n:77,d:2},{s:4,n:74,d:2},{s:6,n:69,d:2},{s:8,n:74,d:1},{s:9,n:77,d:1},{s:10,n:81,d:2},{s:12,n:86,d:4},
-    {s:16,n:82,d:2},{s:18,n:77,d:2},{s:20,n:74,d:2},{s:22,n:70,d:2},{s:24,n:72,d:2},{s:26,n:76,d:1},{s:27,n:79,d:1},{s:28,n:72,d:4},
-    {s:32,n:79,d:2},{s:34,n:76,d:2},{s:36,n:72,d:2},{s:38,n:67,d:2},{s:40,n:69,d:1},{s:41,n:72,d:1},{s:42,n:76,d:2},{s:44,n:81,d:4},
-    {s:48,n:76,d:2},{s:50,n:74,d:2},{s:52,n:69,d:2},{s:54,n:65,d:2},{s:56,n:69,d:2},{s:58,n:72,d:1},{s:59,n:74,d:1},{s:60,n:62,d:4}
+    {s:0,n:72,d:4},{s:4,n:76,d:2},{s:6,n:79,d:2},{s:8,n:77,d:4},{s:12,n:76,d:2},{s:14,n:74,d:2},
+    {s:16,n:74,d:4},{s:20,n:70,d:2},{s:22,n:74,d:2},{s:24,n:72,d:4},{s:28,n:70,d:2},{s:30,n:69,d:2},
+    {s:32,n:69,d:6},{s:38,n:70,d:2},{s:40,n:72,d:4},{s:44,n:74,d:4},
+    {s:48,n:70,d:4},{s:52,n:67,d:4},{s:56,n:67,d:8}
   ];
   // Lead C – ÜBERTAKTET (A-Dur, hoch, hektisch 16tel)
   const LEADC1=[
@@ -396,8 +395,8 @@
     {s:48,n:76,d:6},{s:54,n:72,d:4},{s:58,n:71,d:6}
   ];
   const SONGS=[
-    {name:'PROLOG',     lead1:LEAD1,  lead2:LEAD2,  bass:[36,45,41,43], chords:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]], lt:'p50', leadVol:0.16, bassEighths:false, fourFloor:false, hatEvery:2},
-    {name:'NACHTFAHRT', lead1:LEADB1, lead2:LEADB2, bass:[38,34,36,33], chords:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]], lt:'p25', leadVol:0.12, bassEighths:true,  fourFloor:false, hatEvery:4},
+    {name:'PROLOG',     lead1:LEAD1,  lead2:LEAD2,  bass:[36,43,45,36], chords:[[60,64,67],[55,59,62],[57,60,64],[60,64,67]], lt:'p50', leadVol:0.17, bassEighths:false, fourFloor:false, hatEvery:2},
+    {name:'NACHTFAHRT', lead1:LEADB1, lead2:LEADB2, bass:[38,43,45,43], chords:[[62,65,69],[58,62,67],[57,60,64],[58,62,67]], lt:'p25', leadVol:0.13, bassEighths:true,  fourFloor:false, hatEvery:4},
     {name:'ÜBERTAKTET', lead1:LEADC1, lead2:LEADC2, bass:[45,40,42,38], chords:[[57,61,64],[52,56,59],[54,57,61],[50,54,57]], lt:'p12', leadVol:0.15, bassEighths:false, fourFloor:true,  hatEvery:1},
     {name:'STRATOSPHÄRE',lead1:LEADD1, lead2:LEADD2, bass:[43,38,40,36], chords:[[55,59,62],[50,54,57],[52,55,59],[48,52,55]], lt:'p25', leadVol:0.13, bassEighths:true,  fourFloor:false, hatEvery:2},
     {name:'ARKADE',     lead1:LEADE1, lead2:LEADE2, bass:[45,43,41,43], chords:[[57,60,64],[55,59,62],[53,57,60],[55,59,62]], lt:'p25', leadVol:0.15, bassEighths:true,  fourFloor:true,  hatEvery:2}
@@ -417,8 +416,9 @@
   // type 'p12'/'p25'/'p50' → Pulswelle mit 12/25/50% Duty, sonst Standard-Wellenform
   function setOsc(o,type){ if(type&&type[0]==='p') o.setPeriodicWave(pulseWave((+type.slice(1))/100)); else o.type=type; }
   // Songform (gilt für alle Level-Songs): Intro baut auf · Verse atmet · Chorus episch · Bridge = Quarte hoch
-  const FORM=[{p:1,m:'intro'},{p:1,m:'verse'},{p:2,m:'verse'},{p:1,m:'chorus'},
-              {p:2,m:'chorus'},{p:2,m:'bridge'},{p:1,m:'chorus'},{p:2,m:'chorus'}];
+  // Songform mit Dramaturgie: Strophe (Melodie vorn) → Steigerung → Drop (Dubstep-Wucht) → Chorus → Bridge → Steigerung → Drop
+  const FORM=[{p:1,m:'intro'},{p:1,m:'verse'},{p:2,m:'verse'},{p:2,m:'build'},
+              {p:1,m:'drop'},{p:1,m:'chorus'},{p:2,m:'bridge'},{p:2,m:'build'},{p:1,m:'drop'},{p:2,m:'chorus'}];
   function mVoice(time,freq,dur,type,vol,atk=0.005){
     const o=actx.createOscillator(), g=actx.createGain();
     setOsc(o,type); o.frequency.setValueAtTime(freq,time);
@@ -496,12 +496,15 @@
     // ---- SONGFORM: echtes Arrangement statt 2-Phrasen-Loop (Intro→Verse→Chorus→Bridge→Chorus über 8 Loops) ----
     const sec=song.chill?{p:(loopCount%2)+1,m:'chill'}:FORM[loopCount%FORM.length];
     const lead=sec.p===2?song.lead2:song.lead1;
-    const intro=sec.m==='intro', chorus=sec.m==='chorus', bridge=sec.m==='bridge';
+    const m=sec.m;
+    const intro=m==='intro', verse=m==='verse', build=m==='build', drop=m==='drop', chorus=m==='chorus', bridge=m==='bridge';
+    const big=drop||chorus;                           // volle Energie (Drop/Chorus)
     const kt=bridge?5:0;                              // Bridge: Melodie + Harmonie eine Quarte hoch = klar neues Songteil
     const root=song.bass[block]+kt;
-    // ---- LEAD (Chorus lauter + Oktav-Harmonie · Intro leiser/luftiger) ----
-    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n+kt),e.d*secPerStep*0.94,song.lt,chorus?lv*1.18:(intro?lv*0.8:lv),echo);
-      if(chorus && e.d>=2) mVoice(time,midiF(e.n+kt+12),e.d*secPerStep*0.6,'p50',lv*0.32,0.012); }   // Chorus: 2. Pulskanal eine Oktave drüber
+    // ---- LEAD = Hauptmelodie klar VORN. Verse am lautesten; im Build pausiert sie (Spannung vor dem Drop) ----
+    if(!build){ const lvol=verse?lv*1.32:(big?lv*1.14:(intro?lv*0.82:lv));
+      for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n+kt),e.d*secPerStep*0.94,song.lt,lvol,echo);
+        if(big && e.d>=2) mVoice(time,midiF(e.n+kt+12),e.d*secPerStep*0.6,'p50',lv*0.3,0.012); } }   // Drop/Chorus: Oktav-Harmonie drauf
     if(song.chill){
       if(ls===0||ls===8) mVoice(time,midiF(root),secPerStep*5,'triangle',0.20,0.012);                 // weicher, ruhiger Bass
       if(ls===0){ for(const cn of song.chords[block]) mVoice(time,midiF(cn+12),secPerStep*15,'sine',0.03,0.06); } // sanfter Pad-Akkord
@@ -510,30 +513,41 @@
       if((ls===6||ls===14) && loopCount%2===0){ const c=song.chords[block]; mArp(time,midiF(c[(ls/2)%c.length]+24),secPerStep*1.6,0.022); } // träumerische Sparkle
       return;
     }
-    // ---- BASS (Chorus voller · Intro sparsam) ----
-    if(song.bassEighths && !intro){ if(ls%2===0) mVoice(time,midiF(root+((chorus&&ls%4===2)?12:0)),secPerStep*1.5,'triangle',chorus?0.30:0.24,0.004); } // treibender Achtel-Bass (Chorus: NES-Oktav-Bounce)
-    else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:(intro?0.2:0.27),0.004); else if(ls%4===2 && !intro) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
-    // ---- EPISCHE Power-Akkorde NUR im Chorus (tiefe Oktave + Quinte + Oktave, voller Puls = Wucht) ----
-    if(chorus && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'p50',0.07,0.012); }
-    if(chorus && ls===0) mNoise(time,0.22,0.13,3000);                                                  // Crash auf der Chorus-Eins
-    if((chorus && (ls===0||ls===8)) || (bridge && ls===0)) mWobble(time,midiF(root-12),secPerStep*7.5); // Dubstep-Wobble: Chorus 2×/Loop + Bridge → grummelt durch
-    // ---- Klassischer Chiptune-Arpeggio-Akkord (Akkordtöne im schnellen 16tel-Wechsel, 12% Puls = NES/GB-Sound) ----
-    { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',chorus?0.07:0.045,0.001);
-      if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.045,0.001);     // Chorus: zweite Oktave drauf = breiter Chip-Sound
-      if(chorus && ls%4===2){ for(const cn of ch) mVoice(time,midiF(cn+12+kt),secPerStep*0.5,'p25',0.03,0.002); } } // punchy Chip-Stab auf dem Backbeat
-    // ---- DRUMS: Intro = nur Eins · Chorus = Four-on-the-floor + fette Snare · Verse = sparsam ----
+    // ===== STEIGERUNG (Build): keine Melodie, Snare-Roll verdichtet sich + Riser steigt → Spannung vor dem Drop =====
+    if(build){
+      if(ls%4===0) mKick(time);                                                                        // treibender Four-on-the-floor
+      const roll=step<32?8:step<48?4:step<56?2:1;                                                       // 8tel → 16tel → 32tel: immer dichter
+      if(ls%roll===0) mNoise(time,0.05,0.05+0.16*(step/64),1700);                                       // Snare-Roll, lauter zum Ende
+      mNoise(time,0.045,0.015+0.10*(step/64),900+step*60);                                              // Riser-Sweep (steigt durchgehend an)
+      if(ls%2===0){ const sc=song.chords[block]; mVoice(time,midiF(sc[(step/2)%sc.length]+12+(step>=48?12:0)),secPerStep*0.4,'p25',0.035,0.002); } // aufsteigender Chip-Riser
+      if(step>=60) mVoice(time,midiF(root),secPerStep*0.5,'triangle',0.22,0.004);                       // Bass-Stotter kurz vor dem Drop
+      return;
+    }
+    // ---- BASS (Drop/Chorus: NES-Oktav-Bounce · Intro sparsam) ----
+    if(song.bassEighths && !intro){ if(ls%2===0) mVoice(time,midiF(root+((big&&ls%4===2)?12:0)),secPerStep*1.5,'triangle',big?0.30:0.24,0.004); } // treibender Achtel-Bass
+    else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',big?0.33:(intro?0.2:0.27),0.004); else if(ls%4===2 && !intro) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
+    // ---- DROP = der Dubstep-Moment: fetter Wobble + Powerchord-Impact auf der 1, „wawawa" auf der 8 (mit Druck) ----
+    if(drop && ls===0){ mNoise(time,0.32,0.18,2400); mWobble(time,midiF(root-12),secPerStep*7.5); }      // Impact-Crash + fetter Wobble
+    if(drop && ls===8) mWobble(time,midiF(root-12),secPerStep*6);                                        // zweiter Wob
+    if(chorus && ls===0){ mWobble(time,midiF(root-12),secPerStep*4.5); mNoise(time,0.22,0.13,3000); }    // Chorus: nur EIN kurzer Wob + Crash auf der 1
+    // ---- EPISCHE Power-Akkorde im Drop & Chorus ----
+    if(big && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'p50',drop?0.085:0.07,0.012); }
+    // ---- Chiptune-Arpeggio: im Drop/Chorus breit & laut, im Verse dezent (Melodie bleibt vorn), Intro aus ----
+    if(!intro){ const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',big?0.07:0.038,0.001);
+      if(big && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.045,0.001);     // 2. Oktave = breiter Chip-Sound
+      if(big && ls%4===2){ for(const cn of ch) mVoice(time,midiF(cn+12+kt),secPerStep*0.5,'p25',0.03,0.002); } } // punchy Chip-Stab auf dem Backbeat
+    // ---- DRUMS: Intro = nur Eins · Drop/Chorus = Four-on-the-floor + fette Snare · Verse/Bridge = sparsam ----
     if(intro){ if(ls===0) mKick(time); }
-    else if(chorus){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
-    if((ls===4||ls===12) && !intro) mNoise(time,0.12,chorus?0.20:0.13,1800);                           // Snare
-    if(state===S.PLAY && !intro && ls%((song.hatEvery||2)*(chorus?1:2))===0) mNoise(time,0.025,chorus?0.06:0.04,8000); // Hats
-    if(FORM[(loopCount+1)%FORM.length].m==='chorus' && step>=58) mNoise(time,0.05,0.04+0.13*((step-58)/6),4200); // Riser in den nächsten Chorus
-    // ---- Prozedurale Arp-Schicht (im Chorus präsenter, im Verse luftig, Intro aus) ----
-    if(state===S.PLAY && !intro){ const ch=song.chords[block], V=loopCount;
-      const dens=chorus?[2,2,4,2][V%4]:[0,4,0,8][V%4];
-      if(dens && ls%dens===0){ const pat=V%3, k=Math.floor(step/dens), seq=ch.length;
+    else if(big){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
+    if((ls===4||ls===12) && !intro) mNoise(time,0.12,big?0.20:0.13,1800);                               // Snare
+    if(state===S.PLAY && !intro && ls%((song.hatEvery||2)*(big?1:2))===0) mNoise(time,0.025,big?0.06:0.04,8000); // Hats
+    // ---- Sparkle-Arp-Schicht NUR in Drop/Chorus (Verse/Bridge bleiben für die Melodie frei) ----
+    if(state===S.PLAY && big){ const ch=song.chords[block], V=loopCount;
+      const dens=[2,2,4,2][V%4];
+      if(ls%dens===0){ const pat=V%3, k=Math.floor(step/dens), seq=ch.length;
         const idx=pat===0?k%seq:pat===1?(seq-1-(k%seq)):[0,1,2,1][k%4]%seq;
-        mArp(time,midiF(ch[idx]+12+kt+(V%4===1?12:0)),secPerStep*0.62,chorus?0.045:0.026); }
-      if(chorus && step>=58){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24+kt),secPerStep*0.42,0.05); }
+        mArp(time,midiF(ch[idx]+12+kt+(V%4===1?12:0)),secPerStep*0.62,0.045); }
+      if(step>=58){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24+kt),secPerStep*0.42,0.05); }
     }
   }
   function scheduler(){
@@ -1841,12 +1855,12 @@
     for(let i=0;i<7;i++){ const yy=sr+6+i*i*3.4; if(yy>SS) break; so.fillRect(0,yy,SS,2.4+i*1.7); }
     // ---- Audio-Visualizer: bunte Wellenform der Musik quer durch die Sonne (additiv → leuchtet; Bloom blurrt sie weich) ----
     if(analyser && !muted){ analyser.getByteTimeDomainData(waveData);
-      so.globalCompositeOperation='lighter'; so.lineWidth=2.6; so.lineJoin='round'; so.lineCap='round';
-      const N=waveData.length, midY=sr, amp=sr*0.6*bp, eh=(elapsed||0)*55;
-      for(let lay=0;lay<3;lay++){ const hue=(eh+lay*65)%360;
-        so.strokeStyle=`hsla(${hue},100%,${64-lay*7}%,${0.5-lay*0.11})`;
+      so.globalCompositeOperation='lighter'; so.lineWidth=2.7; so.lineJoin='round'; so.lineCap='round';
+      const N=waveData.length, midY=sr, amp=sr*0.62*bp, eh=(elapsed||0)*70;       // schnellere Farbrotation = bunter
+      for(let lay=0;lay<5;lay++){ const hue=(eh+lay*48)%360;                       // 5 Regenbogen-Layer (vorher 3)
+        so.strokeStyle=`hsla(${hue},100%,${66-lay*4}%,${0.5-lay*0.07})`;
         so.beginPath();
-        for(let i=0;i<N;i++){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-1)*6; i?so.lineTo(x,y):so.moveTo(x,y); }
+        for(let i=0;i<N;i++){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-2)*5; i?so.lineTo(x,y):so.moveTo(x,y); }
         so.stroke(); }
     }
     so.restore();
@@ -1855,8 +1869,9 @@
     const dx=W/2-sr, dy=hz-sr;
     ctx.save();
     ctx.drawImage(sunOff,dx,dy);                                                                   // scharfe Sonne (klare Streifen)
-    ctx.imageSmoothingEnabled=true; ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.5;
-    ctx.drawImage(sunLo,dx-10,dy-10,SS+20,SS+20);                                                  // geblurrte Bloom-Überlagerung additiv obendrauf
+    ctx.imageSmoothingEnabled=true; ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.62;
+    ctx.drawImage(sunLo,dx-15,dy-15,SS+30,SS+30);                                                  // geblurrte Bloom-Überlagerung (etwas mehr Glow + Spread)
+    ctx.globalAlpha=0.28; ctx.drawImage(sunLo,dx-26,dy-26,SS+52,SS+52);                            // 2. weiterer Bloom-Ring für satteren Schein
     ctx.restore();
   }
 
