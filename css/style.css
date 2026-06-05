@@ -154,6 +154,8 @@
   .wtree-head .wlv{font-size:9px;letter-spacing:.12em;color:#9a86c9;}
   .wtree-head .drop{margin:0 0 0 2px;padding:2px 7px;font-size:11px;background:rgba(255,46,136,.18);color:#ff8ab5;border:none;border-radius:8px;cursor:pointer;}
   .wtree-head .drop:hover{background:rgba(255,46,136,.4);}
+  .warctag{align-self:center;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--wc,#9a86c9);text-shadow:0 0 7px var(--wc,transparent);opacity:.92;margin:1px 0 2px;}
   .tconn{width:2px;height:11px;background:linear-gradient(rgba(255,255,255,.35),rgba(255,255,255,.1));}
   .trow{display:flex;gap:10px;position:relative;justify-content:center;width:100%;}
   .trow::before{content:'';position:absolute;top:-1px;left:25%;right:25%;height:2px;background:rgba(255,255,255,.18);}
