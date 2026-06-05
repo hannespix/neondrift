@@ -284,8 +284,8 @@
       o.connect(g); g.connect(masterGain); o.start(); o.stop(actx.currentTime+dur);
     }catch(e){}
   }
-  const sfxOrb=c=>beep(440+Math.min(c,20)*40,0.12,'triangle',0.32);
-  const sfxNear=()=>beep(900,0.07,'sine',0.18,400);
+  const sfxOrb=c=>{ if(sfxGate('orb',45)) beep(440+Math.min(c,20)*40,0.12,'triangle',0.32); };
+  const sfxNear=()=>{ if(sfxGate('near',70)) beep(900,0.07,'sine',0.18,400); };
   const sfxStart=()=>{beep(523,0.09,'square',0.3);setTimeout(()=>beep(784,0.12,'square',0.3),90);};
   function sfxCrash(){beep(180,0.5,'sawtooth',0.5,-140);beep(90,0.6,'square',0.4,-50);}
   function duckMusic(dur){ if(!musicGain||!actx) return; const t=actx.currentTime;
@@ -309,8 +309,10 @@
   const sfxShieldBreak=()=>beep(300,0.25,'sawtooth',0.35,-150);
   const sfxUpgrade=()=>{beep(440,0.1,'triangle',0.3);setTimeout(()=>beep(660,0.1,'triangle',0.3),90);setTimeout(()=>beep(880,0.16,'triangle',0.35),180);};
   let shootTick=0;
-  function sfxShoot(){ shootTick^=1; beep(shootTick?900:980,0.035,'square',0.07,260); } // leiser, hoher Neon-Pew
-  function sfxKill(){ beep(360,0.12,'square',0.22,-180); beep(140,0.18,'sawtooth',0.18,-60); } // Pixel-Boom
+  // SFX-Drossel: begrenzt die Wiederholrate eines Sounds (gegen „Rauschwand" bei hoher Schuss-/Killfrequenz im Endgame)
+  const _sfxT={}; function sfxGate(key,ms){ const n=(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now(); if(n-(_sfxT[key]||0)<ms) return false; _sfxT[key]=n; return true; }
+  function sfxShoot(){ if(!sfxGate('shoot',58)) return; shootTick^=1; const lp=Math.min(300,((level||1)-1)*11); beep(shootTick?900+lp:980+lp,0.03,'square',0.06,260); } // gedrosselt (~17/s); Tonhöhe steigt mit Level = Eskalations-Gefühl
+  function sfxKill(){ if(!sfxGate('kill',50)) return; beep(360,0.12,'square',0.2,-180); beep(140,0.18,'sawtooth',0.16,-60); } // gedrosselt (~20/s)
   // ---- Boss-Tod-Sounds (je nach Abgangs-Animation) ----
   function sfxBoom(){ beep(120,0.55,'square',0.5,-80); beep(60,0.7,'sawtooth',0.42,-34); beep(220,0.3,'triangle',0.3,-160);
     for(let i=0;i<5;i++) setTimeout(()=>beep(rand(80,260),0.06,'square',0.18,-rand(20,90)),i*22); } // Donner + Geprassel
@@ -513,7 +515,7 @@
   function scheduleStep(step,time){
     const playing=(state!==S.MENU);
     musicShift=playing?levelKey(level||1):0;                                  // Tonart steigt pro Level
-    secPerStep=60/((BPM+(playing?Math.min(((level||1)-1)*4,40):0))*4);        // Tempo zieht pro Level an (bis +40 BPM)
+    secPerStep=60/((BPM+(playing?Math.min(((level||1)-1)*3,30):0))*4);        // Tempo zieht pro Level an (bis +30 BPM – eskaliert, bleibt aber klar/nicht matschig)
     const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
     const lv=song.leadVol||0.16, echo=song.chill?0.5:0.3;
     const block=Math.floor(step/16), ls=step%16;
@@ -585,7 +587,7 @@
       nextStepTime+=secPerStep; step16++;
       if(step16>=64){ step16=0; loopCount++;
         // Schleichender Song-Wechsel: vorgemerkten Song nur einblenden, wenn der nächste Loop eine ruhige Sektion ist
-        if(pendingSong>=0){ const nm=FORM[loopCount%FORM.length].m; if(nm==='intro'||nm==='verse'){ curSong=pendingSong; pendingSong=-1; } }
+        if(pendingSong>=0){ const nm=FORM[loopCount%FORM.length].m; if(nm==='intro'||nm==='verse'||nm==='bridge'){ curSong=pendingSong; pendingSong=-1; } } // mehr Wechsel-Fenster → weniger eintönig, trotzdem an ruhiger Stelle
       }
     }
   }
