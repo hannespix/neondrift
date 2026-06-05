@@ -1064,7 +1064,8 @@
         spawnT=Math.max(0.40,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
-    // (Power-Ups droppen jetzt aus zerstörten Gegnern, siehe killObstacle — kein Timer-Spawn mehr)
+    // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
+    powerupT-=dt; if(powerupT<=0){ if(powerups.length<3 && !bossActive) spawnPowerup(); powerupT=rand(8,14); }
     // Auto-Fire (sobald eine Waffe ausgerüstet ist)
     // Auto-Fire pro Waffe (touch-freundlich: feuert selbstständig sobald Cooldown bereit, Zielen automatisch)
     if(opt.guns){
@@ -1276,7 +1277,7 @@
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008);
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
-    if(Math.random() < 0.08*(mods.powerupRate||1)*((o.maxHp||1)>=3?2.0:1)) dropPowerup(o.cx,o.cy);
+    if(Math.random() < 0.10*(mods.powerupRate||1)*((o.maxHp||1)>=3?2.2:1)) dropPowerup(o.cx,o.cy);
     if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
       if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
@@ -1485,37 +1486,46 @@
   function buildShipSprite(r,up,nCan){
     const R=makeRng(shipSeed||1);
     const cp=Math.max(2,Math.round(r*0.34));                 // Pixel-Zellgröße
-    const gh=8+Math.min(7,(up*0.45)|0), gw=4+Math.min(4,(up*0.3)|0);
-    const wingLen=1+Math.min(5,(up*0.4)|0);
+    const gh=10+Math.min(8,(up*0.5)|0);                      // schlank & lang
+    const gw=2+Math.min(3,(up*0.22)|0);                      // schmaler Rumpf
+    const wingLen=3+Math.min(5,(up*0.4)|0);
+    const wingPairs=R()<0.55?2:1;                            // 2 = X-Wing-Silhouette, 1 = schlanker Interceptor
+    const sweep=0.55+R()*0.45;                               // Flügel-Pfeilung nach hinten
     const sk=curSkin(), hull=sk.hull, edge=sk.edge, acc=sk.rnd?SHIP_ACC[(R()*SHIP_ACC.length)|0]:sk.acc;
-    const pad=(wingLen+3)*cp, cw=(gw*2+1)*cp+pad*2, ch=(gh*2+1)*cp+pad*2, ox=pad+gw*cp, oy=pad+gh*cp;
+    const pad=(wingLen+4)*cp, cw=(gw*2+1)*cp+pad*2, ch=(gh*2+1)*cp+pad*2, ox=pad+gw*cp, oy=pad+gh*cp;
     const grid=new Map(), setc=(x,y,c)=>{ grid.set(x+','+y,c); grid.set((-x)+','+y,c); };
-    const harm=2+((R()*3)|0), ph=R()*6.28, edges={};
+    // --- Schlanker Rumpf mit langer, spitzer Nase ---
     for(let y=-gh;y<=gh;y++){ const ny=(y+gh)/(2*gh); let hw;
-      if(ny<0.16) hw=gw*0.16*(ny/0.16);
-      else if(ny<0.62) hw=gw*(0.32+0.68*((ny-0.16)/0.46));
-      else hw=gw*(1-0.45*((ny-0.62)/0.38));
-      hw=Math.max(0,Math.round(hw*(1+0.12*Math.sin(ny*Math.PI*harm+ph)))); edges[y]=hw;
+      if(ny<0.34) hw=gw*(ny/0.34);                           // lange spitze Nase
+      else if(ny<0.82) hw=gw*(0.45+0.55*((ny-0.34)/0.48));   // Rumpf, sanft breiter
+      else hw=gw*(1-0.55*((ny-0.82)/0.18));                  // Heck leicht verjüngt
+      hw=Math.max(0,Math.round(hw));
       for(let x=0;x<=hw;x++) setc(x,y,hull);
       setc(hw,y,edge);                                       // Neon-Kante
     }
-    // Cockpit (hell)
-    const cy0=-((gh*0.35)|0); for(let y=cy0;y<=cy0+2;y++){ setc(0,y,'#caffff'); setc(1,y,'#fff'); }
-    // Akzent-Strähne mittig
-    for(let y=-((gh*0.05)|0);y<=((gh*0.55)|0);y++) if(grid.has('0,'+y)) setc(0,y,acc);
-    // Flügel (Akzent) seitlich
-    for(let wy=((gh*0.18)|0);wy<=((gh*0.18)|0)+2;wy++){ const base=edges[wy]||gw; for(let k=1;k<=wingLen;k++) setc(base+k,wy,acc); }
-    if(R()<0.6){ const fy=((gh*0.55)|0), base=edges[fy]||gw; for(let k=1;k<=Math.max(1,wingLen-1);k++) setc(base+k,fy,edge); } // Finnen
-    // Kanonen vorne (mehr Striche = mehr Waffen)
-    for(let i=0;i<nCan;i++){ const col=Math.round(((i+0.5)/Math.max(1,nCan)*2-1)*(gw-0.5)), len=2+((R()*3)|0);
+    // --- Cockpit (hell, vorne) ---
+    const cy0=-((gh*0.32)|0); for(let y=cy0;y<=cy0+2;y++) setc(0,y,'#caffff'); setc(0,cy0+1,'#fff');
+    // --- mittige Akzent-Linie ---
+    for(let y=-((gh*0.06)|0);y<=((gh*0.6)|0);y++) if(grid.has('0,'+y)) setc(0,y,acc);
+    // --- Gepfeilte Flügel (X-Wing-Silhouette), je Strebe mit Spitzen-Kanone ---
+    const wys = wingPairs===2 ? [((gh*0.06)|0),((gh*0.62)|0)] : [((gh*0.38)|0)];
+    for(const wy of wys){
+      for(let k=1;k<=wingLen;k++){ const yy=Math.min(gh, wy+Math.round(k*sweep)), xx=gw+k;
+        setc(xx,yy,acc); setc(xx,yy-1,edge); }              // Strebe (2px) + Neon-Kante
+      const tx=gw+wingLen, ty=Math.min(gh, wy+Math.round(wingLen*sweep));
+      setc(tx,ty,'#fff');                                   // Flügelspitze
+      for(let k=1;k<=2;k++) setc(tx,ty-1-k,acc);            // Spitzen-Kanone nach vorne
+    }
+    // --- Frontkanonen (mehr Striche = mehr Waffen) ---
+    for(let i=0;i<nCan;i++){ const col=Math.round(((i+0.5)/Math.max(1,nCan)*2-1)*gw), len=2+((R()*2)|0);
       for(let k=0;k<=len;k++) grid.set(col+','+(-gh-1-k), (i%2?'#fff':acc)); }
-    // Greebles (zufällige Detail-Pixel je Run)
-    const keys=[...grid.keys()]; for(let i=0;i<3+((R()*5)|0);i++){ const p=keys[(R()*keys.length)|0].split(','); setc((+p[0]),(+p[1]), R()<0.5?'#fff':acc); }
+    // --- Greebles (prozedurale Detailpixel je Run) ---
+    const keys=[...grid.keys()]; for(let i=0;i<2+((R()*4)|0);i++){ const p=keys[(R()*keys.length)|0].split(','); setc((+p[0]),(+p[1]), R()<0.5?'#fff':acc); }
     // backen
     const cv=document.createElement('canvas'); cv.width=cw; cv.height=ch; const x=cv.getContext('2d');
     grid.forEach((c,k)=>{ const p=k.split(','), px=ox+(+p[0])*cp, py=oy+(+p[1])*cp; x.fillStyle=c; x.fillRect(px-cp/2,py-cp/2,cp,cp); });
     const nEng=Math.max(1,Math.min(4,1+((up/3)|0))), flameX=[];
-    for(let i=0;i<nEng;i++) flameX.push((i-(nEng-1)/2)*Math.max(cp*1.4,(gw*cp)/Math.max(1,nEng)));
+    for(let i=0;i<nEng;i++) flameX.push((i-(nEng-1)/2)*Math.max(cp*1.2,(gw*cp)/Math.max(1,nEng)));
     return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5};
   }
   function drawShip(){ const r=player.r;
