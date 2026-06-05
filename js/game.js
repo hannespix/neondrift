@@ -341,6 +341,19 @@
     {s:32,n:81,d:1},{s:33,n:83,d:1},{s:34,n:85,d:2},{s:36,n:88,d:2},{s:38,n:85,d:2},{s:40,n:83,d:1},{s:41,n:81,d:1},{s:42,n:78,d:2},{s:44,n:76,d:4},
     {s:48,n:73,d:1},{s:49,n:76,d:1},{s:50,n:78,d:1},{s:51,n:81,d:1},{s:52,n:83,d:2},{s:54,n:81,d:2},{s:56,n:76,d:4},{s:60,n:69,d:4}
   ];
+  // Lead D – STRATOSPHÄRE (G-Dur, hell & hymnisch, treibender Achtel-Bass)
+  const LEADD1=[
+    {s:0,n:74,d:2},{s:2,n:79,d:2},{s:4,n:78,d:2},{s:6,n:74,d:2},{s:8,n:76,d:4},{s:12,n:74,d:4},
+    {s:16,n:78,d:2},{s:18,n:74,d:2},{s:20,n:78,d:2},{s:22,n:81,d:2},{s:24,n:79,d:4},{s:28,n:74,d:4},
+    {s:32,n:76,d:2},{s:34,n:79,d:2},{s:36,n:83,d:2},{s:38,n:81,d:2},{s:40,n:79,d:4},{s:44,n:76,d:4},
+    {s:48,n:72,d:2},{s:50,n:76,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:74,d:4},{s:60,n:72,d:4}
+  ];
+  const LEADD2=[
+    {s:0,n:79,d:2},{s:2,n:83,d:2},{s:4,n:86,d:4},{s:8,n:83,d:2},{s:10,n:79,d:2},{s:12,n:81,d:4},
+    {s:16,n:81,d:2},{s:18,n:78,d:2},{s:20,n:74,d:2},{s:22,n:78,d:2},{s:24,n:81,d:4},{s:28,n:83,d:4},
+    {s:32,n:84,d:2},{s:34,n:83,d:2},{s:36,n:79,d:2},{s:38,n:76,d:2},{s:40,n:79,d:4},{s:44,n:83,d:4},
+    {s:48,n:84,d:2},{s:50,n:83,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:72,d:6}
+  ];
   // Menü-Lead – NEON CHILL (C-Dur, träumerisch, viel Raum, lange Töne)
   const LEADM1=[
     {s:0,n:72,d:6},{s:6,n:76,d:6},{s:12,n:74,d:4},
@@ -357,7 +370,8 @@
   const SONGS=[
     {name:'PROLOG',     lead1:LEAD1,  lead2:LEAD2,  bass:[36,45,41,43], chords:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]], lt:'square',   leadVol:0.16, bassEighths:false, fourFloor:false, hatEvery:2},
     {name:'NACHTFAHRT', lead1:LEADB1, lead2:LEADB2, bass:[38,34,36,33], chords:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]], lt:'sawtooth', leadVol:0.11, bassEighths:true,  fourFloor:false, hatEvery:4},
-    {name:'ÜBERTAKTET', lead1:LEADC1, lead2:LEADC2, bass:[45,40,42,38], chords:[[57,61,64],[52,56,59],[54,57,61],[50,54,57]], lt:'square',   leadVol:0.14, bassEighths:false, fourFloor:true,  hatEvery:1}
+    {name:'ÜBERTAKTET', lead1:LEADC1, lead2:LEADC2, bass:[45,40,42,38], chords:[[57,61,64],[52,56,59],[54,57,61],[50,54,57]], lt:'square',   leadVol:0.14, bassEighths:false, fourFloor:true,  hatEvery:1},
+    {name:'STRATOSPHÄRE',lead1:LEADD1, lead2:LEADD2, bass:[43,38,40,36], chords:[[55,59,62],[50,54,57],[52,55,59],[48,52,55]], lt:'sawtooth', leadVol:0.13, bassEighths:true,  fourFloor:false, hatEvery:2}
   ];
   // Eigener, entspannter Menü-Track (rotiert NICHT mit den Level-Songs)
   const MENU_SONG={name:'NEON CHILL', lead1:LEADM1, lead2:LEADM2, bass:[36,45,41,43],
@@ -400,6 +414,16 @@
     g.gain.setValueAtTime(0.55,time); g.gain.exponentialRampToValueAtTime(0.001,time+0.16);
     o.connect(g); g.connect(musicGain); o.start(time); o.stop(time+0.18);
   }
+  // Heller, kurzer Arpeggio-/Twinkle-Ton mit Echo – Basis der prozeduralen Variation
+  function mArp(time,freq,dur,vol){
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.type='triangle'; o.frequency.setValueAtTime(freq,time);
+    g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(vol,time+0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
+    o.connect(g); g.connect(musicGain);
+    if(musicDelay){ const s=actx.createGain(); s.gain.value=0.55; g.connect(s); s.connect(musicDelay); }
+    o.start(time); o.stop(time+dur+0.02);
+  }
   function sfxRiser(){ if(!actx||muted) return; try{
     const o=actx.createOscillator(), g=actx.createGain(); o.type='sawtooth';
     o.frequency.setValueAtTime(180,actx.currentTime); o.frequency.exponentialRampToValueAtTime(1900,actx.currentTime+0.7);
@@ -410,13 +434,15 @@
     const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
     const lead=(loopCount%2===1)?song.lead2:song.lead1;
     const lv=song.leadVol||0.16, echo=song.chill?0.72:0.45;
-    for(const e of lead) if(e.s===step) mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,lv,echo);
+    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,lv,echo);
+      if(loopCount%4===3 && e.d>=2 && !song.chill) mVoice(time,midiF(e.n+12),e.d*secPerStep*0.55,'triangle',lv*0.30,0.012); }  // Oktav-Schimmer (jeder 4. Loop)
     const block=Math.floor(step/16), ls=step%16, root=song.bass[block];
     if(song.chill){
       if(ls===0||ls===8) mVoice(time,midiF(root),secPerStep*5,'triangle',0.20,0.012);                 // weicher, ruhiger Bass
       if(ls===0){ for(const cn of song.chords[block]) mVoice(time,midiF(cn+12),secPerStep*15,'sine',0.03,0.06); } // sanfter Pad-Akkord
       if(ls===0||ls===8) mKick(time);                                                                  // entspannter Puls
       if(ls%4===2) mNoise(time,0.02,0.018,9000);                                                       // dezenter Shaker
+      if((ls===6||ls===14) && loopCount%2===0){ const c=song.chords[block]; mArp(time,midiF(c[(ls/2)%c.length]+24),secPerStep*1.6,0.022); } // träumerische Sparkle
       return;
     }
     if(song.bassEighths){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',0.27,0.004); } // treibender Achtel-Bass
@@ -426,6 +452,17 @@
     if(ls===4||ls===12) mNoise(time,0.12,0.16,1800);
     if(state===S.PLAY && ls%(song.hatEvery||2)===0) mNoise(time,0.025,0.05,8000);
     if(loopCount%2===1 && step>=60) mNoise(time,0.04,0.12,5000);
+    // ---- Prozedurale Schicht: Arpeggio-Twinkle (Muster & Dichte variieren pro Loop) + Loop-Ende-Fill ----
+    if(state===S.PLAY){
+      const ch=song.chords[block], V=loopCount, dens=[0,4,2,4,8,2,0,4][V%8];   // 0=Pause-Loop (lässt den Lead atmen)
+      if(dens && ls%dens===0){
+        const pat=V%3, k=Math.floor(step/dens), seq=ch.length;                // 0 auf · 1 ab · 2 pendel
+        const idx=pat===0?k%seq:pat===1?(seq-1-(k%seq)):[0,1,2,1][k%4]%seq;
+        const oc=(V%4===1?12:0);                                              // mal eine Oktave höher
+        mArp(time,midiF(ch[idx]+12+oc),secPerStep*0.62,song.fourFloor?0.038:0.05);
+      }
+      if(step>=58 && V%3!==2){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24),secPerStep*0.42,0.05); } // kleiner Lauf am Loop-Ende
+    }
   }
   function scheduler(){
     if(!actx) return;
