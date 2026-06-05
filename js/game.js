@@ -114,9 +114,9 @@
     fr:{rapid:['Tir Rapide','+50% cadence, un peu moins de dégâts'],heavy:['Tir Lourd','Plus lent, mais double dégâts'],scatter:['Dispersion','+2 projectiles (éventail), plus faibles'],precise:['Précision','+2 perforation, +40% dégâts'],swarm:['Essaim','2 missiles plus petits'],warhead:['Ogive','1 gros missile, +50% rayon'],shrapnel:['Éclats','L’explosion projette des éclats'],incendiary:['Incendiaire','L’explosion enflamme les cibles'],ember:['Braise','Brûlure presque doublée'],wildfire:['Embrasement','Le feu se propage à la mort'],accel:['Accélérant','Brûle plus vite (court, fort)'],consume:['Consumer','Les kills par feu donnent des points'],permafrost:['Permafrost','Ralenti plus long & plus fort'],glaciate:['Glaciation','Chance de geler totalement'],shatter:['Éclatement','Les cibles gelées éclatent (AoE)'],brittle:['Fragile','Les cibles gelées subissent +50%'],fork:['Ramification','+2 sauts, moins de dégâts'],highv:['Haute Tension','Moins de sauts, gros dégâts + stun'],stormhit:['Orage','Chaîne aussi sur les kills de tir'],dischargeaoe:['Décharge','Chaque saut avec petit AoE'],shock:['Onde de Choc','+40% de rayon'],overload:['Surcharge','+70% dégâts, plus lent'],repel:['Répulsion','Repousse les cibles touchées'],staticfield:['Champ Statique','Le pulsar ralentit les cibles'],charged:['Chargé','+80% dégâts, plus lent'],autoload:['Rechargeur','+70% cadence, moins de dégâts'],wide:['Rail Large','Rail deux fois plus large'],overdrive:['Overdrive','+50% dégâts du rail'],overcharge:['Haute Pression','+40% dégâts, plus lent'],stabil:['Stabilisateur','Éventail serré, +20% cadence'],volley:['Salve','+1 projectile, plus faibles'],lance:['Lance','+2 perforation, +30% dégâts'],cluster:['Grappe','+1 missile, plus faibles'],bunker:['Anti-Bunker','+50% dégâts, plus lent'],wide_aoe:['Grosse Explosion','+50% de rayon'],rapidload:['Chargeur Rapide','+60% cadence, moins de dégâts'],inferno:['Enfer','+60% dégâts de brûlure'],lingering:['Combustion','Brûle 80% plus longtemps'],blaze:['Embrasement','+50% cadence, un peu moins de dégâts'],firestorm:['Tempête de Feu','Plus de brûlure & durée, propage'],deepfreeze:['Grand Froid','Ralenti plus fort & long'],blizzard:['Blizzard','+50% cadence, moins de dégâts'],absolute:['Zéro Absolu','Gèle les cibles de façon fiable'],frostbite:['Gelure','+60% dégâts, plus lent'],arc:['Arc','+2 sauts, moins de dégâts'],conduit:['Conducteur','+60% dégâts, plus lent'],tempest:['Tempête','+50% cadence, moins de dégâts'],paralyze:['Paralysie','Stun plus long, +dégâts'],expand:['Expansion','+40% de rayon'],collapse:['Implosion','+60% dégâts, plus serré'],pulsar:['Pulsar','+60% cadence, moins de dégâts'],singularity:['Singularité','Repousse & ralentit'],piercebeam:['Voie Large','+60% largeur du faisceau'],hypervelocity:['Hypervitesse','+60% dégâts, plus lent'],gigawatt:['Gigawatt','+80% dégâts, bien plus lent'],repeater:['Rail Rapide','+80% cadence, moins de dégâts']}
   };
   const SYNTR={
-    de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +1 Sprung & +50% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 5. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele'],cryonova:['Cryonova','Nova-Puls verlangsamt zusätzlich alle Ziele'],plasma:['Plasma-Schiene','Railgun entzündet getroffene Ziele']},
-    en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +1 jump & +50% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 5th blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets'],cryonova:['Cryonova','Nova pulse also slows all targets'],plasma:['Plasma Rail','Railgun ignites targets it hits']},
-    fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +1 saut & +50% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 5e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent'],cryonova:['Cryonova','Le pulsar nova ralentit aussi les cibles'],plasma:['Rail Plasma','Le railgun enflamme les cibles touchées']}
+    de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +1 Sprung & +50% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 5. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele'],cryonova:['Cryonova','Nova-Puls verlangsamt zusätzlich alle Ziele'],plasma:['Plasma-Schiene','Railgun entzündet getroffene Ziele'],voltspark:['Voltbogen','Jeder Ketten-Treffer zündet eine Mini-Nova'],pyrobolt:['Pyro-Bolzen','Blaster-Bolzen entzünden getroffene Ziele']},
+    en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +1 jump & +50% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 5th blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets'],cryonova:['Cryonova','Nova pulse also slows all targets'],plasma:['Plasma Rail','Railgun ignites targets it hits'],voltspark:['Volt Arc','Each chain hit triggers a mini nova'],pyrobolt:['Pyro Bolt','Blaster bolts ignite the targets they hit']},
+    fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +1 saut & +50% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 5e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent'],cryonova:['Cryonova','Le pulsar nova ralentit aussi les cibles'],plasma:['Rail Plasma','Le railgun enflamme les cibles touchées'],voltspark:['Arc Volt','Chaque saut de chaîne déclenche une mini-nova'],pyrobolt:['Boulon Pyro','Les tirs du blaster enflamment les cibles']}
   };
   const wName=id=>((WTR[lang]&&WTR[lang][id])||WTR.en[id]||[id])[0];
   const wDesc=id=>(((WTR[lang]&&WTR[lang][id])||WTR.en[id]||['',''])[1])||'';
@@ -618,9 +618,13 @@
     {id:'tesla',  pair:['blaster','chain'],ico:'🌩️'},
     {id:'icebomb',pair:['frost','missile'],ico:'🧊'},
     {id:'cryonova',pair:['nova','frost'],  ico:'❄️'},
-    {id:'plasma', pair:['rail','flame'],   ico:'☄️'}
+    {id:'plasma', pair:['rail','flame'],   ico:'☄️'},
+    {id:'voltspark',pair:['chain','nova'], ico:'🟣'},
+    {id:'pyrobolt', pair:['blaster','flame'],ico:'🔥'}
   ];
-  let arsenal={slots:3,w:{}}, wpn={}, syn={};       // arsenal.w[id]={lvl,f1,f2}; wpn=aufgelöste Werte; syn=aktive Synergien
+  const SID=Object.fromEntries(SYNERGIES.map(s=>[s.id,s]));
+  const MAXSYN=2;                                    // nur 2 Fusionen gleichzeitig aktiv
+  let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
   let skillPts=0, arsenalSkillMode=false;            // Skillpunkte (pro Upgrade) → klickbarer Baum im Run
   const ownedW=()=>Object.keys(arsenal.w);
   const ownedCount=()=>ownedW().length;
@@ -669,7 +673,10 @@
       if(a.f3==='piercebeam'){width*=1.6;} if(a.f3==='hypervelocity'){dmg*=1.6;rate*=0.8;}
       if(a.f4==='gigawatt'){dmg*=1.8;rate*=0.7;} if(a.f4==='repeater'){rate*=1.8;dmg*=0.6;}
       wpn.rail={rate:rate*rm,dmg:dmg*dm,width,burn:false}; }
-    for(const s of SYNERGIES) syn[s.id]=has(s.pair[0])&&has(s.pair[1]);
+    activeSyn=activeSyn.filter(id=>{ const s=SID[id]; return s&&has(s.pair[0])&&has(s.pair[1]); }).slice(0,MAXSYN);  // nur wählbare Slots behalten
+    for(const s of SYNERGIES){ const avail=has(s.pair[0])&&has(s.pair[1]);   // neu verfügbare Fusion einmalig in freien Slot, danach frei wechselbar
+      if(avail && !synSeen[s.id]){ synSeen[s.id]=1; if(activeSyn.length<MAXSYN && !activeSyn.includes(s.id)) activeSyn.push(s.id); } }
+    for(const s of SYNERGIES) syn[s.id]=activeSyn.includes(s.id);                                                   // aktiv = in einem Fusions-Slot
     if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
     if(syn.cryonova&&wpn.nova) wpn.nova.slow=true;              // CRYONOVA: Puls verlangsamt
     if(syn.plasma&&wpn.rail) wpn.rail.burn=true;                // PLASMA: Schiene entzündet
@@ -688,7 +695,7 @@
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
           obSpeed:1,spawnMult:1,fog:0,invertX:false,
           gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2};
-    arsenal={slots:3,w:{}}; wpn={}; syn={}; skillPts=0; arsenalSkillMode=false;
+    arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
     obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[];
@@ -1122,6 +1129,7 @@
       if(wpn.chain){   tChain-=dt; if(tChain<=0){ fireChainW();   tChain=1/wpn.chain.rate; } }
       if(wpn.nova){    tNova-=dt;  if(tNova<=0){  fireNova();     tNova=1/wpn.nova.rate; } }
       if(wpn.rail){    tRail-=dt;  if(tRail<=0){  fireRail();     tRail=1/wpn.rail.rate; } }
+      if(synNovas.length){ const q=synNovas; synNovas=[]; for(const p of q) miniNova(p.x,p.y); }   // VOLTBOGEN: gequeuete Mini-Novas
       for(let i=beams.length-1;i>=0;i--){ beams[i].t-=dt; if(beams[i].t<=0) beams.splice(i,1); }
       for(let i=zaps.length-1;i>=0;i--){ zaps[i].t-=dt; if(zaps[i].t<=0) zaps.splice(i,1); }
       for(let i=novas.length-1;i>=0;i--){ novas[i].t+=dt; if(novas[i].t>=novas[i].life) novas.splice(i,1); }
@@ -1272,9 +1280,10 @@
   // ---------- Schuss / Explosionen ----------
   function fireBlaster(){ const w=wpn.blaster, n=w.bolts, spd=640, baseY=player.y-player.r-2;
     let teslaShot=false; if(syn.tesla){ teslaCount++; teslaShot=(teslaCount%5===0); }   // TESLA-SALVE: jeder 5. Bolzen verzweigt
+    const pyro=syn.pyrobolt, pdot=wpn.flame?wpn.flame.dot:0.9*(mods.wDmgMult||1), pcol=pyro?'#ff9a2e':'#caffff';   // PYRO-BOLZEN: Bolzen entzünden
     for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*w.spread;
-      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:'#caffff',tesla:teslaShot}); }
-    particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:teslaShot?'#9be7ff':'#caffff',size:rand(5,8)});
+      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?1.6:0}); }
+    particles.push({x:player.x,y:baseY,vx:0,vy:-30,life:1,decay:0.14,color:teslaShot?'#9be7ff':pcol,size:rand(5,8)});
     sfxShoot(); }
   function fireFlame(){ const w=wpn.flame, baseY=player.y-player.r-2;
     bullets.push({x:player.x,y:baseY,vx:rand(-30,30),vy:-560,r:6,dmg:w.dmg,pierce:0,col:'#ffae4d',burn:w.dot,burnDur:w.dur,burnSpread:w.spread,burnConsume:w.consume});
@@ -1295,7 +1304,7 @@
     const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.5;
     best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,h0.crit); if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
     if(w.aoe) chainAoe(best.cx,best.cy,dd*0.5);
-    const fx=best.cx,fy=best.cy,skip=[best]; if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0)obstacles.splice(ix,1); }
+    const fx=best.cx,fy=best.cy,skip=[best]; if(syn.voltspark) synNovas.push({x:fx,y:fy}); if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0)obstacles.splice(ix,1); }
     chainLightning(fx,fy,w.dmg,w.jumps-1,{skip,stun:w.stun,aoe:w.aoe}); beep(1300,0.03,'square',0.06,260); }
   // Nova-Puls: radiale Schockwelle um den Spieler (kein Zielen, Crowd-Control)
   function fireNova(){ const w=wpn.nova, R=w.radius;
@@ -1309,6 +1318,13 @@
     novas.push({x:player.x,y:player.y,r0:14,rMax:R,t:0,life:0.36,col});                       // expandierender Schockwellen-Ring
     for(let i=0;i<16;i++){ const a=i/16*6.28, s=R*2.4; particles.push({x:player.x+Math.cos(a)*16,y:player.y+Math.sin(a)*16,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:0.08,color:col,size:rand(3,6)}); }
     flash=Math.min(0.4,flash+0.1); flashColor=col; shake=Math.max(shake,4); beep(170,0.13,'sine',0.18,200); vibe(8); }
+  // VOLTBOGEN: kleine Nova an einem Ketten-Treffer (entkoppelt verarbeitet, damit das Splicen die Kette nicht stört)
+  function miniNova(x,y){ const R=56, dmg=(wpn.nova?wpn.nova.dmg*0.5:1.6)*(mods.wDmgMult||1);
+    for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
+      if(dx*dx+dy*dy<R*R){ o.hp-=dmg; o.hitFlash=0.1; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
+    novas.push({x,y,r0:6,rMax:R,t:0,life:0.28,col:'#c45bff'});
+    for(let i=0;i<7;i++){ const a=i/7*6.28; particles.push({x,y,vx:Math.cos(a)*R*2,vy:Math.sin(a)*R*2,life:1,decay:0.12,color:'#c45bff',size:rand(2,4)}); }
+    beep(220,0.06,'sine',0.10,160); }
   // Railgun: sofortige Schiene auf die nächste Bedrohung – trifft alle Ziele in der Spalte
   function fireRail(){ const w=wpn.rail; let bx=player.x,bd=1e9;
     for(const o of obstacles){ if(o.cy>player.y) continue; const dx=Math.abs(o.cx-player.x); if(dx<bd){bd=dx;bx=o.cx;} }
@@ -1364,7 +1380,7 @@
       const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.5;
       best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,hh.crit); if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
       if(opts.aoe) chainAoe(best.cx,best.cy,dd*0.5);
-      const nx=best.cx,ny=best.cy;
+      const nx=best.cx,ny=best.cy; if(syn.voltspark) synNovas.push({x:nx,y:ny});
       if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0) obstacles.splice(ix,1); }
       cx=nx; cy=ny; } }
   function arcParticles(x1,y1,x2,y2){
@@ -1801,6 +1817,14 @@
   function addWeaponSkill(id){ if(skillPts<=0||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; const before=Object.assign({},syn);
     arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
+  // Fusions-Slot belegen/wechseln: jederzeit, max 2. Bei vollem Slot ersetzt der älteste (FIFO) → flüssiges Umschalten.
+  function synAvail(id){ const s=SID[id]; return !!(s && arsenal.w[s.pair[0]] && arsenal.w[s.pair[1]]); }
+  function toggleSyn(id){ if(!synAvail(id)) return; const i=activeSyn.indexOf(id);
+    if(i>=0){ activeSyn.splice(i,1); }
+    else { if(activeSyn.length>=MAXSYN) activeSyn.shift(); activeSyn.push(id); }
+    recalcArsenal(); sfxPow(); vibe(12);
+    const on=activeSyn.includes(id); banner={text:SID[id].ico+' '+synName(id),sub:on?t('synOn'):t('synNeed'),t:1.2,color:'#ff2e88'};
+    renderArsenalView(); }
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
   function nodeState(a,slot,path){ const sel=a[slot];
     if(sel===path) return 'chosen';
@@ -1820,6 +1844,7 @@
       card.innerHTML=
         `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span><button class="cost drop">✕</button></div>`+
         `<div class="warctag" style="--wc:${w.col}">${wArch(id)}</div>`+
+        `<div class="wmech">${wDesc(id)}</div>`+
         `<div class="tnode base chosen"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
         `<div class="tconn"></div>`+
         `<div class="trow">${treeNode(id,'f1',f1[0])}${treeNode(id,'f1',f1[1])}</div>`+
@@ -1851,14 +1876,16 @@
           `<div class="cost done">${t('lockedW')}</div>`;
         wrap.appendChild(card); });
     const sd=document.getElementById('arsenalSyn'); if(sd){
-      const legend=`<div class="tlegend"><span class="lc chosen"></span>${t('legChosen')}<span class="lc avail"></span>${t('legAvail')}<span class="lc locked"></span>${t('legLocked')}</div>`;
-      // Synergie-„Rezeptbuch": ALLE Kombis zeigen (aktiv / fast / fehlt), damit man weiß, was man kombinieren muss
-      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0),on=syn[s.id];
-        const cls=on?'on':(owned===1?'near':'off');
-        const need=on?('<span class="synok">✓ '+t('synOn')+'</span>'):(owned===1?('<span class="synneed">'+t('synNeed')+' '+(hasA?WID[b].ico:WID[a].ico)+'</span>'):'');
-        return {owned:on?2:(owned===1?1:0),html:`<div class="synrow ${cls}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${need}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
-      rows.sort((x,y)=>y.owned-x.owned);   // aktive zuerst, dann „fast", dann Rest
-      sd.innerHTML=legend+'<h4>'+t('synTitle')+'</h4>'+rows.map(r=>r.html).join(''); }
+      // Fusions-Slots: ALLE Kombis als Info-/Equip-Karten. Antippen = in einen der 2 Slots legen / wieder raus (jederzeit).
+      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0);
+        const on=syn[s.id], can=synAvail(s.id)&&opt.guns;
+        const cls=on?'on':(can?'avail':(owned===1?'near':'off')), tap=(on||can)?' syntap':'';
+        const badge=on?'<span class="synok">✓</span>':(can?'<span class="synadd">＋</span>':(owned===1?('<span class="synneed">'+(hasA?WID[b].ico:WID[a].ico)+'</span>'):''));
+        const rank=on?3:(can?2:owned);
+        return {rank,html:`<div class="synrow ${cls}${tap}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${badge}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
+      rows.sort((x,y)=>y.rank-x.rank);   // aktiv → wählbar → fast → fehlt
+      sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">'+activeSyn.length+'/'+MAXSYN+'</span></h4>'+rows.map(r=>r.html).join('');
+      sd.querySelectorAll('.synrow.syntap').forEach(r=>r.addEventListener('click',()=>toggleSyn(r.dataset.syn))); }
   }
   // In-Run HUD: Waffenleiste mit Level-Pips + Synergie-Badges
   function drawArsenalHud(){ const ids=ownedW();
