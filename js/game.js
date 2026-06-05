@@ -313,68 +313,71 @@
   const levelKey=lv=>{ let s=((Math.max(1,lv)-1)*5)%12; if(s>6) s-=12; return s; };  // Quartenzirkel, ±6 Halbtöne → jedes Level klar andere Tonart
   // Lead A (C-Dur, heroisch)
   const LEAD1=[
-    {s:0,n:72,d:2},{s:2,n:76,d:2},{s:4,n:79,d:3},{s:7,n:77,d:1},{s:8,n:76,d:2},{s:10,n:72,d:2},{s:12,n:74,d:4},
-    {s:16,n:74,d:2},{s:18,n:77,d:2},{s:20,n:81,d:3},{s:23,n:79,d:1},{s:24,n:77,d:2},{s:26,n:76,d:2},{s:28,n:72,d:4},
-    {s:32,n:72,d:2},{s:34,n:76,d:2},{s:36,n:79,d:2},{s:38,n:84,d:2},{s:40,n:83,d:2},{s:42,n:79,d:2},{s:44,n:76,d:4},
-    {s:48,n:74,d:1},{s:49,n:76,d:1},{s:50,n:77,d:2},{s:52,n:79,d:4},{s:56,n:71,d:2},{s:58,n:74,d:2},{s:60,n:72,d:4}
+    {s:0,n:72,d:2},{s:2,n:76,d:2},{s:4,n:79,d:2},{s:6,n:76,d:1},{s:7,n:74,d:1},{s:8,n:72,d:2},{s:10,n:71,d:1},{s:11,n:69,d:1},
+    {s:12,n:67,d:4},{s:16,n:69,d:2},{s:18,n:72,d:2},{s:20,n:76,d:2},{s:22,n:74,d:1},{s:23,n:72,d:1},{s:24,n:69,d:2},{s:26,n:72,d:2},
+    {s:28,n:64,d:4},{s:32,n:65,d:2},{s:34,n:69,d:2},{s:36,n:72,d:2},{s:38,n:74,d:1},{s:39,n:76,d:1},{s:40,n:77,d:2},{s:42,n:72,d:2},
+    {s:44,n:69,d:4},{s:48,n:74,d:2},{s:50,n:71,d:2},{s:52,n:67,d:2},{s:54,n:69,d:1},{s:55,n:71,d:1},{s:56,n:74,d:2},{s:58,n:79,d:2},
+    {s:60,n:72,d:4}
   ];
   const LEAD2=[
-    {s:0,n:76,d:1},{s:1,n:79,d:1},{s:2,n:84,d:2},{s:4,n:83,d:2},{s:6,n:79,d:2},{s:8,n:81,d:4},{s:13,n:79,d:1},{s:14,n:77,d:2},
-    {s:16,n:77,d:2},{s:18,n:74,d:2},{s:20,n:72,d:2},{s:22,n:74,d:2},{s:24,n:76,d:4},{s:28,n:72,d:4},
-    {s:32,n:72,d:2},{s:34,n:79,d:2},{s:36,n:84,d:2},{s:38,n:88,d:2},{s:40,n:86,d:4},{s:44,n:83,d:4},
-    {s:48,n:81,d:2},{s:50,n:79,d:2},{s:52,n:77,d:2},{s:54,n:76,d:2},{s:56,n:74,d:2},{s:58,n:72,d:6}
+    {s:0,n:84,d:2},{s:2,n:79,d:2},{s:4,n:76,d:2},{s:6,n:72,d:2},{s:8,n:74,d:1},{s:9,n:76,d:1},{s:10,n:79,d:2},{s:12,n:84,d:4},
+    {s:16,n:81,d:2},{s:18,n:76,d:2},{s:20,n:72,d:2},{s:22,n:69,d:2},{s:24,n:76,d:2},{s:26,n:72,d:1},{s:27,n:69,d:1},{s:28,n:64,d:4},
+    {s:32,n:77,d:2},{s:34,n:72,d:2},{s:36,n:69,d:2},{s:38,n:65,d:2},{s:40,n:72,d:1},{s:41,n:74,d:1},{s:42,n:77,d:2},{s:44,n:81,d:4},
+    {s:48,n:79,d:2},{s:50,n:74,d:2},{s:52,n:71,d:2},{s:54,n:67,d:2},{s:56,n:74,d:2},{s:58,n:71,d:1},{s:59,n:74,d:1},{s:60,n:79,d:4}
   ];
   // Lead B – NACHTFAHRT (d-Moll, tief, gezogen/dunkel)
   const LEADB1=[
-    {s:0,n:62,d:4},{s:4,n:65,d:2},{s:6,n:64,d:2},{s:8,n:62,d:4},{s:12,n:60,d:4},
-    {s:16,n:58,d:4},{s:20,n:62,d:2},{s:22,n:65,d:2},{s:24,n:69,d:4},{s:28,n:67,d:4},
-    {s:32,n:65,d:2},{s:34,n:67,d:2},{s:36,n:69,d:2},{s:38,n:70,d:2},{s:40,n:69,d:4},{s:44,n:65,d:4},
-    {s:48,n:62,d:2},{s:50,n:65,d:2},{s:52,n:69,d:2},{s:54,n:74,d:2},{s:56,n:72,d:4},{s:60,n:69,d:4}
+    {s:0,n:74,d:2},{s:2,n:69,d:2},{s:4,n:70,d:1},{s:5,n:72,d:1},{s:6,n:70,d:1},{s:7,n:69,d:1},{s:8,n:65,d:2},{s:10,n:69,d:2},{s:12,n:74,d:4},
+    {s:16,n:70,d:2},{s:18,n:74,d:2},{s:20,n:77,d:2},{s:22,n:74,d:1},{s:23,n:70,d:1},{s:24,n:69,d:2},{s:26,n:65,d:2},{s:28,n:62,d:4},
+    {s:32,n:72,d:2},{s:34,n:76,d:2},{s:36,n:79,d:2},{s:38,n:76,d:1},{s:39,n:72,d:1},{s:40,n:70,d:2},{s:42,n:67,d:2},{s:44,n:64,d:4},
+    {s:48,n:69,d:2},{s:50,n:72,d:2},{s:52,n:76,d:2},{s:54,n:72,d:1},{s:55,n:69,d:1},{s:56,n:65,d:2},{s:58,n:69,d:2},{s:60,n:62,d:4}
   ];
   const LEADB2=[
-    {s:0,n:69,d:2},{s:2,n:70,d:2},{s:4,n:69,d:2},{s:6,n:67,d:2},{s:8,n:65,d:4},{s:12,n:62,d:4},
-    {s:16,n:65,d:2},{s:18,n:69,d:2},{s:20,n:74,d:4},{s:24,n:72,d:2},{s:26,n:70,d:2},{s:28,n:69,d:4},
-    {s:32,n:74,d:2},{s:34,n:72,d:2},{s:36,n:70,d:2},{s:38,n:69,d:2},{s:40,n:67,d:2},{s:42,n:65,d:2},{s:44,n:62,d:4},
-    {s:48,n:64,d:2},{s:50,n:65,d:2},{s:52,n:67,d:2},{s:54,n:69,d:2},{s:56,n:62,d:6}
+    {s:0,n:81,d:2},{s:2,n:77,d:2},{s:4,n:74,d:2},{s:6,n:69,d:2},{s:8,n:74,d:1},{s:9,n:77,d:1},{s:10,n:81,d:2},{s:12,n:86,d:4},
+    {s:16,n:82,d:2},{s:18,n:77,d:2},{s:20,n:74,d:2},{s:22,n:70,d:2},{s:24,n:72,d:2},{s:26,n:76,d:1},{s:27,n:79,d:1},{s:28,n:72,d:4},
+    {s:32,n:79,d:2},{s:34,n:76,d:2},{s:36,n:72,d:2},{s:38,n:67,d:2},{s:40,n:69,d:1},{s:41,n:72,d:1},{s:42,n:76,d:2},{s:44,n:81,d:4},
+    {s:48,n:76,d:2},{s:50,n:74,d:2},{s:52,n:69,d:2},{s:54,n:65,d:2},{s:56,n:69,d:2},{s:58,n:72,d:1},{s:59,n:74,d:1},{s:60,n:62,d:4}
   ];
   // Lead C – ÜBERTAKTET (A-Dur, hoch, hektisch 16tel)
   const LEADC1=[
-    {s:0,n:81,d:1},{s:1,n:78,d:1},{s:2,n:76,d:1},{s:3,n:73,d:1},{s:4,n:76,d:1},{s:5,n:78,d:1},{s:6,n:81,d:2},{s:8,n:83,d:1},{s:9,n:81,d:1},{s:10,n:78,d:2},{s:12,n:76,d:2},{s:14,n:73,d:2},
-    {s:16,n:71,d:1},{s:17,n:73,d:1},{s:18,n:76,d:1},{s:19,n:78,d:1},{s:20,n:81,d:2},{s:22,n:78,d:2},{s:24,n:76,d:1},{s:25,n:73,d:1},{s:26,n:71,d:2},{s:28,n:69,d:4},
-    {s:32,n:76,d:1},{s:33,n:78,d:1},{s:34,n:81,d:1},{s:35,n:83,d:1},{s:36,n:85,d:2},{s:38,n:83,d:2},{s:40,n:81,d:1},{s:41,n:78,d:1},{s:42,n:76,d:2},{s:44,n:73,d:4},
-    {s:48,n:81,d:1},{s:49,n:83,d:1},{s:50,n:81,d:1},{s:51,n:78,d:1},{s:52,n:76,d:2},{s:54,n:73,d:2},{s:56,n:69,d:1},{s:57,n:73,d:1},{s:58,n:76,d:2},{s:60,n:81,d:4}
+    {s:0,n:81,d:1},{s:1,n:80,d:1},{s:2,n:78,d:1},{s:3,n:76,d:1},{s:4,n:73,d:2},{s:6,n:76,d:2},{s:8,n:81,d:1},{s:9,n:78,d:1},
+    {s:10,n:76,d:1},{s:11,n:73,d:1},{s:12,n:69,d:4},{s:16,n:80,d:1},{s:17,n:76,d:1},{s:18,n:73,d:2},{s:20,n:68,d:2},{s:22,n:71,d:2},
+    {s:24,n:76,d:1},{s:25,n:73,d:1},{s:26,n:68,d:2},{s:28,n:64,d:4},{s:32,n:78,d:1},{s:33,n:74,d:1},{s:34,n:69,d:2},{s:36,n:73,d:2},
+    {s:38,n:78,d:2},{s:40,n:81,d:1},{s:41,n:78,d:1},{s:42,n:74,d:2},{s:44,n:69,d:4},{s:48,n:74,d:1},{s:49,n:78,d:1},{s:50,n:81,d:2},
+    {s:52,n:85,d:2},{s:54,n:81,d:2},{s:56,n:78,d:1},{s:57,n:74,d:1},{s:58,n:69,d:2},{s:60,n:73,d:4}
   ];
   const LEADC2=[
-    {s:0,n:76,d:1},{s:1,n:78,d:1},{s:2,n:81,d:2},{s:4,n:78,d:1},{s:5,n:76,d:1},{s:6,n:73,d:2},{s:8,n:76,d:1},{s:9,n:78,d:1},{s:10,n:81,d:1},{s:11,n:83,d:1},{s:12,n:85,d:4},
-    {s:16,n:83,d:1},{s:17,n:81,d:1},{s:18,n:78,d:2},{s:20,n:76,d:1},{s:21,n:78,d:1},{s:22,n:81,d:2},{s:24,n:78,d:2},{s:26,n:76,d:2},{s:28,n:73,d:4},
-    {s:32,n:81,d:1},{s:33,n:83,d:1},{s:34,n:85,d:2},{s:36,n:88,d:2},{s:38,n:85,d:2},{s:40,n:83,d:1},{s:41,n:81,d:1},{s:42,n:78,d:2},{s:44,n:76,d:4},
-    {s:48,n:73,d:1},{s:49,n:76,d:1},{s:50,n:78,d:1},{s:51,n:81,d:1},{s:52,n:83,d:2},{s:54,n:81,d:2},{s:56,n:76,d:4},{s:60,n:69,d:4}
+    {s:0,n:85,d:1},{s:1,n:81,d:1},{s:2,n:78,d:2},{s:4,n:76,d:1},{s:5,n:73,d:1},{s:6,n:69,d:2},{s:8,n:73,d:1},{s:9,n:76,d:1},
+    {s:10,n:78,d:1},{s:11,n:81,d:1},{s:12,n:85,d:4},{s:16,n:83,d:1},{s:17,n:80,d:1},{s:18,n:76,d:2},{s:20,n:71,d:2},{s:22,n:68,d:2},
+    {s:24,n:71,d:1},{s:25,n:76,d:1},{s:26,n:80,d:2},{s:28,n:76,d:4},{s:32,n:81,d:1},{s:33,n:78,d:1},{s:34,n:73,d:2},{s:36,n:69,d:2},
+    {s:38,n:73,d:2},{s:40,n:78,d:1},{s:41,n:81,d:1},{s:42,n:85,d:2},{s:44,n:90,d:4},{s:48,n:86,d:1},{s:49,n:81,d:1},{s:50,n:78,d:2},
+    {s:52,n:74,d:2},{s:54,n:69,d:2},{s:56,n:73,d:1},{s:57,n:78,d:1},{s:58,n:81,d:2},{s:60,n:69,d:4}
   ];
   // Lead D – STRATOSPHÄRE (G-Dur, hell & hymnisch, treibender Achtel-Bass)
   const LEADD1=[
-    {s:0,n:74,d:2},{s:2,n:79,d:2},{s:4,n:78,d:2},{s:6,n:74,d:2},{s:8,n:76,d:4},{s:12,n:74,d:4},
-    {s:16,n:78,d:2},{s:18,n:74,d:2},{s:20,n:78,d:2},{s:22,n:81,d:2},{s:24,n:79,d:4},{s:28,n:74,d:4},
-    {s:32,n:76,d:2},{s:34,n:79,d:2},{s:36,n:83,d:2},{s:38,n:81,d:2},{s:40,n:79,d:4},{s:44,n:76,d:4},
-    {s:48,n:72,d:2},{s:50,n:76,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:74,d:4},{s:60,n:72,d:4}
+    {s:0,n:79,d:2},{s:2,n:74,d:2},{s:4,n:71,d:2},{s:6,n:74,d:1},{s:7,n:76,d:1},{s:8,n:79,d:2},{s:10,n:83,d:2},{s:12,n:79,d:4},
+    {s:16,n:78,d:2},{s:18,n:74,d:2},{s:20,n:71,d:2},{s:22,n:69,d:2},{s:24,n:74,d:2},{s:26,n:78,d:1},{s:27,n:81,d:1},{s:28,n:74,d:4},
+    {s:32,n:76,d:2},{s:34,n:79,d:2},{s:36,n:83,d:2},{s:38,n:79,d:1},{s:39,n:76,d:1},{s:40,n:74,d:2},{s:42,n:71,d:2},{s:44,n:67,d:4},
+    {s:48,n:72,d:2},{s:50,n:76,d:2},{s:52,n:79,d:2},{s:54,n:76,d:1},{s:55,n:72,d:1},{s:56,n:74,d:2},{s:58,n:79,d:2},{s:60,n:79,d:4}
   ];
   const LEADD2=[
-    {s:0,n:79,d:2},{s:2,n:83,d:2},{s:4,n:86,d:4},{s:8,n:83,d:2},{s:10,n:79,d:2},{s:12,n:81,d:4},
-    {s:16,n:81,d:2},{s:18,n:78,d:2},{s:20,n:74,d:2},{s:22,n:78,d:2},{s:24,n:81,d:4},{s:28,n:83,d:4},
-    {s:32,n:84,d:2},{s:34,n:83,d:2},{s:36,n:79,d:2},{s:38,n:76,d:2},{s:40,n:79,d:4},{s:44,n:83,d:4},
-    {s:48,n:84,d:2},{s:50,n:83,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:72,d:6}
+    {s:0,n:86,d:2},{s:2,n:83,d:2},{s:4,n:79,d:2},{s:6,n:74,d:2},{s:8,n:79,d:1},{s:9,n:83,d:1},{s:10,n:86,d:2},{s:12,n:91,d:4},
+    {s:16,n:90,d:2},{s:18,n:86,d:2},{s:20,n:81,d:2},{s:22,n:78,d:2},{s:24,n:81,d:2},{s:26,n:86,d:1},{s:27,n:90,d:1},{s:28,n:81,d:4},
+    {s:32,n:83,d:2},{s:34,n:79,d:2},{s:36,n:76,d:2},{s:38,n:71,d:2},{s:40,n:76,d:1},{s:41,n:79,d:1},{s:42,n:83,d:2},{s:44,n:88,d:4},
+    {s:48,n:84,d:2},{s:50,n:79,d:2},{s:52,n:76,d:2},{s:54,n:72,d:2},{s:56,n:79,d:2},{s:58,n:83,d:1},{s:59,n:86,d:1},{s:60,n:79,d:4}
   ];
   // Lead E – ARKADE (A-Moll, eingängiger Chiptune-Ohrwurm, treibend)
   const LEADE1=[
-    {s:0,n:76,d:2},{s:2,n:71,d:1},{s:3,n:72,d:1},{s:4,n:74,d:2},{s:6,n:72,d:1},{s:7,n:71,d:1},{s:8,n:69,d:2},{s:10,n:69,d:1},{s:11,n:72,d:1},{s:12,n:76,d:2},{s:14,n:74,d:2},
-    {s:16,n:72,d:2},{s:18,n:74,d:2},{s:20,n:71,d:2},{s:22,n:67,d:2},{s:24,n:67,d:4},{s:28,n:74,d:4},
-    {s:32,n:72,d:2},{s:34,n:69,d:2},{s:36,n:65,d:2},{s:38,n:69,d:2},{s:40,n:72,d:4},{s:44,n:69,d:4},
-    {s:48,n:71,d:2},{s:50,n:74,d:2},{s:52,n:72,d:2},{s:54,n:71,d:2},{s:56,n:69,d:4},{s:60,n:67,d:4}
+    {s:0,n:81,d:2},{s:2,n:84,d:2},{s:4,n:83,d:1},{s:5,n:81,d:1},{s:6,n:79,d:1},{s:7,n:77,d:1},{s:8,n:76,d:2},{s:10,n:72,d:2},{s:12,n:69,d:4},
+    {s:16,n:79,d:2},{s:18,n:83,d:2},{s:20,n:86,d:2},{s:22,n:83,d:1},{s:23,n:79,d:1},{s:24,n:77,d:2},{s:26,n:74,d:2},{s:28,n:71,d:4},
+    {s:32,n:77,d:2},{s:34,n:81,d:2},{s:36,n:84,d:2},{s:38,n:81,d:1},{s:39,n:77,d:1},{s:40,n:76,d:2},{s:42,n:72,d:2},{s:44,n:69,d:4},
+    {s:48,n:74,d:2},{s:50,n:79,d:2},{s:52,n:83,d:2},{s:54,n:79,d:1},{s:55,n:76,d:1},{s:56,n:74,d:2},{s:58,n:71,d:2},{s:60,n:67,d:4}
   ];
   const LEADE2=[
-    {s:0,n:81,d:2},{s:2,n:79,d:2},{s:4,n:76,d:2},{s:6,n:79,d:2},{s:8,n:81,d:4},{s:12,n:84,d:4},
-    {s:16,n:83,d:2},{s:18,n:79,d:2},{s:20,n:74,d:2},{s:22,n:79,d:2},{s:24,n:83,d:4},{s:28,n:81,d:4},
-    {s:32,n:81,d:2},{s:34,n:77,d:2},{s:36,n:72,d:2},{s:38,n:77,d:2},{s:40,n:81,d:4},{s:44,n:84,d:4},
-    {s:48,n:83,d:2},{s:50,n:81,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:74,d:6}
+    {s:0,n:84,d:2},{s:2,n:81,d:2},{s:4,n:76,d:2},{s:6,n:72,d:2},{s:8,n:76,d:1},{s:9,n:81,d:1},{s:10,n:84,d:2},{s:12,n:88,d:4},
+    {s:16,n:86,d:2},{s:18,n:83,d:2},{s:20,n:79,d:2},{s:22,n:74,d:2},{s:24,n:79,d:2},{s:26,n:83,d:1},{s:27,n:86,d:1},{s:28,n:79,d:4},
+    {s:32,n:84,d:2},{s:34,n:81,d:2},{s:36,n:77,d:2},{s:38,n:72,d:2},{s:40,n:77,d:1},{s:41,n:81,d:1},{s:42,n:84,d:2},{s:44,n:89,d:4},
+    {s:48,n:86,d:2},{s:50,n:83,d:2},{s:52,n:79,d:2},{s:54,n:76,d:2},{s:56,n:79,d:2},{s:58,n:76,d:1},{s:59,n:79,d:1},{s:60,n:81,d:4}
   ];
   // Menü-Lead – NEON CHILL (C-Dur, träumerisch, viel Raum, lange Töne)
   const LEADM1=[
@@ -450,6 +453,19 @@
     g.gain.setValueAtTime(0.55,time); g.gain.exponentialRampToValueAtTime(0.001,time+0.16);
     o.connect(g); g.connect(musicGain); o.start(time); o.stop(time+0.18);
   }
+  // Prise Dubstep: Half-Time-Wobble-Sub (Säge+Sub durch resonanten Tiefpass, LFO moduliert die Cutoff = „Wob").
+  // Bewusst die einzige Säge (= EDM-Schicht, kontrastiert den Chip-Lead) und nur auf der Chorus-Eins.
+  function mWobble(time,freq,dur){
+    const o=actx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(freq,time);
+    const sub=actx.createOscillator(); sub.type='sine'; sub.frequency.setValueAtTime(freq/2,time);
+    const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=9; lp.frequency.setValueAtTime(650,time);
+    const lfo=actx.createOscillator(); lfo.type='sine'; lfo.frequency.setValueAtTime(1/(secPerStep*2),time); // achtelsynchroner Wobble
+    const lg=actx.createGain(); lg.gain.value=520; lfo.connect(lg); lg.connect(lp.frequency);
+    const g=actx.createGain(); g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(0.13,time+0.02);
+    g.gain.setValueAtTime(0.13,time+dur*0.75); g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
+    o.connect(lp); sub.connect(lp); lp.connect(g); g.connect(musicGain);
+    o.start(time); sub.start(time); lfo.start(time); o.stop(time+dur+0.02); sub.stop(time+dur+0.02); lfo.stop(time+dur+0.02);
+  }
   // Heller, kurzer Arpeggio-/Twinkle-Ton mit Echo – Basis der prozeduralen Variation
   function mArp(time,freq,dur,vol){
     const o=actx.createOscillator(), g=actx.createGain();
@@ -495,7 +511,7 @@
     else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:(intro?0.2:0.27),0.004); else if(ls%4===2 && !intro) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
     // ---- EPISCHE Power-Akkorde NUR im Chorus (tiefe Oktave + Quinte + Oktave, voller Puls = Wucht) ----
     if(chorus && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'p50',0.07,0.012); }
-    if(chorus && ls===0) mNoise(time,0.22,0.13,3000);   // Crash auf der Chorus-Eins (Bombast)
+    if(chorus && ls===0){ mNoise(time,0.22,0.13,3000); mWobble(time,midiF(root-12),secPerStep*7); }   // Crash + Dubstep-Wobble-Sub auf der Chorus-Eins
     // ---- Klassischer Chiptune-Arpeggio-Akkord (Akkordtöne im schnellen 16tel-Wechsel, 12% Puls = NES/GB-Sound) ----
     { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',chorus?0.05:0.04,0.001);
       if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.03,0.001); }   // Chorus: zweite Oktave drauf = breiter Chip-Sound
