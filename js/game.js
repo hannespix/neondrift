@@ -456,15 +456,16 @@
   // Prise Dubstep: Half-Time-Wobble-Sub (Säge+Sub durch resonanten Tiefpass, LFO moduliert die Cutoff = „Wob").
   // Bewusst die einzige Säge (= EDM-Schicht, kontrastiert den Chip-Lead) und nur auf der Chorus-Eins.
   function mWobble(time,freq,dur){
-    const o=actx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(freq,time);
-    const sub=actx.createOscillator(); sub.type='sine'; sub.frequency.setValueAtTime(freq/2,time);
-    const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=9; lp.frequency.setValueAtTime(650,time);
-    const lfo=actx.createOscillator(); lfo.type='sine'; lfo.frequency.setValueAtTime(1/(secPerStep*2),time); // achtelsynchroner Wobble
-    const lg=actx.createGain(); lg.gain.value=520; lfo.connect(lg); lg.connect(lp.frequency);
-    const g=actx.createGain(); g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(0.13,time+0.02);
-    g.gain.setValueAtTime(0.13,time+dur*0.75); g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
-    o.connect(lp); sub.connect(lp); lp.connect(g); g.connect(musicGain);
-    o.start(time); sub.start(time); lfo.start(time); o.stop(time+dur+0.02); sub.stop(time+dur+0.02); lfo.stop(time+dur+0.02);
+    const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=12; lp.frequency.setValueAtTime(480,time);
+    const lfo=actx.createOscillator(); lfo.type='sine'; lfo.frequency.setValueAtTime(1/(secPerStep*2),time);   // achtelsynchroner Wobble
+    const lg=actx.createGain(); lg.gain.value=900; lfo.connect(lg); lg.connect(lp.frequency);                  // tiefe Cutoff-Modulation = fetter Grind
+    const g=actx.createGain(); g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(0.17,time+0.02);
+    g.gain.setValueAtTime(0.17,time+dur*0.8); g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
+    const sub=actx.createOscillator(); sub.type='sine'; sub.frequency.setValueAtTime(freq/2,time); sub.connect(lp);
+    const oscs=[sub];
+    for(const det of [-9,9]){ const o=actx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(freq,time); o.detune.setValueAtTime(det,time); o.connect(lp); oscs.push(o); } // 2 verstimmte Sägen = breit/grindig
+    lp.connect(g); g.connect(musicGain);
+    const end=time+dur+0.02; lfo.start(time); lfo.stop(end); for(const o of oscs){ o.start(time); o.stop(end); }
   }
   // Heller, kurzer Arpeggio-/Twinkle-Ton mit Echo – Basis der prozeduralen Variation
   function mArp(time,freq,dur,vol){
@@ -507,14 +508,16 @@
       return;
     }
     // ---- BASS (Chorus voller · Intro sparsam) ----
-    if(song.bassEighths && !intro){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',chorus?0.30:0.24,0.004); } // treibender Achtel-Bass
+    if(song.bassEighths && !intro){ if(ls%2===0) mVoice(time,midiF(root+((chorus&&ls%4===2)?12:0)),secPerStep*1.5,'triangle',chorus?0.30:0.24,0.004); } // treibender Achtel-Bass (Chorus: NES-Oktav-Bounce)
     else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:(intro?0.2:0.27),0.004); else if(ls%4===2 && !intro) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
     // ---- EPISCHE Power-Akkorde NUR im Chorus (tiefe Oktave + Quinte + Oktave, voller Puls = Wucht) ----
     if(chorus && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'p50',0.07,0.012); }
-    if(chorus && ls===0){ mNoise(time,0.22,0.13,3000); mWobble(time,midiF(root-12),secPerStep*7); }   // Crash + Dubstep-Wobble-Sub auf der Chorus-Eins
+    if(chorus && ls===0) mNoise(time,0.22,0.13,3000);                                                  // Crash auf der Chorus-Eins
+    if((chorus && (ls===0||ls===8)) || (bridge && ls===0)) mWobble(time,midiF(root-12),secPerStep*7.5); // Dubstep-Wobble: Chorus 2×/Loop + Bridge → grummelt durch
     // ---- Klassischer Chiptune-Arpeggio-Akkord (Akkordtöne im schnellen 16tel-Wechsel, 12% Puls = NES/GB-Sound) ----
-    { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',chorus?0.05:0.04,0.001);
-      if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.03,0.001); }   // Chorus: zweite Oktave drauf = breiter Chip-Sound
+    { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',chorus?0.07:0.045,0.001);
+      if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.045,0.001);     // Chorus: zweite Oktave drauf = breiter Chip-Sound
+      if(chorus && ls%4===2){ for(const cn of ch) mVoice(time,midiF(cn+12+kt),secPerStep*0.5,'p25',0.03,0.002); } } // punchy Chip-Stab auf dem Backbeat
     // ---- DRUMS: Intro = nur Eins · Chorus = Four-on-the-floor + fette Snare · Verse = sparsam ----
     if(intro){ if(ls===0) mKick(time); }
     else if(chorus){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
@@ -783,7 +786,7 @@
     upStep=500; nextUpgradeAt=500;                                                                       // Upgrade-Karten/Skillpunkte etwas seltener
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
-    curSong=0; curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
+    curSong=Math.floor(Math.random()*SONGS.length); curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
@@ -1083,7 +1086,8 @@
   function levelUp(){ level++; levelTimer=levelDuration;
     const u=UNLOCK[level]; let sub=t('faster');
     if(u){ unlocked.push(u.key); sub=t('newForm')+formName(u.key); }
-    const ns=(level-1)%SONGS.length; if(ns!==curSong){ curSong=ns; sfxRiser(); floatText(W/2,H*0.44,'♪ '+SONGS[ns].name,'#ffe600',20); }
+    let ns=curSong; if(SONGS.length>1){ do{ ns=Math.floor(Math.random()*SONGS.length); }while(ns===curSong); }   // pro Level ein zufälliger NEUER Song
+    curSong=ns; sfxRiser(); floatText(W/2,H*0.44,'♪ '+SONGS[ns].name,'#ffe600',20);
     banner={text:t('lvl')+' '+level,sub,t:2.6,color:'#19f0ff'}; sfxLevel(); vibe([20,25,20]);
     flash=0.4; flashColor='#19f0ff';
   }
