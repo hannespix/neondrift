@@ -615,7 +615,7 @@
   // Statt pro Treffer neue {}-Objekte zu erzeugen und per splice zu loeschen (→ GC-Ruckler bei
   // partikelstarken Waffen), werden PMAX Objekte EINMAL angelegt und danach nur recycelt.
   // emit() ueberschreibt das aelteste Slot → automatischer Cap, keine Allokation, kein splice.
-  const PMAX=320; let pHead=0;
+  const PMAX=320; let pHead=0, pAlive=0;
   function initParticlePool(){ particles=[]; for(let i=0;i<PMAX;i++) particles.push({x:0,y:0,vx:0,vy:0,life:0,decay:0,color:'#fff',size:0}); pHead=0; }
   initParticlePool();   // einmalig: Pool fuellen, danach nie wieder neu allokieren
   function emitP(x,y,vx,vy,decay,color,size){ const p=particles[pHead]; pHead=(pHead+1)%PMAX;
@@ -1382,7 +1382,7 @@
     }
 
     // Particles & floaters
-    for(const p of particles){ if(p.life<=0) continue; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; }   // Pool: tote Slots ueberspringen, kein splice
+    pAlive=0; for(const p of particles){ if(p.life<=0) continue; pAlive++; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; }   // Pool: tote Slots ueberspringen, kein splice; lebende zählen
     for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.y+=f.vy*dt; f.vy*=0.96; if(f.vx){ f.x+=f.vx*dt; f.vx*=0.92; } f.life-=dt*(f.dr||0.9); if(f.life<=0)floaters.splice(i,1); }
 
     if(banner){ banner.t-=dt; if(banner.t<=0) banner=null; }
@@ -1561,25 +1561,27 @@
 
     if(state===S.PLAY||state===S.OVER||state===S.UPGRADE||state===S.PAUSE){
       // Railgun-Schienen (eigene, kurz aufleuchtend)
-      if(player) for(const bm of beams){ const a=Math.max(0,bm.t/0.16); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=24; ctx.shadowColor='#fff27a';
+      if(player) for(const bm of beams){ const a=Math.max(0,bm.t/0.16); ctx.save(); ctx.globalCompositeOperation='lighter';
         const grd=ctx.createLinearGradient(bm.x-bm.w,0,bm.x+bm.w,0); grd.addColorStop(0,'rgba(255,242,122,0)'); grd.addColorStop(.5,'rgba(255,255,255,'+(0.85*a)+')'); grd.addColorStop(1,'rgba(255,242,122,0)');
         ctx.fillStyle=grd; ctx.fillRect(bm.x-bm.w,0,bm.w*2,player.y); ctx.restore(); }
       // Kettenblitz-Bögen (gezackt, glühend)
-      for(const z of zaps){ const a=Math.max(0,z.t/z.life); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.shadowBlur=16; ctx.shadowColor='#19f0ff';
+      for(const z of zaps){ const a=Math.max(0,z.t/z.life); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
         ctx.beginPath(); ctx.moveTo(z.pts[0][0],z.pts[0][1]); for(let i=1;i<z.pts.length;i++) ctx.lineTo(z.pts[i][0],z.pts[i][1]);
-        ctx.strokeStyle='rgba(120,231,255,'+(0.55*a)+')'; ctx.lineWidth=6; ctx.stroke();          // weiches Glühen
-        ctx.strokeStyle='rgba(255,255,255,'+(0.95*a)+')'; ctx.lineWidth=2; ctx.stroke();           // heller Kern
+        ctx.strokeStyle='rgba(120,231,255,'+(0.40*a)+')'; ctx.lineWidth=9; ctx.stroke();           // breites weiches Glühen (ersetzt shadowBlur, additiv)
+        ctx.strokeStyle='rgba(190,245,255,'+(0.6*a)+')'; ctx.lineWidth=4; ctx.stroke();             // mittlere Schicht
+        ctx.strokeStyle='rgba(255,255,255,'+(0.95*a)+')'; ctx.lineWidth=2; ctx.stroke();            // heller Kern
         ctx.restore(); }
       // Nova-Schockwellen-Ringe (expandierend, ausblendend)
-      for(const nv of novas){ const p=nv.t/nv.life, r=nv.r0+(nv.rMax-nv.r0)*p, a=Math.max(0,1-p); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=20; ctx.shadowColor=nv.col;
-        ctx.strokeStyle=hexA(nv.col,0.85*a); ctx.lineWidth=5*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();
+      for(const nv of novas){ const p=nv.t/nv.life, r=nv.r0+(nv.rMax-nv.r0)*p, a=Math.max(0,1-p); ctx.save(); ctx.globalCompositeOperation='lighter';
+        ctx.strokeStyle=hexA(nv.col,0.45*a); ctx.lineWidth=10*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();   // breiter weicher Ring (ersetzt shadowBlur)
+        ctx.strokeStyle=hexA(nv.col,0.85*a); ctx.lineWidth=4*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();
         ctx.strokeStyle=hexA('#ffffff',0.45*a); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(nv.x,nv.y,r*0.92,0,6.28); ctx.stroke();
         ctx.restore(); }
       // lasers
       for(const L of lasers){ ctx.save();
-        if(L.state==='warn'){ const a=0.25+0.35*Math.abs(Math.sin(L.t*16)); ctx.strokeStyle=`rgba(255,230,0,${a})`; ctx.setLineDash([10,10]); ctx.lineWidth=3; ctx.shadowBlur=12; ctx.shadowColor='#ffe600'; ctx.beginPath();
+        if(L.state==='warn'){ const a=0.25+0.35*Math.abs(Math.sin(L.t*16)); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,230,0,${a})`; ctx.setLineDash([10,10]); ctx.lineWidth=3; ctx.beginPath();
           if(L.orient==='v'){ctx.moveTo(L.pos,0);ctx.lineTo(L.pos,H);}else{ctx.moveTo(0,L.pos);ctx.lineTo(W,L.pos);} ctx.stroke(); }
-        else { const fd=1-L.t/L.fireDur; ctx.shadowBlur=30; ctx.shadowColor='#ff2e88';
+        else { const fd=1-L.t/L.fireDur;
           const grd=L.orient==='v'?ctx.createLinearGradient(L.pos-L.thick/2,0,L.pos+L.thick/2,0):ctx.createLinearGradient(0,L.pos-L.thick/2,0,L.pos+L.thick/2);
           grd.addColorStop(0,'rgba(255,46,136,0)');grd.addColorStop(.5,`rgba(255,255,255,${0.9*fd})`);grd.addColorStop(1,'rgba(255,46,136,0)'); ctx.fillStyle=grd;
           if(L.orient==='v')ctx.fillRect(L.pos-L.thick/2,0,L.thick,H); else ctx.fillRect(0,L.pos-L.thick/2,W,L.thick); }
@@ -1593,15 +1595,17 @@
         ctx.globalCompositeOperation='source-over'; }
 
       // power-ups
-      for(const p of powerups){ const inf=PUPINFO[p.type], pr=p.r+Math.sin(p.pulse)*2; ctx.save(); ctx.shadowBlur=22; ctx.shadowColor=inf.c;
+      for(const p of powerups){ const inf=PUPINFO[p.type], pr=p.r+Math.sin(p.pulse)*2, gr=pr*2.4; ctx.save();
+        ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(inf.c),p.x-gr,p.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over'; // Glow-Sprite statt shadowBlur
         ctx.fillStyle=hexA(inf.c,0.22); ctx.strokeStyle=inf.c; ctx.lineWidth=2.5; ctx.beginPath();ctx.arc(p.x,p.y,pr,0,6.28);ctx.fill();ctx.stroke();
-        ctx.shadowBlur=0; ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(inf.g,p.x,p.y+1); ctx.restore(); }
+        ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(inf.g,p.x,p.y+1); ctx.restore(); }
 
       // sammel-symbole (rotierende raute, gold=positiv, pink=fluch)
-      for(const g of gems){ const pr=g.r+Math.sin(g.pulse)*2, col=g.curse?'#ff2e88':'#ffe600'; ctx.save(); ctx.translate(g.x,g.y);
-        ctx.shadowBlur=22; ctx.shadowColor=col; ctx.rotate(g.rot); ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.fillStyle=hexA(col,0.18);
+      for(const g of gems){ const pr=g.r+Math.sin(g.pulse)*2, col=g.curse?'#ff2e88':'#ffe600', gr=pr*2.4; ctx.save(); ctx.translate(g.x,g.y);
+        ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(col),-gr,-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over'; // Glow-Sprite statt shadowBlur
+        ctx.rotate(g.rot); ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.fillStyle=hexA(col,0.18);
         ctx.beginPath(); ctx.moveTo(0,-pr); ctx.lineTo(pr,0); ctx.lineTo(0,pr); ctx.lineTo(-pr,0); ctx.closePath(); ctx.fill(); ctx.stroke();
-        ctx.rotate(-g.rot); ctx.shadowBlur=0; ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(g.u.ico,0,1); ctx.restore(); }
+        ctx.rotate(-g.rot); ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(g.u.ico,0,1); ctx.restore(); }
 
       // obstacles
       for(const o of obstacles){
@@ -1657,8 +1661,9 @@
 
       // particles (additiv -> Funkenregen leuchtet übereinander). Glow via Halo+Kern statt teurem shadowBlur (mobil flüssig)
       ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=0;
+      const pHalo=pAlive<140;   // Halo (2. fillRect) nur bei wenigen Partikeln; bei Bursts nur Kern = halbe Füllkosten genau wenn's eng wird
       for(const p of particles){ if(p.life<=0) continue; const a=p.life, s=p.size; ctx.fillStyle=p.color;
-        ctx.globalAlpha=a*0.35; ctx.fillRect(p.x-s,p.y-s,s*2,s*2);                 // weicher additiver Halo
+        if(pHalo){ ctx.globalAlpha=a*0.35; ctx.fillRect(p.x-s,p.y-s,s*2,s*2); }     // weicher additiver Halo
         ctx.globalAlpha=a;      ctx.fillRect(p.x-s/2,p.y-s/2,s,s); }               // heller Kern
       ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
 
@@ -1875,10 +1880,10 @@
       wo.save(); wo.beginPath(); wo.arc(sr,sr,sr,0,6.28); wo.clip();
       wo.globalCompositeOperation='lighter'; wo.lineWidth=2.7; wo.lineJoin='round'; wo.lineCap='round';
       const N=waveData.length, midY=sr, amp=sr*0.62*bp, eh=(elapsed||0)*70;       // schnelle Farbrotation = bunt
-      for(let lay=0;lay<5;lay++){ const hue=(eh+lay*48)%360;                       // 5 Regenbogen-Layer
-        wo.strokeStyle=`hsla(${hue},100%,${66-lay*4}%,${0.5-lay*0.07})`;
+      for(let lay=0;lay<3;lay++){ const hue=(eh+lay*70)%360;                       // 3 Regenbogen-Layer (perf)
+        wo.strokeStyle=`hsla(${hue},100%,${66-lay*5}%,${0.5-lay*0.09})`;
         wo.beginPath();
-        for(let i=0;i<N;i++){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-2)*5; i?wo.lineTo(x,y):wo.moveTo(x,y); }
+        for(let i=0;i<N;i+=2){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-1)*6; i?wo.lineTo(x,y):wo.moveTo(x,y); } // nur jeder 2. Sample
         wo.stroke(); }
       wo.restore();
     }
