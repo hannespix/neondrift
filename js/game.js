@@ -647,7 +647,7 @@
     tgt.x=W/2; tgt.y=H*0.72;
     obstacles=[]; orbs=[]; powerups=[]; particles=[]; floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[];
     score=0; displayScore=0; combo=0; multiplier=1;
-    elapsed=0; spawnT=0; orbT=0; powerupT=rand(5,9); difficulty=1;
+    elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
     level=1; levelDuration=(mode==='hardcore')?15:20; levelTimer=levelDuration; unlocked=['straight'];
     upStep=400; nextUpgradeAt=400;
@@ -748,7 +748,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT());
+    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*1.05;
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -1061,11 +1061,11 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.40,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())); } }
+        spawnT=Math.max(0.38,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())*0.95); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
-    powerupT-=dt; if(powerupT<=0){ if(powerups.length<3 && !bossActive) spawnPowerup(); powerupT=rand(8,14); }
+    powerupT-=dt; if(powerupT<=0){ if(powerups.length<2 && !bossActive) spawnPowerup(); powerupT=rand(13,19); }
     // Auto-Fire (sobald eine Waffe ausgerüstet ist)
     // Auto-Fire pro Waffe (touch-freundlich: feuert selbstständig sobald Cooldown bereit, Zielen automatisch)
     if(opt.guns){
@@ -1277,7 +1277,7 @@
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008);
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
-    if(Math.random() < 0.10*(mods.powerupRate||1)*((o.maxHp||1)>=3?2.2:1)) dropPowerup(o.cx,o.cy);
+    if(Math.random() < 0.06*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.8:1)) dropPowerup(o.cx,o.cy);
     if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
       if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
@@ -1485,10 +1485,10 @@
   const skinName=id=>((SKINTR[lang]&&SKINTR[lang][id])||SKINTR.en[id]||id);
   function buildShipSprite(r,up,nCan){
     const R=makeRng(shipSeed||1);
-    const cp=Math.max(2,Math.round(r*0.34));                 // Pixel-Zellgröße
-    const gh=10+Math.min(8,(up*0.5)|0);                      // schlank & lang
+    const cp=Math.max(2,Math.round(r*0.31));                 // Pixel-Zellgröße (kleiner)
+    const gh=8+Math.min(6,(up*0.42)|0);                      // schlank, etwas kürzer
     const gw=2+Math.min(3,(up*0.22)|0);                      // schmaler Rumpf
-    const wingLen=3+Math.min(5,(up*0.4)|0);
+    const wingLen=3+Math.min(4,(up*0.38)|0);
     const wingPairs=R()<0.55?2:1;                            // 2 = X-Wing-Silhouette, 1 = schlanker Interceptor
     const sweep=0.55+R()*0.45;                               // Flügel-Pfeilung nach hinten
     const sk=curSkin(), hull=sk.hull, edge=sk.edge, acc=sk.rnd?SHIP_ACC[(R()*SHIP_ACC.length)|0]:sk.acc;
