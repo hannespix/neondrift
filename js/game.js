@@ -1854,15 +1854,25 @@
       ctx.shadowBlur=0; ctx.fillStyle=hexA(it[2],0.3); ctx.fillRect(x-16,y+6,32,4); ctx.fillStyle=it[2]; ctx.fillRect(x-16,y+6,32*Math.max(0,it[1]/it[3]),4); ctx.restore(); x+=40; }
   }
 
-  let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null;   // Sonne (scharf, KEIN Bloom) + separate Wellen-Ebene (nur DIE wird gebloomt)
-  function drawGrid(){ const hz=H*0.42,vx=W/2, bp=1+(beatPulse||0)*0.55+(overdrive?0.35:0); // bp = Beat-Puls (+Overdrive)
+  let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie
+  function drawGrid(){ const hz=H*0.42,vx=W/2;
+    // ---- Audio-reaktiver Sonnen-Puls: Musik-Amplitude (kontinuierlich) + Beat-Puls (scharfe Schläge) ----
+    const hasAudio=analyser && !muted;
+    if(hasAudio){ analyser.getByteTimeDomainData(waveData);
+      let s=0,c=0; for(let i=0;i<waveData.length;i+=4){ s+=Math.abs(waveData[i]-128); c++; }
+      const lvl=Math.min(1,(s/c)/38); sunPulse+=(lvl-sunPulse)*0.2; }
+    else sunPulse*=0.9;
+    const beat=(beatPulse||0), pulse=Math.min(1.2,beat*0.7+sunPulse*0.85);            // Gesamt-Puls fürs Leuchten/Farbe
+    const bp=1+beat*0.5+sunPulse*0.7+(overdrive?0.3:0);                                // bp = Beat + Musik-Energie (+Overdrive)
     const gc=curBg.grid, sc=curBg.sun;
+    const pc=[Math.min(255,sc[0]+pulse*70),Math.min(255,sc[1]+pulse*95),Math.min(255,sc[2]+pulse*55)]; // Sonnenfarbe heller/wärmer im Takt
     ctx.shadowBlur=0; ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
     for(let i=-10;i<=10;i++){ctx.beginPath();ctx.moveTo(vx+i*40,hz);ctx.lineTo(vx+i*220,H);ctx.stroke();}
     const t=(elapsed||0)*0.5%1;
     for(let i=0;i<14;i++){const f=(i+t)/14,y=hz+Math.pow(f,2.2)*(H-hz); ctx.globalAlpha=Math.min(0.7,(0.1+f*0.25)*bp); ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();} ctx.globalAlpha=1;
-    // weicher Halo um die Sonne
-    const sg=ctx.createRadialGradient(W/2,hz,4,W/2,hz,200); sg.addColorStop(0,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${Math.min(0.55,0.32*bp)})`); sg.addColorStop(1,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},0)`); ctx.fillStyle=sg; ctx.fillRect(W/2-200,hz-200,400,400);
+    // weicher Halo um die Sonne – Radius & Helligkeit pulsieren im Takt
+    const hr=200*(0.8+pulse*0.45), ha=Math.min(0.72,0.28+pulse*0.32);
+    const sg=ctx.createRadialGradient(W/2,hz,4,W/2,hz,hr); sg.addColorStop(0,`rgba(${pc[0]|0},${pc[1]|0},${pc[2]|0},${ha})`); sg.addColorStop(1,`rgba(${pc[0]|0},${pc[1]|0},${pc[2]|0},0)`); ctx.fillStyle=sg; ctx.fillRect(W/2-hr,hz-hr,hr*2,hr*2);
     // Sonne auf Offscreen-Canvas: SOLIDE Scheibe mit Vertikalverlauf + ausgestanzte Streifen (destination-out)
     const sr=120, sa=Math.min(1,0.85*bp), SS=sr*2, LO=80;
     if(!sunOff){ sunOff=document.createElement('canvas'); sunOff.width=SS; sunOff.height=SS; sunOffCtx=sunOff.getContext('2d');
@@ -1872,22 +1882,23 @@
     so.save(); so.beginPath(); so.arc(sr,sr,sr,0,6.28); so.clip();
     const dg=so.createLinearGradient(0,0,0,SS);
     dg.addColorStop(0,`rgba(255,244,196,${sa})`);                                                  // heller Kern oben
-    dg.addColorStop(0.5,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${sa})`);
+    dg.addColorStop(0.5,`rgba(${pc[0]|0},${pc[1]|0},${pc[2]|0},${sa})`);                            // pulsende Sonnenfarbe
     dg.addColorStop(1,`rgba(${Math.min(255,sc[0]+30)|0},${(sc[1]*0.45)|0},${(sc[2]*0.7)|0},${sa})`); // satter Richtung Horizont
     so.fillStyle=dg; so.fillRect(0,0,SS,SS);
     so.globalCompositeOperation='destination-out';                                                // Streifen ausstanzen → durchsichtige Lücken
     for(let i=0;i<7;i++){ const yy=sr+6+i*i*3.4; if(yy>SS) break; so.fillRect(0,yy,SS,2.4+i*1.7); }
     so.restore();
     // ---- Audio-Visualizer: bunte Wellenform auf EIGENER Ebene (nur sie wird gebloomt) ----
-    const wo=waveOffCtx; wo.clearRect(0,0,SS,SS); const hasWave=analyser && !muted && fxQ>0.6;   // bei Lag Visualizer aussetzen
-    if(hasWave){ analyser.getByteTimeDomainData(waveData);
+    const wo=waveOffCtx; wo.clearRect(0,0,SS,SS); const hasWave=hasAudio;            // Visualizer IMMER an – bei Lag nur gröber, nie aus (Daten oben schon geholt)
+    if(hasWave){
+      const layers=fxQ>0.75?3:(fxQ>0.5?2:1), stepN=fxQ>0.75?2:(fxQ>0.5?3:5);        // unter Last: weniger Layer + gröbere Abtastung
       wo.save(); wo.beginPath(); wo.arc(sr,sr,sr,0,6.28); wo.clip();
-      wo.globalCompositeOperation='lighter'; wo.lineWidth=2.7; wo.lineJoin='round'; wo.lineCap='round';
-      const N=waveData.length, midY=sr, amp=sr*0.62*bp, eh=(elapsed||0)*70;       // schnelle Farbrotation = bunt
-      for(let lay=0;lay<3;lay++){ const hue=(eh+lay*70)%360;                       // 3 Regenbogen-Layer (perf)
+      wo.globalCompositeOperation='lighter'; wo.lineWidth=fxQ>0.5?2.7:3.6; wo.lineJoin='round'; wo.lineCap='round'; // gröber = dickere Linie → bleibt gut sichtbar
+      const N=waveData.length, midY=sr, amp=sr*0.62*bp, eh=(elapsed||0)*70;
+      for(let lay=0;lay<layers;lay++){ const hue=(eh+lay*70)%360;
         wo.strokeStyle=`hsla(${hue},100%,${66-lay*5}%,${0.5-lay*0.09})`;
         wo.beginPath();
-        for(let i=0;i<N;i+=2){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-1)*6; i?wo.lineTo(x,y):wo.moveTo(x,y); } // nur jeder 2. Sample
+        for(let i=0;i<N;i+=stepN){ const x=i/(N-1)*SS, v=(waveData[i]-128)/128, y=midY+v*amp+(lay-1)*6; i?wo.lineTo(x,y):wo.moveTo(x,y); }
         wo.stroke(); }
       wo.restore();
     }
