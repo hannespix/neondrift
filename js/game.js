@@ -1745,7 +1745,7 @@
       ctx.shadowBlur=0; ctx.fillStyle=hexA(it[2],0.3); ctx.fillRect(x-16,y+6,32,4); ctx.fillStyle=it[2]; ctx.fillRect(x-16,y+6,32*Math.max(0,it[1]/it[3]),4); ctx.restore(); x+=40; }
   }
 
-  let sunOff=null, sunOffCtx=null;   // Offscreen-Canvas für die Sonne (scharf + geblurrte Bloom-Überlagerung)
+  let sunOff=null, sunOffCtx=null, sunLo=null, sunLoCtx=null;   // Offscreen-Canvas für die Sonne (scharf + günstiger Downscale-Bloom)
   function drawGrid(){ const hz=H*0.42,vx=W/2, bp=1+(beatPulse||0)*0.55+(overdrive?0.35:0); // bp = Beat-Puls (+Overdrive)
     const gc=curBg.grid, sc=curBg.sun;
     ctx.shadowBlur=0; ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
@@ -1755,8 +1755,9 @@
     // weicher Halo um die Sonne
     const sg=ctx.createRadialGradient(W/2,hz,4,W/2,hz,200); sg.addColorStop(0,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${Math.min(0.55,0.32*bp)})`); sg.addColorStop(1,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},0)`); ctx.fillStyle=sg; ctx.fillRect(W/2-200,hz-200,400,400);
     // Sonne auf Offscreen-Canvas: SOLIDE Scheibe mit Vertikalverlauf + ausgestanzte Streifen (destination-out)
-    const sr=120, sa=Math.min(1,0.85*bp), SS=sr*2;
-    if(!sunOff){ sunOff=document.createElement('canvas'); sunOff.width=SS; sunOff.height=SS; sunOffCtx=sunOff.getContext('2d'); }
+    const sr=120, sa=Math.min(1,0.85*bp), SS=sr*2, LO=80;
+    if(!sunOff){ sunOff=document.createElement('canvas'); sunOff.width=SS; sunOff.height=SS; sunOffCtx=sunOff.getContext('2d');
+      sunLo=document.createElement('canvas'); sunLo.width=LO; sunLo.height=LO; sunLoCtx=sunLo.getContext('2d'); }
     const so=sunOffCtx; so.clearRect(0,0,SS,SS);
     so.save(); so.beginPath(); so.arc(sr,sr,sr,0,6.28); so.clip();
     const dg=so.createLinearGradient(0,0,0,SS);
@@ -1767,12 +1768,13 @@
     so.globalCompositeOperation='destination-out';                                                // Streifen ausstanzen → durchsichtige Lücken
     for(let i=0;i<7;i++){ const yy=sr+6+i*i*3.4; if(yy>SS) break; so.fillRect(0,yy,SS,2.4+i*1.7); }
     so.restore();
-    // auflegen: scharfe Sonne (klare Streifen) + geblurrte Bloom-Kopie additiv obendrauf → weiche Neon-Überlagerung
+    // Bloom günstig: kleine Kopie (Downscale) + bilineares Hochskalieren = weicher Glow ohne teuren ctx.filter (mobil flüssig)
+    sunLoCtx.clearRect(0,0,LO,LO); sunLoCtx.drawImage(sunOff,0,0,LO,LO);
     const dx=W/2-sr, dy=hz-sr;
     ctx.save();
-    ctx.drawImage(sunOff,dx,dy);
-    ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.5; ctx.filter='blur(9px)'; ctx.drawImage(sunOff,dx,dy);
-    ctx.filter='none';
+    ctx.drawImage(sunOff,dx,dy);                                                                   // scharfe Sonne (klare Streifen)
+    ctx.imageSmoothingEnabled=true; ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=0.5;
+    ctx.drawImage(sunLo,dx-10,dy-10,SS+20,SS+20);                                                  // geblurrte Bloom-Überlagerung additiv obendrauf
     ctx.restore();
   }
 
