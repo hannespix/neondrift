@@ -513,9 +513,9 @@
     {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
     {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Links/rechts vertauscht 💀, dafür +55% Punkte',max:1,curse:true,apply:()=>{mods.invertX=!mods.invertX;mods.scoreMult*=1.55;}},
     // ---- Globale Waffen-Passive (KEIN Slot, gelten für alle Waffen, multiplikativ = abnehmender Ertrag) ----
-    {id:'amp',  ico:'💥',name:'Verstärker',desc:'+26% Schaden für ALLE Waffen',max:5,wpass:true,apply:()=>{ mods.wDmgMult*=1.26; }},
-    {id:'tempo',ico:'⏩',name:'Taktung',   desc:'ALLE Waffen feuern 16% schneller',max:4,wpass:true,apply:()=>{ mods.wRate*=1.16; }},
-    {id:'crit', ico:'🎯',name:'Zielfokus', desc:'+13% Kritische Treffer (×2 Schaden, rot)',max:4,wpass:true,apply:()=>{ mods.critBase=(mods.critBase||0)+0.13; }}
+    {id:'amp',  ico:'💥',name:'Verstärker',desc:'+26% Schaden für ALLE Waffen',max:8,wpass:true,apply:()=>{ mods.wDmgMult*=1.26; }},
+    {id:'tempo',ico:'⏩',name:'Taktung',   desc:'ALLE Waffen feuern 16% schneller',max:6,wpass:true,apply:()=>{ mods.wRate*=1.16; }},
+    {id:'crit', ico:'🎯',name:'Zielfokus', desc:'+13% Kritische Treffer (×2 Schaden, rot)',max:6,wpass:true,apply:()=>{ mods.critBase=(mods.critBase||0)+0.13; }}
   ];
   // ---- ARSENAL: 5 eigenständige Auto-Feuer-Waffen, je mit 2 Skill-Gabelungen (D2-light) ----
   // Jede Waffe belegt 1 Slot. Pfad-Wahl = Sidegrade (gleich stark, anderer Stil).
@@ -558,30 +558,30 @@
   // arsenal.w → aufgelöste Feuerwerte (wpn) + Synergie-Flags (syn). Nach jedem Pick/Drop & bei reset() aufrufen.
   function recalcArsenal(){
     const dm=mods.wDmgMult||1, rm=mods.wRate||1, has=id=>!!arsenal.w[id]; wpn={}; syn={};
-    if(has('blaster')){ const a=arsenal.w.blaster; let rate=3.2,dmg=1,bolts=1,spread=0.13,pierce=0;
+    if(has('blaster')){ const a=arsenal.w.blaster; let rate=3.2,dmg=1.15,bolts=1,spread=0.13,pierce=0;
       if(a.f1==='rapid'){rate*=1.5;dmg*=0.8;} if(a.f1==='heavy'){rate*=0.7;dmg*=2.0;}
       if(a.f2==='scatter'){bolts+=2;spread+=0.06;dmg*=0.78;} if(a.f2==='precise'){pierce+=2;dmg*=1.4;}
       wpn.blaster={rate:rate*rm,dmg:dmg*dm,bolts,spread,pierce}; }
-    if(has('missile')){ const a=arsenal.w.missile; let rate=0.55,dmg=3,aoe=70,count=1;
+    if(has('missile')){ const a=arsenal.w.missile; let rate=0.55,dmg=3.5,aoe=70,count=1;
       if(a.f1==='swarm'){count=2;dmg*=0.62;aoe*=0.78;} if(a.f1==='warhead'){dmg*=1.55;aoe*=1.5;rate*=0.8;}
       wpn.missile={rate:rate*rm,dmg:dmg*dm,aoe,count,shrapnel:a.f2==='shrapnel',incendiary:a.f2==='incendiary'}; }
-    if(has('flame')){ const a=arsenal.w.flame; let rate=2.2,dmg=0.4,dot=1.1,dur=2.0;
+    if(has('flame')){ const a=arsenal.w.flame; let rate=2.2,dmg=0.5,dot=1.3,dur=2.0;
       if(a.f1==='ember'){dot*=1.9;} let spread=a.f1==='wildfire';
       if(a.f2==='accel'){dot*=1.5;dur*=0.6;}
       wpn.flame={rate:rate*rm,dmg:dmg*dm,dot:dot*dm,dur,spread,consume:a.f2==='consume'}; }
     mods.brittle=false; mods.shatter=false;
-    if(has('frost')){ const a=arsenal.w.frost; let rate=1.9,dmg=0.5,slowDur=1.4,slowAmt=0.5;
+    if(has('frost')){ const a=arsenal.w.frost; let rate=1.9,dmg=0.6,slowDur=1.4,slowAmt=0.5;
       if(a.f1==='permafrost'){slowDur*=1.9;slowAmt=0.32;} let freeze=a.f1==='glaciate';
       wpn.frost={rate:rate*rm,dmg:dmg*dm,slowDur,slowAmt,freeze,shatter:a.f2==='shatter',brittle:a.f2==='brittle'};
       mods.brittle=a.f2==='brittle'; mods.shatter=a.f2==='shatter'; }   // SPRÖDE / SPLITTERBRUCH gelten global an gefrorenen Zielen
-    if(has('chain')){ const a=arsenal.w.chain; let rate=1.1,dmg=1.4,jumps=3,stun=0;
+    if(has('chain')){ const a=arsenal.w.chain; let rate=1.1,dmg=1.7,jumps=3,stun=0;
       if(a.f1==='fork'){jumps+=2;dmg*=0.7;} if(a.f1==='highv'){jumps=Math.max(1,jumps-1);dmg*=1.9;stun=0.4;}
       wpn.chain={rate:rate*rm,dmg:dmg*dm,jumps,stun,onHit:a.f2==='stormhit',aoe:a.f2==='dischargeaoe'}; }
-    if(has('nova')){ const a=arsenal.w.nova; let rate=0.85,dmg=1.6,radius=92,knock=false,slow=false;
+    if(has('nova')){ const a=arsenal.w.nova; let rate=0.85,dmg=1.9,radius=92,knock=false,slow=false;
       if(a.f1==='shock'){radius*=1.4;} if(a.f1==='overload'){dmg*=1.7;rate*=0.7;}
       if(a.f2==='repel'){knock=true;} if(a.f2==='staticfield'){slow=true;}
       wpn.nova={rate:rate*rm,dmg:dmg*dm,radius,knock,slow}; }
-    if(has('rail')){ const a=arsenal.w.rail; let rate=0.7,dmg=4,width=22;
+    if(has('rail')){ const a=arsenal.w.rail; let rate=0.7,dmg=4.8,width=22;
       if(a.f1==='charged'){dmg*=1.8;rate*=0.65;} if(a.f1==='autoload'){rate*=1.7;dmg*=0.65;}
       if(a.f2==='wide'){width*=2;} if(a.f2==='overdrive'){dmg*=1.5;}
       wpn.rail={rate:rate*rm,dmg:dmg*dm,width,burn:false}; }
@@ -590,7 +590,7 @@
     if(syn.cryonova&&wpn.nova) wpn.nova.slow=true;              // CRYONOVA: Puls verlangsamt
     if(syn.plasma&&wpn.rail) wpn.rail.burn=true;                // PLASMA: Schiene entzündet
     // Krit: Passiv-Basis + Blaster-Pfad „Präzision"
-    mods.crit=Math.min(0.75,(mods.critBase||0)+((arsenal.w.blaster&&arsenal.w.blaster.f2==='precise')?0.15:0));
+    mods.crit=Math.min(0.85,(mods.critBase||0)+((arsenal.w.blaster&&arsenal.w.blaster.f2==='precise')?0.15:0));
     mods.gun=has('blaster')?1:0;
   }
   const critFactor=()=>1+(mods.crit||0)*((mods.critMult||2)-1);   // erwarteter Krit-Multiplikator
@@ -611,7 +611,7 @@
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(5,9); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
-    level=1; levelDuration=(mode==='hardcore')?12:16; levelTimer=levelDuration; unlocked=['straight'];
+    level=1; levelDuration=(mode==='hardcore')?15:20; levelTimer=levelDuration; unlocked=['straight'];
     upStep=400; nextUpgradeAt=400;
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
@@ -653,7 +653,7 @@
   const difDen =()=>Math.max(0.40,1-Math.min(0.30,pwrSurv()*0.012)-(endless?madness*0.35:0)); // dichter (sanfter)
   // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
-  const difHp  =()=>1.15+gunDps()*0.26+(level-1)*0.20;
+  const difHp  =()=>1.15+gunDps()*0.23+(level-1)*0.20;
   function finalNum(){ return mode==='hardcore'?10:8; }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
@@ -709,7 +709,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(82+level*11+Math.min(elapsed*3.2,120))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
+    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd();
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
