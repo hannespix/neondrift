@@ -36,10 +36,10 @@
       achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', skinBtn:'🎨 SKINS', skinTitle:'SKINS', active:'AKTIV', choose:'WÄHLEN',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
-      quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich."],
-      insults:["Schwach. Richtig schwach.","Loser-Alarm. 🚨","Meine Oma weicht besser aus.","Git gud, sagt man da.","Setzen. Sechs.","skill issue tbh.","−1000 Aura, digga.","mid. einfach mid.","sit down, bro.","0 rizz, 0 skill.","ratio. L. cope.","NPC-Tod erkannt."],
-      dumb:["bro hat einfach... ja.","skibidi 🚽","das ist lowkey mid","real ones wissen Bescheid","kein Cap fr fr","gönn dir, digga","sigma move 🗿","Ohio-Level erreicht","valid. einfach valid.","slay 💅","based ngl","gyatt 😳","6 7 😶‍🌫️","das ribbelt im Hirn"],
-      crazy:["weiche aus · sammle · überlebe","probier nicht zu sterben (du wirst)","100% chiptune, 0% gnade","heute schon explodiert?","no cap, das wird mid","6 7 enjoyer welcome"]
+      quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich.","Organspende war gestern. Heute: Pixelspende.","Der Block kam aus dem Nichts. Dein Talent auch.","Game Over. Aber immerhin stilvoll explodiert."],
+      insults:["Schwach. Richtig schwach.","Loser-Alarm. 🚨","Meine Oma weicht besser aus.","Git gud, sagt man da.","Setzen. Sechs.","skill issue tbh.","−1000 Aura, digga.","mid. einfach mid.","War das Absicht? Bitte sag ja.","0 rizz, 0 skill.","Selbst die Bots lachen.","NPC-Tod erkannt."],
+      dumb:["bro hat einfach... ja.","das ist lowkey mid","real ones wissen Bescheid","kein Cap fr fr","gönn dir, digga","sigma move 🗿","valid. einfach valid.","slay 💅","based ngl","das ribbelt im Hirn","ist das Aura oder Lag?","kein Plan was hier abgeht","Hä? auch egal."],
+      crazy:["weiche aus · sammle · überlebe","probier nicht zu sterben (du wirst)","100% chiptune, 0% gnade","heute schon explodiert?","no cap, das wird mid","reflexe verkauft? hier zurückholen"]
     },
     en:{
       tag:'dodge · collect · survive', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
@@ -65,8 +65,8 @@
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
       insults:["Weak. Real weak.","Loser alert. 🚨","My grandma dodges better.","Git gud, they say.","Sit down. Zero.","skill issue tbh.","−1000 aura, bro.","mid. just mid.","sit down, bro.","0 rizz, 0 skill.","ratio. L. cope.","NPC death detected."],
-      dumb:["bro just... yeah.","skibidi 🚽","this is lowkey mid","real ones know","no cap fr fr","treat yourself, bro","sigma move 🗿","reached Ohio level","valid. just valid.","slay 💅","based ngl","gyatt 😳","6 7 😶‍🌫️","that's brain-tingling"],
-      crazy:["dodge · collect · survive","try not to die (you will)","100% chiptune, 0% mercy","exploded yet today?","no cap, this'll be mid","6 7 enjoyer welcome"]
+      dumb:["bro just... yeah.","this is lowkey mid","real ones know","no cap fr fr","treat yourself, bro","sigma move 🗿","valid. just valid.","slay 💅","based ngl","that's brain-tingling","aura or just lag?","no clue what's happening","huh? whatever."],
+      crazy:["dodge · collect · survive","try not to die (you will)","100% chiptune, 0% mercy","exploded yet today?","no cap, this'll be mid","sold your reflexes? get 'em back here"]
     },
     fr:{
       tag:'esquive · collecte · survis', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
@@ -92,8 +92,8 @@
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
       quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
       insults:["Faible. Vraiment faible.","Alerte loser. 🚨","Ma mamie esquive mieux.","Git gud, qu’ils disent.","Assieds-toi. Zéro.","skill issue tbh.","−1000 d’aura, mec.","mid. juste mid.","assieds-toi, frère.","0 rizz, 0 skill.","ratio. L. cope.","mort de PNJ détectée."],
-      dumb:["le frère a juste… ouais.","skibidi 🚽","c’est lowkey mid","les vrais savent","no cap fr fr","fais-toi plaisir, mec","sigma move 🗿","niveau Ohio atteint","valide. juste valide.","slay 💅","based ngl","gyatt 😳","6 7 😶‍🌫️","ça gratte le cerveau"],
-      crazy:["esquive · collecte · survis","essaie de pas mourir (tu vas mourir)","100% chiptune, 0% pitié","déjà explosé aujourd’hui ?","no cap, ça va être mid","6 7 enjoyer welcome"]
+      dumb:["le frère a juste… ouais.","c’est lowkey mid","les vrais savent","no cap fr fr","fais-toi plaisir, mec","sigma move 🗿","valide. juste valide.","slay 💅","based ngl","ça gratte le cerveau","de l’aura ou juste du lag ?","aucune idée de ce qui se passe","hein ? peu importe."],
+      crazy:["esquive · collecte · survis","essaie de pas mourir (tu vas mourir)","100% chiptune, 0% pitié","déjà explosé aujourd’hui ?","no cap, ça va être mid","tes réflexes vendus ? récupère-les ici"]
     }
   };
   // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
@@ -516,8 +516,11 @@
     // sonst bleibt auf Mobil-Browsern unten ein heller Streifen in der Safe Area.
     const wrap=document.getElementById('wrap');
     W=wrap.clientWidth||window.innerWidth; H=wrap.clientHeight||window.innerHeight;
-    canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
+    canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0);
+    ctx.imageSmoothingEnabled=false; }   // Pixel-Sprites (Schiff/Boss) nearest-neighbor → scharfe Kanten statt verwaschen
   window.addEventListener('resize',resize); resize();
+  function applyFx(){ const w=document.getElementById('wrap'); if(w) w.classList.toggle('crt',!!opt.fx); }   // CRT-Scanlines an/aus (CSS, koppelt an „Effekte")
+  applyFx();
   const tgt={x:W/2,y:H*0.72};
   function setT(x,y){ if(mods&&mods.invertX) x=W-x; tgt.x=x; tgt.y=y; }   // Spiegelwelt-Fluch
   function onMove(e){ const r=canvas.getBoundingClientRect();
@@ -1448,17 +1451,17 @@
 
     if(state===S.PLAY||state===S.OVER||state===S.UPGRADE||state===S.PAUSE){
       // Railgun-Schienen (eigene, kurz aufleuchtend)
-      if(player) for(const bm of beams){ const a=Math.max(0,bm.t/0.16); ctx.save(); ctx.shadowBlur=24; ctx.shadowColor='#fff27a';
+      if(player) for(const bm of beams){ const a=Math.max(0,bm.t/0.16); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=24; ctx.shadowColor='#fff27a';
         const grd=ctx.createLinearGradient(bm.x-bm.w,0,bm.x+bm.w,0); grd.addColorStop(0,'rgba(255,242,122,0)'); grd.addColorStop(.5,'rgba(255,255,255,'+(0.85*a)+')'); grd.addColorStop(1,'rgba(255,242,122,0)');
         ctx.fillStyle=grd; ctx.fillRect(bm.x-bm.w,0,bm.w*2,player.y); ctx.restore(); }
       // Kettenblitz-Bögen (gezackt, glühend)
-      for(const z of zaps){ const a=Math.max(0,z.t/z.life); ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.shadowBlur=16; ctx.shadowColor='#19f0ff';
+      for(const z of zaps){ const a=Math.max(0,z.t/z.life); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.shadowBlur=16; ctx.shadowColor='#19f0ff';
         ctx.beginPath(); ctx.moveTo(z.pts[0][0],z.pts[0][1]); for(let i=1;i<z.pts.length;i++) ctx.lineTo(z.pts[i][0],z.pts[i][1]);
         ctx.strokeStyle='rgba(120,231,255,'+(0.55*a)+')'; ctx.lineWidth=6; ctx.stroke();          // weiches Glühen
         ctx.strokeStyle='rgba(255,255,255,'+(0.95*a)+')'; ctx.lineWidth=2; ctx.stroke();           // heller Kern
         ctx.restore(); }
       // Nova-Schockwellen-Ringe (expandierend, ausblendend)
-      for(const nv of novas){ const p=nv.t/nv.life, r=nv.r0+(nv.rMax-nv.r0)*p, a=Math.max(0,1-p); ctx.save(); ctx.shadowBlur=20; ctx.shadowColor=nv.col;
+      for(const nv of novas){ const p=nv.t/nv.life, r=nv.r0+(nv.rMax-nv.r0)*p, a=Math.max(0,1-p); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=20; ctx.shadowColor=nv.col;
         ctx.strokeStyle=hexA(nv.col,0.85*a); ctx.lineWidth=5*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();
         ctx.strokeStyle=hexA('#ffffff',0.45*a); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(nv.x,nv.y,r*0.92,0,6.28); ctx.stroke();
         ctx.restore(); }
@@ -1473,7 +1476,7 @@
         ctx.restore(); }
 
       // orbs
-      for(const orb of orbs){ const pr=orb.r+Math.sin(orb.pulse)*2; ctx.save(); ctx.shadowBlur=24; ctx.shadowColor='#19f0ff'; ctx.fillStyle='#19f0ff';
+      for(const orb of orbs){ const pr=orb.r+Math.sin(orb.pulse)*2; ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=24; ctx.shadowColor='#19f0ff'; ctx.fillStyle='#19f0ff';
         ctx.beginPath();ctx.arc(orb.x,orb.y,pr,0,6.28);ctx.fill(); ctx.fillStyle='#caffff';ctx.beginPath();ctx.arc(orb.x,orb.y,pr*0.45,0,6.28);ctx.fill(); ctx.restore(); }
 
       // power-ups
@@ -1504,7 +1507,7 @@
       }
 
       // bolzen (neon-laser, skin-farbig) & raketen
-      for(const b of bullets){ ctx.save();
+      for(const b of bullets){ ctx.save(); ctx.globalCompositeOperation='lighter';
         if(b.homing){ ctx.shadowBlur=16; ctx.shadowColor='#ff7a00';
           ctx.fillStyle='#ff6a00'; ctx.beginPath(); ctx.arc(b.x-b.vx*0.012,b.y-b.vy*0.012,b.r*0.8,0,6.28); ctx.fill();
           ctx.fillStyle='#ffd36b'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.28); ctx.fill();
@@ -1531,8 +1534,9 @@
           ctx.beginPath(); ctx.arc(player.x,player.y,player.r+9+s*5,0,6.28); ctx.stroke(); ctx.restore(); }
       }
 
-      // particles
-      for(const p of particles){ ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.color; ctx.shadowBlur=10; ctx.shadowColor=p.color; ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size); } ctx.globalAlpha=1; ctx.shadowBlur=0;
+      // particles (additiv -> Funkenregen leuchtet übereinander)
+      ctx.globalCompositeOperation='lighter';
+      for(const p of particles){ ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.color; ctx.shadowBlur=10; ctx.shadowColor=p.color; ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size); } ctx.globalAlpha=1; ctx.shadowBlur=0; ctx.globalCompositeOperation='source-over';
 
       // floaters
       ctx.textAlign='center'; ctx.textBaseline='middle';
@@ -1646,8 +1650,8 @@
     ctx.shadowBlur=12; ctx.shadowColor='#ff9a2e';
     for(const fx of S.flameX){ const fl=S.cp*(1.6+2.2*Math.abs(Math.sin((elapsed||0)*28+fx))); ctx.fillStyle='#ffd000';
       ctx.beginPath(); ctx.moveTo(fx-S.cp*0.9,S.tailY); ctx.lineTo(fx+S.cp*0.9,S.tailY); ctx.lineTo(fx,S.tailY+fl); ctx.closePath(); ctx.fill(); }
-    // Pixel-Sprite
-    ctx.shadowBlur=10; ctx.shadowColor=S.acc; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
+    // Pixel-Sprite – der Spieler ist der Fokus, glüht am hellsten und pulsiert mit dem Beat
+    ctx.shadowBlur=16+(beatPulse||0)*8+(overdrive?6:0); ctx.shadowColor=S.acc; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
     // dünner Hitbox-Ring (echte, kleine Hitbox)
     ctx.strokeStyle=hexA('#19f0ff',0.4); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(0,0,r,0,6.28); ctx.stroke();
     ctx.restore(); }
@@ -1722,22 +1726,13 @@
     const t=(elapsed||0)*0.5%1;
     for(let i=0;i<14;i++){const f=(i+t)/14,y=hz+Math.pow(f,2.2)*(H-hz); ctx.globalAlpha=Math.min(0.7,(0.1+f*0.25)*bp); ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();} ctx.globalAlpha=1;
     const sg=ctx.createRadialGradient(W/2,hz,4,W/2,hz,180); sg.addColorStop(0,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${Math.min(0.7,0.4*bp)})`); sg.addColorStop(1,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},0)`); ctx.fillStyle=sg; ctx.fillRect(W/2-180,hz-180,360,360);
+    // klassische Synthwave-Sonnenstreifen: Lücken in der unteren Sonnenhälfte (dicht am Horizont, breiter nach unten)
+    const bc=curBg.bot; ctx.fillStyle=`rgba(${bc[0]|0},${bc[1]|0},${bc[2]|0},0.5)`;
+    for(let i=0;i<7;i++){ const yy=hz+10+i*i*4; if(yy>hz+172) break;
+      const hw=Math.sqrt(Math.max(0,180*180-(yy-hz)*(yy-hz)))*0.7; ctx.fillRect(W/2-hw,yy,hw*2,2.5+i*1.4); }
   }
 
   // ---------- Game Over ----------
-  const QUIPS=[
-    "Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Organspende war gestern. Heute: Pixelspende.",
-    "Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.",
-    "Du wirst nicht vermisst. Dein Highscore schon.","R.I.P. – Rendered In Pieces.",
-    "Kein Respawn, kein Jenseits, nur dieser Bildschirm.","Selbst das Tutorial weint gerade.",
-    "Der Block kam aus dem Nichts. Dein Talent auch.","Reflexe wie ein Faultier im Winterschlaf.",
-    "Glückwunsch! Du hast den Boden gefunden.","Game Over. Aber immerhin stilvoll explodiert.",
-    "Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.",
-    "Knapp am Sieg vorbei ist auch daneben.","Statistisch gesehen: peinlich."
-  ];
-  const CRAZY_TAGS=["weiche aus · sammle · überlebe","probier nicht zu sterben (du wirst)","100% chiptune, 0% gnade","heute schon explodiert?","reflexe verkauft? hier zurückholen","no cap, das wird mid","6 7 enjoyer welcome"];
-  const INSULTS=["Schwach. Richtig schwach.","Loser-Alarm. 🚨","Das war erbärmlich, ehrlich.","Meine Oma weicht besser aus.","Git gud, sagt man da.","Talentfrei – aber niedlich.","Selbst die Bots lachen.","Setzen. Sechs.","Pixel-Versager Deluxe.","War das Absicht? Bitte sag ja.","Skill: nicht gefunden.","Eine Schande für Synthwave.","L + ratio + bozo.","skill issue tbh.","−1000 Aura, digga.","mid. einfach mid.","das war goofy ngl.","sit down, bro.","NPC-Tod erkannt.","0 rizz, 0 skill.","ratio. L. cope.","delulu warst du eh."];
-  const DUMB=["bro hat einfach... ja.","skibidi 🚽","das ist lowkey mid","real ones wissen Bescheid","+50 Aura für nix","kein Cap fr fr","gönn dir, digga","sigma move 🗿","Ohio-Level erreicht","goofy ahh ausweichen","valid. einfach valid.","NPC-Verhalten erkannt","slay 💅","krass Bruder","delulu ist die solulu","W oder L?","based ngl","gyatt 😳","mach mal kein L","ist das Aura oder Lag?","6 7 😶‍🌫️","kein Plan was hier abgeht","Hä? auch egal.","das ribbelt im Hirn"];
   function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); shake=24; vibe([120,50,200]);
     spawnParticles(player.x,player.y,'#ff2e88',46,380); spawnParticles(player.x,player.y,'#19f0ff',26,260);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores();
@@ -1937,7 +1932,7 @@
     if(k==='lang'){ const order=['de','en','fr']; lang=order[(order.indexOf(lang)+1)%3]; saveLang(); applyI18n(); beep(740,0.06,'square',0.2); return; }
     if(k==='shake') opt.shake=(opt.shake>=1?0.4:(opt.shake>0?0:1));
     else opt[k]=!opt[k];
-    saveOpt(); renderSettings(); beep(opt[k]===false?330:740,0.06,'square',0.2); }
+    saveOpt(); renderSettings(); applyFx(); beep(opt[k]===false?330:740,0.06,'square',0.2); }
   // Statische UI-Texte je Sprache setzen
   // ---------- Erfolge-Galerie ----------
   function openAch(){ document.getElementById('start').classList.add('hidden'); renderAch();
