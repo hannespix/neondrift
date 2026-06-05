@@ -5,6 +5,7 @@
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
+  let frameMs=16, fxQ=1;   // Performance-Governor: geglättete Frame-Zeit + FX-Qualität (1=voll, sinkt automatisch bei Lag)
 
   // ---------- i18n (DE / EN / FR, Jugendsprache je Sprache) ----------
   function detectLang(){ const l=((navigator.language||navigator.userLanguage||'en')+'').slice(0,2).toLowerCase(); return (l==='de'||l==='fr')?l:'en'; }
@@ -186,6 +187,7 @@
     arsenal.w={};
     // Roguelite-Start: jeder Run beginnt nur mit dem Blaster (Lvl 1); alle anderen Waffen baust du im Run per Skillpunkten auf.
     if(opt.guns){ arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts=1; }   // +1 Startpunkt → sofort 2. Waffe deiner Wahl
+    if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length; for(const w of WEAPONS) arsenal.w[w.id]={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts=0; }   // ZEN = Sandbox: alle Waffen sofort freigeschaltet
     const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
     const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
@@ -621,7 +623,7 @@
   function emitP(x,y,vx,vy,decay,color,size){ const p=particles[pHead]; pHead=(pHead+1)%PMAX;
     p.x=x;p.y=y;p.vx=vx;p.vy=vy;p.life=1;p.decay=decay;p.color=color;p.size=size; }
   function clearParticles(){ for(let i=0;i<particles.length;i++) particles[i].life=0; pHead=0; }
-  function spawnParticles(x,y,color,n,spd){ for(let i=0;i<n;i++){const a=Math.random()*6.28,s=rand(spd*0.3,spd);
+  function spawnParticles(x,y,color,n,spd){ n=Math.max(1,Math.round(n*fxQ)); for(let i=0;i<n;i++){const a=Math.random()*6.28,s=rand(spd*0.3,spd);   // fxQ: bei Lag weniger Partikel erzeugen
     emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,rand(0.012,0.03),color,rand(2,5));} }
   function floatText(x,y,text,color,size){ floaters.push({x,y,text,color:color||'#fff',size:size||16,life:1,vy:-42}); }
   // Schadenszahl (weiß = normal, rot = Krit). Mit Soft-Cap gegen Spam & nur wenn aktiviert.
@@ -1447,14 +1449,14 @@
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ const h=rollHit(w.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); } }
     const col=w.slow?'#8fe8ff':'#c45bff';
-    novas.push({x:player.x,y:player.y,r0:14,rMax:R,t:0,life:0.36,col});                       // expandierender Schockwellen-Ring
+    if(novas.length>18) novas.shift(); novas.push({x:player.x,y:player.y,r0:14,rMax:R,t:0,life:0.36,col});   // Cap + expandierender Schockwellen-Ring
     for(let i=0;i<16;i++){ const a=i/16*6.28, s=R*2.4; emitP(player.x+Math.cos(a)*16,player.y+Math.sin(a)*16,Math.cos(a)*s,Math.sin(a)*s,0.08,col,rand(3,6)); }
     flash=Math.min(0.4,flash+0.1); flashColor=col; shake=Math.max(shake,4); beep(170,0.13,'sine',0.18,200); vibe(8); }
   // VOLTBOGEN: kleine Nova an einem Ketten-Treffer (entkoppelt verarbeitet, damit das Splicen die Kette nicht stört)
   function miniNova(x,y){ const R=56, dmg=(wpn.nova?wpn.nova.dmg*0.5:1.6)*(mods.wDmgMult||1);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
       if(dx*dx+dy*dy<R*R){ o.hp-=dmg; o.hitFlash=0.1; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
-    novas.push({x,y,r0:6,rMax:R,t:0,life:0.28,col:'#c45bff'});
+    if(novas.length>18) novas.shift(); novas.push({x,y,r0:6,rMax:R,t:0,life:0.28,col:'#c45bff'});
     for(let i=0;i<7;i++){ const a=i/7*6.28; emitP(x,y,Math.cos(a)*R*2,Math.sin(a)*R*2,0.12,'#c45bff',rand(2,4)); }
     beep(220,0.06,'sine',0.10,160); }
   // Railgun: sofortige Schiene auf die nächste Bedrohung – trifft alle Ziele in der Spalte
@@ -1470,9 +1472,9 @@
     if(syn.railnova) synNovas.push({x:bx,y:baseY-40});                                   // SCHIENEN-NOVA: Nova in der Schussspalte
     if(syn.railchain && wpn.chain) chainLightning(bx,baseY-40,wpn.chain.dmg*0.8,wpn.chain.jumps,{});   // SCHIENEN-KETTE
     beams.push({x:bx,w:w.width,t:0.16}); flash=Math.min(0.45,flash+0.12); flashColor='#fff27a'; shake=Math.max(shake,5); beep(120,0.14,'sawtooth',0.28,-40); }
-  function pixelBurst(x,y,color,power){ const n=8+Math.min(20,(power||1)*5);
+  function pixelBurst(x,y,color,power){ const n=Math.max(3,Math.round((8+Math.min(20,(power||1)*5))*fxQ)), wn=Math.max(1,Math.round(4*fxQ));   // fxQ: Burst bei Lag kleiner
     for(let i=0;i<n;i++){ const a=Math.random()*6.28,s=rand(80,270); emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,rand(0.02,0.045),color,rand(3,7)); }
-    for(let i=0;i<4;i++){ const a=Math.random()*6.28,s=rand(40,160); emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,0.05,'#ffffff',rand(3,6)); } }
+    for(let i=0;i<wn;i++){ const a=Math.random()*6.28,s=rand(40,160); emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,0.05,'#ffffff',rand(3,6)); } }
   function killObstacle(o){ const pts=3*(o.maxHp||1); addScore(pts);
     pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
@@ -1525,7 +1527,7 @@
     // gezackter Blitz-Bogen: Zwischenpunkte mit seitlichem Versatz → sichtbarer Kettenblitz
     const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len, seg=Math.max(4,Math.min(9,(len/26)|0)), pts=[[x1,y1]];
     for(let i=1;i<seg;i++){ const tt=i/seg, j=(Math.random()-0.5)*Math.min(30,len*0.32); pts.push([x1+dx*tt+nx*j, y1+dy*tt+ny*j]); }
-    pts.push([x2,y2]); zaps.push({pts,t:0.14,life:0.14});
+    pts.push([x2,y2]); if(zaps.length>26) zaps.shift(); zaps.push({pts,t:0.14,life:0.14});   // Cap gegen Effekt-Spike
     spawnParticles(x2,y2,'#caffff',3,90); beep(1100,0.03,'square',0.07,260); }
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
@@ -1661,7 +1663,7 @@
 
       // particles (additiv -> Funkenregen leuchtet übereinander). Glow via Halo+Kern statt teurem shadowBlur (mobil flüssig)
       ctx.globalCompositeOperation='lighter'; ctx.shadowBlur=0;
-      const pHalo=pAlive<140;   // Halo (2. fillRect) nur bei wenigen Partikeln; bei Bursts nur Kern = halbe Füllkosten genau wenn's eng wird
+      const pHalo=pAlive<140 && fxQ>0.7;   // Halo nur bei wenigen Partikeln & gutem Frame-Budget; bei Last nur Kern = halbe Füllkosten
       for(const p of particles){ if(p.life<=0) continue; const a=p.life, s=p.size; ctx.fillStyle=p.color;
         if(pHalo){ ctx.globalAlpha=a*0.35; ctx.fillRect(p.x-s,p.y-s,s*2,s*2); }     // weicher additiver Halo
         ctx.globalAlpha=a;      ctx.fillRect(p.x-s/2,p.y-s/2,s,s); }               // heller Kern
@@ -1875,7 +1877,7 @@
     for(let i=0;i<7;i++){ const yy=sr+6+i*i*3.4; if(yy>SS) break; so.fillRect(0,yy,SS,2.4+i*1.7); }
     so.restore();
     // ---- Audio-Visualizer: bunte Wellenform auf EIGENER Ebene (nur sie wird gebloomt) ----
-    const wo=waveOffCtx; wo.clearRect(0,0,SS,SS); const hasWave=analyser && !muted;
+    const wo=waveOffCtx; wo.clearRect(0,0,SS,SS); const hasWave=analyser && !muted && fxQ>0.6;   // bei Lag Visualizer aussetzen
     if(hasWave){ analyser.getByteTimeDomainData(waveData);
       wo.save(); wo.beginPath(); wo.arc(sr,sr,sr,0,6.28); wo.clip();
       wo.globalCompositeOperation='lighter'; wo.lineWidth=2.7; wo.lineJoin='round'; wo.lineCap='round';
@@ -2155,6 +2157,8 @@
 
   // ---------- Loop ----------
   function loop(now){ let dt=(now-lastT)/1000; lastT=now; if(dt>0.05)dt=0.05;
+    frameMs+=((dt*1000)-frameMs)*0.1;                                                              // geglättete Frame-Zeit (EMA)
+    if(frameMs>27) fxQ=Math.max(0.4,fxQ-0.05); else if(frameMs<19) fxQ=Math.min(1,fxQ+0.02);       // <37fps: FX runter · >52fps: wieder hoch
     if(state===S.PLAY) update(dt);
     else { elapsed=(elapsed||0)+dt; for(const s of stars){s.y+=(20+s.z*40)*dt;if(s.y>H){s.y=-2;s.x=Math.random()*W;}}
       if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
