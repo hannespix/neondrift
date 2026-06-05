@@ -390,19 +390,32 @@
     {s:48,n:76,d:6},{s:54,n:72,d:4},{s:58,n:71,d:6}
   ];
   const SONGS=[
-    {name:'PROLOG',     lead1:LEAD1,  lead2:LEAD2,  bass:[36,45,41,43], chords:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]], lt:'square',   leadVol:0.16, bassEighths:false, fourFloor:false, hatEvery:2},
-    {name:'NACHTFAHRT', lead1:LEADB1, lead2:LEADB2, bass:[38,34,36,33], chords:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]], lt:'sawtooth', leadVol:0.11, bassEighths:true,  fourFloor:false, hatEvery:4},
-    {name:'ÜBERTAKTET', lead1:LEADC1, lead2:LEADC2, bass:[45,40,42,38], chords:[[57,61,64],[52,56,59],[54,57,61],[50,54,57]], lt:'square',   leadVol:0.14, bassEighths:false, fourFloor:true,  hatEvery:1},
-    {name:'STRATOSPHÄRE',lead1:LEADD1, lead2:LEADD2, bass:[43,38,40,36], chords:[[55,59,62],[50,54,57],[52,55,59],[48,52,55]], lt:'sawtooth', leadVol:0.13, bassEighths:true,  fourFloor:false, hatEvery:2},
-    {name:'ARKADE',     lead1:LEADE1, lead2:LEADE2, bass:[45,43,41,43], chords:[[57,60,64],[55,59,62],[53,57,60],[55,59,62]], lt:'square',   leadVol:0.15, bassEighths:true,  fourFloor:true,  hatEvery:2}
+    {name:'PROLOG',     lead1:LEAD1,  lead2:LEAD2,  bass:[36,45,41,43], chords:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]], lt:'p50', leadVol:0.16, bassEighths:false, fourFloor:false, hatEvery:2},
+    {name:'NACHTFAHRT', lead1:LEADB1, lead2:LEADB2, bass:[38,34,36,33], chords:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]], lt:'p25', leadVol:0.12, bassEighths:true,  fourFloor:false, hatEvery:4},
+    {name:'ÜBERTAKTET', lead1:LEADC1, lead2:LEADC2, bass:[45,40,42,38], chords:[[57,61,64],[52,56,59],[54,57,61],[50,54,57]], lt:'p12', leadVol:0.15, bassEighths:false, fourFloor:true,  hatEvery:1},
+    {name:'STRATOSPHÄRE',lead1:LEADD1, lead2:LEADD2, bass:[43,38,40,36], chords:[[55,59,62],[50,54,57],[52,55,59],[48,52,55]], lt:'p25', leadVol:0.13, bassEighths:true,  fourFloor:false, hatEvery:2},
+    {name:'ARKADE',     lead1:LEADE1, lead2:LEADE2, bass:[45,43,41,43], chords:[[57,60,64],[55,59,62],[53,57,60],[55,59,62]], lt:'p25', leadVol:0.15, bassEighths:true,  fourFloor:true,  hatEvery:2}
   ];
   // Eigener, entspannter Menü-Track (rotiert NICHT mit den Level-Songs)
   const MENU_SONG={name:'NEON CHILL', lead1:LEADM1, lead2:LEADM2, bass:[36,45,41,43],
     chords:[[60,64,67,71],[57,60,64,67],[53,57,60,64],[55,59,62,65]], lt:'triangle', leadVol:0.135, chill:true};
   let curSong=0;
+  // ---- Game-Boy-Pulswellen (Tastverhältnis) ----
+  // Der GB/NES-Soundchip hat keine echte Säge, sondern Pulskanäle mit 12,5%/25%/50% Duty –
+  // genau dieser dünne, nasale Ton macht den „Game-Boy"-Charakter. Wir bauen ihn per Fourierreihe.
+  const PULSE={};
+  function pulseWave(duty){ const k=duty.toFixed(2); if(PULSE[k]) return PULSE[k];
+    const N=22, real=new Float32Array(N), imag=new Float32Array(N);
+    for(let n=1;n<N;n++) real[n]=(2/(n*Math.PI))*Math.sin(n*Math.PI*duty);   // Amplitudenspektrum eines Duty-Pulses
+    const w=actx.createPeriodicWave(real,imag); PULSE[k]=w; return w; }
+  // type 'p12'/'p25'/'p50' → Pulswelle mit 12/25/50% Duty, sonst Standard-Wellenform
+  function setOsc(o,type){ if(type&&type[0]==='p') o.setPeriodicWave(pulseWave((+type.slice(1))/100)); else o.type=type; }
+  // Songform (gilt für alle Level-Songs): Intro baut auf · Verse atmet · Chorus episch · Bridge = Quarte hoch
+  const FORM=[{p:1,m:'intro'},{p:1,m:'verse'},{p:2,m:'verse'},{p:1,m:'chorus'},
+              {p:2,m:'chorus'},{p:2,m:'bridge'},{p:1,m:'chorus'},{p:2,m:'chorus'}];
   function mVoice(time,freq,dur,type,vol,atk=0.005){
     const o=actx.createOscillator(), g=actx.createGain();
-    o.type=type; o.frequency.setValueAtTime(freq,time);
+    setOsc(o,type); o.frequency.setValueAtTime(freq,time);
     g.gain.setValueAtTime(0.0001,time); g.gain.linearRampToValueAtTime(vol,time+atk);
     g.gain.exponentialRampToValueAtTime(0.0001,time+dur);
     o.connect(g); g.connect(musicGain); o.start(time); o.stop(time+dur+0.02);
@@ -417,7 +430,7 @@
     lp.frequency.linearRampToValueAtTime(Math.min(5200,freq*2.6),time+dur);
     lp.connect(g); g.connect(musicGain);
     if(echo&&musicDelay){ const s=actx.createGain(); s.gain.value=echo; g.connect(s); s.connect(musicDelay); }
-    for(const c of [-6,6]){ const o=actx.createOscillator(); o.type=type; o.frequency.setValueAtTime(freq,time); o.detune.setValueAtTime(c,time);
+    for(const c of [-6,6]){ const o=actx.createOscillator(); setOsc(o,type); o.frequency.setValueAtTime(freq,time); o.detune.setValueAtTime(c,time);
       if(vibGain) vibGain.connect(o.detune); o.connect(lp); o.start(time); o.stop(time+dur+0.03); }
     const sub=actx.createOscillator(); sub.type='triangle'; sub.frequency.setValueAtTime(freq/2,time);
     const sg=actx.createGain(); sg.gain.value=0.32; sub.connect(sg); sg.connect(lp); sub.start(time); sub.stop(time+dur+0.03);
@@ -458,13 +471,17 @@
     musicShift=playing?levelKey(level||1):0;                                  // Tonart steigt pro Level
     secPerStep=60/((BPM+(playing?Math.min(((level||1)-1)*4,40):0))*4);        // Tempo zieht pro Level an (bis +40 BPM)
     const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
-    const lead=(loopCount%2===1)?song.lead2:song.lead1;
     const lv=song.leadVol||0.16, echo=song.chill?0.5:0.3;
-    const block=Math.floor(step/16), ls=step%16, root=song.bass[block];
-    const chorus=!song.chill && (loopCount%4)>=2;     // 2 Loops Verse (atmen) · 2 Loops Chorus (episch) → Build/Release
-    // ---- LEAD (im Chorus lauter + Oktav-Harmonie = hymnische Höhe) ----
-    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n),e.d*secPerStep*0.94,song.lt,chorus?lv*1.18:lv,echo);
-      if(chorus && e.d>=2) mVoice(time,midiF(e.n+12),e.d*secPerStep*0.6,'triangle',lv*0.34,0.012); }
+    const block=Math.floor(step/16), ls=step%16;
+    // ---- SONGFORM: echtes Arrangement statt 2-Phrasen-Loop (Intro→Verse→Chorus→Bridge→Chorus über 8 Loops) ----
+    const sec=song.chill?{p:(loopCount%2)+1,m:'chill'}:FORM[loopCount%FORM.length];
+    const lead=sec.p===2?song.lead2:song.lead1;
+    const intro=sec.m==='intro', chorus=sec.m==='chorus', bridge=sec.m==='bridge';
+    const kt=bridge?5:0;                              // Bridge: Melodie + Harmonie eine Quarte hoch = klar neues Songteil
+    const root=song.bass[block]+kt;
+    // ---- LEAD (Chorus lauter + Oktav-Harmonie · Intro leiser/luftiger) ----
+    for(const e of lead) if(e.s===step){ mLead(time,midiF(e.n+kt),e.d*secPerStep*0.94,song.lt,chorus?lv*1.18:(intro?lv*0.8:lv),echo);
+      if(chorus && e.d>=2) mVoice(time,midiF(e.n+kt+12),e.d*secPerStep*0.6,'p50',lv*0.32,0.012); }   // Chorus: 2. Pulskanal eine Oktave drüber
     if(song.chill){
       if(ls===0||ls===8) mVoice(time,midiF(root),secPerStep*5,'triangle',0.20,0.012);                 // weicher, ruhiger Bass
       if(ls===0){ for(const cn of song.chords[block]) mVoice(time,midiF(cn+12),secPerStep*15,'sine',0.03,0.06); } // sanfter Pad-Akkord
@@ -473,27 +490,28 @@
       if((ls===6||ls===14) && loopCount%2===0){ const c=song.chords[block]; mArp(time,midiF(c[(ls/2)%c.length]+24),secPerStep*1.6,0.022); } // träumerische Sparkle
       return;
     }
-    // ---- BASS (im Chorus voller) ----
-    if(song.bassEighths){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',chorus?0.30:0.24,0.004); } // treibender Achtel-Bass
-    else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:0.27,0.004); else if(ls%4===2) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
-    // ---- EPISCHE Power-Akkorde NUR im Chorus (tiefe Oktave + Quinte + Oktave, Sägezahn = Wucht) ----
-    if(chorus && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'sawtooth',0.085,0.012); }
+    // ---- BASS (Chorus voller · Intro sparsam) ----
+    if(song.bassEighths && !intro){ if(ls%2===0) mVoice(time,midiF(root),secPerStep*1.5,'triangle',chorus?0.30:0.24,0.004); } // treibender Achtel-Bass
+    else { if(ls%4===0) mVoice(time,midiF(root),secPerStep*2,'triangle',chorus?0.33:(intro?0.2:0.27),0.004); else if(ls%4===2 && !intro) mVoice(time,midiF(root+7),secPerStep*1.4,'triangle',0.15); }
+    // ---- EPISCHE Power-Akkorde NUR im Chorus (tiefe Oktave + Quinte + Oktave, voller Puls = Wucht) ----
+    if(chorus && (ls===0||ls===8)){ for(const n of [root,root+12,root+19,root+24]) mVoice(time,midiF(n),secPerStep*3.6,'p50',0.07,0.012); }
     if(chorus && ls===0) mNoise(time,0.22,0.13,3000);   // Crash auf der Chorus-Eins (Bombast)
-    // ---- Klassischer Chiptune-Arpeggio-Akkord (Akkordtöne im schnellen 16tel-Wechsel auf einem Kanal = NES-Sound) ----
-    { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12),secPerStep*0.42,'square',chorus?0.05:0.038,0.001);
-      if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24),secPerStep*0.3,'square',0.03,0.001); }   // im Chorus zweite Oktave drauf = breiter Chip-Sound
-    // ---- DRUMS: Chorus = Four-on-the-floor + fette Snare · Verse = sparsam ----
-    if(chorus){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
-    if(ls===4||ls===12) mNoise(time,0.12,chorus?0.20:0.13,1800);                                       // Snare
-    if(state===S.PLAY && ls%((song.hatEvery||2)*(chorus?1:2))===0) mNoise(time,0.025,chorus?0.06:0.04,8000); // Hats
-    if((loopCount%4)===1 && step>=58) mNoise(time,0.05,0.04+0.13*((step-58)/6),4200);                  // Riser in den Chorus
-    // ---- Prozedurale Arp-Schicht (im Chorus präsenter, im Verse luftig) ----
-    if(state===S.PLAY){ const ch=song.chords[block], V=loopCount;
+    // ---- Klassischer Chiptune-Arpeggio-Akkord (Akkordtöne im schnellen 16tel-Wechsel, 12% Puls = NES/GB-Sound) ----
+    { const ch=song.chords[block]; mVoice(time,midiF(ch[step%ch.length]+12+kt),secPerStep*0.42,'p12',chorus?0.05:0.04,0.001);
+      if(chorus && ls%2===0) mVoice(time,midiF(ch[(step+2)%ch.length]+24+kt),secPerStep*0.3,'p12',0.03,0.001); }   // Chorus: zweite Oktave drauf = breiter Chip-Sound
+    // ---- DRUMS: Intro = nur Eins · Chorus = Four-on-the-floor + fette Snare · Verse = sparsam ----
+    if(intro){ if(ls===0) mKick(time); }
+    else if(chorus){ if(ls%4===0) mKick(time); } else { if(ls===0||ls===8) mKick(time); }
+    if((ls===4||ls===12) && !intro) mNoise(time,0.12,chorus?0.20:0.13,1800);                           // Snare
+    if(state===S.PLAY && !intro && ls%((song.hatEvery||2)*(chorus?1:2))===0) mNoise(time,0.025,chorus?0.06:0.04,8000); // Hats
+    if(FORM[(loopCount+1)%FORM.length].m==='chorus' && step>=58) mNoise(time,0.05,0.04+0.13*((step-58)/6),4200); // Riser in den nächsten Chorus
+    // ---- Prozedurale Arp-Schicht (im Chorus präsenter, im Verse luftig, Intro aus) ----
+    if(state===S.PLAY && !intro){ const ch=song.chords[block], V=loopCount;
       const dens=chorus?[2,2,4,2][V%4]:[0,4,0,8][V%4];
       if(dens && ls%dens===0){ const pat=V%3, k=Math.floor(step/dens), seq=ch.length;
         const idx=pat===0?k%seq:pat===1?(seq-1-(k%seq)):[0,1,2,1][k%4]%seq;
-        mArp(time,midiF(ch[idx]+12+(V%4===1?12:0)),secPerStep*0.62,chorus?0.045:0.026); }
-      if(chorus && step>=58){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24),secPerStep*0.42,0.05); }
+        mArp(time,midiF(ch[idx]+12+kt+(V%4===1?12:0)),secPerStep*0.62,chorus?0.045:0.026); }
+      if(chorus && step>=58){ const run=[0,2,1,3]; mArp(time,midiF(ch[run[(step-58)%4]%ch.length]+24+kt),secPerStep*0.42,0.05); }
     }
   }
   function scheduler(){
