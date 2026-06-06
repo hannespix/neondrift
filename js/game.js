@@ -23,7 +23,7 @@
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', resetAll:'♻ ALLES ZURÜCKSETZEN', reallyQ:'WIRKLICH? ✓ (tippen)',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -50,7 +50,7 @@
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', resetAll:'♻ RESET EVERYTHING', reallyQ:'SURE? ✓ (tap)',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -77,7 +77,7 @@
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', resetAll:'♻ TOUT RÉINITIALISER', reallyQ:'SÛR ? ✓ (touche)',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -136,6 +136,10 @@
   const uDesc=id=>(((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||['',''])[1])||'';
   const mName=id=>((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||[id])[0];
   const mTxt =id=>(((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||['',''])[1])||'';
+  let shopTab='weapons';   // aktiver Werkstatt-Reiter
+  const SHOPTABS=[['weapons','⚔️'],['ship','🛡️'],['power','💥'],['economy','◈']];
+  const shopName=m=> m.id.indexOf('fu_')===0 ? wName(m.id.slice(3))+' – Pfade' : mName(m.id);
+  const shopDesc=m=> m.id.indexOf('fu_')===0 ? (wArch(m.id.slice(3))+' · nächste Skill-Pfad-Stufe (im Run wählbar)') : (mTxt(m.id)+(m.id.indexOf('bp_')===0?(' · '+wArch(m.id.slice(3))):''));
   const FORMTR={de:{sine:'Wellenflug',drift:'Gleiter',orbit:'Kreisel',zigzag:'Irrläufer',pendulum:'Pendler'},
     en:{sine:'Wave Flight',drift:'Glider',orbit:'Orbiter',zigzag:'Zigzagger',pendulum:'Pendulum'},
     fr:{sine:'Vol Ondulé',drift:'Planeur',orbit:'Orbiteur',zigzag:'Zigzagueur',pendulum:'Pendule'}};
@@ -189,6 +193,15 @@
   const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,1.8)/10)*10;
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
   function chipMult(){ return 1+0.12*metaLvl('rich'); }
+  // Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<waffe> = Anzahl freier Fork-Slots, 0..4)
+  const FORKI={f1:1,f2:2,f3:3,f4:4};
+  // Fork-Stufe 1 kommt mit der Waffe; Stufen 2–4 werden in der Werkstatt freigeschaltet (fu_<id> = 0..3)
+  const forkShopOpen=(id,slot)=> slot==='f1' || (metaLvl('fu_'+id)||0) >= (FORKI[slot]-1);
+  // Werkstatt-Kategorien (für Tab-UI)
+  function shopCat(id){ if(id.indexOf('bp_')===0||id.indexOf('fu_')===0||id==='slot'||id==='veteran') return 'weapons';
+    if(id==='shield'||id==='tough'||id==='solid'||id==='reach') return 'ship';
+    if(id==='wcore'||id==='wtempo'||id==='critcore') return 'power';
+    return 'economy'; }
   // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
   function dailyShopCheck(){ if(opt.dailyShop && meta.shopDate!==dailyLabel()){ meta.chips=0; meta.lvl={}; meta.shopDate=dailyLabel(); saveMeta(); } }
   const weaponUnlocked=id=> id==='blaster' || metaLvl('bp_'+id)>0;
@@ -717,6 +730,9 @@
     {id:'rail',   ico:'⚡',col:'#fff27a',forks:[['charged','autoload'],['wide','overdrive'],['piercebeam','hypervelocity'],['gigawatt','repeater']]}
   ];
   const WID=Object.fromEntries(WEAPONS.map(w=>[w.id,w]));
+  // Werkstatt: pro Waffe 4 freischaltbare Fork-Stufen (fu_<id>) → tiefer Grind, gatet die Build-Tiefe
+  { const FORKBASE={blaster:120,missile:160,flame:170,frost:185,chain:205,nova:225,rail:245};
+    for(const w of WEAPONS) META.push({id:'fu_'+w.id, ico:w.ico, base:FORKBASE[w.id]||180, max:3}); }
   // Spielstil-Archetypen je Waffe → sofort lesbare Build-Identität (Karte zeigt Stil, man muss keine Stats rechnen)
   const ARCH={
     blaster:{ico:'⚡',de:'Dauerfeuer',en:'Sustained',fr:'Tir continu'},
@@ -828,7 +844,9 @@
     o.slow=Math.max(o.slow||0,dur*(1-res*0.5));            // Elites: kürzere Slow-Dauer
     o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,Math.max(floor,amt)); }
   // Waffen-Level/Fork-Logik: lvl1=Basis, lvl2=Gabelung1 gewählt, lvl3=Gabelung2 gewählt
-  function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new'; if(!a.f1) return 'f1'; if(!a.f2) return 'f2'; if(!a.f3) return 'f3'; if(!a.f4) return 'f4'; return null; }
+  function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new';
+    for(const s of ['f1','f2','f3','f4']){ if(!a[s]) return forkShopOpen(id,s)?s:null; }   // nächster Slot nur, wenn in Werkstatt freigeschaltet
+    return null; }
   function weaponMaxed(id){ return nextNode(id)===null; }
 
   function reset(){
@@ -2053,12 +2071,16 @@
     document.getElementById(shopFrom).classList.remove('hidden'); updateMenuChips(); }
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
+    // Tab-Leiste
+    const tabsEl=document.getElementById('shopTabs');
+    if(tabsEl){ tabsEl.innerHTML=''; SHOPTABS.forEach(([key,ico])=>{ const b=document.createElement('button');
+      b.className='shopTab'+(shopTab===key?' on':''); b.textContent=ico+' '+t('cat_'+key);
+      b.addEventListener('click',()=>{ shopTab=key; renderShop(); }); tabsEl.appendChild(b); }); }
     shopCards.innerHTML='';
-    META.forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
+    META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
       const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
       const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
-      let mdesc=mTxt(m.id); if(m.id.indexOf('bp_')===0) mdesc+=' · '+wArch(m.id.slice(3));   // Bauplan zeigt Spielstil
-      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+mName(m.id)+'</h4><p>'+mdesc+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
+      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
       const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
       shopCards.appendChild(card); }); }
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
@@ -2082,7 +2104,7 @@
     banner={text:s.ico+' '+synName(s.id)+' · '+t('synUnlocked'),sub:synDesc(s.id),t:2.8,color:'#ff2e88'};
     if(player) floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,(flash||0)+0.3); flashColor='#ff2e88'; } } }
   function afterSpend(){ if(arsenalSkillMode && !hasSkillSpend()) closeArsenalView(); else renderArsenalView(); }
-  function spendFork(id,slot,path){ if(skillPts<=0) return; const a=arsenal.w[id]; if(!a||a[slot]) return; const before=Object.assign({},syn);
+  function spendFork(id,slot,path){ if(skillPts<=0) return; const a=arsenal.w[id]; if(!a||nodeState(id,a,slot,path)!=='avail') return; const before=Object.assign({},syn);
     a[slot]=path; a.lvl++; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:(wName(id)+' · '+pName(path)).toUpperCase(),sub:t('activated'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
   function addWeaponSkill(id){ if(skillPts<=0||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; const before=Object.assign({},syn);
@@ -2097,13 +2119,16 @@
     const on=activeSyn.includes(id); banner={text:SID[id].ico+' '+synName(id),sub:on?t('synOn'):t('synNeed'),t:1.2,color:'#ff2e88'};
     renderArsenalView(); }
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
-  function nodeState(a,slot,path){ const sel=a[slot];
+  function nodeState(id,a,slot,path){ const sel=a[slot];
     if(sel===path) return 'chosen';
     if(sel) return 'dim';                       // in diesem Fork wurde schon der andere Pfad gewählt
     const open={f1:true, f2:!!a.f1, f3:!!a.f2, f4:!!a.f3};   // Gabelung erst frei, wenn die vorige gewählt ist
-    return open[slot] ? 'avail' : 'locked'; }
-  function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(a,slot,path), can=(st==='avail'&&skillPts>0&&opt.guns);
-    return `<div class="tnode ${st}${can?' pick':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${pDesc(path)}"><span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${can?'<span class="pickhint">+</span>':''}</div>`; }
+    if(!open[slot]) return 'locked';
+    if(!forkShopOpen(id,slot)) return 'shoplocked';         // Reihenfolge ok, aber Fork-Stufe noch nicht in der Werkstatt gekauft
+    return 'avail'; }
+  function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(id,a,slot,path), can=(st==='avail'&&skillPts>0&&opt.guns);
+    const hint=can?'<span class="pickhint">+</span>':(st==='shoplocked'?'<span class="pickhint shop">🔒</span>':'');
+    return `<div class="tnode ${st}${can?' pick':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}"><span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
   function renderArsenalView(){ const sub=document.getElementById('arsenalViewSub');
     if(sub){ let s=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots;
       if(skillPts>0&&opt.guns) s+=' · 💠 '+skillPts+' '+t('skillPts');
