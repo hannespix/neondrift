@@ -34,6 +34,13 @@
   /* Hinweis, dass Ton erst nach erster Geste startet (Browser-Autoplay-Sperre) – blendet sich nach dem ersten Tipp aus */
   .soundHint{margin-top:8px;font-size:clamp(10px,2.3vw,13px);letter-spacing:.12em;color:var(--pink);opacity:.9;animation:soundPulse 1.6s ease-in-out infinite;}
   @keyframes soundPulse{0%,100%{opacity:.45;}50%{opacity:1;}}
+  /* Schwierigkeits-Umschalter im Startmenü */
+  .diffBtn{margin-top:14px;padding:9px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.22);
+    background:rgba(8,1,15,.5);color:#cbbdf0;font-family:inherit;font-size:clamp(12px,2.8vw,15px);cursor:pointer;
+    -webkit-tap-highlight-color:transparent;transition:border-color .2s,color .2s;}
+  .diffBtn b{color:var(--cyan);font-weight:700;}
+  .diffBtn small{display:block;margin-top:2px;font-size:.72em;letter-spacing:.12em;text-transform:uppercase;opacity:.5;color:#9a86c9;}
+  .diffBtn:hover,.diffBtn:active{border-color:var(--cyan);}
 
   .modes{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:680px;}
   .mode{cursor:pointer;width:178px;max-width:42vw;padding:20px 16px;border-radius:16px;text-align:left;
