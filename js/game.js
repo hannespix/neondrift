@@ -2288,7 +2288,8 @@
     return 'avail'; }
   function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(id,a,slot,path), can=(st==='avail'&&skillPts>0&&opt.guns);
     const hint=can?'<span class="pickhint">+</span>':(st==='shoplocked'?'<span class="pickhint shop">🔒</span>':'');
-    return `<div class="tnode ${st}${can?' pick':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}"><span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
+    const ti={f1:0,f2:1,f3:2,f4:3}[slot]||0, tip=pDesc(path)+' · '+flavTier(id,ti);   // echte Pfad-Beschreibung + waffenspezifischer Spruch
+    return `<div class="tnode ${st}${can?' pick':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
   function renderArsenalView(){ updateRunShopBtns(); const sub=document.getElementById('arsenalViewSub');
     if(sub){ let s=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots;
       if(skillPts>0&&opt.guns) s+=' · 💠 '+skillPts+' '+t('skillPts');
@@ -2311,7 +2312,7 @@
         `<div class="tconn"></div>`+
         `<div class="trow">${treeNode(id,'f4',f4[0])}${treeNode(id,'f4',f4[1])}</div>`;
       card.querySelector('button.drop').addEventListener('click',e=>{ e.stopPropagation(); dropWeapon(id); });
-      card.querySelectorAll('.tnode.pick').forEach(n=>n.addEventListener('click',()=>spendFork(n.dataset.wid,n.dataset.slot,n.dataset.path)));
+      card.querySelectorAll('.tnode.pick').forEach(n=>n.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; spendFork(n.dataset.wid,n.dataset.slot,n.dataset.path); }));
       wrap.appendChild(card); });
     const free=arsenal.slots-ownedCount(), notOwned=WEAPONS.filter(w=>!arsenal.w[w.id]);
     const addable=notOwned.filter(w=>weaponUnlocked(w.id)), locked=notOwned.filter(w=>!weaponUnlocked(w.id));
