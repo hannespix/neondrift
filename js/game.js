@@ -171,12 +171,12 @@
   // Werkstatt-Upgrades: Kosten = Basis × Stufe^1.8 (zwischen linear & exponentiell) & immer krasser
   const META=[
     // Waffen-Baupläne: dauerhafte Freischaltung (max 1) → danach im Run per Skillpunkten baubar. Langsame Sammel-Progression.
-    {id:'bp_missile',  ico:'🚀',name:'Bauplan: Raketen',base:250, max:1},
-    {id:'bp_flame',    ico:'🔥',name:'Bauplan: Brand',  base:350, max:1},
-    {id:'bp_frost',    ico:'❄️',name:'Bauplan: Frost',  base:450, max:1},
-    {id:'bp_chain',    ico:'⛓️',name:'Bauplan: Kette',  base:600, max:1},
-    {id:'bp_nova',     ico:'🟣',name:'Bauplan: Nova',   base:800, max:1},
-    {id:'bp_rail',     ico:'⚡',name:'Bauplan: Railgun', base:1000,max:1},
+    {id:'bp_missile',  ico:'🚀',name:'Bauplan: Raketen',base:120, max:1},
+    {id:'bp_flame',    ico:'🔥',name:'Bauplan: Brand',  base:180, max:1},
+    {id:'bp_frost',    ico:'❄️',name:'Bauplan: Frost',  base:260, max:1},
+    {id:'bp_chain',    ico:'⛓️',name:'Bauplan: Kette',  base:360, max:1},
+    {id:'bp_nova',     ico:'🟣',name:'Bauplan: Nova',   base:500, max:1},
+    {id:'bp_rail',     ico:'⚡',name:'Bauplan: Railgun', base:680, max:1},
     {id:'slot',        ico:'🧩',name:'Modul-Slot',   base:600,max:2},
     {id:'veteran',     ico:'🎖️',name:'Veteran',      base:300,max:2},
     {id:'wcore',       ico:'💥',name:'Waffenkern',   base:240,max:4},
@@ -190,7 +190,7 @@
     {id:'luck',        ico:'🎁',name:'Glückssträhne',base:100,max:3},
     {id:'rich',        ico:'◈', name:'Chip-Magnet',  base:60, max:6}
   ];
-  const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,1.8)/10)*10;
+  const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,2.2)/10)*10;   // steilere Kurve: je höher die Stufe, desto teurer (krasser Grind oben)
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
   function chipMult(){ return 1+0.12*metaLvl('rich'); }
   // Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<waffe> = Anzahl freier Fork-Slots, 0..4)
@@ -869,7 +869,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runChipsPaid=0;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runChipsPaid=0; coinPopAcc=0; coinSaveAcc=0;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -1214,9 +1214,15 @@
   // Hat man einen Punkt UND etwas zum Ausgeben?
   function hasSkillSpend(){ return skillPts>0 && skillSpendable(); }
   // Live-Chips: aus Score+Near abgeleitetes Run-Guthaben (ohne Boss-Live-Chips, ohne Sieg-Bonus → die laufen separat)
-  function scoreChips(){ const s=score||0, scChips=s<=25000?s/55:25000/55+(s-25000)/170;
-    return Math.max(0,Math.round((scChips+(nearCount||0)*0.6)*chipMult()*diffChip)); }
-  function accrueChips(){ const tgt=scoreChips(); if(tgt>runChipsPaid){ meta.chips=(meta.chips||0)+(tgt-runChipsPaid); runChipsPaid=tgt; saveMeta(); updateMenuChips(); } }
+  function scoreChips(){ const s=score||0, scChips=s<=25000?s/40:25000/40+(s-25000)/120;   // schnellere Progression: mehr Coins pro Punkt
+    return Math.max(0,Math.round((scChips+(nearCount||0)*1.0)*chipMult()*diffChip)); }
+  let coinSaveAcc=0, coinPopAcc=0;
+  function accrueChips(force){ if(force===undefined) force=true;
+    const tgt=scoreChips();
+    if(tgt>runChipsPaid){ const d=tgt-runChipsPaid; meta.chips=(meta.chips||0)+d; runChipsPaid=tgt; updateMenuChips();
+      coinPopAcc+=d; coinSaveAcc+=d;
+      if(coinPopAcc>=6 && player && state===S.PLAY){ floatText(player.x+rand(10,20),player.y-rand(0,14),'+◈'+coinPopAcc,'#ffd23f',13); coinPopAcc=0; } }   // sichtbares Coin-Feedback am Spieler
+    if(force||coinSaveAcc>=30){ saveMeta(); coinSaveAcc=0; } }
   function openUpgrade(armed){ skillPts++; accrueChips(); updateRunShopBtns();   // jede Upgrade-Stufe = 1 Skillpunkt (angespart, nutzbar sobald in Werkstatt freigeschaltet) + Live-Chips gutschreiben
     state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
@@ -1472,8 +1478,10 @@
 
     if(banner){ banner.t-=dt; if(banner.t<=0) banner=null; }
     displayScore+=(score-displayScore)*Math.min(1,dt*10);
+    accrueChips(false);                                   // Coins laufend verdienen (Live-Guthaben, gedrosselt gespeichert)
     shake=Math.max(0,shake-dt*60); flash=Math.max(0,flash-dt*1.5); nearGlow=Math.max(0,nearGlow-dt*2);
     scoreEl.textContent=fmt(displayScore); comboEl.textContent='x'+multiplier;
+    if(coinHud) coinHud.textContent='◈ '+fmt(meta.chips||0);
     const cf=(combo>0&&comboTimeMax>0)?Math.max(0,Math.min(1,comboTime/comboTimeMax)):0;
     comboFillEl.style.transform='scaleX('+cf+')'; comboBarEl.classList.toggle('on',combo>0);
   }
@@ -2311,7 +2319,7 @@
     ctx.restore(); }
 
   // ---------- DOM ----------
-  const scoreEl=document.getElementById('score'),comboEl=document.getElementById('combo'),bestHud=document.getElementById('best-hud'),
+  const scoreEl=document.getElementById('score'),comboEl=document.getElementById('combo'),bestHud=document.getElementById('best-hud'),coinHud=document.getElementById('coinHud'),
         finalScore=document.getElementById('finalScore'),finalBest=document.getElementById('finalBest'),quipEl=document.getElementById('quip'),
         newrecEl=document.getElementById('newrec'),modeNameEl=document.getElementById('modeName'),overModeEl=document.getElementById('overMode'),
         zenExitBtn=document.getElementById('zenExit'),upgradeCards=document.getElementById('upgradeCards'),upgradeSub=document.getElementById('upgradeSub'),
