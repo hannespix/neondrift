@@ -2221,7 +2221,15 @@
     x.fillStyle='#19f0ff'; x.shadowColor='#19f0ff'; x.shadowBlur=46; x.font='900 230px Orbitron, sans-serif';
     x.fillText(String(Math.round(score)),540,600);
     x.shadowBlur=0; x.fillStyle='#ffe600'; x.font='700 40px Orbitron, sans-serif'; x.fillText(t('pointsBig'),540,672);
-    x.fillStyle='#c9b9ef'; x.font='400 36px "Space Mono", monospace'; x.fillText(t('record')+' '+curBest(),540,840);
+    // genutztes Raumschiff abbilden (Skin/eigenes Design) – plus Name bei Custom
+    try{ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]||0; up+=ownedCount()*2;
+      const nCan=Math.min(8, ownedCount()+((wpn&&wpn.blaster)?Math.max(0,wpn.blaster.bolts-1):0));
+      const S=buildShipSprite(46,up,nCan);
+      if(S&&S.cv&&S.cv.width){ const sc=Math.min(118/S.cv.height,340/S.cv.width), dw=S.cv.width*sc, dh=S.cv.height*sc, cyS=748;
+        x.save(); x.shadowColor=S.acc||'#19f0ff'; x.shadowBlur=46; x.imageSmoothingEnabled=false; x.drawImage(S.cv,540-dw/2,cyS-dh/2,dw,dh); x.restore();
+        if(meta.skin==='custom'){ const s=activeShip(); if(s&&s.name){ x.shadowBlur=0; x.fillStyle='#9be7ff'; x.font='700 24px Orbitron, sans-serif'; x.fillText('« '+s.name+' »',540,cyS+dh/2+24); } } }
+    }catch(e){}
+    x.shadowBlur=0; x.fillStyle='#c9b9ef'; x.font='400 36px "Space Mono", monospace'; x.fillText(t('record')+' '+curBest(),540,880);
     x.fillStyle='#ff2e88'; x.shadowColor='#ff2e88'; x.shadowBlur=20; x.font='900 52px Orbitron, sans-serif'; x.fillText(t('beatMe'),540,930);
     x.shadowBlur=0; x.fillStyle='#5b4a85'; x.font='400 30px "Space Mono", monospace'; x.fillText('hannespix.github.io/neondrift',540,1020);
     return c;
