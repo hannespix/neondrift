@@ -290,7 +290,7 @@
     achToasts.push({id,t:3.4}); try{ beep(880,0.09,'square',0.18); setTimeout(()=>beep(1320,0.12,'square',0.2),100); }catch(e){} vibe([20,30,20]);
     if(id==='won') unlockSkin('gold'); if(id==='mega') unlockSkin('toxic'); if(id==='madness') unlockSkin('glitch'); }
   function checkComboAch(m){ if(m>=10)unlockAch('combo10'); if(m>=20)unlockAch('combo20'); if(m>=30)unlockAch('combo30'); }
-  let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount;
+  let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount, deathFlash=0;
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
   let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T;
@@ -381,6 +381,10 @@
   // ---- Boss-Tod-Sounds (je nach Abgangs-Animation) ----
   function sfxBoom(){ beep(120,0.55,'square',0.5,-80); beep(60,0.7,'sawtooth',0.42,-34); beep(220,0.3,'triangle',0.3,-160);
     for(let i=0;i<5;i++) setTimeout(()=>beep(rand(80,260),0.06,'square',0.18,-rand(20,90)),i*22); } // Donner + Geprassel
+  // Riesen-Explosion zum Game-Over: tiefer, langer Nuklear-Rumms + Nachhall
+  function sfxDeathBlast(){ beep(95,0.9,'sawtooth',0.5,-80); beep(46,1.15,'square',0.46,-28); beep(210,0.5,'triangle',0.36,-250);
+    setTimeout(()=>beep(150,0.45,'triangle',0.3,-200),80); setTimeout(()=>beep(64,0.75,'sawtooth',0.42,-44),150); setTimeout(()=>beep(38,0.85,'sine',0.36,-20),320);
+    for(let i=0;i<9;i++) setTimeout(()=>beep(rand(70,300),0.06,'square',0.2,-rand(30,120)),i*28); }   // langes Geprassel/Funken
   function sfxBloat(){ beep(180,1.0,'sawtooth',0.26,520); beep(360,1.0,'square',0.12,1040);            // ansteigendes Aufpump-Pfeifen
     for(let i=0;i<6;i++) setTimeout(()=>beep(300+i*70,0.05,'triangle',0.12),i*180); }
   function sfxBalloonPop(){ beep(1300,0.04,'square',0.32,-1000); beep(420,0.14,'sawtooth',0.34,-260);   // Knall
@@ -904,7 +908,7 @@
     obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
-    shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
+    shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0; deathFlash=0;
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
     upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
@@ -1865,6 +1869,8 @@
       r=Math.floor(128+127*Math.sin(hue)),g2=Math.floor(128+127*Math.sin(hue+2.09)),b=Math.floor(128+127*Math.sin(hue+4.19));
       ctx.fillStyle=`rgba(${r},${g2},${b},${0.05+0.03*(beatPulse||0)})`; ctx.fillRect(-40,-40,W+80,H+80); }
     if(flash>0&&opt.fx){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.2):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }
+    if(deathFlash>0){ ctx.fillStyle=hexA('#ffffff',Math.min(0.96,deathFlash)); ctx.fillRect(-40,-40,W+80,H+80);   // Nuklearblitz (bildfüllend)
+      if(deathFlash<0.7){ ctx.fillStyle=hexA('#ff7a1a',Math.min(0.42,0.7-deathFlash)); ctx.fillRect(-40,-40,W+80,H+80); } }   // glühender Feuerschein im Abklang
     // Wahnsinn-Modus: zunehmende Glitch-Scanlines (gestörter Look)
     if(endless&&opt.fx){ const m=Math.min(1,madness);
       for(let i=0;i<3+((m*6)|0);i++){ const yy=Math.random()*H;
@@ -2077,8 +2083,24 @@
   }
 
   // ---------- Game Over ----------
-  function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); shake=24; vibe([120,50,200]);
-    spawnParticles(player.x,player.y,'#ff2e88',46,380); spawnParticles(player.x,player.y,'#19f0ff',26,260);
+  // Zünftiger Abgang: bildfüllende Explosion + Nuklearblitz + Feuer-Konfetti (+ Haptik/Akustik)
+  function bigDeathBlast(x,y){ const diag=Math.hypot(W,H);
+    deathFlash=1; flash=0.95; flashColor='#ffffff'; shake=46;
+    // ganzes Spielfeld detoniert mit
+    for(const o of obstacles){ pixelBurst(o.cx,o.cy,o.color,o.maxHp||2); spawnGibs(o.cx,o.cy,5,['#ff7a1a','#ffd24d',o.color||'#fff'],300,520); }
+    obstacles.length=0; lasers.length=0; ebullets.length=0; bullets.length=0;
+    // bildfüllende Schockwelle + Feuerball
+    if(novas.length>14) novas.length=0;
+    novas.push({x,y,r0:30,rMax:diag*1.1,t:0,life:0.55,col:'#ffffff',fill:true});
+    for(let i=0;i<5;i++) pixelBurst(x+rand(-34,34),y+rand(-34,34),pick(['#ffffff','#ffd24d','#ff7a1a','#ff3b1a']),14);
+    spawnParticles(x,y,'#ff7a1a',64,540); spawnParticles(x,y,'#ffe24d',40,440); spawnParticles(x,y,'#ffffff',30,640);
+    spawnGibs(x,y,48,['#ff3b1a','#ff7a1a','#ffd24d','#ffe600','#ffffff'],580,560);   // Feuer-Konfetti
+    sfxBoom(); sfxDeathBlast(); vibe([200,60,100,40,170,60,240]);
+    // Nachbeben-Ringe + Feuer-Konfetti-Regen im Nachgang
+    setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:10,rMax:diag,t:0,life:0.72,col:'#ff7a1a',fill:true}); shake=Math.max(shake,30); beep(66,0.5,'sawtooth',0.4,-44); },95);
+    setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:6,rMax:diag*0.9,t:0,life:0.82,col:'#ffe24d'}); spawnGibs(x,rand(H*0.08,H*0.26),34,['#ff7a1a','#ffd24d','#ffe600','#fff'],460,540); deathFlash=Math.max(deathFlash,0.5); },230);
+    setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),16,['#ff3b1a','#ff7a1a','#ffe600','#fff'],400,560); },520); }
+  function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); bigDeathBlast(player.x,player.y);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores();
       for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
       setTimeout(()=>{beep(660,0.1,'square',0.3);},120); setTimeout(()=>{beep(880,0.1,'square',0.3);},260); setTimeout(()=>{beep(1175,0.18,'square',0.35);},400); }
@@ -2094,7 +2116,7 @@
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
     chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
     quipEl.textContent=pick(P('quips')); insultEl.textContent=pick(P('insults')); newrecEl.style.display=rec?'block':'none';
-    setTimeout(()=>document.getElementById('over').classList.remove('hidden'),560);
+    setTimeout(()=>document.getElementById('over').classList.remove('hidden'),1100);   // Explosion erst auswüten lassen
   }
 
   // ---------- Teilen: Score-Karte als PNG ----------
@@ -2421,6 +2443,10 @@
     if(state===S.PLAY) update(dt);
     else { elapsed=(elapsed||0)+dt; for(const s of stars){s.y+=(20+s.z*40)*dt;if(s.y>H){s.y=-2;s.x=Math.random()*W;}}
       if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
+      // Abgangs-FX nachlaufen lassen (update() läuft im OVER-State nicht): Feuer-Konfetti, Schockwellen, Nuklearblitz
+      for(let i=gibs.length-1;i>=0;i--){ const g=gibs[i]; g.x+=g.vx*dt; g.y+=g.vy*dt; g.vy+=g.grav*dt; g.vx*=0.99; g.rot+=g.vr*dt; g.life-=dt; if(g.life<=0||g.y>H+50) gibs.splice(i,1); }
+      for(let i=novas.length-1;i>=0;i--){ novas[i].t+=dt; if(novas[i].t>=novas[i].life) novas.splice(i,1); }
+      deathFlash=Math.max(0,(deathFlash||0)-dt*1.5); flash=Math.max(0,(flash||0)-dt*1.5);
       shake=Math.max(0,(shake||0)-dt*60); }
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
     // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
