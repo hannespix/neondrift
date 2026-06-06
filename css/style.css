@@ -142,7 +142,7 @@
   .wnode.done{border-color:rgba(44,255,192,.4);background:rgba(44,255,192,.07);}
   .wnode.buy{border-color:rgba(255,230,0,.45);background:rgba(255,230,0,.06);}
   .wnode .wni{font-size:17px;width:22px;text-align:center;flex:none;}
-  .wnode .wnt{display:flex;flex-direction:column;min-width:0;}
+  .wnode .wnt{display:flex;flex-direction:column;min-width:0;flex:1;}
   .wnode .wnt b{font-size:13px;}
   .wnode .wnt span{font-size:11px;opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .wnode .cost{margin-left:auto;flex:none;}
@@ -150,6 +150,19 @@
   .wnode-lock{margin-left:auto;opacity:.6;}
   .tconn2{width:2px;height:9px;background:linear-gradient(rgba(255,255,255,.32),rgba(255,255,255,.06));}
   .wnode.syn{max-width:440px;align-self:center;margin:3px 0;}
+  /* Info-Button (ⓘ) + lustiger Tooltip */
+  .infoBtn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
+    font-size:13px;color:#9fd8ff;background:rgba(255,255,255,.08);border:1px solid rgba(159,216,255,.35);cursor:pointer;
+    margin:0 6px;user-select:none;transition:background .12s,transform .12s;}
+  .infoBtn:hover{background:rgba(159,216,255,.25);transform:scale(1.12);}
+  .infoBtn.cardInfo{position:absolute;top:8px;right:8px;margin:0;}
+  .wahead .infoBtn{margin-left:4px;}
+  #tipPop{position:fixed;z-index:9999;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .14s,transform .14s;
+    background:linear-gradient(150deg,rgba(20,6,34,.97),rgba(8,2,16,.97));border:1px solid var(--cyan);border-radius:12px;
+    padding:11px 13px;box-shadow:0 0 26px rgba(25,240,255,.35);max-width:260px;}
+  #tipPop.show{opacity:1;transform:translateY(0);}
+  #tipPop b{display:block;font-family:'Orbitron',sans-serif;font-size:13px;color:var(--cyan);margin-bottom:5px;letter-spacing:.04em;}
+  #tipPop p{margin:0;font-size:12.5px;line-height:1.45;color:#e7defc;}
   .ucard.maxed{opacity:.5;}
   .ucard .cost,.wnode .cost{margin-top:4px;cursor:pointer;border:none;font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;
     color:#08010f;background:linear-gradient(120deg,var(--cyan),var(--yellow));padding:9px 18px;border-radius:40px;transition:transform .12s,filter .12s;}
@@ -163,7 +176,7 @@
   #upgrade .utitle{font-family:'Orbitron';font-weight:900;font-size:clamp(22px,6vw,40px);color:var(--yellow);text-shadow:0 0 20px var(--yellow);}
   #upgrade .usub{margin-top:6px;font-size:13px;letter-spacing:.2em;color:#c9b9ef;text-transform:uppercase;}
   #upgradeCards{margin-top:30px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:760px;}
-  .ucard{cursor:pointer;width:210px;max-width:80vw;padding:22px 18px;border-radius:18px;background:rgba(255,255,255,.05);
+  .ucard{position:relative;cursor:pointer;width:210px;max-width:80vw;padding:22px 18px;border-radius:18px;background:rgba(255,255,255,.05);
     border:1px solid rgba(255,230,0,.25);transition:transform .14s,box-shadow .14s,border-color .14s;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;}
   .ucard:hover{transform:translateY(-6px) scale(1.02);border-color:var(--yellow);box-shadow:0 0 30px rgba(255,230,0,.4);}
   .ucard .ico{font-size:38px;line-height:1;}

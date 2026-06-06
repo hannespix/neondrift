@@ -119,6 +119,26 @@
     en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +1 jump & +50% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 5th blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets'],cryonova:['Cryonova','Nova pulse also slows all targets'],plasma:['Plasma Rail','Railgun ignites targets it hits'],voltspark:['Volt Arc','Each chain hit triggers a mini nova'],pyrobolt:['Pyro Bolt','Blaster bolts ignite the targets they hit'],railnova:['Rail Nova','Railgun shot triggers a nova'],cryoshot:['Frost Volley','Blaster bolts slow the targets they hit'],novabomb:['Nova Bomb','Missile blast triggers a nova'],railchain:['Rail Chain','Railgun hits start a chain lightning'],barrage:['Barrage','Blaster bolts burst on hit'],shockbolt:['Shock Bolt','Every blaster kill triggers a mini nova'],overclock:['Overclock','Blaster fires 40% faster'],clusterarc:['Cluster Arc','Missile blast starts a chain lightning'],siege:['Siege','Missiles +30% damage & radius'],wildarc:['Wild Arc','Chain lightning ignites the targets it hits'],embernova:['Ember Nova','Nova pulse ignites all targets'],cryorail:['Cryo Rail','Railgun freezes the column it hits']},
     fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +1 saut & +50% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 5e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent'],cryonova:['Cryonova','Le pulsar nova ralentit aussi les cibles'],plasma:['Rail Plasma','Le railgun enflamme les cibles touchées'],voltspark:['Arc Volt','Chaque saut de chaîne déclenche une mini-nova'],pyrobolt:['Boulon Pyro','Les tirs du blaster enflamment les cibles'],railnova:['Nova Rail','Le tir du railgun déclenche une nova'],cryoshot:['Salve de Givre','Les tirs du blaster ralentissent les cibles'],novabomb:['Bombe Nova','L’explosion de missile déclenche une nova'],railchain:['Chaîne Rail','Les tirs du railgun lancent un éclair en chaîne'],barrage:['Barrage','Les tirs du blaster explosent à l’impact'],shockbolt:['Boulon Choc','Chaque kill du blaster déclenche une mini-nova'],overclock:['Surcadence','Le blaster tire 40% plus vite'],clusterarc:['Arc en Grappe','L’explosion de missile lance un éclair en chaîne'],siege:['Siège','Missiles +30% dégâts & rayon'],wildarc:['Arc Sauvage','L’éclair en chaîne enflamme les cibles'],embernova:['Nova Braise','Le pulsar nova enflamme toutes les cibles'],cryorail:['Rail Cryo','Le railgun gèle la colonne touchée']}
   };
+  // Lustige/ironische Tooltip-Texte (Info-Button). Keys: Waffen-IDs, Meta-IDs, Synergie-IDs, _tier[i] für Fork-Stufen.
+  const FLAVOR={
+    de:{ blaster:'Der Klassiker. Schießt nach oben und stellt keine Fragen.', missile:'Zielsuchend. Wie ein Ex, der genau weiß, wo du wohnst.', flame:'Macht aus Hindernissen Grillgut. Medium-rare.', frost:'Klimaanlage mit Aggressionsproblem.', chain:'Stromrechnung rauf, Gegnerzahl runter.', nova:'Sicherheitsabstand – jetzt mit Schockwelle.', rail:'Eine Linie. Eine Meinung. Ganze Spalte weg.',
+      bp_missile:'Raketen-Bauplan. IKEA, nur tödlich.', bp_flame:'Feuer-Bauplan. Streichholz war gestern.', bp_frost:'Frost-Bauplan. Bring ’ne Jacke mit.', bp_chain:'Blitz-Bauplan. Erdung optional.', bp_nova:'Nova-Bauplan. Urknall im Taschenformat.', bp_rail:'Railgun-Bauplan. Physiklehrer weinen.',
+      slot:'Mehr Modul-Platz. Marie Kondo hasst diesen Trick.', veteran:'Du startest mit Erfahrung statt mit Naivität.', wcore:'Mehr Bumms pro Schuss. Studien belegen: viel Bumms.', wtempo:'Schneller feuern. Geduld ist eh überbewertet.', critcore:'Mehr Krits. Glück ist jetzt planbar.', shield:'Startschild. Bonus-Leben für clevere Feiglinge.', tough:'Mehr aushalten. Härter als deine Montagslaune.', solid:'Kleinere Hitbox. Schlank in den Tod schlängeln.', reach:'Mehr Near-Miss-Reichweite. Knapp ist das neue sicher.', score:'Mehr Punkte. Dein Ego dankt es dir.', luck:'Bessere Karten. Das Universum mag dich – kurz.', rich:'Mehr Coins. Kapitalismus, aber in Neon.',
+      thermo:'Heiß trifft kalt. Sauna-Aufguss in der Antarktis.', super:'Strom ohne Widerstand. Die Kette dreht komplett frei.', napalm:'Raketen, die nachglühen. Brandschutz hat Feierabend.', tesla:'Jeder 5. Bolzen wird Blitz. Tesla wäre stolz.', icebomb:'Explosion plus Eiswürfel. Cocktail für Hindernisse.', cryonova:'Nova mit Kühlfunktion. Alles wird langsam… und kalt.', plasma:'Railgun, die brennt. Linie mit Nachglühen.', voltspark:'Kette zündet Mini-Novas. Stromschlag-Buffet.', pyrobolt:'Bolzen, die anzünden. Feuerzeug mit Zielwasser.', railnova:'Schuss löst Nova aus. Doppelt hält besser.', cryoshot:'Bolzen mit Bremse. Tempolimit für Gegner.', novabomb:'Rakete plus Nova. Explosion hoch zwei.', railchain:'Railgun startet Kettenblitz. Eine Linie, alle leiden.', barrage:'Bolzen mit Mini-Knall. Popcorn, aber gefährlich.', shockbolt:'Jeder Kill ein Mini-Knall. Abgang mit Stil.', overclock:'Blaster 40% schneller. Der Lüfter dreht hoch.', clusterarc:'Raketen-Explosion zündet Kette. Domino deluxe.', siege:'Raketen größer & härter. Türen? Welche Türen.', wildarc:'Kettenblitz, der entzündet. Strom + Feuer = Chaos.', embernova:'Nova entzündet alles. Lagerfeuer, nur tödlich.', cryorail:'Railgun vereist die Spalte. Tiefkühl-Express.',
+      _tier:['Stufe 1: das Aufwärmen.','Stufe 2: jetzt wird’s ernst.','Stufe 3: die Nachbarn beschweren sich.','Stufe 4: maßlos und wunderschön.'] },
+    en:{ blaster:'The classic. Shoots up, asks no questions.', missile:'Homing. Like an ex who knows your address.', flame:'Turns obstacles into BBQ. Medium-rare.', frost:'Air conditioning with anger issues.', chain:'Power bill up, enemy count down.', nova:'Personal space — now with a shockwave.', rail:'One line. One opinion. Whole column gone.',
+      bp_missile:'Missile blueprint. IKEA, but lethal.', bp_flame:'Fire blueprint. Matches are so last season.', bp_frost:'Frost blueprint. Bring a jacket.', bp_chain:'Lightning blueprint. Grounding optional.', bp_nova:'Nova blueprint. Big Bang, travel size.', bp_rail:'Railgun blueprint. Physics teachers cry.',
+      slot:'More module space. Marie Kondo hates this trick.', veteran:'Start with experience instead of naivety.', wcore:'More boom per shot. Studies confirm: much boom.', wtempo:'Fire faster. Patience is overrated anyway.', critcore:'More crits. Luck, now schedulable.', shield:'Start shield. A bonus life for clever cowards.', tough:'Take more hits. Tougher than your Monday mood.', solid:'Smaller hitbox. Slim your way out of death.', reach:'More near-miss range. Close is the new safe.', score:'More points. Your ego says thanks.', luck:'Better cards. The universe likes you — briefly.', rich:'More coins. Capitalism, but in neon.',
+      thermo:'Hot meets cold. Sauna session in Antarctica.', super:'No resistance. The chain goes fully feral.', napalm:'Missiles that keep burning. Fire safety clocked out.', tesla:'Every 5th bolt becomes lightning. Tesla approves.', icebomb:'Explosion plus ice cubes. A cocktail for obstacles.', cryonova:'Nova with cooling. Everything slows… and chills.', plasma:'A railgun that burns. A line with afterglow.', voltspark:'Chain triggers mini novas. Electro buffet.', pyrobolt:'Bolts that ignite. A lighter with good aim.', railnova:'Shot triggers a nova. Twice is nice.', cryoshot:'Bolts with brakes. Speed limit for enemies.', novabomb:'Missile plus nova. Explosion squared.', railchain:'Railgun starts a chain. One line, everyone suffers.', barrage:'Bolts with mini-blasts. Popcorn, but dangerous.', shockbolt:'Every kill a mini-blast. Exit with style.', overclock:'Blaster 40% faster. The fan spins up.', clusterarc:'Missile blast lights a chain. Domino deluxe.', siege:'Missiles bigger & harder. Doors? What doors.', wildarc:'Chain that ignites. Volts + fire = chaos.', embernova:'Nova ignites everything. Campfire, but lethal.', cryorail:'Railgun freezes the column. Frozen-aisle express.',
+      _tier:['Tier 1: just warming up.','Tier 2: now it’s serious.','Tier 3: the neighbors complain.','Tier 4: excessive and gorgeous.'] },
+    fr:{ blaster:'Le classique. Tire vers le haut, sans poser de questions.', missile:'À tête chercheuse. Comme un ex qui connaît ton adresse.', flame:'Transforme les obstacles en barbecue. Saignant.', frost:'La clim, version problèmes de colère.', chain:'Facture d’électricité en hausse, ennemis en baisse.', nova:'Distance de sécurité — avec onde de choc.', rail:'Une ligne. Un avis. Colonne entière effacée.',
+      bp_missile:'Plan de missiles. IKEA, mais mortel.', bp_flame:'Plan de feu. Les allumettes, c’est dépassé.', bp_frost:'Plan de givre. Prends une veste.', bp_chain:'Plan d’éclairs. Mise à la terre optionnelle.', bp_nova:'Plan de nova. Big Bang format poche.', bp_rail:'Plan de railgun. Les profs de physique pleurent.',
+      slot:'Plus de place pour modules. Marie Kondo déteste ça.', veteran:'Commence avec de l’expérience plutôt que la naïveté.', wcore:'Plus de boum par tir. La science confirme : beaucoup de boum.', wtempo:'Tire plus vite. La patience est surcotée.', critcore:'Plus de crits. La chance, désormais planifiable.', shield:'Bouclier de départ. Une vie bonus pour lâches malins.', tough:'Encaisse plus. Plus dur que ton humeur du lundi.', solid:'Hitbox plus petite. Esquive la mort en mode mince.', reach:'Plus de portée de near-miss. Juste, c’est le nouveau sûr.', score:'Plus de points. Ton ego te remercie.', luck:'De meilleures cartes. L’univers t’aime — brièvement.', rich:'Plus de coins. Le capitalisme, mais en néon.',
+      thermo:'Le chaud rencontre le froid. Sauna en Antarctique.', super:'Sans résistance. La chaîne part en vrille.', napalm:'Des missiles qui brûlent encore. La sécurité incendie a fini.', tesla:'Chaque 5e tir devient éclair. Tesla approuve.', icebomb:'Explosion plus glaçons. Un cocktail pour obstacles.', cryonova:'Nova avec clim. Tout ralentit… et refroidit.', plasma:'Un railgun qui brûle. Une ligne qui rougeoie.', voltspark:'La chaîne déclenche des mini-novas. Buffet électrique.', pyrobolt:'Des tirs qui enflamment. Un briquet bien visé.', railnova:'Le tir déclenche une nova. Deux valent mieux qu’une.', cryoshot:'Des tirs avec freins. Limitation de vitesse pour ennemis.', novabomb:'Missile plus nova. Explosion au carré.', railchain:'Le railgun lance une chaîne. Une ligne, tout le monde souffre.', barrage:'Des tirs à mini-explosion. Du popcorn, mais dangereux.', shockbolt:'Chaque kill, une mini-explosion. Sortie stylée.', overclock:'Blaster 40% plus rapide. Le ventilo s’emballe.', clusterarc:'L’explosion de missile lance une chaîne. Domino deluxe.', siege:'Missiles plus gros & plus durs. Des portes ? Quelles portes.', wildarc:'Une chaîne qui enflamme. Volts + feu = chaos.', embernova:'La nova enflamme tout. Feu de camp, mais mortel.', cryorail:'Le railgun gèle la colonne. Express rayon surgelés.',
+      _tier:['Palier 1 : échauffement.','Palier 2 : ça devient sérieux.','Palier 3 : les voisins se plaignent.','Palier 4 : démesuré et magnifique.'] }
+  };
+  const FLAV=id=>((FLAVOR[lang]&&FLAVOR[lang][id])||FLAVOR.en[id]||'');
+  const flavTier=i=>{ const a=(FLAVOR[lang]&&FLAVOR[lang]._tier)||FLAVOR.en._tier; return a[i]||''; };
   const wName=id=>((WTR[lang]&&WTR[lang][id])||WTR.en[id]||[id])[0];
   const wDesc=id=>(((WTR[lang]&&WTR[lang][id])||WTR.en[id]||['',''])[1])||'';
   const pName=id=>((PTR[lang]&&PTR[lang][id])||PTR.en[id]||[id])[0];
@@ -2105,34 +2125,47 @@
     updateMenuChips(); }
   const metaById=id=>META.find(m=>m.id===id);
   let shopOpenW={};   // welche Waffen-Accordions im Werkstatt-Waffen-Tab offen sind
+  // ---- Info-Tooltip (Touch: Tippen auf ⓘ zeigt lustige Beschreibung; nächster Tipp schließt) ----
+  function infoBtn(title,body,extra){ return body?`<span class="infoBtn${extra?' '+extra:''}" data-tt="${encodeURIComponent(title)}" data-tx="${encodeURIComponent(body)}">ⓘ</span>`:''; }
+  let tipEl=null;
+  function hideTip(){ if(tipEl) tipEl.classList.remove('show'); }
+  function showTip(title,body,anchor){ if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='tipPop'; document.body.appendChild(tipEl); }
+    tipEl.innerHTML=''; const b=document.createElement('b'); b.textContent=title; tipEl.appendChild(b);
+    if(body){ const p=document.createElement('p'); p.textContent=body; tipEl.appendChild(p); }
+    tipEl.classList.add('show'); const vw=window.innerWidth||360, tw=Math.min(260,vw-24); tipEl.style.width=tw+'px';
+    const r=anchor.getBoundingClientRect(); let left=r.left+r.width/2-tw/2; left=Math.max(12,Math.min(left,vw-tw-12)); tipEl.style.left=left+'px';
+    let top=r.top-tipEl.offsetHeight-10; if(top<12) top=r.bottom+10; tipEl.style.top=top+'px'; }
+  document.addEventListener('click',e=>{ const ib=e.target.closest&&e.target.closest('.infoBtn');
+    if(ib){ e.stopPropagation(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } else hideTip(); });
   function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
     const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
     const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
-    card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
+    card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
     const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
     return card; }
-  function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy}
+  function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy,tip}
     const right = o.state==='done' ? '<span class="wnode-done">✓</span>'
       : o.state==='buy' ? `<button class="cost${o.aff?'':' locked'}" data-buy="${o.buy}">◈ ${o.cost}</button>`
       : '<span class="wnode-lock">🔒</span>';
-    return `<div class="wnode ${o.state}"><span class="wni">${o.ico}</span><div class="wnt"><b>${o.title}</b>${o.sub?`<span>${o.sub}</span>`:''}</div>${right}</div>`; }
+    return `<div class="wnode ${o.state}"><span class="wni">${o.ico}</span><div class="wnt"><b>${o.title}</b>${o.sub?`<span>${o.sub}</span>`:''}</div>${infoBtn(o.title,o.tip)}${right}</div>`; }
   function weaponAccordion(w){ const id=w.id, bpId='bp_'+id, free=(id==='blaster');
     const owned=free||metaLvl(bpId)>0, fu='fu_'+id, fuLvl=metaLvl(fu), FUM=4, open=!!shopOpenW[id];
-    const lvl5=owned?(1+fuLvl):0, status=!owned?'🔒':('Lv '+lvl5+'/5');
+    const status=!owned?'🔒':('Lv '+fuLvl+'/4');
     const wrap=document.createElement('div'); wrap.className='waccord'+(open?' open':'')+(owned?'':' notowned');
     let h=`<button class="wahead" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b>`+
-      `<span class="warctag2">${wArch(id)}</span><span class="wstat">${status}</span><span class="wcar">▾</span></button><div class="wabody">`;
-    // Bauplan-Knoten (Blaster ist Startwaffe, kostenlos)
-    if(free) h+=shopNode({ico:'✦',title:t('startWeapon'),sub:wArch(id),state:'done'});
+      `<span class="warctag2">${wArch(id)}</span><span class="wstat">${status}</span>${infoBtn(wName(id),FLAV(id))}<span class="wcar">▾</span></button><div class="wabody">`;
+    // Bauplan schaltet die Waffe frei (Blaster ist Startwaffe, kostenlos)
+    if(free) h+=shopNode({ico:'✦',title:t('startWeapon'),sub:wDesc(id),state:'done',tip:FLAV(id)});
     else { const bl=metaLvl(bpId)>0, cost=metaCost(metaById(bpId),0), aff=(meta.chips||0)>=cost;
-      h+=shopNode({ico:'📐',title:t('blueprint'),sub:wDesc(id),state:bl?'done':'buy',cost,aff,buy:bpId}); }
-    // Fork-Stufen als Baum
+      h+=shopNode({ico:'📐',title:t('blueprint'),sub:wDesc(id),state:bl?'done':'buy',cost,aff,buy:bpId,tip:FLAV(bpId)}); }
+    // Aufrüst-Stufen als Baum: „<Waffe> Lv 1..4"
     for(let i=0;i<FUM;i++){ h+=`<div class="tconn2"></div>`; const paths=w.forks[i], sub=pName(paths[0])+' / '+pName(paths[1]);
       let st='locked',cost=0,aff=false,buy=null;
       if(fuLvl>i) st='done'; else if(i===fuLvl){ st='buy'; cost=metaCost(metaById(fu),fuLvl); aff=(meta.chips||0)>=cost; buy=fu; }
-      h+=shopNode({ico:'⌥',title:t('forkTier')+' '+(i+1),sub,state:st,cost,aff,buy}); }
+      const tip=flavTier(i)+' '+pName(paths[0])+': '+pDesc(paths[0])+' · '+pName(paths[1])+': '+pDesc(paths[1]);
+      h+=shopNode({ico:'⌥',title:wName(id)+' Lv '+(i+1),sub,state:st,cost,aff,buy,tip}); }
     h+='</div>'; wrap.innerHTML=h;
-    wrap.querySelector('.wahead').addEventListener('click',()=>{ shopOpenW[id]=!open; renderShop(); });
+    wrap.querySelector('.wahead').addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; shopOpenW[id]=!open; renderShop(); });
     wrap.querySelectorAll('button[data-buy]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); buyMeta(b.dataset.buy); }));
     return wrap; }
   function renderWeaponTab(){ const gen=document.createElement('div'); gen.className='shopRow';
@@ -2146,7 +2179,7 @@
     const st=bought?'done':(pairOk?'buy':'locked');
     const right = bought?'<span class="wnode-done">✓</span>' : pairOk?`<button class="cost${aff?'':' locked'}" data-buy="${id}">◈ ${cost}</button>` : '<span class="wnode-lock">🔒</span>';
     const el=document.createElement('div'); el.className='wnode syn '+st;
-    el.innerHTML=`<span class="wni">${s.ico}</span><div class="wnt"><b>${synName(s.id)}</b><span>${st==='locked'?sub:synDesc(s.id)}</span></div>${right}`;
+    el.innerHTML=`<span class="wni">${s.ico}</span><div class="wnt"><b>${synName(s.id)}</b><span>${st==='locked'?sub:synDesc(s.id)}</span></div>${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}${right}`;
     const b=el.querySelector('button[data-buy]'); if(b) b.addEventListener('click',()=>buyMeta(id));
     return el; }
   function renderSynergyTab(){ const rank=s=>synBought(s.id)?2:((weaponBpOwned(s.pair[0])&&weaponBpOwned(s.pair[1]))?0:1);
@@ -2334,7 +2367,7 @@
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setIco=(id,ico,lbl)=>{ const e=document.getElementById(id); if(e){ e.textContent=ico; e.title=lbl; } };
-    set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🛒 '+t('workshop'));
+    set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🚀 '+t('workshop'));
     setIco('achBtn','🏅',t('achBtn')); setIco('settingsBtn','⚙️',t('settings'));
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
     document.querySelectorAll('.mode').forEach(c=>{ const m=c.dataset.mode==='hardcore'?'hard':c.dataset.mode;
@@ -2345,7 +2378,7 @@
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back'));
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
     setSel('#ach .utitle',t('achTitle')); set('achBackBtn',t('back'));
-    setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('overShopBtn','🛒 '+t('workshop')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
+    setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('overShopBtn','🚀 '+t('workshop')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     if(typeof renderSettings==='function') renderSettings();
   }catch(e){} }
