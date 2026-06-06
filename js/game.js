@@ -26,7 +26,7 @@
       newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
-      on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
+      on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
       lvl:'LEVEL', newForm:'Neue Form: ', faster:'Schneller & dichter!', bossWave:'⚠ BOSS-WELLE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 DER ENDGEGNER', finaleSub:'überlebe das Inferno!',
       survived:'ÜBERLEBT!', defeated:'BESIEGT! 💥', escaped:'🛸 ENTKOMMEN…', escapedSub:'die Beute ist weg!', armUp:'Rüste auf für den Boss · Level ',
       overdrive:'⚡ OVERDRIVE', overdriveSub:'du brennst!', enrage:'🔥 ENRAGE!', enrageSub:'es dreht völlig durch!',
@@ -53,7 +53,7 @@
       newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
-      on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
+      on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
       lvl:'LEVEL', newForm:'New shape: ', faster:'Faster & denser!', bossWave:'⚠ BOSS WAVE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 THE FINAL BOSS', finaleSub:'survive the inferno!',
       survived:'SURVIVED!', defeated:'DEFEATED! 💥', escaped:'🛸 ESCAPED…', escapedSub:'the loot is gone!', armUp:'Gear up for the boss · Level ',
       overdrive:'⚡ OVERDRIVE', overdriveSub:"you're on fire!", enrage:'🔥 ENRAGE!', enrageSub:'it totally loses it!',
@@ -80,7 +80,7 @@
       newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
-      on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
+      on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
       lvl:'NIVEAU', newForm:'Nouvelle forme : ', faster:'Plus vite & plus dense !', bossWave:'⚠ VAGUE DE BOSS ', megaBoss:'🛸 MÉGA-BOSS', endgegner:'👾 LE BOSS FINAL', finaleSub:'survis à l’enfer !',
       survived:'SURVÉCU !', defeated:'VAINCU ! 💥', escaped:'🛸 ENFUI…', escapedSub:'le butin s’envole !', armUp:'Équipe-toi pour le boss · Niveau ',
       overdrive:'⚡ OVERDRIVE', overdriveSub:'tu es en feu !', enrage:'🔥 ENRAGE !', enrageSub:'il pète un câble !',
@@ -295,6 +295,7 @@
     if(id==='won') unlockSkin('gold'); if(id==='mega') unlockSkin('toxic'); if(id==='madness') unlockSkin('glitch'); }
   function checkComboAch(m){ if(m>=10)unlockAch('combo10'); if(m>=20)unlockAch('combo20'); if(m>=30)unlockAch('combo30'); }
   let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount, deathFlash=0;
+  let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a';   // Abgang: Timer + Loser-Materialisierung
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
   let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T;
@@ -386,9 +387,10 @@
   function sfxBoom(){ beep(120,0.55,'square',0.5,-80); beep(60,0.7,'sawtooth',0.42,-34); beep(220,0.3,'triangle',0.3,-160);
     for(let i=0;i<5;i++) setTimeout(()=>beep(rand(80,260),0.06,'square',0.18,-rand(20,90)),i*22); } // Donner + Geprassel
   // Riesen-Explosion zum Game-Over: tiefer, langer Nuklear-Rumms + Nachhall
-  function sfxDeathBlast(){ beep(95,0.9,'sawtooth',0.5,-80); beep(46,1.15,'square',0.46,-28); beep(210,0.5,'triangle',0.36,-250);
-    setTimeout(()=>beep(150,0.45,'triangle',0.3,-200),80); setTimeout(()=>beep(64,0.75,'sawtooth',0.42,-44),150); setTimeout(()=>beep(38,0.85,'sine',0.36,-20),320);
-    for(let i=0;i<9;i++) setTimeout(()=>beep(rand(70,300),0.06,'square',0.2,-rand(30,120)),i*28); }   // langes Geprassel/Funken
+  function sfxDeathBlast(p){ p=p||1; beep(95*p,0.9,'sawtooth',0.5,-80); beep(46*p,1.15,'square',0.46,-28); beep(210*p,0.5,'triangle',0.36,-250);
+    setTimeout(()=>beep(150*p,0.45,'triangle',0.3,-200),80); setTimeout(()=>beep(64*p,0.75,'sawtooth',0.42,-44),150); setTimeout(()=>beep(38*p,0.85,'sine',0.36,-20),320);
+    for(let i=0;i<9;i++) setTimeout(()=>beep(rand(70,300),0.06,'square',0.2,-rand(30,120)),i*28); }   // langes Geprassel/Funken (Pitch p variiert)
+  function sfxMaterialize(){ beep(150,0.5,'sine',0.16,1000); setTimeout(()=>beep(320,0.3,'triangle',0.14,640),120); setTimeout(()=>beep(880,0.12,'square',0.13,180),370); }   // aufsteigender Re-Assemble-Sweep + Ping
   function sfxBloat(){ beep(180,1.0,'sawtooth',0.26,520); beep(360,1.0,'square',0.12,1040);            // ansteigendes Aufpump-Pfeifen
     for(let i=0;i<6;i++) setTimeout(()=>beep(300+i*70,0.05,'triangle',0.12),i*180); }
   function sfxBalloonPop(){ beep(1300,0.04,'square',0.32,-1000); beep(420,0.14,'sawtooth',0.34,-260);   // Knall
@@ -912,7 +914,7 @@
     obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
-    shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0; deathFlash=0;
+    shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0; deathFlash=0; deathT=0; deathGather=false;
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
     upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
@@ -1874,7 +1876,21 @@
       ctx.fillStyle=`rgba(${r},${g2},${b},${0.05+0.03*(beatPulse||0)})`; ctx.fillRect(-40,-40,W+80,H+80); }
     if(flash>0&&opt.fx){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.2):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }
     if(deathFlash>0){ ctx.fillStyle=hexA('#ffffff',Math.min(0.96,deathFlash)); ctx.fillRect(-40,-40,W+80,H+80);   // Nuklearblitz (bildfüllend)
-      if(deathFlash<0.7){ ctx.fillStyle=hexA('#ff7a1a',Math.min(0.42,0.7-deathFlash)); ctx.fillRect(-40,-40,W+80,H+80); } }   // glühender Feuerschein im Abklang
+      if(deathFlash<0.7){ ctx.fillStyle=hexA(deathGlow,Math.min(0.42,0.7-deathFlash)); ctx.fillRect(-40,-40,W+80,H+80); } }   // glühender Schein im Abklang (Varianten-Farbe)
+    // 😈 Loser-Materialisierung: nach der Explosion fügt sich der Verlierer wieder zusammen
+    if(state===S.OVER && deathT>0.5 && opt.fx){ const rev=Math.min(1,(deathT-0.55)/0.55), x=deathX, y=deathY, R=24;
+      ctx.save();
+      ctx.globalCompositeOperation='lighter';   // einlaufender Glitch-Ring
+      for(let i=0;i<16;i++){ const a=i/16*6.28+deathT*2.2, rr=R+(1-rev)*80; ctx.globalAlpha=rev*0.6; ctx.fillStyle=i%2?'#ff2e88':deathGlow;
+        ctx.fillRect(x+Math.cos(a)*rr-1.6,y+Math.sin(a)*rr-1.6,3.2,3.2); }
+      ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=Math.min(1,rev*1.2);
+      const jit=(1-rev)*7, cx=x+rand(-jit,jit), cy=y+rand(-jit,jit);   // Glitch-Zittern bis fertig
+      const cg=ctx.createRadialGradient(cx,cy,2,cx,cy,R); cg.addColorStop(0,'#cfc4e6'); cg.addColorStop(1,'rgba(120,110,140,0)');
+      ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,R,0,6.28); ctx.fill();
+      ctx.font='900 '+Math.round(R*1.35)+'px Orbitron,monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(rev>0.92?'😈':'💀',cx,cy);
+      if(rev>0.8){ ctx.globalAlpha=Math.min(1,(rev-0.8)/0.2); ctx.font='900 22px Orbitron,sans-serif'; ctx.fillStyle='#ff2e88';
+        ctx.fillText(t('loser'),x,y-R-16); }
+      ctx.globalAlpha=1; ctx.textAlign='start'; ctx.textBaseline='alphabetic'; ctx.restore(); }
     // Wahnsinn-Modus: zunehmende Glitch-Scanlines (gestörter Look)
     if(endless&&opt.fx){ const m=Math.min(1,madness);
       for(let i=0;i<3+((m*6)|0);i++){ const yy=Math.random()*H;
@@ -2088,22 +2104,32 @@
 
   // ---------- Game Over ----------
   // Zünftiger Abgang: bildfüllende Explosion + Nuklearblitz + Feuer-Konfetti (+ Haptik/Akustik)
-  function bigDeathBlast(x,y){ const diag=Math.hypot(W,H);
-    deathFlash=1; flash=0.95; flashColor='#ffffff'; shake=46;
+  // Explosions-Varianten: jeder Abgang sieht/klingt etwas anders
+  const DEATHVARIANTS=[
+    {cols:['#ff3b1a','#ff7a1a','#ffd24d','#ffe600','#ffffff'], ring:'#ffffff', glow:'#ff7a1a'},   // Feuer
+    {cols:['#ff2e88','#c45bff','#7a5bff','#19f0ff','#ffffff'], ring:'#e6b3ff', glow:'#c45bff'},   // Plasma
+    {cols:['#7cff2e','#2effc0','#b6ff3b','#eaffd0','#ffffff'], ring:'#caffd0', glow:'#7cff2e'},   // Toxisch
+    {cols:['#19f0ff','#8fe8ff','#bdefff','#caffff','#ffffff'], ring:'#ffffff', glow:'#19f0ff'},   // Eis
+    {cols:['#ffd23f','#ff9a2e','#ff5edb','#ffffff','#fff7c0'], ring:'#fff7c0', glow:'#ff9a2e'}    // Sonnensturm
+  ];
+  function bigDeathBlast(x,y){ const diag=Math.hypot(W,H), V=pick(DEATHVARIANTS), ri=(a,b)=>(rand(a,b)|0);
+    deathT=0; deathX=x; deathY=y; deathGather=false; deathGlow=V.glow;
+    deathFlash=1; flash=0.95; flashColor='#ffffff'; shake=rand(42,54);
     // ganzes Spielfeld detoniert mit
-    for(const o of obstacles){ pixelBurst(o.cx,o.cy,o.color,o.maxHp||2); spawnGibs(o.cx,o.cy,5,['#ff7a1a','#ffd24d',o.color||'#fff'],300,520); }
+    for(const o of obstacles){ pixelBurst(o.cx,o.cy,o.color,o.maxHp||2); spawnGibs(o.cx,o.cy,4,V.cols,300,520); }
     obstacles.length=0; lasers.length=0; ebullets.length=0; bullets.length=0;
-    // bildfüllende Schockwelle + Feuerball
+    // bildfüllende Schockwelle + Feuerball (Größe/Anzahl/Farbe variiert)
     if(novas.length>14) novas.length=0;
-    novas.push({x,y,r0:30,rMax:diag*1.1,t:0,life:0.55,col:'#ffffff',fill:true});
-    for(let i=0;i<5;i++) pixelBurst(x+rand(-34,34),y+rand(-34,34),pick(['#ffffff','#ffd24d','#ff7a1a','#ff3b1a']),14);
-    spawnParticles(x,y,'#ff7a1a',64,540); spawnParticles(x,y,'#ffe24d',40,440); spawnParticles(x,y,'#ffffff',30,640);
-    spawnGibs(x,y,48,['#ff3b1a','#ff7a1a','#ffd24d','#ffe600','#ffffff'],580,560);   // Feuer-Konfetti
-    sfxBoom(); sfxDeathBlast(); vibe([200,60,100,40,170,60,240]);
-    // Nachbeben-Ringe + Feuer-Konfetti-Regen im Nachgang
-    setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:10,rMax:diag,t:0,life:0.72,col:'#ff7a1a',fill:true}); shake=Math.max(shake,30); beep(66,0.5,'sawtooth',0.4,-44); },95);
-    setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:6,rMax:diag*0.9,t:0,life:0.82,col:'#ffe24d'}); spawnGibs(x,rand(H*0.08,H*0.26),34,['#ff7a1a','#ffd24d','#ffe600','#fff'],460,540); deathFlash=Math.max(deathFlash,0.5); },230);
-    setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),16,['#ff3b1a','#ff7a1a','#ffe600','#fff'],400,560); },520); }
+    novas.push({x,y,r0:rand(24,40),rMax:diag*rand(1.0,1.22),t:0,life:rand(0.5,0.62),col:V.ring,fill:true});
+    for(let i=0;i<5;i++) pixelBurst(x+rand(-36,36),y+rand(-36,36),pick(V.cols),ri(11,16));
+    spawnParticles(x,y,V.glow,ri(54,72),rand(480,580)); spawnParticles(x,y,V.cols[2],ri(34,46),rand(380,480)); spawnParticles(x,y,'#ffffff',28,640);
+    spawnGibs(x,y,ri(42,62),V.cols,rand(520,620),560);   // Konfetti
+    sfxBoom(); sfxDeathBlast(rand(0.8,1.28)); vibe([ri(160,220),50,90,40,ri(140,200),60,ri(200,260)]);
+    // gestaffelte Nachbeben-Ringe + Konfetti-Regen (Anzahl/Timing variiert)
+    setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:rand(8,14),rMax:diag,t:0,life:rand(0.66,0.8),col:V.glow,fill:true}); shake=Math.max(shake,28); beep(ri(58,76),0.5,'sawtooth',0.4,-44); },90+ri(0,50));
+    if(Math.random()<0.6) setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:6,rMax:diag*0.88,t:0,life:0.8,col:V.cols[1]}); },170+ri(0,60));
+    setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
+    setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); bigDeathBlast(player.x,player.y);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores();
       for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
@@ -2120,7 +2146,7 @@
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
     chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
     quipEl.textContent=pick(P('quips')); insultEl.textContent=pick(P('insults')); newrecEl.style.display=rec?'block':'none';
-    setTimeout(()=>document.getElementById('over').classList.remove('hidden'),1100);   // Explosion erst auswüten lassen
+    setTimeout(()=>document.getElementById('over').classList.remove('hidden'),1600);   // Explosion erst auswüten lassen
   }
 
   // ---------- Teilen: Score-Karte als PNG ----------
@@ -2466,6 +2492,10 @@
       for(let i=gibs.length-1;i>=0;i--){ const g=gibs[i]; g.x+=g.vx*dt; g.y+=g.vy*dt; g.vy+=g.grav*dt; g.vx*=0.99; g.rot+=g.vr*dt; g.life-=dt; if(g.life<=0||g.y>H+50) gibs.splice(i,1); }
       for(let i=novas.length-1;i>=0;i--){ novas[i].t+=dt; if(novas[i].t>=novas[i].life) novas.splice(i,1); }
       deathFlash=Math.max(0,(deathFlash||0)-dt*1.5); flash=Math.max(0,(flash||0)-dt*1.5);
+      if(state===S.OVER){ deathT+=dt;   // Loser-Materialisierung: nach der Explosion sammeln sich Partikel ein
+        if(deathT>0.55 && !deathGather){ deathGather=true;
+          for(let i=0;i<26;i++){ const a=i/26*6.28; emitP(deathX+Math.cos(a)*95,deathY+Math.sin(a)*95,-Math.cos(a)*150,-Math.sin(a)*150,0.62,i%2?deathGlow:'#caffff',rand(3,5)); }
+          sfxMaterialize(); } }
       shake=Math.max(0,(shake||0)-dt*60); }
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
     // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
