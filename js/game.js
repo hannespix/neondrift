@@ -23,7 +23,7 @@
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -50,7 +50,7 @@
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -77,7 +77,7 @@
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -2091,6 +2091,42 @@
     if(shopFrom==='arsenalView') renderArsenalView();    // frisch freigeschaltete Forks sofort wählbar
     else updateRunShopBtns();                            // Button-Guthaben aktualisieren
     updateMenuChips(); }
+  const metaById=id=>META.find(m=>m.id===id);
+  let shopOpenW={};   // welche Waffen-Accordions im Werkstatt-Waffen-Tab offen sind
+  function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
+    const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
+    const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
+    card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
+    const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
+    return card; }
+  function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy}
+    const right = o.state==='done' ? '<span class="wnode-done">✓</span>'
+      : o.state==='buy' ? `<button class="cost${o.aff?'':' locked'}" data-buy="${o.buy}">◈ ${o.cost}</button>`
+      : '<span class="wnode-lock">🔒</span>';
+    return `<div class="wnode ${o.state}"><span class="wni">${o.ico}</span><div class="wnt"><b>${o.title}</b>${o.sub?`<span>${o.sub}</span>`:''}</div>${right}</div>`; }
+  function weaponAccordion(w){ const id=w.id, bpId='bp_'+id, free=(id==='blaster');
+    const owned=free||metaLvl(bpId)>0, fu='fu_'+id, fuLvl=metaLvl(fu), FUM=4, open=!!shopOpenW[id];
+    const lvl5=owned?(1+fuLvl):0, status=!owned?'🔒':('Lv '+lvl5+'/5');
+    const wrap=document.createElement('div'); wrap.className='waccord'+(open?' open':'')+(owned?'':' notowned');
+    let h=`<button class="wahead" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b>`+
+      `<span class="warctag2">${wArch(id)}</span><span class="wstat">${status}</span><span class="wcar">▾</span></button><div class="wabody">`;
+    // Bauplan-Knoten (Blaster ist Startwaffe, kostenlos)
+    if(free) h+=shopNode({ico:'✦',title:t('startWeapon'),sub:wArch(id),state:'done'});
+    else { const bl=metaLvl(bpId)>0, cost=metaCost(metaById(bpId),0), aff=(meta.chips||0)>=cost;
+      h+=shopNode({ico:'📐',title:t('blueprint'),sub:wDesc(id),state:bl?'done':'buy',cost,aff,buy:bpId}); }
+    // Fork-Stufen als Baum
+    for(let i=0;i<FUM;i++){ h+=`<div class="tconn2"></div>`; const paths=w.forks[i], sub=pName(paths[0])+' / '+pName(paths[1]);
+      let st='locked',cost=0,aff=false,buy=null;
+      if(fuLvl>i) st='done'; else if(i===fuLvl){ st='buy'; cost=metaCost(metaById(fu),fuLvl); aff=(meta.chips||0)>=cost; buy=fu; }
+      h+=shopNode({ico:'⌥',title:t('forkTier')+' '+(i+1),sub,state:st,cost,aff,buy}); }
+    h+='</div>'; wrap.innerHTML=h;
+    wrap.querySelector('.wahead').addEventListener('click',()=>{ shopOpenW[id]=!open; renderShop(); });
+    wrap.querySelectorAll('button[data-buy]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); buyMeta(b.dataset.buy); }));
+    return wrap; }
+  function renderWeaponTab(){ const gen=document.createElement('div'); gen.className='shopRow';
+    ['slot','veteran'].forEach(id=>{ const m=metaById(id); if(m) gen.appendChild(metaCard(m)); });
+    shopCards.appendChild(gen);
+    for(const w of WEAPONS) shopCards.appendChild(weaponAccordion(w)); }
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
@@ -2098,14 +2134,10 @@
     if(tabsEl){ tabsEl.innerHTML=''; SHOPTABS.forEach(([key,ico])=>{ const b=document.createElement('button');
       b.className='shopTab'+(shopTab===key?' on':''); b.textContent=ico+' '+t('cat_'+key);
       b.addEventListener('click',()=>{ shopTab=key; renderShop(); }); tabsEl.appendChild(b); }); }
-    shopCards.innerHTML='';
+    shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons');
     if(shopTab==='cosmetic'){ skinCards(shopCards); return; }   // Kosmetik-Tab: Skins kaufen/wählen
-    META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>{ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
-      const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
-      const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
-      card.innerHTML='<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
-      const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
-      shopCards.appendChild(card); }); }
+    if(shopTab==='weapons'){ renderWeaponTab(); return; }       // Waffen-Tab: Accordion-Skilltree pro Waffe
+    META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return; const cost=metaCost(m,lvl); if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
