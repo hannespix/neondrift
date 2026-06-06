@@ -120,11 +120,41 @@
   .ucard.weapon .stack{color:var(--cyan);}
   /* Werkstatt / Shop */
   #shopCards{margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:780px;}
+  /* Waffen-Tab: Accordion-Skilltree pro Waffe */
+  #shopCards.treeCols{flex-direction:column;flex-wrap:nowrap;align-items:stretch;max-width:540px;gap:10px;width:100%;}
+  .shopRow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:4px;}
+  .shopRow .ucard{flex:1 1 200px;}
+  .waccord{border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(10,2,18,.5);overflow:hidden;}
+  .waccord.notowned{opacity:.92;}
+  .wahead{width:100%;display:flex;align-items:center;gap:10px;padding:13px 15px;background:rgba(255,255,255,.03);border:0;border-left:3px solid var(--wc,#19f0ff);
+    color:#e7defc;font-family:'Space Mono',monospace;cursor:pointer;text-align:left;transition:background .14s;}
+  .wahead:hover{background:rgba(255,255,255,.07);}
+  .wahead .whico{font-size:20px;}
+  .wahead b{font-size:15px;letter-spacing:.02em;}
+  .warctag2{font-size:9px;letter-spacing:.14em;color:var(--wc,#19f0ff);opacity:.85;text-transform:uppercase;}
+  .wahead .wstat{margin-left:auto;font-family:'Orbitron',sans-serif;font-size:12px;color:#9fffe0;white-space:nowrap;}
+  .wahead .wcar{transition:transform .2s;opacity:.55;font-size:12px;}
+  .waccord.open .wahead .wcar{transform:rotate(180deg);}
+  .wabody{display:none;flex-direction:column;align-items:center;padding:8px 15px 15px;}
+  .waccord.open .wabody{display:flex;}
+  .wnode{width:100%;max-width:380px;display:flex;align-items:center;gap:11px;padding:9px 12px;border:1px solid rgba(255,255,255,.12);border-radius:11px;background:rgba(255,255,255,.04);}
+  .wnode.locked{opacity:.42;border-style:dashed;}
+  .wnode.done{border-color:rgba(44,255,192,.4);background:rgba(44,255,192,.07);}
+  .wnode.buy{border-color:rgba(255,230,0,.45);background:rgba(255,230,0,.06);}
+  .wnode .wni{font-size:17px;width:22px;text-align:center;flex:none;}
+  .wnode .wnt{display:flex;flex-direction:column;min-width:0;}
+  .wnode .wnt b{font-size:13px;}
+  .wnode .wnt span{font-size:11px;opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .wnode .cost{margin-left:auto;flex:none;}
+  .wnode-done{margin-left:auto;color:#2effc0;font-weight:700;font-size:15px;}
+  .wnode-lock{margin-left:auto;opacity:.6;}
+  .tconn2{width:2px;height:9px;background:linear-gradient(rgba(255,255,255,.32),rgba(255,255,255,.06));}
   .ucard.maxed{opacity:.5;}
-  .ucard .cost{margin-top:4px;cursor:pointer;border:none;font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;
+  .ucard .cost,.wnode .cost{margin-top:4px;cursor:pointer;border:none;font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;
     color:#08010f;background:linear-gradient(120deg,var(--cyan),var(--yellow));padding:9px 18px;border-radius:40px;transition:transform .12s,filter .12s;}
-  .ucard .cost:hover{transform:scale(1.05);}
-  .ucard .cost.locked{background:rgba(255,255,255,.12);color:#9a86c9;cursor:not-allowed;}
+  .wnode .cost{margin-top:0;padding:7px 14px;font-size:12px;}
+  .ucard .cost:hover,.wnode .cost:hover{transform:scale(1.05);}
+  .ucard .cost.locked,.wnode .cost.locked{background:rgba(255,255,255,.12);color:#9a86c9;cursor:not-allowed;}
   .ucard .cost.done{background:transparent;color:var(--cyan);border:1px solid rgba(25,240,255,.4);cursor:default;}
   .chips{margin-top:14px;font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:.1em;font-size:clamp(14px,3.4vw,18px);color:var(--yellow);text-shadow:0 0 16px rgba(255,230,0,.5);}
 
