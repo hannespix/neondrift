@@ -2081,11 +2081,13 @@
     for(let i=0;i<n;i++){ ctx.fillText('♥',x,y); x+=gap; }
     ctx.restore();
   }
-  function drawShields(){ const n=shields; if(!n) return;          // Schild-Anzeige im HUD (kein Kreis mehr ums Schiff)
-    const gap=22, y=(lives>0&&mode!=='zen')?52:26; let x=W/2-(n-1)*gap/2;
-    ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='15px Space Mono, monospace';
-    ctx.shadowBlur=10; ctx.shadowColor='#2effc0'; ctx.fillStyle='#2effc0';
-    for(let i=0;i<n;i++){ ctx.fillText('🛡',x,y); x+=gap; }
+  function drawShields(){ const n=shields; if(!n) return;          // Schild-Anzeige im HUD (gezeichnete Form statt Emoji → überall sichtbar)
+    const gap=24, y=(lives>0&&mode!=='zen')?54:28; let x=W/2-(n-1)*gap/2;
+    ctx.save(); ctx.shadowBlur=10; ctx.shadowColor='#2effc0'; ctx.fillStyle='#2effc0'; ctx.strokeStyle='rgba(8,1,15,.7)'; ctx.lineWidth=1.5;
+    for(let i=0;i<n;i++){ const s=8;
+      ctx.beginPath(); ctx.moveTo(x,y-s); ctx.lineTo(x+s,y-s*0.5); ctx.lineTo(x+s,y+s*0.25);
+      ctx.quadraticCurveTo(x+s,y+s,x,y+s*1.3); ctx.quadraticCurveTo(x-s,y+s,x-s,y+s*0.25); ctx.lineTo(x-s,y-s*0.5); ctx.closePath();
+      ctx.fill(); ctx.stroke(); x+=gap; }
     ctx.restore();
   }
 
@@ -2214,24 +2216,24 @@
     for(let i=-10;i<=10;i++){ x.beginPath(); x.moveTo(540+i*44,660); x.lineTo(540+i*260,1080); x.stroke(); }
     for(let i=0;i<12;i++){ const f=i/12, y=660+Math.pow(f,2.2)*420; x.globalAlpha=0.12+f*0.3; x.beginPath(); x.moveTo(0,y); x.lineTo(1080,y); x.stroke(); }
     x.globalAlpha=1; x.textAlign='center';
-    x.fillStyle='#fff'; x.shadowColor='#ff2e88'; x.shadowBlur=42; x.font='900 116px Orbitron, sans-serif';
-    x.fillText('NEONDRIFT',540,250);
-    x.shadowBlur=0; x.fillStyle='#9a86c9'; x.font='700 34px Orbitron, sans-serif';
-    x.fillText(daily?(t('dailyLbl')+' · '+dailyLabel()):modeLabel(mode),540,322);
-    x.fillStyle='#19f0ff'; x.shadowColor='#19f0ff'; x.shadowBlur=46; x.font='900 230px Orbitron, sans-serif';
-    x.fillText(String(Math.round(score)),540,600);
-    x.shadowBlur=0; x.fillStyle='#ffe600'; x.font='700 40px Orbitron, sans-serif'; x.fillText(t('pointsBig'),540,672);
-    // genutztes Raumschiff abbilden (Skin/eigenes Design) – plus Name bei Custom
+    x.fillStyle='#fff'; x.shadowColor='#ff2e88'; x.shadowBlur=42; x.font='900 110px Orbitron, sans-serif';
+    x.fillText('NEONDRIFT',540,196);
+    x.shadowBlur=0; x.fillStyle='#9a86c9'; x.font='700 32px Orbitron, sans-serif';
+    x.fillText(daily?(t('dailyLbl')+' · '+dailyLabel()):modeLabel(mode),540,256);
+    x.fillStyle='#19f0ff'; x.shadowColor='#19f0ff'; x.shadowBlur=46; x.font='900 188px Orbitron, sans-serif';
+    x.fillText(String(Math.round(score)),540,432);
+    x.shadowBlur=0; x.fillStyle='#ffe600'; x.font='700 38px Orbitron, sans-serif'; x.fillText(t('pointsBig'),540,486);
+    x.fillStyle='#c9b9ef'; x.font='400 32px "Space Mono", monospace'; x.fillText(t('record')+' '+curBest(),540,534);
+    // genutztes Raumschiff GROSS abbilden (Skin/eigenes Design) – plus Name bei Custom
     try{ let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]||0; up+=ownedCount()*2;
       const nCan=Math.min(8, ownedCount()+((wpn&&wpn.blaster)?Math.max(0,wpn.blaster.bolts-1):0));
-      const S=buildShipSprite(46,up,nCan);
-      if(S&&S.cv&&S.cv.width){ const sc=Math.min(118/S.cv.height,340/S.cv.width), dw=S.cv.width*sc, dh=S.cv.height*sc, cyS=748;
-        x.save(); x.shadowColor=S.acc||'#19f0ff'; x.shadowBlur=46; x.imageSmoothingEnabled=false; x.drawImage(S.cv,540-dw/2,cyS-dh/2,dw,dh); x.restore();
-        if(meta.skin==='custom'){ const s=activeShip(); if(s&&s.name){ x.shadowBlur=0; x.fillStyle='#9be7ff'; x.font='700 24px Orbitron, sans-serif'; x.fillText('« '+s.name+' »',540,cyS+dh/2+24); } } }
+      const S=buildShipSprite(64,up,nCan);
+      if(S&&S.cv&&S.cv.width){ const sc=Math.min(300/S.cv.height,650/S.cv.width), dw=S.cv.width*sc, dh=S.cv.height*sc, cyS=760;
+        x.save(); x.shadowColor=S.acc||'#19f0ff'; x.shadowBlur=60; x.imageSmoothingEnabled=false; x.drawImage(S.cv,540-dw/2,cyS-dh/2,dw,dh); x.restore();
+        if(meta.skin==='custom'){ const s=activeShip(); if(s&&s.name){ x.shadowBlur=0; x.fillStyle='#9be7ff'; x.font='700 30px Orbitron, sans-serif'; x.fillText('« '+s.name+' »',540,Math.min(948,cyS+dh/2+34)); } } }
     }catch(e){}
-    x.shadowBlur=0; x.fillStyle='#c9b9ef'; x.font='400 36px "Space Mono", monospace'; x.fillText(t('record')+' '+curBest(),540,880);
-    x.fillStyle='#ff2e88'; x.shadowColor='#ff2e88'; x.shadowBlur=20; x.font='900 52px Orbitron, sans-serif'; x.fillText(t('beatMe'),540,930);
-    x.shadowBlur=0; x.fillStyle='#5b4a85'; x.font='400 30px "Space Mono", monospace'; x.fillText('hannespix.github.io/neondrift',540,1020);
+    x.shadowBlur=0; x.fillStyle='#ff2e88'; x.shadowColor='#ff2e88'; x.shadowBlur=20; x.font='900 50px Orbitron, sans-serif'; x.fillText(t('beatMe'),540,1004);
+    x.shadowBlur=0; x.fillStyle='#5b4a85'; x.font='400 30px "Space Mono", monospace'; x.fillText('hannespix.github.io/neondrift',540,1052);
     return c;
   }
   function shareScore(){
