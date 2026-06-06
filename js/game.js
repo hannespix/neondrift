@@ -1843,9 +1843,7 @@
       // player (mitwachsendes Pixel-Raumschiff)
       if(state===S.PLAY||state===S.UPGRADE||state===S.PAUSE){ const blink=invuln>0&&Math.floor(invuln*16)%2===0;
         if(!blink) drawShip();
-        // shield rings
-        for(let s=0;s<shields;s++){ ctx.save(); ctx.strokeStyle=hexA('#2effc0',0.8-s*0.12); ctx.lineWidth=2; ctx.shadowBlur=12; ctx.shadowColor='#2effc0';
-          ctx.beginPath(); ctx.arc(player.x,player.y,player.r+9+s*5,0,6.28); ctx.stroke(); ctx.restore(); }
+        drawShields();   // Schilde als kompakte HUD-Pips (statt Bubble ums Schiff)
       }
 
       // particles (additiv -> Funkenregen leuchtet übereinander). Glow via Halo+Kern statt teurem shadowBlur (mobil flüssig)
@@ -2073,6 +2071,13 @@
     ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='22px Space Mono, monospace';
     ctx.shadowBlur=14; ctx.shadowColor='#ff2e88'; ctx.fillStyle='#ff3b6b';
     for(let i=0;i<n;i++){ ctx.fillText('♥',x,y); x+=gap; }
+    ctx.restore();
+  }
+  function drawShields(){ const n=shields; if(!n) return;          // Schild-Anzeige im HUD (kein Kreis mehr ums Schiff)
+    const gap=22, y=(lives>0&&mode!=='zen')?52:26; let x=W/2-(n-1)*gap/2;
+    ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='15px Space Mono, monospace';
+    ctx.shadowBlur=10; ctx.shadowColor='#2effc0'; ctx.fillStyle='#2effc0';
+    for(let i=0;i<n;i++){ ctx.fillText('🛡',x,y); x+=gap; }
     ctx.restore();
   }
 
