@@ -1567,25 +1567,31 @@
     director=Math.min(1,director+0.05); spawnParticles(player.x,player.y,'#ff2e88',10,240);
     runPerfect++; if(statN('perfect')+runPerfect>=10) unlockAch('perfect10'); }
   // ---------- Schuss / Explosionen ----------
-  function fireBlaster(){ const w=wpn.blaster, n=w.bolts, spd=640, baseY=player.y-player.r-2;
+  // Mündungen: aus den vorstehenden Pixel-Kanten (Nase/Flügel/Kanonen) des aktuellen Schiffs feuern
+  let muzIdx=0;
+  function shipMuz(){ const m=shipSprite&&shipSprite.muz; return (m&&m.length)?m:[{x:0,y:-((player&&player.r)||12)}]; }
+  function muzPrimary(){ const M=shipMuz(); let b=M[0]; for(const m of M) if(m.y<b.y) b=m; return {x:player.x+b.x,y:player.y+b.y}; }
+  function muzAt(i){ const M=shipMuz(), m=M[((i%M.length)+M.length)%M.length]; return {x:player.x+m.x,y:player.y+m.y}; }
+  function muzSpread(i,n){ const M=shipMuz(); if(n<=1||M.length<=1) return muzPrimary(); const m=M[Math.round(i*(M.length-1)/(n-1))]; return {x:player.x+m.x,y:player.y+m.y}; }
+  function fireBlaster(){ const w=wpn.blaster, n=w.bolts, spd=640;
     let teslaShot=false; if(syn.tesla){ teslaCount++; teslaShot=(teslaCount%5===0); }   // TESLA-SALVE: jeder 5. Bolzen verzweigt
     const pyro=syn.pyrobolt, pdot=wpn.flame?wpn.flame.dot:0.9*(mods.wDmgMult||1);                                   // PYRO-BOLZEN: entzünden
     const cryo=syn.cryoshot, camt=wpn.frost?wpn.frost.slowAmt:0.55, cdur=wpn.frost?wpn.frost.slowDur:1.2;            // FROST-SALVE: verlangsamen
     const pcol=pyro?'#ff9a2e':(cryo?'#8fe8ff':'#caffff');
-    for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*w.spread;
-      bullets.push({x:player.x,y:baseY,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?1.6:0,frost:cryo?camt:0,frostDur:cryo?cdur:0,splash:syn.barrage,novakill:syn.shockbolt}); }
-    emitP(player.x,baseY,0,-30,0.14,teslaShot?'#9be7ff':pcol,rand(5,8));
+    for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*w.spread, mp=muzSpread(i,n);
+      bullets.push({x:mp.x,y:mp.y,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?1.6:0,frost:cryo?camt:0,frostDur:cryo?cdur:0,splash:syn.barrage,novakill:syn.shockbolt}); }
+    const fp=muzPrimary(); emitP(fp.x,fp.y,0,-30,0.14,teslaShot?'#9be7ff':pcol,rand(5,8));
     sfxShoot(); }
-  function fireFlame(){ const w=wpn.flame, baseY=player.y-player.r-2;
-    bullets.push({x:player.x,y:baseY,vx:rand(-30,30),vy:-560,r:6,dmg:w.dmg,pierce:0,col:'#ffae4d',burn:w.dot,burnDur:w.dur,burnSpread:w.spread,burnConsume:w.consume});
-    emitP(player.x,baseY,0,-20,0.12,'#ff9a2e',rand(5,9));
+  function fireFlame(){ const w=wpn.flame, mp=muzAt(muzIdx++);
+    bullets.push({x:mp.x,y:mp.y,vx:rand(-30,30),vy:-560,r:6,dmg:w.dmg,pierce:0,col:'#ffae4d',burn:w.dot,burnDur:w.dur,burnSpread:w.spread,burnConsume:w.consume});
+    emitP(mp.x,mp.y,0,-20,0.12,'#ff9a2e',rand(5,9));
     beep(360,0.04,'sawtooth',0.07,90); }
-  function fireFrost(){ const w=wpn.frost, baseY=player.y-player.r-2;
-    bullets.push({x:player.x,y:baseY,vx:rand(-20,20),vy:-600,r:5,dmg:w.dmg,pierce:1,col:'#8fe8ff',frost:w.slowAmt,frostDur:w.slowDur,freeze:w.freeze,shatter:w.shatter,brittle:w.brittle});
-    emitP(player.x,baseY,0,-20,0.12,'#8fe8ff',rand(4,7));
+  function fireFrost(){ const w=wpn.frost, mp=muzAt(muzIdx++);
+    bullets.push({x:mp.x,y:mp.y,vx:rand(-20,20),vy:-600,r:5,dmg:w.dmg,pierce:1,col:'#8fe8ff',frost:w.slowAmt,frostDur:w.slowDur,freeze:w.freeze,shatter:w.shatter,brittle:w.brittle});
+    emitP(mp.x,mp.y,0,-20,0.12,'#8fe8ff',rand(4,7));
     beep(880,0.04,'sine',0.06,240); }
-  function fireMissileW(){ const w=wpn.missile; for(let i=0;i<w.count;i++){
-      bullets.push({x:player.x+rand(-8,8),y:player.y-player.r-2,vx:rand(-50,50),vy:-340,r:7,dmg:w.dmg,pierce:0,homing:true,aoe:w.aoe,life:4,col:'#ff9a2e',shrapnel:w.shrapnel,incendiary:w.incendiary}); }
+  function fireMissileW(){ const w=wpn.missile; for(let i=0;i<w.count;i++){ const mp=muzSpread(i,w.count);
+      bullets.push({x:mp.x+rand(-4,4),y:mp.y,vx:rand(-50,50),vy:-340,r:7,dmg:w.dmg,pierce:0,homing:true,aoe:w.aoe,life:4,col:'#ff9a2e',shrapnel:w.shrapnel,incendiary:w.incendiary}); }
     beep(300,0.05,'square',0.12,160); }
   function fireChainW(){ const w=wpn.chain;
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<260*260){
@@ -1944,7 +1950,12 @@
       accCount[c]=(accCount[c]||0)+1; }
     let acc='#19f0ff',best=-1; for(const c in accCount){ if(accCount[c]>best){ best=accCount[c]; acc=c; } }   // häufigste Farbe = Triebwerksglow
     const tailY=(maxRow-(EDROWS-1)/2)*cp+cp*0.5, flameX=bottomMaxX>0?[-bottomMaxX*cp*0.6,bottomMaxX*cp*0.6]:[0];
-    return {cv,ox,oy,cp,acc,flameX,tailY}; }
+    // Mündungen = vorderste vorstehende Pixel je Spalte (Spiegel berücksichtigt)
+    const colMin=new Map(), see=(fx,fy)=>{ const v=colMin.get(fx); if(v===undefined||fy<v) colMin.set(fx,fy); };
+    for(const k in cells){ const p=k.split(','),cx=+p[0],cy=+p[1]; see(cx,cy); if(cx>0) see(-cx,cy); }
+    const muz=[]; colMin.forEach((my,fx)=>{ const l=colMin.get(fx-1),rr=colMin.get(fx+1); if((l===undefined||my<=l)&&(rr===undefined||my<=rr)) muz.push({x:fx*cp,y:(my-(EDROWS-1)/2)*cp-cp*0.6}); });
+    muz.sort((a,b)=>a.x-b.x);
+    return {cv,ox,oy,cp,acc,flameX,tailY,muz}; }
   function buildShipSprite(r,up,nCan){
     if(meta.skin==='custom' && hasCustomShip()) return buildCustomSprite(r);
     const R=makeRng(shipSeed||1);
@@ -1989,7 +2000,11 @@
     grid.forEach((c,k)=>{ const p=k.split(','), px=ox+(+p[0])*cp, py=oy+(+p[1])*cp; x.fillStyle=c; x.fillRect(px-cp/2,py-cp/2,cp,cp); });
     const nEng=Math.max(1,Math.min(4,1+((up/3)|0))), flameX=[];
     for(let i=0;i<nEng;i++) flameX.push((i-(nEng-1)/2)*Math.max(cp*1.2,(gw*cp)/Math.max(1,nEng)));
-    return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5};
+    // Mündungen = vorderste vorstehende Pixel je Spalte (Nase, Flügel-/Kanonenspitzen)
+    const colMin=new Map(); grid.forEach((c,k)=>{ const p=k.split(','),gx=+p[0],gy=+p[1]; const v=colMin.get(gx); if(v===undefined||gy<v) colMin.set(gx,gy); });
+    const muz=[]; colMin.forEach((my,gx)=>{ const l=colMin.get(gx-1),rr=colMin.get(gx+1); if((l===undefined||my<=l)&&(rr===undefined||my<=rr)) muz.push({x:gx*cp,y:my*cp-cp*0.6}); });
+    muz.sort((a,b)=>a.x-b.x);
+    return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5,muz};
   }
   function drawShip(){ const r=player.r;
     let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]; up+=ownedCount()*2;
