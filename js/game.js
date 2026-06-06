@@ -34,7 +34,7 @@
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'PUNKTE ✕2', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
       shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
-      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten',
+      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', newShip:'Neues Schiff', del:'Löschen', shipDefault:'Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich.","Organspende war gestern. Heute: Pixelspende.","Der Block kam aus dem Nichts. Dein Talent auch.","Game Over. Aber immerhin stilvoll explodiert."],
@@ -61,7 +61,7 @@
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'SCORE ✕2', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
       shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow',
+      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', newShip:'New Ship', del:'Delete', shipDefault:'Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow',
       near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
@@ -88,7 +88,7 @@
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
       pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'SCORE ✕2', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
       shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow',
+      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', newShip:'Nouveau', del:'Supprimer', shipDefault:'Vaisseau', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow',
       near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
       quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
@@ -195,7 +195,10 @@
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0}; }
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
+    const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // ---- Schwierigkeitsgrade (Baby = aktuelles Balancing = leichteste Stufe; höhere Stufen ziehen Tempo & Dichte ganz leicht an) ----
   const DIFFS=[
@@ -1934,8 +1937,13 @@
     fr:{std:'Défaut',pink:'Magenta',sun:'Soleil',vapor:'Vapor',toxic:'Toxique',gold:'Or',glitch:'Glitch',rainbow:'Arc-en-ciel'}
   };
   const skinName=id=>((SKINTR[lang]&&SKINTR[lang][id])||SKINTR.en[id]||id);
-  function hasCustomShip(){ return !!(meta.customShip && meta.customShip.cells && Object.keys(meta.customShip.cells).length); }
-  function buildCustomSprite(r){ const cp=Math.max(2,Math.round(r*0.31)), cells=(meta.customShip&&meta.customShip.cells)||{};
+  const MAXSHIPS=6;
+  const shipList=()=>(meta.ships||(meta.ships=[]));
+  const activeShip=()=>{ const L=shipList(); return L[meta.shipSlot||0]||L[0]||null; };
+  const activeShipCells=()=>{ const s=activeShip(); return (s&&s.cells)||{}; };
+  function hasCustomShip(){ const s=activeShip(); return !!(s&&s.cells&&Object.keys(s.cells).length); }
+  function buildCustomSprite(r){ return buildSpriteFromCells(activeShipCells(),r); }
+  function buildSpriteFromCells(cells,r){ const cp=Math.max(2,Math.round(r*0.31)); cells=cells||{};
     const pad=6*cp, cw=(2*EDHW+1)*cp+pad*2, ch=EDROWS*cp+pad*2, ox=pad+EDHW*cp, oy=pad+((EDROWS-1)/2)*cp;
     const cv=document.createElement('canvas'); cv.width=cw; cv.height=ch; const x=cv.getContext('2d');
     let maxRow=0, bottomMaxX=0, accCount={};
@@ -2500,9 +2508,12 @@
     {name:'Jäger', d:[[0,2,6],[0,3,0],[0,4,0],[0,5,0],[0,6,0],[1,4,0],[2,5,4],[3,6,4],[1,7,0],[0,7,1]]},
     {name:'Block', d:[[0,3,6],[0,4,0],[0,5,0],[0,6,0],[1,4,0],[1,5,0],[1,6,0],[2,5,0],[0,7,1],[1,7,1]]}
   ];
-  let edCells={}, edColor=EDPAL[0], edGlow=false, edErase=false, edPaintActive=false, edGeo=null;
+  let edCells={}, edColor=EDPAL[0], edGlow=false, edErase=false, edPaintActive=false, edGeo=null, edSlot=-1;
   const edUsed=()=>Object.keys(edCells).length;
-  function openShipEditor(){ edCells = hasCustomShip() ? JSON.parse(JSON.stringify(meta.customShip.cells)) : {};
+  function openShipEditor(slot){ const L=shipList(); const exist=(slot!=null&&slot>=0&&L[slot]);
+    edSlot = exist ? slot : -1;
+    edCells = exist ? JSON.parse(JSON.stringify(L[slot].cells||{})) : {};
+    const nm=document.getElementById('edName'); if(nm) nm.value = exist ? (L[slot].name||'') : (t('shipDefault')+' '+(L.length+1));
     edColor=EDPAL[0]; edErase=false; edGlow=false;
     document.getElementById('shop').classList.add('hidden');
     const ed=document.getElementById('shipEditor'); ed.classList.remove('hidden'); ed.scrollTop=0; renderEditor(); sfxUpgrade(); }
@@ -2552,7 +2563,17 @@
     for(const [cx,cy,ci] of T.d) edCells[cx+','+cy]={c:EDPAL[ci]||EDPAL[0],g:0}; renderEditor(); sfxUpgrade(); }
   function clearCustomEdit(){ edCells={}; drawEditorCanvas(); edRefreshBudget(); beep(300,0.1,'sawtooth',0.2,-80); }
   function saveCustomShip(){ if(!edUsed()){ beep(200,0.12,'square',0.2,-60); return; }
-    meta.customShip={cells:JSON.parse(JSON.stringify(edCells))}; meta.skin='custom'; saveMeta(); shipSig=''; sfxUpgrade(); vibe([15,20,15]); updateMenuChips(); closeShipEditor(); }
+    const L=shipList(); const nmEl=document.getElementById('edName'); const name=((nmEl&&nmEl.value)||'').trim().slice(0,16) || (t('shipDefault')+' '+(L.length+1));
+    const ship={name,cells:JSON.parse(JSON.stringify(edCells))};
+    let slot=edSlot;
+    if(slot>=0 && L[slot]) L[slot]=ship;
+    else { if(L.length>=MAXSHIPS){ beep(200,0.12,'square',0.2,-60); return; } L.push(ship); slot=L.length-1; }
+    meta.shipSlot=slot; meta.skin='custom'; saveMeta(); shipSig=''; sfxUpgrade(); vibe([15,20,15]); updateMenuChips(); closeShipEditor(); }
+  function deleteShip(slot){ const L=shipList(); if(slot<0||slot>=L.length) return; L.splice(slot,1);
+    if(meta.shipSlot>=L.length) meta.shipSlot=Math.max(0,L.length-1);
+    if(meta.skin==='custom' && !L.length) meta.skin='std';
+    saveMeta(); shipSig=''; beep(260,0.12,'sawtooth',0.25,-90); renderShop(); }
+  function selectShip(slot){ const L=shipList(); if(!L[slot]) return; meta.shipSlot=slot; selectSkin('custom'); }
   function refreshSkinUIs(){ const sh=document.getElementById('shop'); if(sh&&!sh.classList.contains('hidden')) renderShop(); }
   function selectSkin(id){ meta.skin=id; saveMeta(); shipSig=''; beep(740,0.06,'square',0.2); refreshSkinUIs(); }
   function buySkin(id){ const s=SKINS.find(x=>x.id===id); if(!s||!s.cost) return; if((meta.chips||0)<s.cost){ beep(200,0.12,'square',0.2,-60); return; }
@@ -2569,14 +2590,23 @@
       card.innerHTML='<div class="prev" style="background:'+prevBg+';border-color:'+s.edge+'"></div><h5>'+skinName(s.id)+'</h5>'+btn;
       const b=card.querySelector('button.pick'); if(b) b.addEventListener('click',()=>{ b.dataset.act==='buy'?buySkin(s.id):selectSkin(s.id); });
       wrap.appendChild(card); });
-    // „Eigenes Schiff" – Pixel-Editor
-    const cust=hasCustomShip(), activeC=meta.skin==='custom'; const cc=document.createElement('div'); cc.className='skcard'+(activeC?' act':'');
-    cc.innerHTML='<div class="prev" style="background:#0b0218;border-color:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:24px;">✏️</div>'+
-      '<h5>'+t('customShip')+'</h5>'+
-      (cust?('<button class="pick" data-act="editsel">'+(activeC?t('edit'):t('choose'))+'</button>'):'<button class="pick" data-act="edit">'+t('design')+'</button>');
-    cc.querySelector('button').addEventListener('click',e=>{ const a=e.target.dataset.act;
-      if(a==='editsel' && !activeC){ selectSkin('custom'); } else openShipEditor(); });
-    wrap.appendChild(cc); }
+    // Garage: gespeicherte eigene Schiffe (auswählen/bearbeiten/löschen) + neues Schiff
+    const L=shipList();
+    L.forEach((s,i)=>{ const active=(meta.skin==='custom' && (meta.shipSlot||0)===i);
+      const card=document.createElement('div'); card.className='skcard'+(active?' act':'');
+      const cv=document.createElement('canvas'); cv.className='shipPrev'; cv.width=64; cv.height=64;
+      const sp=buildSpriteFromCells(s.cells,12), cx=cv.getContext('2d'); const sc=Math.min(56/sp.cv.width,56/sp.cv.height);
+      cx.imageSmoothingEnabled=false; cx.drawImage(sp.cv,32-sp.cv.width*sc/2,32-sp.cv.height*sc/2,sp.cv.width*sc,sp.cv.height*sc);
+      card.appendChild(cv);
+      const h=document.createElement('h5'); h.textContent=s.name||(t('shipDefault')+' '+(i+1)); card.appendChild(h);
+      const row=document.createElement('div'); row.className='skrow';
+      const pick=document.createElement('button'); pick.textContent=active?t('active'):t('choose'); if(active) pick.className='on'; else pick.addEventListener('click',()=>selectShip(i));
+      const ed=document.createElement('button'); ed.textContent='✏️'; ed.title=t('edit'); ed.addEventListener('click',()=>openShipEditor(i));
+      const del=document.createElement('button'); del.className='del'; del.textContent='🗑️'; del.title=t('del'); del.addEventListener('click',()=>deleteShip(i));
+      row.appendChild(pick); row.appendChild(ed); row.appendChild(del); card.appendChild(row);
+      wrap.appendChild(card); });
+    if(L.length<MAXSHIPS){ const nc=document.createElement('div'); nc.className='skcard newship'; nc.innerHTML='<div>✏️＋</div><h5 style="font-size:13px;">'+t('newShip')+'</h5>';
+      nc.addEventListener('click',()=>openShipEditor(-1)); wrap.appendChild(nc); } }
   function applyI18n(){ try{ document.documentElement.lang=lang;
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };

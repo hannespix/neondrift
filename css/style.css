@@ -347,3 +347,11 @@
   #edTools button.buy.lock{opacity:.5;}
   #edTemplates{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
   #edTemplates .tplLbl{width:100%;text-align:center;font-size:11px;letter-spacing:.1em;color:#9a86c9;margin-bottom:2px;text-transform:uppercase;}
+  #edName{font-family:'Orbitron',sans-serif;font-size:14px;letter-spacing:.04em;color:#fff;text-align:center;background:rgba(255,255,255,.06);
+    border:1px solid rgba(25,240,255,.4);border-radius:9px;padding:8px 12px;margin:4px 0 8px;width:min(220px,72vw);outline:none;-webkit-user-select:text;user-select:text;}
+  #edName:focus{border-color:var(--cyan);box-shadow:0 0 14px rgba(25,240,255,.35);}
+  .skcard .shipPrev{width:64px;height:64px;background:#0b0218;border:1px solid rgba(25,240,255,.35);border-radius:12px;image-rendering:pixelated;}
+  .skcard .skrow{display:flex;gap:6px;margin-top:2px;}
+  .skcard .skrow button{cursor:pointer;font-size:12px;padding:5px 9px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#e7defc;}
+  .skcard .skrow button.del{background:rgba(255,46,136,.16);color:#ff8ab5;border-color:rgba(255,46,136,.35);}
+  .skcard.newship{justify-content:center;cursor:pointer;border-style:dashed;color:#9be7ff;font-size:30px;min-height:150px;}
