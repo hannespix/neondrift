@@ -2298,7 +2298,7 @@
     ownedW().forEach(id=>{ const a=arsenal.w[id], w=WID[id], f1=w.forks[0], f2=w.forks[1], f3=w.forks[2], f4=w.forks[3];
       const card=document.createElement('div'); card.className='wtree';
       card.innerHTML=
-        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span><button class="cost drop">✕</button></div>`+
+        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span>${infoBtn(wName(id),FLAV(id))}<button class="cost drop">✕</button></div>`+
         `<div class="warctag" style="--wc:${w.col}">${wArch(id)}</div>`+
         `<div class="wmech">${wDesc(id)}</div>`+
         `<div class="tnode base chosen"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
@@ -2316,7 +2316,7 @@
     const free=arsenal.slots-ownedCount(), notOwned=WEAPONS.filter(w=>!arsenal.w[w.id]);
     const addable=notOwned.filter(w=>weaponUnlocked(w.id)), locked=notOwned.filter(w=>!weaponUnlocked(w.id));
     if(skillPts>0&&opt.guns&&free>0&&addable.length){ addable.forEach(w=>{ const card=document.createElement('div'); card.className='wtree addable';
-        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b></div>`+
+        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
@@ -2325,7 +2325,7 @@
     else if(!locked.length){ for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     // Gesperrte Waffen als Teaser zeigen → Anreiz, in der Werkstatt freizuschalten
     if(opt.guns) locked.forEach(w=>{ const card=document.createElement('div'); card.className='wtree wlocked'; card.style.opacity='.5';
-        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b></div>`+
+        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base locked"><span class="ti">🔒</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
@@ -2338,10 +2338,10 @@
         const cls=on?'on':(can?'avail':(owned===1?'near':'off')), tap=(on||can)?' syntap':'';
         const badge=on?'<span class="synok">✓</span>':(can?'<span class="synadd">＋</span>':(owned===1?('<span class="synneed">'+(hasA?WID[b].ico:WID[a].ico)+'</span>'):''));
         const rank=on?3:(can?2:owned);
-        return {rank,html:`<div class="synrow ${cls}${tap}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${badge}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
+        return {rank,html:`<div class="synrow ${cls}${tap}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${badge}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
       rows.sort((x,y)=>y.rank-x.rank);   // aktiv → wählbar → fast → fehlt
       sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">'+activeSyn.length+'/'+MAXSYN+'</span></h4>'+rows.map(r=>r.html).join('');
-      sd.querySelectorAll('.synrow.syntap').forEach(r=>r.addEventListener('click',()=>toggleSyn(r.dataset.syn))); }
+      sd.querySelectorAll('.synrow.syntap').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; toggleSyn(r.dataset.syn); })); }
   }
   // In-Run HUD: Waffenleiste mit Level-Pips + Synergie-Badges
   function drawArsenalHud(){ const ids=ownedW();

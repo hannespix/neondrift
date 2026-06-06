@@ -204,6 +204,7 @@
   /* Synergie-Rezeptbuch: aktiv / fast / fehlt */
   #arsenalSyn .synrow{display:block;}
   #arsenalSyn .synhead{display:flex;align-items:center;gap:7px;}
+  #arsenalSyn .synhead .infoBtn{margin-left:auto;width:20px;height:20px;font-size:12px;}
   #arsenalSyn .synpair{font-size:15px;letter-spacing:1px;}
   #arsenalSyn .synd{font-size:10.5px;color:#c9b9ef;margin-top:2px;opacity:.85;}
   #arsenalSyn .synok{margin-left:auto;color:#7cff2e;font-weight:700;font-size:11px;}
