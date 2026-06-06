@@ -272,6 +272,7 @@
       const b=actx.createBuffer(1,1,22050), s=actx.createBufferSource(); s.buffer=b; s.connect(actx.destination); s.start(0);
     }catch(e){}
     if(!muted) startMusic();
+    const sh=document.getElementById('soundHint'); if(sh) sh.style.display='none';   // Hinweis nach erster Geste entfernen
   }
   ['pointerdown','touchstart','mousedown','keydown','click'].forEach(ev=>window.addEventListener(ev,unlockAudio,{passive:true}));
 
