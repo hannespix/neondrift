@@ -1946,22 +1946,24 @@
   function buildSpriteFromCells(cells,r){ const cp=Math.max(2,Math.round(r*0.31)); cells=cells||{};
     const pad=6*cp, cw=(2*EDHW+1)*cp+pad*2, ch=EDROWS*cp+pad*2, ox=pad+EDHW*cp, oy=pad+((EDROWS-1)/2)*cp;
     const cv=document.createElement('canvas'); cv.width=cw; cv.height=ch; const x=cv.getContext('2d');
-    let maxRow=0, bottomMaxX=0, accCount={};
+    let maxRow=0, bottomMaxX=0, accCount={}, minRow=99, maxCx=0;
     const drawCell=(fx,fy,c,g)=>{ const px=ox+fx*cp, py=oy+(fy-(EDROWS-1)/2)*cp;
       if(g){ x.save(); x.globalCompositeOperation='lighter'; x.globalAlpha=0.55; const gr=cp*1.7; x.drawImage(glowSprite(c),px-gr,py-gr,gr*2,gr*2); x.restore(); }
       x.fillStyle=c; x.fillRect(px-cp/2,py-cp/2,cp,cp); };
     for(const k in cells){ const p=k.split(','), cx=+p[0], cy=+p[1], cell=cells[k], c=(cell&&cell.c)||cell||'#19f0ff', g=cell&&cell.g?1:0;
       drawCell(cx,cy,c,g); if(cx>0) drawCell(-cx,cy,c,g);
       if(cy>maxRow){ maxRow=cy; bottomMaxX=cx; } else if(cy===maxRow && cx>bottomMaxX) bottomMaxX=cx;
+      if(cy<minRow) minRow=cy; if(cx>maxCx) maxCx=cx;
       accCount[c]=(accCount[c]||0)+1; }
     let acc='#19f0ff',best=-1; for(const c in accCount){ if(accCount[c]>best){ best=accCount[c]; acc=c; } }   // häufigste Farbe = Triebwerksglow
     const tailY=(maxRow-(EDROWS-1)/2)*cp+cp*0.5, flameX=bottomMaxX>0?[-bottomMaxX*cp*0.6,bottomMaxX*cp*0.6]:[0];
+    const cen=(EDROWS-1)/2, bw=(maxCx+0.6)*cp, bh=(Math.max(maxRow-cen,cen-minRow)+0.6)*cp;   // Pixel-Bounds (für Schild-Form)
     // Mündungen = vorderste vorstehende Pixel je Spalte (Spiegel berücksichtigt)
     const colMin=new Map(), see=(fx,fy)=>{ const v=colMin.get(fx); if(v===undefined||fy<v) colMin.set(fx,fy); };
     for(const k in cells){ const p=k.split(','),cx=+p[0],cy=+p[1]; see(cx,cy); if(cx>0) see(-cx,cy); }
     const muz=[]; colMin.forEach((my,fx)=>{ const l=colMin.get(fx-1),rr=colMin.get(fx+1); if((l===undefined||my<=l)&&(rr===undefined||my<=rr)) muz.push({x:fx*cp,y:(my-(EDROWS-1)/2)*cp-cp*0.6}); });
     muz.sort((a,b)=>a.x-b.x);
-    return {cv,ox,oy,cp,acc,flameX,tailY,muz}; }
+    return {cv,ox,oy,cp,acc,flameX,tailY,muz,bw,bh}; }
   function buildShipSprite(r,up,nCan){
     if(meta.skin==='custom' && hasCustomShip()) return buildCustomSprite(r);
     const R=makeRng(shipSeed||1);
@@ -2007,10 +2009,11 @@
     const nEng=Math.max(1,Math.min(4,1+((up/3)|0))), flameX=[];
     for(let i=0;i<nEng;i++) flameX.push((i-(nEng-1)/2)*Math.max(cp*1.2,(gw*cp)/Math.max(1,nEng)));
     // Mündungen = vorderste vorstehende Pixel je Spalte (Nase, Flügel-/Kanonenspitzen)
-    const colMin=new Map(); grid.forEach((c,k)=>{ const p=k.split(','),gx=+p[0],gy=+p[1]; const v=colMin.get(gx); if(v===undefined||gy<v) colMin.set(gx,gy); });
+    const colMin=new Map(); let mAbsX=0,mAbsY=0; grid.forEach((c,k)=>{ const p=k.split(','),gx=+p[0],gy=+p[1]; const v=colMin.get(gx); if(v===undefined||gy<v) colMin.set(gx,gy);
+      if(Math.abs(gx)>mAbsX) mAbsX=Math.abs(gx); if(Math.abs(gy)>mAbsY) mAbsY=Math.abs(gy); });
     const muz=[]; colMin.forEach((my,gx)=>{ const l=colMin.get(gx-1),rr=colMin.get(gx+1); if((l===undefined||my<=l)&&(rr===undefined||my<=rr)) muz.push({x:gx*cp,y:my*cp-cp*0.6}); });
     muz.sort((a,b)=>a.x-b.x);
-    return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5,muz};
+    return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5,muz,bw:(mAbsX+0.6)*cp,bh:(mAbsY+0.6)*cp};
   }
   function drawShip(){ const r=player.r;
     let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]; up+=ownedCount()*2;
@@ -2025,6 +2028,22 @@
       ctx.beginPath(); ctx.moveTo(fx-S.cp*0.9,S.tailY); ctx.lineTo(fx+S.cp*0.9,S.tailY); ctx.lineTo(fx,S.tailY+fl); ctx.closePath(); ctx.fill(); }
     // Pixel-Sprite – der Spieler ist der Fokus, glüht am hellsten und pulsiert mit dem Beat
     ctx.shadowBlur=16+(beatPulse||0)*8+(overdrive?6:0); ctx.shadowColor=S.acc; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
+    if(shields>0) drawShipShield(S);   // Energie-Schild um die Schiffsform
+    ctx.restore(); }
+  function shieldSil(S){ if(S.sil!==undefined) return S.sil; let o=null;   // schiff-förmige Silhouette in Schildfarbe (Kontur-Aura)
+    try{ o=document.createElement('canvas'); o.width=S.cv.width; o.height=S.cv.height; const c=o.getContext('2d');
+      c.drawImage(S.cv,0,0); c.globalCompositeOperation='source-in'; c.fillStyle='#2effc0'; c.fillRect(0,0,o.width,o.height); }catch(e){ o=null; } S.sil=o; return o; }
+  // Cooles Energie-Schild: Kontur-Aura (hugs Pixelform) + wellige rotierende Ringe + schimmernde Knoten (Annahme: Kontext bereits auf player zentriert)
+  function drawShipShield(S){ const t=elapsed||0, col='#2effc0', rx=(S.bw||player.r)+11, ry=(S.bh||player.r)+13;
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    const sil=shieldSil(S); if(sil){ const p=0.5+0.5*Math.sin(t*4.2), sc=1.10+0.05*p; ctx.globalAlpha=0.16+0.16*p;
+      ctx.drawImage(sil,-S.ox*sc,-S.oy*sc,S.cv.width*sc,S.cv.height*sc); ctx.globalAlpha=1; }
+    for(let s=0;s<shields;s++){ const grow=1+s*0.13, rot=t*(0.5+s*0.22)*(s%2?-1:1), N=60;
+      ctx.strokeStyle=hexA(col,0.55-s*0.05); ctx.lineWidth=2.2;
+      ctx.beginPath(); for(let k=0;k<=N;k++){ const a=k/N*6.2832+rot, w=1+0.05*Math.sin(a*6+t*6), px=Math.cos(a)*rx*grow*w, py=Math.sin(a)*ry*grow*w; k?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+      ctx.stroke();
+      const na=((t*1.3+s*0.5)%1)*6.2832, nx=Math.cos(na)*rx*grow, ny=Math.sin(na)*ry*grow;   // schimmernder Energie-Knoten
+      ctx.fillStyle=hexA('#dffffb',0.85); ctx.beginPath(); ctx.arc(nx,ny,2.6,0,6.28); ctx.fill(); }
     ctx.restore(); }
   function drawMouth(m,t){ const y=m.oy, w=m.w, h=w*0.4; ctx.save(); ctx.translate(0,y); ctx.fillStyle='#08010f';
     if(m.type==='grin'){ ctx.strokeStyle='#08010f'; ctx.lineWidth=Math.max(3,h*0.22); ctx.beginPath(); ctx.arc(0,-h*0.2,w*0.5,0.15*Math.PI,0.85*Math.PI); ctx.stroke(); }
