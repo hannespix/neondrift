@@ -19,8 +19,8 @@
       tag:'weiche aus · sammle · überlebe', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.',
-      m_normal:'NORMAL', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
-      m_hard:'HARDCORE', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
+      m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
+      m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
@@ -46,8 +46,8 @@
       tag:'dodge · collect · survive', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then NEONDRIFT runs fullscreen.',
-      m_normal:'NORMAL', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
-      m_hard:'HARDCORE', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
+      m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
+      m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
@@ -73,8 +73,8 @@
       tag:'esquive · collecte · survis', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – NEONDRIFT passe en plein écran.',
-      m_normal:'NORMAL', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
-      m_hard:'HARDCORE', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
+      m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
+      m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
       newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
@@ -160,7 +160,7 @@
     {name:'🚽 Toiletten-Kaiser',            mul:1.50},
     {name:'💀 Chuck Norris ist hier gestorben', mul:1.68}
   ];
-  let diffMul=1;   // wird beim Spielstart aus meta.diff gesetzt
+  let diffMul=1, diffSpd=1, diffHp=1, diffDen=1, diffChip=1;   // werden beim Spielstart aus meta.diff abgeleitet
   const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
@@ -843,7 +843,7 @@
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0;
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
-    upStep=500; nextUpgradeAt=500;                                                                       // Upgrade-Karten/Skillpunkte etwas seltener
+    upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
     banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=Math.floor(Math.random()*SONGS.length); curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
@@ -899,7 +899,11 @@
     if(m==='daily'){ daily=true; mode='normal'; }
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
     useSeed=daily;
-    diffMul=(DIFFS[meta.diff||0]||DIFFS[0]).mul;   // gewählte Schwierigkeit anwenden
+    diffMul=(DIFFS[meta.diff||0]||DIFFS[0]).mul;                 // gewählte Schwierigkeit anwenden
+    diffSpd =1+(diffMul-1)*(opt.guns?0.35:0.7);                  // Speed nur leicht (ohne Waffen stärker, da HP dann egal)
+    diffHp  =1+(diffMul-1)*1.35;                                 // HP deutlich stärker (Hauptlast der Schwierigkeit)
+    diffDen =1+(diffMul-1)*0.40;                                 // Spawn-Dichte leicht
+    diffChip=0.60+(diffMul-1)*1.30;                              // Chips: Easy ~0.6× (Grind bleibt!), schwer bis ~1.5× (Belohnung)
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
     unlockAudio(); reset(); applyMeta(); state=S.PLAY;
@@ -950,7 +954,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*1.05*diffMul;
+    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*1.05*diffSpd;
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -966,7 +970,7 @@
     } else if(key==='pendulum'){ o.shape='ring'; o.color='#ff2eaa'; o.w=grand(36,52); o.h=o.w;
       o.baseX=grand(W*0.3,W*0.7); o.swing=grand(90,150); o.ang=grnd()*6.28; o.angVel=grand(2,3.2); o.vy=sp*0.8; o.cx=o.baseX; o.cy=-o.h;
     }
-    o.maxHp=Math.max(1,Math.round(((o.w+o.h)/46+(o.shape==='long'?2:0)+(o.shape==='rect'?1:0))*difHp()));
+    o.maxHp=Math.max(1,Math.round(((o.w+o.h)/46+(o.shape==='long'?2:0)+(o.shape==='rect'?1:0))*difHp()*diffHp));
     o.hp=o.maxHp; o.hitFlash=0;
     // ---- Elite/Panzer: überlebt den Screen-Clear & widersteht CC → erzwingt im Lategame wieder echtes Ausweichen ----
     if(grnd()<eliteChance()){
@@ -1058,7 +1062,7 @@
       move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
       cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,150+tier*8), radY:Math.min(H*0.11,60+tier*8),
       ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1)*(final?1.15:1), r:sp.rad,
-      maxHp:Math.max(40,Math.round(bossDps()*(10+bossNumber*1.0)*(final?2.0:1))), hp:0, t:0,
+      maxHp:Math.max(40,Math.round(bossDps()*(10+bossNumber*1.0)*(final?2.0:1)*diffHp)), hp:0, t:0,
       limit:final?9999:(22+bossNumber*2),
       hitFlash:0, shootT:1.5, warn:0, telegraph:false, fireGap:Math.max(0.9,2.5-bossNumber*0.1-Math.min(0.7,pwrSurv()*0.022)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0};
@@ -1091,7 +1095,7 @@
     else {                              // implode: schrumpft in einen Punkt → Schockwelle
       B.deathT=1.1; flash=0.25; flashColor='#c45bff'; sfxImplode(); } }
   function defeatMegaBoss(){ const B=boss, wasFinal=B&&B.final, st=B&&B.style, bx=B?B.x:W/2, by=B?B.y:H*0.28;
-    const bonus=(wasFinal?600:160)*multiplier*bossNumber, chips=(wasFinal?120:20)+bossNumber*8;
+    const bonus=(wasFinal?600:160)*multiplier*bossNumber, chips=Math.round(((wasFinal?120:20)+Math.min(bossNumber,15)*8)*diffChip);   // Boss-Chips gedeckelt + ×diffChip
     addScore(bonus); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips();
     // ---- Stil-Finale am Boss-Ort ----
     if(st==='bloat'){ flash=0.85; flashColor='#ffe600'; shake=28; sfxBoom();
@@ -1160,7 +1164,7 @@
     flash=0.5; flashColor='#ffe600'; sfxWin(); vibe([20,30,40]);
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
     bossNumber++; runBosses++;
-    if(wasFinal){ const chips=120+bossNumber*8; meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
+    if(wasFinal){ const chips=Math.round((120+Math.min(bossNumber,15)*8)*diffChip); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
     else banner={text:t('survived'),sub:'+'+bonus,t:2.2,color:'#2effc0'}; }
   function spawnLaserWave(){ const mixed=bossNumber>=3, vert=(bossNumber%2===1);
     const count=Math.min(6,1+Math.floor(bossNumber/2)+Math.min(2,Math.floor(pwrSurv()*0.14)));
@@ -1298,7 +1302,7 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.30,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())*0.95/(1+(diffMul-1)*0.65)); } }
+        spawnT=Math.max(0.30,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())*0.95/diffDen); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
@@ -1983,7 +1987,9 @@
     const rec=score>curBest(); if(rec){ setBest(score); saveScores();
       for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
       setTimeout(()=>{beep(660,0.1,'square',0.3);},120); setTimeout(()=>{beep(880,0.1,'square',0.3);},260); setTimeout(()=>{beep(1175,0.18,'square',0.35);},400); }
-    const earned=Math.max(0,Math.round((score/55 + nearCount*0.6 + (bossNumber-1)*30 + (wonThisRun?250:0))*chipMult()));
+    const scChips=score<=25000?score/55:25000/55+(score-25000)/170;        // Endless-Score abflachen (kein Chip-Explodieren im Endgame)
+    const bsChips=Math.min((bossNumber-1)*30,360);                          // Boss-Beitrag gedeckelt
+    const earned=Math.max(0,Math.round((scChips + nearCount*0.6 + bsChips + (wonThisRun?250:0))*chipMult()*diffChip));   // ×diffChip: Easy weniger (Grind), schwer mehr
     meta.chips=(meta.chips||0)+earned;
     addStat('orbs',runOrbs); addStat('near',nearCount); addStat('perfect',runPerfect); addStat('bosses',runBosses); addStat('runs',1); addStat('chipsTotal',earned);
     meta.stats=meta.stats||{}; if(runMaxMult>statN('maxCombo')) meta.stats.maxCombo=runMaxMult; if(bossNumber>statN('maxBoss')) meta.stats.maxBoss=bossNumber;
