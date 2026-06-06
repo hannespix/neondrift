@@ -34,7 +34,7 @@
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'PUNKTE ✕2', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
       shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
-      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN',
+      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich.","Organspende war gestern. Heute: Pixelspende.","Der Block kam aus dem Nichts. Dein Talent auch.","Game Over. Aber immerhin stilvoll explodiert."],
@@ -61,7 +61,7 @@
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'SCORE ✕2', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
       shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT',
+      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow',
       near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
@@ -88,7 +88,7 @@
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
       pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'SCORE ✕2', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
       shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR',
+      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow',
       near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
       quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
@@ -241,6 +241,7 @@
   const forkShopOpen=(id,slot)=> (metaLvl('fu_'+id)||0) >= FORKI[slot];
   // Werkstatt-Kategorien (für Tab-UI)
   function shopCat(id){ if(id.indexOf('sy_')===0) return 'synergy';
+    if(id==='pxpack'||id==='pxglow') return 'cosmetic';   // im Editor verkauft, nicht als generische Karte
     if(id.indexOf('bp_')===0||id.indexOf('fu_')===0||id==='slot'||id==='veteran') return 'weapons';
     if(id==='shield'||id==='tough'||id==='solid'||id==='reach') return 'ship';
     if(id==='wcore'||id==='wtempo'||id==='critcore') return 'power';
@@ -822,6 +823,12 @@
   const SID=Object.fromEntries(SYNERGIES.map(s=>[s.id,s]));
   // Synergien müssen in der Werkstatt mit Coins freigeschaltet werden (permanent), bevor man sie im Run nutzen kann
   { const SYNBASE=500; for(const s of SYNERGIES) META.push({id:'sy_'+s.id, ico:s.ico, base:SYNBASE, max:1}); }
+  // Pixel-Schiff-Editor: Pixel-Pakete (heben das Mal-Budget) + Glow-Pixel-Freischaltung
+  META.push({id:'pxpack', ico:'✏️', base:160, max:6});   // je Stufe +12 Pixel
+  META.push({id:'pxglow', ico:'✨', base:350, max:1});    // Glow-Pixel freischalten
+  const PIX_BASE=14, PIX_PER=12;
+  const pixBudget=()=>PIX_BASE+metaLvl('pxpack')*PIX_PER;
+  const glowUnlocked=()=>metaLvl('pxglow')>0;
   const synBought=id=>metaLvl('sy_'+id)>0;
   const synUnlocked=id=>mode==='zen'||synBought(id);   // Zen = Sandbox: Synergien frei
   const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
@@ -1923,7 +1930,23 @@
     fr:{std:'Défaut',pink:'Magenta',sun:'Soleil',vapor:'Vapor',toxic:'Toxique',gold:'Or',glitch:'Glitch',rainbow:'Arc-en-ciel'}
   };
   const skinName=id=>((SKINTR[lang]&&SKINTR[lang][id])||SKINTR.en[id]||id);
+  function hasCustomShip(){ return !!(meta.customShip && meta.customShip.cells && Object.keys(meta.customShip.cells).length); }
+  function buildCustomSprite(r){ const cp=Math.max(2,Math.round(r*0.31)), cells=(meta.customShip&&meta.customShip.cells)||{};
+    const pad=6*cp, cw=(2*EDHW+1)*cp+pad*2, ch=EDROWS*cp+pad*2, ox=pad+EDHW*cp, oy=pad+((EDROWS-1)/2)*cp;
+    const cv=document.createElement('canvas'); cv.width=cw; cv.height=ch; const x=cv.getContext('2d');
+    let maxRow=0, bottomMaxX=0, accCount={};
+    const drawCell=(fx,fy,c,g)=>{ const px=ox+fx*cp, py=oy+(fy-(EDROWS-1)/2)*cp;
+      if(g){ x.save(); x.globalCompositeOperation='lighter'; x.globalAlpha=0.55; const gr=cp*1.7; x.drawImage(glowSprite(c),px-gr,py-gr,gr*2,gr*2); x.restore(); }
+      x.fillStyle=c; x.fillRect(px-cp/2,py-cp/2,cp,cp); };
+    for(const k in cells){ const p=k.split(','), cx=+p[0], cy=+p[1], cell=cells[k], c=(cell&&cell.c)||cell||'#19f0ff', g=cell&&cell.g?1:0;
+      drawCell(cx,cy,c,g); if(cx>0) drawCell(-cx,cy,c,g);
+      if(cy>maxRow){ maxRow=cy; bottomMaxX=cx; } else if(cy===maxRow && cx>bottomMaxX) bottomMaxX=cx;
+      accCount[c]=(accCount[c]||0)+1; }
+    let acc='#19f0ff',best=-1; for(const c in accCount){ if(accCount[c]>best){ best=accCount[c]; acc=c; } }   // häufigste Farbe = Triebwerksglow
+    const tailY=(maxRow-(EDROWS-1)/2)*cp+cp*0.5, flameX=bottomMaxX>0?[-bottomMaxX*cp*0.6,bottomMaxX*cp*0.6]:[0];
+    return {cv,ox,oy,cp,acc,flameX,tailY}; }
   function buildShipSprite(r,up,nCan){
+    if(meta.skin==='custom' && hasCustomShip()) return buildCustomSprite(r);
     const R=makeRng(shipSeed||1);
     const cp=Math.max(2,Math.round(r*0.31));                 // Pixel-Zellgröße (kleiner)
     const gh=8+Math.min(6,(up*0.42)|0);                      // schlank, etwas kürzer
@@ -2451,6 +2474,67 @@
       c.innerHTML='<div class="ico">'+(has?a.ico:'🔒')+'</div><h5>'+achName(a.id)+'</h5><p>'+achDesc(a.id)+'</p>';
       wrap.appendChild(c); }); }
   // ---------- Skins ----------
+  // ---------- Pixel-Schiff-Editor ----------
+  const EDHW=5, EDROWS=16;                                   // halbe Breite (cx 0..5 → gespiegelt 11 breit) × 16 Zeilen
+  const EDPAL=['#19f0ff','#ff2e88','#ffe600','#7cff2e','#c45bff','#ff9a2e','#caffff','#16384a'];
+  const ED_TEMPLATES=[
+    {name:'Pfeil', d:[[0,2,6],[0,3,0],[0,4,0],[0,5,0],[0,6,0],[0,7,0],[1,5,0],[1,6,0],[1,7,4],[2,7,4],[0,8,1]]},
+    {name:'Jäger', d:[[0,2,6],[0,3,0],[0,4,0],[0,5,0],[0,6,0],[1,4,0],[2,5,4],[3,6,4],[1,7,0],[0,7,1]]},
+    {name:'Block', d:[[0,3,6],[0,4,0],[0,5,0],[0,6,0],[1,4,0],[1,5,0],[1,6,0],[2,5,0],[0,7,1],[1,7,1]]}
+  ];
+  let edCells={}, edColor=EDPAL[0], edGlow=false, edErase=false, edPaintActive=false, edGeo=null;
+  const edUsed=()=>Object.keys(edCells).length;
+  function openShipEditor(){ edCells = hasCustomShip() ? JSON.parse(JSON.stringify(meta.customShip.cells)) : {};
+    edColor=EDPAL[0]; edErase=false; edGlow=false;
+    document.getElementById('shop').classList.add('hidden');
+    const ed=document.getElementById('shipEditor'); ed.classList.remove('hidden'); ed.scrollTop=0; renderEditor(); sfxUpgrade(); }
+  function closeShipEditor(){ document.getElementById('shipEditor').classList.add('hidden');
+    document.getElementById('shop').classList.remove('hidden'); renderShop(); }
+  function edRefreshBudget(){ const max=pixBudget(), used=edUsed();
+    const bd=document.getElementById('edBudget'); if(bd) bd.textContent=t('pixels')+': '+used+'/'+max;
+    const fill=document.getElementById('edBudgetFill'); if(fill) fill.style.width=Math.min(100,max?used/max*100:0)+'%'; }
+  function renderEditor(){ edRefreshBudget();
+    const pal=document.getElementById('edPalette'); if(pal){ pal.innerHTML='';
+      EDPAL.forEach(c=>{ const sw=document.createElement('div'); sw.className='sw'+(!edErase&&edColor===c?' on':''); sw.style.background=c; sw.style.color=c;
+        sw.addEventListener('click',()=>{ edColor=c; edErase=false; renderEditor(); }); pal.appendChild(sw); });
+      const er=document.createElement('div'); er.className='sw eraser'+(edErase?' on':''); er.textContent='⌫';
+      er.addEventListener('click',()=>{ edErase=true; renderEditor(); }); pal.appendChild(er); }
+    const tools=document.getElementById('edTools'); if(tools){ tools.innerHTML='';
+      if(glowUnlocked()){ const g=document.createElement('button'); g.className=edGlow?'buy':''; g.textContent='✨ Glow: '+(edGlow?t('on'):t('off'));
+        g.addEventListener('click',()=>{ edGlow=!edGlow; edErase=false; renderEditor(); }); tools.appendChild(g); }
+      else { const gm=metaById('pxglow'), cost=metaCost(gm,0), aff=(meta.chips||0)>=cost; const g=document.createElement('button'); g.className='buy'+(aff?'':' lock'); g.textContent='✨ '+t('glowUnlock')+' ◈'+cost;
+        g.addEventListener('click',()=>{ buyMeta('pxglow'); renderEditor(); }); tools.appendChild(g); }
+      const pm=metaById('pxpack'), lvl=metaLvl('pxpack');
+      if(lvl<pm.max){ const cost=metaCost(pm,lvl), aff=(meta.chips||0)>=cost; const p=document.createElement('button'); p.className='buy'+(aff?'':' lock'); p.textContent='➕'+PIX_PER+' '+t('pixels')+' ◈'+cost;
+        p.addEventListener('click',()=>{ buyMeta('pxpack'); renderEditor(); }); tools.appendChild(p); } }
+    const tpl=document.getElementById('edTemplates'); if(tpl){ tpl.innerHTML='<div class="tplLbl">'+t('templates')+'</div>';
+      ED_TEMPLATES.forEach((T,i)=>{ const b=document.createElement('button'); b.textContent=T.name; b.addEventListener('click',()=>loadTemplate(i)); tpl.appendChild(b); }); }
+    drawEditorCanvas(); }
+  function drawEditorCanvas(){ const cv=document.getElementById('editCanvas'); if(!cv) return; const x=cv.getContext('2d');
+    const cols=2*EDHW+1, rows=EDROWS, cell=Math.floor(Math.min(cv.width/cols, cv.height/rows));
+    const gw=cols*cell, gh=rows*cell, ox=(cv.width-gw)/2, oy=(cv.height-gh)/2; edGeo={cell,ox,oy,cols,rows};
+    x.clearRect(0,0,cv.width,cv.height);
+    x.fillStyle='rgba(25,240,255,.05)'; x.fillRect(ox+EDHW*cell,oy,cell,gh);             // Mittelachse (Spiegel)
+    x.strokeStyle='rgba(255,255,255,.07)'; x.lineWidth=1;
+    for(let c=0;c<=cols;c++){ x.beginPath(); x.moveTo(ox+c*cell+.5,oy); x.lineTo(ox+c*cell+.5,oy+gh); x.stroke(); }
+    for(let r2=0;r2<=rows;r2++){ x.beginPath(); x.moveTo(ox,oy+r2*cell+.5); x.lineTo(ox+gw,oy+r2*cell+.5); x.stroke(); }
+    for(const k in edCells){ const p=k.split(','),cx=+p[0],cy=+p[1],cl=edCells[k],c=(cl&&cl.c)||cl,g=cl&&cl.g;
+      [EDHW+cx,EDHW-cx].forEach(col=>{ const px=ox+col*cell,py=oy+cy*cell;
+        if(g){ x.save(); x.shadowBlur=9; x.shadowColor=c; } x.fillStyle=c; x.fillRect(px+1,py+1,cell-2,cell-2); if(g) x.restore(); }); } }
+  function edCellAt(clientX,clientY){ const cv=document.getElementById('editCanvas'); if(!cv||!edGeo) return null; const r=cv.getBoundingClientRect();
+    const sx=cv.width/r.width, sy=cv.height/r.height, px=(clientX-r.left)*sx, py=(clientY-r.top)*sy;
+    const col=Math.floor((px-edGeo.ox)/edGeo.cell), row=Math.floor((py-edGeo.oy)/edGeo.cell);
+    if(col<0||col>=edGeo.cols||row<0||row>=edGeo.rows) return null; return {ccx:Math.abs(col-EDHW), row}; }
+  function edPaint(ccx,row){ if(ccx<0||ccx>EDHW||row<0||row>=EDROWS) return; const key=ccx+','+row;
+    if(edErase){ if(edCells[key]){ delete edCells[key]; drawEditorCanvas(); edRefreshBudget(); } return; }
+    const cur=edCells[key]; if(cur && cur.c===edColor && !!cur.g===edGlow) return;
+    if(!cur && edUsed()>=pixBudget()){ beep(200,0.1,'square',0.2,-60); vibe(20); return; }   // Budget voll → Pixel-Paket kaufen
+    edCells[key]={c:edColor,g:edGlow?1:0}; drawEditorCanvas(); edRefreshBudget(); beep(880,0.02,'square',0.05,200); }
+  function loadTemplate(i){ const T=ED_TEMPLATES[i]; if(!T) return; edCells={};
+    for(const [cx,cy,ci] of T.d) edCells[cx+','+cy]={c:EDPAL[ci]||EDPAL[0],g:0}; renderEditor(); sfxUpgrade(); }
+  function clearCustomEdit(){ edCells={}; drawEditorCanvas(); edRefreshBudget(); beep(300,0.1,'sawtooth',0.2,-80); }
+  function saveCustomShip(){ if(!edUsed()){ beep(200,0.12,'square',0.2,-60); return; }
+    meta.customShip={cells:JSON.parse(JSON.stringify(edCells))}; meta.skin='custom'; saveMeta(); shipSig=''; sfxUpgrade(); vibe([15,20,15]); updateMenuChips(); closeShipEditor(); }
   function refreshSkinUIs(){ const sh=document.getElementById('shop'); if(sh&&!sh.classList.contains('hidden')) renderShop(); }
   function selectSkin(id){ meta.skin=id; saveMeta(); shipSig=''; beep(740,0.06,'square',0.2); refreshSkinUIs(); }
   function buySkin(id){ const s=SKINS.find(x=>x.id===id); if(!s||!s.cost) return; if((meta.chips||0)<s.cost){ beep(200,0.12,'square',0.2,-60); return; }
@@ -2466,7 +2550,15 @@
       else btn='<div class="pick lock">🏅 '+achName(s.ach)+'</div>';
       card.innerHTML='<div class="prev" style="background:'+prevBg+';border-color:'+s.edge+'"></div><h5>'+skinName(s.id)+'</h5>'+btn;
       const b=card.querySelector('button.pick'); if(b) b.addEventListener('click',()=>{ b.dataset.act==='buy'?buySkin(s.id):selectSkin(s.id); });
-      wrap.appendChild(card); }); }
+      wrap.appendChild(card); });
+    // „Eigenes Schiff" – Pixel-Editor
+    const cust=hasCustomShip(), activeC=meta.skin==='custom'; const cc=document.createElement('div'); cc.className='skcard'+(activeC?' act':'');
+    cc.innerHTML='<div class="prev" style="background:#0b0218;border-color:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:24px;">✏️</div>'+
+      '<h5>'+t('customShip')+'</h5>'+
+      (cust?('<button class="pick" data-act="editsel">'+(activeC?t('edit'):t('choose'))+'</button>'):'<button class="pick" data-act="edit">'+t('design')+'</button>');
+    cc.querySelector('button').addEventListener('click',e=>{ const a=e.target.dataset.act;
+      if(a==='editsel' && !activeC){ selectSkin('custom'); } else openShipEditor(); });
+    wrap.appendChild(cc); }
   function applyI18n(){ try{ document.documentElement.lang=lang;
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
@@ -2539,6 +2631,15 @@
   document.getElementById('overShopBtn').addEventListener('click',()=>openShop('over'));
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
   document.getElementById('shopCloseBtn').addEventListener('click',closeShop);
+  // Pixel-Schiff-Editor: Buttons + Mal-Eingabe
+  { const g=id=>document.getElementById(id);
+    if(g('edBackBtn')) g('edBackBtn').addEventListener('click',closeShipEditor);
+    if(g('edSaveBtn')) g('edSaveBtn').addEventListener('click',saveCustomShip);
+    if(g('edClearBtn')) g('edClearBtn').addEventListener('click',clearCustomEdit);
+    const ecv=g('editCanvas'); if(ecv){ const pp=e=>{ e.preventDefault(); const c=edCellAt(e.clientX,e.clientY); if(c) edPaint(c.ccx,c.row); };
+      ecv.addEventListener('pointerdown',e=>{ edPaintActive=true; try{ecv.setPointerCapture(e.pointerId);}catch(_){} pp(e); });
+      ecv.addEventListener('pointermove',e=>{ if(edPaintActive) pp(e); });
+      ecv.addEventListener('pointerup',()=>{ edPaintActive=false; }); ecv.addEventListener('pointercancel',()=>{ edPaintActive=false; }); ecv.addEventListener('pointerleave',()=>{ edPaintActive=false; }); } }
   document.getElementById('achBtn').addEventListener('click',openAch);
   document.getElementById('achBackBtn').addEventListener('click',closeAch);
   document.getElementById('achCloseBtn').addEventListener('click',closeAch);
@@ -2566,6 +2667,7 @@
   const isOpen=id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hidden'); };
   window.addEventListener('keydown',e=>{ if(e.code==='Escape'){
       if(isOpen('arsenalView')){ closeArsenalView(); return; }
+      if(isOpen('shipEditor')){ closeShipEditor(); return; }
       if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
