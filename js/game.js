@@ -260,7 +260,7 @@
     if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length;   // ZEN = Sandbox: alle Waffen VOLL ausgebaut (Lvl 5, alle 4 Skill-Pfade zufällig) statt nackt auf Lvl 1
       for(const w of WEAPONS) arsenal.w[w.id]={lvl:5, f1:w.forks[0][Math.random()<0.5?0:1], f2:w.forks[1][Math.random()<0.5?0:1], f3:w.forks[2][Math.random()<0.5?0:1], f4:w.forks[3][Math.random()<0.5?0:1]};
       skillPts=0; }
-    const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,6);
+    const sh=metaLvl('shield'); if(sh) shields=Math.min(shields+sh,5);
     const to=metaLvl('tough'); if(to) lives=Math.min(lives+to,6);
     const so=metaLvl('solid'); if(so){ mods.playerR*=Math.pow(0.95,so); player.r=mods.playerR; }
     const re=metaLvl('reach'); if(re) mods.nearRadius*=(1+0.09*re);
@@ -751,7 +751,7 @@
   // ---------- Upgrades ----------
   const UPGRADES=[
     {id:'radar',ico:'📡',name:'Radar',desc:'Near-Miss-Radius +45%',max:3,pickup:true,apply:()=>{mods.nearRadius*=1.45;}},
-    {id:'shieldgen',ico:'🛡️',name:'Schildgenerator',desc:'+1 Schild jetzt & +1 nach jedem Boss',max:3,apply:()=>{shields=Math.min(shields+1,6);mods.shieldPerBoss++;}},
+    {id:'shieldgen',ico:'🛡️',name:'Schildgenerator',desc:'+1 Schild jetzt & +1 nach jedem Boss',max:3,apply:()=>{shields=Math.min(shields+1,5);mods.shieldPerBoss++;}},
     {id:'glass',ico:'💎',name:'Glaskanone',desc:'+30% Punkte, aber +15% Hitbox',max:2,apply:()=>{mods.scoreMult*=1.3;mods.playerR*=1.15;player.r=mods.playerR;}},
     {id:'nimble',ico:'⚡',name:'Flink',desc:'Reaktion deutlich schneller',max:3,apply:()=>{mods.follow+=6;}},
     {id:'small',ico:'🔻',name:'Kompakt',desc:'Hitbox −18%',max:2,apply:()=>{mods.playerR*=0.82;player.r=mods.playerR;}},
@@ -763,7 +763,7 @@
     {id:'heart',ico:'💗',name:'Extra-Herz',desc:'+1 Leben (max 6)',max:3,apply:()=>{lives=Math.min(lives+1,6);}},
     // ---- Fluch-Karten (lustige Nerfs, Deal with the Devil) ----
     {id:'banana',ico:'🍌',name:'Bananen-Boden',desc:'Steuerung schlüpfrig af, aber +65% Punkte',max:1,curse:true,apply:()=>{mods.follow*=0.7;mods.scoreMult*=1.65;}},
-    {id:'smol',ico:'🫠',name:'Smol Brain',desc:'Hitbox +28% (dicke Erbse), dafür +2 Schild',max:1,curse:true,apply:()=>{mods.playerR*=1.28;player.r=mods.playerR;shields=Math.min(shields+2,6);}},
+    {id:'smol',ico:'🫠',name:'Smol Brain',desc:'Hitbox +28% (dicke Erbse), dafür +2 Schild',max:1,curse:true,apply:()=>{mods.playerR*=1.28;player.r=mods.playerR;shields=Math.min(shields+2,5);}},
     {id:'energy',ico:'⚡',name:'Energy-Drink-OD',desc:'Hindernisse +22% schneller, Near-Radius +75%',max:1,curse:true,apply:()=>{mods.obSpeed*=1.22;mods.nearRadius*=1.75;}},
     {id:'blind',ico:'🌫️',name:'Drip aber blind',desc:'Sicht eingeschränkt, dafür +90% Punkte',max:1,curse:true,apply:()=>{mods.fog=Math.min(0.82,mods.fog+0.55);mods.scoreMult*=1.9;}},
     {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
@@ -1026,7 +1026,7 @@
   function sfx67(){ if(!actx||muted) return; [[392,0],[523,150],[392,360],[523,510]].forEach(([f,d])=>setTimeout(()=>beep(f,0.16,'square',0.32),d)); }
   function trigger67(){ if(state!==S.PLAY||egg67T>0) return; egg67T=8;
     banner={text:'6️⃣ 7️⃣',sub:'CODE 67 — six seveeen',t:2.8,color:'#ffe600'};
-    sfx67(); vibe([67,67,67]); addScore(67); shields=Math.min(shields+1,6); flash=0.55; flashColor='#ffe600';
+    sfx67(); vibe([67,67,67]); addScore(67); shields=Math.min(shields+1,5); flash=0.55; flashColor='#ffe600';
     for(let i=0;i<18;i++) floatText(rand(40,W-40),rand(H*0.2,H*0.8),'6 7',pick(['#ffe600','#19f0ff','#ff2e88']),rand(16,30));
     spawnParticles(player.x,player.y,'#ffe600',26,300);
   }
@@ -1191,7 +1191,7 @@
       pixelBurst(bx,by,'#19f0ff',26); spawnGibs(bx,by,18,['#19f0ff','#caffff','#ffffff'],320,520); }
     else { spawnParticles(bx,by,'#ff3b3b',16,300); spawnParticles(bx,by,'#ffffff',10,260); }   // balloon: schon zerfetzt → kleiner Nachschlag
     vibe([20,30,40]); runBosses++; unlockAch('mega');
-    for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
+    for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,5);
     boss=null; bossActive=false; bossNumber++;
     if(wasFinal) winGame();
     else { banner={text:t('defeated'),sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'}; bossTimer=(mode==='hardcore')?24:30; } }
@@ -1245,7 +1245,7 @@
     const bonus=(wasFinal?500:100)*multiplier*bossNumber; addScore(bonus);
     spawnParticles(W/2,H*0.4,'#ffe600',wasFinal?60:36,300);
     flash=0.5; flashColor='#ffe600'; sfxWin(); vibe([20,30,40]);
-    for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,6);
+    for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,5);
     bossNumber++; runBosses++;
     if(wasFinal){ const chips=Math.round((120+Math.min(bossNumber,15)*8)*diffChip); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
     else banner={text:t('survived'),sub:'+'+bonus,t:2.2,color:'#2effc0'}; }
@@ -1705,7 +1705,7 @@
     spawnParticles(x2,y2,'#eaffff',6,150); beep(1100,0.03,'square',0.07,260); }
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
-    if(p.type==='shield'){ shields=Math.min(shields+1,6); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
+    if(p.type==='shield'){ shields=Math.min(shields+1,5); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
     else if(p.type==='slow'){ effects.slowmo=5*mods.slowmoMult; floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); }
     else if(p.type==='magnet'){ effects.magnet=6; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); }
     else if(p.type==='double'){ effects.double=7; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); }
