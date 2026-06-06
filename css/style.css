@@ -230,6 +230,11 @@
   .wtree-head .wlv{font-size:9px;letter-spacing:.12em;color:#9a86c9;}
   .wtree-head .drop{margin:0 0 0 2px;padding:2px 7px;font-size:11px;background:rgba(255,46,136,.18);color:#ff8ab5;border:none;border-radius:8px;cursor:pointer;}
   .wtree-head .drop:hover{background:rgba(255,46,136,.4);}
+  .wtree-head .respec{margin:0;padding:2px 7px;font-size:12px;background:rgba(120,230,255,.16);color:#7fe9ff;border:none;border-radius:8px;cursor:pointer;}
+  .wtree-head .respec:hover{background:rgba(120,230,255,.36);}
+  .tnode.undoable{cursor:pointer;}
+  .tnode.undoable:hover{border-color:#ff7ab8;box-shadow:0 0 12px rgba(255,46,136,.5);}
+  .tnode.undoable::after{content:'↺';position:absolute;bottom:2px;right:4px;color:#ff7ab8;font-size:10px;font-weight:700;opacity:.85;}
   .warctag{align-self:center;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--wc,#9a86c9);text-shadow:0 0 7px var(--wc,transparent);opacity:.92;margin:1px 0 2px;}
   .tconn{width:2px;height:11px;background:linear-gradient(rgba(255,255,255,.35),rgba(255,255,255,.1));}
