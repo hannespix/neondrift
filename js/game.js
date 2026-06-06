@@ -149,8 +149,18 @@
   function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std'}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std'}; }
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object') return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0}; }catch(e){} return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
+  // ---- Schwierigkeitsgrade (Baby = aktuelles Balancing = leichteste Stufe; höhere Stufen ziehen Tempo & Dichte ganz leicht an) ----
+  const DIFFS=[
+    {name:'👶 Baby',                         mul:1.00},
+    {name:'🙈 Schau mal Mama',               mul:1.10},
+    {name:'😎 Normalo',                      mul:1.22},
+    {name:'📱 Doomscroll-König',             mul:1.35},
+    {name:'🚽 Toiletten-Kaiser',            mul:1.50},
+    {name:'💀 Chuck Norris ist hier gestorben', mul:1.68}
+  ];
+  let diffMul=1;   // wird beim Spielstart aus meta.diff gesetzt
   const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
@@ -516,7 +526,7 @@
   function scheduleStep(step,time){
     const playing=(state!==S.MENU);
     musicShift=playing?levelKey(level||1):0;                                  // Tonart steigt pro Level
-    secPerStep=60/((BPM+(playing?Math.min(((level||1)-1)*3,30):0))*4);        // Tempo zieht pro Level an (bis +30 BPM – eskaliert, bleibt aber klar/nicht matschig)
+    secPerStep=60/((BPM+(playing?Math.min(((level||1)-1)*2,20):0))*4);        // Tempo zieht pro Level nur sanft an (bis +20 BPM) – nicht mehr zu krass
     const song=(state===S.MENU)?MENU_SONG:(SONGS[curSong]||SONGS[0]);
     const lv=song.leadVol||0.16, echo=song.chill?0.5:0.3;
     const block=Math.floor(step/16), ls=step%16;
@@ -889,6 +899,7 @@
     if(m==='daily'){ daily=true; mode='normal'; }
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
     useSeed=daily;
+    diffMul=(DIFFS[meta.diff||0]||DIFFS[0]).mul;   // gewählte Schwierigkeit anwenden
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
     unlockAudio(); reset(); applyMeta(); state=S.PLAY;
@@ -939,7 +950,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*1.05;
+    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*1.05*diffMul;
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -1287,7 +1298,7 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.38,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())*0.95); } }
+        spawnT=Math.max(0.30,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())*0.95/(1+(diffMul-1)*0.65)); } }
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
@@ -1979,7 +1990,7 @@
     if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
     saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden');
-    finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode);
+    finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
     chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
     quipEl.textContent=pick(P('quips')); insultEl.textContent=pick(P('insults')); newrecEl.style.display=rec?'block':'none';
     setTimeout(()=>document.getElementById('over').classList.remove('hidden'),560);
@@ -2256,6 +2267,9 @@
         comboBarEl=document.getElementById('comboBar'),comboFillEl=comboBarEl.querySelector('i'),
         menuChipsEl=document.getElementById('menuChips'),shopChipsEl=document.getElementById('shopChips'),shopHintEl=document.getElementById('shopHint'),
         shopCards=document.getElementById('shopCards'),chipsEarnedEl=document.getElementById('chipsEarned');
+  function updateDiffLabel(){ const e=document.getElementById('diffName'); if(e) e.textContent=(DIFFS[meta.diff||0]||DIFFS[0]).name; }
+  { const db=document.getElementById('diffBtn'); if(db){ updateDiffLabel();
+    db.addEventListener('click',()=>{ meta.diff=((meta.diff||0)+1)%DIFFS.length; saveMeta(); updateDiffLabel(); sfxPow(); vibe(8); }); } }
   document.querySelectorAll('.mode').forEach(c=>c.addEventListener('click',()=>startGame(c.dataset.mode)));
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
   document.getElementById('shopBtn').addEventListener('click',()=>openShop('start'));
