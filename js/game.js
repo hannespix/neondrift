@@ -2019,8 +2019,6 @@
       ctx.beginPath(); ctx.moveTo(fx-S.cp*0.9,S.tailY); ctx.lineTo(fx+S.cp*0.9,S.tailY); ctx.lineTo(fx,S.tailY+fl); ctx.closePath(); ctx.fill(); }
     // Pixel-Sprite – der Spieler ist der Fokus, glüht am hellsten und pulsiert mit dem Beat
     ctx.shadowBlur=16+(beatPulse||0)*8+(overdrive?6:0); ctx.shadowColor=S.acc; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
-    // dünner Hitbox-Ring (echte, kleine Hitbox)
-    ctx.strokeStyle=hexA('#19f0ff',0.4); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(0,0,r,0,6.28); ctx.stroke();
     ctx.restore(); }
   function drawMouth(m,t){ const y=m.oy, w=m.w, h=w*0.4; ctx.save(); ctx.translate(0,y); ctx.fillStyle='#08010f';
     if(m.type==='grin'){ ctx.strokeStyle='#08010f'; ctx.lineWidth=Math.max(3,h*0.22); ctx.beginPath(); ctx.arc(0,-h*0.2,w*0.5,0.15*Math.PI,0.85*Math.PI); ctx.stroke(); }
