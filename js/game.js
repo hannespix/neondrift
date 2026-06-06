@@ -2034,17 +2034,17 @@
     try{ o=document.createElement('canvas'); o.width=S.cv.width; o.height=S.cv.height; const c=o.getContext('2d');
       c.drawImage(S.cv,0,0); c.globalCompositeOperation='source-in'; c.fillStyle='#2effc0'; c.fillRect(0,0,o.width,o.height); }catch(e){ o=null; } S.sil=o; return o; }
   // Cooles Energie-Schild: Kontur-Aura (hugs Pixelform) + wellige rotierende Ringe + schimmernde Knoten (Annahme: Kontext bereits auf player zentriert)
-  function drawShipShield(S){ const t=elapsed||0, col='#2effc0', rx=(S.bw||player.r)+11, ry=(S.bh||player.r)+13;
+  function drawShipShield(S){ const t=elapsed||0, col='#2effc0', R0=Math.max(S.bw||player.r,S.bh||player.r)+8;
     ctx.save(); ctx.globalCompositeOperation='lighter';
+    // Kontur-Aura: hugs Pixelform (pulsierend)
     const sil=shieldSil(S); if(sil){ const p=0.5+0.5*Math.sin(t*4.2), sc=1.10+0.05*p; ctx.globalAlpha=0.16+0.16*p;
       ctx.drawImage(sil,-S.ox*sc,-S.oy*sc,S.cv.width*sc,S.cv.height*sc); ctx.globalAlpha=1; }
-    for(let s=0;s<shields;s++){ const grow=1+s*0.13, rot=t*(0.5+s*0.22)*(s%2?-1:1), N=60;
-      ctx.strokeStyle=hexA(col,0.55-s*0.05); ctx.lineWidth=2.2;
-      ctx.beginPath(); for(let k=0;k<=N;k++){ const a=k/N*6.2832+rot, w=1+0.05*Math.sin(a*6+t*6), px=Math.cos(a)*rx*grow*w, py=Math.sin(a)*ry*grow*w; k?ctx.lineTo(px,py):ctx.moveTo(px,py); }
-      ctx.stroke();
-      const na=((t*1.3+s*0.5)%1)*6.2832, nx=Math.cos(na)*rx*grow, ny=Math.sin(na)*ry*grow;   // schimmernder Energie-Knoten
-      ctx.fillStyle=hexA('#dffffb',0.85); ctx.beginPath(); ctx.arc(nx,ny,2.6,0,6.28); ctx.fill(); }
-    ctx.restore(); }
+    // konzentrische Schild-Kreise (1 pro Schild) – wie früher, an Schiffsgröße angepasst + Glow + schimmernder Knoten
+    for(let s=0;s<shields;s++){ const rad=R0+s*7, rot=t*(0.6+s*0.2)*(s%2?-1:1);
+      ctx.shadowBlur=10; ctx.shadowColor=col; ctx.strokeStyle=hexA(col,0.6-s*0.06); ctx.lineWidth=2.2; ctx.beginPath(); ctx.arc(0,0,rad,0,6.28); ctx.stroke();
+      ctx.shadowBlur=0; ctx.strokeStyle=hexA('#dffffb',0.3-s*0.03); ctx.lineWidth=1; ctx.beginPath(); ctx.arc(0,0,rad,0,6.28); ctx.stroke();
+      const nx=Math.cos(rot)*rad, ny=Math.sin(rot)*rad; ctx.fillStyle=hexA('#dffffb',0.9); ctx.beginPath(); ctx.arc(nx,ny,2.6,0,6.28); ctx.fill(); }
+    ctx.shadowBlur=0; ctx.restore(); }
   function drawMouth(m,t){ const y=m.oy, w=m.w, h=w*0.4; ctx.save(); ctx.translate(0,y); ctx.fillStyle='#08010f';
     if(m.type==='grin'){ ctx.strokeStyle='#08010f'; ctx.lineWidth=Math.max(3,h*0.22); ctx.beginPath(); ctx.arc(0,-h*0.2,w*0.5,0.15*Math.PI,0.85*Math.PI); ctx.stroke(); }
     else if(m.type==='o'){ const r=w*0.26*(1+0.2*Math.sin(t*8)); ctx.beginPath(); ctx.arc(0,0,r,0,6.28); ctx.fill(); }
