@@ -157,12 +157,12 @@
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // ---- Schwierigkeitsgrade (Baby = aktuelles Balancing = leichteste Stufe; höhere Stufen ziehen Tempo & Dichte ganz leicht an) ----
   const DIFFS=[
-    {name:'👶 Baby',                         mul:1.00},
-    {name:'🙈 Schau mal Mama',               mul:1.10},
-    {name:'😎 Normalo',                      mul:1.22},
-    {name:'📱 Doomscroll-König',             mul:1.35},
-    {name:'🚽 Toiletten-Kaiser',            mul:1.50},
-    {name:'💀 Chuck Norris ist hier gestorben', mul:1.68}
+    {name:'👶 Baby',                         mul:0.85},
+    {name:'🙈 Schau mal Mama',               mul:1.05},
+    {name:'😎 Normalo',                      mul:1.28},
+    {name:'📱 Doomscroll-König',             mul:1.55},
+    {name:'🚽 Toiletten-Kaiser',            mul:1.85},
+    {name:'💀 Chuck Norris ist hier gestorben', mul:2.20}
   ];
   let diffMul=1, diffSpd=1, diffHp=1, diffDen=1, diffChip=1;   // werden beim Spielstart aus meta.diff abgeleitet
   const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
@@ -918,10 +918,10 @@
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
     useSeed=daily;
     diffMul=(DIFFS[meta.diff||0]||DIFFS[0]).mul;                 // gewählte Schwierigkeit anwenden
-    diffSpd =1+(diffMul-1)*(opt.guns?0.35:0.7);                  // Speed nur leicht (ohne Waffen stärker, da HP dann egal)
+    diffSpd =1+(diffMul-1)*(opt.guns?0.52:0.88);                 // Tempo jetzt deutlich spürbar (ohne Waffen stärker, da HP dann egal)
     diffHp  =1+(diffMul-1)*1.35;                                 // HP deutlich stärker (Hauptlast der Schwierigkeit)
-    diffDen =1+(diffMul-1)*0.40;                                 // Spawn-Dichte leicht
-    diffChip=0.60+(diffMul-1)*1.30;                              // Chips: Easy ~0.6× (Grind bleibt!), schwer bis ~1.5× (Belohnung)
+    diffDen =1+(diffMul-1)*0.60;                                 // Spawn-Dichte klar fühlbar
+    diffChip=0.60+(diffMul-1)*1.30;                              // Chips: Baby ~0.4× (Grind bleibt!), Chuck ~2.2× (Belohnung)
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
     unlockAudio(); reset(); applyMeta(); state=S.PLAY;
