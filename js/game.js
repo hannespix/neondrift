@@ -295,7 +295,7 @@
     if(id==='won') unlockSkin('gold'); if(id==='mega') unlockSkin('toxic'); if(id==='madness') unlockSkin('glitch'); }
   function checkComboAch(m){ if(m>=10)unlockAch('combo10'); if(m>=20)unlockAch('combo20'); if(m>=30)unlockAch('combo30'); }
   let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount, deathFlash=0;
-  let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a';   // Abgang: Timer + Loser-Materialisierung
+  let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a', deathMsg='';   // Abgang: Timer + Loser-Materialisierung + Spott-Nachricht
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
   let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T;
@@ -1888,8 +1888,14 @@
       const cg=ctx.createRadialGradient(cx,cy,2,cx,cy,R); cg.addColorStop(0,'#cfc4e6'); cg.addColorStop(1,'rgba(120,110,140,0)');
       ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,R,0,6.28); ctx.fill();
       ctx.font='900 '+Math.round(R*1.35)+'px Orbitron,monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(rev>0.92?'😈':'💀',cx,cy);
-      if(rev>0.8){ ctx.globalAlpha=Math.min(1,(rev-0.8)/0.2); ctx.font='900 22px Orbitron,sans-serif'; ctx.fillStyle='#ff2e88';
-        ctx.fillText(t('loser'),x,y-R-16); }
+      // schadenfrohe Spott-Nachricht materialisiert sich
+      if(rev>0.45 && deathMsg){ ctx.globalAlpha=Math.min(1,(rev-0.45)/0.4); const gj=(1-rev)*5;
+        ctx.font='900 21px Orbitron,sans-serif'; ctx.textBaseline='middle';
+        const maxW=W*0.84, words=deathMsg.split(' '); let line='', lines=[];
+        for(const w of words){ const tst=line?line+' '+w:w; if(ctx.measureText(tst).width>maxW && line){ lines.push(line); line=w; } else line=tst; } if(line) lines.push(line);
+        const lh=26, blockH=lines.length*lh; let sy=y-R-18-blockH+lh/2; if(sy<40+lh/2) sy=y+R+24+lh/2;   // über dem Kern, sonst darunter
+        ctx.lineWidth=4; ctx.strokeStyle='rgba(8,2,18,0.85)';
+        lines.forEach((ln,k)=>{ const tx=W/2+rand(-gj,gj), ty=sy+k*lh+rand(-gj,gj); ctx.strokeText(ln,tx,ty); ctx.fillStyle='#ff2e88'; ctx.fillText(ln,tx,ty); }); }
       ctx.globalAlpha=1; ctx.textAlign='start'; ctx.textBaseline='alphabetic'; ctx.restore(); }
     // Wahnsinn-Modus: zunehmende Glitch-Scanlines (gestörter Look)
     if(endless&&opt.fx){ const m=Math.min(1,madness);
@@ -2145,7 +2151,7 @@
     document.getElementById('hud').classList.add('hidden');
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
     chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
-    quipEl.textContent=pick(P('quips')); insultEl.textContent=pick(P('insults')); newrecEl.style.display=rec?'block':'none';
+    quipEl.textContent=pick(P('quips')); deathMsg=pick(P('insults')); insultEl.textContent=deathMsg; newrecEl.style.display=rec?'block':'none';   // deathMsg materialisiert sich auch im Canvas-Abgang
     setTimeout(()=>document.getElementById('over').classList.remove('hidden'),1600);   // Explosion erst auswüten lassen
   }
 
