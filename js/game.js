@@ -23,7 +23,7 @@
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -50,7 +50,7 @@
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -77,7 +77,7 @@
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -137,7 +137,7 @@
   const mName=id=>((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||[id])[0];
   const mTxt =id=>(((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||['',''])[1])||'';
   let shopTab='weapons';   // aktiver Werkstatt-Reiter
-  const SHOPTABS=[['weapons','⚔️'],['ship','🛡️'],['power','💥'],['economy','◈'],['cosmetic','🎨']];
+  const SHOPTABS=[['weapons','⚔️'],['synergy','🔗'],['ship','🛡️'],['power','💥'],['economy','◈'],['cosmetic','🎨']];
   const shopName=m=> m.id.indexOf('fu_')===0 ? wName(m.id.slice(3))+' – Pfade' : mName(m.id);
   const shopDesc=m=> m.id.indexOf('fu_')===0 ? (wArch(m.id.slice(3))+' · nächste Skill-Pfad-Stufe (im Run wählbar)') : (mTxt(m.id)+(m.id.indexOf('bp_')===0?(' · '+wArch(m.id.slice(3))):''));
   const FORMTR={de:{sine:'Wellenflug',drift:'Gleiter',orbit:'Kreisel',zigzag:'Irrläufer',pendulum:'Pendler'},
@@ -198,7 +198,8 @@
   // Alle Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<id> = 0..4) – vorher nicht wählbar
   const forkShopOpen=(id,slot)=> (metaLvl('fu_'+id)||0) >= FORKI[slot];
   // Werkstatt-Kategorien (für Tab-UI)
-  function shopCat(id){ if(id.indexOf('bp_')===0||id.indexOf('fu_')===0||id==='slot'||id==='veteran') return 'weapons';
+  function shopCat(id){ if(id.indexOf('sy_')===0) return 'synergy';
+    if(id.indexOf('bp_')===0||id.indexOf('fu_')===0||id==='slot'||id==='veteran') return 'weapons';
     if(id==='shield'||id==='tough'||id==='solid'||id==='reach') return 'ship';
     if(id==='wcore'||id==='wtempo'||id==='critcore') return 'power';
     return 'economy'; }
@@ -261,7 +262,8 @@
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1;  // Statistik pro Run
-  let runChipsPaid=0;   // Chips, die in diesem Run aus Score/Near schon live gutgeschrieben wurden (Werkstatt-Live-Guthaben)
+  let runChipsPaid=0;   // Chips aus stillem Score-Trickle (Backbone-Ökonomie)
+  let runChipsEarned=0; // Chips aus sichtbaren Events (Orbs/Combos/Boss) – Dopamin-Quelle
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let shipSprite=null, shipSig='';                     // gebackener Pixel-Sprite + Signatur
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
@@ -770,6 +772,10 @@
     {id:'cryorail', pair:['frost','rail'],     ico:'❄️'}
   ];
   const SID=Object.fromEntries(SYNERGIES.map(s=>[s.id,s]));
+  // Synergien müssen in der Werkstatt mit Coins freigeschaltet werden (permanent), bevor man sie im Run nutzen kann
+  { const SYNBASE=500; for(const s of SYNERGIES) META.push({id:'sy_'+s.id, ico:s.ico, base:SYNBASE, max:1}); }
+  const synBought=id=>metaLvl('sy_'+id)>0;
+  const synUnlocked=id=>mode==='zen'||synBought(id);   // Zen = Sandbox: Synergien frei
   const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
   let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
   let skillPts=0, arsenalSkillMode=false;            // Skillpunkte (pro Upgrade) → klickbarer Baum im Run
@@ -820,8 +826,8 @@
       if(a.f3==='piercebeam'){width*=1.6;} if(a.f3==='hypervelocity'){dmg*=1.6;rate*=0.8;}
       if(a.f4==='gigawatt'){dmg*=1.8;rate*=0.7;} if(a.f4==='repeater'){rate*=1.8;dmg*=0.6;}
       wpn.rail={rate:rate*rm,dmg:dmg*dm,width,burn:false}; }
-    activeSyn=activeSyn.filter(id=>{ const s=SID[id]; return s&&has(s.pair[0])&&has(s.pair[1]); }).slice(0,MAXSYN);  // nur wählbare Slots behalten
-    for(const s of SYNERGIES){ const avail=has(s.pair[0])&&has(s.pair[1]);   // neu verfügbare Fusion einmalig in freien Slot, danach frei wechselbar
+    activeSyn=activeSyn.filter(id=>{ const s=SID[id]; return s&&synUnlocked(id)&&has(s.pair[0])&&has(s.pair[1]); }).slice(0,MAXSYN);  // nur gekaufte & wählbare Slots behalten
+    for(const s of SYNERGIES){ const avail=synUnlocked(s.id)&&has(s.pair[0])&&has(s.pair[1]);   // erst nach Werkstatt-Kauf verfügbar (Zen frei)
       if(avail && !synSeen[s.id]){ synSeen[s.id]=1; if(activeSyn.length<MAXSYN && !activeSyn.includes(s.id)) activeSyn.push(s.id); } }
     for(const s of SYNERGIES) syn[s.id]=activeSyn.includes(s.id);                                                   // aktiv = in einem Fusions-Slot
     if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
@@ -869,7 +875,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runChipsPaid=0; coinPopAcc=0; coinSaveAcc=0;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -1115,7 +1121,7 @@
       B.deathT=1.1; flash=0.25; flashColor='#c45bff'; sfxImplode(); } }
   function defeatMegaBoss(){ const B=boss, wasFinal=B&&B.final, st=B&&B.style, bx=B?B.x:W/2, by=B?B.y:H*0.28;
     const bonus=(wasFinal?600:160)*multiplier*bossNumber, chips=Math.round(((wasFinal?120:20)+Math.min(bossNumber,15)*8)*diffChip);   // Boss-Chips gedeckelt + ×diffChip
-    addScore(bonus); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips();
+    addScore(bonus); awardCoins(chips,bx,by-44,true); saveMeta();   // Boss-Sieg = großer Gold-Pop
     // ---- Stil-Finale am Boss-Ort ----
     if(st==='bloat'){ flash=0.85; flashColor='#ffe600'; shake=28; sfxBoom();
       pixelBurst(bx,by,'#ffe600',30); pixelBurst(bx,by,'#ff9a2e',22); spawnParticles(bx,by,'#ffffff',40,440);
@@ -1216,13 +1222,16 @@
   // Live-Chips: aus Score+Near abgeleitetes Run-Guthaben (ohne Boss-Live-Chips, ohne Sieg-Bonus → die laufen separat)
   function scoreChips(){ const s=score||0, scChips=s<=25000?s/40:25000/40+(s-25000)/120;   // schnellere Progression: mehr Coins pro Punkt
     return Math.max(0,Math.round((scChips+(nearCount||0)*1.0)*chipMult()*diffChip)); }
-  let coinSaveAcc=0, coinPopAcc=0;
-  function accrueChips(force){ if(force===undefined) force=true;
+  let coinSaveAcc=0;
+  function accrueChips(force){ if(force===undefined) force=true;        // stiller Score-Trickle (Ökonomie-Backbone)
     const tgt=scoreChips();
-    if(tgt>runChipsPaid){ const d=tgt-runChipsPaid; meta.chips=(meta.chips||0)+d; runChipsPaid=tgt; updateMenuChips();
-      coinPopAcc+=d; coinSaveAcc+=d;
-      if(coinPopAcc>=6 && player && state===S.PLAY){ floatText(player.x+rand(10,20),player.y-rand(0,14),'+◈'+coinPopAcc,'#ffd23f',13); coinPopAcc=0; } }   // sichtbares Coin-Feedback am Spieler
+    if(tgt>runChipsPaid){ meta.chips=(meta.chips||0)+(tgt-runChipsPaid); coinSaveAcc+=(tgt-runChipsPaid); runChipsPaid=tgt; updateMenuChips(); }
     if(force||coinSaveAcc>=30){ saveMeta(); coinSaveAcc=0; } }
+  // Sichtbare Coin-Belohnung an Ort X/Y (Dopamin: Gold-Pop). Quelle klar erkennbar (Orb/Combo/Boss).
+  function awardCoins(n,x,y,big){ n=Math.max(0,Math.round(n)); if(!n) return;
+    meta.chips=(meta.chips||0)+n; runChipsEarned+=n; coinSaveAcc+=n; updateMenuChips();
+    if(x!=null) floatText(x,y,'+◈'+n,'#ffd23f',big?22:16);
+    if(coinSaveAcc>=30){ saveMeta(); coinSaveAcc=0; } }
   function openUpgrade(armed){ skillPts++; accrueChips(); updateRunShopBtns();   // jede Upgrade-Stufe = 1 Skillpunkt (angespart, nutzbar sobald in Werkstatt freigeschaltet) + Live-Chips gutschreiben
     state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
@@ -1452,8 +1461,9 @@
         if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
       const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
       if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); runOrbs++; const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
-        spawnParticles(orb.x,orb.y,'#19f0ff',14,220); sfxOrb(combo); bumpCombo(); vibe(8); floatText(orb.x,orb.y-14,'+'+g,'#19f0ff',15);
-        flash=Math.min(0.5,flash+0.18); flashColor='#19f0ff'; orbs.splice(i,1); continue; }
+        const oc=(2.2+combo*0.08)*chipMult()*diffChip*(mods.orbValueMult||1); awardCoins(oc,orb.x,orb.y-16);   // Orbs = sichtbare Coins (Dopamin-Quelle)
+        spawnParticles(orb.x,orb.y,'#ffcf33',16,240); sfxOrb(combo); beep(1500,0.05,'square',0.12,420); bumpCombo(); vibe(10);
+        flash=Math.min(0.5,flash+0.18); flashColor='#ffd23f'; orbs.splice(i,1); continue; }
       if(orb.y>H+20) orbs.splice(i,1);
     }
 
@@ -1491,7 +1501,8 @@
     director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
     unlockAch('firstNear');
-    if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]); } }
+    if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]);
+      awardCoins((2+multiplier*0.6)*chipMult()*diffChip,player.x+22,player.y-26); } }   // Combo-Strähne = Coin-Bündel (auch in BLITZ ohne Orbs)
   // Ultra-knapper Ausweicher → Extra-Bonus
   function perfectDodge(o){ const pb=Math.round(8*multiplier); addScore(pb); combo++; setMult(); refillCombo();
     floatText(player.x,player.y-50,t('perfect'),'#ff2e88',24); beep(1200,0.1,'square',0.2,520);
@@ -1689,12 +1700,14 @@
           if(L.orient==='v')ctx.fillRect(L.pos-L.thick/2,0,L.thick,H); else ctx.fillRect(0,L.pos-L.thick/2,W,L.thick); }
         ctx.restore(); }
 
-      // orbs — Glow via Sprite statt shadowBlur
-      if(orbs.length){ const gs=glowSprite('#19f0ff'); ctx.globalCompositeOperation='lighter';
-        for(const orb of orbs){ const pr=orb.r+Math.sin(orb.pulse)*2, gr=pr*2.6; ctx.drawImage(gs,orb.x-gr,orb.y-gr,gr*2,gr*2);
-          ctx.fillStyle='#19f0ff'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr,0,6.28);ctx.fill();
-          ctx.fillStyle='#caffff'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr*0.45,0,6.28);ctx.fill(); }
-        ctx.globalCompositeOperation='source-over'; }
+      // orbs = Coins: Gold-Glow + ◈-Münze (klar als Coin erkennbar)
+      if(orbs.length){ const gs=glowSprite('#ffcf33');
+        for(const orb of orbs){ const pr=orb.r+Math.sin(orb.pulse)*2, gr=pr*2.8;
+          ctx.globalCompositeOperation='lighter'; ctx.drawImage(gs,orb.x-gr,orb.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
+          ctx.fillStyle='#ffcf33'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr,0,6.28);ctx.fill();
+          ctx.fillStyle='#fff3b0'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr*0.78,0,6.28);ctx.fill();
+          ctx.fillStyle='#a9710a'; ctx.font='900 '+Math.round(pr*1.5)+'px Orbitron,monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('◈',orb.x,orb.y+0.5); }
+        ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
 
       // power-ups
       for(const p of powerups){ const inf=PUPINFO[p.type], pr=p.r+Math.sin(p.pulse)*2, gr=pr*2.4; ctx.save();
@@ -2019,10 +2032,9 @@
       for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
       setTimeout(()=>{beep(660,0.1,'square',0.3);},120); setTimeout(()=>{beep(880,0.1,'square',0.3);},260); setTimeout(()=>{beep(1175,0.18,'square',0.35);},400); }
     accrueChips();                                                         // Score/Near-Chips final live nachbuchen (bereits größtenteils im Run gutgeschrieben)
-    const bsChips=Math.min((bossNumber-1)*30,360);                          // Boss-Beitrag gedeckelt
-    const tail=Math.max(0,Math.round((bsChips+(wonThisRun?250:0))*chipMult()*diffChip));   // Boss/Sieg-Bonus zusätzlich (×diffChip: Easy weniger, schwer mehr)
+    const tail=Math.max(0,Math.round((wonThisRun?250:0)*chipMult()*diffChip));   // Sieg-Bonus (Boss-Chips laufen live über awardCoins)
     meta.chips=(meta.chips||0)+tail;
-    const earned=runChipsPaid+tail;                                        // Gesamt-Chips dieses Runs (nur für Anzeige)
+    const earned=runChipsPaid+runChipsEarned+tail;                         // Gesamt-Chips dieses Runs (Trickle + Events + Sieg)
     addStat('orbs',runOrbs); addStat('near',nearCount); addStat('perfect',runPerfect); addStat('bosses',runBosses); addStat('runs',1); addStat('chipsTotal',earned);
     meta.stats=meta.stats||{}; if(runMaxMult>statN('maxCombo')) meta.stats.maxCombo=runMaxMult; if(bossNumber>statN('maxBoss')) meta.stats.maxBoss=bossNumber;
     if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
@@ -2127,6 +2139,18 @@
     ['slot','veteran'].forEach(id=>{ const m=metaById(id); if(m) gen.appendChild(metaCard(m)); });
     shopCards.appendChild(gen);
     for(const w of WEAPONS) shopCards.appendChild(weaponAccordion(w)); }
+  const weaponBpOwned=id=>id==='blaster'||metaLvl('bp_'+id)>0;
+  function synShopRow(s){ const bought=synBought(s.id), pairOk=weaponBpOwned(s.pair[0])&&weaponBpOwned(s.pair[1]);
+    const id='sy_'+s.id, cost=metaCost(metaById(id),0), aff=(meta.chips||0)>=cost;
+    const sub=WID[s.pair[0]].ico+wName(s.pair[0])+' + '+WID[s.pair[1]].ico+wName(s.pair[1]);
+    const st=bought?'done':(pairOk?'buy':'locked');
+    const right = bought?'<span class="wnode-done">✓</span>' : pairOk?`<button class="cost${aff?'':' locked'}" data-buy="${id}">◈ ${cost}</button>` : '<span class="wnode-lock">🔒</span>';
+    const el=document.createElement('div'); el.className='wnode syn '+st;
+    el.innerHTML=`<span class="wni">${s.ico}</span><div class="wnt"><b>${synName(s.id)}</b><span>${st==='locked'?sub:synDesc(s.id)}</span></div>${right}`;
+    const b=el.querySelector('button[data-buy]'); if(b) b.addEventListener('click',()=>buyMeta(id));
+    return el; }
+  function renderSynergyTab(){ const rank=s=>synBought(s.id)?2:((weaponBpOwned(s.pair[0])&&weaponBpOwned(s.pair[1]))?0:1);
+    SYNERGIES.slice().sort((a,b)=>rank(a)-rank(b)).forEach(s=>shopCards.appendChild(synShopRow(s))); }
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
@@ -2134,9 +2158,10 @@
     if(tabsEl){ tabsEl.innerHTML=''; SHOPTABS.forEach(([key,ico])=>{ const b=document.createElement('button');
       b.className='shopTab'+(shopTab===key?' on':''); b.textContent=ico+' '+t('cat_'+key);
       b.addEventListener('click',()=>{ shopTab=key; renderShop(); }); tabsEl.appendChild(b); }); }
-    shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons');
+    shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons'||shopTab==='synergy');
     if(shopTab==='cosmetic'){ skinCards(shopCards); return; }   // Kosmetik-Tab: Skins kaufen/wählen
     if(shopTab==='weapons'){ renderWeaponTab(); return; }       // Waffen-Tab: Accordion-Skilltree pro Waffe
+    if(shopTab==='synergy'){ renderSynergyTab(); return; }      // Synergie-Tab: kaufbare Fusionen
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return; const cost=metaCost(m,lvl); if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
@@ -2160,7 +2185,7 @@
     arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
   // Fusions-Slot belegen/wechseln: jederzeit, max MAXSYN. Bei vollem Slot ersetzt der älteste (FIFO) → flüssiges Umschalten.
-  function synAvail(id){ const s=SID[id]; return !!(s && arsenal.w[s.pair[0]] && arsenal.w[s.pair[1]]); }
+  function synAvail(id){ const s=SID[id]; return !!(s && synUnlocked(id) && arsenal.w[s.pair[0]] && arsenal.w[s.pair[1]]); }
   function toggleSyn(id){ if(!synAvail(id)) return; const i=activeSyn.indexOf(id);
     if(i>=0){ activeSyn.splice(i,1); }
     else { if(activeSyn.length>=MAXSYN) activeSyn.shift(); activeSyn.push(id); }
