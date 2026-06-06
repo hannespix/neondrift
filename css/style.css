@@ -103,6 +103,11 @@
     font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.06em;padding:14px 18px;border-radius:14px;text-align:left;transition:border-color .14s,background .14s;}
   .optrow:hover{border-color:var(--cyan);}
   .optrow b{float:right;color:var(--cyan);font-family:'Orbitron',sans-serif;}
+  #optRows,#resetRows{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;}
+  #resetRows{margin-top:20px;}
+  .optrow.danger{border-color:rgba(255,46,136,.4);color:#ff9ec2;}
+  .optrow.danger:hover{border-color:var(--pink);}
+  .optrow.danger.armed{background:rgba(255,46,136,.18);border-color:var(--pink);color:#fff;}
   /* Fluch-Karten */
   .ucard.curse{border-color:rgba(255,46,136,.55);background:rgba(255,46,136,.06);box-shadow:0 0 18px rgba(255,46,136,.15) inset;}
   .ucard.curse:hover{border-color:var(--pink);box-shadow:0 0 30px rgba(255,46,136,.4);}
