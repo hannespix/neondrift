@@ -195,8 +195,8 @@
   function chipMult(){ return 1+0.12*metaLvl('rich'); }
   // Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<waffe> = Anzahl freier Fork-Slots, 0..4)
   const FORKI={f1:1,f2:2,f3:3,f4:4};
-  // Fork-Stufe 1 kommt mit der Waffe; Stufen 2–4 werden in der Werkstatt freigeschaltet (fu_<id> = 0..3)
-  const forkShopOpen=(id,slot)=> slot==='f1' || (metaLvl('fu_'+id)||0) >= (FORKI[slot]-1);
+  // Alle Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<id> = 0..4) – vorher nicht wählbar
+  const forkShopOpen=(id,slot)=> (metaLvl('fu_'+id)||0) >= FORKI[slot];
   // Werkstatt-Kategorien (für Tab-UI)
   function shopCat(id){ if(id.indexOf('bp_')===0||id.indexOf('fu_')===0||id==='slot'||id==='veteran') return 'weapons';
     if(id==='shield'||id==='tough'||id==='solid'||id==='reach') return 'ship';
@@ -261,6 +261,7 @@
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1;  // Statistik pro Run
+  let runChipsPaid=0;   // Chips, die in diesem Run aus Score/Near schon live gutgeschrieben wurden (Werkstatt-Live-Guthaben)
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let shipSprite=null, shipSig='';                     // gebackener Pixel-Sprite + Signatur
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
@@ -732,7 +733,7 @@
   const WID=Object.fromEntries(WEAPONS.map(w=>[w.id,w]));
   // Werkstatt: pro Waffe 4 freischaltbare Fork-Stufen (fu_<id>) → tiefer Grind, gatet die Build-Tiefe
   { const FORKBASE={blaster:120,missile:160,flame:170,frost:185,chain:205,nova:225,rail:245};
-    for(const w of WEAPONS) META.push({id:'fu_'+w.id, ico:w.ico, base:FORKBASE[w.id]||180, max:3}); }
+    for(const w of WEAPONS) META.push({id:'fu_'+w.id, ico:w.ico, base:FORKBASE[w.id]||180, max:4}); }
   // Spielstil-Archetypen je Waffe → sofort lesbare Build-Identität (Karte zeigt Stil, man muss keine Stats rechnen)
   const ARCH={
     blaster:{ico:'⚡',de:'Dauerfeuer',en:'Sustained',fr:'Tir continu'},
@@ -868,7 +869,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runChipsPaid=0;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -1212,7 +1213,11 @@
     return ownedCount()<arsenal.slots && WEAPONS.some(w=>!arsenal.w[w.id] && weaponUnlocked(w.id)); }
   // Hat man einen Punkt UND etwas zum Ausgeben?
   function hasSkillSpend(){ return skillPts>0 && skillSpendable(); }
-  function openUpgrade(armed){ if(skillSpendable()) skillPts++;   // jede Upgrade-Stufe = 1 Skillpunkt für den Baum (nur wenn ausgebbar)
+  // Live-Chips: aus Score+Near abgeleitetes Run-Guthaben (ohne Boss-Live-Chips, ohne Sieg-Bonus → die laufen separat)
+  function scoreChips(){ const s=score||0, scChips=s<=25000?s/55:25000/55+(s-25000)/170;
+    return Math.max(0,Math.round((scChips+(nearCount||0)*0.6)*chipMult()*diffChip)); }
+  function accrueChips(){ const tgt=scoreChips(); if(tgt>runChipsPaid){ meta.chips=(meta.chips||0)+(tgt-runChipsPaid); runChipsPaid=tgt; saveMeta(); updateMenuChips(); } }
+  function openUpgrade(armed){ skillPts++; accrueChips(); updateRunShopBtns();   // jede Upgrade-Stufe = 1 Skillpunkt (angespart, nutzbar sobald in Werkstatt freigeschaltet) + Live-Chips gutschreiben
     state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
     if(utitleEl) utitleEl.textContent=armed?t('arsenal'):t('chooseUp');
@@ -2005,10 +2010,11 @@
     const rec=score>curBest(); if(rec){ setBest(score); saveScores();
       for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
       setTimeout(()=>{beep(660,0.1,'square',0.3);},120); setTimeout(()=>{beep(880,0.1,'square',0.3);},260); setTimeout(()=>{beep(1175,0.18,'square',0.35);},400); }
-    const scChips=score<=25000?score/55:25000/55+(score-25000)/170;        // Endless-Score abflachen (kein Chip-Explodieren im Endgame)
+    accrueChips();                                                         // Score/Near-Chips final live nachbuchen (bereits größtenteils im Run gutgeschrieben)
     const bsChips=Math.min((bossNumber-1)*30,360);                          // Boss-Beitrag gedeckelt
-    const earned=Math.max(0,Math.round((scChips + nearCount*0.6 + bsChips + (wonThisRun?250:0))*chipMult()*diffChip));   // ×diffChip: Easy weniger (Grind), schwer mehr
-    meta.chips=(meta.chips||0)+earned;
+    const tail=Math.max(0,Math.round((bsChips+(wonThisRun?250:0))*chipMult()*diffChip));   // Boss/Sieg-Bonus zusätzlich (×diffChip: Easy weniger, schwer mehr)
+    meta.chips=(meta.chips||0)+tail;
+    const earned=runChipsPaid+tail;                                        // Gesamt-Chips dieses Runs (nur für Anzeige)
     addStat('orbs',runOrbs); addStat('near',nearCount); addStat('perfect',runPerfect); addStat('bosses',runBosses); addStat('runs',1); addStat('chipsTotal',earned);
     meta.stats=meta.stats||{}; if(runMaxMult>statN('maxCombo')) meta.stats.maxCombo=runMaxMult; if(bossNumber>statN('maxBoss')) meta.stats.maxBoss=bossNumber;
     if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
@@ -2063,11 +2069,20 @@
 
   // ---------- Werkstatt (Meta-Shop) ----------
   function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+fmt(meta.chips)+((meta.won)?('  ·  🏆 '+meta.won):''); }
-  let shopFrom='start';                                  // Werkstatt kann aus Menü ODER Game-Over geöffnet werden
-  function openShop(from){ shopFrom=(from==='over')?'over':'start'; document.getElementById(shopFrom).classList.add('hidden'); renderShop();
-    document.getElementById('shop').classList.remove('hidden'); sfxUpgrade(); }
+  let shopFrom='start';                                  // Werkstatt: aus Menü, Game-Over ODER mitten im Run (Upgrade-/Skill-Screen)
+  function runShopLabel(){ return '🛠️ '+t('workshop')+' ◈ '+fmt(meta.chips); }
+  function updateRunShopBtns(){ const a=document.getElementById('upgradeShopBtn'), b=document.getElementById('arsenalShopBtn');
+    if(a) a.textContent=runShopLabel(); if(b) b.textContent=runShopLabel(); }
+  function openShop(from){ const run=(from==='upgrade'||from==='arsenalView');
+    shopFrom=(from==='over')?'over':run?from:'start';
+    if(run) accrueChips();                               // Live-Chips frisch, bevor man sie ausgibt
+    document.getElementById(shopFrom).classList.add('hidden'); renderShop();
+    const sh=document.getElementById('shop'); sh.classList.remove('hidden'); sh.scrollTop=0; sfxUpgrade(); }
   function closeShop(){ document.getElementById('shop').classList.add('hidden');
-    document.getElementById(shopFrom).classList.remove('hidden'); updateMenuChips(); }
+    document.getElementById(shopFrom).classList.remove('hidden');
+    if(shopFrom==='arsenalView') renderArsenalView();    // frisch freigeschaltete Forks sofort wählbar
+    else updateRunShopBtns();                            // Button-Guthaben aktualisieren
+    updateMenuChips(); }
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
@@ -2088,9 +2103,9 @@
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
-  function openArsenalView(){ if(state!==S.PAUSE) return; arsenalSkillMode=false; renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
+  function openArsenalView(){ if(state!==S.PAUSE) return; arsenalSkillMode=false; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   // Skill-Screen: friert das Spiel ein, zeigt den klickbaren Baum zum Ausgeben der Skillpunkte
-  function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
+  function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden');
     if(arsenalSkillMode){ arsenalSkillMode=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
   function dropWeapon(id){ delete arsenal.w[id]; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); renderArsenalView(); }
@@ -2123,7 +2138,7 @@
   function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(id,a,slot,path), can=(st==='avail'&&skillPts>0&&opt.guns);
     const hint=can?'<span class="pickhint">+</span>':(st==='shoplocked'?'<span class="pickhint shop">🔒</span>':'');
     return `<div class="tnode ${st}${can?' pick':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}"><span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
-  function renderArsenalView(){ const sub=document.getElementById('arsenalViewSub');
+  function renderArsenalView(){ updateRunShopBtns(); const sub=document.getElementById('arsenalViewSub');
     if(sub){ let s=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots;
       if(skillPts>0&&opt.guns) s+=' · 💠 '+skillPts+' '+t('skillPts');
       sub.textContent=s+' · '+((skillPts>0&&opt.guns)?t('skillHint'):t('treeHint')); }
@@ -2332,6 +2347,8 @@
   const av=document.getElementById('arsenalViewBtn'); if(av) av.addEventListener('click',openArsenalView);
   const avc=document.getElementById('arsenalCloseBtn'); if(avc) avc.addEventListener('click',closeArsenalView);
   const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
+  const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
+  const asb=document.getElementById('arsenalShopBtn'); if(asb) asb.addEventListener('click',()=>openShop('arsenalView'));
   const muteBtn=document.getElementById('mute');
   muteBtn.addEventListener('click',()=>{ muted=!muted; muteBtn.textContent=muted?'🔇':'🔊';
     if(masterGain) masterGain.gain.value=muted?0:0.9; if(!muted){ unlockAudio(); } });
