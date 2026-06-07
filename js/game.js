@@ -2528,14 +2528,8 @@
     const sig=mode+'|'+lives+'|'+shields+'|'+wsig+'|'+activeSyn.join(',')+'|'+synU+'|'+sp+'|'+opt.guns;
     if(ck._sig===sig) return; ck._sig=sig;
     let h='<div class="ckFrame"><div class="ckDeco" aria-hidden="true"><span class="ckScan"></span><span class="ckGrid"></span><span class="ckRivets"></span></div><div class="ckBody">';
-    // Status-Bay: Radar + LEDs + Vitals
-    h+='<div class="ckBay ckStatusBay"><span class="ckRadar" aria-hidden="true"><b></b></span><span class="ckLeds" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
-    h+='<span class="ckVitals">';
-    if(mode!=='zen'){ h+='<span class="ckLives" aria-label="Leben '+Math.max(0,lives)+'">'; for(let i=0;i<Math.max(0,lives);i++) h+='♥'; if(lives<=0) h+='<i class="empty">♥</i>'; h+='</span>'; }
-    else h+='<span class="ckLives" style="color:#ffe600" aria-label="Zen: unendlich">∞</span>';
-    if(shields>0){ h+='<span class="ckShields" aria-label="Schilde '+shields+'">'; for(let i=0;i<shields;i++) h+=SHIELD_SVG; h+='</span>'; }
-    h+='</span></div>';
-    // Waffen-Bay: ALLE Waffenslots (ausgerüstet / verfügbar / gesperrt → man sieht, was noch freispielbar ist)
+    // OBERE Reihe: Waffen + Synergien + Steuerung (darf umbrechen, wächst nach oben)
+    h+='<div class="ckRow ckRowTop">';
     if(opt.guns){ h+='<div class="ckBay ckWeaponBay" aria-label="Waffen-Slots">';
       for(const w of WEAPONS){ const a=arsenal.w[w.id], unl=weaponUnlocked(w.id), st=a?'eq':(unl?'av':'lk');
         h+='<button class="ckSlot '+st+'" style="--wc:'+w.col+'" data-tab="loadout" aria-label="'+wName(w.id)+' – '+(a?('Stufe '+a.lvl):(unl?'verfügbar, baubar':'gesperrt, in der Werkstatt freischalten'))+'">';
@@ -2544,16 +2538,22 @@
         else h+='<span class="ckslotTag">'+(unl?'＋':'🔒')+'</span>';
         h+='</button>'; }
       h+='</div>'; }
-    // Synergie-Bay: aktive Slots + Fortschritt (x/total)
     if(opt.guns){ h+='<div class="ckBay ckSynBay" aria-label="Synergie-Slots '+activeSyn.length+'/'+MAXSYN+'">';
       for(let i=0;i<MAXSYN;i++){ const id=activeSyn[i], s=id?SID[id]:null;
         h+='<button class="ckSyS '+(s?'on':'')+'" data-tab="syn" aria-label="'+(s?('Synergie '+synName(id)):'Freier Synergie-Slot')+'">'+(s?s.ico:'＋')+'</button>'; }
       h+='<span class="ckSynCount" data-tab="syn" aria-label="Synergien freigeschaltet '+synU+' von '+SYNERGIES.length+'">🔗'+synU+'/'+SYNERGIES.length+'</span>';
       h+='</div>'; }
-    // Steuer-Bay: Skillpunkte + Arsenal
     if(sp||opt.guns){ h+='<div class="ckBay ckCtl">';
       if(sp) h+='<button class="ckSkill" data-tab="loadout" aria-label="Skillpunkte '+sp+' – Skill-Baum öffnen">💠'+sp+'</button>';
       if(opt.guns) h+='<button class="ckHub" data-tab="loadout" aria-label="Arsenal öffnen">🎒</button>'; h+='</div>'; }
+    h+='</div>';
+    // UNTERE Reihe (FIX, eine Zeile): Status-Konsole + Leben/Schild – springt nie
+    h+='<div class="ckRow ckRowBot"><div class="ckBay ckStatusBay"><span class="ckRadar" aria-hidden="true"><b></b></span><span class="ckLeds" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>';
+    h+='<div class="ckBay ckVitalsBay"><span class="ckVitals">';
+    if(mode!=='zen'){ h+='<span class="ckLives" aria-label="Leben '+Math.max(0,lives)+'">'; for(let i=0;i<Math.max(0,lives);i++) h+='♥'; if(lives<=0) h+='<i class="empty">♥</i>'; h+='</span>'; }
+    else h+='<span class="ckLives" style="color:#ffe600" aria-label="Zen: unendlich">∞</span>';
+    if(shields>0){ h+='<span class="ckShields" aria-label="Schilde '+shields+'">'; for(let i=0;i<shields;i++) h+=SHIELD_SVG; h+='</span>'; }
+    h+='</span></div></div>';
     h+='</div></div>';
     ck.innerHTML=h; }
   // ---------- Einstellungen ----------
