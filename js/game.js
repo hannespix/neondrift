@@ -2565,11 +2565,24 @@
   function closeSettings(){ document.getElementById('settings').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); }
   // ---------- Coin-Shop + Dev-/Tester-Codes ----------
+  // Pixel-Art-Schatztruhe (Symbol für den Coin-Shop)
+  const CHEST_SVG='<svg class="chestIco" viewBox="0 0 24 24" aria-hidden="true">'
+    +'<rect x="3.5" y="11" width="17" height="9" rx="1.2" fill="#b5651d"/>'
+    +'<path d="M3.5 11 V9.5 Q3.5 6.3 12 6.3 Q20.5 6.3 20.5 9.5 V11 Z" fill="#d2812a"/>'
+    +'<rect x="3.5" y="11" width="17" height="1.3" fill="#ffe27a"/>'
+    +'<rect x="3.5" y="14.3" width="17" height="2" fill="#ffd24a"/>'
+    +'<rect x="10.4" y="10.1" width="3.2" height="5.2" rx="0.5" fill="#ffd24a"/>'
+    +'<rect x="11.45" y="11.9" width="1.1" height="1.9" rx="0.4" fill="#6e3410"/></svg>';
   const DEVCODES={dev1000:1000,dev5000:5000,dev10000:10000};
+  let coinResume=false;
   function renderCoinShop(){ const b=document.getElementById('coinBal'); if(b) b.textContent='◈ '+(meta.chips||0); }
-  function openCoinShop(){ document.getElementById('start').classList.add('hidden'); const m=document.getElementById('devMsg'); if(m){m.textContent='';m.className='devMsg';} renderCoinShop();
-    document.getElementById('coinshop').classList.remove('hidden'); beep(880,0.06,'square',0.2); }
-  function closeCoinShop(){ document.getElementById('coinshop').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); }
+  function openCoinShop(fromGame){ const m=document.getElementById('devMsg'); if(m){m.textContent='';m.className='devMsg';}
+    if(fromGame && state===S.PLAY){ state=S.PAUSE; coinResume=true; lastT=performance.now(); }
+    else { coinResume=false; document.getElementById('start').classList.add('hidden'); }
+    renderCoinShop(); document.getElementById('coinshop').classList.remove('hidden'); beep(880,0.06,'square',0.2); }
+  function closeCoinShop(){ document.getElementById('coinshop').classList.add('hidden');
+    if(coinResume){ coinResume=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); }
+    else document.getElementById('start').classList.remove('hidden'); }
   function redeemCode(){ const inp=document.getElementById('devCode'), msg=document.getElementById('devMsg'); if(!inp) return;
     const code=(inp.value||'').trim().toLowerCase().replace(/\s+/g,''); const amt=DEVCODES[code];
     if(amt){ meta.chips=(meta.chips||0)+amt; saveMeta(); updateMenuChips(); renderCoinShop(); inp.value='';
@@ -2847,7 +2860,9 @@
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
-  { const cb=document.getElementById('coinBtn'); if(cb) cb.addEventListener('click',openCoinShop);
+  { const cb=document.getElementById('coinBtn'); if(cb){ cb.innerHTML=CHEST_SVG; cb.addEventListener('click',()=>openCoinShop(false)); }
+    const cc=document.getElementById('coinChest'); if(cc){ cc.innerHTML=CHEST_SVG; cc.addEventListener('click',()=>openCoinShop(true)); }   // neben dem Münzstand im HUD
+    const ct=document.getElementById('coinTitle'); if(ct) ct.innerHTML=CHEST_SVG+' COINS';
     const cbk=document.getElementById('coinBackBtn'); if(cbk) cbk.addEventListener('click',closeCoinShop);
     const ccl=document.getElementById('coinCloseBtn'); if(ccl) ccl.addEventListener('click',closeCoinShop);
     const dr=document.getElementById('devRedeem'); if(dr) dr.addEventListener('click',redeemCode);

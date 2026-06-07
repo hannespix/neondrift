@@ -24,7 +24,7 @@
   <div id="hud" class="hidden">
     <div id="left-hud">
       <div id="score">0</div>
-      <div id="coinHud">◈ 0</div>
+      <div id="coinRow"><div id="coinHud">◈ 0</div><button id="coinChest" title="Coin-Shop" aria-label="Coin-Shop"></button></div>
       <div id="modeName">NORMAL</div>
       <button id="zenExit">⏸ PAUSE</button>
     </div>
@@ -52,7 +52,7 @@
     </div>
     <div class="iconRow">
       <button id="achBtn" title="Erfolge">🏅</button>
-      <button id="coinBtn" title="Coins">💎</button>
+      <button id="coinBtn" title="Coin-Shop" aria-label="Coin-Shop"></button>
       <button id="settingsBtn" title="Einstellungen">⚙️</button>
     </div>
     <div class="how">Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü · 🔊 unten rechts</div>
@@ -128,7 +128,7 @@
 
   <div id="coinshop" class="screen hidden">
     <button class="closeBtn" id="coinCloseBtn" aria-label="Schließen">✕</button>
-    <div class="utitle" style="color:var(--yellow);text-shadow:0 0 20px var(--yellow);">💎 COINS</div>
+    <div class="utitle" id="coinTitle" style="color:var(--yellow);text-shadow:0 0 20px var(--yellow);">COINS</div>
     <div class="usub"><span id="coinBalLbl">Guthaben</span>: <b id="coinBal">◈ 0</b></div>
     <div class="coinPacks" id="coinPacks">
       <button class="coinPack" disabled>◈ 1.000<small>0,99 €</small></button>
