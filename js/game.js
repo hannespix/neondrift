@@ -2134,7 +2134,7 @@
         chip.innerHTML='<span class="fxico">'+it[1]+'</span><span class="fxmid"><span class="fxlbl">'+it[5]+'</span><span class="fxtrk"><i></i></span></span><span class="fxsec"></span>';
         bar.appendChild(chip); } }
     for(const it of items){ const chip=bar.querySelector('.fxchip[data-k="'+it[0]+'"]'); if(!chip) continue;
-      const frac=Math.max(0,Math.min(1,it[2]/it[3])); const fill=chip.querySelector('.fxtrk i'); if(fill) fill.style.width=(frac*100)+'%';
+      const frac=Math.max(0,Math.min(1,it[2]/it[3])); const fill=chip.querySelector('.fxtrk i'); if(fill) fill.style.transform='scaleX('+frac+')';   // transform statt width → kein Reflow/Frame
       const sec=chip.querySelector('.fxsec'); if(sec) sec.textContent=Math.max(0,Math.ceil(it[2]))+'s'; } }
 
   let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie

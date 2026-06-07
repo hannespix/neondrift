@@ -13,7 +13,7 @@
   .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;z-index:10;
     padding:24px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));
     overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior:contain;
-    background:radial-gradient(ellipse at center,rgba(26,5,51,.55) 0%,rgba(8,1,15,.92) 75%);backdrop-filter:blur(2px);transition:opacity .3s ease;}
+    background:radial-gradient(ellipse at center,rgba(26,5,51,.6) 0%,rgba(8,1,15,.94) 75%);transition:opacity .3s ease;}
   /* flexible Abstandshalter zentrieren kurzen Inhalt, kollabieren bei langem -> volles Scrollen (Touch) */
   .screen::before,.screen::after{content:"";flex:1 0 8px;}
   /* In-Game-Overlays: kein Backdrop-Blur (teuer über animiertem Canvas) + VOLL deckend → kein Durchscheinen eines darunterliegenden Overlays */
@@ -62,10 +62,10 @@
   #shopBtn{margin:0;width:100%;max-width:360px;cursor:pointer;border:2px solid rgba(176,107,255,.85);
     background:linear-gradient(135deg,rgba(176,107,255,.24),rgba(110,60,200,.12));color:#efe0ff;
     font-family:'Orbitron',sans-serif;font-weight:800;font-size:16px;letter-spacing:.12em;padding:16px 26px;border-radius:50px;white-space:nowrap;
-    text-shadow:0 0 12px rgba(176,107,255,.6);transition:transform .12s,box-shadow .14s,border-color .14s;animation:shopPulse 2.6s ease-in-out infinite;}
+    text-shadow:0 0 12px rgba(176,107,255,.6);transition:transform .12s,box-shadow .14s,border-color .14s;box-shadow:0 0 22px rgba(176,107,255,.4);}
   #shopBtn:hover{transform:translateY(-3px);border-color:#c98bff;box-shadow:0 0 36px rgba(176,107,255,.6);}
   #shopBtn:active{transform:translateY(-1px);}
-  @keyframes shopPulse{0%,100%{box-shadow:0 0 18px rgba(176,107,255,.30);}50%{box-shadow:0 0 32px rgba(176,107,255,.55);}}
+  /* shopPulse (animierte box-shadow) entfernt → statischer Glow, kein Repaint/Frame */
   #menuChips{color:var(--yellow);}
   /* Sekundäre Meta-Aktionen als kompakte Icon-Leiste (Erfolge/Skins/Einstellungen) */
   .iconRow{margin-top:16px;display:flex;gap:14px;justify-content:center;}
@@ -402,13 +402,13 @@
   .fxchip{display:flex;align-items:center;gap:7px;padding:4px 9px 4px 7px;border-radius:10px;
     background:linear-gradient(180deg,rgba(8,1,15,.78),rgba(8,1,15,.5));border:1px solid var(--fc,#19f0ff);
     box-shadow:0 0 12px color-mix(in srgb,var(--fc,#19f0ff) 45%,transparent),inset 0 0 10px color-mix(in srgb,var(--fc,#19f0ff) 16%,transparent);
-    backdrop-filter:blur(1px);animation:fxin .18s ease;}
+    animation:fxin .18s ease;}
   @keyframes fxin{from{opacity:0;transform:translateY(-6px) scale(.9);}to{opacity:1;transform:none;}}
   .fxico{font-size:16px;line-height:1;filter:drop-shadow(0 0 5px var(--fc,#19f0ff));}
   .fxmid{display:flex;flex-direction:column;gap:2px;min-width:62px;}
   .fxlbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fc,#19f0ff);text-shadow:0 0 6px var(--fc,#19f0ff);font-weight:700;}
   .fxtrk{height:4px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden;}
-  .fxtrk i{display:block;height:100%;width:100%;background:var(--fc,#19f0ff);box-shadow:0 0 6px var(--fc,#19f0ff);border-radius:2px;transition:width .12s linear;}
+  .fxtrk i{display:block;height:100%;width:100%;background:var(--fc,#19f0ff);box-shadow:0 0 6px var(--fc,#19f0ff);border-radius:2px;transform-origin:left center;transition:transform .12s linear;}
   .fxsec{font-size:11px;font-weight:700;color:#fff;min-width:22px;text-align:right;text-shadow:0 0 5px var(--fc,#19f0ff);}
   /* === Cockpit-Redesign: Holo-Laser-Armaturenbrett mit Pixel-Gimmicks === */
   #cockpit{align-items:flex-end;justify-content:center;padding:0 6px 0;padding-bottom:max(3px,env(safe-area-inset-bottom));background:none;}
@@ -497,18 +497,17 @@
   .ckFrame{position:relative;max-width:99vw;padding:11px 16px 9px;border-radius:24px 24px 10px 10px;
     background:linear-gradient(180deg,rgba(12,30,54,.5) 0%,rgba(9,6,26,.82) 60%,rgba(6,2,16,.9) 100%);
     border:1px solid rgba(25,240,255,.4);border-top:2px solid rgba(25,240,255,.92);
-    box-shadow:0 0 26px rgba(25,240,255,.26),0 -2px 22px rgba(255,46,136,.10),inset 0 9px 40px rgba(25,240,255,.09),inset 0 -10px 22px rgba(255,46,136,.05);
-    animation:ckHolo 5s ease-in-out infinite;}
-  @keyframes ckHolo{0%,100%{box-shadow:0 0 24px rgba(25,240,255,.24),0 -2px 20px rgba(255,46,136,.08),inset 0 9px 40px rgba(25,240,255,.09);}50%{box-shadow:0 0 34px rgba(25,240,255,.40),0 -2px 26px rgba(255,46,136,.14),inset 0 9px 44px rgba(25,240,255,.14);}}
+    box-shadow:0 0 26px rgba(25,240,255,.26),0 -2px 22px rgba(255,46,136,.10),inset 0 9px 40px rgba(25,240,255,.09),inset 0 -10px 22px rgba(255,46,136,.05);}
+  /* (ckHolo-Pulse entfernt: animierte box-shadow = teurer Repaint/Frame über der Canvas) */
   /* angedeutete Cockpit-„Flügel" an den Unterkanten */
   .ckFrame::before,.ckFrame::after{content:"";position:absolute;bottom:0;width:30px;height:20px;pointer-events:none;border-bottom:2px solid rgba(25,240,255,.5);}
   .ckFrame::before{left:-14px;border-left:2px solid rgba(25,240,255,.5);border-radius:0 0 0 14px;transform:skewX(20deg);}
   .ckFrame::after{right:-14px;border-right:2px solid rgba(25,240,255,.5);border-radius:0 0 14px 0;transform:skewX(-20deg);}
   /* Deko-Layer (geclippt): Scanlines, Pixel-Grid, Holo-Sweep, Niet-Reihe */
   .ckDeco{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;}
-  .ckDeco .ckScan{position:absolute;left:-32%;top:0;width:32%;height:100%;background:linear-gradient(90deg,transparent,rgba(25,240,255,.16),transparent);animation:ckSweep 3.6s linear infinite;}
-  @keyframes ckSweep{0%{left:-32%}100%{left:120%}}
-  .ckDeco .ckGrid{position:absolute;inset:0;mix-blend-mode:screen;opacity:.5;
+  .ckDeco .ckScan{position:absolute;left:0;top:0;width:32%;height:100%;background:linear-gradient(90deg,transparent,rgba(25,240,255,.16),transparent);transform:translateX(-120%);animation:ckSweep 4.2s linear infinite;}
+  @keyframes ckSweep{0%{transform:translateX(-120%)}100%{transform:translateX(420%)}}   /* transform statt left → GPU-Composite, kein Reflow */
+  .ckDeco .ckGrid{position:absolute;inset:0;opacity:.4;
     background:repeating-linear-gradient(to bottom,rgba(25,240,255,.06) 0 1px,transparent 1px 4px),repeating-linear-gradient(to right,rgba(25,240,255,.045) 0 1px,transparent 1px 7px);}
   .ckDeco .ckRivets{position:absolute;top:4px;left:18%;right:18%;height:2px;border-radius:2px;
     background:repeating-linear-gradient(90deg,rgba(25,240,255,.55) 0 2px,transparent 2px 10px);
