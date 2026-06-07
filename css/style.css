@@ -37,7 +37,7 @@
   @keyframes soundPulse{0%,100%{opacity:.45;}50%{opacity:1;}}
   /* Schwierigkeits-Umschalter im Startmenü */
   .diffBtn{margin-top:14px;padding:9px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.22);
-    background:rgba(8,1,15,.5);color:#cbbdf0;font-family:inherit;font-size:clamp(12px,2.8vw,15px);cursor:pointer;
+    background:rgba(10,3,20,.8);color:#cbbdf0;font-family:inherit;font-size:clamp(12px,2.8vw,15px);cursor:pointer;
     -webkit-tap-highlight-color:transparent;transition:border-color .2s,color .2s;}
   .diffBtn b{color:var(--cyan);font-weight:700;}
   .diffBtn small{display:block;margin-top:2px;font-size:.72em;letter-spacing:.12em;text-transform:uppercase;opacity:.5;color:#9a86c9;}
@@ -572,12 +572,13 @@
   /* Grafische Mode-Karten: Emblem + Feature-Chips statt Fließtext, Details per ⓘ */
   .mode{position:relative;text-align:center;padding:18px 14px 16px;}
   .mode .minfo{position:absolute;top:7px;right:7px;width:24px;height:24px;font-size:13px;z-index:2;}
-  .memblem{font-size:44px;line-height:1;margin-bottom:2px;filter:drop-shadow(0 0 14px currentColor);}
-  .mode.normal{background:linear-gradient(165deg,rgba(25,240,255,.12),rgba(255,255,255,.03));}
+  .memblem{font-size:42px;line-height:1;margin-bottom:2px;filter:drop-shadow(0 0 10px currentColor);}
+  /* Karten als ruhige, deckende Paneele: dunkler Sockel blockt die animierte Szene → Akzent-Tönung bleibt dezent obenauf */
+  .mode.normal{background:linear-gradient(165deg,rgba(25,240,255,.10),rgba(25,240,255,.015)),linear-gradient(rgba(11,4,22,.9),rgba(9,2,18,.9));}
   .mode.normal .memblem{color:var(--cyan);}
-  .mode.hardcore{background:linear-gradient(165deg,rgba(255,46,136,.12),rgba(255,255,255,.03));}
+  .mode.hardcore{background:linear-gradient(165deg,rgba(255,46,136,.10),rgba(255,46,136,.015)),linear-gradient(rgba(13,4,20,.9),rgba(9,2,18,.9));}
   .mode.hardcore .memblem{color:var(--pink);}
-  .mode.zen{background:linear-gradient(165deg,rgba(255,230,0,.12),rgba(255,255,255,.03));}
+  .mode.zen{background:linear-gradient(165deg,rgba(255,230,0,.10),rgba(255,230,0,.015)),linear-gradient(rgba(14,8,8,.9),rgba(9,2,18,.9));}
   .mode.zen .memblem{color:var(--yellow);}
   .mode h3{margin-bottom:0;}
   .mfeat{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px;}
@@ -586,7 +587,7 @@
      Scanlines als Hintergrund-Layer (nicht ::after → sonst kaputter Flex-Spacer/Zentrierung von .screen). */
   #start{backdrop-filter:none;-webkit-backdrop-filter:none;
     background:repeating-linear-gradient(to bottom,rgba(0,0,0,.13) 0 1px,transparent 1px 3px),
-      radial-gradient(ellipse 120% 80% at 50% 34%,rgba(8,1,15,.12) 0%,rgba(8,1,15,.52) 52%,rgba(8,1,15,.82) 100%);}
+      radial-gradient(ellipse 130% 90% at 50% 36%,rgba(8,1,15,.58) 0%,rgba(8,1,15,.80) 55%,rgba(8,1,15,.93) 100%);}
   /* === Arcade-HUD-Chrome: eckige Panels mit Neon-Eckklammern statt weicher Web-Cards === */
   .mode.normal{--ac:var(--cyan);} .mode.hardcore{--ac:var(--pink);} .mode.zen{--ac:var(--yellow);}
   .mode{border-radius:5px;}
