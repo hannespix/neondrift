@@ -989,6 +989,7 @@
     banner={text:t('bossEscaped'),sub:t('lvlAgain')+' '+level,t:3.2,color:'#ff9a2e'};
     flash=0.4; flashColor='#ff9a2e'; sfxWarn(); vibe([50,40,50]); }
   function startGame(m){
+    goFullscreenSoft();                          // Smartphone: sauberer Vollbild ab Spielstart
     if(m==='daily'){ daily=true; mode='normal'; }
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
     useSeed=daily;
@@ -2593,6 +2594,10 @@
   function toggleFullscreen(){ try{ const el=document.documentElement;
     if(!isFull()){ const r=el.requestFullscreen||el.webkitRequestFullscreen; if(r) r.call(el); }
     else { const x=document.exitFullscreen||document.webkitExitFullscreen; if(x) x.call(document); } }catch(e){} }
+  const isTouch=()=>{ try{ return (navigator.maxTouchPoints||0)>0 || matchMedia('(pointer:coarse)').matches; }catch(e){ return false; } };
+  // Smartphone: beim Spielstart (User-Geste) echten Fullscreen anfordern → OS-Statusleiste + Navigationsleiste/Bottom-Griff weg
+  function goFullscreenSoft(){ try{ if(isFull()||!isTouch()) return; const el=document.documentElement, r=el.requestFullscreen||el.webkitRequestFullscreen;
+    if(r){ const p=r.call(el); if(p&&p.catch) p.catch(()=>{}); } }catch(e){} }
   function renderSettings(){ document.querySelectorAll('#optRows .optrow').forEach(row=>{
     const k=row.dataset.opt; let v;
     if(k==='lang') v=lang.toUpperCase();
