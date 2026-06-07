@@ -557,3 +557,16 @@
   .ckSkill{font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;color:#19f0ff;background:rgba(25,240,255,.14);border:1px solid rgba(25,240,255,.55);border-radius:8px;padding:5px 8px;}
   .ckHub{font-size:17px;line-height:1;color:#fff;background:linear-gradient(180deg,rgba(25,240,255,.2),rgba(25,240,255,.06));border:1px solid rgba(25,240,255,.6);border-radius:8px;padding:5px 8px;box-shadow:0 0 10px rgba(25,240,255,.3);}
   .ckSkill:active,.ckHub:active{transform:scale(.93);}
+  /* Grafische Mode-Karten: Emblem + Feature-Chips statt Fließtext, Details per ⓘ */
+  .mode{position:relative;text-align:center;padding:18px 14px 16px;}
+  .mode .minfo{position:absolute;top:7px;right:7px;width:24px;height:24px;font-size:13px;z-index:2;}
+  .memblem{font-size:44px;line-height:1;margin-bottom:2px;filter:drop-shadow(0 0 14px currentColor);}
+  .mode.normal{background:linear-gradient(165deg,rgba(25,240,255,.12),rgba(255,255,255,.03));}
+  .mode.normal .memblem{color:var(--cyan);}
+  .mode.hardcore{background:linear-gradient(165deg,rgba(255,46,136,.12),rgba(255,255,255,.03));}
+  .mode.hardcore .memblem{color:var(--pink);}
+  .mode.zen{background:linear-gradient(165deg,rgba(255,230,0,.12),rgba(255,255,255,.03));}
+  .mode.zen .memblem{color:var(--yellow);}
+  .mode h3{margin-bottom:0;}
+  .mfeat{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px;}
+  .mchip{font-size:10.5px;color:#d7c9f5;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:3px 9px;white-space:nowrap;line-height:1.4;}
