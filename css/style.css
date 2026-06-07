@@ -623,3 +623,15 @@
   /* Game-Over: große Score-Zahlen als Arcade-Pixel-Readout */
   .scorebox .val{font-family:var(--pf);letter-spacing:.02em;}
   #chipsEarned{font-family:var(--pf);}
+  /* Coin-Shop (Pakete = Platzhalter für spätere IAP) + Dev-Code-Box */
+  .coinPacks{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px;}
+  .coinPack{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:96px;padding:14px 16px;border-radius:8px;cursor:not-allowed;
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:18px;color:var(--yellow);background:rgba(255,230,0,.06);border:1px solid rgba(255,230,0,.35);opacity:.85;}
+  .coinPack small{font-family:var(--pf);font-weight:400;font-size:14px;color:#cbb892;letter-spacing:.04em;}
+  .devBox{margin-top:24px;width:100%;max-width:360px;padding:14px 14px 16px;border-radius:8px;background:rgba(25,240,255,.05);border:1px solid rgba(25,240,255,.3);}
+  .devRow{display:flex;gap:8px;margin-top:8px;align-items:stretch;}
+  #devCode{flex:1;min-width:0;font-family:var(--pf);font-size:18px;letter-spacing:.06em;color:#fff;background:rgba(8,1,15,.6);border:1px solid rgba(25,240,255,.4);border-radius:6px;padding:8px 12px;user-select:text;-webkit-user-select:text;}
+  #devCode::placeholder{color:#6f6699;}
+  #devRedeem{font-size:14px;padding:10px 16px;border-radius:6px;}
+  .devMsg{margin-top:8px;font-family:var(--pf);font-size:16px;min-height:1.2em;letter-spacing:.03em;}
+  .devMsg.ok{color:#7cff2e;text-shadow:0 0 8px rgba(124,255,46,.5);} .devMsg.bad{color:#ff5a7a;}
