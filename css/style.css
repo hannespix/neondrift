@@ -470,3 +470,17 @@
   /* seitliche Cockpit-Streben */
   .ckPanel>.ckStatus::before{content:"";position:absolute;left:-13px;bottom:-6px;width:10px;height:20px;
     border-left:2px solid rgba(25,240,255,.4);border-bottom:2px solid rgba(25,240,255,.4);border-radius:0 0 0 8px;}
+  /* Schwierigkeits-Infobox (Speech-Bubble unter dem Diff-Button) */
+  .diffInfo{margin-top:10px;max-width:360px;width:100%;padding:11px 14px 12px;border-radius:14px;position:relative;
+    background:linear-gradient(180deg,rgba(22,9,44,.72),rgba(8,1,15,.72));border:1px solid rgba(25,240,255,.35);
+    box-shadow:0 0 18px rgba(25,240,255,.16),inset 0 0 14px rgba(25,240,255,.05);}
+  .diffInfo::before{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;
+    background:linear-gradient(135deg,rgba(22,9,44,.95),rgba(8,1,15,.95));border-left:1px solid rgba(25,240,255,.35);border-top:1px solid rgba(25,240,255,.35);}
+  .diffQuip{font-size:12.5px;font-style:italic;color:#ffd9f0;line-height:1.5;margin-bottom:8px;text-shadow:0 0 8px rgba(255,46,136,.3);}
+  .diffMeter{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#9a86c9;display:flex;align-items:center;gap:7px;justify-content:center;margin-bottom:7px;}
+  .diffDots{display:inline-flex;gap:4px;}
+  .diffDots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.14);}
+  .diffDots i.on{background:linear-gradient(90deg,#19f0ff,#ff2e88);box-shadow:0 0 6px rgba(255,46,136,.55);}
+  .diffStats{display:flex;flex-wrap:wrap;gap:5px 14px;justify-content:center;font-size:11.5px;color:#c9b9ef;}
+  .diffStats b{color:#fff;}
+  .diffStats .diffReward b{color:var(--yellow);}
