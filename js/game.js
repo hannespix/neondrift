@@ -23,7 +23,7 @@
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -50,7 +50,7 @@
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -77,7 +77,7 @@
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -836,7 +836,7 @@
   const synUnlocked=id=>mode==='zen'||synBought(id);   // Zen = Sandbox: Synergien frei
   const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
   let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
-  let skillPts=0, arsenalSkillMode=false, arsenalResume=false;   // Skillpunkte (pro Upgrade) → klickbarer Baum im Run; arsenalResume = aus Cockpit geöffnet → Schließen setzt Spiel fort
+  let skillPts=0, arsenalSkillMode=false, arsenalResume=false, arsenalTab='loadout';   // Skillpunkte; arsenalResume = aus Cockpit/Run geöffnet; arsenalTab = Reiter (loadout/syn/shop)
   const ownedW=()=>Object.keys(arsenal.w);
   const ownedCount=()=>ownedW().length;
   const synActive=id=>!!syn[id];
@@ -2278,7 +2278,7 @@
   function runShopLabel(){ return '🛠️ '+t('workshop')+' ◈ '+fmt(meta.chips); }
   function updateRunShopBtns(){ const a=document.getElementById('upgradeShopBtn'), b=document.getElementById('arsenalShopBtn');
     if(a) a.textContent=runShopLabel(); if(b) b.textContent=runShopLabel(); }
-  function openShop(from){ const run=(from==='upgrade'||from==='arsenalView'||from==='pause');
+  function openShop(from){ setShopHost('shop'); const run=(from==='upgrade'||from==='arsenalView'||from==='pause');
     shopFrom=(from==='over')?'over':run?from:'start';
     if(run) accrueChips();                               // Live-Chips frisch, bevor man sie ausgibt
     document.getElementById(shopFrom).classList.add('hidden'); renderShop();
@@ -2352,7 +2352,7 @@
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
-    const tabsEl=document.getElementById('shopTabs');
+    const tabsEl=document.getElementById(shopTabsHostId);
     if(tabsEl){ tabsEl.innerHTML=''; SHOPTABS.forEach(([key,ico])=>{ const b=document.createElement('button');
       b.className='shopTab'+(shopTab===key?' on':''); b.textContent=ico+' '+t('cat_'+key);
       b.addEventListener('click',()=>{ shopTab=key; renderShop(); }); tabsEl.appendChild(b); }); }
@@ -2366,14 +2366,14 @@
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
-  function openArsenalView(){ if(state!==S.PAUSE) return; arsenalSkillMode=false; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
+  function openArsenalView(tab){ if(state!==S.PAUSE) return; arsenalSkillMode=false; arsenalTab=tab||'loadout'; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   // Skill-Screen: friert das Spiel ein, zeigt den klickbaren Baum zum Ausgeben der Skillpunkte
   function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden');
     if(arsenalSkillMode){ arsenalSkillMode=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); }
     else if(arsenalResume){ arsenalResume=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
-  function openArsenalFromCockpit(){ if(state===S.PLAY){ state=S.PAUSE; arsenalResume=true; } if(state!==S.PAUSE) return;
-    arsenalSkillMode=false; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
+  function openArsenalFromCockpit(tab){ if(state===S.PLAY){ state=S.PAUSE; arsenalResume=true; } if(state!==S.PAUSE) return;
+    arsenalSkillMode=false; arsenalTab=tab||'loadout'; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function dropWeapon(id){ const a=arsenal.w[id];                                  // Ablegen erstattet investierte Skillpunkte (Forks + Waffe), außer Zen/Blaster gratis
     const refund=(mode==='zen')?0:((a?a.lvl-1:0)+((id==='blaster')?0:1));
     delete arsenal.w[id]; if(refund>0) skillPts+=refund; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); renderArsenalView(); }
@@ -2417,7 +2417,17 @@
     const hint=can?'<span class="pickhint">+</span>':(st==='shoplocked'?'<span class="pickhint shop">🔒</span>':'');
     const ti={f1:0,f2:1,f3:2,f4:3}[slot]||0, tip=pDesc(path)+' · '+(flavPath(path)||flavTier(id,ti));   // echte Pfad-Beschreibung + Subskill-eigener Spruch
     return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
-  function renderArsenalView(){ updateRunShopBtns(); const sub=document.getElementById('arsenalViewSub');
+  function renderArsenalView(){
+    if(arsenalSkillMode) arsenalTab='loadout';   // Skill-Screen erzwingt Loadout
+    // Reiter-Leiste (Loadout · Synergien · Werkstatt) — ein Hub für alles
+    const arTabs=document.getElementById('arTabs');
+    if(arTabs){ const tabs=[['loadout','🎒 '+t('arsenalTab')],['syn','🔗 '+t('synTitle')],['shop','🛠️ '+t('workshop')]];
+      arTabs.innerHTML=''; tabs.forEach(([k,lbl])=>{ const b=document.createElement('button'); b.className='shopTab'+(arsenalTab===k?' on':''); b.textContent=lbl;
+        b.addEventListener('click',()=>{ arsenalTab=k; renderArsenalView(); }); arTabs.appendChild(b); }); }
+    const show=(id,on)=>{ const e=document.getElementById(id); if(e) e.classList.toggle('hidden',!on); };
+    show('arSecLoadout',arsenalTab==='loadout'); show('arSecSyn',arsenalTab==='syn'); show('arSecShop',arsenalTab==='shop');
+    if(arsenalTab==='shop'){ setShopHost('arsenal'); renderShop(); const bb0=document.getElementById('arsenalBackBtn'); if(bb0) bb0.textContent=t('back'); return; }
+    updateRunShopBtns(); const sub=document.getElementById('arsenalViewSub');
     if(sub){ let s=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots;
       if(skillPts>0&&opt.guns) s+=' · 💠 '+skillPts+' '+t('skillPts');
       sub.textContent=s+' · '+((skillPts>0&&opt.guns)?t('skillHint'):t('treeHint')); }
@@ -2718,8 +2728,11 @@
         titleTag=document.getElementById('titleTag'),insultEl=document.getElementById('insult'),
         pauseSub=document.getElementById('pauseSub'),
         comboBarEl=document.getElementById('comboBar'),comboFillEl=comboBarEl.querySelector('i'),
-        menuChipsEl=document.getElementById('menuChips'),shopChipsEl=document.getElementById('shopChips'),shopHintEl=document.getElementById('shopHint'),
-        shopCards=document.getElementById('shopCards'),chipsEarnedEl=document.getElementById('chipsEarned');
+        menuChipsEl=document.getElementById('menuChips'),chipsEarnedEl=document.getElementById('chipsEarned');
+  // Shop-DOM ist umlenkbar: eigener Werkstatt-Screen (Menü) ODER Werkstatt-Reiter im Arsenal
+  let shopCards=document.getElementById('shopCards'), shopChipsEl=document.getElementById('shopChips'), shopHintEl=document.getElementById('shopHint'), shopTabsHostId='shopTabs';
+  function setShopHost(which){ if(which==='arsenal'){ shopCards=document.getElementById('arShopCards'); shopChipsEl=document.getElementById('arShopChips'); shopHintEl=document.getElementById('arShopHint'); shopTabsHostId='arShopTabs'; }
+    else { shopCards=document.getElementById('shopCards'); shopChipsEl=document.getElementById('shopChips'); shopHintEl=document.getElementById('shopHint'); shopTabsHostId='shopTabs'; } }
   function updateDiffLabel(){ const e=document.getElementById('diffName'); if(e) e.textContent=(DIFFS[meta.diff||0]||DIFFS[0]).name; }
   { const db=document.getElementById('diffBtn'); if(db){ updateDiffLabel();
     db.addEventListener('click',()=>{ meta.diff=((meta.diff||0)+1)%DIFFS.length; saveMeta(); updateDiffLabel(); sfxPow(); vibe(8); }); } }
@@ -2758,8 +2771,9 @@
   const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
   const asb=document.getElementById('arsenalShopBtn'); if(asb) asb.addEventListener('click',()=>openShop('arsenalView'));
-  const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openShop('pause'));
-  const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ if(e.target.closest('button')) openArsenalFromCockpit(); });
+  const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openArsenalView('shop'));
+  const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
+    const tab=b.classList.contains('ckS')?'syn':(b.classList.contains('ckSkill')||b.classList.contains('ckW'))?'loadout':'loadout'; openArsenalFromCockpit(tab); });
   const muteBtn=document.getElementById('mute');
   muteBtn.addEventListener('click',()=>{ muted=!muted; muteBtn.textContent=muted?'🔇':'🔊';
     if(masterGain) masterGain.gain.value=muted?0:0.9; if(!muted){ unlockAudio(); } });
