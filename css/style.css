@@ -388,3 +388,8 @@
   .ocBtn b{font-weight:800;}
   .ocBtn small{font-family:'Space Mono',monospace;font-size:10px;color:rgba(8,1,15,.7);font-weight:700;}
   .ocBtn:active{transform:scale(.98);}
+  /* Barrierefreiheit: sichtbarer Tastatur-Fokus + Reduced-Motion */
+  button:focus-visible,[role="button"]:focus-visible,.ucard:focus-visible,.mode:focus-visible,.shopTab:focus-visible,
+  .skcard:focus-visible,.optrow:focus-visible,input:focus-visible,.tnode:focus-visible,.synrow:focus-visible,.infoBtn:focus-visible{
+    outline:3px solid var(--cyan);outline-offset:2px;border-radius:8px;}
+  @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;} }

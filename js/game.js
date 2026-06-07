@@ -2293,7 +2293,7 @@
   const metaById=id=>META.find(m=>m.id===id);
   let shopOpenW={};   // welche Waffen-Accordions im Werkstatt-Waffen-Tab offen sind
   // ---- Info-Tooltip (Touch: Tippen auf ⓘ zeigt lustige Beschreibung; nächster Tipp schließt) ----
-  function infoBtn(title,body,extra){ return body?`<span class="infoBtn${extra?' '+extra:''}" data-tt="${encodeURIComponent(title)}" data-tx="${encodeURIComponent(body)}">ⓘ</span>`:''; }
+  function infoBtn(title,body,extra){ return body?`<span class="infoBtn${extra?' '+extra:''}" role="button" tabindex="0" aria-label="Info" data-tt="${encodeURIComponent(title)}" data-tx="${encodeURIComponent(body)}">ⓘ</span>`:''; }
   let tipEl=null;
   function hideTip(){ if(tipEl) tipEl.classList.remove('show'); }
   function showTip(title,body,anchor){ if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='tipPop'; document.body.appendChild(tipEl); }
@@ -2304,6 +2304,8 @@
     let top=r.top-tipEl.offsetHeight-10; if(top<12) top=r.bottom+10; tipEl.style.top=top+'px'; }
   document.addEventListener('click',e=>{ const ib=e.target.closest&&e.target.closest('.infoBtn');
     if(ib){ e.stopPropagation(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } else hideTip(); });
+  document.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ') return; const ib=e.target&&e.target.classList&&e.target.classList.contains('infoBtn')?e.target:null;
+    if(ib){ e.preventDefault(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } });
   function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
     const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
     const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
@@ -2355,8 +2357,8 @@
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
     const tabsEl=document.getElementById(shopTabsHostId);
-    if(tabsEl){ tabsEl.innerHTML=''; SHOPTABS.forEach(([key,ico])=>{ const b=document.createElement('button');
-      b.className='shopTab'+(shopTab===key?' on':''); b.textContent=ico+' '+t('cat_'+key);
+    if(tabsEl){ tabsEl.innerHTML=''; tabsEl.setAttribute('role','tablist'); SHOPTABS.forEach(([key,ico])=>{ const b=document.createElement('button');
+      b.className='shopTab'+(shopTab===key?' on':''); b.textContent=ico+' '+t('cat_'+key); b.setAttribute('role','tab'); b.setAttribute('aria-selected',shopTab===key);
       b.addEventListener('click',()=>{ shopTab=key; renderShop(); }); tabsEl.appendChild(b); }); }
     shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons'||shopTab==='synergy');
     if(shopTab==='cosmetic'){ skinCards(shopCards); return; }   // Kosmetik-Tab: Skins kaufen/wählen
@@ -2424,7 +2426,8 @@
     // Reiter-Leiste (Loadout · Synergien · Werkstatt) — ein Hub für alles
     const arTabs=document.getElementById('arTabs');
     if(arTabs){ const tabs=[['loadout','🎒 '+t('arsenalTab')],['syn','🔗 '+t('synTitle')],['shop','🛠️ '+t('workshop')]];
-      arTabs.innerHTML=''; tabs.forEach(([k,lbl])=>{ const b=document.createElement('button'); b.className='shopTab'+(arsenalTab===k?' on':''); b.textContent=lbl;
+      arTabs.innerHTML=''; arTabs.setAttribute('role','tablist'); tabs.forEach(([k,lbl])=>{ const b=document.createElement('button'); b.className='shopTab'+(arsenalTab===k?' on':''); b.textContent=lbl;
+        b.setAttribute('role','tab'); b.setAttribute('aria-selected',arsenalTab===k);
         b.addEventListener('click',()=>{ arsenalTab=k; renderArsenalView(); }); arTabs.appendChild(b); }); }
     const show=(id,on)=>{ const e=document.getElementById(id); if(e) e.classList.toggle('hidden',!on); };
     show('arSecLoadout',arsenalTab==='loadout'); show('arSecSyn',arsenalTab==='syn'); show('arSecShop',arsenalTab==='shop');
