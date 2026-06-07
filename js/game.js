@@ -2837,6 +2837,8 @@
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
   applyI18n(); updateMenuChips();
+  // Versions-Label dynamisch aus der echten Cache-Version (kein hartkodiertes „v54" mehr)
+  try{ if(window.caches&&caches.keys) caches.keys().then(ks=>{ const m=(ks.find(k=>/neondrift-v\d+/.test(k))||'').match(/v\d+/); const el=document.querySelector('.credit'); if(el&&m) el.textContent='NEONDRIFT '+m[0]; }); }catch(e){}
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
