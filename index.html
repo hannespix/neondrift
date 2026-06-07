@@ -54,6 +54,7 @@
     </div>
     <div class="iconRow">
       <button id="achBtn" title="Erfolge">🏅</button>
+      <button id="statusBtn" title="Schiffsstatus" aria-label="Schiffsstatus">📊</button>
       <button id="shipBtn" title="Schiff-Designer" aria-label="Schiff-Designer">🎨</button>
       <button id="coinBtn" title="Coin-Shop" aria-label="Coin-Shop"></button>
       <button id="settingsBtn" title="Einstellungen">⚙️</button>
@@ -158,6 +159,17 @@
     <div id="achStats"></div>
     <div id="achCards"></div>
     <button class="btn ghost" id="achBackBtn" style="margin-top:24px;">← ZURÜCK</button>
+  </div>
+
+  <div id="statusView" class="screen hidden">
+    <button class="closeBtn" id="statusCloseBtn" aria-label="Schließen">✕</button>
+    <div class="utitle" id="statusTitle" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">📊 GEFECHTSDATENBLATT</div>
+    <div class="usub" id="statusSub"></div>
+    <canvas id="radarCanvas" class="radarCv" width="300" height="300"></canvas>
+    <div id="statusLegend" class="statLegend"></div>
+    <div id="statusTele" class="statTele"></div>
+    <div id="statusWeps" class="statWeps"></div>
+    <button class="btn ghost" id="statusBackBtn" style="margin-top:18px;">← ZURÜCK</button>
   </div>
 
   <div id="settings" class="screen hidden">

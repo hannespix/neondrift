@@ -17,7 +17,7 @@
   /* flexible Abstandshalter zentrieren kurzen Inhalt, kollabieren bei langem -> volles Scrollen (Touch) */
   .screen::before,.screen::after{content:"";flex:1 0 8px;}
   /* In-Game-Overlays: kein Backdrop-Blur (teuer über animiertem Canvas) + VOLL deckend → kein Durchscheinen eines darunterliegenden Overlays */
-  #upgrade,#arsenalView,#pause,#over,#coinshop{backdrop-filter:none;-webkit-backdrop-filter:none;background-color:#08010f;
+  #upgrade,#arsenalView,#pause,#over,#coinshop,#statusView{backdrop-filter:none;-webkit-backdrop-filter:none;background-color:#08010f;
     background-image:radial-gradient(ellipse at center,rgba(20,4,40,1) 0%,rgba(8,1,15,1) 72%);}
   .hidden{opacity:0;pointer-events:none;}
   /* immer erreichbarer Schließen-Button (oben rechts) */
@@ -98,6 +98,33 @@
   .acard .ico{font-size:30px;line-height:1;}
   .acard h5{font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;margin:7px 0 3px;color:#fff;}
   .acard p{font-size:11px;color:#c9b9ef;line-height:1.4;}
+  /* === Schiffsstatus / Gefechtsdatenblatt === */
+  #statusView{justify-content:flex-start;}
+  .radarCv{margin:14px auto 4px;display:block;width:300px;max-width:84vw;height:auto;
+    filter:drop-shadow(0 0 16px rgba(25,240,255,.18));}
+  .statLegend{display:grid;grid-template-columns:repeat(3,auto);gap:6px 16px;justify-content:center;margin:2px auto 6px;max-width:440px;}
+  .rlg{font-family:var(--pf);font-size:15px;letter-spacing:.02em;color:#bcd7ea;white-space:nowrap;}
+  .rlg b{font-family:serif;font-size:13px;}
+  .rlg i{color:#19f0ff;font-style:normal;font-weight:700;}
+  .statTele{width:min(440px,90vw);margin:8px auto 0;}
+  .statTele .stGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
+  .statTele .sttile{background:rgba(25,240,255,.05);border:1px solid rgba(25,240,255,.16);border-radius:9px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;}
+  .statTele .sttile .i{font-size:15px;line-height:1.1;}
+  .statTele .sttile b{font-family:var(--pf);font-size:18px;color:#fff;letter-spacing:.02em;}
+  .statTele .sttile .l{font-size:8.5px;color:#a7c4d8;letter-spacing:.01em;text-align:center;line-height:1.15;}
+  .statWeps{width:min(440px,90vw);margin:18px auto 0;}
+  .statWeps .stHead{font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;letter-spacing:.16em;color:#9a86c9;margin:0 0 10px;text-align:left;}
+  .statWeps .stHead small{font-family:var(--pf);letter-spacing:.04em;font-size:13px;opacity:.7;}
+  .statBar{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+  .sbIco{font-size:16px;width:20px;text-align:center;flex:none;filter:drop-shadow(0 0 5px currentColor);}
+  .sbName{font-family:var(--pf);font-size:15px;color:#d7c9f5;width:88px;flex:none;text-align:left;letter-spacing:.02em;}
+  .sbTrack{flex:1;height:9px;border-radius:5px;background:rgba(255,255,255,.07);overflow:hidden;}
+  .sbTrack i{display:block;height:100%;border-radius:5px;transition:width .3s;}
+  .sbVal{font-family:var(--pf);font-size:16px;color:#fff;width:46px;flex:none;text-align:right;}
+  .statEmpty{font-family:var(--pf);font-size:16px;color:#9a86c9;text-align:center;padding:6px 0;}
+  .statSyns{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+  .statSyn{font-family:var(--pf);font-size:15px;letter-spacing:.02em;color:#ff9ec9;background:rgba(255,46,136,.1);border:1px solid rgba(255,46,136,.32);border-radius:7px;padding:3px 9px;}
+  #statusBtn:hover{border-color:var(--cyan);box-shadow:0 0 18px rgba(25,240,255,.3);}
   /* #settingsBtn: Styling jetzt über .iconRow (Icon-Leiste) */
   #optRows{margin-top:26px;display:flex;flex-direction:column;gap:12px;width:min(360px,86vw);}
   .optrow{cursor:pointer;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#e7defc;
