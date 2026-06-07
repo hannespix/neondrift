@@ -34,7 +34,7 @@
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'PUNKTE ✕2', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
       shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
-      achBtn:'🏅 ERFOLGE', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', newShip:'Neues Schiff', del:'Löschen', shipDefault:'Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten',
+      achBtn:'🏅 ERFOLGE', shipDesigner:'Schiff-Designer', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', newShip:'Neues Schiff', del:'Löschen', shipDefault:'Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich.","Organspende war gestern. Heute: Pixelspende.","Der Block kam aus dem Nichts. Dein Talent auch.","Game Over. Aber immerhin stilvoll explodiert."],
@@ -61,7 +61,7 @@
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'SCORE ✕2', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
       shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 ACHIEVEMENTS', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', newShip:'New Ship', del:'Delete', shipDefault:'Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow',
+      achBtn:'🏅 ACHIEVEMENTS', shipDesigner:'Ship Designer', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', newShip:'New Ship', del:'Delete', shipDefault:'Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow',
       near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
@@ -88,7 +88,7 @@
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
       pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'SCORE ✕2', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
       shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 SUCCÈS', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', newShip:'Nouveau', del:'Supprimer', shipDefault:'Vaisseau', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow',
+      achBtn:'🏅 SUCCÈS', shipDesigner:'Designer de vaisseau', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', newShip:'Nouveau', del:'Supprimer', shipDefault:'Vaisseau', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow',
       near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
       quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
@@ -2669,17 +2669,18 @@
     {name:'Jäger', d:[[0,2,6],[0,3,0],[0,4,0],[0,5,0],[0,6,0],[1,4,0],[2,5,4],[3,6,4],[1,7,0],[0,7,1]]},
     {name:'Block', d:[[0,3,6],[0,4,0],[0,5,0],[0,6,0],[1,4,0],[1,5,0],[1,6,0],[2,5,0],[0,7,1],[1,7,1]]}
   ];
-  let edCells={}, edColor=EDPAL[0], edGlow=false, edErase=false, edPaintActive=false, edGeo=null, edSlot=-1;
+  let edCells={}, edColor=EDPAL[0], edGlow=false, edErase=false, edPaintActive=false, edGeo=null, edSlot=-1, edReturn='shop';
   const edUsed=()=>Object.keys(edCells).length;
   function openShipEditor(slot){ const L=shipList(); const exist=(slot!=null&&slot>=0&&L[slot]);
     edSlot = exist ? slot : -1;
     edCells = exist ? JSON.parse(JSON.stringify(L[slot].cells||{})) : {};
     const nm=document.getElementById('edName'); if(nm) nm.value = exist ? (L[slot].name||'') : (t('shipDefault')+' '+(L.length+1));
     edColor=EDPAL[0]; edErase=false; edGlow=false;
-    document.getElementById('shop').classList.add('hidden');
+    edReturn=['shop','start'].find(id=>{ const e=document.getElementById(id); return e && !e.classList.contains('hidden'); })||'shop';   // Editor von Werkstatt ODER Startseite
+    document.getElementById(edReturn).classList.add('hidden');
     const ed=document.getElementById('shipEditor'); ed.classList.remove('hidden'); ed.scrollTop=0; renderEditor(); sfxUpgrade(); }
   function closeShipEditor(){ document.getElementById('shipEditor').classList.add('hidden');
-    document.getElementById('shop').classList.remove('hidden'); renderShop(); }
+    document.getElementById(edReturn||'shop').classList.remove('hidden'); if(edReturn!=='start') renderShop(); }
   function edRefreshBudget(){ const max=pixBudget(), used=edUsed();
     const bd=document.getElementById('edBudget'); if(bd) bd.textContent=t('pixels')+': '+used+'/'+max;
     const fill=document.getElementById('edBudgetFill'); if(fill) fill.style.width=Math.min(100,max?used/max*100:0)+'%'; }
@@ -2780,7 +2781,7 @@
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setIco=(id,ico,lbl)=>{ const e=document.getElementById(id); if(e){ e.textContent=ico; e.title=lbl; } };
     set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🚀 '+t('workshop'));
-    setIco('achBtn','🏅',t('achBtn')); setIco('settingsBtn','⚙️',t('settings'));
+    setIco('achBtn','🏅',t('achBtn')); setIco('settingsBtn','⚙️',t('settings')); setIco('shipBtn','🎨',t('shipDesigner'));
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
     renderModes();
     setSel('#pause .utitle',t('pause')); set('resumeBtn',t('resume')); set('pauseMenuBtn',t('mainmenu')); set('arsenalViewBtn',t('arsenalBtn'));
@@ -2882,6 +2883,7 @@
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
+  { const sb=document.getElementById('shipBtn'); if(sb) sb.addEventListener('click',()=>openShipEditor(-1)); }   // Schiff-Editor vom Hauptmenü (neues Schiff)
   { const cb=document.getElementById('coinBtn'); if(cb){ cb.innerHTML=CHEST_SVG; cb.addEventListener('click',openCoinShop); }
     // Truhen-Button neben dem Werkstatt-Guthaben (Menü-Werkstatt + Arsenal-Werkstatt) – NICHT im Spiel-HUD
     ['shopChestBtn','arShopChestBtn'].forEach(id=>{ const e=document.getElementById(id); if(e){ e.innerHTML=CHEST_SVG; e.addEventListener('click',openCoinShop); } });
