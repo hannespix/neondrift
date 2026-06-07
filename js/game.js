@@ -210,7 +210,7 @@
     {name:'💀 Chuck Norris ist hier gestorben', spd:40, hp:160, den:80, coin:2.5, q:'Hier starb sogar Chuck Norris. Viel Glück, Sterblicher.'}
   ];
   let diffMul=1, diffSpd=1, diffHp=1, diffDen=1, diffChip=1;   // werden beim Spielstart aus meta.diff abgeleitet
-  const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
+  const fmt=n=>{ n=Math.round(n||0); let s; if(n>=10000){ s=(n/1000).toFixed(n>=100000?0:1).replace(/\.0$/,'')+'k'; } else s=''+n; try{ if(lang==='de') return s.replace('.',','); }catch(e){} return s; };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
   // Werkstatt-Upgrades: Kosten = Basis × Stufe^1.8 (zwischen linear & exponentiell) & immer krasser
