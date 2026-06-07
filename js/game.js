@@ -2280,7 +2280,7 @@
   function runShopLabel(){ return '🛠️ '+t('workshop')+' ◈ '+fmt(meta.chips); }
   function updateRunShopBtns(){ const a=document.getElementById('upgradeShopBtn'), b=document.getElementById('arsenalShopBtn');
     if(a) a.textContent=runShopLabel(); if(b) b.textContent=runShopLabel(); }
-  function openShop(from){ const run=(from==='upgrade'||from==='arsenalView');
+  function openShop(from){ const run=(from==='upgrade'||from==='arsenalView'||from==='pause');
     shopFrom=(from==='over')?'over':run?from:'start';
     if(run) accrueChips();                               // Live-Chips frisch, bevor man sie ausgibt
     document.getElementById(shopFrom).classList.add('hidden'); renderShop();
@@ -2737,6 +2737,7 @@
   const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
   const asb=document.getElementById('arsenalShopBtn'); if(asb) asb.addEventListener('click',()=>openShop('arsenalView'));
+  const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openShop('pause'));
   const muteBtn=document.getElementById('mute');
   muteBtn.addEventListener('click',()=>{ muted=!muted; muteBtn.textContent=muted?'🔇':'🔊';
     if(masterGain) masterGain.gain.value=muted?0:0.9; if(!muted){ unlockAudio(); } });
