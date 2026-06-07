@@ -621,3 +621,6 @@
   .ckSynCount,.ckSkill{font-family:var(--pf);font-size:14px;}
   .credit{font-family:var(--pf);letter-spacing:.08em;}
   .stack,.ucard .stack,.wlv,.wahead .wstat{font-family:var(--pf);}
+  /* Game-Over: große Score-Zahlen als Arcade-Pixel-Readout */
+  .scorebox .val{font-family:var(--pf);letter-spacing:.02em;}
+  #chipsEarned{font-family:var(--pf);}
