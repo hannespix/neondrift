@@ -593,3 +593,13 @@
   #dailyBtn{border-radius:6px;}
   .diffBtn{border-radius:6px;}
   .iconRow button{border-radius:7px;}
+  /* === UI-Cohesion: durchgehend eckige HUD-Form (statt weicher Web-Pillen/Cards) === */
+  .btn{border-radius:7px;}
+  .btn.ghost{border-color:rgba(25,240,255,.45);box-shadow:inset 0 0 12px rgba(25,240,255,.06);}
+  .shopTab{border-radius:6px;}
+  .ucard{border-radius:8px;}
+  .wtree{border-radius:8px;}
+  .waccord{border-radius:8px;}
+  .skcard{border-radius:8px;}
+  .optrow{border-radius:7px;}
+  .iconRow button{border-radius:7px;}
