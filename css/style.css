@@ -609,3 +609,15 @@
   .ckRow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
   .ckRowBot{flex-wrap:nowrap;}
   .ckVitalsBay{gap:8px;}
+  /* === Retro-Pixel-Readouts (VT323) für Zahlen & kurze Labels – Titel bleiben Orbitron, Fließtext Space Mono === */
+  :root{--pf:'VT323',monospace;}
+  #score,#best-hud,#coinHud,#combo,#modeName{font-family:var(--pf);letter-spacing:.03em;}
+  .mchip{font-family:var(--pf);font-size:14px;letter-spacing:.02em;line-height:1.1;}
+  .diffStats{font-family:var(--pf);font-size:15px;}
+  .diffMeter{font-family:var(--pf);font-size:13px;letter-spacing:.1em;}
+  .usub{font-family:var(--pf);letter-spacing:.06em;}
+  .fxlbl{font-family:var(--pf);font-size:12px;letter-spacing:.06em;}
+  .fxsec{font-family:var(--pf);font-size:14px;}
+  .ckSynCount,.ckSkill{font-family:var(--pf);font-size:14px;}
+  .credit{font-family:var(--pf);letter-spacing:.08em;}
+  .stack,.ucard .stack,.wlv,.wahead .wstat{font-family:var(--pf);}
