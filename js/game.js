@@ -995,14 +995,14 @@
     document.getElementById('start').classList.add('hidden');
     document.getElementById('over').classList.add('hidden');
     document.getElementById('upgrade').classList.add('hidden');
-    document.getElementById('hud').classList.remove('hidden');
+    document.getElementById('hud').classList.remove('hidden'); showCockpit(true);
     modeNameEl.textContent=daily?(t('modeDaily')+' '+dailyLabel()):modeLabel(mode); bestHud.textContent=t('best')+' '+fmt(curBest());
     if(daily) banner={text:t('daily2'),sub:dailyLabel(),t:2.6,color:'#ffe600'};
     zenExitBtn.style.display='block';
     sfxStart(); vibe(20); lastT=performance.now();
   }
   function toMenu(){ if((state===S.PLAY||state===S.UPGRADE||state===S.PAUSE)&&score>curBest()){ setBest(score); saveScores(); }
-    state=S.MENU; document.getElementById('hud').classList.add('hidden');
+    state=S.MENU; document.getElementById('hud').classList.add('hidden'); showCockpit(false);
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
     document.getElementById('settings').classList.add('hidden'); document.getElementById('ach').classList.add('hidden');
@@ -1846,7 +1846,6 @@
       // player (mitwachsendes Pixel-Raumschiff)
       if(state===S.PLAY||state===S.UPGRADE||state===S.PAUSE){ const blink=invuln>0&&Math.floor(invuln*16)%2===0;
         if(!blink) drawShip();
-        drawShields();   // Schilde als kompakte HUD-Pips (statt Bubble ums Schiff)
       }
 
       // particles (additiv -> Funkenregen leuchtet übereinander). Glow via Halo+Kern statt teurem shadowBlur (mobil flüssig)
@@ -1866,8 +1865,7 @@
 
       // effect HUD (top center)
       drawEffectHud();
-      if((state===S.PLAY||state===S.UPGRADE||state===S.PAUSE)&&mode!=='zen') drawHearts();
-      if(state===S.PLAY||state===S.UPGRADE||state===S.PAUSE) drawArsenalHud();
+      // Leben/Schild/Waffen/Synergien jetzt im DOM-Cockpit unten (renderCockpit)
 
       // banner
       if(banner){ const a=Math.min(1,banner.t*1.2); ctx.save(); ctx.globalAlpha=a; ctx.textAlign='center';
@@ -2218,7 +2216,7 @@
     meta.stats=meta.stats||{}; if(runMaxMult>statN('maxCombo')) meta.stats.maxCombo=runMaxMult; if(bossNumber>statN('maxBoss')) meta.stats.maxBoss=bossNumber;
     if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
     saveMeta(); updateMenuChips();
-    document.getElementById('hud').classList.add('hidden');
+    document.getElementById('hud').classList.add('hidden'); showCockpit(false);
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
     chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
     quipEl.textContent=pick(P('quips')); deathMsg=pick(P('insults')); insultEl.textContent=deathMsg; newrecEl.style.display=rec?'block':'none';   // deathMsg materialisiert sich auch im Canvas-Abgang
@@ -2481,6 +2479,24 @@
     const act=SYNERGIES.filter(s=>syn[s.id]); if(act.length){ x+=4; ctx.font='14px Space Mono, monospace'; for(const s of act){ ctx.shadowBlur=9; ctx.shadowColor='#ff2e88'; ctx.fillStyle='#ff7ab8'; ctx.fillText(s.ico,x,y-1); x+=20; } }
     if(skillPts>0&&opt.guns){ x+=6; ctx.font='700 13px Orbitron, sans-serif'; ctx.shadowBlur=10+(Math.sin((elapsed||0)*5)+1)*4; ctx.shadowColor='#19f0ff'; ctx.fillStyle='#19f0ff'; ctx.fillText('💠'+skillPts,x,y-1); }
     ctx.shadowBlur=0; }
+  // ---------- Cockpit-HUD (DOM, unten): Leben/Schild/Waffen/Synergien ----------
+  const SHIELD_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L21 6 V12 C21 17 17 21 12 22 C7 21 3 17 3 12 V6 Z" fill="#2effc0"/></svg>';
+  const cockpitEl=()=>document.getElementById('cockpit');
+  function showCockpit(on){ const ck=cockpitEl(); if(ck){ ck.classList.toggle('hidden',!on); if(on) ck._sig=''; } }
+  function renderCockpit(){ const ck=cockpitEl(); if(!ck||ck.classList.contains('hidden')) return;
+    const owned=ownedW(), act=SYNERGIES.filter(s=>syn[s.id]), sp=(opt.guns&&skillPts>0)?skillPts:0;
+    const sig=mode+'|'+lives+'|'+shields+'|'+owned.map(id=>id+arsenal.w[id].lvl).join(',')+'|'+act.map(s=>s.id).join(',')+'|'+sp;
+    if(ck._sig===sig) return; ck._sig=sig;
+    let h='<div class="ckVitals">';
+    if(mode!=='zen'){ h+='<span class="ckLives" aria-label="Leben '+Math.max(0,lives)+'">'; for(let i=0;i<Math.max(0,lives);i++) h+='♥'; if(lives<=0) h+='<i class="empty">♥</i>'; h+='</span>'; }
+    if(shields>0){ h+='<span class="ckShields" aria-label="Schilde '+shields+'">'; for(let i=0;i<shields;i++) h+=SHIELD_SVG; h+='</span>'; }
+    h+='</div>';
+    if(owned.length){ h+='<div class="ckWeapons">'; for(const id of owned){ const w=WID[id], lv=arsenal.w[id].lvl;
+      h+='<span class="ckW" style="--wc:'+w.col+'" aria-label="'+wName(id)+' Lv '+lv+'"><span class="cki">'+w.ico+'</span><span class="ckpips">';
+      for(let i=0;i<5;i++) h+='<i class="'+(i<lv?'on':'')+'"></i>'; h+='</span></span>'; } h+='</div>'; }
+    if(act.length){ h+='<div class="ckSyn">'; for(const s of act) h+='<span class="ckS" aria-label="'+synName(s.id)+'">'+s.ico+'</span>'; h+='</div>'; }
+    if(sp) h+='<span class="ckSkill" aria-label="Skillpunkte '+sp+'">💠'+sp+'</span>';
+    ck.innerHTML=h; }
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
     document.getElementById('settings').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
@@ -2673,6 +2689,7 @@
           sfxMaterialize(); } }
       shake=Math.max(0,(shake||0)-dt*60); }
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
+    renderCockpit();   // DOM-Cockpit (sig-guarded, nur bei Änderung)
     // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
     // sonst rendert die Szene 60fps unter dem Backdrop-Blur weiter → mehrere Sekunden Lag auf Mobil.
     if(state===S.UPGRADE||state===S.PAUSE){ requestAnimationFrame(loop); return; }

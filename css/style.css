@@ -355,3 +355,22 @@
   .skcard .skrow button{cursor:pointer;font-size:12px;padding:5px 9px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#e7defc;}
   .skcard .skrow button.del{background:rgba(255,46,136,.16);color:#ff8ab5;border-color:rgba(255,46,136,.35);}
   .skcard.newship{justify-content:center;cursor:pointer;border-style:dashed;color:#9be7ff;font-size:30px;min-height:150px;}
+  /* Cockpit-HUD (unten): Leben/Schild/Waffen/Synergien */
+  #cockpit{position:absolute;left:0;right:0;bottom:0;z-index:6;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;gap:12px;flex-wrap:wrap;
+    padding:6px 10px;padding-bottom:max(6px,env(safe-area-inset-bottom));font-family:'Space Mono',monospace;
+    background:linear-gradient(to top,rgba(8,1,15,.78),rgba(8,1,15,0));}
+  #cockpit.hidden{display:none;}
+  .ckVitals{display:flex;align-items:center;gap:10px;}
+  .ckLives{color:#ff3b6b;font-size:19px;letter-spacing:3px;text-shadow:0 0 8px #ff2e88;line-height:1;}
+  .ckLives i.empty{color:rgba(255,255,255,.18);text-shadow:none;}
+  .ckShields{display:inline-flex;gap:3px;align-items:center;}
+  .ckShields svg{width:17px;height:17px;filter:drop-shadow(0 0 4px #2effc0);}
+  .ckWeapons{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+  .ckW{display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,255,255,.06);border:1px solid var(--wc,#19f0ff);border-radius:10px;padding:3px 8px;color:#fff;}
+  .ckW .cki{font-size:17px;line-height:1;}
+  .ckpips{display:flex;gap:2px;}
+  .ckpips i{width:4px;height:4px;border-radius:1px;background:rgba(255,255,255,.18);}
+  .ckpips i.on{background:var(--wc,#19f0ff);box-shadow:0 0 4px var(--wc,#19f0ff);}
+  .ckSyn{display:flex;gap:5px;align-items:center;}
+  .ckS{font-size:16px;line-height:1;filter:drop-shadow(0 0 6px #ff2e88);}
+  .ckSkill{font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;color:#19f0ff;background:rgba(25,240,255,.14);border:1px solid rgba(25,240,255,.55);border-radius:10px;padding:5px 9px;}
