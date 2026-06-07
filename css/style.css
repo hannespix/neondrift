@@ -570,3 +570,8 @@
   .mode h3{margin-bottom:0;}
   .mfeat{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px;}
   .mchip{font-size:10.5px;color:#d7c9f5;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:3px 9px;white-space:nowrap;line-height:1.4;}
+  /* Hauptmenü: animierte Spiel-Szene (Sterne/Sonne/Grid) durchscheinen lassen + CRT-Scanlines → Space-Shooter-Feeling statt flacher Website.
+     Scanlines als Hintergrund-Layer (nicht ::after → sonst kaputter Flex-Spacer/Zentrierung von .screen). */
+  #start{backdrop-filter:none;-webkit-backdrop-filter:none;
+    background:repeating-linear-gradient(to bottom,rgba(0,0,0,.13) 0 1px,transparent 1px 3px),
+      radial-gradient(ellipse 120% 80% at 50% 34%,rgba(8,1,15,.12) 0%,rgba(8,1,15,.52) 52%,rgba(8,1,15,.82) 100%);}
