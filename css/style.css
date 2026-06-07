@@ -603,3 +603,9 @@
   .skcard{border-radius:8px;}
   .optrow{border-radius:7px;}
   .iconRow button{border-radius:7px;}
+  /* Cockpit fest 2-reihig: obere Reihe (Waffen/Synergien/Steuerung) darf umbrechen,
+     untere Reihe (Status + Leben/Schild) bleibt IMMER eine eigene, stabile Zeile → kein Springen */
+  .ckBody{flex-direction:column;flex-wrap:nowrap;gap:6px;}
+  .ckRow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .ckRowBot{flex-wrap:nowrap;}
+  .ckVitalsBay{gap:8px;}
