@@ -303,7 +303,7 @@
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
   let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T, mirrorOn=false;
-  const MIR_ON=8, MIR_OFF=6;   // Spiegelwelt-Rhythmus: gespiegelt 8s, normal 6s – mit Countdown im Effekt-HUD
+  const MIR_ON=11, MIR_OFF=5;   // Spiegelwelt-Rhythmus: gespiegelt 11s, normal 5s – mit Countdown im Effekt-HUD
   let comboTime=0, comboTimeMax=3.4;                 // Combo-Decay-Timer
   let beatIdx=0, beatPulse=0, spawnQueued=false, orbQueued=false; // Beat-Sync
   let daily=false;                                    // Daily-Challenge aktiv?
