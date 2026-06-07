@@ -2523,16 +2523,23 @@
     const owned=ownedW(), act=SYNERGIES.filter(s=>syn[s.id]), sp=(opt.guns&&skillPts>0)?skillPts:0;
     const sig=mode+'|'+lives+'|'+shields+'|'+owned.map(id=>id+arsenal.w[id].lvl).join(',')+'|'+act.map(s=>s.id).join(',')+'|'+sp;
     if(ck._sig===sig) return; ck._sig=sig;
-    let h='<div class="ckVitals">';
+    let h='<div class="ckPanel"><span class="ckScan" aria-hidden="true"></span><span class="ckRivets" aria-hidden="true"></span>';
+    // Status-Konsole (Pixel-Gimmicks: Radar-Sweep + blinkende LEDs)
+    h+='<div class="ckMod ckStatus" aria-hidden="true"><span class="ckRadar"><b></b></span><span class="ckLeds"><i></i><i></i><i></i><i></i></span></div>';
+    // Vitals (Leben + Schild)
+    h+='<div class="ckMod ckVitals">';
     if(mode!=='zen'){ h+='<span class="ckLives" aria-label="Leben '+Math.max(0,lives)+'">'; for(let i=0;i<Math.max(0,lives);i++) h+='♥'; if(lives<=0) h+='<i class="empty">♥</i>'; h+='</span>'; }
     if(shields>0){ h+='<span class="ckShields" aria-label="Schilde '+shields+'">'; for(let i=0;i<shields;i++) h+=SHIELD_SVG; h+='</span>'; }
+    if(mode==='zen'&&!shields) h+='<span class="ckLives" style="color:#ffe600" aria-label="Zen">∞</span>';
     h+='</div>';
-    if(owned.length){ h+='<div class="ckWeapons">'; for(const id of owned){ const w=WID[id], lv=arsenal.w[id].lvl;
+    if(owned.length){ h+='<div class="ckMod ckWeapons">'; for(const id of owned){ const w=WID[id], lv=arsenal.w[id].lvl;
       h+='<button class="ckW" style="--wc:'+w.col+'" aria-label="'+wName(id)+' Lv '+lv+' – Arsenal öffnen"><span class="cki">'+w.ico+'</span><span class="ckpips">';
       for(let i=0;i<5;i++) h+='<i class="'+(i<lv?'on':'')+'"></i>'; h+='</span></button>'; } h+='</div>'; }
-    if(act.length){ h+='<div class="ckSyn">'; for(const s of act) h+='<button class="ckS" aria-label="Synergie '+synName(s.id)+' – Arsenal öffnen">'+s.ico+'</button>'; h+='</div>'; }
-    if(sp) h+='<button class="ckSkill" aria-label="Skillpunkte '+sp+' – Skill-Baum öffnen">💠'+sp+'</button>';
-    if(opt.guns) h+='<button class="ckHub" aria-label="Arsenal öffnen">🎒</button>';
+    if(act.length){ h+='<div class="ckMod ckSyn">'; for(const s of act) h+='<button class="ckS" aria-label="Synergie '+synName(s.id)+' – Arsenal öffnen">'+s.ico+'</button>'; h+='</div>'; }
+    if(sp||opt.guns){ h+='<div class="ckMod ckCtl">';
+      if(sp) h+='<button class="ckSkill" aria-label="Skillpunkte '+sp+' – Skill-Baum öffnen">💠'+sp+'</button>';
+      if(opt.guns) h+='<button class="ckHub" aria-label="Arsenal öffnen">🎒</button>'; h+='</div>'; }
+    h+='</div>';
     ck.innerHTML=h; }
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();

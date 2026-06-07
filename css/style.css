@@ -408,3 +408,39 @@
   .fxtrk{height:4px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden;}
   .fxtrk i{display:block;height:100%;width:100%;background:var(--fc,#19f0ff);box-shadow:0 0 6px var(--fc,#19f0ff);border-radius:2px;transition:width .12s linear;}
   .fxsec{font-size:11px;font-weight:700;color:#fff;min-width:22px;text-align:right;text-shadow:0 0 5px var(--fc,#19f0ff);}
+  /* === Cockpit-Redesign: Holo-Laser-Armaturenbrett mit Pixel-Gimmicks === */
+  #cockpit{align-items:flex-end;justify-content:center;padding:0 6px 0;padding-bottom:max(3px,env(safe-area-inset-bottom));background:none;}
+  .ckPanel{position:relative;display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:center;max-width:96vw;
+    padding:8px 14px;border-radius:16px 16px 9px 9px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(10,26,46,.42),rgba(6,2,16,.82));
+    border:1px solid rgba(25,240,255,.45);border-top:2px solid rgba(25,240,255,.9);
+    box-shadow:0 0 24px rgba(25,240,255,.26),inset 0 10px 28px rgba(25,240,255,.07),inset 0 -8px 20px rgba(255,46,136,.06);
+    animation:ckHolo 5s ease-in-out infinite;}
+  @keyframes ckHolo{0%,100%{box-shadow:0 0 22px rgba(25,240,255,.24),inset 0 10px 28px rgba(25,240,255,.07);}50%{box-shadow:0 0 32px rgba(25,240,255,.40),inset 0 10px 32px rgba(25,240,255,.13);}}
+  .ckPanel::before{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+    background:repeating-linear-gradient(to bottom,rgba(25,240,255,.05) 0 1px,transparent 1px 4px);}
+  .ckScan{position:absolute;left:-32%;top:0;width:32%;height:100%;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(25,240,255,.16),transparent);animation:ckSweep 3.6s linear infinite;}
+  @keyframes ckSweep{0%{left:-32%;}100%{left:120%;}}
+  .ckRivets{position:absolute;top:3px;left:10px;right:10px;height:2px;pointer-events:none;
+    background:repeating-linear-gradient(90deg,rgba(25,240,255,.5) 0 2px,transparent 2px 9px);}
+  /* Konsolen-Segmente */
+  .ckMod{position:relative;display:flex;align-items:center;gap:6px;padding:3px 8px;border-radius:8px;
+    background:rgba(8,1,15,.32);border:1px solid rgba(25,240,255,.16);box-shadow:inset 0 0 8px rgba(25,240,255,.07);}
+  /* Status-Konsole: Radar-Sweep + blinkende LEDs (Pixel-Gimmick) */
+  .ckStatus{gap:7px;}
+  .ckRadar{position:relative;width:18px;height:18px;border-radius:50%;overflow:hidden;border:1px solid rgba(46,255,192,.55);
+    background:radial-gradient(circle,rgba(46,255,192,.18),transparent 72%);}
+  .ckRadar::after{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle,rgba(46,255,192,.22) 0 1px,transparent 1px 5px);}
+  .ckRadar b{position:absolute;left:50%;top:50%;width:50%;height:1px;transform-origin:left center;
+    background:linear-gradient(90deg,rgba(46,255,192,.95),transparent);animation:ckSpin 1.8s linear infinite;}
+  @keyframes ckSpin{to{transform:rotate(360deg);}}
+  .ckLeds{display:grid;grid-template-columns:repeat(2,4px);gap:3px;}
+  .ckLeds i{width:4px;height:4px;border-radius:1px;background:#2effc0;box-shadow:0 0 4px #2effc0;animation:ckBlink 1.2s steps(1,end) infinite;}
+  .ckLeds i:nth-child(2){background:#ffe600;box-shadow:0 0 4px #ffe600;animation-delay:.3s;}
+  .ckLeds i:nth-child(3){background:#ff2e88;box-shadow:0 0 4px #ff2e88;animation-delay:.6s;}
+  .ckLeds i:nth-child(4){background:#19f0ff;box-shadow:0 0 4px #19f0ff;animation-delay:.9s;}
+  @keyframes ckBlink{0%,55%{opacity:1;}56%,100%{opacity:.18;}}
+  .ckLives{animation:ckBeat 1.5s ease-in-out infinite;}
+  @keyframes ckBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.09);}}
+  .ckHub{box-shadow:0 0 10px rgba(25,240,255,.3),inset 0 0 8px rgba(25,240,255,.12);}
