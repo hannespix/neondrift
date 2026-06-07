@@ -23,7 +23,7 @@
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', overchargeName:'Verstärken', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', overchargeName:'Verstärken', fxSlow:'Zeitlupe', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -50,7 +50,7 @@
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', overchargeName:'Overcharge', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', overchargeName:'Overcharge', fxSlow:'Slow-Mo', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -77,7 +77,7 @@
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', overchargeName:'Surcharge', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', overchargeName:'Surcharge', fxSlow:'Ralenti', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -302,7 +302,8 @@
   let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a', deathMsg='';   // Abgang: Timer + Loser-Materialisierung + Spott-Nachricht
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
-  let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T;
+  let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T, mirrorOn=false;
+  const MIR_ON=8, MIR_OFF=6;   // Spiegelwelt-Rhythmus: gespiegelt 8s, normal 6s – mit Countdown im Effekt-HUD
   let comboTime=0, comboTimeMax=3.4;                 // Combo-Decay-Timer
   let beatIdx=0, beatPulse=0, spawnQueued=false, orbQueued=false; // Beat-Sync
   let daily=false;                                    // Daily-Challenge aktiv?
@@ -687,7 +688,7 @@
   function applyFx(){ const w=document.getElementById('wrap'); if(w) w.classList.toggle('crt',!!opt.fx); }   // CRT-Scanlines an/aus (CSS, koppelt an „Effekte")
   applyFx();
   const tgt={x:W/2,y:H*0.72};
-  function setT(x,y){ if(mods&&mods.invertX) x=W-x; tgt.x=x; tgt.y=y; }   // Spiegelwelt-Fluch
+  function setT(x,y){ if(mods&&(mods.invertX||(mods.mirror&&mirrorOn))) x=W-x; tgt.x=x; tgt.y=y; }   // Spiegelwelt-Fluch (getaktet)
   function onMove(e){ const r=canvas.getBoundingClientRect();
     if(e.touches&&e.touches[0]) setT(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top); else setT(e.clientX-r.left,e.clientY-r.top); }
   canvas.addEventListener('mousemove',onMove);
@@ -767,7 +768,7 @@
     {id:'energy',ico:'⚡',name:'Energy-Drink-OD',desc:'Hindernisse +22% schneller, Near-Radius +75%',max:1,curse:true,apply:()=>{mods.obSpeed*=1.22;mods.nearRadius*=1.75;}},
     {id:'blind',ico:'🌫️',name:'Drip aber blind',desc:'Sicht eingeschränkt, dafür +90% Punkte',max:1,curse:true,apply:()=>{mods.fog=Math.min(0.82,mods.fog+0.55);mods.scoreMult*=1.9;}},
     {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
-    {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Links/rechts vertauscht 💀, dafür +55% Punkte',max:1,curse:true,apply:()=>{mods.invertX=!mods.invertX;mods.scoreMult*=1.55;}},
+    {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Steuerung gespiegelt – aber getaktet (Timer im HUD), +55% Punkte',max:1,curse:true,apply:()=>{mods.mirror=true;mirrorOn=true;if(effects)effects.mirror=MIR_ON;mods.scoreMult*=1.55;}},
     // ---- Globale Waffen-Passive (KEIN Slot, gelten für alle Waffen, multiplikativ = abnehmender Ertrag) ----
     {id:'amp',  ico:'💥',name:'Verstärker',desc:'+22% Schaden für ALLE Waffen',max:6,wpass:true,apply:()=>{ mods.wDmgMult*=1.22; }},
     {id:'tempo',ico:'⏩',name:'Taktung',   desc:'ALLE Waffen feuern 14% schneller',max:5,wpass:true,apply:()=>{ mods.wRate*=1.14; }},
@@ -916,7 +917,7 @@
 
   function reset(){
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
-          obSpeed:1,spawnMult:1,fog:0,invertX:false,
+          obSpeed:1,spawnMult:1,fog:0,invertX:false,mirror:false,
           gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2,oc:0};
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
@@ -928,7 +929,7 @@
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
     upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
     bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
-    banner=null; effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0; upgradeCounts={}; lives=3;
+    banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=Math.floor(Math.random()*SONGS.length); curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
@@ -1351,6 +1352,9 @@
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
+    if(mods.mirror && effects.mirror<=0){ mirrorOn=!mirrorOn; effects.mirror=mirrorOn?MIR_ON:MIR_OFF;   // Spiegel-Takt umschalten
+      flash=Math.max(flash,0.25); flashColor=mirrorOn?'#ff3b6b':'#19f0ff'; sfxPow(); vibe(20);
+      floatText(player.x,player.y-30,mirrorOn?t('fxMirOn'):t('fxMirOff'),mirrorOn?'#ff3b6b':'#19f0ff',16); }
 
     // Beat-Clock (rhythmische Spawns + Puls auf dem Backbeat)
     const step8=Math.floor(elapsed/(secPerStep*2)), onStep=step8>beatIdx;
@@ -1865,9 +1869,7 @@
         ctx.globalAlpha=a*0.5; ctx.fillStyle='#000'; ctx.fillText(f.text,f.x+1.5,f.y+1.5);     // billiger Schlagschatten (kein Blur) für Kontrast
         ctx.globalAlpha=a;     ctx.fillStyle=f.color; ctx.fillText(f.text,f.x,f.y); } ctx.globalAlpha=1;
 
-      // effect HUD (top center)
-      drawEffectHud();
-      // Leben/Schild/Waffen/Synergien jetzt im DOM-Cockpit unten (renderCockpit)
+      // Effekt-Timer jetzt im DOM-HUD oben (renderFxbar), Leben/Schild/Waffen unten (renderCockpit)
 
       // banner
       if(banner){ const a=Math.min(1,banner.t*1.2); ctx.save(); ctx.globalAlpha=a; ctx.textAlign='center';
@@ -2110,14 +2112,27 @@
     ctx.restore();
   }
 
-  function drawEffectHud(){
-    const items=[]; if(effects.slowmo>0)items.push(['⏱',effects.slowmo,'#5b9bff',5*mods.slowmoMult]);
-    if(effects.magnet>0)items.push(['🧲',effects.magnet,'#c45bff',6]); if(effects.double>0)items.push(['✕2',effects.double,'#ffe600',7]);
-    let x=W/2-(items.length*40)/2+20; const y=H-46;
-    ctx.textAlign='center'; ctx.textBaseline='middle';
-    for(const it of items){ ctx.save(); ctx.font='14px Space Mono'; ctx.fillStyle='#fff'; ctx.shadowBlur=8; ctx.shadowColor=it[2]; ctx.fillText(it[0],x,y-8);
-      ctx.shadowBlur=0; ctx.fillStyle=hexA(it[2],0.3); ctx.fillRect(x-16,y+6,32,4); ctx.fillStyle=it[2]; ctx.fillRect(x-16,y+6,32*Math.max(0,it[1]/it[3]),4); ctx.restore(); x+=40; }
-  }
+  // ---------- Effekt-Timer-HUD (DOM, oben): aktive Effekte mit Countdown ----------
+  // [key, icon, rest, max, farbe, label]
+  function buildFxItems(){ const a=[]; if(!effects) return a;
+    if(effects.slowmo>0) a.push(['slowmo','⏱',effects.slowmo,5*(mods.slowmoMult||1),'#5b9bff',t('fxSlow')]);
+    if(effects.magnet>0) a.push(['magnet','🧲',effects.magnet,6,'#c45bff',t('fxMagnet')]);
+    if(effects.double>0) a.push(['double','✕2',effects.double,7,'#ffe600',t('fxDouble')]);
+    if(mods&&mods.mirror){ a.push(mirrorOn?['mirror','🪞',effects.mirror,MIR_ON,'#ff3b6b',t('fxMirror')]
+                                          :['mirror','⟳',effects.mirror,MIR_OFF,'#19f0ff',t('fxMirrorSoon')]); }
+    return a; }
+  let fxSig='';
+  function renderFxbar(){ const bar=document.getElementById('fxbar'); if(!bar) return;
+    const on=(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE), items=on?buildFxItems():[];
+    const sig=items.map(i=>i[0]+(i[0]==='mirror'?(mirrorOn?'1':'0'):'')).join(',');
+    if(sig!==fxSig){ fxSig=sig; bar.classList.toggle('hidden',!items.length); bar.innerHTML='';
+      for(const it of items){ const chip=document.createElement('div'); chip.className='fxchip'; chip.dataset.k=it[0]; chip.style.setProperty('--fc',it[4]);
+        chip.setAttribute('aria-label',it[5]);
+        chip.innerHTML='<span class="fxico">'+it[1]+'</span><span class="fxmid"><span class="fxlbl">'+it[5]+'</span><span class="fxtrk"><i></i></span></span><span class="fxsec"></span>';
+        bar.appendChild(chip); } }
+    for(const it of items){ const chip=bar.querySelector('.fxchip[data-k="'+it[0]+'"]'); if(!chip) continue;
+      const frac=Math.max(0,Math.min(1,it[2]/it[3])); const fill=chip.querySelector('.fxtrk i'); if(fill) fill.style.width=(frac*100)+'%';
+      const sec=chip.querySelector('.fxsec'); if(sec) sec.textContent=Math.max(0,Math.ceil(it[2]))+'s'; } }
 
   let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie
   function drawGrid(){ const hz=H*0.42,vx=W/2;
@@ -2712,6 +2727,7 @@
       shake=Math.max(0,(shake||0)-dt*60); }
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
     renderCockpit();   // DOM-Cockpit (sig-guarded, nur bei Änderung)
+    renderFxbar();     // DOM-Effekt-Timer oben
     // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
     // sonst rendert die Szene 60fps unter dem Backdrop-Blur weiter → mehrere Sekunden Lag auf Mobil.
     if(state===S.UPGRADE||state===S.PAUSE){ requestAnimationFrame(loop); return; }
@@ -2806,6 +2822,6 @@
 
   clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
-  effects={slowmo:0,magnet:0,double:0}; shields=0; invuln=0;
+  effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; shields=0; invuln=0;
   requestAnimationFrame(loop);
 })();
