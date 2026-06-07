@@ -28,7 +28,7 @@
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
       lvl:'LEVEL', newForm:'Neue Form: ', faster:'Schneller & dichter!', bossWave:'⚠ BOSS-WELLE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 DER ENDGEGNER', finaleSub:'überlebe das Inferno!',
-      survived:'ÜBERLEBT!', defeated:'BESIEGT! 💥', escaped:'🛸 ENTKOMMEN…', escapedSub:'die Beute ist weg!', armUp:'Rüste auf für den Boss · Level ',
+      survived:'ÜBERLEBT!', defeated:'BESIEGT! 💥', escaped:'🛸 ENTKOMMEN…', escapedSub:'die Beute ist weg!', bossEscaped:'🛸 BOSS ENTKOMMEN!', lvlAgain:'Level nochmal:', armUp:'Rüste auf für den Boss · Level ',
       overdrive:'⚡ OVERDRIVE', overdriveSub:'du brennst!', enrage:'🔥 ENRAGE!', enrageSub:'es dreht völlig durch!',
       beaten:'🏆 DURCHGESPIELT!', beatenSub:'…aber es hört nicht auf.', madness:'☣ WAHNSINN-MODUS', madnessSub:'wie weit kommst du?', clearedTag:'🏆 DURCHGESPIELT!  ·  ',
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
@@ -55,7 +55,7 @@
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
       lvl:'LEVEL', newForm:'New shape: ', faster:'Faster & denser!', bossWave:'⚠ BOSS WAVE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 THE FINAL BOSS', finaleSub:'survive the inferno!',
-      survived:'SURVIVED!', defeated:'DEFEATED! 💥', escaped:'🛸 ESCAPED…', escapedSub:'the loot is gone!', armUp:'Gear up for the boss · Level ',
+      survived:'SURVIVED!', defeated:'DEFEATED! 💥', escaped:'🛸 ESCAPED…', escapedSub:'the loot is gone!', bossEscaped:'🛸 BOSS ESCAPED!', lvlAgain:'Replay level', armUp:'Gear up for the boss · Level ',
       overdrive:'⚡ OVERDRIVE', overdriveSub:"you're on fire!", enrage:'🔥 ENRAGE!', enrageSub:'it totally loses it!',
       beaten:'🏆 YOU BEAT IT!', beatenSub:'…but it never stops.', madness:'☣ MADNESS MODE', madnessSub:'how far can you go?', clearedTag:'🏆 BEATEN!  ·  ',
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
@@ -82,7 +82,7 @@
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
       lvl:'NIVEAU', newForm:'Nouvelle forme : ', faster:'Plus vite & plus dense !', bossWave:'⚠ VAGUE DE BOSS ', megaBoss:'🛸 MÉGA-BOSS', endgegner:'👾 LE BOSS FINAL', finaleSub:'survis à l’enfer !',
-      survived:'SURVÉCU !', defeated:'VAINCU ! 💥', escaped:'🛸 ENFUI…', escapedSub:'le butin s’envole !', armUp:'Équipe-toi pour le boss · Niveau ',
+      survived:'SURVÉCU !', defeated:'VAINCU ! 💥', escaped:'🛸 ENFUI…', escapedSub:'le butin s’envole !', bossEscaped:'🛸 BOSS ENFUI !', lvlAgain:'Niveau à refaire :', armUp:'Équipe-toi pour le boss · Niveau ',
       overdrive:'⚡ OVERDRIVE', overdriveSub:'tu es en feu !', enrage:'🔥 ENRAGE !', enrageSub:'il pète un câble !',
       beaten:'🏆 TERMINÉ !', beatenSub:'…mais ça ne s’arrête pas.', madness:'☣ MODE FOLIE', madnessSub:'jusqu’où iras-tu ?', clearedTag:'🏆 TERMINÉ !  ·  ',
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
@@ -928,7 +928,7 @@
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0; deathFlash=0; deathT=0; deathGather=false;
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
     upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
-    bossActive=false; bossNumber=1; bossTimer=(mode==='hardcore')?16:22; bossPhaseT=0; laserSpawnT=0;
+    bossActive=false; bossNumber=1; bossTimer=combatDur(); bossPhaseT=0; laserSpawnT=0;
     banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; shields=0; invuln=0; upgradeCounts={}; lives=3;
     curSong=Math.floor(Math.random()*SONGS.length); curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
@@ -979,6 +979,12 @@
   const difHp  =()=>1.15+gunDps()*0.27+(level-1)*0.20;
   const introT =()=>Math.max(0,1-elapsed/12);   // Butter-Start: starke Schonung in den ersten ~12s, fadet linear aus
   function finalNum(){ return mode==='hardcore'?10:8; }
+  function combatDur(){ return mode==='hardcore'?30:38; }   // Kampfphase pro Level vor dem Boss (länger → Zeit zum Aufrüsten)
+  // Boss entkommen → Level NICHT geschafft: gleiche Stufe nochmal (Loadout bleibt, man wird stärker)
+  function restartLevel(){ boss=null; bossActive=false; ebullets=[]; lasers=[]; bossPending=false;
+    bossTimer=combatDur();
+    banner={text:t('bossEscaped'),sub:t('lvlAgain')+' '+level,t:3.2,color:'#ff9a2e'};
+    flash=0.4; flashColor='#ff9a2e'; sfxWarn(); vibe([50,40,50]); }
   function startGame(m){
     if(m==='daily'){ daily=true; mode='normal'; }
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
@@ -1094,8 +1100,8 @@
   function startBoss(){
     if(bossNumber>=5) unlockAch('boss5');
     const isFinal = !endless && bossNumber===finalNum();
-    // Mega-Boss bei jedem 2. Boss & im Wahnsinn-Modus immer – wenn man schießen kann
-    if(opt.guns && (isFinal || endless || bossNumber%2===0)){ startMegaBoss(isFinal); return; }
+    // Level-Gate: mit Waffen IMMER ein tötbarer Mega-Boss (Level erst geschafft, wenn er stirbt)
+    if(opt.guns){ startMegaBoss(isFinal); return; }
     // Laser-Boss (bzw. Laser-Finale, wenn Schießen aus)
     bossActive=true; laserFinal=isFinal; bossPhaseT=isFinal?((mode==='hardcore')?16:14):((mode==='hardcore')?10:8.5); laserSpawnT=0.6;
     banner=isFinal?{text:t('endgegner'),sub:t('finaleSub'),t:2.6,color:'#ff2e88'}:{text:t('bossWave')+bossNumber,sub:'',t:2.2,color:'#ffe600'};
@@ -1195,7 +1201,7 @@
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,5);
     boss=null; bossActive=false; bossNumber++;
     if(wasFinal) winGame();
-    else { banner={text:t('defeated'),sub:'+'+bonus+' · ◈ '+chips,t:2.8,color:'#2effc0'}; bossTimer=(mode==='hardcore')?24:30; } }
+    else { floatText(bx,by-66,t('defeated')+' +'+bonus,'#2effc0',18); bossTimer=combatDur(); levelUp(); } }   // Boss tot → Level geschafft
   function winGame(){ endless=true; madness=0; wonThisRun=true; meta.won=(meta.won||0)+1; saveMeta(); unlockAch('won');
     banner={text:t('beaten'),sub:t('beatenSub'),t:4.5,color:'#ffe600'};
     flash=0.85; flashColor='#ffe600'; shake=26; effects.slowmo=Math.max(effects.slowmo,1.4);
@@ -1209,8 +1215,7 @@
       banner={text:t('escaped'),sub:t('escapedSub'),t:2.4,color:'#9a86c9'};
       sfxLaugh(); flash=0.3; flashColor='#c45bff'; shake=10; vibe([30,40,30,40,60]); return; }
     endBossFlee(); }
-  function endBossFlee(){ banner=banner||{text:t('escaped'),sub:t('escapedSub'),t:2.4,color:'#9a86c9'};
-    boss=null; bossActive=false; bossNumber++; bossTimer=(mode==='hardcore')?24:30; }
+  function endBossFlee(){ restartLevel(); }   // Boss entkommen → Level NICHT geschafft → von vorne (kein bossNumber++)
   function updateMegaBoss(dt,ts){ const B=boss;
     if(B.dead){ B.deathT-=dt; const st=B.style;
       if(st==='bloat'){ B.scale=(B.scale||1)+dt*1.05; const j=B.scale*1.4; B.x+=rand(-j,j); B.y+=rand(-j,j);   // pumpt sich auf & bebt
@@ -1242,14 +1247,14 @@
     else { B.x=B.cx+Math.cos(B.ang)*B.radX; B.y=B.cy+Math.sin(B.ang)*B.radY; }
     if(!B.telegraph){ B.shootT-=dt*ts; if(B.shootT<=0){ B.telegraph=true; B.warn=0.55; sfxWarn(); } }
     else { B.warn-=dt*ts; if(B.warn<=0){ bossVolley(B); B.telegraph=false; B.shootT=B.fireGap; } } }
-  function endBoss(){ bossActive=false; const wasFinal=laserFinal; laserFinal=false; bossTimer=(mode==='hardcore')?24:30;
+  function endBoss(){ bossActive=false; const wasFinal=laserFinal; laserFinal=false; bossTimer=combatDur();
     const bonus=(wasFinal?500:100)*multiplier*bossNumber; addScore(bonus);
     spawnParticles(W/2,H*0.4,'#ffe600',wasFinal?60:36,300);
     flash=0.5; flashColor='#ffe600'; sfxWin(); vibe([20,30,40]);
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,5);
     bossNumber++; runBosses++;
     if(wasFinal){ const chips=Math.round((120+Math.min(bossNumber,15)*8)*diffChip); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
-    else banner={text:t('survived'),sub:'+'+bonus,t:2.2,color:'#2effc0'}; }
+    else { floatText(W/2,H*0.4,t('survived')+' +'+bonus,'#2effc0',18); levelUp(); } }   // Welle überstanden → Level geschafft
   function spawnLaserWave(){ const mixed=bossNumber>=3, vert=(bossNumber%2===1);
     const count=Math.min(6,1+Math.floor(bossNumber/2)+Math.min(2,Math.floor(pwrSurv()*0.14)));
     const warn=Math.max(0.4,1-bossNumber*0.05-Math.min(0.25,pwrSurv()*0.012));
@@ -1381,8 +1386,8 @@
     player.trail.push({x:player.x,y:player.y}); if(player.trail.length>18) player.trail.shift();
     for(const s of stars){ s.y+=(20+s.z*40)*dt; if(s.y>H){s.y=-2;s.x=Math.random()*W;} }
 
-    // Level timing
-    if(!bossActive){ levelTimer-=dt; if(levelTimer<=0) levelUp(); }
+    // Level wird durch Boss-Sieg abgeschlossen. Zen kennt keine Bosse → dort weiterhin zeitbasiert.
+    if(mode==='zen'){ levelTimer-=dt; if(levelTimer<=0) levelUp(); }
     // Upgrade trigger
     if(!bossActive && score>=nextUpgradeAt){ openUpgrade(); return; }
 
