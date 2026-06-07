@@ -635,3 +635,12 @@
   #devRedeem{font-size:14px;padding:10px 16px;border-radius:6px;}
   .devMsg{margin-top:8px;font-family:var(--pf);font-size:16px;min-height:1.2em;letter-spacing:.03em;}
   .devMsg.ok{color:#7cff2e;text-shadow:0 0 8px rgba(124,255,46,.5);} .devMsg.bad{color:#ff5a7a;}
+  /* Schatztruhe-Symbol (Coin-Shop) */
+  .chestIco{width:1em;height:1em;vertical-align:-0.16em;filter:drop-shadow(0 0 4px rgba(255,210,74,.55));}
+  #coinBtn .chestIco{width:26px;height:26px;}
+  #coinTitle .chestIco{width:.92em;height:.92em;}
+  /* HUD: Münzstand + Truhen-Button nebeneinander */
+  #coinRow{display:flex;align-items:center;gap:6px;}
+  #coinChest{cursor:pointer;padding:0;border:none;background:none;line-height:0;display:inline-flex;align-items:center;-webkit-tap-highlight-color:transparent;}
+  #coinChest .chestIco{width:20px;height:20px;}
+  #coinChest:active{transform:scale(.9);}
