@@ -317,7 +317,7 @@
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let shipSprite=null, shipSig='';                     // gebackener Pixel-Sprite + Signatur
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
-  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,muted:r.muted==null?false:r.muted}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,muted:false}; }
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,muted:r.muted==null?false:r.muted,fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,muted:false,fullscreen:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
@@ -2595,22 +2595,22 @@
   function toggleFullscreen(){ try{ const el=document.documentElement;
     if(!isFull()){ const r=el.requestFullscreen||el.webkitRequestFullscreen; if(r) r.call(el); }
     else { const x=document.exitFullscreen||document.webkitExitFullscreen; if(x) x.call(document); } }catch(e){} }
-  const isTouch=()=>{ try{ return (navigator.maxTouchPoints||0)>0 || matchMedia('(pointer:coarse)').matches; }catch(e){ return false; } };
-  // Smartphone: beim Spielstart (User-Geste) echten Fullscreen anfordern → OS-Statusleiste + Navigationsleiste/Bottom-Griff weg
-  function goFullscreenSoft(){ try{ if(isFull()||!isTouch()) return; const el=document.documentElement, r=el.requestFullscreen||el.webkitRequestFullscreen;
-    if(r){ const p=r.call(el); if(p&&p.catch) p.catch(()=>{}); } }catch(e){} }
+  function enterFullscreen(){ try{ const el=document.documentElement, r=el.requestFullscreen||el.webkitRequestFullscreen; if(r){ const p=r.call(el); if(p&&p.catch) p.catch(()=>{}); } }catch(e){} }
+  function exitFullscreen(){ try{ const x=document.exitFullscreen||document.webkitExitFullscreen; if(x&&isFull()) x.call(document); }catch(e){} }
+  // Beim Spielstart (User-Geste) Fullscreen anfordern – nur wenn die Option an ist (Default: an) → OS-Statusleiste + Navigationsleiste/Bottom-Griff weg
+  function goFullscreenSoft(){ if(opt.fullscreen===false||isFull()) return; enterFullscreen(); }
   function renderSettings(){ document.querySelectorAll('#optRows .optrow').forEach(row=>{
     const k=row.dataset.opt; let v;
     if(k==='lang') v=lang.toUpperCase();
     else if(k==='shake') v=(opt.shake===0?t('off'):(opt.shake<1?t('reduced'):t('on')));
     else if(k==='sound') v=(muted?t('off'):t('on'));
-    else if(k==='fullscreen') v=(isFull()?t('on'):t('off'));
+    else if(k==='fullscreen') v=(opt.fullscreen?t('on'):t('off'));
     else v=(opt[k]?t('on'):t('off'));
     row.innerHTML=t(OPTLBL[k])+' · <b>'+v+'</b>'; }); renderResetLabels(); }
   function cycleOpt(k){
     if(k==='lang'){ const order=['de','en','fr']; lang=order[(order.indexOf(lang)+1)%3]; saveLang(); applyI18n(); renderSettings(); beep(740,0.06,'square',0.2); return; }
     if(k==='sound'){ muted=!muted; opt.muted=muted; saveOpt(); if(masterGain) masterGain.gain.value=muted?0:0.9; if(!muted) unlockAudio(); renderSettings(); beep(muted?330:740,0.06,'square',0.2); return; }
-    if(k==='fullscreen'){ toggleFullscreen(); setTimeout(renderSettings,120); beep(740,0.06,'square',0.2); return; }
+    if(k==='fullscreen'){ opt.fullscreen=!opt.fullscreen; saveOpt(); if(opt.fullscreen) enterFullscreen(); else exitFullscreen(); renderSettings(); beep(opt.fullscreen?740:330,0.06,'square',0.2); return; }
     if(k==='shake') opt.shake=(opt.shake>=1?0.4:(opt.shake>0?0:1));
     else opt[k]=!opt[k];
     saveOpt(); renderSettings(); applyFx(); beep(opt[k]===false?330:740,0.06,'square',0.2); }
