@@ -472,12 +472,16 @@
   /* seitliche Cockpit-Streben */
   .ckPanel>.ckStatus::before{content:"";position:absolute;left:-13px;bottom:-6px;width:10px;height:20px;
     border-left:2px solid rgba(25,240,255,.4);border-bottom:2px solid rgba(25,240,255,.4);border-radius:0 0 0 8px;}
-  /* Schwierigkeits-Infobox (Speech-Bubble unter dem Diff-Button) */
-  .diffInfo{margin-top:10px;max-width:360px;width:100%;padding:11px 14px 12px;border-radius:14px;position:relative;
-    background:linear-gradient(180deg,rgba(22,9,44,.72),rgba(8,1,15,.72));border:1px solid rgba(25,240,255,.35);
-    box-shadow:0 0 18px rgba(25,240,255,.16),inset 0 0 14px rgba(25,240,255,.05);}
-  .diffInfo::before{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;
-    background:linear-gradient(135deg,rgba(22,9,44,.95),rgba(8,1,15,.95));border-left:1px solid rgba(25,240,255,.35);border-top:1px solid rgba(25,240,255,.35);}
+  /* Schwierigkeits-Infobox als Cockpit-Readout (eckig + Neon-Eckklammern statt Chat-Bubble) */
+  .diffInfo{--ac:var(--cyan);margin-top:12px;max-width:360px;width:100%;padding:12px 15px;border-radius:5px;position:relative;
+    background:linear-gradient(180deg,rgba(22,9,44,.7),rgba(8,1,15,.7));border:1px solid rgba(25,240,255,.3);
+    box-shadow:0 0 18px rgba(25,240,255,.14),inset 0 0 14px rgba(25,240,255,.05);}
+  .diffInfo::before{content:"";position:absolute;inset:4px;pointer-events:none;opacity:.9;filter:drop-shadow(0 0 3px var(--ac));
+    background:
+      linear-gradient(var(--ac),var(--ac)) 0 0/14px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 0 0/2px 14px no-repeat,
+      linear-gradient(var(--ac),var(--ac)) 100% 0/14px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 100% 0/2px 14px no-repeat,
+      linear-gradient(var(--ac),var(--ac)) 0 100%/14px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 0 100%/2px 14px no-repeat,
+      linear-gradient(var(--ac),var(--ac)) 100% 100%/14px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 100% 100%/2px 14px no-repeat;}
   .diffQuip{font-size:12.5px;font-style:italic;color:#ffd9f0;line-height:1.5;margin-bottom:8px;text-shadow:0 0 8px rgba(255,46,136,.3);}
   .diffMeter{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#9a86c9;display:flex;align-items:center;gap:7px;justify-content:center;margin-bottom:7px;}
   .diffDots{display:inline-flex;gap:4px;}
@@ -575,3 +579,17 @@
   #start{backdrop-filter:none;-webkit-backdrop-filter:none;
     background:repeating-linear-gradient(to bottom,rgba(0,0,0,.13) 0 1px,transparent 1px 3px),
       radial-gradient(ellipse 120% 80% at 50% 34%,rgba(8,1,15,.12) 0%,rgba(8,1,15,.52) 52%,rgba(8,1,15,.82) 100%);}
+  /* === Arcade-HUD-Chrome: eckige Panels mit Neon-Eckklammern statt weicher Web-Cards === */
+  .mode.normal{--ac:var(--cyan);} .mode.hardcore{--ac:var(--pink);} .mode.zen{--ac:var(--yellow);}
+  .mode{border-radius:5px;}
+  .mode::before{content:"";position:absolute;inset:5px;pointer-events:none;opacity:.95;filter:drop-shadow(0 0 3px var(--ac));
+    background:
+      linear-gradient(var(--ac),var(--ac)) 0 0/15px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 0 0/2px 15px no-repeat,
+      linear-gradient(var(--ac),var(--ac)) 100% 0/15px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 100% 0/2px 15px no-repeat,
+      linear-gradient(var(--ac),var(--ac)) 0 100%/15px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 0 100%/2px 15px no-repeat,
+      linear-gradient(var(--ac),var(--ac)) 100% 100%/15px 2px no-repeat, linear-gradient(var(--ac),var(--ac)) 100% 100%/2px 15px no-repeat;}
+  /* Arcade-Buttons: eckiger statt Pillen-Look */
+  #shopBtn{border-radius:6px;}
+  #dailyBtn{border-radius:6px;}
+  .diffBtn{border-radius:6px;}
+  .iconRow button{border-radius:7px;}
