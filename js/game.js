@@ -2741,6 +2741,10 @@
   function buySkin(id){ const s=SKINS.find(x=>x.id===id); if(!s||!s.cost) return; if((meta.chips||0)<s.cost){ beep(200,0.12,'square',0.2,-60); return; }
     meta.chips-=s.cost; unlockSkin(id); meta.skin=id; saveMeta(); shipSig=''; sfxUpgrade(); vibe([15,20,15]); refreshSkinUIs(); updateMenuChips(); }
   function skinCards(wrap){ if(!wrap) return; wrap.innerHTML='';
+    // PROMINENT ganz oben: eigenes Schiff bauen (Pixel-Editor)
+    if(shipList().length<MAXSHIPS){ const nc=document.createElement('button'); nc.className='editorBanner';
+      nc.innerHTML='<span class="ebIco">🎨</span><span class="ebTxt"><b>'+t('shipDesigner')+'</b><small>'+t('newShip')+'</small></span><span class="ebPlus">＋</span>';
+      nc.addEventListener('click',()=>openShipEditor(-1)); wrap.appendChild(nc); }
     SKINS.forEach(s=>{ const unlocked=(s.id==='std')||(meta.skins&&meta.skins[s.id])||(!s.ach&&!s.cost), active=(meta.skin||'std')===s.id;
       const card=document.createElement('div'); card.className='skcard'+(active?' act':'');
       const prevBg=s.rnd?'linear-gradient(135deg,#ff2e88,#19f0ff,#ffe600)':s.hull;
@@ -2766,9 +2770,7 @@
       const ed=document.createElement('button'); ed.textContent='✏️'; ed.title=t('edit'); ed.addEventListener('click',()=>openShipEditor(i));
       const del=document.createElement('button'); del.className='del'; del.textContent='🗑️'; del.title=t('del'); del.addEventListener('click',()=>deleteShip(i));
       row.appendChild(pick); row.appendChild(ed); row.appendChild(del); card.appendChild(row);
-      wrap.appendChild(card); });
-    if(L.length<MAXSHIPS){ const nc=document.createElement('div'); nc.className='skcard newship'; nc.innerHTML='<div>✏️＋</div><h5 style="font-size:13px;">'+t('newShip')+'</h5>';
-      nc.addEventListener('click',()=>openShipEditor(-1)); wrap.appendChild(nc); } }
+      wrap.appendChild(card); }); }
   const MODEMETA={normal:{emblem:'🎮'},hardcore:{emblem:'⚡'},zen:{emblem:'🧘'}};
   // Mode-Karten grafisch: großes Emblem + Feature-Chips (Icons statt Fließtext), Volltext per ⓘ-Tooltip
   function renderModes(){ document.querySelectorAll('.mode').forEach(c=>{ const dm=c.dataset.mode, m=(dm==='hardcore'?'hard':dm);
@@ -2883,7 +2885,7 @@
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
-  { const sb=document.getElementById('shipBtn'); if(sb) sb.addEventListener('click',()=>openShipEditor(-1)); }   // Schiff-Editor vom Hauptmenü (neues Schiff)
+  { const sb=document.getElementById('shipBtn'); if(sb) sb.addEventListener('click',()=>{ shopTab='cosmetic'; openShop('start'); }); }   // Hauptmenü → Skin-Auswahl (Kosmetik-Tab); Editor sitzt prominent oben darin
   { const cb=document.getElementById('coinBtn'); if(cb){ cb.innerHTML=CHEST_SVG; cb.addEventListener('click',openCoinShop); }
     // Truhen-Button neben dem Werkstatt-Guthaben (Menü-Werkstatt + Arsenal-Werkstatt) – NICHT im Spiel-HUD
     ['shopChestBtn','arShopChestBtn'].forEach(id=>{ const e=document.getElementById(id); if(e){ e.innerHTML=CHEST_SVG; e.addEventListener('click',openCoinShop); } });
