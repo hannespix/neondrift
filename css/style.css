@@ -444,3 +444,29 @@
   .ckLives{animation:ckBeat 1.5s ease-in-out infinite;}
   @keyframes ckBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.09);}}
   .ckHub{box-shadow:0 0 10px rgba(25,240,255,.3),inset 0 0 8px rgba(25,240,255,.12);}
+  /* === Cockpit v2: futuristischer Halbbogen / Canopy === */
+  #cockpit{padding:0;overflow:visible;}
+  .ckPanel{width:150vw;max-width:150vw;margin:0 0 -30px;padding:22px 6vw 42px;
+    display:flex;align-items:flex-end;gap:9px;flex-wrap:wrap;justify-content:center;
+    border:0;border-top:2px solid rgba(25,240,255,.85);border-radius:50% 50% 0 0/138px 138px 0 0;
+    background:radial-gradient(140% 175% at 50% 0%,rgba(13,36,66,.62) 0%,rgba(9,7,30,.86) 52%,rgba(6,2,16,.93) 100%);
+    box-shadow:0 -3px 36px rgba(25,240,255,.30),inset 0 9px 50px rgba(25,240,255,.10),inset 0 -12px 28px rgba(255,46,136,.06);
+    animation:ckHolo 5s ease-in-out infinite;overflow:hidden;}
+  /* doppelte Bogen-Rail (Holo-Tiefe) + Mittel-Binnacle-Glow */
+  .ckPanel::after{content:"";position:absolute;left:7%;right:7%;top:12px;height:74%;pointer-events:none;
+    border-top:1px solid rgba(255,46,136,.4);border-radius:50% 50% 0 0/100% 100% 0 0;
+    box-shadow:0 -1px 16px rgba(255,46,136,.22);}
+  .ckRivets{top:7px;left:24%;right:24%;height:2px;border-radius:2px;
+    background:repeating-linear-gradient(90deg,rgba(25,240,255,.6) 0 2px,transparent 2px 10px);
+    -webkit-mask:radial-gradient(120% 200% at 50% 0,#000 60%,transparent 78%);mask:radial-gradient(120% 200% at 50% 0,#000 60%,transparent 78%);}
+  .ckScan{height:74%;top:0;}
+  /* Module wirken wie eingelassene Instrumente, leicht gewölbt */
+  .ckMod{background:linear-gradient(180deg,rgba(13,30,52,.5),rgba(8,1,15,.35));border-color:rgba(25,240,255,.22);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 0 10px rgba(25,240,255,.08),0 2px 8px rgba(0,0,0,.4);
+    transform:translateY(2px);}
+  /* die äußeren Module leicht nach oben „aufgefächert" → Bogenoptik */
+  .ckPanel>.ckMod:first-of-type,.ckPanel>.ckMod:last-of-type{transform:translateY(-8px);}
+  .ckPanel>.ckMod:nth-of-type(2),.ckPanel>.ckCtl{transform:translateY(-3px);}
+  /* seitliche Cockpit-Streben */
+  .ckPanel>.ckStatus::before{content:"";position:absolute;left:-13px;bottom:-6px;width:10px;height:20px;
+    border-left:2px solid rgba(25,240,255,.4);border-bottom:2px solid rgba(25,240,255,.4);border-radius:0 0 0 8px;}
