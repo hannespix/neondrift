@@ -2828,7 +2828,7 @@
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
-  const av=document.getElementById('arsenalViewBtn'); if(av) av.addEventListener('click',openArsenalView);
+  const av=document.getElementById('arsenalViewBtn'); if(av) av.addEventListener('click',()=>openArsenalView('loadout'));   // ohne Wrapper landet das Klick-Event als tab-Arg → alle Sektionen versteckt
   const avc=document.getElementById('arsenalCloseBtn'); if(avc) avc.addEventListener('click',closeArsenalView);
   const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));

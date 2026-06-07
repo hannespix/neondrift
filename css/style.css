@@ -381,6 +381,8 @@
   .ckHub{font-size:18px;line-height:1;background:rgba(25,240,255,.12);border:1px solid rgba(25,240,255,.5);border-radius:10px;padding:6px 9px;color:#fff;
     box-shadow:0 0 10px rgba(25,240,255,.25);}
   #arTabs{margin:8px 0 4px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+  /* Reiter-Sektionen wirklich ausblenden (globales .hidden ist nur opacity:0 → belegten sonst Platz und schoben Inhalt aus dem Bild) */
+  #arSecLoadout.hidden,#arSecSyn.hidden,#arSecShop.hidden{display:none;}
   #arSecShop .usub{margin-top:6px;}
   .ocBtn{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;width:100%;max-width:420px;margin:0 auto 8px;
     font-family:'Orbitron',sans-serif;font-size:14px;color:#08010f;background:linear-gradient(120deg,#19f0ff,#7cff2e);border:none;border-radius:12px;padding:9px 14px;
