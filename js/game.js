@@ -197,8 +197,8 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
-    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0}; }
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // ---- Schwierigkeitsgrade (Baby = aktuelles Balancing = leichteste Stufe; höhere Stufen ziehen Tempo & Dichte ganz leicht an) ----
   const DIFFS=[
@@ -256,8 +256,13 @@
   function applyMeta(){
     arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
     arsenal.w={};
-    // Roguelite-Start: jeder Run beginnt nur mit dem Blaster (Lvl 1); alle anderen Waffen baust du im Run per Skillpunkten auf.
-    if(opt.guns){ arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null}; skillPts=1; }   // +1 Startpunkt → sofort 2. Waffe deiner Wahl
+    // HANGAR: gespeichertes Loadout laden (bleibt zwischen Runs erhalten – kein Neu-Aufbau jedes Mal)
+    if(opt.guns){ const L=meta.loadout;
+      if(L && L.w){ for(const id in L.w){ if(WID[id] && weaponUnlocked(id) && Object.keys(arsenal.w).length<arsenal.slots){ const s=L.w[id]||{};
+        arsenal.w[id]={lvl:Math.max(1,Math.min(5,s.lvl||1)),f1:s.f1||null,f2:s.f2||null,f3:s.f3||null,f4:s.f4||null}; } } }
+      if(!Object.keys(arsenal.w).length) arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null};   // Mindest-Loadout: Blaster
+      activeSyn=((L&&L.syn)||[]).filter(sid=>{ const s=SID[sid]; return s&&synUnlocked(sid)&&arsenal.w[s.pair[0]]&&arsenal.w[s.pair[1]]; }).slice(0,MAXSYN);
+      mods.oc=(L&&L.oc)||0; skillPts=1; }
     if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length;   // ZEN = Sandbox: alle Waffen VOLL ausgebaut (Lvl 5, alle 4 Skill-Pfade zufällig) statt nackt auf Lvl 1
       for(const w of WEAPONS) arsenal.w[w.id]={lvl:5, f1:w.forks[0][Math.random()<0.5?0:1], f2:w.forks[1][Math.random()<0.5?0:1], f3:w.forks[2][Math.random()<0.5?0:1], f4:w.forks[3][Math.random()<0.5?0:1]};
       skillPts=0; }
@@ -1287,7 +1292,7 @@
   // Mit Waffen ist ein Punkt IMMER einsetzbar (Fork/Waffe ODER universelles „Verstärken") → keine toten Punkte
   function skillSpendable(){ return !!opt.guns; }
   function spendOvercharge(){ if(skillPts<=0) return; skillPts--; mods.oc=(mods.oc||0)+1; recalcArsenal(); sfxPow(); vibe(15);
-    banner={text:t('overchargeName').toUpperCase(),sub:'+'+(6*mods.oc)+'% '+t('damage'),t:1.4,color:'#19f0ff'}; renderArsenalView(); }
+    banner={text:t('overchargeName').toUpperCase(),sub:'+'+(6*mods.oc)+'% '+t('damage'),t:1.4,color:'#19f0ff'}; saveLoadout(); renderArsenalView(); }
   // Hat man einen Punkt UND etwas zum Ausgeben?
   function hasSkillSpend(){ return skillPts>0 && skillSpendable(); }
   // Live-Chips: aus Score+Near abgeleitetes Run-Guthaben (ohne Boss-Live-Chips, ohne Sieg-Bonus → die laufen separat)
@@ -2406,20 +2411,22 @@
     arsenalSkillMode=false; arsenalTab=tab||'loadout'; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function dropWeapon(id){ const a=arsenal.w[id];                                  // Ablegen erstattet investierte Skillpunkte (Forks + Waffe), außer Zen/Blaster gratis
     const refund=(mode==='zen')?0:((a?a.lvl-1:0)+((id==='blaster')?0:1));
-    delete arsenal.w[id]; if(refund>0) skillPts+=refund; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); renderArsenalView(); }
+    delete arsenal.w[id]; if(refund>0) skillPts+=refund; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); saveLoadout(); renderArsenalView(); }
   // Zuletzt gewählten Fork wieder abwählen → 1 Skillpunkt zurück (jederzeit reskillen)
   function unspendOne(id,slot){ const a=arsenal.w[id]; if(!a||!a[slot]) return; const order=['f1','f2','f3','f4'], ci=order.indexOf(slot);
     if(ci<3 && a[order[ci+1]]) return;   // nur abwählbar, wenn keine höhere Stufe gewählt ist
     const before=Object.assign({},syn), p=a[slot]; a[slot]=null; a.lvl--; skillPts++; recalcArsenal(); sfxPow(); vibe([10,16]);
-    banner={text:(wName(id)+' · '+pName(p)).toUpperCase(),sub:'↺ '+t('reskilled')+' (+1 💠)',t:1.3,color:'#ff2e88'}; synBanner(before); renderArsenalView(); }
+    banner={text:(wName(id)+' · '+pName(p)).toUpperCase(),sub:'↺ '+t('reskilled')+' (+1 💠)',t:1.3,color:'#ff2e88'}; synBanner(before); saveLoadout(); renderArsenalView(); }
   // Komplett-Respec einer Waffe: alle Forks zurücksetzen, Punkte gutschreiben
   function respecWeapon(id){ const a=arsenal.w[id]; if(!a) return; let refunded=0; for(const s of ['f1','f2','f3','f4']){ if(a[s]){ a[s]=null; refunded++; } }
     if(!refunded) return; const before=Object.assign({},syn); a.lvl=1; skillPts+=refunded; recalcArsenal(); sfxPow(); vibe([12,18,12]);
-    banner={text:wName(id).toUpperCase(),sub:'↺ '+t('reskilled')+' (+'+refunded+' 💠)',t:1.4,color:'#ff2e88'}; synBanner(before); renderArsenalView(); }
+    banner={text:wName(id).toUpperCase(),sub:'↺ '+t('reskilled')+' (+'+refunded+' 💠)',t:1.4,color:'#ff2e88'}; synBanner(before); saveLoadout(); renderArsenalView(); }
   function synBanner(before){ for(const s of SYNERGIES){ if(syn[s.id]&&!before[s.id]){
     banner={text:s.ico+' '+synName(s.id)+' · '+t('synUnlocked'),sub:synDesc(s.id),t:2.8,color:'#ff2e88'};
     if(player) floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,(flash||0)+0.3); flashColor='#ff2e88'; } } }
-  function afterSpend(){ if(arsenalSkillMode && !hasSkillSpend()) closeArsenalView(); else renderArsenalView(); }
+  // Hangar: das gebaute Loadout bleibt erhalten (kein Neu-Aufbau jedes Mal)
+  function saveLoadout(){ try{ meta.loadout={w:JSON.parse(JSON.stringify(arsenal.w||{})), syn:(activeSyn||[]).slice(), oc:mods.oc||0}; saveMeta(); }catch(e){} }
+  function afterSpend(){ saveLoadout(); if(arsenalSkillMode && !hasSkillSpend()) closeArsenalView(); else renderArsenalView(); }
   function spendFork(id,slot,path){ if(skillPts<=0) return; const a=arsenal.w[id]; if(!a||nodeState(id,a,slot,path)!=='avail') return; const before=Object.assign({},syn);
     a[slot]=path; a.lvl++; skillPts--; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:(wName(id)+' · '+pName(path)).toUpperCase(),sub:t('activated'),t:1.4,color:'#19f0ff'}; synBanner(before); afterSpend(); }
@@ -2433,7 +2440,7 @@
     else { if(activeSyn.length>=MAXSYN) activeSyn.shift(); activeSyn.push(id); }
     recalcArsenal(); sfxPow(); vibe(12);
     const on=activeSyn.includes(id); banner={text:SID[id].ico+' '+synName(id),sub:on?t('synOn'):t('synNeed'),t:1.2,color:'#ff2e88'};
-    renderArsenalView(); }
+    saveLoadout(); renderArsenalView(); }
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
   function nodeState(id,a,slot,path){ const sel=a[slot];
     if(sel===path) return 'chosen';
