@@ -2520,26 +2520,38 @@
   const cockpitEl=()=>document.getElementById('cockpit');
   function showCockpit(on){ const ck=cockpitEl(); if(ck){ ck.classList.toggle('hidden',!on); if(on) ck._sig=''; } }
   function renderCockpit(){ const ck=cockpitEl(); if(!ck||ck.classList.contains('hidden')) return;
-    const owned=ownedW(), act=SYNERGIES.filter(s=>syn[s.id]), sp=(opt.guns&&skillPts>0)?skillPts:0;
-    const sig=mode+'|'+lives+'|'+shields+'|'+owned.map(id=>id+arsenal.w[id].lvl).join(',')+'|'+act.map(s=>s.id).join(',')+'|'+sp;
+    const sp=(opt.guns&&skillPts>0)?skillPts:0, synU=SYNERGIES.filter(s=>synUnlocked(s.id)).length;
+    const wsig=WEAPONS.map(w=>{ const a=arsenal.w[w.id]; return w.id+(a?('E'+a.lvl):(weaponUnlocked(w.id)?'U':'L')); }).join(',');
+    const sig=mode+'|'+lives+'|'+shields+'|'+wsig+'|'+activeSyn.join(',')+'|'+synU+'|'+sp+'|'+opt.guns;
     if(ck._sig===sig) return; ck._sig=sig;
-    let h='<div class="ckPanel"><span class="ckScan" aria-hidden="true"></span><span class="ckRivets" aria-hidden="true"></span>';
-    // Status-Konsole (Pixel-Gimmicks: Radar-Sweep + blinkende LEDs)
-    h+='<div class="ckMod ckStatus" aria-hidden="true"><span class="ckRadar"><b></b></span><span class="ckLeds"><i></i><i></i><i></i><i></i></span></div>';
-    // Vitals (Leben + Schild)
-    h+='<div class="ckMod ckVitals">';
+    let h='<div class="ckFrame"><div class="ckDeco" aria-hidden="true"><span class="ckScan"></span><span class="ckGrid"></span><span class="ckRivets"></span></div><div class="ckBody">';
+    // Status-Bay: Radar + LEDs + Vitals
+    h+='<div class="ckBay ckStatusBay"><span class="ckRadar" aria-hidden="true"><b></b></span><span class="ckLeds" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
+    h+='<span class="ckVitals">';
     if(mode!=='zen'){ h+='<span class="ckLives" aria-label="Leben '+Math.max(0,lives)+'">'; for(let i=0;i<Math.max(0,lives);i++) h+='♥'; if(lives<=0) h+='<i class="empty">♥</i>'; h+='</span>'; }
+    else h+='<span class="ckLives" style="color:#ffe600" aria-label="Zen: unendlich">∞</span>';
     if(shields>0){ h+='<span class="ckShields" aria-label="Schilde '+shields+'">'; for(let i=0;i<shields;i++) h+=SHIELD_SVG; h+='</span>'; }
-    if(mode==='zen'&&!shields) h+='<span class="ckLives" style="color:#ffe600" aria-label="Zen">∞</span>';
-    h+='</div>';
-    if(owned.length){ h+='<div class="ckMod ckWeapons">'; for(const id of owned){ const w=WID[id], lv=arsenal.w[id].lvl;
-      h+='<button class="ckW" style="--wc:'+w.col+'" aria-label="'+wName(id)+' Lv '+lv+' – Arsenal öffnen"><span class="cki">'+w.ico+'</span><span class="ckpips">';
-      for(let i=0;i<5;i++) h+='<i class="'+(i<lv?'on':'')+'"></i>'; h+='</span></button>'; } h+='</div>'; }
-    if(act.length){ h+='<div class="ckMod ckSyn">'; for(const s of act) h+='<button class="ckS" aria-label="Synergie '+synName(s.id)+' – Arsenal öffnen">'+s.ico+'</button>'; h+='</div>'; }
-    if(sp||opt.guns){ h+='<div class="ckMod ckCtl">';
-      if(sp) h+='<button class="ckSkill" aria-label="Skillpunkte '+sp+' – Skill-Baum öffnen">💠'+sp+'</button>';
-      if(opt.guns) h+='<button class="ckHub" aria-label="Arsenal öffnen">🎒</button>'; h+='</div>'; }
-    h+='</div>';
+    h+='</span></div>';
+    // Waffen-Bay: ALLE Waffenslots (ausgerüstet / verfügbar / gesperrt → man sieht, was noch freispielbar ist)
+    if(opt.guns){ h+='<div class="ckBay ckWeaponBay" aria-label="Waffen-Slots">';
+      for(const w of WEAPONS){ const a=arsenal.w[w.id], unl=weaponUnlocked(w.id), st=a?'eq':(unl?'av':'lk');
+        h+='<button class="ckSlot '+st+'" style="--wc:'+w.col+'" data-tab="loadout" aria-label="'+wName(w.id)+' – '+(a?('Stufe '+a.lvl):(unl?'verfügbar, baubar':'gesperrt, in der Werkstatt freischalten'))+'">';
+        h+='<span class="cki">'+w.ico+'</span>';
+        if(a){ h+='<span class="ckpips">'; for(let i=0;i<5;i++) h+='<i class="'+(i<a.lvl?'on':'')+'"></i>'; h+='</span>'; }
+        else h+='<span class="ckslotTag">'+(unl?'＋':'🔒')+'</span>';
+        h+='</button>'; }
+      h+='</div>'; }
+    // Synergie-Bay: aktive Slots + Fortschritt (x/total)
+    if(opt.guns){ h+='<div class="ckBay ckSynBay" aria-label="Synergie-Slots '+activeSyn.length+'/'+MAXSYN+'">';
+      for(let i=0;i<MAXSYN;i++){ const id=activeSyn[i], s=id?SID[id]:null;
+        h+='<button class="ckSyS '+(s?'on':'')+'" data-tab="syn" aria-label="'+(s?('Synergie '+synName(id)):'Freier Synergie-Slot')+'">'+(s?s.ico:'＋')+'</button>'; }
+      h+='<span class="ckSynCount" data-tab="syn" aria-label="Synergien freigeschaltet '+synU+' von '+SYNERGIES.length+'">🔗'+synU+'/'+SYNERGIES.length+'</span>';
+      h+='</div>'; }
+    // Steuer-Bay: Skillpunkte + Arsenal
+    if(sp||opt.guns){ h+='<div class="ckBay ckCtl">';
+      if(sp) h+='<button class="ckSkill" data-tab="loadout" aria-label="Skillpunkte '+sp+' – Skill-Baum öffnen">💠'+sp+'</button>';
+      if(opt.guns) h+='<button class="ckHub" data-tab="loadout" aria-label="Arsenal öffnen">🎒</button>'; h+='</div>'; }
+    h+='</div></div>';
     ck.innerHTML=h; }
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
@@ -2817,8 +2829,7 @@
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
   const asb=document.getElementById('arsenalShopBtn'); if(asb) asb.addEventListener('click',()=>openShop('arsenalView'));
   const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openArsenalView('shop'));
-  const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
-    const tab=b.classList.contains('ckS')?'syn':(b.classList.contains('ckSkill')||b.classList.contains('ckW'))?'loadout':'loadout'; openArsenalFromCockpit(tab); });
+  const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ const el=e.target.closest('[data-tab]'); if(!el) return; openArsenalFromCockpit(el.dataset.tab||'loadout'); });
   const muteBtn=document.getElementById('mute');
   muteBtn.addEventListener('click',()=>{ muted=!muted; muteBtn.textContent=muted?'🔇':'🔊';
     if(masterGain) masterGain.gain.value=muted?0:0.9; if(!muted){ unlockAudio(); } });
