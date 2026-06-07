@@ -646,3 +646,15 @@
   /* Highscore-Kacheln im Erfolge-Screen (Akzent gold) */
   .sttile.hs{border-color:rgba(255,230,0,.4);background:rgba(255,230,0,.06);}
   .sttile.hs b{color:var(--yellow);}
+  /* Prominentes Editor-Banner ganz oben in der Skin-Auswahl */
+  .editorBanner{flex:1 1 100%;width:100%;max-width:540px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:6px;
+    padding:14px 18px;border-radius:12px;border:2px solid rgba(124,255,46,.55);
+    background:linear-gradient(120deg,rgba(124,255,46,.15),rgba(25,240,255,.1));color:#fff;text-align:left;
+    box-shadow:0 0 22px rgba(124,255,46,.3);-webkit-tap-highlight-color:transparent;transition:transform .12s,box-shadow .14s;}
+  .editorBanner:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(124,255,46,.45);}
+  .editorBanner:active{transform:translateY(0);}
+  .ebIco{font-size:30px;line-height:1;filter:drop-shadow(0 0 8px rgba(124,255,46,.6));}
+  .ebTxt{display:flex;flex-direction:column;flex:1;gap:1px;}
+  .ebTxt b{font-family:'Orbitron',sans-serif;font-size:15px;letter-spacing:.04em;color:#bfff8a;}
+  .ebTxt small{font-size:12px;color:#cdbdf2;font-family:var(--pf);}
+  .ebPlus{font-size:26px;color:#bfff8a;font-weight:700;}
