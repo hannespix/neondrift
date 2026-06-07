@@ -23,7 +23,7 @@
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.', mfeat_normal:'📈 Level|👾 Bosse|🃏 Upgrades', mfeat_hard:'⚡ Speed|🎯 Near-Miss|🚫 Orbs', mfeat_zen:'♾️ Kein Tod|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte',buySP:'Skillpunkt kaufen',needSP:'Keine Skillpunkte',needSPsub:'Bosse besiegen oder kaufen',spDrop:'Boss-Beute!', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optMusic:'🎵 Musik', optSfx:'🔊 Game-Sound', optFull:'⛶ Vollbild', coins:'Coins', coinBalLbl:'Guthaben', coinSoon:'Käufe bald verfügbar', devHint:'Dev-/Tester-Code einlösen', redeem:'EINLÖSEN', devBad:'Ungültiger Code', devPlace:'z. B. dev1000', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -50,7 +50,7 @@
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.', mfeat_normal:'📈 Levels|👾 Bosses|🃏 Upgrades', mfeat_hard:'⚡ Fast|🎯 Near-Miss|🚫 No orbs', mfeat_zen:'♾️ No death|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points',buySP:'Buy skill point',needSP:'No skill points',needSPsub:'Beat bosses or buy them',spDrop:'Boss loot!', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optMusic:'🎵 Music', optSfx:'🔊 Game Sound', optFull:'⛶ Fullscreen', coins:'Coins', coinBalLbl:'Balance', coinSoon:'Purchases coming soon', devHint:'Redeem dev/tester code', redeem:'REDEEM', devBad:'Invalid code', devPlace:'e.g. dev1000', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -77,7 +77,7 @@
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.', mfeat_normal:'📈 Niveaux|👾 Boss|🃏 Améliorations', mfeat_hard:'⚡ Rapide|🎯 Near-Miss|🚫 Sans orbes', mfeat_zen:'♾️ Sans mort|🌊 Détente|🏆 Score',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points',buySP:'Acheter un point',needSP:'Aucun point',needSPsub:'Battez des boss ou achetez',spDrop:'Butin de boss !', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optMusic:'🎵 Musique', optSfx:'🔊 Sons du jeu', optFull:'⛶ Plein écran', coins:'Coins', coinBalLbl:'Solde', coinSoon:'Achats bientôt disponibles', devHint:'Saisir un code dev/testeur', redeem:'VALIDER', devBad:'Code invalide', devPlace:'p. ex. dev1000', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -198,9 +198,11 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
-    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null}; }
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?3:Math.max(0,r.sp|0)),spBought:r.spBought||0}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:3,spBought:0}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
+  // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
+  function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
   // ---- Schwierigkeitsgrade (Baby = aktuelles Balancing = leichteste Stufe; höhere Stufen ziehen Tempo & Dichte ganz leicht an) ----
   const DIFFS=[
     {name:'👶 Baby',                         spd:-15, hp:-30, den:-20, coin:0.5,  q:'So entspannt, dass sogar dein Toaster gewinnen würde.'},
@@ -260,10 +262,11 @@
     // HANGAR: gespeichertes Loadout laden (bleibt zwischen Runs erhalten – kein Neu-Aufbau jedes Mal)
     if(opt.guns){ const L=meta.loadout;
       if(L && L.w){ for(const id in L.w){ if(WID[id] && weaponUnlocked(id) && Object.keys(arsenal.w).length<arsenal.slots){ const s=L.w[id]||{};
-        arsenal.w[id]={lvl:Math.max(1,Math.min(5,s.lvl||1)),f1:s.f1||null,f2:s.f2||null,f3:s.f3||null,f4:s.f4||null}; } } }
-      if(!Object.keys(arsenal.w).length) arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null};   // Mindest-Loadout: Blaster
+        const lvl=Math.max(1,Math.min(5,s.lvl||1));
+        arsenal.w[id]={lvl,f1:s.f1||null,f2:s.f2||null,f3:s.f3||null,f4:s.f4||null,spent:(lvl-1)+(id==='blaster'?0:1)}; } } }   // spent = investierte Skillpunkte (für Respec-Rückerstattung)
+      if(!Object.keys(arsenal.w).length) arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:0};   // Mindest-Loadout: Blaster (gratis)
       activeSyn=((L&&L.syn)||[]).filter(sid=>{ const s=SID[sid]; return s&&synUnlocked(sid)&&arsenal.w[s.pair[0]]&&arsenal.w[s.pair[1]]; }).slice(0,MAXSYN);
-      mods.oc=(L&&L.oc)||0; skillPts=0; }
+      mods.oc=(L&&L.oc)||0; skillPts=Math.max(0,meta.sp|0); }   // persistente Skillpunkte (Boss-/Zufalls-Drops, kaufbar)
     if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length;   // ZEN = Sandbox: alle Waffen VOLL ausgebaut (Lvl 5, alle 4 Skill-Pfade zufällig) statt nackt auf Lvl 1
       for(const w of WEAPONS) arsenal.w[w.id]={lvl:5, f1:w.forks[0][Math.random()<0.5?0:1], f2:w.forks[1][Math.random()<0.5?0:1], f3:w.forks[2][Math.random()<0.5?0:1], f4:w.forks[3][Math.random()<0.5?0:1]};
       skillPts=0; }
@@ -273,7 +276,7 @@
     const re=metaLvl('reach'); if(re) mods.nearRadius*=(1+0.09*re);
     const scn=metaLvl('score'); if(scn) mods.scoreMult*=(1+0.15*scn);
     const lu=metaLvl('luck'); if(lu) mods.powerupRate*=(1+0.10*lu);
-    const vt=metaLvl('veteran'); if(vt && opt.guns) skillPts+=vt;                      // Werkstatt: Start-Skillpunkte → tiefere Forks schneller erreichbar
+    // (Veteran-Start-Skillpunkte entfallen: Skillpunkte sind jetzt persistent → kein Pro-Run-Bonus)
     const wc=metaLvl('wcore');  if(wc) mods.wDmgMult=(mods.wDmgMult||1)*(1+0.06*wc);   // ALLE Waffen mehr Schaden
     const wt=metaLvl('wtempo'); if(wt) mods.wRate=(mods.wRate||1)*(1+0.05*wt);         // ALLE Waffen schneller
     const cr=metaLvl('critcore'); if(cr) mods.critBase=(mods.critBase||0)+0.03*cr;     // Krit-Basis
@@ -1210,10 +1213,18 @@
       pixelBurst(bx,by,'#19f0ff',26); spawnGibs(bx,by,18,['#19f0ff','#caffff','#ffffff'],320,520); }
     else { spawnParticles(bx,by,'#ff3b3b',16,300); spawnParticles(bx,by,'#ffffff',10,260); }   // balloon: schon zerfetzt → kleiner Nachschlag
     vibe([20,30,40]); runBosses++; unlockAch('mega');
+    grantBossSP(bx,by-92);   // Boss-Drop: 1–3 Skillpunkte (meist 2)
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,5);
     boss=null; bossActive=false; bossNumber++;
     if(wasFinal) winGame();
     else { floatText(bx,by-66,t('defeated')+' +'+bonus,'#2effc0',18); bossTimer=combatDur(); levelUp(); } }   // Boss tot → Level geschafft
+  // Boss-Drop: 1–3 Skillpunkte, gewichtet (meist 2, selten 1/3, immer ≥1)
+  function grantBossSP(x,y){ const r=Math.random(), n=r<0.15?1:(r<0.85?2:3); skillPts+=n; saveSP();
+    floatText(x,y,'💠 +'+n+' '+t('skillPts'),'#19f0ff',24); sfxPow(); flash=Math.min(0.6,(flash||0)+0.25); flashColor='#19f0ff';
+    if(state===S.MENU||state===S.OVER){} else { banner={text:'💠 +'+n+' '+t('skillPts'),sub:t('spDrop'),t:2.2,color:'#19f0ff'}; } updateAllBalances(); }
+  // Seltener Zufalls-Drop: +1 Skillpunkt (leichter Pop, kein großes Banner)
+  function grantRandomSP(x,y){ skillPts++; saveSP(); floatText(x,y-20,'💠 +1','#19f0ff',22); sfxPow();
+    flash=Math.min(0.45,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); updateAllBalances(); }
   function winGame(){ endless=true; madness=0; wonThisRun=true; meta.won=(meta.won||0)+1; saveMeta(); unlockAch('won');
     banner={text:t('beaten'),sub:t('beatenSub'),t:4.5,color:'#ffe600'};
     flash=0.85; flashColor='#ffe600'; shake=26; effects.slowmo=Math.max(effects.slowmo,1.4);
@@ -1264,6 +1275,7 @@
     spawnParticles(W/2,H*0.4,'#ffe600',wasFinal?60:36,300);
     flash=0.5; flashColor='#ffe600'; sfxWin(); vibe([20,30,40]);
     for(let i=0;i<mods.shieldPerBoss;i++) shields=Math.min(shields+1,5);
+    grantBossSP(W/2,H*0.32);   // Laser-Boss-Drop: 1–3 Skillpunkte
     bossNumber++; runBosses++;
     if(wasFinal){ const chips=Math.round((120+Math.min(bossNumber,15)*8)*diffChip); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
     else { floatText(W/2,H*0.4,t('survived')+' +'+bonus,'#2effc0',18); levelUp(); } }   // Welle überstanden → Level geschafft
@@ -1309,7 +1321,7 @@
     meta.chips=(meta.chips||0)+n; runChipsEarned+=n; coinSaveAcc+=n; updateMenuChips();
     if(x!=null) floatText(x,y,'+◈'+n,'#ffd23f',big?22:16);
     if(coinSaveAcc>=30){ saveMeta(); coinSaveAcc=0; } }
-  function openUpgrade(armed){ accrueChips(); updateRunShopBtns();   // Live-Chips gutschreiben (Skillpunkte entfallen – Aufbau läuft über den Hangar mit Coins)
+  function openUpgrade(armed){ accrueChips(); updateRunShopBtns();   // Live-Chips gutschreiben; Skillpunkte sind persistent (Boss-/Zufalls-Drops, kaufbar) → im Hangar einsetzbar
     state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
     if(utitleEl) utitleEl.textContent=armed?t('arsenal'):t('chooseUp');
@@ -1678,6 +1690,8 @@
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008);
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
     if(Math.random() < 0.06*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.8:1)) dropPowerup(o.cx,o.cy);
+    // Seltener Skillpunkt-Drop (von Glück skaliert, Panzer droppen leicht eher) → kleines Glücksgefühl
+    if(Math.random() < 0.004*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.6:1)) grantRandomSP(o.cx,o.cy);
     if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
       if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
@@ -2415,33 +2429,36 @@
     else if(arsenalResume){ arsenalResume=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
   function openArsenalFromCockpit(tab){ if(state===S.PLAY){ state=S.PAUSE; arsenalResume=true; } if(state!==S.PAUSE) return;
     arsenalSkillMode=false; arsenalTab=tab||'loadout'; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
-  // ---------- Hangar: bauen/ausrüsten mit Coins (statt Skillpunkten) ----------
-  const HCOST_EQUIP=200;                       // Waffe ausrüsten
-  const hForkCost=lvl=>120*(lvl||1);           // Level/Pfad: 120/240/360/480
-  const hRefund=spent=>Math.floor((spent||0)*0.6);
-  function hangarBroke(){ beep(200,0.12,'sawtooth',0.25); vibe(20); }
-  function dropWeapon(id){ const a=arsenal.w[id]; const refund=(id==='blaster')?0:hRefund(a&&a.spent);
-    delete arsenal.w[id]; if(refund>0) meta.chips=(meta.chips||0)+refund; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); updateAllBalances(); saveLoadout(); renderArsenalView(); }
-  // Zuletzt gewählten Fork wieder abwählen → Coins (teilweise) zurück
+  // ---------- Hangar: bauen/ausrüsten mit Skillpunkten (persistent) ----------
+  // 1 Skillpunkt = 1 Waffe ausrüsten ODER 1 Pfad-Knoten. Voller Rückerstatt beim Abwählen (freier Respec).
+  function hangarBroke(){ beep(200,0.12,'sawtooth',0.25); vibe(20); banner={text:t('needSP'),sub:t('needSPsub'),t:1.6,color:'#ff5a7a'}; }
+  // Coins → Skillpunkt kaufen: quadratisch steigend (50, 100, 250, 500, 850, 1300 …) = steiler als linear, nicht exponentiell
+  const buySpCost=k=>50+50*(k|0)*(k|0);
+  function buySkillPoint(){ const k=meta.spBought||0, cost=buySpCost(k); if((meta.chips||0)<cost){ hangarBroke(); return; }
+    meta.chips-=cost; meta.spBought=k+1; skillPts++; saveSP(); sfxPow(); vibe([12,18]);
+    banner={text:'💠 +1 '+t('skillPts'),sub:'−◈'+cost,t:1.4,color:'#19f0ff'}; updateAllBalances(); renderArsenalView(); }
+  function dropWeapon(id){ const a=arsenal.w[id]; const refund=(id==='blaster')?0:(a&&a.spent||0);
+    delete arsenal.w[id]; if(refund>0){ skillPts+=refund; saveSP(); } recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); updateAllBalances(); saveLoadout(); renderArsenalView(); }
+  // Zuletzt gewählten Fork wieder abwählen → Skillpunkt zurück
   function unspendOne(id,slot){ const a=arsenal.w[id]; if(!a||!a[slot]) return; const order=['f1','f2','f3','f4'], ci=order.indexOf(slot);
     if(ci<3 && a[order[ci+1]]) return;   // nur abwählbar, wenn keine höhere Stufe gewählt ist
-    const before=Object.assign({},syn), p=a[slot], back=hForkCost(a.lvl-1), ref=hRefund(back); a[slot]=null; a.lvl--; a.spent=Math.max(0,(a.spent||0)-back); meta.chips=(meta.chips||0)+ref; recalcArsenal(); sfxPow(); vibe([10,16]);
-    banner={text:(wName(id)+' · '+pName(p)).toUpperCase(),sub:'↺ +◈'+ref,t:1.3,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
-  // Komplett-Respec einer Waffe: alle Forks zurück, Coins (teilweise) gutschreiben
+    const before=Object.assign({},syn), p=a[slot]; a[slot]=null; a.lvl--; a.spent=Math.max(0,(a.spent||0)-1); skillPts++; saveSP(); recalcArsenal(); sfxPow(); vibe([10,16]);
+    banner={text:(wName(id)+' · '+pName(p)).toUpperCase(),sub:'↺ +💠1',t:1.3,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
+  // Komplett-Respec einer Waffe: alle Forks zurück, Skillpunkte gutschreiben
   function respecWeapon(id){ const a=arsenal.w[id]; if(!a) return; let cnt=0; for(const s of ['f1','f2','f3','f4']){ if(a[s]){ a[s]=null; cnt++; } }
-    if(!cnt) return; const before=Object.assign({},syn), forkSpent=Math.max(0,(a.spent||0)-HCOST_EQUIP), ref=hRefund(forkSpent); a.lvl=1; a.spent=HCOST_EQUIP; meta.chips=(meta.chips||0)+ref; recalcArsenal(); sfxPow(); vibe([12,18,12]);
-    banner={text:wName(id).toUpperCase(),sub:'↺ +◈'+ref,t:1.4,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
+    if(!cnt) return; const before=Object.assign({},syn); a.lvl=1; a.spent=(id==='blaster'?0:1); skillPts+=cnt; saveSP(); recalcArsenal(); sfxPow(); vibe([12,18,12]);
+    banner={text:wName(id).toUpperCase(),sub:'↺ +💠'+cnt,t:1.4,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
   function synBanner(before){ for(const s of SYNERGIES){ if(syn[s.id]&&!before[s.id]){
     banner={text:s.ico+' '+synName(s.id)+' · '+t('synUnlocked'),sub:synDesc(s.id),t:2.8,color:'#ff2e88'};
     if(player) floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,(flash||0)+0.3); flashColor='#ff2e88'; } } }
   // Hangar: das gebaute Loadout bleibt erhalten (kein Neu-Aufbau jedes Mal)
   function saveLoadout(){ try{ meta.loadout={w:JSON.parse(JSON.stringify(arsenal.w||{})), syn:(activeSyn||[]).slice(), oc:mods.oc||0}; saveMeta(); }catch(e){} }
   function afterSpend(){ saveLoadout(); if(arsenalSkillMode && !hasSkillSpend()) closeArsenalView(); else renderArsenalView(); }
-  function spendFork(id,slot,path){ const a=arsenal.w[id]; if(!a||nodeState(id,a,slot,path)!=='avail') return; const cost=hForkCost(a.lvl); if((meta.chips||0)<cost){ hangarBroke(); return; } const before=Object.assign({},syn);
-    meta.chips-=cost; a.spent=(a.spent||0)+cost; a[slot]=path; a.lvl++; recalcArsenal(); sfxPow(); vibe(15);
+  function spendFork(id,slot,path){ const a=arsenal.w[id]; if(!a||nodeState(id,a,slot,path)!=='avail') return; if(skillPts<=0){ hangarBroke(); return; } const before=Object.assign({},syn);
+    skillPts--; saveSP(); a.spent=(a.spent||0)+1; a[slot]=path; a.lvl++; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:(wName(id)+' · '+pName(path)).toUpperCase(),sub:t('activated'),t:1.4,color:'#19f0ff'}; synBanner(before); updateAllBalances(); afterSpend(); }
-  function addWeaponSkill(id){ if(!opt.guns||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; const cost=HCOST_EQUIP; if((meta.chips||0)<cost){ hangarBroke(); return; } const before=Object.assign({},syn);
-    meta.chips-=cost; arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:cost}; recalcArsenal(); sfxPow(); vibe(15);
+  function addWeaponSkill(id){ if(!opt.guns||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; if(skillPts<=0){ hangarBroke(); return; } const before=Object.assign({},syn);
+    skillPts--; saveSP(); arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:1}; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); updateAllBalances(); afterSpend(); }
   // Fusions-Slot belegen/wechseln: jederzeit, max MAXSYN. Bei vollem Slot ersetzt der älteste (FIFO) → flüssiges Umschalten.
   function synAvail(id){ const s=SID[id]; return !!(s && synUnlocked(id) && arsenal.w[s.pair[0]] && arsenal.w[s.pair[1]]); }
@@ -2461,8 +2478,8 @@
     return 'avail'; }
   function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(id,a,slot,path), can=(st==='avail'&&opt.guns);
     const next={f1:'f2',f2:'f3',f3:'f4'}[slot], undoable=(st==='chosen'&&opt.guns&&!(next&&a[next]));   // zuletzt gewählte Stufe → abwählbar (Reskill)
-    const cost=can?hForkCost(a.lvl):0, aff=can&&(meta.chips||0)>=cost;
-    const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">◈'+cost+'</span>'):'';
+    const aff=can&&skillPts>0;
+    const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">💠1</span>'):'';
     const ti={f1:0,f2:1,f3:2,f4:3}[slot]||0, tip=pDesc(path)+' · '+(flavPath(path)||flavTier(id,ti));   // echte Pfad-Beschreibung + Subskill-eigener Spruch
     return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
   function renderArsenalView(){
@@ -2477,7 +2494,11 @@
     show('arSecLoadout',arsenalTab==='loadout'); show('arSecSyn',arsenalTab==='syn'); show('arSecShop',arsenalTab==='shop');
     if(arsenalTab==='shop'){ setShopHost('arsenal'); renderShop(); const bb0=document.getElementById('arsenalBackBtn'); if(bb0) bb0.textContent=t('back'); return; }
     updateRunShopBtns(); const sub=document.getElementById('arsenalViewSub');
-    if(sub){ sub.textContent=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots+' · ◈ '+(meta.chips||0)+' · '+t('hangarHint'); }
+    if(sub){ sub.textContent=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots+' · 💠'+skillPts+' '+t('skillPts')+' · ◈'+(meta.chips||0); }
+    const bsp=document.getElementById('arBuySpBtn');
+    if(bsp){ if(!opt.guns){ bsp.classList.add('hidden'); } else { const cost=buySpCost(meta.spBought||0), aff=(meta.chips||0)>=cost; bsp.classList.remove('hidden');
+      bsp.classList.toggle('locked',!aff); bsp.innerHTML='💠 '+t('buySP')+' · <b>◈'+cost+'</b>';
+      bsp.onclick=()=>buySkillPoint(); } }
     const bb=document.getElementById('arsenalBackBtn'); if(bb) bb.textContent=arsenalSkillMode?t('skillNext'):t('back');
     const wrap=document.getElementById('arsenalCards'); if(!wrap) return; wrap.innerHTML='';
     ownedW().forEach(id=>{ const a=arsenal.w[id], w=WID[id], f1=w.forks[0], f2=w.forks[1], f3=w.forks[2], f4=w.forks[3];
@@ -2502,12 +2523,12 @@
       wrap.appendChild(card); });
     const free=arsenal.slots-ownedCount(), notOwned=WEAPONS.filter(w=>!arsenal.w[w.id]);
     const addable=notOwned.filter(w=>weaponUnlocked(w.id)), locked=notOwned.filter(w=>!weaponUnlocked(w.id));
-    if(opt.guns&&free>0&&addable.length){ addable.forEach(w=>{ const aff=(meta.chips||0)>=HCOST_EQUIP; const card=document.createElement('div'); card.className='wtree addable';
+    if(opt.guns&&free>0&&addable.length){ addable.forEach(w=>{ const aff=skillPts>0; const card=document.createElement('div'); card.className='wtree addable';
         card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
-          `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · ◈${HCOST_EQUIP}</button>`;
+          `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · 💠1</button>`;
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
     else if(!locked.length){ for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     // Gesperrte Waffen als Teaser zeigen → Anreiz, in der Werkstatt freizuschalten

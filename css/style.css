@@ -276,6 +276,14 @@
   .tnode .pickhint{position:absolute;top:-8px;right:-8px;min-width:19px;height:18px;border-radius:9px;padding:0 6px;background:#19f0ff;color:#08010f;
     font-family:'VT323',monospace;font-size:14px;font-weight:700;line-height:18px;text-align:center;white-space:nowrap;box-shadow:0 0 9px rgba(25,240,255,.9);}
   .tnode .pickhint.shop{background:#ff5a7a;}   /* nicht leistbar */
+  /* Hangar: Skillpunkt für Coins kaufen */
+  .arBuySp{display:block;margin:6px auto 10px;padding:7px 16px;border-radius:11px;border:1px solid rgba(25,240,255,.55);
+    background:rgba(25,240,255,.1);color:#bfeaff;font:700 12px 'Orbitron',sans-serif;letter-spacing:.5px;cursor:pointer;
+    box-shadow:0 0 12px rgba(25,240,255,.25);transition:transform .08s,background .15s;}
+  .arBuySp b{color:#ffd23f;}
+  .arBuySp:active{transform:scale(.96);}
+  .arBuySp.locked{opacity:.5;border-color:rgba(255,90,122,.5);box-shadow:none;}
+  .arBuySp.hidden{display:none;}
   /* Waffe-holen-Karte (freier Slot + Skillpunkt) */
   .wtree.addable{border-color:rgba(25,240,255,.4);background:rgba(25,240,255,.06);}
   .wtree.addable .adddesc{font-size:9px;line-height:1.35;color:#c9b9ef;text-align:center;margin:4px 2px 2px;}
