@@ -16,9 +16,9 @@
     background:radial-gradient(ellipse at center,rgba(26,5,51,.55) 0%,rgba(8,1,15,.92) 75%);backdrop-filter:blur(2px);transition:opacity .3s ease;}
   /* flexible Abstandshalter zentrieren kurzen Inhalt, kollabieren bei langem -> volles Scrollen (Touch) */
   .screen::before,.screen::after{content:"";flex:1 0 8px;}
-  /* In-Game-Overlays: kein Backdrop-Blur (teuer über animiertem Canvas) + fast deckend → kein Lag, kein Teil-Rendering */
-  #upgrade,#arsenalView,#pause,#over{backdrop-filter:none;-webkit-backdrop-filter:none;
-    background:radial-gradient(ellipse at center,rgba(20,4,40,.86) 0%,rgba(8,1,15,.97) 72%);}
+  /* In-Game-Overlays: kein Backdrop-Blur (teuer über animiertem Canvas) + VOLL deckend → kein Durchscheinen eines darunterliegenden Overlays */
+  #upgrade,#arsenalView,#pause,#over{backdrop-filter:none;-webkit-backdrop-filter:none;background-color:#08010f;
+    background-image:radial-gradient(ellipse at center,rgba(20,4,40,1) 0%,rgba(8,1,15,1) 72%);}
   .hidden{opacity:0;pointer-events:none;}
   /* immer erreichbarer Schließen-Button (oben rechts) */
   .closeBtn{position:absolute;top:max(10px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:12;
