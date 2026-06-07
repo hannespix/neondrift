@@ -639,8 +639,7 @@
   .chestIco{width:1em;height:1em;vertical-align:-0.16em;filter:drop-shadow(0 0 4px rgba(255,210,74,.55));}
   #coinBtn .chestIco{width:26px;height:26px;}
   #coinTitle .chestIco{width:.92em;height:.92em;}
-  /* HUD: Münzstand + Truhen-Button nebeneinander */
-  #coinRow{display:flex;align-items:center;gap:6px;}
-  #coinChest{cursor:pointer;padding:0;border:none;background:none;line-height:0;display:inline-flex;align-items:center;-webkit-tap-highlight-color:transparent;}
-  #coinChest .chestIco{width:20px;height:20px;}
-  #coinChest:active{transform:scale(.9);}
+  /* Truhen-Button neben dem Werkstatt-Guthaben (öffnet Coin-Shop) – NICHT im Spiel-HUD */
+  .balChest{cursor:pointer;padding:2px;border:none;background:none;line-height:0;display:inline-flex;align-items:center;vertical-align:-0.3em;-webkit-tap-highlight-color:transparent;}
+  .balChest .chestIco{width:22px;height:22px;}
+  .balChest:active{transform:scale(.9);}
