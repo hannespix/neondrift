@@ -1294,7 +1294,8 @@
     state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
     const utitleEl=document.querySelector('#upgrade .utitle');
     if(utitleEl) utitleEl.textContent=armed?t('arsenal'):t('chooseUp');
-    upgradeSub.textContent=armed?(t('armUp')+level):(t('level')+' '+level+' · '+t('points')+' '+Math.round(score));
+    upgradeSub.textContent=(armed?(t('armUp')+level):(t('level')+' '+level+' · '+t('points')+' '+Math.round(score)))
+      + ((hasSkillSpend())?(' · 💠'+skillPts+' '+t('skillPts')+' → 🎒'):'');
     const pool=offerPool(); const wp=pool.filter(o=>o.kind!=='pass'), pp=pool.filter(o=>o.kind==='pass');
     let chosen=[]; const take=arr=>{ if(arr.length) chosen.push(arr.splice(Math.floor(Math.random()*arr.length),1)[0]); };
     if(armed){ while(chosen.length<2&&wp.length) take(wp); while(chosen.length<3&&pp.length) take(pp); while(chosen.length<3&&wp.length) take(wp); }
@@ -1314,7 +1315,7 @@
   }
   function closeUpgrade(){ document.getElementById('upgrade').classList.add('hidden');
     upStep=Math.round(upStep*1.55); nextUpgradeAt=score+upStep;
-    if(hasSkillSpend()){ openSkillScreen(); return; }     // weiter zum klickbaren Skill-Baum
+    // kein zweiter Pflicht-Screen mehr: Skillpunkte werden on-demand über Cockpit/Arsenal eingesetzt
     state=S.PLAY; invuln=Math.max(invuln,1.0); lastT=performance.now(); }
   function chooseOffer(o){ const before=Object.assign({},syn); let label='';
     if(o.kind==='new'){ arsenal.w[o.wid]={lvl:1,f1:null,f2:null,f3:null,f4:null}; label=wName(o.wid); }
