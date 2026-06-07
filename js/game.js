@@ -984,7 +984,7 @@
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
     useSeed=daily;
     diffMul=(DIFFS[meta.diff||0]||DIFFS[0]).mul;                 // gewählte Schwierigkeit anwenden
-    diffSpd =1+(diffMul-1)*(opt.guns?0.52:0.88);                 // Tempo jetzt deutlich spürbar (ohne Waffen stärker, da HP dann egal)
+    diffSpd =1+(diffMul-1)*(opt.guns?0.44:0.78);                 // Tempo spürbar, aber etwas gemütlicher abgestuft
     diffHp  =1+(diffMul-1)*1.35;                                 // HP deutlich stärker (Hauptlast der Schwierigkeit)
     diffDen =1+(diffMul-1)*0.60;                                 // Spawn-Dichte klar fühlbar
     diffChip=0.60+(diffMul-1)*1.30;                              // Chips: Baby ~0.4× (Grind bleibt!), Chuck ~2.2× (Belohnung)
@@ -1038,7 +1038,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(76+level*9+Math.min(elapsed*2.6,100))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*1.05*diffSpd;
+    const sp=(62+level*8+Math.min(elapsed*2.1,86))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*0.96*diffSpd;   // Grundtempo gemütlicher
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -1712,9 +1712,9 @@
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
     if(p.type==='shield'){ shields=Math.min(shields+1,5); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
-    else if(p.type==='slow'){ effects.slowmo=5*mods.slowmoMult; floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); }
-    else if(p.type==='magnet'){ effects.magnet=6; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); }
-    else if(p.type==='double'){ effects.double=7; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); }
+    else if(p.type==='slow'){ effects.slowmo=30*mods.slowmoMult; floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); }
+    else if(p.type==='magnet'){ effects.magnet=30; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); }
+    else if(p.type==='double'){ effects.double=30; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); }
     else if(p.type==='bomb'){ let n=0; for(const o of obstacles){ spawnParticles(o.cx,o.cy,o.color,8,200); n++; addScore(3*multiplier); }
       obstacles=[]; lasers=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:t('boom'),sub:n+t('boomSub'),t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,t('pBomb'),'#ff9a2e',16); }
   }
@@ -2115,9 +2115,9 @@
   // ---------- Effekt-Timer-HUD (DOM, oben): aktive Effekte mit Countdown ----------
   // [key, icon, rest, max, farbe, label]
   function buildFxItems(){ const a=[]; if(!effects) return a;
-    if(effects.slowmo>0) a.push(['slowmo','⏱',effects.slowmo,5*(mods.slowmoMult||1),'#5b9bff',t('fxSlow')]);
-    if(effects.magnet>0) a.push(['magnet','🧲',effects.magnet,6,'#c45bff',t('fxMagnet')]);
-    if(effects.double>0) a.push(['double','✕2',effects.double,7,'#ffe600',t('fxDouble')]);
+    if(effects.slowmo>0) a.push(['slowmo','⏱',effects.slowmo,30*(mods.slowmoMult||1),'#5b9bff',t('fxSlow')]);
+    if(effects.magnet>0) a.push(['magnet','🧲',effects.magnet,30,'#c45bff',t('fxMagnet')]);
+    if(effects.double>0) a.push(['double','✕2',effects.double,30,'#ffe600',t('fxDouble')]);
     if(mods&&mods.mirror){ a.push(mirrorOn?['mirror','🪞',effects.mirror,MIR_ON,'#ff3b6b',t('fxMirror')]
                                           :['mirror','⟳',effects.mirror,MIR_OFF,'#19f0ff',t('fxMirrorSoon')]); }
     return a; }
