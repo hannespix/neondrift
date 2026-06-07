@@ -836,7 +836,7 @@
   const synUnlocked=id=>mode==='zen'||synBought(id);   // Zen = Sandbox: Synergien frei
   const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
   let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
-  let skillPts=0, arsenalSkillMode=false;            // Skillpunkte (pro Upgrade) → klickbarer Baum im Run
+  let skillPts=0, arsenalSkillMode=false, arsenalResume=false;   // Skillpunkte (pro Upgrade) → klickbarer Baum im Run; arsenalResume = aus Cockpit geöffnet → Schließen setzt Spiel fort
   const ownedW=()=>Object.keys(arsenal.w);
   const ownedCount=()=>ownedW().length;
   const synActive=id=>!!syn[id];
@@ -2370,7 +2370,10 @@
   // Skill-Screen: friert das Spiel ein, zeigt den klickbaren Baum zum Ausgeben der Skillpunkte
   function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden');
-    if(arsenalSkillMode){ arsenalSkillMode=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
+    if(arsenalSkillMode){ arsenalSkillMode=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); }
+    else if(arsenalResume){ arsenalResume=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
+  function openArsenalFromCockpit(){ if(state===S.PLAY){ state=S.PAUSE; arsenalResume=true; } if(state!==S.PAUSE) return;
+    arsenalSkillMode=false; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function dropWeapon(id){ const a=arsenal.w[id];                                  // Ablegen erstattet investierte Skillpunkte (Forks + Waffe), außer Zen/Blaster gratis
     const refund=(mode==='zen')?0:((a?a.lvl-1:0)+((id==='blaster')?0:1));
     delete arsenal.w[id]; if(refund>0) skillPts+=refund; recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); renderArsenalView(); }
@@ -2492,10 +2495,11 @@
     if(shields>0){ h+='<span class="ckShields" aria-label="Schilde '+shields+'">'; for(let i=0;i<shields;i++) h+=SHIELD_SVG; h+='</span>'; }
     h+='</div>';
     if(owned.length){ h+='<div class="ckWeapons">'; for(const id of owned){ const w=WID[id], lv=arsenal.w[id].lvl;
-      h+='<span class="ckW" style="--wc:'+w.col+'" aria-label="'+wName(id)+' Lv '+lv+'"><span class="cki">'+w.ico+'</span><span class="ckpips">';
-      for(let i=0;i<5;i++) h+='<i class="'+(i<lv?'on':'')+'"></i>'; h+='</span></span>'; } h+='</div>'; }
-    if(act.length){ h+='<div class="ckSyn">'; for(const s of act) h+='<span class="ckS" aria-label="'+synName(s.id)+'">'+s.ico+'</span>'; h+='</div>'; }
-    if(sp) h+='<span class="ckSkill" aria-label="Skillpunkte '+sp+'">💠'+sp+'</span>';
+      h+='<button class="ckW" style="--wc:'+w.col+'" aria-label="'+wName(id)+' Lv '+lv+' – Arsenal öffnen"><span class="cki">'+w.ico+'</span><span class="ckpips">';
+      for(let i=0;i<5;i++) h+='<i class="'+(i<lv?'on':'')+'"></i>'; h+='</span></button>'; } h+='</div>'; }
+    if(act.length){ h+='<div class="ckSyn">'; for(const s of act) h+='<button class="ckS" aria-label="Synergie '+synName(s.id)+' – Arsenal öffnen">'+s.ico+'</button>'; h+='</div>'; }
+    if(sp) h+='<button class="ckSkill" aria-label="Skillpunkte '+sp+' – Skill-Baum öffnen">💠'+sp+'</button>';
+    if(opt.guns) h+='<button class="ckHub" aria-label="Arsenal öffnen">🎒</button>';
     ck.innerHTML=h; }
   // ---------- Einstellungen ----------
   function openSettings(){ document.getElementById('start').classList.add('hidden'); renderSettings();
@@ -2755,6 +2759,7 @@
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
   const asb=document.getElementById('arsenalShopBtn'); if(asb) asb.addEventListener('click',()=>openShop('arsenalView'));
   const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openShop('pause'));
+  const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ if(e.target.closest('button')) openArsenalFromCockpit(); });
   const muteBtn=document.getElementById('mute');
   muteBtn.addEventListener('click',()=>{ muted=!muted; muteBtn.textContent=muted?'🔇':'🔊';
     if(masterGain) masterGain.gain.value=muted?0:0.9; if(!muted){ unlockAudio(); } });
