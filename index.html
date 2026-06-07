@@ -72,11 +72,21 @@
   <div id="arsenalView" class="screen hidden">
     <button class="closeBtn" id="arsenalCloseBtn" aria-label="Schließen">✕</button>
     <div class="utitle" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">🎒 ARSENAL</div>
-    <div class="usub" id="arsenalViewSub">Slots 0/3</div>
-    <button class="btn ghost" id="arsenalShopBtn" style="margin-top:6px;margin-bottom:6px;border-color:rgba(255,230,0,.55);color:#ffe600;">🛠️ WERKSTATT</button>
-    <div id="arsenalCards"></div>
-    <div id="arsenalSyn"></div>
-    <button class="btn ghost" id="arsenalBackBtn" style="margin-top:12px;">← ZURÜCK</button>
+    <div id="arTabs"></div>
+    <div id="arSecLoadout">
+      <div class="usub" id="arsenalViewSub">Slots 0/3</div>
+      <div id="arsenalCards"></div>
+    </div>
+    <div id="arSecSyn" class="hidden">
+      <div id="arsenalSyn"></div>
+    </div>
+    <div id="arSecShop" class="hidden">
+      <div class="usub"><span id="balLbl2">Guthaben</span> <span id="arShopChips" style="color:var(--yellow)">◈ 0</span></div>
+      <div class="usub" id="arShopHint" style="font-size:11px;opacity:.8;"></div>
+      <div id="arShopTabs"></div>
+      <div id="arShopCards"></div>
+    </div>
+    <button class="btn ghost" id="arsenalBackBtn" style="margin-top:14px;">← ZURÜCK</button>
   </div>
 
   <div id="upgrade" class="screen hidden">
