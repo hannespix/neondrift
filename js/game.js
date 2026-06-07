@@ -25,7 +25,7 @@
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
-      setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optSound:'🔊 Sound', optFull:'⛶ Vollbild', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
+      setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optSound:'🔊 Sound', optFull:'⛶ Vollbild', coins:'Coins', coinBalLbl:'Guthaben', coinSoon:'Käufe bald verfügbar', devHint:'Dev-/Tester-Code einlösen', redeem:'EINLÖSEN', devBad:'Ungültiger Code', devPlace:'z. B. dev1000', optShake:'Screenshake', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
       lvl:'LEVEL', newForm:'Neue Form: ', faster:'Schneller & dichter!', bossWave:'⚠ BOSS-WELLE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 DER ENDGEGNER', finaleSub:'überlebe das Inferno!',
       survived:'ÜBERLEBT!', defeated:'BESIEGT! 💥', escaped:'🛸 ENTKOMMEN…', escapedSub:'die Beute ist weg!', bossEscaped:'🛸 BOSS ENTKOMMEN!', lvlAgain:'Level nochmal:', armUp:'Rüste auf für den Boss · Level ',
@@ -52,7 +52,7 @@
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
-      setTitle:'SETTINGS', tapToggle:'Tap to toggle', optSound:'🔊 Sound', optFull:'⛶ Fullscreen', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
+      setTitle:'SETTINGS', tapToggle:'Tap to toggle', optSound:'🔊 Sound', optFull:'⛶ Fullscreen', coins:'Coins', coinBalLbl:'Balance', coinSoon:'Purchases coming soon', devHint:'Redeem dev/tester code', redeem:'REDEEM', devBad:'Invalid code', devPlace:'e.g. dev1000', optShake:'Screenshake', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
       lvl:'LEVEL', newForm:'New shape: ', faster:'Faster & denser!', bossWave:'⚠ BOSS WAVE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 THE FINAL BOSS', finaleSub:'survive the inferno!',
       survived:'SURVIVED!', defeated:'DEFEATED! 💥', escaped:'🛸 ESCAPED…', escapedSub:'the loot is gone!', bossEscaped:'🛸 BOSS ESCAPED!', lvlAgain:'Replay level', armUp:'Gear up for the boss · Level ',
@@ -79,7 +79,7 @@
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
       newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
-      setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optSound:'🔊 Son', optFull:'⛶ Plein écran', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
+      setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optSound:'🔊 Son', optFull:'⛶ Plein écran', coins:'Coins', coinBalLbl:'Solde', coinSoon:'Achats bientôt disponibles', devHint:'Saisir un code dev/testeur', redeem:'VALIDER', devBad:'Code invalide', devPlace:'p. ex. dev1000', optShake:'Tremblement', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
       lvl:'NIVEAU', newForm:'Nouvelle forme : ', faster:'Plus vite & plus dense !', bossWave:'⚠ VAGUE DE BOSS ', megaBoss:'🛸 MÉGA-BOSS', endgegner:'👾 LE BOSS FINAL', finaleSub:'survis à l’enfer !',
       survived:'SURVÉCU !', defeated:'VAINCU ! 💥', escaped:'🛸 ENFUI…', escapedSub:'le butin s’envole !', bossEscaped:'🛸 BOSS ENFUI !', lvlAgain:'Niveau à refaire :', armUp:'Équipe-toi pour le boss · Niveau ',
@@ -2564,6 +2564,17 @@
     document.getElementById('settings').classList.remove('hidden'); beep(660,0.06,'square',0.2); }
   function closeSettings(){ document.getElementById('settings').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); }
+  // ---------- Coin-Shop + Dev-/Tester-Codes ----------
+  const DEVCODES={dev1000:1000,dev5000:5000,dev10000:10000};
+  function renderCoinShop(){ const b=document.getElementById('coinBal'); if(b) b.textContent='◈ '+(meta.chips||0); }
+  function openCoinShop(){ document.getElementById('start').classList.add('hidden'); const m=document.getElementById('devMsg'); if(m){m.textContent='';m.className='devMsg';} renderCoinShop();
+    document.getElementById('coinshop').classList.remove('hidden'); beep(880,0.06,'square',0.2); }
+  function closeCoinShop(){ document.getElementById('coinshop').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); }
+  function redeemCode(){ const inp=document.getElementById('devCode'), msg=document.getElementById('devMsg'); if(!inp) return;
+    const code=(inp.value||'').trim().toLowerCase().replace(/\s+/g,''); const amt=DEVCODES[code];
+    if(amt){ meta.chips=(meta.chips||0)+amt; saveMeta(); updateMenuChips(); renderCoinShop(); inp.value='';
+      if(msg){ msg.textContent='✓ +'+amt+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]); }
+    else { if(msg){ msg.textContent='✗ '+t('devBad'); msg.className='devMsg bad'; } beep(200,0.12,'sawtooth',0.2); } }
   const OPTLBL={sound:'optSound',fullscreen:'optFull',shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',dmg:'optDmg',lang:'optLang'};
   const isFull=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
   function toggleFullscreen(){ try{ const el=document.documentElement;
@@ -2746,6 +2757,8 @@
     setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('overShopBtn','🚀 '+t('workshop')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     set('balLbl2',t('balance')); set('arsenalBackBtn',t('back'));
+    set('coinBalLbl',t('coinBalLbl')); set('coinSoon',t('coinSoon')); set('devHint',t('devHint')); set('devRedeem',t('redeem')); set('coinBackBtn',t('back'));
+    { const dc=document.getElementById('devCode'); if(dc) dc.setAttribute('placeholder',t('devPlace')); }
     if(typeof renderSettings==='function') renderSettings();
     if(typeof renderDiffInfo==='function') renderDiffInfo();
   }catch(e){} }
@@ -2834,6 +2847,11 @@
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsBackBtn').addEventListener('click',closeSettings);
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
+  { const cb=document.getElementById('coinBtn'); if(cb) cb.addEventListener('click',openCoinShop);
+    const cbk=document.getElementById('coinBackBtn'); if(cbk) cbk.addEventListener('click',closeCoinShop);
+    const ccl=document.getElementById('coinCloseBtn'); if(ccl) ccl.addEventListener('click',closeCoinShop);
+    const dr=document.getElementById('devRedeem'); if(dr) dr.addEventListener('click',redeemCode);
+    const dc=document.getElementById('devCode'); if(dc) dc.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); redeemCode(); } }); }
   document.querySelectorAll('#optRows .optrow').forEach(row=>row.addEventListener('click',()=>cycleOpt(row.dataset.opt)));
   document.querySelectorAll('#resetRows .optrow').forEach(b=>b.addEventListener('click',()=>armReset(b)));
   document.getElementById('againBtn').addEventListener('click',()=>startGame());

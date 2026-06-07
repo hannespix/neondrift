@@ -52,6 +52,7 @@
     </div>
     <div class="iconRow">
       <button id="achBtn" title="Erfolge">🏅</button>
+      <button id="coinBtn" title="Coins">💎</button>
       <button id="settingsBtn" title="Einstellungen">⚙️</button>
     </div>
     <div class="how">Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü · 🔊 unten rechts</div>
@@ -123,6 +124,27 @@
       <button class="btn ghost" id="edClearBtn">🗑️ LEEREN</button>
       <button class="btn ghost" id="edBackBtn">← ZURÜCK</button>
     </div>
+  </div>
+
+  <div id="coinshop" class="screen hidden">
+    <button class="closeBtn" id="coinCloseBtn" aria-label="Schließen">✕</button>
+    <div class="utitle" style="color:var(--yellow);text-shadow:0 0 20px var(--yellow);">💎 COINS</div>
+    <div class="usub"><span id="coinBalLbl">Guthaben</span>: <b id="coinBal">◈ 0</b></div>
+    <div class="coinPacks" id="coinPacks">
+      <button class="coinPack" disabled>◈ 1.000<small>0,99 €</small></button>
+      <button class="coinPack" disabled>◈ 5.000<small>3,99 €</small></button>
+      <button class="coinPack" disabled>◈ 12.000<small>7,99 €</small></button>
+    </div>
+    <div class="usub" id="coinSoon" style="opacity:.6;margin-top:8px;">Käufe bald verfügbar</div>
+    <div class="devBox">
+      <div class="usub" id="devHint">Dev-/Tester-Code einlösen</div>
+      <div class="devRow">
+        <input id="devCode" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="z. B. dev1000" aria-label="Code" />
+        <button class="btn" id="devRedeem">EINLÖSEN</button>
+      </div>
+      <div id="devMsg" class="devMsg" aria-live="polite"></div>
+    </div>
+    <button class="btn ghost" id="coinBackBtn" style="margin-top:18px;">← ZURÜCK</button>
   </div>
 
   <div id="ach" class="screen hidden">
