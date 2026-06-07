@@ -202,12 +202,12 @@
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // ---- Schwierigkeitsgrade (Baby = aktuelles Balancing = leichteste Stufe; höhere Stufen ziehen Tempo & Dichte ganz leicht an) ----
   const DIFFS=[
-    {name:'👶 Baby',                         mul:0.85, q:'So entspannt, dass sogar dein Toaster gewinnen würde.'},
-    {name:'🙈 Schau mal Mama',               mul:1.05, q:'Erste Gehversuche – Mama ist stolz, der Highscore weniger.'},
-    {name:'😎 Normalo',                      mul:1.28, q:'Goldene Mitte. Für Leute mit Job und Restwürde.'},
-    {name:'📱 Doomscroll-König',             mul:1.55, q:'Daumen-Ausdauer wie beim 3-Stunden-Reels-Marathon.'},
-    {name:'🚽 Toiletten-Kaiser',            mul:1.85, q:'Nur für Profis mit Sitzfleisch und Nerven aus Stahl.'},
-    {name:'💀 Chuck Norris ist hier gestorben', mul:2.20, q:'Hier starb sogar Chuck Norris. Viel Glück, Sterblicher.'}
+    {name:'👶 Baby',                         spd:-15, hp:-30, den:-20, coin:0.5,  q:'So entspannt, dass sogar dein Toaster gewinnen würde.'},
+    {name:'🙈 Schau mal Mama',               spd:0,   hp:0,   den:0,   coin:0.75, q:'Erste Gehversuche – Mama ist stolz, der Highscore weniger.'},
+    {name:'😎 Normalo',                      spd:10,  hp:40,  den:20,  coin:1.0,  q:'Goldene Mitte. Für Leute mit Job und Restwürde.'},
+    {name:'📱 Doomscroll-König',             spd:20,  hp:80,  den:40,  coin:1.5,  q:'Daumen-Ausdauer wie beim 3-Stunden-Reels-Marathon.'},
+    {name:'🚽 Toiletten-Kaiser',            spd:30,  hp:120, den:60,  coin:2.0,  q:'Nur für Profis mit Sitzfleisch und Nerven aus Stahl.'},
+    {name:'💀 Chuck Norris ist hier gestorben', spd:40, hp:160, den:80, coin:2.5, q:'Hier starb sogar Chuck Norris. Viel Glück, Sterblicher.'}
   ];
   let diffMul=1, diffSpd=1, diffHp=1, diffDen=1, diffChip=1;   // werden beim Spielstart aus meta.diff abgeleitet
   const fmt=n=>{ n=Math.round(n||0); return n>=10000?(n/1000).toFixed(n>=100000?0:1)+'k':''+n; };
@@ -989,11 +989,9 @@
     if(m==='daily'){ daily=true; mode='normal'; }
     else if(m){ daily=false; mode=m; }       // m leer (NOCHMAL) → vorigen Typ beibehalten
     useSeed=daily;
-    diffMul=(DIFFS[meta.diff||0]||DIFFS[0]).mul;                 // gewählte Schwierigkeit anwenden
-    diffSpd =1+(diffMul-1)*(opt.guns?0.44:0.78);                 // Tempo spürbar, aber etwas gemütlicher abgestuft
-    diffHp  =1+(diffMul-1)*1.35;                                 // HP deutlich stärker (Hauptlast der Schwierigkeit)
-    diffDen =1+(diffMul-1)*0.60;                                 // Spawn-Dichte klar fühlbar
-    diffChip=0.60+(diffMul-1)*1.30;                              // Chips: Baby ~0.4× (Grind bleibt!), Chuck ~2.2× (Belohnung)
+    const dd=(DIFFS[meta.diff||0]||DIFFS[0]);                    // glatte Werte direkt aus der Tabelle
+    diffSpd=1+dd.spd/100; diffHp=1+dd.hp/100; diffDen=1+dd.den/100; diffChip=dd.coin;
+    diffMul=1+dd.hp/100;                                         // Gesamtanspruch (HP-basiert) für upStep-Skalierung
     if(daily){ seedState=dailySeed()|0;
       if(best.dailyDate!==dailyLabel()){ best.daily=0; best.dailyDate=dailyLabel(); saveScores(); } }
     unlockAudio(); reset(); applyMeta(); state=S.PLAY;
@@ -2791,9 +2789,9 @@
     else { shopCards=document.getElementById('shopCards'); shopChipsEl=document.getElementById('shopChips'); shopHintEl=document.getElementById('shopHint'); shopTabsHostId='shopTabs'; } }
   function updateDiffLabel(){ const e=document.getElementById('diffName'); if(e) e.textContent=(DIFFS[meta.diff||0]||DIFFS[0]).name; renderDiffInfo(); }
   function renderDiffInfo(){ const box=document.getElementById('diffInfo'); if(!box) return;
-    const i=meta.diff||0, d=DIFFS[i]||DIFFS[0], m=d.mul;
-    const pct=v=>(v>=0?'+':'')+Math.round(v*100)+'%';
-    const spd=pct((1+(m-1)*0.44)-1), hp=pct((1+(m-1)*1.35)-1), coin=(0.60+(m-1)*1.30);   // wie beim Spielstart abgeleitet
+    const i=meta.diff||0, d=DIFFS[i]||DIFFS[0];
+    const sg=v=>(v>0?'+':'')+v+'%';
+    const spd=sg(d.spd), hp=sg(d.hp), coin=d.coin;   // glatte Tabellenwerte (decken sich 1:1 mit dem Spiel)
     let dots=''; for(let k=0;k<DIFFS.length;k++) dots+='<i class="'+(k<=i?'on':'')+'"></i>';
     box.innerHTML='<div class="diffQuip">“'+d.q+'”</div>'
       +'<div class="diffMeter" aria-label="'+t('diffRating')+'">'+t('diffRating')+' <span class="diffDots">'+dots+'</span></div>'
