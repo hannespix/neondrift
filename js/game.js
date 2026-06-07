@@ -2863,7 +2863,8 @@
       +'<span class="diffReward">🪙 '+t('diffCoins')+' <b>×'+coin.toFixed(2).replace(/\.?0+$/,'')+'</b></span>'
       +'</div>'; }
   { const db=document.getElementById('diffBtn'); if(db){ updateDiffLabel();
-    db.addEventListener('click',()=>{ meta.diff=((meta.diff||0)+1)%DIFFS.length; saveMeta(); updateDiffLabel(); sfxPow(); vibe(8); }); } }
+    db.addEventListener('click',()=>{ meta.diff=((meta.diff||0)+1)%DIFFS.length; saveMeta(); updateDiffLabel(); sfxPow(); vibe(8); }); }
+    const dib=document.getElementById('diffInfoBtn'); if(dib) dib.addEventListener('click',()=>{ const di=document.getElementById('diffInfo'); if(di){ const open=di.classList.toggle('open'); dib.classList.toggle('on',open); } }); }
   document.querySelectorAll('.mode').forEach(c=>c.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; startGame(c.dataset.mode); }));
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
   document.getElementById('shopBtn').addEventListener('click',()=>openShop('start'));
