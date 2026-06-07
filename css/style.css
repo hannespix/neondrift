@@ -484,3 +484,74 @@
   .diffStats{display:flex;flex-wrap:wrap;gap:5px 14px;justify-content:center;font-size:11.5px;color:#c9b9ef;}
   .diffStats b{color:#fff;}
   .diffStats .diffReward b{color:var(--yellow);}
+  /* ===================== Cockpit v3: Pixel-Art-Holo-Konsole ===================== */
+  #cockpit{left:0;right:0;bottom:0;justify-content:center;align-items:flex-end;padding:0 4px;padding-bottom:max(2px,env(safe-area-inset-bottom));background:none;overflow:visible;}
+  #cockpit [data-tab]{pointer-events:auto;cursor:pointer;}
+  /* Rahmen: gewölbte Glas-Konsole mit Glow – KEIN overflow:hidden (Inhalt wird nie beschnitten) */
+  .ckFrame{position:relative;max-width:99vw;padding:11px 16px 9px;border-radius:24px 24px 10px 10px;
+    background:linear-gradient(180deg,rgba(12,30,54,.5) 0%,rgba(9,6,26,.82) 60%,rgba(6,2,16,.9) 100%);
+    border:1px solid rgba(25,240,255,.4);border-top:2px solid rgba(25,240,255,.92);
+    box-shadow:0 0 26px rgba(25,240,255,.26),0 -2px 22px rgba(255,46,136,.10),inset 0 9px 40px rgba(25,240,255,.09),inset 0 -10px 22px rgba(255,46,136,.05);
+    animation:ckHolo 5s ease-in-out infinite;}
+  @keyframes ckHolo{0%,100%{box-shadow:0 0 24px rgba(25,240,255,.24),0 -2px 20px rgba(255,46,136,.08),inset 0 9px 40px rgba(25,240,255,.09);}50%{box-shadow:0 0 34px rgba(25,240,255,.40),0 -2px 26px rgba(255,46,136,.14),inset 0 9px 44px rgba(25,240,255,.14);}}
+  /* angedeutete Cockpit-„Flügel" an den Unterkanten */
+  .ckFrame::before,.ckFrame::after{content:"";position:absolute;bottom:0;width:30px;height:20px;pointer-events:none;border-bottom:2px solid rgba(25,240,255,.5);}
+  .ckFrame::before{left:-14px;border-left:2px solid rgba(25,240,255,.5);border-radius:0 0 0 14px;transform:skewX(20deg);}
+  .ckFrame::after{right:-14px;border-right:2px solid rgba(25,240,255,.5);border-radius:0 0 14px 0;transform:skewX(-20deg);}
+  /* Deko-Layer (geclippt): Scanlines, Pixel-Grid, Holo-Sweep, Niet-Reihe */
+  .ckDeco{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;}
+  .ckDeco .ckScan{position:absolute;left:-32%;top:0;width:32%;height:100%;background:linear-gradient(90deg,transparent,rgba(25,240,255,.16),transparent);animation:ckSweep 3.6s linear infinite;}
+  @keyframes ckSweep{0%{left:-32%}100%{left:120%}}
+  .ckDeco .ckGrid{position:absolute;inset:0;mix-blend-mode:screen;opacity:.5;
+    background:repeating-linear-gradient(to bottom,rgba(25,240,255,.06) 0 1px,transparent 1px 4px),repeating-linear-gradient(to right,rgba(25,240,255,.045) 0 1px,transparent 1px 7px);}
+  .ckDeco .ckRivets{position:absolute;top:4px;left:18%;right:18%;height:2px;border-radius:2px;
+    background:repeating-linear-gradient(90deg,rgba(25,240,255,.55) 0 2px,transparent 2px 10px);
+    -webkit-mask:radial-gradient(130% 220% at 50% 0,#000 58%,transparent 80%);mask:radial-gradient(130% 220% at 50% 0,#000 58%,transparent 80%);}
+  /* Inhalt (nie beschnitten) */
+  .ckBody{position:relative;z-index:1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .ckBay{display:flex;align-items:center;gap:5px;padding:4px 7px;border-radius:9px;
+    background:linear-gradient(180deg,rgba(14,32,56,.45),rgba(8,1,15,.32));border:1px solid rgba(25,240,255,.16);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 9px rgba(25,240,255,.07);}
+  /* Status */
+  .ckRadar{position:relative;width:18px;height:18px;border-radius:50%;overflow:hidden;border:1px solid rgba(46,255,192,.55);background:radial-gradient(circle,rgba(46,255,192,.18),transparent 72%);}
+  .ckRadar::after{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle,rgba(46,255,192,.22) 0 1px,transparent 1px 5px);}
+  .ckRadar b{position:absolute;left:50%;top:50%;width:50%;height:1px;transform-origin:left center;background:linear-gradient(90deg,rgba(46,255,192,.95),transparent);animation:ckSpin 1.8s linear infinite;}
+  @keyframes ckSpin{to{transform:rotate(360deg)}}
+  .ckLeds{display:grid;grid-template-columns:repeat(2,4px);gap:3px;}
+  .ckLeds i{width:4px;height:4px;border-radius:1px;background:#2effc0;box-shadow:0 0 4px #2effc0;animation:ckBlink 1.2s steps(1,end) infinite;}
+  .ckLeds i:nth-child(2){background:#ffe600;box-shadow:0 0 4px #ffe600;animation-delay:.3s;}
+  .ckLeds i:nth-child(3){background:#ff2e88;box-shadow:0 0 4px #ff2e88;animation-delay:.6s;}
+  .ckLeds i:nth-child(4){background:#19f0ff;box-shadow:0 0 4px #19f0ff;animation-delay:.9s;}
+  @keyframes ckBlink{0%,55%{opacity:1}56%,100%{opacity:.18}}
+  .ckVitals{display:flex;align-items:center;gap:7px;}
+  .ckLives{color:#ff3b6b;font-size:18px;letter-spacing:2px;line-height:1;text-shadow:0 0 8px #ff2e88;animation:ckBeat 1.5s ease-in-out infinite;}
+  .ckLives i.empty{color:rgba(255,255,255,.18);text-shadow:none;}
+  @keyframes ckBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+  .ckShields{display:inline-flex;gap:3px;}.ckShields svg{width:16px;height:16px;filter:drop-shadow(0 0 4px #2effc0);}
+  /* Waffen-Slots (Pixel-Kacheln, drei Zustände) */
+  .ckWeaponBay{gap:4px;}
+  .ckSlot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:30px;height:34px;border-radius:5px;padding:2px;
+    background:rgba(8,1,15,.5);border:2px solid rgba(255,255,255,.12);color:#fff;transition:transform .1s;}
+  .ckSlot .cki{font-size:15px;line-height:1;}
+  .ckSlot .ckpips{display:flex;gap:1.5px;}
+  .ckSlot .ckpips i{width:3px;height:3px;border-radius:1px;background:rgba(255,255,255,.2);}
+  .ckSlot .ckpips i.on{background:var(--wc,#19f0ff);box-shadow:0 0 4px var(--wc,#19f0ff);}
+  .ckSlot .ckslotTag{font-size:8px;line-height:1;font-weight:700;}
+  .ckSlot.eq{border-color:var(--wc,#19f0ff);background:linear-gradient(180deg,color-mix(in srgb,var(--wc,#19f0ff) 18%,transparent),rgba(8,1,15,.55));
+    box-shadow:0 0 10px color-mix(in srgb,var(--wc,#19f0ff) 55%,transparent),inset 0 0 6px color-mix(in srgb,var(--wc,#19f0ff) 22%,transparent);}
+  .ckSlot.av{border-style:dashed;border-color:rgba(25,240,255,.5);}
+  .ckSlot.av .cki{opacity:.6;} .ckSlot.av .ckslotTag{color:#19f0ff;text-shadow:0 0 5px #19f0ff;}
+  .ckSlot.lk{border-color:rgba(255,255,255,.1);opacity:.55;}
+  .ckSlot.lk .cki{opacity:.35;filter:grayscale(1);} .ckSlot.lk .ckslotTag{opacity:.8;}
+  .ckSlot:active{transform:scale(.92);}
+  /* Synergie-Slots */
+  .ckSynBay{gap:4px;}
+  .ckSyS{width:24px;height:24px;border-radius:6px;font-size:13px;color:#ff7ab8;background:rgba(8,1,15,.5);border:2px dashed rgba(255,46,136,.3);display:flex;align-items:center;justify-content:center;}
+  .ckSyS.on{border-style:solid;border-color:rgba(255,46,136,.7);color:#fff;background:rgba(255,46,136,.14);box-shadow:0 0 9px rgba(255,46,136,.5);filter:drop-shadow(0 0 4px #ff2e88);}
+  .ckSyS:active{transform:scale(.92);}
+  .ckSynCount{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#ff9ec9;padding:2px 5px;border-radius:6px;background:rgba(255,46,136,.1);border:1px solid rgba(255,46,136,.3);}
+  /* Steuer-Bay */
+  .ckCtl{gap:5px;}
+  .ckSkill{font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;color:#19f0ff;background:rgba(25,240,255,.14);border:1px solid rgba(25,240,255,.55);border-radius:8px;padding:5px 8px;}
+  .ckHub{font-size:17px;line-height:1;color:#fff;background:linear-gradient(180deg,rgba(25,240,255,.2),rgba(25,240,255,.06));border:1px solid rgba(25,240,255,.6);border-radius:8px;padding:5px 8px;box-shadow:0 0 10px rgba(25,240,255,.3);}
+  .ckSkill:active,.ckHub:active{transform:scale(.93);}
