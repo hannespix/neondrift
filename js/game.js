@@ -21,7 +21,7 @@
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.',
       m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
-      m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.',
+      m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.', mfeat_normal:'📈 Level|👾 Bosse|🃏 Upgrades', mfeat_hard:'⚡ Speed|🎯 Near-Miss|🚫 Orbs', mfeat_zen:'♾️ Kein Tod|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', addWeapon:'Waffe holen', skillPts:'Skillpunkte', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Werkstatt (Upgrades + Chips)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
@@ -48,7 +48,7 @@
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then NEONDRIFT runs fullscreen.',
       m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
-      m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.',
+      m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.', mfeat_normal:'📈 Levels|👾 Bosses|🃏 Upgrades', mfeat_hard:'⚡ Fast|🎯 Near-Miss|🚫 No orbs', mfeat_zen:'♾️ No death|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', addWeapon:'Get weapon', skillPts:'skill points', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Workshop (upgrades + chips)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
@@ -75,7 +75,7 @@
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – NEONDRIFT passe en plein écran.',
       m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
-      m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.',
+      m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.', mfeat_normal:'📈 Niveaux|👾 Boss|🃏 Améliorations', mfeat_hard:'⚡ Rapide|🎯 Near-Miss|🚫 Sans orbes', mfeat_zen:'♾️ Sans mort|🌊 Détente|🏆 Score',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
       newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', addWeapon:'Prendre arme', skillPts:'points', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Atelier (upgrades + chips)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
@@ -2713,6 +2713,13 @@
       wrap.appendChild(card); });
     if(L.length<MAXSHIPS){ const nc=document.createElement('div'); nc.className='skcard newship'; nc.innerHTML='<div>✏️＋</div><h5 style="font-size:13px;">'+t('newShip')+'</h5>';
       nc.addEventListener('click',()=>openShipEditor(-1)); wrap.appendChild(nc); } }
+  const MODEMETA={normal:{emblem:'🎮'},hardcore:{emblem:'⚡'},zen:{emblem:'🧘'}};
+  // Mode-Karten grafisch: großes Emblem + Feature-Chips (Icons statt Fließtext), Volltext per ⓘ-Tooltip
+  function renderModes(){ document.querySelectorAll('.mode').forEach(c=>{ const dm=c.dataset.mode, m=(dm==='hardcore'?'hard':dm);
+    const emblem=(MODEMETA[dm]||{}).emblem||'🎮', name=t('m_'+m), desc=t('m_'+m+'D');
+    const chips=(t('mfeat_'+m)||'').split('|').map(s=>'<span class="mchip">'+s.trim()+'</span>').join('');
+    c.innerHTML='<div class="memblem">'+emblem+'</div><h3>'+name+'</h3><div class="mfeat">'+chips+'</div>'+infoBtn(name,desc,'minfo');
+    const ib=c.querySelector('.minfo'); if(ib) ib.addEventListener('click',e=>{ e.stopPropagation(); showTip(name,desc,ib); }); }); }
   function applyI18n(){ try{ document.documentElement.lang=lang;
     const set=(id,v,html)=>{ const e=document.getElementById(id); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
@@ -2720,8 +2727,7 @@
     set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl','🚀 '+t('workshop'));
     setIco('achBtn','🏅',t('achBtn')); setIco('settingsBtn','⚙️',t('settings'));
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
-    document.querySelectorAll('.mode').forEach(c=>{ const m=c.dataset.mode==='hardcore'?'hard':c.dataset.mode;
-      const h=c.querySelector('h3'),p=c.querySelector('p'); if(h)h.textContent=t('m_'+m); if(p)p.textContent=t('m_'+m+'D'); });
+    renderModes();
     setSel('#pause .utitle',t('pause')); set('resumeBtn',t('resume')); set('pauseMenuBtn',t('mainmenu')); set('arsenalViewBtn',t('arsenalBtn'));
     setSel('#arsenalView .utitle',t('arsenalTitle')); set('arsenalBackBtn',t('back'));
     setSel('#upgrade .utitle',t('chooseUp'));
@@ -2798,7 +2804,7 @@
       +'</div>'; }
   { const db=document.getElementById('diffBtn'); if(db){ updateDiffLabel();
     db.addEventListener('click',()=>{ meta.diff=((meta.diff||0)+1)%DIFFS.length; saveMeta(); updateDiffLabel(); sfxPow(); vibe(8); }); } }
-  document.querySelectorAll('.mode').forEach(c=>c.addEventListener('click',()=>startGame(c.dataset.mode)));
+  document.querySelectorAll('.mode').forEach(c=>c.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; startGame(c.dataset.mode); }));
   document.getElementById('dailyBtn').addEventListener('click',()=>startGame('daily'));
   document.getElementById('shopBtn').addEventListener('click',()=>openShop('start'));
   document.getElementById('overShopBtn').addEventListener('click',()=>openShop('over'));
