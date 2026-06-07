@@ -17,7 +17,7 @@
   /* flexible Abstandshalter zentrieren kurzen Inhalt, kollabieren bei langem -> volles Scrollen (Touch) */
   .screen::before,.screen::after{content:"";flex:1 0 8px;}
   /* In-Game-Overlays: kein Backdrop-Blur (teuer über animiertem Canvas) + VOLL deckend → kein Durchscheinen eines darunterliegenden Overlays */
-  #upgrade,#arsenalView,#pause,#over{backdrop-filter:none;-webkit-backdrop-filter:none;background-color:#08010f;
+  #upgrade,#arsenalView,#pause,#over,#coinshop{backdrop-filter:none;-webkit-backdrop-filter:none;background-color:#08010f;
     background-image:radial-gradient(ellipse at center,rgba(20,4,40,1) 0%,rgba(8,1,15,1) 72%);}
   .hidden{opacity:0;pointer-events:none;}
   /* immer erreichbarer Schließen-Button (oben rechts) */
@@ -643,3 +643,6 @@
   .balChest{cursor:pointer;padding:2px;border:none;background:none;line-height:0;display:inline-flex;align-items:center;vertical-align:-0.3em;-webkit-tap-highlight-color:transparent;}
   .balChest .chestIco{width:22px;height:22px;}
   .balChest:active{transform:scale(.9);}
+  /* Highscore-Kacheln im Erfolge-Screen (Akzent gold) */
+  .sttile.hs{border-color:rgba(255,230,0,.4);background:rgba(255,230,0,.06);}
+  .sttile.hs b{color:var(--yellow);}
