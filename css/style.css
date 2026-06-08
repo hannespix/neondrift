@@ -374,7 +374,7 @@
   #shipEditor{overflow-y:auto;}
   #edBudgetBar{width:min(220px,70vw);height:8px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;margin:6px 0 12px;}
   #edBudgetFill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--yellow));transition:width .18s;}
-  #editCanvas{background:#0b0218;border:1px solid rgba(255,255,255,.18);border-radius:10px;image-rendering:pixelated;touch-action:none;box-shadow:0 0 30px rgba(25,240,255,.18);}
+  #editCanvas{width:min(240px,80vw);height:auto;aspect-ratio:220/320;background:#0b0218;border:1px solid rgba(255,255,255,.18);border-radius:10px;image-rendering:pixelated;touch-action:none;box-shadow:0 0 30px rgba(25,240,255,.18);}
   #edPalette{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px;max-width:300px;}
   #edPalette .sw{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid rgba(255,255,255,.2);transition:transform .1s;}
   #edPalette .sw.on{border-color:#fff;transform:scale(1.14);box-shadow:0 0 12px currentColor;}
