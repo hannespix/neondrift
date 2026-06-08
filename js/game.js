@@ -3077,10 +3077,9 @@
     x.strokeStyle=mfxHexA(col,0.4*a); x.lineWidth=wide; x.stroke();
     x.strokeStyle=mfxHexA(col,0.7*a); x.lineWidth=coreW*1.9; x.stroke();
     x.strokeStyle='rgba(255,255,255,'+(0.85*a)+')'; x.lineWidth=coreW; x.stroke(); }
-  function mfxDot(x,sp){ const a=Math.max(0,Math.min(1,sp.life/(sp.maxlife||0.5)*1.3)), r=sp.r;
-    x.globalAlpha=a*0.4; x.fillStyle=sp.col; x.beginPath(); x.arc(sp.x,sp.y,r*2.3,0,6.28); x.fill();
-    x.globalAlpha=a; x.beginPath(); x.arc(sp.x,sp.y,r*0.92,0,6.28); x.fill();
-    x.globalAlpha=Math.min(1,a*1.1); x.fillStyle='#ffffff'; x.beginPath(); x.arc(sp.x,sp.y,r*0.4,0,6.28); x.fill(); }
+  function mfxDot(x,sp){ const a=Math.max(0,Math.min(1,sp.life/(sp.maxlife||0.5)*1.4)), s=Math.max(1,sp.r); x.fillStyle=sp.col;   // eckige Partikel wie im Spiel (Halo + Kern als fillRect)
+    x.globalAlpha=a*0.35; x.fillRect(Math.round(sp.x-s),Math.round(sp.y-s),Math.round(s*2),Math.round(s*2));
+    x.globalAlpha=a;      x.fillRect(Math.round(sp.x-s/2),Math.round(sp.y-s/2),Math.round(s),Math.round(s)); }
   function mfxFrame(dt){
     const s=document.getElementById('start');
     if(!s||s.classList.contains('hidden')){ if(mfxBolts.length||mfxSparks.length){ mfxBolts.length=0; mfxSparks.length=0; mfxWeld.glow=0; if(mfxX&&mfxW) mfxX.clearRect(0,0,mfxW,mfxH); } return; }
@@ -3101,8 +3100,10 @@
     if(hb&&hb.offsetParent!==null){ const R=mfxRect(s,hb); mfxWeld.x=R.left+R.w-7; mfxWeld.y=R.top+R.h-7;
       if(mfxWeldT<=0){ mfxWeldT=0.02+Math.random()*0.085;
         mfxWeld.glow=(Math.random()<0.28)?(0.08+Math.random()*0.18):(0.6+Math.random()*0.4);   // erratisch hell/dunkel = starkes Flackern
-        if(Math.random()<0.8){ const ang=-0.4-Math.random()*2.2, sp=50+Math.random()*150, c=Math.random()<0.35?'#ffd27a':(Math.random()<0.5?'#fff7d0':'#bdf6ff');
-          mfxSpark(mfxWeld.x,mfxWeld.y,c,Math.cos(ang)*sp,Math.sin(ang)*sp,0.18+Math.random()*0.3,1.6+Math.random()*1.6); } }
+        const n=1+(Math.random()<0.32?1:0)+(Math.random()<0.12?1:0);   // sputternde Schweißfunken
+        for(let i=0;i<n;i++){ const ang=0.05+Math.random()*1.15, sp=55+Math.random()*150,   // nach RECHTS-UNTEN spritzen
+            c=Math.random()<0.2?'#ffffff':(Math.random()<0.5?'#ffe600':'#ffd23f');   // Funken gelb (vereinzelt weiß-heiß)
+          mfxSpark(mfxWeld.x,mfxWeld.y,c,Math.cos(ang)*sp,Math.sin(ang)*sp,0.15+Math.random()*0.26,1.4+Math.random()*1.5); } }
     } else mfxWeld.glow=0;
     mfxWeld.glow*=Math.pow(0.015,dt);   // schneller abklingen → snappigeres Flackern
     // ---- zeichnen (weiches additives Glühen, wie die Effekte im Spiel) ----
@@ -3112,10 +3113,10 @@
     x.globalAlpha=1;
     for(let i=mfxSparks.length-1;i>=0;i--){ const sp=mfxSparks[i]; sp.life-=dt; if(sp.life<=0){ mfxSparks.splice(i,1); continue; }
       sp.x+=sp.vx*dt; sp.y+=sp.vy*dt; sp.vy+=170*dt; sp.vx*=0.95; mfxDot(x,sp); }
-    if(mfxWeld.glow>0.04){ const g=Math.min(1,mfxWeld.glow);
-      x.globalAlpha=0.42*g; x.fillStyle='#9fe9ff'; x.beginPath(); x.arc(mfxWeld.x,mfxWeld.y,11,0,6.28); x.fill();
-      x.globalAlpha=0.85*g; x.fillStyle='#eaffff'; x.beginPath(); x.arc(mfxWeld.x,mfxWeld.y,4.5,0,6.28); x.fill();
-      x.globalAlpha=g; x.fillStyle='#ffffff'; x.beginPath(); x.arc(mfxWeld.x,mfxWeld.y,2,0,6.28); x.fill(); }
+    if(mfxWeld.glow>0.04){ const g=Math.min(1,mfxWeld.glow), wx=Math.round(mfxWeld.x), wy=Math.round(mfxWeld.y);   // weißer Schweißkern, eckig
+      x.globalAlpha=0.4*g; x.fillStyle='#fff3b0'; x.fillRect(wx-7,wy-7,14,14);     // gelblich-weißer Schein
+      x.globalAlpha=0.85*g; x.fillStyle='#ffffff'; x.fillRect(wx-4,wy-4,8,8);
+      x.globalAlpha=g; x.fillStyle='#ffffff'; x.fillRect(wx-2,wy-2,4,4); }          // gleißend weißer Kern
     x.globalAlpha=1; x.restore();
   }
 
