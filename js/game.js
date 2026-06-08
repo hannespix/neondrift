@@ -22,8 +22,8 @@
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.',
       m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
-      m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
-      m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.', mfeat_normal:'📈 Level|👾 Bosse|🃏 Upgrades', mfeat_hard:'⚡ Speed|🎯 Near-Miss|🚫 Orbs', mfeat_zen:'♾️ Kein Tod|🌊 Chill|🏆 Highscore',
+      m_hard:'BLITZ', m_hardD:'Brutal schnell, keine Level-Pausen. Nur Mut, Near-Misses & Power-Ups retten dich.',
+      m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.', mfeat_normal:'📈 Level|👾 Bosse|🃏 Upgrades', mfeat_hard:'⚡ Speed|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ Kein Tod|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEUE WAFFE', path:'PFAD', ckLblW:'Waffen', ckLblS:'Synergien', ckLblV:'Leben', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte',spStart:'Starter-Bonus',buySP:'Skillpunkt kaufen',needSP:'Keine Skillpunkte',needSPsub:'Bosse besiegen oder kaufen',spDrop:'Boss-Beute!',statusTitle:'📊 GEFECHTSDATENBLATT',statusBtn:'Schiffsstatus',statDps:'Ø Schaden/s',statCrit:'Krit-Chance',statCritDmg:'Krit-Wucht',statLives:'Leben',statShield:'Schild',statLuck:'Glück',statScore:'Punkte-Boost',statCoin:'Coin-Boost',statHull:'Hitbox',statReach:'Nähe-Radius',statFirepower:'Feuerkraft-Verteilung',statNoWep:'Keine Waffen ausgerüstet.',statEst:'geschätzt', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', curseOver:'vorbei!', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Hangar & Werkstatt (Waffen, Upgrades, Chips, Skillpunkte)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
@@ -51,8 +51,8 @@
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then NEONDRIFT runs fullscreen.',
       m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
-      m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
-      m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.', mfeat_normal:'📈 Levels|👾 Bosses|🃏 Upgrades', mfeat_hard:'⚡ Fast|🎯 Near-Miss|🚫 No orbs', mfeat_zen:'♾️ No death|🌊 Chill|🏆 Highscore',
+      m_hard:'BLITZ', m_hardD:'Brutally fast, no breathers. Only guts, near-misses & power-ups save you.',
+      m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.', mfeat_normal:'📈 Levels|👾 Bosses|🃏 Upgrades', mfeat_hard:'⚡ Fast|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ No death|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEW WEAPON', path:'PATH', ckLblW:'Weapons', ckLblS:'Synergies', ckLblV:'Life', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points',spStart:'starter bonus',buySP:'Buy skill point',needSP:'No skill points',needSPsub:'Beat bosses or buy them',spDrop:'Boss loot!',statusTitle:'📊 COMBAT DOSSIER',statusBtn:'Ship status',statDps:'Avg damage/s',statCrit:'Crit chance',statCritDmg:'Crit power',statLives:'Lives',statShield:'Shield',statLuck:'Luck',statScore:'Score boost',statCoin:'Coin boost',statHull:'Hitbox',statReach:'Pickup range',statFirepower:'Firepower split',statNoWep:'No weapons equipped.',statEst:'estimated', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', curseOver:'over!', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Hangar & Workshop (weapons, upgrades, chips, skill points)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
@@ -80,8 +80,8 @@
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – NEONDRIFT passe en plein écran.',
       m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
-      m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
-      m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.', mfeat_normal:'📈 Niveaux|👾 Boss|🃏 Améliorations', mfeat_hard:'⚡ Rapide|🎯 Near-Miss|🚫 Sans orbes', mfeat_zen:'♾️ Sans mort|🌊 Détente|🏆 Score',
+      m_hard:'BLITZ', m_hardD:'Ultra rapide, sans répit. Seuls le cran, les near-miss & power-ups te sauvent.',
+      m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.', mfeat_normal:'📈 Niveaux|👾 Boss|🃏 Améliorations', mfeat_hard:'⚡ Rapide|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ Sans mort|🌊 Détente|🏆 Score',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
       newWeapon:'NOUVELLE ARME', path:'VOIE', ckLblW:'Armes', ckLblS:'Synergies', ckLblV:'Vies', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points',spStart:'bonus de départ',buySP:'Acheter un point',needSP:'Aucun point',needSPsub:'Battez des boss ou achetez',spDrop:'Butin de boss !',statusTitle:'📊 FICHE DE COMBAT',statusBtn:'Statut du vaisseau',statDps:'Dégâts/s moy.',statCrit:'Chance crit',statCritDmg:'Force crit',statLives:'Vies',statShield:'Bouclier',statLuck:'Chance',statScore:'Bonus points',statCoin:'Bonus coins',statHull:'Hitbox',statReach:'Rayon de collecte',statFirepower:'Répartition puissance',statNoWep:'Aucune arme équipée.',statEst:'estimé', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', curseOver:'fini !', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Hangar & Atelier (armes, upgrades, chips, points)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
@@ -105,9 +105,9 @@
   };
   // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
   const UPTR={
-    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Up-Drop-Chance +50%'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Schiff rutscht & driftet, +65% Punkte'],smol:['Smol Brain','Hitbox +28% (stapelt), dafür +50% Punkte'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','Mehr Gegner-Andrang, dafür Orbs ×2 Punkte'],mirror:['Spiegelwelt','30s gespiegelte Steuerung, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+22% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 14% schneller'],crit:['Zielfokus','+11% Krit-Chance (×2 Schaden)'],critdmg:['Wuchttreffer','+25% Krit-Schaden (rot)']},
-    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-up drop chance +50%'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Ship slides & drifts, +65% score'],smol:['Smol Brain','Hitbox +28% (stacks), +50% score'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','More enemy crowding, but orbs ×2 score'],mirror:['Mirror World','30s flipped steering, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+22% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 14% faster'],crit:['Focus','+11% crit chance (×2 damage)'],critdmg:['Heavy Hit','+25% crit damage']},
-    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Chance de drop +50%'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Vaisseau glisse & dérive, +65% score'],smol:['Smol Brain','Hitbox +28% (cumul), +50% score'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','Plus d’ennemis, mais orbes ×2 score'],mirror:['Monde Miroir','Pilotage inversé 30s, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+22% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 14% plus vite'],crit:['Focalisation','+11% chance de critique (×2 dégâts)'],critdmg:['Coup Lourd','+25% dégâts critiques']}
+    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Münz-Veredelung','Münzen +60% Wert'],magnet:['Magnetfeld','Dauerhafter Münz-Sog'],loot:['Glücksbringer','Power-Up-Drop-Chance +50%'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Schiff rutscht & driftet, +65% Punkte'],smol:['Smol Brain','Hitbox +28% (stapelt), dafür +50% Punkte'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','Mehr Gegner-Andrang, dafür Münzen ×2 Wert'],mirror:['Spiegelwelt','30s gespiegelte Steuerung, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+22% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 14% schneller'],crit:['Zielfokus','+11% Krit-Chance (×2 Schaden)'],critdmg:['Wuchttreffer','+25% Krit-Schaden (rot)']},
+    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Coin Refining','Coins +60% value'],magnet:['Magnet Field','Permanent coin pull'],loot:['Lucky Charm','Power-up drop chance +50%'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Ship slides & drifts, +65% score'],smol:['Smol Brain','Hitbox +28% (stacks), +50% score'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','More enemy crowding, but coins ×2 value'],mirror:['Mirror World','30s flipped steering, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+22% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 14% faster'],crit:['Focus','+11% crit chance (×2 damage)'],critdmg:['Heavy Hit','+25% crit damage']},
+    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage de Pièces','Pièces +60% valeur'],magnet:['Champ Magnétique','Attraction de pièces'],loot:['Porte-Bonheur','Chance de drop +50%'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Vaisseau glisse & dérive, +65% score'],smol:['Smol Brain','Hitbox +28% (cumul), +50% score'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','Plus d’ennemis, mais pièces ×2 valeur'],mirror:['Monde Miroir','Pilotage inversé 30s, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+22% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 14% plus vite'],crit:['Focalisation','+11% chance de critique (×2 dégâts)'],critdmg:['Coup Lourd','+25% dégâts critiques']}
   };
   // Waffen (Basis), Skill-Pfade & Synergien – [Name, Beschreibung]
   const WTR={
@@ -319,9 +319,9 @@
   const achName=id=>((ACHTR[lang]&&ACHTR[lang][id])||ACHTR.en[id]||[id])[0];
   const achDesc=id=>(((ACHTR[lang]&&ACHTR[lang][id])||ACHTR.en[id]||['',''])[1])||'';
   const STATTR={
-    de:{stats:'STATISTIK',runs:'Runs',orbs:'Orbs',near:'Near-Misses',perfect:'Perfekt',bosses:'Bosse',maxCombo:'Top-Combo',maxBoss:'Top-Boss',chipsTotal:'Chips gesamt',won:'Siege'},
-    en:{stats:'STATISTICS',runs:'Runs',orbs:'Orbs',near:'Near-misses',perfect:'Perfect',bosses:'Bosses',maxCombo:'Top combo',maxBoss:'Top boss',chipsTotal:'Total chips',won:'Wins'},
-    fr:{stats:'STATISTIQUES',runs:'Parties',orbs:'Orbes',near:'Near-miss',perfect:'Parfait',bosses:'Boss',maxCombo:'Combo max',maxBoss:'Boss max',chipsTotal:'Chips total',won:'Victoires'}
+    de:{stats:'STATISTIK',runs:'Runs',orbs:'Münzen',near:'Near-Misses',perfect:'Perfekt',bosses:'Bosse',maxCombo:'Top-Combo',maxBoss:'Top-Boss',chipsTotal:'Chips gesamt',won:'Siege'},
+    en:{stats:'STATISTICS',runs:'Runs',orbs:'Coins',near:'Near-misses',perfect:'Perfect',bosses:'Bosses',maxCombo:'Top combo',maxBoss:'Top boss',chipsTotal:'Total chips',won:'Wins'},
+    fr:{stats:'STATISTIQUES',runs:'Parties',orbs:'Pièces',near:'Near-miss',perfect:'Parfait',bosses:'Boss',maxCombo:'Combo max',maxBoss:'Boss max',chipsTotal:'Chips total',won:'Victoires'}
   };
   const stTxt=k=>((STATTR[lang]&&STATTR[lang][k])||STATTR.en[k]||k);
   let achToasts=[];
@@ -807,8 +807,8 @@
     {id:'glass',ico:'💎',name:'Glaskanone',desc:'+30% Punkte, aber +15% Hitbox',max:2,apply:()=>{mods.scoreMult*=1.3;mods.playerR*=1.15;player.r=mods.playerR;}},
     {id:'nimble',ico:'⚡',name:'Flink',desc:'Reaktion deutlich schneller',max:3,apply:()=>{mods.follow+=6;}},
     {id:'small',ico:'🔻',name:'Kompakt',desc:'Hitbox −18%',max:2,apply:()=>{mods.playerR*=0.82;player.r=mods.playerR;}},
-    {id:'orbval',ico:'🔷',name:'Orb-Veredelung',desc:'Orbs geben +60% Punkte',max:3,pickup:true,apply:()=>{mods.orbValueMult*=1.6;}},
-    {id:'magnet',ico:'🧲',name:'Magnetfeld',desc:'Dauerhafter Orb-Sog',max:3,pickup:true,apply:()=>{mods.magnetPassive+=130;}},
+    {id:'orbval',ico:'🪙',name:'Münz-Veredelung',desc:'Münzen geben +60% Wert',max:3,pickup:true,apply:()=>{mods.orbValueMult*=1.6;}},
+    {id:'magnet',ico:'🧲',name:'Magnetfeld',desc:'Dauerhafter Münz-Sog',max:3,pickup:true,apply:()=>{mods.magnetPassive+=130;}},
     {id:'loot',ico:'🎁',name:'Glücksbringer',desc:'Power-Ups erscheinen 50% öfter',max:2,pickup:true,apply:()=>{mods.powerupRate*=1.5;}},
     {id:'combo',ico:'🔗',name:'Combo-Anker',desc:'Jeder Near-Miss gibt +1 Combo extra',max:2,pickup:true,apply:()=>{mods.comboBonus+=1;}},
     {id:'reflex',ico:'🕙',name:'Reflex-Kern',desc:'Slow-Mo hält 50% länger',max:2,pickup:true,apply:()=>{mods.slowmoMult*=1.5;}},
@@ -818,7 +818,7 @@
     {id:'smol',ico:'🫠',name:'Smol Brain',desc:'Hitbox +28% (stapelt), dafür +50% Punkte',max:1,curse:true,apply:()=>{mods.playerR*=1.28;if(player)player.r=mods.playerR;mods.scoreMult*=1.5;}},
     {id:'energy',ico:'⚡',name:'Energy-Drink-OD',desc:'Hindernisse +22% schneller, Near-Radius +75%',max:1,curse:true,apply:()=>{mods.obSpeed*=1.22;mods.nearRadius*=1.75;}},
     {id:'blind',ico:'🌫️',name:'Drip aber blind',desc:'Sicht eingeschränkt, dafür +90% Punkte',max:1,curse:true,apply:()=>{mods.fog=Math.min(0.82,mods.fog+0.55);mods.scoreMult*=1.9;}},
-    {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
+    {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Münzen ×2 Wert',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
     {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'30 Sek. gespiegelte Steuerung (einmalig, Timer im HUD), +55% Punkte',max:1,curse:true,apply:()=>{mods.mirror=true;mirrorOn=true;if(effects)effects.mirror=MIR_DUR;mods.scoreMult*=1.55;}},
     // ---- Globale Waffen-Passive (KEIN Slot, gelten für alle Waffen, multiplikativ = abnehmender Ertrag) ----
     {id:'amp',  ico:'💥',name:'Verstärker',desc:'+22% Schaden für ALLE Waffen',max:6,wpass:true,apply:()=>{ mods.wDmgMult*=1.22; }},
@@ -1260,8 +1260,7 @@
     }
     obstacles.push(o);
   }
-  function spawnOrb(){ orbs.push({x:grand(30,W-30),y:-20,r:9,vy:90+difficulty*30,pulse:Math.random()*6.28}); }
-  // ---------- Münz-Pickups: 1/2/5/10, höhere Beträge seltener & größer, manchmal in Gruppen ----------
+  // ---------- Münz-Pickups: 1/2/5/10, höhere Beträge seltener & größer, manchmal in Gruppen (Combo + Punkte + Geld) ----------
   const COINR={1:10,2:12,5:14.5,10:17.5};
   function coinVal(){ const r=Math.random(); return r<0.58?1:(r<0.84?2:(r<0.955?5:10)); }   // je höher, desto seltener
   const coinMult=()=>Math.min(5,Math.max(1.1,1+combo*0.1));   // Combo-Multiplikator 1.1–5.0 in 0.1-Schritten je nach Combo
@@ -1644,8 +1643,7 @@
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
         spawnT=Math.max(0.24,(1.08-difficulty*0.05-level*0.022)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+1.9*introT())*0.95/diffDen); } }   // Start SEHR dünn (1+1.9*introT → wenige Gegner zum Kennenlernen), mehr Obstacles pro Level (level*0.022), spät dichter
-    if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
-      if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
+    // (Orbs entfernt – Münzen übernehmen Combo+Punkte+Geld)
     // Münzen fallen laufend (Haupt-Einkommensquelle), gelegentlich als ganze Gruppe
     coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
@@ -1761,19 +1759,6 @@
       if(invuln<=0 && dx*dx+dy*dy<rr*rr){ ebullets.splice(i,1); if(hitPlayer('#ff2e88')) return; }
     }
 
-    // Orbs
-    for(let i=orbs.length-1;i>=0;i--){ const orb=orbs[i]; orb.y+=orb.vy*dt*ts; orb.pulse+=dt*6;
-      const pull=effects.magnet>0?440:mods.magnetPassive;
-      if(pull>0){ const dd=Math.hypot(player.x-orb.x,player.y-orb.y), rng=effects.magnet>0?Math.max(W,H)*0.25:170;   // Magnet-Reichweite gedeckelt (max ¼ Bildschirm – zieht erst bei Nähe)
-        if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
-      const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
-      if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); runOrbs++; const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
-        // Orbs = COMBO/Punkte-Energie (kein Coin-Payout mehr → Münzen sind die einzige Geld-Quelle, klar getrennt)
-        floatText(orb.x,orb.y-16,'+'+g,'#7cff2e',15);
-        spawnParticles(orb.x,orb.y,'#7cff2e',16,240); sfxOrb(combo); beep(1500,0.05,'square',0.12,420); bumpCombo(); vibe(10);
-        flash=Math.min(0.5,flash+0.18); flashColor='#7cff2e'; orbs.splice(i,1); continue; }
-      if(orb.y>H+20) orbs.splice(i,1);
-    }
 
     // Power-ups
     for(let i=powerups.length-1;i>=0;i--){ const p=powerups[i]; p.y+=p.vy*dt*ts; p.pulse+=dt*5;
@@ -1806,8 +1791,10 @@
       if(pull>0&&dd>1&&dd<rng){ const a=Math.atan2(player.y-c.y,player.x-c.x); c.x+=Math.cos(a)*pull*dt; c.y+=Math.sin(a)*pull*dt; }
       c.y+=c.vy*dt*ts;
       const dx=player.x-c.x,dy=player.y-c.y,rr=player.r+c.r+4;
-      if(dx*dx+dy*dy<rr*rr){ const amt=Math.max(1,Math.round(c.val*coinMult())); awardCoins(amt,c.x,c.y-14,c.val>=5);
-        spawnParticles(c.x,c.y,'#ffe066',c.val>=5?14:8,200); sfxCoin(); flash=Math.min(0.4,flash+0.07); flashColor='#ffd23f'; coinz.splice(i,1); continue; }
+      if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.012); runOrbs++;   // Münzen bauen jetzt auch Combo + geben Punkte (Orbs sind dadurch überflüssig)
+        addScore(Math.round(8*multiplier));
+        const amt=Math.max(1,Math.round(c.val*coinMult()*(mods.orbValueMult||1))); awardCoins(amt,c.x,c.y-14,c.val>=5);
+        spawnParticles(c.x,c.y,'#ffe066',c.val>=5?14:8,200); sfxCoin(); bumpCombo(); vibe(9); flash=Math.min(0.45,flash+0.08); flashColor='#ffd23f'; coinz.splice(i,1); continue; }
       if(c.y>H+26) coinz.splice(i,1);
     }
 
@@ -2047,15 +2034,6 @@
           grd.addColorStop(0,'rgba(255,46,136,0)');grd.addColorStop(.5,`rgba(255,255,255,${0.9*fd})`);grd.addColorStop(1,'rgba(255,46,136,0)'); ctx.fillStyle=grd;
           if(L.orient==='v')ctx.fillRect(L.pos-L.thick/2,0,L.thick,H); else ctx.fillRect(0,L.pos-L.thick/2,W,L.thick); }
         ctx.restore(); }
-
-      // orbs = COMBO-Energie: grüner Glow-Orb mit ✦ (klar KEINE Münze – Münzen sind gold mit Zahl)
-      if(orbs.length){ const gs=glowSprite('#7cff2e');
-        for(const orb of orbs){ const pr=orb.r+Math.sin(orb.pulse)*2, gr=pr*2.8;
-          ctx.globalCompositeOperation='lighter'; ctx.drawImage(gs,orb.x-gr,orb.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
-          ctx.fillStyle='#5fdc1e'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr,0,6.28);ctx.fill();
-          ctx.fillStyle='#dfffc0'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr*0.62,0,6.28);ctx.fill();
-          ctx.fillStyle='#2a6e00'; ctx.font='900 '+Math.round(pr*1.4)+'px Orbitron,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('✦',orb.x,orb.y+0.5); }
-        ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
 
       // Münzen (1/2/5/10) – Gold-Disc mit aufgedruckter Zahl, Größe nach Wert
       if(coinz&&coinz.length){ const gs=glowSprite('#ffe066');
@@ -2696,7 +2674,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v201';
+  const GAME_VER='v202';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3178,7 +3156,7 @@
   function renderAch(){ const got=ACH.filter(a=>meta.ach&&meta.ach[a.id]).length, sub=document.getElementById('achSub');
     if(sub) sub.textContent=got+'/'+ACH.length;
     const sp=document.getElementById('achStats');
-    if(sp){ const rows=[['runs','🎮',statN('runs')],['orbs','🔷',statN('orbs')],['near','😎',statN('near')],['perfect','🎯',statN('perfect')],['bosses','🛸',statN('bosses')],['maxCombo','🔗','x'+statN('maxCombo')],['maxBoss','🌊',statN('maxBoss')],['chipsTotal','◈',fmt(statN('chipsTotal'))],['won','🏆',meta.won||0]];
+    if(sp){ const rows=[['runs','🎮',statN('runs')],['orbs','🪙',statN('orbs')],['near','😎',statN('near')],['perfect','🎯',statN('perfect')],['bosses','🛸',statN('bosses')],['maxCombo','🔗','x'+statN('maxCombo')],['maxBoss','🌊',statN('maxBoss')],['chipsTotal','◈',fmt(statN('chipsTotal'))],['won','🏆',meta.won||0]];
       const hs=(ico,label,v)=>'<div class="sttile hs"><span class="i">'+ico+'</span><b>'+fmt(v||0)+'</b><span class="l">'+label+'</span></div>';
       let hsTiles=hs('🕹️',modeLabel('normal'),best&&best.normal)+hs('⚡',modeLabel('hardcore'),best&&best.hardcore);
       if(best&&best.daily) hsTiles+=hs('🗓️',t('modeDaily'),best.daily);
