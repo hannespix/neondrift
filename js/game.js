@@ -17,6 +17,8 @@
   const TR={
     de:{
       tag:'weiche aus · sammle · überlebe', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
+      howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen ◈ und Skillpunkte 💠 – im Hangar 🎒 rüstest du auf.',
+      tipSP:'💠 Skillpunkt!', tipSPd:'Hangar 🎒 unten öffnen & aufrüsten', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.',
       m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
@@ -44,6 +46,8 @@
     },
     en:{
       tag:'dodge · collect · survive', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
+      howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins ◈ and skill points 💠 – gear up in the Hangar 🎒.',
+      tipSP:'💠 Skill point!', tipSPd:'Open the Hangar 🎒 below to gear up', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then NEONDRIFT runs fullscreen.',
       m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
@@ -71,6 +75,8 @@
     },
     fr:{
       tag:'esquive · collecte · survis', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
+      howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins ◈ et points 💠 – équipe-toi au Hangar 🎒.',
+      tipSP:'💠 Point de skill !', tipSPd:'Ouvre le Hangar 🎒 en bas pour t’équiper', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – NEONDRIFT passe en plein écran.',
       m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
@@ -198,8 +204,8 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
-    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0}; }
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0,seen:(r.seen&&typeof r.seen==='object')?r.seen:{}}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{}}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
   function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
@@ -763,6 +769,9 @@
   function spawnParticles(x,y,color,n,spd){ n=Math.max(1,Math.round(n*fxQ)); for(let i=0;i<n;i++){const a=Math.random()*6.28,s=rand(spd*0.3,spd);   // fxQ: bei Lag weniger Partikel erzeugen
     emitP(x,y,Math.cos(a)*s,Math.sin(a)*s,rand(0.012,0.03),color,rand(2,5));} }
   function floatText(x,y,text,color,size){ floaters.push({x,y,text,color:color||'#fff',size:size||16,life:1,vy:-42}); }
+  // Einmal-Hinweis fürs Onboarding (pro Schlüssel nur einmal, in meta gemerkt) – nutzt das Banner-System
+  function tutHint(key,text,sub,color){ meta.seen=meta.seen||{}; if(meta.seen[key]) return; meta.seen[key]=1; saveMeta();
+    banner={text:text,sub:sub||'',t:3.8,color:color||'#19f0ff'}; flash=Math.min(0.4,(flash||0)+0.12); flashColor=color||'#19f0ff'; }
   // Schadenszahl (weiß = normal, rot = Krit). Mit Soft-Cap gegen Spam & nur wenn aktiviert.
   function floatDamage(x,y,amt,crit){ if(!opt.dmg||floaters.length>66) return; const a=Math.round(amt); if(a<=0) return;
     floaters.push({x:x+rand(-5,5),y,text:crit?(a+'!'):''+a,color:crit?'#ff3b3b':'#ffffff',size:crit?20:13,life:1,vy:-58,vx:rand(-14,14),dr:crit?1.25:1.8}); }
@@ -1396,7 +1405,8 @@
   function spawnSP(x,y){ if(!sps) sps=[]; if(sps.length>40) return;
     sps.push({x:Math.max(20,Math.min(W-20,x+rand(-8,8))), y:Math.max(-20,y+rand(-6,6)), r:13, vy:40, pulse:Math.random()*6.28, rot:Math.random()*6.28}); }
   function collectSP(s){ skillPts++; runSPgain++; saveSP(); floatText(s.x,s.y-20,'💠 +1','#19f0ff',22); sfxPow();
-    spawnParticles(s.x,s.y,'#19f0ff',16,240); flash=Math.min(0.5,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); beep(1600,0.06,'square',0.12,300); updateAllBalances(); }
+    spawnParticles(s.x,s.y,'#19f0ff',16,240); flash=Math.min(0.5,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); beep(1600,0.06,'square',0.12,300); updateAllBalances();
+    tutHint('sp',t('tipSP'),t('tipSPd'),'#19f0ff'); }   // erster Skillpunkt: zeig, wo man aufrüstet
   // Boss-Drop: 0–3 Skillpunkte, gewichtet – meist 0/1 (1 ~50%), 2 sehr selten, 3 sehr sehr selten
   function grantBossSP(x,y){ const r=Math.random(), n=r<0.41?0:(r<0.91?1:(r<0.985?2:3));
     if(n<=0) return;   // kein Drop
@@ -1758,9 +1768,10 @@
         if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
       const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
       if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); runOrbs++; const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
-        const oc=(1.6+combo*0.06)*chipMult()*diffChip*(mods.orbValueMult||1); awardCoins(oc,orb.x,orb.y-16);   // Orbs = sichtbare Coins (Dopamin-Quelle, etwas gedrosselt)
-        spawnParticles(orb.x,orb.y,'#ffcf33',16,240); sfxOrb(combo); beep(1500,0.05,'square',0.12,420); bumpCombo(); vibe(10);
-        flash=Math.min(0.5,flash+0.18); flashColor='#ffd23f'; orbs.splice(i,1); continue; }
+        // Orbs = COMBO/Punkte-Energie (kein Coin-Payout mehr → Münzen sind die einzige Geld-Quelle, klar getrennt)
+        floatText(orb.x,orb.y-16,'+'+g,'#7cff2e',15);
+        spawnParticles(orb.x,orb.y,'#7cff2e',16,240); sfxOrb(combo); beep(1500,0.05,'square',0.12,420); bumpCombo(); vibe(10);
+        flash=Math.min(0.5,flash+0.18); flashColor='#7cff2e'; orbs.splice(i,1); continue; }
       if(orb.y>H+20) orbs.splice(i,1);
     }
 
@@ -1818,6 +1829,7 @@
     spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
     director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
+    tutHint('near',t('tipNear'),t('tipNeard'),'#ff2e88');   // erster Near-Miss: erklär Combo
     unlockAch('firstNear');
     if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]);
       awardCoins((2+multiplier*0.6)*chipMult()*diffChip,player.x+22,player.y-26); } }   // Combo-Strähne = Coin-Bündel (auch in BLITZ ohne Orbs)
@@ -2036,13 +2048,23 @@
           if(L.orient==='v')ctx.fillRect(L.pos-L.thick/2,0,L.thick,H); else ctx.fillRect(0,L.pos-L.thick/2,W,L.thick); }
         ctx.restore(); }
 
-      // orbs = Coins: Gold-Glow + ◈-Münze (klar als Coin erkennbar)
-      if(orbs.length){ const gs=glowSprite('#ffcf33');
+      // orbs = COMBO-Energie: grüner Glow-Orb mit ✦ (klar KEINE Münze – Münzen sind gold mit Zahl)
+      if(orbs.length){ const gs=glowSprite('#7cff2e');
         for(const orb of orbs){ const pr=orb.r+Math.sin(orb.pulse)*2, gr=pr*2.8;
           ctx.globalCompositeOperation='lighter'; ctx.drawImage(gs,orb.x-gr,orb.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
-          ctx.fillStyle='#ffcf33'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr,0,6.28);ctx.fill();
-          ctx.fillStyle='#fff3b0'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr*0.78,0,6.28);ctx.fill();
-          ctx.fillStyle='#a9710a'; ctx.font='900 '+Math.round(pr*1.5)+'px Orbitron,monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('◈',orb.x,orb.y+0.5); }
+          ctx.fillStyle='#5fdc1e'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr,0,6.28);ctx.fill();
+          ctx.fillStyle='#dfffc0'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr*0.62,0,6.28);ctx.fill();
+          ctx.fillStyle='#2a6e00'; ctx.font='900 '+Math.round(pr*1.4)+'px Orbitron,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('✦',orb.x,orb.y+0.5); }
+        ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
+
+      // Münzen (1/2/5/10) – Gold-Disc mit aufgedruckter Zahl, Größe nach Wert
+      if(coinz&&coinz.length){ const gs=glowSprite('#ffe066');
+        for(const c of coinz){ const pr=c.r+Math.sin(c.pulse)*1.4, gr=pr*2.4;
+          ctx.globalCompositeOperation='lighter'; ctx.drawImage(gs,c.x-gr,c.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
+          const g=ctx.createRadialGradient(c.x-pr*0.32,c.y-pr*0.32,1,c.x,c.y,pr); g.addColorStop(0,'#fff7c8'); g.addColorStop(0.55,'#ffd23f'); g.addColorStop(1,'#b8770a');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(c.x,c.y,pr,0,6.28); ctx.fill();
+          ctx.lineWidth=1.6; ctx.strokeStyle='#fff2a8'; ctx.stroke();
+          ctx.fillStyle='#7a4f00'; ctx.font='900 '+Math.round(pr*1.15)+'px Orbitron, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(c.val,c.x,c.y+0.5); }
         ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
 
       // Münzen (1/2/5/10) – Gold-Disc mit aufgedruckter Zahl, Größe nach Wert
@@ -2674,7 +2696,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v199';
+  const GAME_VER='v200';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3334,6 +3356,7 @@
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setIco=(id,ico,lbl)=>{ const e=document.getElementById(id); if(e){ e.textContent=ico; e.title=lbl; } };
     set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl',t('hangar'));
+    set('howTitle',t('howTitle')); set('howtoBtn',t('howGo')); set('howDodge',t('howDodge')); set('howDodgeD',t('howDodgeD')); set('howCombo',t('howCombo')); set('howComboD',t('howComboD')); set('howGear',t('howGear')); set('howGearD',t('howGearD'));
     setIco('achBtn','🏅',t('achBtn')); setIco('settingsBtn','⚙️',t('settings')); setIco('shipBtn','🎨',t('shipDesigner')); setIco('statusBtn','📊',t('statusBtn'));
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
     renderModes();
@@ -3537,6 +3560,10 @@
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
   applyI18n(); updateMenuChips();
+  // Erst-Run-Onboarding: einmalige "So geht's"-Karte über dem Menü
+  function closeHowto(){ const h=document.getElementById('howto'); if(h) h.classList.add('hidden'); meta.seen=meta.seen||{}; meta.seen.howto=1; saveMeta(); }
+  { const hb=document.getElementById('howtoBtn'); if(hb) hb.addEventListener('click',()=>{ closeHowto(); beep(740,0.08,'square',0.25); }); }
+  if(!(meta.seen&&meta.seen.howto)){ const h=document.getElementById('howto'); if(h) h.classList.remove('hidden'); }
   // Versions-Label dynamisch aus der echten Cache-Version (kein hartkodiertes „v54" mehr)
   try{ if(window.caches&&caches.keys) caches.keys().then(ks=>{ const m=(ks.find(k=>/neondrift-v\d+/.test(k))||'').match(/v\d+/); const el=document.querySelector('.credit'); if(el&&m) el.textContent='NEONDRIFT '+m[0]; }); }catch(e){}
   zenExitBtn.addEventListener('click',pauseGame);
