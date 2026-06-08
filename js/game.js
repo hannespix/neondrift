@@ -25,7 +25,7 @@
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte',spStart:'Starter-Bonus',buySP:'Skillpunkt kaufen',needSP:'Keine Skillpunkte',needSPsub:'Bosse besiegen oder kaufen',spDrop:'Boss-Beute!',statusTitle:'📊 GEFECHTSDATENBLATT',statusBtn:'Schiffsstatus',statDps:'Ø Schaden/s',statCrit:'Krit-Chance',statCritDmg:'Krit-Wucht',statLives:'Leben',statShield:'Schild',statLuck:'Glück',statScore:'Punkte-Boost',statCoin:'Coin-Boost',statHull:'Hitbox',statReach:'Nähe-Radius',statFirepower:'Feuerkraft-Verteilung',statNoWep:'Keine Waffen ausgerüstet.',statEst:'geschätzt', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', curseOver:'vorbei!', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Hangar & Werkstatt (Waffen, Upgrades, Chips, Skillpunkte)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
-      setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optMusic:'🎵 Musik', optSfx:'🔊 Game-Sound', optFull:'⛶ Vollbild', coins:'Coins', coinBalLbl:'Guthaben', coinSoon:'Käufe bald verfügbar', devHint:'Dev-/Tester-Code einlösen', redeem:'EINLÖSEN', devBad:'Ungültiger Code', devPlace:'z. B. dev1000', optShake:'📳 Screenshake & Vibration', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
+      setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optMusic:'🎵 Musik', optSfx:'🔊 Game-Sound', optFull:'⛶ Vollbild', coins:'Coins', coinBalLbl:'Guthaben', coinSoon:'Käufe bald verfügbar', devHint:'Dev-/Tester-Code einlösen', redeem:'EINLÖSEN', devBad:'Ungültiger Code', devPlace:'z. B. dev1000', optShake:'📳 Screenshake & Vibration', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optTelemetry:'📊 Anonyme Statistik', tlmExport:'📤 Telemetrie exportieren', tlmDone:'✓ Kopiert', tlmEmpty:'noch keine Daten', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
       lvl:'LEVEL', newForm:'Neue Form: ', faster:'Schneller & dichter!', bossWave:'⚠ BOSS-WELLE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 DER ENDGEGNER', finaleSub:'überlebe das Inferno!',
       survived:'ÜBERLEBT!', defeated:'BESIEGT! 💥', escaped:'🛸 ENTKOMMEN…', escapedSub:'die Beute ist weg!', bossEscaped:'🛸 BOSS ENTKOMMEN!', lvlAgain:'Level nochmal:', armUp:'Rüste auf für den Boss · Level ',
@@ -52,7 +52,7 @@
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
       newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points',spStart:'starter bonus',buySP:'Buy skill point',needSP:'No skill points',needSPsub:'Beat bosses or buy them',spDrop:'Boss loot!',statusTitle:'📊 COMBAT DOSSIER',statusBtn:'Ship status',statDps:'Avg damage/s',statCrit:'Crit chance',statCritDmg:'Crit power',statLives:'Lives',statShield:'Shield',statLuck:'Luck',statScore:'Score boost',statCoin:'Coin boost',statHull:'Hitbox',statReach:'Pickup range',statFirepower:'Firepower split',statNoWep:'No weapons equipped.',statEst:'estimated', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', curseOver:'over!', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Hangar & Workshop (weapons, upgrades, chips, skill points)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
-      setTitle:'SETTINGS', tapToggle:'Tap to toggle', optMusic:'🎵 Music', optSfx:'🔊 Game Sound', optFull:'⛶ Fullscreen', coins:'Coins', coinBalLbl:'Balance', coinSoon:'Purchases coming soon', devHint:'Redeem dev/tester code', redeem:'REDEEM', devBad:'Invalid code', devPlace:'e.g. dev1000', optShake:'📳 Screenshake & rumble', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
+      setTitle:'SETTINGS', tapToggle:'Tap to toggle', optMusic:'🎵 Music', optSfx:'🔊 Game Sound', optFull:'⛶ Fullscreen', coins:'Coins', coinBalLbl:'Balance', coinSoon:'Purchases coming soon', devHint:'Redeem dev/tester code', redeem:'REDEEM', devBad:'Invalid code', devPlace:'e.g. dev1000', optShake:'📳 Screenshake & rumble', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optTelemetry:'📊 Anonymous stats', tlmExport:'📤 Export telemetry', tlmDone:'✓ Copied', tlmEmpty:'no data yet', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
       lvl:'LEVEL', newForm:'New shape: ', faster:'Faster & denser!', bossWave:'⚠ BOSS WAVE ', megaBoss:'🛸 MEGA-BOSS', endgegner:'👾 THE FINAL BOSS', finaleSub:'survive the inferno!',
       survived:'SURVIVED!', defeated:'DEFEATED! 💥', escaped:'🛸 ESCAPED…', escapedSub:'the loot is gone!', bossEscaped:'🛸 BOSS ESCAPED!', lvlAgain:'Replay level', armUp:'Gear up for the boss · Level ',
@@ -79,7 +79,7 @@
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
       newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points',spStart:'bonus de départ',buySP:'Acheter un point',needSP:'Aucun point',needSPsub:'Battez des boss ou achetez',spDrop:'Butin de boss !',statusTitle:'📊 FICHE DE COMBAT',statusBtn:'Statut du vaisseau',statDps:'Dégâts/s moy.',statCrit:'Chance crit',statCritDmg:'Force crit',statLives:'Vies',statShield:'Bouclier',statLuck:'Chance',statScore:'Bonus points',statCoin:'Bonus coins',statHull:'Hitbox',statReach:'Rayon de collecte',statFirepower:'Répartition puissance',statNoWep:'Aucune arme équipée.',statEst:'estimé', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', curseOver:'fini !', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Hangar & Atelier (armes, upgrades, chips, points)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
-      setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optMusic:'🎵 Musique', optSfx:'🔊 Sons du jeu', optFull:'⛶ Plein écran', coins:'Coins', coinBalLbl:'Solde', coinSoon:'Achats bientôt disponibles', devHint:'Saisir un code dev/testeur', redeem:'VALIDER', devBad:'Code invalide', devPlace:'p. ex. dev1000', optShake:'📳 Tremblement & vibration', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
+      setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optMusic:'🎵 Musique', optSfx:'🔊 Sons du jeu', optFull:'⛶ Plein écran', coins:'Coins', coinBalLbl:'Solde', coinSoon:'Achats bientôt disponibles', devHint:'Saisir un code dev/testeur', redeem:'VALIDER', devBad:'Code invalide', devPlace:'p. ex. dev1000', optShake:'📳 Tremblement & vibration', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optTelemetry:'📊 Stats anonymes', tlmExport:'📤 Exporter télémétrie', tlmDone:'✓ Copié', tlmEmpty:'aucune donnée', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
       lvl:'NIVEAU', newForm:'Nouvelle forme : ', faster:'Plus vite & plus dense !', bossWave:'⚠ VAGUE DE BOSS ', megaBoss:'🛸 MÉGA-BOSS', endgegner:'👾 LE BOSS FINAL', finaleSub:'survis à l’enfer !',
       survived:'SURVÉCU !', defeated:'VAINCU ! 💥', escaped:'🛸 ENFUI…', escapedSub:'le butin s’envole !', bossEscaped:'🛸 BOSS ENFUI !', lvlAgain:'Niveau à refaire :', armUp:'Équipe-toi pour le boss · Niveau ',
@@ -334,7 +334,7 @@
   let daily=false;                                    // Daily-Challenge aktiv?
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
-  let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0;  // Statistik pro Run
+  let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0, runHits=0;  // Statistik pro Run (runHits = kassierte Treffer → Schwierigkeits-Signal)
   let onbDrops=0;   // Onboarding: wie viele der 3 Starter-Skillpunkte in Level 1 schon gedroppt sind
   let runChipsPaid=0;   // Chips aus stillem Score-Trickle (Backbone-Ökonomie)
   let runChipsEarned=0; // Chips aus sichtbaren Events (Orbs/Combos/Boss) – Dopamin-Quelle
@@ -343,8 +343,8 @@
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
   // Lautstärke 0..1: alte Boolean-Werte (true/false) + neue Zahlen migrieren
   function volNum(v){ return Math.max(0,Math.min(1, v===true?1:(v===false?0:(+v||0)))); }
-  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,
-    music:r.music==null?(r.muted?0:1):volNum(r.music), sfx:r.sfx==null?(r.muted?0:1):volNum(r.sfx), fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,music:1,sfx:1,fullscreen:true}; }
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,telemetry:r.telemetry==null?false:!!r.telemetry,
+    music:r.music==null?(r.muted?0:1):volNum(r.music), sfx:r.sfx==null?(r.muted?0:1):volNum(r.sfx), fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,telemetry:false,music:1,sfx:1,fullscreen:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
@@ -1028,7 +1028,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -1521,6 +1521,7 @@
   // ---------- Hit ----------
   function hitPlayer(color){
     if(invuln>0) return false;
+    runHits++;                           // kassierter Treffer (Telemetrie/Schwierigkeits-Signal)
     director=Math.max(0,director-0.2);   // Director: bei Treffer Druck rausnehmen
     if(shields>0){ shields--; invuln=1.4; flash=0.5; flashColor='#2effc0'; shake=14;
       spawnParticles(player.x,player.y,'#2effc0',22,260); sfxShieldBreak(); vibe([30,40,30]);
@@ -2618,6 +2619,25 @@
     if(Math.random()<0.6) setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:6,rMax:diag*0.88,t:0,life:0.8,col:V.cols[1]}); },170+ri(0,60));
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
+  // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
+  const GAME_VER='v194';
+  const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
+  function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
+  function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
+    mode:mode, diff:meta.diff||0, daily:daily?1:0,
+    lvl:level||1, score:Math.round(score||0), boss:runBosses||0, won:wonThisRun?1:0,
+    durS:Math.round(elapsed||0), hits:runHits||0, near:nearCount||0, perfect:runPerfect||0, orbs:runOrbs||0, combo:Math.round(runMaxMult||1),
+    dps:Math.round((gunDps()||0)*10)/10, surv:Math.round((pwrSurv()||0)*10)/10,
+    wpn:Object.keys(arsenal.w||{}), syn:(activeSyn||[]).slice(), coins:Math.round(earned||0) }; }
+  function sendTelemetry(rec){ try{ if(!TELEMETRY_URL||!opt.telemetry) return;
+    fetch(TELEMETRY_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rec),keepalive:true,mode:'cors'}).catch(()=>{}); }catch(e){} }
+  function recordRun(earned){ try{ const rec=runRecord(earned);
+    let log=[]; try{ log=JSON.parse(localStorage.getItem('neondrift_tlog'))||[]; }catch(e){} if(!Array.isArray(log)) log=[];
+    log.push(rec); if(log.length>150) log=log.slice(-150); try{ localStorage.setItem('neondrift_tlog',JSON.stringify(log)); }catch(e){}
+    sendTelemetry(rec); }catch(e){} }
+  function exportTelemetry(done){ let arr=[]; try{ arr=JSON.parse(localStorage.getItem('neondrift_tlog')||'[]'); }catch(e){} if(!Array.isArray(arr)) arr=[]; const json=JSON.stringify(arr);
+    const ok=()=>done&&done(arr.length,true), fail=()=>{ try{ prompt('Telemetrie-JSON (kopieren):', json); }catch(_){ } done&&done(arr.length,false); };
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(json).then(ok,fail); else fail(); }catch(e){ fail(); } }
   function gameOver(){ state=S.OVER; clearRun(); sfxGameOver(); duckMusic(2.4); bigDeathBlast(player.x,player.y);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores();
       for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
@@ -2629,6 +2649,7 @@
     addStat('orbs',runOrbs); addStat('near',nearCount); addStat('perfect',runPerfect); addStat('bosses',runBosses); addStat('runs',1); addStat('chipsTotal',earned);
     meta.stats=meta.stats||{}; if(runMaxMult>statN('maxCombo')) meta.stats.maxCombo=runMaxMult; if(bossNumber>statN('maxBoss')) meta.stats.maxBoss=bossNumber;
     if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
+    recordRun(earned);   // anonyme Telemetrie (lokales Log + optional Cloud)
     saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden'); showCockpit(false);
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
@@ -3016,7 +3037,7 @@
     if(amt){ meta.chips=(meta.chips||0)+amt; saveMeta(); updateMenuChips(); renderCoinShop(); inp.value='';
       if(msg){ msg.textContent='✓ +'+amt+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]); }
     else { if(msg){ msg.textContent='✗ '+t('devBad'); msg.className='devMsg bad'; } beep(200,0.12,'sawtooth',0.2); } }
-  const OPTLBL={music:'optMusic',sfx:'optSfx',fullscreen:'optFull',shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',dmg:'optDmg',lang:'optLang'};
+  const OPTLBL={music:'optMusic',sfx:'optSfx',fullscreen:'optFull',shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',dmg:'optDmg',telemetry:'optTelemetry',lang:'optLang'};
   const isFull=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
   function toggleFullscreen(){ try{ const el=document.documentElement;
     if(!isFull()){ const r=el.requestFullscreen||el.webkitRequestFullscreen; if(r) r.call(el); }
@@ -3039,7 +3060,7 @@
     else if(k==='shake') v=(opt.shake===0?t('off'):(opt.shake<1?t('reduced'):t('on')));
     else if(k==='fullscreen') v=(opt.fullscreen?t('on'):t('off'));
     else v=(opt[k]?t('on'):t('off'));
-    row.innerHTML=t(OPTLBL[k])+' · <b>'+v+'</b>'; }); renderVolRows(); renderResetLabels(); }
+    row.innerHTML=t(OPTLBL[k])+' · <b>'+v+'</b>'; }); { const tx=document.getElementById('tlmExportBtn'); if(tx) tx.textContent=t('tlmExport'); } renderVolRows(); renderResetLabels(); }
   function cycleOpt(k){
     if(k==='lang'){ const order=['de','en','fr']; lang=order[(order.indexOf(lang)+1)%3]; saveLang(); applyI18n(); renderSettings(); beep(740,0.06,'square',0.2); return; }
     if(k==='fullscreen'){ opt.fullscreen=!opt.fullscreen; saveOpt(); if(opt.fullscreen) enterFullscreen(); else exitFullscreen(); renderSettings(); beep(opt.fullscreen?740:330,0.06,'square',0.2); return; }
@@ -3444,6 +3465,7 @@
     const dr=document.getElementById('devRedeem'); if(dr) dr.addEventListener('click',redeemCode);
     const dc=document.getElementById('devCode'); if(dc) dc.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); redeemCode(); } }); }
   document.querySelectorAll('#optRows .optrow').forEach(row=>row.addEventListener('click',()=>cycleOpt(row.dataset.opt)));
+  { const tx=document.getElementById('tlmExportBtn'); if(tx) tx.addEventListener('click',()=>{ exportTelemetry((n,okc)=>{ tx.textContent=(n>0?(t('tlmDone')+' ('+n+')'):t('tlmEmpty')); beep(n>0?740:330,0.06,'square',0.2); setTimeout(()=>{ tx.textContent=t('tlmExport'); },1600); }); }); }   // Telemetrie-JSON in die Zwischenablage
   document.querySelectorAll('#resetRows .optrow').forEach(b=>b.addEventListener('click',()=>armReset(b)));
   // Lautstärke-Slider (Musik/Sound): live anwenden, am Ende speichern; Slider-Geste entsperrt zugleich Audio
   { const wire=(id,key,vId,testBeep)=>{ const s=document.getElementById(id); if(!s) return;
