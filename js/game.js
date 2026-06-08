@@ -1820,8 +1820,7 @@
     for(let i=0;i<7;i++){ const a=i/7*6.28; emitP(x,y,Math.cos(a)*R*2,Math.sin(a)*R*2,0.12,'#c45bff',rand(2,4)); }
     beep(220,0.06,'sine',0.10,160); }
   // Railgun: sofortige Schiene auf die nächste Bedrohung – trifft alle Ziele in der Spalte
-  function fireRail(){ const w=wpn.rail; let bx=player.x,bd=1e9;
-    for(const o of obstacles){ if(o.cy>player.y) continue; const dx=Math.abs(o.cx-player.x); if(dx<bd){bd=dx;bx=o.cx;} }
+  function fireRail(){ const w=wpn.rail; const bx=player.x;   // Strahl kommt AUS dem Schiff (gerade nach oben) – kein Auto-Aim mehr; gezielt wird über die Schiffsposition
     const baseY=player.y-player.r-2;
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; if(o.cy>baseY+12) continue;
       if(Math.abs(o.cx-bx)<w.width+(o.w?o.w/2:0)){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.12; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
@@ -2360,9 +2359,15 @@
   const ri=(a,b)=>(a+Math.random()*(b-a+1))|0;
   function genScene(){ sceneW=W;
     sceneMtn=[]; let mx=-60; while(mx<W+60){ const w=ri(150,300), h=ri(26,86); sceneMtn.push([mx+w/2,w,h]); mx+=Math.round(w*0.5); }
-    sceneCity=[]; let xx=-30; while(xx<W+30){ const w=ri(9,32), h=ri(8,46), gap=ri(3,17), win=[];
-      if(h>14){ for(let wy=6;wy<h-3;wy+=5){ for(let wxp=3;wxp<w-2;wxp+=4){ if(Math.random()<0.28) win.push([wxp,wy]); } } }
-      sceneCity.push([xx,w,h,win]); xx+=w+gap; } }
+    // Skyline à la Tokyo-3/Evangelion: einzelne markante Bauten (Pyramide, Sendeturm, Schüssel, Ziggurat) + Standard-Blöcke
+    sceneCity=[]; let xx=-30; while(xx<W+30){ const r=Math.random(); let type,w,h,win=[];
+      if(r<0.13){ type='pyramid'; w=ri(34,62); h=ri(46,86); }
+      else if(r<0.23){ type='tower'; w=ri(10,18); h=ri(58,104); }
+      else if(r<0.31){ type='dish'; w=ri(22,38); h=ri(22,46); }
+      else if(r<0.41){ type='step'; w=ri(22,42); h=ri(28,62); }
+      else { type='block'; w=ri(9,30); h=ri(8,46);
+        if(h>14){ for(let wy=6;wy<h-3;wy+=5){ for(let wxp=3;wxp<w-2;wxp+=4){ if(Math.random()<0.28) win.push([wxp,wy]); } } } }
+      sceneCity.push([xx,w,h,win,type]); xx+=w+ri(4,18); } }
   const rgA=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
   function drawNebula(hz){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const sc=curBg.sun, gc=curBg.grid, e=elapsed||0;
     const blobs=[[W*0.24+Math.sin(e*0.05)*22,hz*0.40,gc,0.05],[W*0.78+Math.cos(e*0.045)*22,hz*0.6,sc,0.045],[W*0.5+Math.sin(e*0.03)*16,hz*0.18,sc,0.038]];
@@ -2372,11 +2377,33 @@
     for(const m of sceneMtn){ const cx=m[0],w=m[1],h=m[2];
       ctx.fillStyle='rgba(9,2,20,0.78)'; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.closePath(); ctx.fill();
       ctx.strokeStyle=rgA(curBg.grid,0.18); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.stroke(); } }
-  function drawSkyline(hz){ if(sceneW!==W) genScene(); const tw=0.6+0.4*Math.sin((elapsed||0)*3);
-    for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2];
-      ctx.fillStyle='rgba(4,1,12,0.94)'; ctx.fillRect(bx,hz-h,w,h);
-      ctx.strokeStyle=rgA(curBg.grid,0.5); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(bx,hz-h+0.5); ctx.lineTo(bx+w,hz-h+0.5); ctx.stroke();
-      const win=b[3]; if(win&&win.length){ ctx.fillStyle=rgA(curBg.sun,0.45*tw); for(const wp of win) ctx.fillRect(bx+wp[0],hz-h+wp[1],1.6,2.2); } } }
+  function drawSkyline(hz){ if(sceneW!==W) genScene(); const e=elapsed||0, tw=0.6+0.4*Math.sin(e*3);
+    const dark='rgba(4,1,12,0.94)', edge=rgA(curBg.grid,0.55);
+    ctx.lineWidth=1;
+    for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2],win=b[3],type=b[4], top=hz-h, cx=bx+w/2;
+      ctx.fillStyle=dark; ctx.strokeStyle=edge;
+      if(type==='pyramid'){ const tt=w*0.32;   // NERV-Pyramide (Trapez) mit Apex-Licht + Mittelstrebe
+        ctx.beginPath(); ctx.moveTo(bx,hz); ctx.lineTo(cx-tt/2,top); ctx.lineTo(cx+tt/2,top); ctx.lineTo(bx+w,hz); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle=rgA(curBg.grid,0.28); ctx.beginPath(); ctx.moveTo(cx,top); ctx.lineTo(cx,hz); ctx.moveTo(bx+w*0.25,hz); ctx.lineTo(cx-tt*0.25,top); ctx.moveTo(bx+w*0.75,hz); ctx.lineTo(cx+tt*0.25,top); ctx.stroke();
+        ctx.fillStyle=rgA(curBg.sun,0.6+0.4*Math.sin(e*4+bx)); ctx.fillRect(cx-1.5,top-3,3,3);
+      } else if(type==='tower'){ const tw2=Math.min(w,14), lx=cx-tw2/2;   // Sendeturm mit Antenne + rotem Blinklicht
+        ctx.fillRect(lx,top,tw2,h); ctx.strokeRect(lx,top,tw2,h);
+        ctx.strokeStyle=rgA(curBg.grid,0.28); for(let yy=top+7;yy<hz-3;yy+=8){ ctx.beginPath(); ctx.moveTo(lx,yy); ctx.lineTo(lx+tw2,yy); ctx.stroke(); }
+        ctx.strokeStyle=edge; ctx.beginPath(); ctx.moveTo(cx,top); ctx.lineTo(cx,top-h*0.3); ctx.stroke();
+        const blink=Math.sin(e*2.2+bx)>0.3; ctx.fillStyle=blink?'#ff3344':'rgba(120,24,32,0.6)'; ctx.fillRect(cx-1.5,top-h*0.3-2,3,3);
+      } else if(type==='dish'){ const bh=h*0.55, my=hz-bh, mast=h*0.4;   // Radom/Parabolschüssel auf Mast
+        ctx.fillRect(bx,my,w,bh); ctx.strokeRect(bx,my,w,bh);
+        ctx.strokeStyle=edge; ctx.beginPath(); ctx.moveTo(cx,my); ctx.lineTo(cx,my-mast); ctx.stroke();
+        ctx.save(); ctx.translate(cx,my-mast); ctx.rotate(-0.6); ctx.fillStyle=dark; ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.ellipse(0,0,w*0.5,w*0.22,0,Math.PI,Math.PI*2); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle=rgA(curBg.sun,0.6); ctx.fillRect(-1.2,-1.4,2.4,2.4); ctx.restore(); ctx.lineWidth=1;
+      } else if(type==='step'){ let yy=hz, ww=w, sx2=bx, sh=h/3;   // Ziggurat / gestufter Bau
+        for(let s=0;s<3;s++){ ctx.fillRect(sx2,yy-sh,ww,sh); ctx.strokeRect(sx2,yy-sh,ww,sh); yy-=sh; ww*=0.66; sx2=cx-ww/2; }
+        ctx.fillStyle=rgA(curBg.sun,0.5*tw); ctx.fillRect(cx-1,hz-h-3,2,3);
+      } else { ctx.fillRect(bx,top,w,h);   // Standard-Block mit Neon-Dachkante + Fensterlichtern
+        ctx.beginPath(); ctx.moveTo(bx,top+0.5); ctx.lineTo(bx+w,top+0.5); ctx.stroke();
+        if(win&&win.length){ ctx.fillStyle=rgA(curBg.sun,0.45*tw); for(const wp of win) ctx.fillRect(bx+wp[0],top+wp[1],1.6,2.2); } }
+    } }
   function drawSunReflection(hz,sc,pulse){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const e=elapsed||0, H2=H-hz;
     for(let i=-3;i<=3;i++){ const off=i*28+Math.sin(e*2.2+i)*5, a=(0.13-Math.abs(i)*0.028)*(0.75+pulse*0.5); if(a<=0.005) continue;
       const g=ctx.createLinearGradient(0,hz,0,hz+H2*0.55); g.addColorStop(0,rgA(sc,a)); g.addColorStop(1,rgA(sc,0)); ctx.fillStyle=g; ctx.fillRect(W/2+off-7,hz,14,H2*0.55); } ctx.restore(); }
@@ -2390,12 +2417,16 @@
     const beat=(beatPulse||0), pulse=Math.min(1.2,beat*0.7+sunPulse*0.85);            // Gesamt-Puls fürs Leuchten/Farbe
     const bp=1+beat*0.5+sunPulse*0.7+(overdrive?0.3:0);                                // bp = Beat + Musik-Energie (+Overdrive)
     const gc=curBg.grid, sc=curBg.sun;
-    drawNebula(hz); drawMountains(hz);   // Himmel-Atmosphäre + ferne Bergkette HINTER der Sonne
+    drawNebula(hz); drawMountains(hz); drawSkyline(hz);   // Himmel + Berge + Skyline HINTER der Sonne → Sonne & Sound-Visualizer bleiben mittig frei
     const pc=[Math.min(255,sc[0]+pulse*50),Math.min(255,sc[1]+pulse*62),Math.min(255,sc[2]+pulse*38)]; // Sonnenfarbe dezent heller/wärmer im Takt
     ctx.shadowBlur=0; ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
     for(let i=-10;i<=10;i++){ctx.beginPath();ctx.moveTo(vx+i*40,hz);ctx.lineTo(vx+i*220,H);ctx.stroke();}
     const t=(elapsed||0)*0.5%1;
-    for(let i=0;i<14;i++){const f=(i+t)/14,y=hz+Math.pow(f,2.2)*(H-hz); ctx.globalAlpha=Math.min(0.7,(0.1+f*0.25)*bp); ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();} ctx.globalAlpha=1;
+    // horizontale Linien als Wasser-Wellen vor der Skyline – Welle nimmt nach vorne zu, lineare Abwärtsbewegung (Flow) bleibt
+    const wph=(elapsed||0)*1.6, ws=fxQ>0.5?12:24;
+    for(let i=0;i<14;i++){ const f=(i+t)/14, y=hz+Math.pow(f,2.2)*(H-hz), amp=1+f*f*6, k=0.024;
+      ctx.globalAlpha=Math.min(0.7,(0.1+f*0.25)*bp); ctx.beginPath();
+      for(let xx=0;xx<=W;xx+=ws){ const yy=y+Math.sin(xx*k+wph+f*2.5)*amp; xx?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy); } ctx.stroke(); } ctx.globalAlpha=1;
     // weicher Halo um die Sonne – dezent, nur leicht im Takt (kein großer Schleier!)
     const hr=200*(0.95+pulse*0.12), ha=Math.min(0.5,0.3+pulse*0.13);
     const sg=ctx.createRadialGradient(W/2,hz,4,W/2,hz,hr); sg.addColorStop(0,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},${ha})`); sg.addColorStop(1,`rgba(${sc[0]|0},${sc[1]|0},${sc[2]|0},0)`); ctx.fillStyle=sg; ctx.fillRect(W/2-hr,hz-hr,hr*2,hr*2);
@@ -2437,7 +2468,7 @@
       ctx.globalAlpha=0.7; ctx.drawImage(sunLo,dx-12,dy-12,SS+24,SS+24);                            // weicher Glow nur um die Welle
       ctx.globalAlpha=0.4; ctx.drawImage(sunLo,dx-24,dy-24,SS+48,SS+48); }
     ctx.restore();
-    drawSkyline(hz); drawSunReflection(hz,sc,pulse);   // Skyline VOR der Sonne (Silhouette) + Sonnen-Reflexion auf dem Boden
+    drawSunReflection(hz,sc,pulse);   // Sonnen-Reflexion auf dem Boden (Skyline wird HINTER der Sonne gezeichnet)
   }
 
   // ---------- Game Over ----------
@@ -2628,7 +2659,7 @@
     if(shopTab==='synergy'){ renderSynergyTab(); return; }      // Synergie-Tab: kaufbare Fusionen
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
-    if(lvl>=m.max) return; const cost=metaCost(m,lvl); if((meta.chips||0)<cost){ beep(200,0.12,'square',0.2,-60); return; }
+    if(lvl>=m.max) return; const cost=metaCost(m,lvl); if(coinShort(cost)) return;
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
@@ -2648,9 +2679,11 @@
   // ---------- Hangar: bauen/ausrüsten mit Skillpunkten (persistent) ----------
   // 1 Skillpunkt = 1 Waffe ausrüsten ODER 1 Pfad-Knoten. Voller Rückerstatt beim Abwählen (freier Respec).
   function hangarBroke(){ beep(200,0.12,'sawtooth',0.25); vibe(20); banner={text:t('needSP'),sub:t('needSPsub'),t:1.6,color:'#ff5a7a'}; }
+  // Zentral: zu wenig Chips → kurzes Feedback + Coin-Shop öffnen (an allen Kauf-Stellen genutzt). Rückgabe true = nicht genug.
+  function coinShort(cost){ if((meta.chips||0)>=cost) return false; beep(200,0.12,'square',0.2,-60); vibe(15); openCoinShop(); return true; }
   // Coins → Skillpunkt kaufen: quadratisch steigend (50, 100, 250, 500, 850, 1300 …) = steiler als linear, nicht exponentiell
   const buySpCost=k=>50+50*(k|0)*(k|0);
-  function buySkillPoint(){ const k=meta.spBought||0, cost=buySpCost(k); if((meta.chips||0)<cost){ hangarBroke(); return; }
+  function buySkillPoint(){ const k=meta.spBought||0, cost=buySpCost(k); if(coinShort(cost)) return;
     meta.chips-=cost; meta.spBought=k+1; skillPts++; saveSP(); sfxPow(); vibe([12,18]);
     banner={text:'💠 +1 '+t('skillPts'),sub:'−◈'+cost,t:1.4,color:'#19f0ff'}; updateAllBalances(); renderArsenalView(); }
   function dropWeapon(id){ const a=arsenal.w[id]; const refund=(id==='blaster')?0:(a&&a.spent||0);
@@ -3045,7 +3078,7 @@
   function selectShip(slot){ const L=shipList(); if(!L[slot]) return; meta.shipSlot=slot; selectSkin('custom'); }
   function refreshSkinUIs(){ const sh=document.getElementById('shop'); if(sh&&!sh.classList.contains('hidden')) renderShop(); }
   function selectSkin(id){ meta.skin=id; saveMeta(); shipSig=''; beep(740,0.06,'square',0.2); refreshSkinUIs(); }
-  function buySkin(id){ const s=SKINS.find(x=>x.id===id); if(!s||!s.cost) return; if((meta.chips||0)<s.cost){ beep(200,0.12,'square',0.2,-60); return; }
+  function buySkin(id){ const s=SKINS.find(x=>x.id===id); if(!s||!s.cost) return; if(coinShort(s.cost)) return;
     meta.chips-=s.cost; unlockSkin(id); meta.skin=id; saveMeta(); shipSig=''; sfxUpgrade(); vibe([15,20,15]); refreshSkinUIs(); updateMenuChips(); }
   function skinCards(wrap){ if(!wrap) return; wrap.innerHTML='';
     // PROMINENT ganz oben: eigenes Schiff bauen (Pixel-Editor)
