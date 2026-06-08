@@ -224,13 +224,7 @@
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
   // Werkstatt-Upgrades: Kosten = Basis × Stufe^1.8 (zwischen linear & exponentiell) & immer krasser
   const META=[
-    // Waffen-Baupläne: dauerhafte Freischaltung (max 1) → danach im Run per Skillpunkten baubar. Langsame Sammel-Progression.
-    {id:'bp_missile',  ico:'🚀',name:'Bauplan: Raketen',base:120, max:1},
-    {id:'bp_flame',    ico:'🔥',name:'Bauplan: Brand',  base:180, max:1},
-    {id:'bp_frost',    ico:'❄️',name:'Bauplan: Frost',  base:260, max:1},
-    {id:'bp_chain',    ico:'⛓️',name:'Bauplan: Kette',  base:360, max:1},
-    {id:'bp_nova',     ico:'🟣',name:'Bauplan: Nova',   base:500, max:1},
-    {id:'bp_rail',     ico:'⚡',name:'Bauplan: Railgun', base:680, max:1},
+    // Waffen & Fork-Stufen laufen jetzt rein über Skillpunkte (kein Coin-Bauplan/Vorkauf mehr) → eine Hürde
     {id:'slot',        ico:'🧩',name:'Modul-Slot',   base:600,max:2},
     {id:'veteran',     ico:'🎖️',name:'Veteran',      base:300,max:2},
     {id:'wcore',       ico:'💥',name:'Waffenkern',   base:240,max:4},
@@ -253,7 +247,7 @@
   // Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<waffe> = Anzahl freier Fork-Slots, 0..4)
   const FORKI={f1:1,f2:2,f3:3,f4:4};
   // Alle Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<id> = 0..4) – vorher nicht wählbar
-  const forkShopOpen=(id,slot)=> metaLvl('fu_'+id) >= (FORKI[slot]||9);   // Fork-Stufe muss erst in der Werkstatt mit Coins freigekauft sein, dann erst Skillpunkt draufpacken
+  const forkShopOpen=()=>true;   // Fork-Stufen nur noch per Skillpunkt – kein Coin-Vorkauf mehr (eine Hürde)
   // Werkstatt-Kategorien (für Tab-UI)
   function shopCat(id){ if(id.indexOf('sy_')===0) return 'synergy';
     if(id==='pxpack'||id==='pxglow') return 'cosmetic';   // im Editor verkauft, nicht als generische Karte
@@ -263,7 +257,7 @@
     return 'economy'; }
   // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
   function dailyShopCheck(){ if(opt.dailyShop && meta.shopDate!==dailyLabel()){ meta.chips=0; meta.lvl={}; meta.shopDate=dailyLabel(); saveMeta(); } }
-  const weaponUnlocked=id=> !!WID[id] && (id==='blaster' || metaLvl('bp_'+id)>0);   // Waffe braucht ihren Bauplan (mit Coins gekauft); Blaster ist gratis
+  const weaponUnlocked=id=> !!WID[id];   // alle Waffen direkt per Skillpunkt baubar – kein Coin-Bauplan mehr (eine Hürde)
   // Einmalige Migration: bereits gebaute Loadouts behalten ihre Waffen/Forks (sonst würden alte Builds beim Aktivieren der Coin-Sperre verschwinden)
   function migrateCoinSkills(){ if(meta.mig_cs) return; meta.mig_cs=1; meta.lvl=meta.lvl||{};
     const L=meta.loadout; if(L&&L.w){ for(const id in L.w){ if(!WID[id]) continue; const s=L.w[id]||{};
@@ -865,9 +859,7 @@
     {id:'rail',   ico:'⚡',col:'#fff27a',forks:[['charged','autoload'],['wide','overdrive'],['piercebeam','hypervelocity'],['gigawatt','repeater']]}
   ];
   const WID=Object.fromEntries(WEAPONS.map(w=>[w.id,w]));
-  // Werkstatt: pro Waffe 4 freischaltbare Fork-Stufen (fu_<id>) → tiefer Grind, gatet die Build-Tiefe
-  { const FORKBASE={blaster:120,missile:160,flame:170,frost:185,chain:205,nova:225,rail:245};
-    for(const w of WEAPONS) META.push({id:'fu_'+w.id, ico:w.ico, base:FORKBASE[w.id]||180, max:4}); }
+  // (Fork-Stufen sind jetzt rein Skillpunkt-basiert – keine fu_-Coin-Items mehr)
   // Spielstil-Archetypen je Waffe → sofort lesbare Build-Identität (Karte zeigt Stil, man muss keine Stats rechnen)
   const ARCH={
     blaster:{ico:'⚡',de:'Dauerfeuer',en:'Sustained',fr:'Tir continu'},
@@ -2680,7 +2672,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v206';
+  const GAME_VER='v207';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2909,19 +2901,15 @@
     if(sel) return 'dim';                       // in diesem Fork wurde schon der andere Pfad gewählt
     const open={f1:true, f2:!!a.f1, f3:!!a.f2, f4:!!a.f3};   // Gabelung erst frei, wenn die vorige gewählt ist
     if(!open[slot]) return 'locked';
-    if(!forkShopOpen(id,slot)) return 'shoplocked';         // Reihenfolge ok, aber Fork-Stufe noch nicht in der Werkstatt gekauft
     return 'avail'; }
   function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(id,a,slot,path), can=(st==='avail'&&opt.guns);
     const next={f1:'f2',f2:'f3',f3:'f4'}[slot], undoable=(st==='chosen'&&opt.guns&&!(next&&a[next]));   // zuletzt gewählte Stufe → abwählbar (Reskill)
     const aff=can&&skillPts>0;
     const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">💠1</span>'):'';
     const ti={f1:0,f2:1,f3:2,f4:3}[slot]||0, tip=pDesc(path)+' · '+(flavPath(path)||flavTier(id,ti));   // echte Pfad-Beschreibung + Subskill-eigener Spruch
-    return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
-  // Eine Fork-Reihe: ist die Stufe noch nicht freigekauft → Coin-Kaufleiste direkt hier (kein Werkstatt-Umweg), sonst die zwei wählbaren Knoten.
-  function treeRow(id,slot,paths){ const a=arsenal.w[id], st=nodeState(id,a,slot,paths[0]);
-    if(st==='shoplocked'){ const fu='fu_'+id, lvl=metaLvl(fu), cost=metaCost(metaById(fu),lvl), aff=(meta.chips||0)>=cost, ti=FORKI[slot];
-      return `<div class="trow"><button class="tbuy${aff?'':' locked'}" data-fu="${id}" title="${pName(paths[0])} / ${pName(paths[1])}">🔓 ${t('forkTier')} ${ti}: ${pName(paths[0])} / ${pName(paths[1])} · <b>◈${cost}</b></button></div>`; }
-    return `<div class="trow">${treeNode(id,slot,paths[0])}${treeNode(id,slot,paths[1])}</div>`; }
+    return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
+  // Eine Fork-Reihe: die zwei wählbaren Knoten (Skillpunkt).
+  function treeRow(id,slot,paths){ return `<div class="trow">${treeNode(id,slot,paths[0])}${treeNode(id,slot,paths[1])}</div>`; }
   function renderArsenalView(){
     if(arsenalSkillMode) arsenalTab='loadout';   // Skill-Screen erzwingt Loadout
     const synReady=ownedCount()>=2;   // Synergien erst zeigen, wenn ≥2 Waffen (vorher nicht nutzbar → Neulinge nicht verwirren)
@@ -2958,10 +2946,8 @@
       const rb=card.querySelector('button.respec'); if(rb) rb.addEventListener('click',e=>{ e.stopPropagation(); respecWeapon(id); });
       card.querySelectorAll('.tnode.pick').forEach(n=>n.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; spendFork(n.dataset.wid,n.dataset.slot,n.dataset.path); }));
       card.querySelectorAll('.tnode.undoable').forEach(n=>n.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; unspendOne(n.dataset.wid,n.dataset.slot); }));
-      card.querySelectorAll('.tbuy').forEach(btn=>btn.addEventListener('click',()=>buyMeta('fu_'+btn.dataset.fu,renderArsenalView)));   // Fork-Stufe direkt mit Coins freikaufen
       wrap.appendChild(card); });
-    const free=arsenal.slots-ownedCount(), notOwned=WEAPONS.filter(w=>!arsenal.w[w.id]);
-    const addable=notOwned.filter(w=>weaponUnlocked(w.id)), locked=notOwned.filter(w=>!weaponUnlocked(w.id));
+    const free=arsenal.slots-ownedCount(), addable=WEAPONS.filter(w=>!arsenal.w[w.id]);   // alle nicht-ausgerüsteten Waffen direkt per Skillpunkt baubar
     if(opt.guns&&free>0&&addable.length){ addable.forEach(w=>{ const aff=skillPts>0; const card=document.createElement('div'); card.className='wtree addable';
         card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
@@ -2969,17 +2955,7 @@
           `<p class="adddesc">${wDesc(w.id)}</p>`+
           `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · 💠1</button>`;
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
-    else if(!locked.length){ for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
-    // Gesperrte Waffen: Bauplan direkt hier mit Coins kaufen (kein Werkstatt-Umweg) → danach mit Skillpunkt einrüsten
-    if(opt.guns) locked.forEach(w=>{ const bp='bp_'+w.id, m=metaById(bp), cost=m?metaCost(m,0):0, aff=(meta.chips||0)>=cost;
-        const card=document.createElement('div'); card.className='wtree wlocked';
-        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
-          `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
-          `<div class="tnode base locked"><span class="ti">📐</span></div>`+
-          `<p class="adddesc">${wDesc(w.id)}</p>`+
-          `<button class="cost buybp${aff?'':' locked'}">📐 ${t('blueprint')} · <b>◈${cost}</b></button>`;
-        card.querySelector('.buybp').addEventListener('click',()=>buyMeta('bp_'+w.id,renderArsenalView));   // Bauplan kaufen → Waffe wird einrüstbar
-        wrap.appendChild(card); });
+    else { for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     const sd=document.getElementById('arsenalSyn'); if(sd){
       // Synergien sind automatisch: aktiv, sobald beide Waffen ausgerüstet. Liste ist reine Info – kein Kauf, kein Toggle.
       const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0), on=syn[s.id];
