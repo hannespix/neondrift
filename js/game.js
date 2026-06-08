@@ -3042,52 +3042,70 @@
     if(typeof renderDiffInfo==='function') renderDiffInfo();
   }catch(e){} }
 
-  // ---------- Menü-Belebung: Kettenblitz vom Titel zu den Elementen + Funken-Splash ----------
-  let mfxCv=null, mfxX=null, mfxBolts=[], mfxSparks=[], mfxBoltT=0.8, mfxSparkT=0.5, mfxW=0, mfxH=0;
-  const MFX_COLS=['#19f0ff','#ff2e88','#c45bff','#ffe600'];
+  // ---------- Menü-Belebung: kantiger Pixel-Kettenblitz (Button→Button) + Schweißfunken am Hangar ----------
+  let mfxCv=null, mfxX=null, mfxBolts=[], mfxSparks=[], mfxChainT=0.8, mfxWeldT=0, mfxWeld={x:0,y:0,glow:0}, mfxW=0, mfxH=0;
+  const MFX_COLS=['#19f0ff','#ff2e88','#c45bff','#ffe600'], MFX_GP=4;   // GP = Pixel-Raster für den kantigen Look
   const mfxHexA=(h,a)=>{ const n=parseInt(h.slice(1),16); return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'; };
+  const mfxSnap=v=>Math.round(v/MFX_GP)*MFX_GP;
   function mfxResize(s){ const r=s.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
     mfxW=r.width; mfxH=r.height; mfxCv.width=Math.max(1,(r.width*dpr)|0); mfxCv.height=Math.max(1,(r.height*dpr)|0);
-    mfxX.setTransform(dpr,0,0,dpr,0,0); }
-  function mfxCenter(s,el){ const sr=s.getBoundingClientRect(), r=el.getBoundingClientRect();
-    return {x:r.left-sr.left+r.width/2, y:r.top-sr.top+r.height/2, top:r.top-sr.top, h:r.height}; }
-  function mfxBolt(a,b,col){ const segs=10, pts=[], dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len;
-    for(let i=0;i<=segs;i++){ const t=i/segs, j=(i===0||i===segs)?0:(Math.random()-0.5)*Math.min(38,len*0.2);
-      pts.push([a.x+dx*t+nx*j, a.y+dy*t+ny*j]); }
-    if(mfxBolts.length>10) mfxBolts.shift(); mfxBolts.push({pts,t:0.34,life:0.34,col}); }
-  function mfxSplash(x,y,col,n){ for(let i=0;i<n;i++){ const a=Math.random()*6.28, sp=28+Math.random()*120;
-    if(mfxSparks.length>160) mfxSparks.shift();
-    mfxSparks.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-22,life:0.45+Math.random()*0.45,col,r:1+Math.random()*1.9}); } }
+    mfxX.setTransform(dpr,0,0,dpr,0,0); mfxX.imageSmoothingEnabled=false; }
+  function mfxRect(s,el){ const sr=s.getBoundingClientRect(), r=el.getBoundingClientRect();
+    return {x:r.left-sr.left+r.width/2, y:r.top-sr.top+r.height/2, left:r.left-sr.left, top:r.top-sr.top, w:r.width, h:r.height}; }
+  // kantiger Zickzack: Versatz wechselt das Vorzeichen je Segment (scharfe Ecken), auf Pixel-Raster gerundet
+  function mfxJag(a,b){ const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len;
+    const segs=Math.max(5,Math.min(15,(len/22)|0)), amp=Math.min(48,len*0.28), pts=[]; let sign=Math.random()<0.5?1:-1;
+    for(let i=0;i<=segs;i++){ const t=i/segs; let j; if(i===0||i===segs) j=0; else { sign=-sign; j=sign*amp*(0.4+Math.random()*0.6); }
+      pts.push([mfxSnap(a.x+dx*t+nx*j), mfxSnap(a.y+dy*t+ny*j)]); }
+    return pts; }
+  // Polylinie in einzelne Pixel-Blöcke zerlegen (dotted Pixel-Look)
+  function mfxPixels(pts){ const out=[], step=5;
+    for(let k=0;k<pts.length-1;k++){ const x1=pts[k][0],y1=pts[k][1],dx=pts[k+1][0]-x1,dy=pts[k+1][1]-y1,d=Math.hypot(dx,dy)||1,n=Math.max(1,Math.round(d/step));
+      for(let i=0;i<n;i++){ const t=i/n; out.push([mfxSnap(x1+dx*t), mfxSnap(y1+dy*t)]); } }
+    out.push(pts[pts.length-1]); return out; }
+  function mfxBolt(a,b,col,depth){ if(mfxBolts.length>20) mfxBolts.shift();
+    const pts=mfxJag(a,b); mfxBolts.push({pts,px:mfxPixels(pts),t:0.32,life:0.32,col,branch:!!depth});
+    if(!depth){ const nb=1+(Math.random()*2|0);   // weiter verzweigt: kurze Abzweige von zufälligen Knoten
+      for(let bI=0;bI<nb && pts.length>3;bI++){ const v=pts[1+((Math.random()*(pts.length-2))|0)], ang=Math.random()*6.28, bl=14+Math.random()*34;
+        mfxBolt({x:v[0],y:v[1]},{x:v[0]+Math.cos(ang)*bl,y:v[1]+Math.sin(ang)*bl},col,1); } } }
+  function mfxSpark(x,y,col,vx,vy,life,r){ if(mfxSparks.length>240) mfxSparks.shift();
+    mfxSparks.push({x,y,vx,vy,life,col,r:r||(1+Math.random()*1.8)}); }
+  function mfxSplash(x,y,col,n){ for(let i=0;i<n;i++){ const a=Math.random()*6.28, sp=30+Math.random()*120;
+    mfxSpark(x,y,col,Math.cos(a)*sp,Math.sin(a)*sp-22,0.4+Math.random()*0.45); } }
   function mfxFlash(el,cls,ms){ try{ el.classList.add(cls); setTimeout(()=>el.classList.remove(cls),ms); }catch(e){} }
   function mfxFrame(dt){
     const s=document.getElementById('start');
-    if(!s||s.classList.contains('hidden')){ if(mfxBolts.length||mfxSparks.length){ mfxBolts.length=0; mfxSparks.length=0; if(mfxX&&mfxW) mfxX.clearRect(0,0,mfxW,mfxH); } return; }
-    if(!mfxCv){ mfxCv=document.getElementById('menuFx'); if(!mfxCv) return; mfxX=mfxCv.getContext('2d'); }
+    if(!s||s.classList.contains('hidden')){ if(mfxBolts.length||mfxSparks.length){ mfxBolts.length=0; mfxSparks.length=0; mfxWeld.glow=0; if(mfxX&&mfxW) mfxX.clearRect(0,0,mfxW,mfxH); } return; }
+    if(!mfxCv){ mfxCv=document.getElementById('menuFx'); if(!mfxCv) return; mfxX=mfxCv.getContext('2d'); mfxX.imageSmoothingEnabled=false; }
     const r=s.getBoundingClientRect(); if(Math.abs(r.width-mfxW)>1||Math.abs(r.height-mfxH)>1) mfxResize(s);
     if(!mfxX) return;
-    const lg=s.querySelector('.logo'); const anchor=lg?(()=>{ const c=mfxCenter(s,lg); return {x:c.x,y:c.top+c.h*0.94}; })():null;
-    // Kettenblitz vom Titel zu einem (ggf. via Zwischenknoten) Menü-Element
-    mfxBoltT-=dt; if(mfxBoltT<=0){ mfxBoltT=1.3+Math.random()*1.9;
-      const tg=[...s.querySelectorAll('.mode, #dailyBtn, #shopBtn, .iconRow button, .diffBtn')].filter(e=>e.offsetParent!==null);
-      if(anchor&&tg.length){ const el=tg[(Math.random()*tg.length)|0], c=mfxCenter(s,el), col=MFX_COLS[(Math.random()*MFX_COLS.length)|0];
-        let from=anchor;
-        if(Math.random()<0.5&&tg.length>1){ const m=mfxCenter(s,tg[(Math.random()*tg.length)|0]); mfxBolt(from,m,col); from=m; }
-        mfxBolt(from,c,col); mfxSplash(c.x,c.y,col,8+(Math.random()*6|0)); mfxFlash(el,'menuZap',480); } }
-    // kleiner Funken-Blink auf einem zufälligen Button
-    mfxSparkT-=dt; if(mfxSparkT<=0){ mfxSparkT=0.5+Math.random()*1.1;
-      const tg=[...s.querySelectorAll('.iconRow button, #dailyBtn, #shopBtn, .diffBtn')].filter(e=>e.offsetParent!==null);
-      if(tg.length){ const el=tg[(Math.random()*tg.length)|0], c=mfxCenter(s,el), col=MFX_COLS[(Math.random()*MFX_COLS.length)|0];
-        mfxSplash(c.x,c.y,col,3+(Math.random()*3|0)); mfxFlash(el,'menuSpark',300); } }
-    // zeichnen
-    const x=mfxX; x.clearRect(0,0,mfxW,mfxH); x.save(); x.globalCompositeOperation='lighter'; x.lineCap='round'; x.lineJoin='round';
+    const lg=s.querySelector('.logo'); const anchor=lg?(()=>{ const c=mfxRect(s,lg); return {x:c.x,y:c.top+c.h*0.94}; })():null;
+    // Kettenblitz: vom Titel zum nächstgelegenen Button, dann von Button zu Button weiterspringen (wie im Spiel)
+    mfxChainT-=dt; if(mfxChainT<=0){ mfxChainT=1.15+Math.random()*1.5;
+      let pool=[...s.querySelectorAll('.mode, #dailyBtn, #shopBtn, .iconRow button, .diffBtn')].filter(e=>e.offsetParent!==null).map(el=>({el,c:mfxRect(s,el)}));
+      if(pool.length){ const col=MFX_COLS[(Math.random()*MFX_COLS.length)|0]; let prev=anchor||pool[0].c; const hops=Math.min(pool.length,3+(Math.random()*3|0));
+        for(let h=0;h<hops;h++){ let bi=0,bd=1e18; for(let k=0;k<pool.length;k++){ const d=(pool[k].c.x-prev.x)**2+(pool[k].c.y-prev.y)**2; if(d<bd){bd=d;bi=k;} }
+          const node=pool.splice(bi,1)[0]; mfxBolt(prev,node.c,col); mfxSplash(node.c.x,node.c.y,col,5+(Math.random()*5|0)); mfxFlash(node.el,'menuZap',440); prev=node.c; if(!pool.length) break; } } }
+    // Dauer-Schweißfunken an der Ecke des Hangar-Buttons (als würde dort gearbeitet)
+    mfxWeldT-=dt; const hb=document.getElementById('shopBtn');
+    if(hb&&hb.offsetParent!==null){ const R=mfxRect(s,hb); mfxWeld.x=mfxSnap(R.left+6); mfxWeld.y=mfxSnap(R.top+6);
+      if(mfxWeldT<=0){ mfxWeldT=0.03+Math.random()*0.05; mfxWeld.glow=0.55+Math.random()*0.45;
+        const n=1+(Math.random()*2|0); for(let i=0;i<n;i++){ const ang=-0.3-Math.random()*2.0, sp=55+Math.random()*150, c=Math.random()<0.35?'#ffd27a':(Math.random()<0.5?'#fff7d0':'#bdf6ff');
+          mfxSpark(mfxWeld.x,mfxWeld.y,c,Math.cos(ang)*sp,Math.sin(ang)*sp,0.18+Math.random()*0.3,1+Math.random()*1.4); } }
+    } else mfxWeld.glow=0;
+    mfxWeld.glow*=Math.pow(0.04,dt);   // flackernd ausklingen zwischen den Funkenstößen
+    // ---- zeichnen (Pixel-Blöcke, additiv) ----
+    const x=mfxX; x.clearRect(0,0,mfxW,mfxH); x.save(); x.globalCompositeOperation='lighter'; x.lineCap='butt'; x.lineJoin='miter';
     for(let i=mfxBolts.length-1;i>=0;i--){ const bo=mfxBolts[i]; bo.t-=dt; if(bo.t<=0){ mfxBolts.splice(i,1); continue; }
-      const a=Math.max(0,bo.t/bo.life); x.beginPath(); x.moveTo(bo.pts[0][0],bo.pts[0][1]); for(let k=1;k<bo.pts.length;k++) x.lineTo(bo.pts[k][0],bo.pts[k][1]);
-      x.strokeStyle=mfxHexA(bo.col,0.14*a); x.lineWidth=7; x.stroke();
-      x.strokeStyle=mfxHexA(bo.col,0.46*a); x.lineWidth=2.4; x.stroke();
-      x.strokeStyle='rgba(255,255,255,'+(0.66*a)+')'; x.lineWidth=1; x.stroke(); }
+      const a=Math.max(0,bo.t/bo.life);
+      x.globalAlpha=1; x.strokeStyle=mfxHexA(bo.col,(bo.branch?0.08:0.13)*a); x.lineWidth=bo.branch?4:7;   // weiches Glühen unter den Pixeln
+      x.beginPath(); x.moveTo(bo.pts[0][0],bo.pts[0][1]); for(let k=1;k<bo.pts.length;k++) x.lineTo(bo.pts[k][0],bo.pts[k][1]); x.stroke();
+      const bs=bo.branch?2:3; for(let k=0;k<bo.px.length;k++){ const p=bo.px[k]; x.globalAlpha=a; x.fillStyle=(k%3===0)?'#ffffff':bo.col; x.fillRect((p[0]-bs/2)|0,(p[1]-bs/2)|0,bs,bs); } }
     for(let i=mfxSparks.length-1;i>=0;i--){ const sp=mfxSparks[i]; sp.life-=dt; if(sp.life<=0){ mfxSparks.splice(i,1); continue; }
-      sp.x+=sp.vx*dt; sp.y+=sp.vy*dt; sp.vy+=130*dt; sp.vx*=0.96;
-      x.globalAlpha=Math.max(0,Math.min(1,sp.life*2.2)); x.fillStyle=sp.col; x.fillRect(sp.x-sp.r/2,sp.y-sp.r/2,sp.r,sp.r); }
+      sp.x+=sp.vx*dt; sp.y+=sp.vy*dt; sp.vy+=180*dt; sp.vx*=0.95;
+      x.globalAlpha=Math.max(0,Math.min(1,sp.life*2.4)); x.fillStyle=sp.col; const r=Math.max(1,sp.r|0); x.fillRect((sp.x-r/2)|0,(sp.y-r/2)|0,r,r); }
+    if(mfxWeld.glow>0.04){ const g=Math.min(1,mfxWeld.glow); x.globalAlpha=0.5*g; x.fillStyle='#bff6ff'; x.fillRect((mfxWeld.x-7)|0,(mfxWeld.y-7)|0,14,14);
+      x.globalAlpha=Math.min(1,0.9*g); x.fillStyle='#ffffff'; x.fillRect((mfxWeld.x-2)|0,(mfxWeld.y-2)|0,4,4); }
     x.globalAlpha=1; x.restore();
   }
 
