@@ -272,6 +272,12 @@
   #arsenalSyn .synrow.avail{background:rgba(120,230,255,.07);border-color:rgba(120,230,255,.4);}
   #arsenalSyn .synrow.near{background:rgba(255,211,107,.06);border-color:rgba(255,211,107,.3);}
   #arsenalSyn .synrow.off{opacity:.5;background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);}
+  #arsenalSyn .synrow.buyable{background:rgba(255,210,63,.08);border-color:rgba(255,210,63,.45);}
+  #arsenalSyn .synadd{margin-left:auto;color:#7fe9ff;font-weight:700;font-size:11px;}
+  #arsenalSyn .synbuy{margin-left:auto;cursor:pointer;border:1px dashed rgba(255,210,63,.6);background:rgba(255,210,63,.12);color:#ffe08a;
+    font-family:'Orbitron',sans-serif;font-weight:700;font-size:11px;padding:4px 10px;border-radius:9px;transition:transform .12s;}
+  #arsenalSyn .synbuy:hover{transform:scale(1.05);}
+  #arsenalSyn .synbuy.locked{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#9a86c9;}
   #arsenalSyn .synrow.off .synpair{filter:grayscale(.6);}
   #arsenalSyn .synrow.syntap{cursor:pointer;transition:transform .1s,box-shadow .12s,border-color .12s;}
   #arsenalSyn .synrow.syntap:hover{transform:translateY(-2px);border-color:#ff7ab8;box-shadow:0 0 16px rgba(255,46,136,.3);}
