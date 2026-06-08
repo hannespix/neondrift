@@ -714,9 +714,19 @@
   canvas.addEventListener('touchstart',e=>{onMove(e);e.preventDefault();},{passive:false});
   canvas.addEventListener('touchmove',e=>{onMove(e);e.preventDefault();},{passive:false});
 
-  function makeStars(){ stars=[]; for(let i=0;i<95;i++){ const z=Math.random(); stars.push({x:Math.random()*W,y:Math.random()*H,z:z,r:0.6+z*z*2.6,tw:Math.random()*6.28,tws:0.6+Math.random()*1.8}); } }
+  // Perspektivisches Sternenfeld: Sterne strömen aus dem Fluchtpunkt (W/2, H*0.42 – wie das Polygon-Gitter)
+  // nach außen/unten heraus und wachsen dabei (Star-Wars-Crawl-Optik). x,y = Welt-Offset, z = Tiefe (klein = nah).
+  function resetStar(s,far){ s.wx=Math.random()*2-1; s.wy=Math.random()*1.85-0.6;   // Abwärts-Tendenz → „nach unten vorne"
+    s.z=far?(0.55+Math.random()*0.95):(0.06+Math.random()*1.4); s.br=0.5+Math.random()*0.85; s.spd=0.05+Math.random()*0.17; }
+  function projStar(s){ const hz=H*0.42, F=W*0.05, inv=1/Math.max(0.05,s.z);
+    s.sx=W/2+s.wx*F*inv; s.sy=hz+s.wy*F*inv; s.size=Math.min(4.2,Math.max(0.6,s.br*inv*0.46));
+    s.alpha=Math.max(0.05,Math.min(1,(1-s.z)*1.0+0.14)); }
+  function makeStars(){ stars=[]; for(let i=0;i<115;i++){ const s={tw:Math.random()*6.28,tws:0.6+Math.random()*1.8}; resetStar(s,false); projStar(s); stars.push(s); } }
   // Sternenfeld: starke Tiefenstaffelung (Parallax) – ferne Sterne kriechen, nahe rauschen vorbei; leichtes Funkeln
-  function updateStars(dt){ if(!stars) return; for(const s of stars){ s.y+=(10+s.z*s.z*135)*dt; if(s.y>H+2){ s.y=-2; s.x=Math.random()*W; } s.tw+=s.tws*dt; } }
+  function updateStars(dt){ if(!stars) return; for(const s of stars){ s.z-=s.spd*dt; s.tw+=s.tws*dt;
+    if(s.z<0.05){ resetStar(s,true); }
+    projStar(s);
+    if(s.sx<-50||s.sx>W+50||s.sy<-50||s.sy>H+50){ resetStar(s,true); projStar(s); } } }
   makeStars();
   const rand=(a,b)=>a+Math.random()*(b-a);
   const pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -1890,11 +1900,11 @@
     const g=ctx.createLinearGradient(0,0,0,H);
     g.addColorStop(0,rgbS(curBg.top)); g.addColorStop(.55,rgbS(curBg.mid)); g.addColorStop(1,rgbS(curBg.bot));
     ctx.fillStyle=g; ctx.fillRect(-40,-40,W+80,H+80);
-    // Sterne ZUERST (tiefster Hintergrund) → Synthwave-Sonne liegt eine Ebene davor
-    for(const s of stars){ const tw=0.82+0.18*Math.sin(s.tw); ctx.globalAlpha=Math.min(1,(0.32+s.z*0.72)*tw);
-      ctx.fillStyle=s.z>0.62?'#e6dcff':'#c3abff';
-      if(s.z>0.74){ ctx.shadowBlur=5*s.z; ctx.shadowColor='#cfc2ff'; ctx.fillRect(s.x,s.y,s.r,s.r); ctx.shadowBlur=0; }
-      else ctx.fillRect(s.x,s.y,s.r,s.r); } ctx.globalAlpha=1;
+    // Sterne ZUERST (tiefster Hintergrund) → Synthwave-Sonne liegt eine Ebene davor; perspektivisch aus dem Fluchtpunkt
+    for(const s of stars){ const tw=0.82+0.18*Math.sin(s.tw), al=(s.alpha||0)*tw; if(al<=0.02) continue; const sz=s.size||1;
+      ctx.fillStyle=s.z<0.3?'#ffffff':(s.z<0.6?'#e6dcff':'#b7a2f0');
+      if(sz>1.7){ ctx.globalAlpha=al*0.22; ctx.fillStyle='#d6ccff'; ctx.fillRect(s.sx-sz,s.sy-sz,sz*2,sz*2); ctx.fillStyle=s.z<0.3?'#ffffff':'#e6dcff'; }   // weicher Schein bei nahen Sternen
+      ctx.globalAlpha=al; ctx.fillRect(s.sx-sz/2,s.sy-sz/2,sz,sz); } ctx.globalAlpha=1;
     drawGrid();
     if(state===S.MENU) drawMenuShip();   // nur Hauptmenü: aktuelles Schiff zentral vor der Sonne (im Hintergrund hinter dem Menü)
 
