@@ -1561,19 +1561,12 @@
     overdrive=od;
     if(endless){ madness+=dt*0.0075; madnessTime+=dt; if(madnessTime>=60) unlockAch('madness'); }   // Wahnsinn-Modus eskaliert – aber gemächlich
 
-<<<<<<< HEAD
     let smolStacks=0, blindStacks=0, energyStacks=0, clownStacks=0; for(const a of activeCurses){ if(a.id==='smol') smolStacks+=(a.stacks||1); else if(a.id==='blind') blindStacks+=(a.stacks||1); else if(a.id==='energy') energyStacks+=(a.stacks||1); else if(a.id==='clown') clownStacks+=(a.stacks||1); }   // Größe/Nebel/Tempo/Dichte rein aus aktiven Stacks → nach Ablauf immer zurück auf Basis (selbstheilend, kein Bookkeeping-Drift)
-=======
-    let smolStacks=0, blindStacks=0, energyStacks=0; for(const a of activeCurses){ if(a.id==='smol') smolStacks+=(a.stacks||1); else if(a.id==='blind') blindStacks+=(a.stacks||1); else if(a.id==='energy') energyStacks+=(a.stacks||1); }   // Größe/Nebel/Obstacle-Tempo rein aus aktiven Stacks → nach Ablauf immer zurück auf Basis (selbstheilend, kein Bookkeeping-Drift)
->>>>>>> origin/claude/new-session-N7Xx2
     const targetR=mods.playerR*(smolStacks?Math.pow(1.28,smolStacks):1);
     player.r+= (targetR-player.r)*0.2;
     mods.fog=Math.min(0.82,blindStacks*0.6);   // Sicht-Nebel folgt direkt den aktiven Blind-Stacks (kein hängender Dunkel-Screen)
     mods.obSpeed=energyStacks?Math.pow(1.22,energyStacks):1;   // Obstacle-Tempo des Energy-Fluchs folgt den Stacks → bleibt nie zu schnell hängen
-<<<<<<< HEAD
     mods.spawnMult=clownStacks?Math.pow(0.7,clownStacks):1;    // Clown-Gedränge (Spawn-Dichte) folgt den Stacks → bleibt nie dichter hängen
-=======
->>>>>>> origin/claude/new-session-N7Xx2
     if(mods.slip){   // Bananen-Boden: trägheits-/impulsbasiert → das Schiff driftet, übersteuert und rutscht (deutlich schwerer zu steuern)
       const k=16, fr=Math.pow(0.905,dt*60);
       player.vx=((player.vx||0)+(tgt.x-player.x)*k*dt)*fr; player.vy=((player.vy||0)+(tgt.y-player.y)*k*dt)*fr;
