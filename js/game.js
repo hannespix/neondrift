@@ -1598,7 +1598,9 @@
     let smolStacks=0, blindStacks=0, energyStacks=0, clownStacks=0; for(const a of activeCurses){ if(a.id==='smol') smolStacks+=(a.stacks||1); else if(a.id==='blind') blindStacks+=(a.stacks||1); else if(a.id==='energy') energyStacks+=(a.stacks||1); else if(a.id==='clown') clownStacks+=(a.stacks||1); }   // Größe/Nebel/Tempo/Dichte rein aus aktiven Stacks → nach Ablauf immer zurück auf Basis (selbstheilend, kein Bookkeeping-Drift)
     const targetR=mods.playerR*(smolStacks?Math.pow(1.28,smolStacks):1);
     player.r+= (targetR-player.r)*0.2;
-    mods.fog=Math.min(0.82,blindStacks*0.6);   // Sicht-Nebel folgt direkt den aktiven Blind-Stacks (kein hängender Dunkel-Screen)
+    const fogTgt=Math.min(0.82,blindStacks*0.6);   // Ziel-Nebel aus aktiven Blind-Stacks
+    mods.fog=(mods.fog||0)+(fogTgt-(mods.fog||0))*Math.min(1,dt*1.8);   // smooth ein-/ausblenden (von außen reinkriechen, am Ende sanft raus)
+    if(mods.fog<0.004 && fogTgt===0) mods.fog=0;   // sauber auf 0 schnappen, wenn ausgefadet
     mods.obSpeed=energyStacks?Math.pow(1.22,energyStacks):1;   // Obstacle-Tempo des Energy-Fluchs folgt den Stacks → bleibt nie zu schnell hängen
     mods.spawnMult=clownStacks?Math.pow(0.7,clownStacks):1;    // Clown-Gedränge (Spawn-Dichte) folgt den Stacks → bleibt nie dichter hängen
     if(mods.slip){   // Bananen-Boden: trägheits-/impulsbasiert → das Schiff driftet, übersteuert und rutscht (deutlich schwerer zu steuern)
@@ -2164,8 +2166,9 @@
     rg.addColorStop(0,'rgba(0,0,0,0)'); rg.addColorStop(1,`rgba(${bossActive?'40,5,5':'10,0,20'},${vig})`); ctx.fillStyle=rg; ctx.fillRect(-40,-40,W+80,H+80);
     if(effects&&effects.slowmo>0){ ctx.fillStyle='rgba(40,80,160,0.10)'; ctx.fillRect(-40,-40,W+80,H+80); }
     // Fluch „Drip aber blind": Sicht-Tunnel um den Spieler
-    if(mods&&mods.fog>0&&player&&(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE)){
-      const fr=ctx.createRadialGradient(player.x,player.y,player.r*2.4,player.x,player.y,Math.max(W,H)*0.55);
+    if(mods&&mods.fog>0.004&&player&&(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE)){
+      const fn=Math.min(1,mods.fog/0.82), outerR=Math.max(W,H)*(0.62-0.18*fn);   // je dichter der Nebel, desto enger schließt die Dunkelheit von außen
+      const fr=ctx.createRadialGradient(player.x,player.y,player.r*2.4,player.x,player.y,outerR);
       fr.addColorStop(0,'rgba(4,1,10,0)'); fr.addColorStop(1,`rgba(4,1,10,${Math.min(0.82,mods.fog)})`); ctx.fillStyle=fr; ctx.fillRect(-40,-40,W+80,H+80);
       const ta=Math.min(0.72,mods.fog*0.85); const tg=ctx.createLinearGradient(0,0,0,H*0.5);   // oben zusätzlich abdunkeln (stärkere Vignette nach oben)
       tg.addColorStop(0,`rgba(4,1,10,${ta})`); tg.addColorStop(1,'rgba(4,1,10,0)'); ctx.fillStyle=tg; ctx.fillRect(0,0,W,H*0.5); }
@@ -2674,7 +2677,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v202';
+  const GAME_VER='v203';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
