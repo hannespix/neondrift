@@ -2355,17 +2355,19 @@
 
   let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie
   // ---------- Horizont-Szene: Nebel, Bergkette, Skyline, Sonnen-Reflexion (alle theme-farbig) ----------
-  let sceneCity=[], sceneMtn=[], sceneW=0;
+  let sceneCity=[], sceneMtn=[], sceneRobot=null, sceneW=0;
   const ri=(a,b)=>(a+Math.random()*(b-a+1))|0;
   function genScene(){ sceneW=W;
     sceneMtn=[]; let mx=-60; while(mx<W+60){ const w=ri(150,300), h=ri(26,86); sceneMtn.push([mx+w/2,w,h]); mx+=Math.round(w*0.5); }
-    // Skyline à la Tokyo-3/Evangelion: einzelne markante Bauten (Pyramide, Sendeturm, Schüssel, Ziggurat) + Standard-Blöcke
+    // EVA-Mecha-Silhouette seitlich (nicht vor der Sonne)
+    sceneRobot={x:W/2+(Math.random()<0.5?-1:1)*(140+ri(0,46)), h:H*0.21};
+    // Skyline à la Tokyo-3/Evangelion: überwiegend blocky Wolkenkratzer + einzelne markante Bauten (Pyramide, Sendeturm, Schüssel, Ziggurat)
     sceneCity=[]; let xx=-30; while(xx<W+30){ const r=Math.random(); let type,w,h,win=[];
-      if(r<0.13){ type='pyramid'; w=ri(34,62); h=ri(46,86); }
-      else if(r<0.23){ type='tower'; w=ri(10,18); h=ri(58,104); }
-      else if(r<0.31){ type='dish'; w=ri(22,38); h=ri(22,46); }
-      else if(r<0.41){ type='step'; w=ri(22,42); h=ri(28,62); }
-      else { type='block'; w=ri(9,30); h=ri(8,46);
+      if(r<0.06){ type='pyramid'; w=ri(34,60); h=ri(44,80); }
+      else if(r<0.13){ type='tower'; w=ri(10,18); h=ri(58,104); }
+      else if(r<0.19){ type='dish'; w=ri(22,38); h=ri(22,46); }
+      else if(r<0.26){ type='step'; w=ri(22,42); h=ri(28,62); }
+      else { type='block'; w=ri(9,30); h=ri(12,64);   // mehr & höhere Wolkenkratzer
         if(h>14){ for(let wy=6;wy<h-3;wy+=5){ for(let wxp=3;wxp<w-2;wxp+=4){ if(Math.random()<0.28) win.push([wxp,wy]); } } } }
       sceneCity.push([xx,w,h,win,type]); xx+=w+ri(4,18); } }
   const rgA=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
@@ -2377,7 +2379,23 @@
     for(const m of sceneMtn){ const cx=m[0],w=m[1],h=m[2];
       ctx.fillStyle='rgba(9,2,20,0.78)'; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.closePath(); ctx.fill();
       ctx.strokeStyle=rgA(curBg.grid,0.18); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.stroke(); } }
+  // EVA-Mecha: dunkle Silhouette mit Neon-Outline + glühendem Visor & Brust-Kern (steht hinter der Skyline)
+  function drawRobot(hz){ const r=sceneRobot; if(!r) return; const bx=r.x, Hr=r.h, Wm=Hr*0.34, e=elapsed||0;
+    ctx.save(); ctx.translate(bx,hz); ctx.lineJoin='round'; ctx.lineWidth=1.3;
+    const fill='rgba(7,1,16,0.95)', edge=rgA(curBg.grid,0.5);
+    const poly=p=>{ ctx.beginPath(); ctx.moveTo(p[0],p[1]); for(let i=2;i<p.length;i+=2) ctx.lineTo(p[i],p[i+1]); ctx.closePath(); ctx.fillStyle=fill; ctx.fill(); ctx.strokeStyle=edge; ctx.stroke(); };
+    poly([-Wm*0.42,0,-Wm*0.27,0,-Wm*0.15,-Hr*0.5,-Wm*0.33,-Hr*0.5]);   // Bein L
+    poly([Wm*0.42,0,Wm*0.27,0,Wm*0.15,-Hr*0.5,Wm*0.33,-Hr*0.5]);       // Bein R
+    poly([-Wm*0.26,-Hr*0.46,Wm*0.26,-Hr*0.46,Wm*0.26,-Hr*0.64,-Wm*0.26,-Hr*0.64]);   // Hüfte/Torso
+    poly([-Wm*0.44,-Hr*0.62,Wm*0.44,-Hr*0.62,Wm*0.5,-Hr*0.74,Wm*0.3,-Hr*0.85,-Wm*0.3,-Hr*0.85,-Wm*0.5,-Hr*0.74]);   // Brust
+    poly([-Wm*0.5,-Hr*0.78,-Wm*0.32,-Hr*0.78,-Wm*0.46,-Hr*1.0]);   // Schulter-Pylon L
+    poly([Wm*0.5,-Hr*0.78,Wm*0.32,-Hr*0.78,Wm*0.46,-Hr*1.0]);     // Schulter-Pylon R
+    poly([-Wm*0.13,-Hr*0.84,Wm*0.13,-Hr*0.84,Wm*0.13,-Hr*0.96,0,-Hr*1.07,-Wm*0.13,-Hr*0.96]);   // Kopf + Horn
+    ctx.fillStyle=rgA(curBg.sun,0.85+0.15*Math.sin(e*3)); ctx.fillRect(-Wm*0.09,-Hr*0.92,Wm*0.18,Hr*0.03);   // glühender Visor
+    ctx.fillStyle=rgA(curBg.sun,0.5+0.35*Math.sin(e*2+1)); ctx.beginPath(); ctx.arc(0,-Hr*0.71,Wm*0.07,0,6.28); ctx.fill();   // Brust-Kern
+    ctx.restore(); }
   function drawSkyline(hz){ if(sceneW!==W) genScene(); const e=elapsed||0, tw=0.6+0.4*Math.sin(e*3);
+    drawRobot(hz);   // Mecha hinter der Skyline (Gebäude verdecken die Beine → er ragt über die Stadt)
     const dark='rgba(4,1,12,0.94)', edge=rgA(curBg.grid,0.55);
     ctx.lineWidth=1;
     for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2],win=b[3],type=b[4], top=hz-h, cx=bx+w/2;
