@@ -861,6 +861,7 @@
   let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
   let skillPts=0, arsenalSkillMode=false, arsenalResume=false, arsenalFromMenu=false, arsenalTab='loadout';   // arsenalFromMenu = Hangar aus dem Hauptmenü geöffnet
   let statusFromMenu=false;   // Schiffsstatus aus dem Hauptmenü geöffnet (Loadout-Vorschau)
+  let statusFromArsenal=false;   // Schiffsstatus aus dem Arsenal geöffnet → dorthin zurück (Loadout sofort prüfen)
   const ownedW=()=>Object.keys(arsenal.w);
   const ownedCount=()=>ownedW().length;
   const synActive=id=>!!syn[id];
@@ -2867,7 +2868,11 @@
     if(statusFromMenu){ if(!mode) mode='normal'; reset(); applyMeta(); document.getElementById('start').classList.add('hidden'); }
     renderStatusView();
     const sv=document.getElementById('statusView'); if(sv){ sv.classList.remove('hidden'); sv.scrollTop=0; } beep(660,0.06,'square',0.2); }
+  // Aus dem Arsenal heraus den Schiffsstatus zeigen (aktuelles Loadout, kein reset) → zurück ins Arsenal
+  function openStatusFromArsenal(){ statusFromArsenal=true; const av=document.getElementById('arsenalView'); if(av) av.classList.add('hidden');
+    renderStatusView(); const sv=document.getElementById('statusView'); if(sv){ sv.classList.remove('hidden'); sv.scrollTop=0; } beep(660,0.06,'square',0.2); }
   function closeStatusView(){ const sv=document.getElementById('statusView'); if(sv) sv.classList.add('hidden');
+    if(statusFromArsenal){ statusFromArsenal=false; const av=document.getElementById('arsenalView'); if(av){ renderArsenalView(); av.classList.remove('hidden'); av.scrollTop=0; } return; }
     if(statusFromMenu){ statusFromMenu=false; state=S.MENU; document.getElementById('start').classList.remove('hidden'); } }
   function drawRadar(cv,axes){ const dpr=Math.min(2,window.devicePixelRatio||1), size=300;
     cv.width=size*dpr; cv.height=size*dpr; cv.style.width=size+'px'; cv.style.height=size+'px';
@@ -3027,7 +3032,7 @@
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
     renderModes();
     setSel('#pause .utitle',t('pause')); set('resumeBtn',t('resume')); set('pauseMenuBtn',t('mainmenu')); set('arsenalViewBtn',t('arsenalBtn')); set('pauseSettingsBtn','⚙️ '+t('setTitle'));
-    setSel('#arsenalView .utitle',t('arsenalTitle')); set('arsenalBackBtn',t('back'));
+    setSel('#arsenalView .utitle',t('arsenalTitle')); set('arsenalBackBtn',t('back')); set('arsenalStatusBtn','📊 '+t('statusBtn'));
     setSel('#upgrade .utitle',t('chooseUp'));
     setSel('#shop .utitle',t('workshop')); set('balLbl',t('balance')); set('shopBackBtn',t('back'));
     setSel('#settings .utitle',t('setTitle')); set('setHint',t('tapToggle')); set('settingsBackBtn',t('back'));
@@ -3042,70 +3047,75 @@
     if(typeof renderDiffInfo==='function') renderDiffInfo();
   }catch(e){} }
 
-  // ---------- Menü-Belebung: kantiger Pixel-Kettenblitz (Button→Button) + Schweißfunken am Hangar ----------
+  // ---------- Menü-Belebung: Kettenblitz (Button→Button) + Schweißglut am Hangar – Glow-Look wie im Spiel ----------
   let mfxCv=null, mfxX=null, mfxBolts=[], mfxSparks=[], mfxChainT=0.8, mfxWeldT=0, mfxWeld={x:0,y:0,glow:0}, mfxW=0, mfxH=0;
-  const MFX_COLS=['#19f0ff','#ff2e88','#c45bff','#ffe600'], MFX_GP=4;   // GP = Pixel-Raster für den kantigen Look
+  const MFX_COLS=['#19f0ff','#ff2e88','#c45bff','#ffe600'];
   const mfxHexA=(h,a)=>{ const n=parseInt(h.slice(1),16); return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'; };
-  const mfxSnap=v=>Math.round(v/MFX_GP)*MFX_GP;
   function mfxResize(s){ const r=s.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
     mfxW=r.width; mfxH=r.height; mfxCv.width=Math.max(1,(r.width*dpr)|0); mfxCv.height=Math.max(1,(r.height*dpr)|0);
-    mfxX.setTransform(dpr,0,0,dpr,0,0); mfxX.imageSmoothingEnabled=false; }
+    mfxX.setTransform(dpr,0,0,dpr,0,0); }
   function mfxRect(s,el){ const sr=s.getBoundingClientRect(), r=el.getBoundingClientRect();
     return {x:r.left-sr.left+r.width/2, y:r.top-sr.top+r.height/2, left:r.left-sr.left, top:r.top-sr.top, w:r.width, h:r.height}; }
-  // kantiger Zickzack: Versatz wechselt das Vorzeichen je Segment (scharfe Ecken), auf Pixel-Raster gerundet
+  // gezackter Blitzbogen (wie spawnLaserWave/arcParticles im Spiel): seitlicher Versatz an Zwischenpunkten
   function mfxJag(a,b){ const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len;
-    const segs=Math.max(5,Math.min(15,(len/22)|0)), amp=Math.min(48,len*0.28), pts=[]; let sign=Math.random()<0.5?1:-1;
-    for(let i=0;i<=segs;i++){ const t=i/segs; let j; if(i===0||i===segs) j=0; else { sign=-sign; j=sign*amp*(0.4+Math.random()*0.6); }
-      pts.push([mfxSnap(a.x+dx*t+nx*j), mfxSnap(a.y+dy*t+ny*j)]); }
-    return pts; }
-  // Polylinie in einzelne Pixel-Blöcke zerlegen (dotted Pixel-Look)
-  function mfxPixels(pts){ const out=[], step=5;
-    for(let k=0;k<pts.length-1;k++){ const x1=pts[k][0],y1=pts[k][1],dx=pts[k+1][0]-x1,dy=pts[k+1][1]-y1,d=Math.hypot(dx,dy)||1,n=Math.max(1,Math.round(d/step));
-      for(let i=0;i<n;i++){ const t=i/n; out.push([mfxSnap(x1+dx*t), mfxSnap(y1+dy*t)]); } }
-    out.push(pts[pts.length-1]); return out; }
-  function mfxBolt(a,b,col,depth){ if(mfxBolts.length>20) mfxBolts.shift();
-    const pts=mfxJag(a,b); mfxBolts.push({pts,px:mfxPixels(pts),t:0.32,life:0.32,col,branch:!!depth});
-    if(!depth){ const nb=1+(Math.random()*2|0);   // weiter verzweigt: kurze Abzweige von zufälligen Knoten
-      for(let bI=0;bI<nb && pts.length>3;bI++){ const v=pts[1+((Math.random()*(pts.length-2))|0)], ang=Math.random()*6.28, bl=14+Math.random()*34;
-        mfxBolt({x:v[0],y:v[1]},{x:v[0]+Math.cos(ang)*bl,y:v[1]+Math.sin(ang)*bl},col,1); } } }
-  function mfxSpark(x,y,col,vx,vy,life,r){ if(mfxSparks.length>240) mfxSparks.shift();
-    mfxSparks.push({x,y,vx,vy,life,col,r:r||(1+Math.random()*1.8)}); }
-  function mfxSplash(x,y,col,n){ for(let i=0;i<n;i++){ const a=Math.random()*6.28, sp=30+Math.random()*120;
-    mfxSpark(x,y,col,Math.cos(a)*sp,Math.sin(a)*sp-22,0.4+Math.random()*0.45); } }
+    const segs=Math.max(4,Math.min(9,(len/26)|0)), pts=[[a.x,a.y]];
+    for(let i=1;i<segs;i++){ const t=i/segs, j=(Math.random()-0.5)*Math.min(34,len*0.3); pts.push([a.x+dx*t+nx*j, a.y+dy*t+ny*j]); }
+    pts.push([b.x,b.y]); return pts; }
+  function mfxBolt(a,b,col,depth){ if(mfxBolts.length>18) mfxBolts.shift();
+    mfxBolts.push({pts:mfxJag(a,b),t:0.3,life:0.3,col,branch:!!depth});
+    if(!depth && Math.random()<0.7){ const pts=mfxBolts[mfxBolts.length-1].pts;   // ein dezenter Abzweig
+      const v=pts[1+((Math.random()*(pts.length-2))|0)], ang=Math.random()*6.28, bl=16+Math.random()*30;
+      mfxBolt({x:v[0],y:v[1]},{x:v[0]+Math.cos(ang)*bl,y:v[1]+Math.sin(ang)*bl},col,1); } }
+  function mfxSpark(x,y,col,vx,vy,life,r){ if(mfxSparks.length>140) mfxSparks.shift();
+    mfxSparks.push({x,y,vx,vy,life,maxlife:life,col,r:r||(2+Math.random()*2)}); }
+  function mfxSplash(x,y,col,n){ for(let i=0;i<n;i++){ const a=Math.random()*6.28, sp=26+Math.random()*110;
+    mfxSpark(x,y,col,Math.cos(a)*sp,Math.sin(a)*sp-20,0.34+Math.random()*0.4,2+Math.random()*2.4); } }
   function mfxFlash(el,cls,ms){ try{ el.classList.add(cls); setTimeout(()=>el.classList.remove(cls),ms); }catch(e){} }
+  // weiche, glühende Linie in 3 Schichten (wie die Kettenblitze im Spiel)
+  function mfxStroke(x,pts,col,a,coreW,wide){ x.lineCap='round'; x.lineJoin='round';
+    x.beginPath(); x.moveTo(pts[0][0],pts[0][1]); for(let k=1;k<pts.length;k++) x.lineTo(pts[k][0],pts[k][1]);
+    x.strokeStyle=mfxHexA(col,0.4*a); x.lineWidth=wide; x.stroke();
+    x.strokeStyle=mfxHexA(col,0.7*a); x.lineWidth=coreW*1.9; x.stroke();
+    x.strokeStyle='rgba(255,255,255,'+(0.85*a)+')'; x.lineWidth=coreW; x.stroke(); }
+  function mfxDot(x,sp){ const a=Math.max(0,Math.min(1,sp.life/(sp.maxlife||0.5)*1.3)), r=sp.r;
+    x.globalAlpha=a*0.4; x.fillStyle=sp.col; x.beginPath(); x.arc(sp.x,sp.y,r*2.3,0,6.28); x.fill();
+    x.globalAlpha=a; x.beginPath(); x.arc(sp.x,sp.y,r*0.92,0,6.28); x.fill();
+    x.globalAlpha=Math.min(1,a*1.1); x.fillStyle='#ffffff'; x.beginPath(); x.arc(sp.x,sp.y,r*0.4,0,6.28); x.fill(); }
   function mfxFrame(dt){
     const s=document.getElementById('start');
     if(!s||s.classList.contains('hidden')){ if(mfxBolts.length||mfxSparks.length){ mfxBolts.length=0; mfxSparks.length=0; mfxWeld.glow=0; if(mfxX&&mfxW) mfxX.clearRect(0,0,mfxW,mfxH); } return; }
-    if(!mfxCv){ mfxCv=document.getElementById('menuFx'); if(!mfxCv) return; mfxX=mfxCv.getContext('2d'); mfxX.imageSmoothingEnabled=false; }
+    if(!mfxCv){ mfxCv=document.getElementById('menuFx'); if(!mfxCv) return; mfxX=mfxCv.getContext('2d'); }
     const r=s.getBoundingClientRect(); if(Math.abs(r.width-mfxW)>1||Math.abs(r.height-mfxH)>1) mfxResize(s);
     if(!mfxX) return;
     const lg=s.querySelector('.logo'); const anchor=lg?(()=>{ const c=mfxRect(s,lg); return {x:c.x,y:c.top+c.h*0.94}; })():null;
     // Kettenblitz: vom Titel zum nächstgelegenen Button, dann von Button zu Button weiterspringen (wie im Spiel)
-    mfxChainT-=dt; if(mfxChainT<=0){ mfxChainT=1.15+Math.random()*1.5;
+    // – unregelmäßige, etwas langsamere Abstände; der einschlagende Blitz triggert synchron den Titel-Glitch
+    mfxChainT-=dt; if(mfxChainT<=0){ mfxChainT=1.7+Math.random()*1.6+(Math.random()<0.4?Math.random()*2.4:0);   // unregelmäßig + minimal langsamer
       let pool=[...s.querySelectorAll('.mode, #dailyBtn, #shopBtn, .iconRow button, .diffBtn')].filter(e=>e.offsetParent!==null).map(el=>({el,c:mfxRect(s,el)}));
       if(pool.length){ const col=MFX_COLS[(Math.random()*MFX_COLS.length)|0]; let prev=anchor||pool[0].c; const hops=Math.min(pool.length,3+(Math.random()*3|0));
+        if(lg){ lg.classList.remove('glitch'); void lg.offsetWidth; lg.classList.add('glitch'); }   // Titel-Glitch synchron zum Blitz
         for(let h=0;h<hops;h++){ let bi=0,bd=1e18; for(let k=0;k<pool.length;k++){ const d=(pool[k].c.x-prev.x)**2+(pool[k].c.y-prev.y)**2; if(d<bd){bd=d;bi=k;} }
-          const node=pool.splice(bi,1)[0]; mfxBolt(prev,node.c,col); mfxSplash(node.c.x,node.c.y,col,5+(Math.random()*5|0)); mfxFlash(node.el,'menuZap',440); prev=node.c; if(!pool.length) break; } } }
-    // Dauer-Schweißfunken an der Ecke des Hangar-Buttons (als würde dort gearbeitet)
+          const node=pool.splice(bi,1)[0]; mfxBolt(prev,node.c,col); mfxSplash(node.c.x,node.c.y,col,4+(Math.random()*4|0)); mfxFlash(node.el,'menuZap',440); prev=node.c; if(!pool.length) break; } } }
+    // Dauer-Schweißglut an der UNTEREN-RECHTEN Ecke des Hangar-Buttons – stark flackernd (als würde dort geschweißt)
     mfxWeldT-=dt; const hb=document.getElementById('shopBtn');
-    if(hb&&hb.offsetParent!==null){ const R=mfxRect(s,hb); mfxWeld.x=mfxSnap(R.left+6); mfxWeld.y=mfxSnap(R.top+6);
-      if(mfxWeldT<=0){ mfxWeldT=0.03+Math.random()*0.05; mfxWeld.glow=0.55+Math.random()*0.45;
-        const n=1+(Math.random()*2|0); for(let i=0;i<n;i++){ const ang=-0.3-Math.random()*2.0, sp=55+Math.random()*150, c=Math.random()<0.35?'#ffd27a':(Math.random()<0.5?'#fff7d0':'#bdf6ff');
-          mfxSpark(mfxWeld.x,mfxWeld.y,c,Math.cos(ang)*sp,Math.sin(ang)*sp,0.18+Math.random()*0.3,1+Math.random()*1.4); } }
+    if(hb&&hb.offsetParent!==null){ const R=mfxRect(s,hb); mfxWeld.x=R.left+R.w-7; mfxWeld.y=R.top+R.h-7;
+      if(mfxWeldT<=0){ mfxWeldT=0.02+Math.random()*0.085;
+        mfxWeld.glow=(Math.random()<0.28)?(0.08+Math.random()*0.18):(0.6+Math.random()*0.4);   // erratisch hell/dunkel = starkes Flackern
+        if(Math.random()<0.8){ const ang=-0.4-Math.random()*2.2, sp=50+Math.random()*150, c=Math.random()<0.35?'#ffd27a':(Math.random()<0.5?'#fff7d0':'#bdf6ff');
+          mfxSpark(mfxWeld.x,mfxWeld.y,c,Math.cos(ang)*sp,Math.sin(ang)*sp,0.18+Math.random()*0.3,1.6+Math.random()*1.6); } }
     } else mfxWeld.glow=0;
-    mfxWeld.glow*=Math.pow(0.04,dt);   // flackernd ausklingen zwischen den Funkenstößen
-    // ---- zeichnen (Pixel-Blöcke, additiv) ----
-    const x=mfxX; x.clearRect(0,0,mfxW,mfxH); x.save(); x.globalCompositeOperation='lighter'; x.lineCap='butt'; x.lineJoin='miter';
+    mfxWeld.glow*=Math.pow(0.015,dt);   // schneller abklingen → snappigeres Flackern
+    // ---- zeichnen (weiches additives Glühen, wie die Effekte im Spiel) ----
+    const x=mfxX; x.clearRect(0,0,mfxW,mfxH); x.save(); x.globalCompositeOperation='lighter';
     for(let i=mfxBolts.length-1;i>=0;i--){ const bo=mfxBolts[i]; bo.t-=dt; if(bo.t<=0){ mfxBolts.splice(i,1); continue; }
-      const a=Math.max(0,bo.t/bo.life);
-      x.globalAlpha=1; x.strokeStyle=mfxHexA(bo.col,(bo.branch?0.08:0.13)*a); x.lineWidth=bo.branch?4:7;   // weiches Glühen unter den Pixeln
-      x.beginPath(); x.moveTo(bo.pts[0][0],bo.pts[0][1]); for(let k=1;k<bo.pts.length;k++) x.lineTo(bo.pts[k][0],bo.pts[k][1]); x.stroke();
-      const bs=bo.branch?2:3; for(let k=0;k<bo.px.length;k++){ const p=bo.px[k]; x.globalAlpha=a; x.fillStyle=(k%3===0)?'#ffffff':bo.col; x.fillRect((p[0]-bs/2)|0,(p[1]-bs/2)|0,bs,bs); } }
+      const a=Math.max(0,bo.t/bo.life); mfxStroke(x,bo.pts,bo.col,a, bo.branch?1.2:2.2, bo.branch?6:11); }
+    x.globalAlpha=1;
     for(let i=mfxSparks.length-1;i>=0;i--){ const sp=mfxSparks[i]; sp.life-=dt; if(sp.life<=0){ mfxSparks.splice(i,1); continue; }
-      sp.x+=sp.vx*dt; sp.y+=sp.vy*dt; sp.vy+=180*dt; sp.vx*=0.95;
-      x.globalAlpha=Math.max(0,Math.min(1,sp.life*2.4)); x.fillStyle=sp.col; const r=Math.max(1,sp.r|0); x.fillRect((sp.x-r/2)|0,(sp.y-r/2)|0,r,r); }
-    if(mfxWeld.glow>0.04){ const g=Math.min(1,mfxWeld.glow); x.globalAlpha=0.5*g; x.fillStyle='#bff6ff'; x.fillRect((mfxWeld.x-7)|0,(mfxWeld.y-7)|0,14,14);
-      x.globalAlpha=Math.min(1,0.9*g); x.fillStyle='#ffffff'; x.fillRect((mfxWeld.x-2)|0,(mfxWeld.y-2)|0,4,4); }
+      sp.x+=sp.vx*dt; sp.y+=sp.vy*dt; sp.vy+=170*dt; sp.vx*=0.95; mfxDot(x,sp); }
+    if(mfxWeld.glow>0.04){ const g=Math.min(1,mfxWeld.glow);
+      x.globalAlpha=0.42*g; x.fillStyle='#9fe9ff'; x.beginPath(); x.arc(mfxWeld.x,mfxWeld.y,11,0,6.28); x.fill();
+      x.globalAlpha=0.85*g; x.fillStyle='#eaffff'; x.beginPath(); x.arc(mfxWeld.x,mfxWeld.y,4.5,0,6.28); x.fill();
+      x.globalAlpha=g; x.fillStyle='#ffffff'; x.beginPath(); x.arc(mfxWeld.x,mfxWeld.y,2,0,6.28); x.fill(); }
     x.globalAlpha=1; x.restore();
   }
 
@@ -3228,6 +3238,7 @@
   const av=document.getElementById('arsenalViewBtn'); if(av) av.addEventListener('click',()=>openArsenalView('loadout'));   // ohne Wrapper landet das Klick-Event als tab-Arg → alle Sektionen versteckt
   const avc=document.getElementById('arsenalCloseBtn'); if(avc) avc.addEventListener('click',closeArsenalView);
   const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
+  const avs=document.getElementById('arsenalStatusBtn'); if(avs) avs.addEventListener('click',openStatusFromArsenal);   // Arsenal → Schiffsstatus (Loadout sofort prüfen)
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
   const asb=document.getElementById('arsenalShopBtn'); if(asb) asb.addEventListener('click',()=>openShop('arsenalView'));
   const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openArsenalView('shop'));
@@ -3240,6 +3251,7 @@
   let lastKey='';
   const isOpen=id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hidden'); };
   window.addEventListener('keydown',e=>{ if(e.code==='Escape'){
+      if(isOpen('statusView')){ closeStatusView(); return; }
       if(isOpen('arsenalView')){ closeArsenalView(); return; }
       if(isOpen('shipEditor')){ closeShipEditor(); return; }
       if(isOpen('settings')){ closeSettings(); return; }
