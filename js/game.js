@@ -1072,6 +1072,9 @@
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
   const difHp  =()=>1.15+gunDps()*0.27+(level-1)*0.26;
   const introT =()=>Math.max(0,1-elapsed/22);   // Butter-Start: lange, sanfte Schonung in den ersten ~22s, fadet linear aus (gemütlicher Einstieg)
+  // DPS-gekoppeltes Tempo: mehr Feuerkraft → schnellere Obstacles. Hält den Ausweich-Druck konstant (mit wenig DPS hat man Zeit zu zerstören, mit viel DPS kommt es schneller). Sanft & gedeckelt.
+  const DPS_BASE=4;   // ~Start-Blaster-DPS als Referenz
+  const dpsSpd =()=>1+Math.min(1.1,Math.max(0,gunDps()/DPS_BASE-1)*0.05);
   function finalNum(){ return mode==='hardcore'?10:8; }
   function combatDur(){ return mode==='hardcore'?30:38; }   // Kampfphase pro Level vor dem Boss (länger → Zeit zum Aufrüsten)
   // Boss entkommen → Level NICHT geschafft: gleiche Stufe nochmal (Loadout bleibt, man wird stärker)
@@ -1207,7 +1210,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(52+level*7+Math.min(elapsed*1.3,90))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.45*introT())*0.96*diffSpd;   // langsameres, lesbares Grundtempo – die Härte kommt über Dichte + Elites, nicht über reines Tempo
+    const sp=(52+level*5+Math.min(elapsed*0.7,46))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo primär an DPS gekoppelt (dpsSpd) + milder Level-Druck; Start sehr langsam (Intro), reine Zeit zählt kaum noch
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -1316,7 +1319,7 @@
       move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
       cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,150+tier*8), radY:Math.min(H*0.11,60+tier*8),
       ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1)*(final?1.15:1), r:sp.rad,
-      maxHp:Math.max(40,Math.round(bossDps()*(10+bossNumber*1.0)*(final?2.0:1)*diffHp)), hp:0, t:0,
+      maxHp:Math.max(40,Math.round(bossDps()*(12+bossNumber*1.0)*(final?2.0:1)*diffHp)), hp:0, t:0,   // HP ~ Einzelziel-DPS → konstante Time-to-Kill; etwas zäher (12 statt 10) → 'gerade so schaffen, wenn man draufzielt'
       limit:final?9999:(22+bossNumber*2),
       hitFlash:0, shootT:1.5, warn:0, telegraph:false, fireGap:Math.max(0.9,2.5-bossNumber*0.1-Math.min(0.7,pwrSurv()*0.022)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0};
@@ -1603,7 +1606,7 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.24,(1.08-difficulty*0.05-level*0.018)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+1.15*introT())*0.95/diffDen); } }   // früh deutlich dünner (1+1.15*introT), spät deutlich dichter (Deckel 0.30→0.24, difficulty stärker)
+        spawnT=Math.max(0.24,(1.08-difficulty*0.05-level*0.022)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+1.9*introT())*0.95/diffDen); } }   // Start SEHR dünn (1+1.9*introT → wenige Gegner zum Kennenlernen), mehr Obstacles pro Level (level*0.022), spät dichter
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
