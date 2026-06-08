@@ -263,8 +263,13 @@
       let forks=0; for(const f of ['f1','f2','f3','f4']) if(s[f]) forks++;
       if(forks>0) meta.lvl['fu_'+id]=Math.max(meta.lvl['fu_'+id]||0,forks); } }   // bereits gewählte Fork-Stufen freigeschaltet
     saveMeta(); }
+  // Einmalig: aktive Synergien im gespeicherten Loadout gelten als freigekauft (sonst verschwinden alte Fusionen beim Aktivieren der Synergie-Coin-Sperre)
+  function migrateSynUnlock(){ if(meta.mig_syn) return; meta.mig_syn=1; meta.lvl=meta.lvl||{};
+    const L=meta.loadout; if(L&&Array.isArray(L.syn)){ for(const sid of L.syn) if(SID[sid]) meta.lvl['sy_'+sid]=Math.max(meta.lvl['sy_'+sid]||0,1); }
+    saveMeta(); }
   function applyMeta(){
     migrateCoinSkills();                                   // einmalig: alte Builds vor der Coin-Sperre retten
+    migrateSynUnlock();                                    // einmalig: aktive Synergien grandfathern
     arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
     arsenal.w={};
     // HANGAR: gespeichertes Loadout laden (bleibt zwischen Runs erhalten – kein Neu-Aufbau jedes Mal)
@@ -893,7 +898,7 @@
   const pixBudget=()=>PIX_BASE+metaLvl('pxpack')*PIX_PER;
   const glowUnlocked=()=>metaLvl('pxglow')>0;
   const synBought=id=>metaLvl('sy_'+id)>0;
-  const synUnlocked=id=> true;   // Hangar: Synergie frei slotbar, sobald beide Waffen vorhanden
+  const synUnlocked=id=> metaLvl('sy_'+id)>0;   // Synergie muss erst mit Coins freigekauft sein (danach slotbar)
   const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
   let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
   let skillPts=0, arsenalSkillMode=false, arsenalResume=false, arsenalFromMenu=false, arsenalTab='loadout';   // arsenalFromMenu = Hangar aus dem Hauptmenü geöffnet
@@ -2194,10 +2199,10 @@
   function buildShipSprite(r,up,nCan){
     if(meta.skin==='custom' && hasCustomShip()) return buildCustomSprite(r);
     const R=makeRng(shipSeed||1);
-    const cp=Math.max(2,Math.round(r*0.31));                 // Pixel-Zellgröße (kleiner)
-    const gh=8+Math.min(6,(up*0.42)|0);                      // schlank, etwas kürzer
-    const gw=2+Math.min(3,(up*0.22)|0);                      // schmaler Rumpf
-    const wingLen=3+Math.min(4,(up*0.38)|0);
+    const cp=Math.max(2,Math.round(r*0.31));                 // Pixel-Zellgröße (an Hitbox gekoppelt)
+    const gh=8+Math.min(2,(up*0.14)|0);                      // Größe wächst nur noch LEICHT mit Ausrüstung (vorher bis +6 → Schiff wurde riesig)
+    const gw=2+Math.min(1,(up*0.12)|0);                      // schmaler Rumpf, kaum Wachstum
+    const wingLen=3+Math.min(2,(up*0.2)|0);
     const wingPairs=R()<0.55?2:1;                            // 2 = X-Wing-Silhouette, 1 = schlanker Interceptor
     const sweep=0.55+R()*0.45;                               // Flügel-Pfeilung nach hinten
     const sk=curSkin(), hull=sk.hull, edge=sk.edge, acc=sk.rnd?SHIP_ACC[(R()*SHIP_ACC.length)|0]:sk.acc;
@@ -2243,7 +2248,7 @@
     return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5,muz,bw:(mAbsX+0.6)*cp,bh:(mAbsY+0.6)*cp};
   }
   function drawShip(){ const r=player.r;
-    let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]; up+=ownedCount()*2;
+    let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]; up+=ownedCount();   // Waffen zählen einfach (vorher ×2 → Schiff wuchs mit jeder Waffe stark)
     const nCan=Math.min(8, ownedCount() + (wpn.blaster?Math.max(0,wpn.blaster.bolts-1):0));
     const sig=shipSeed+'|'+up+'|'+nCan+'|'+Math.round(r)+'|'+(meta.skin||'std');
     if(!shipSprite||shipSig!==sig){ shipSprite=buildShipSprite(r,up,nCan); shipSig=sig; }
@@ -2821,11 +2826,13 @@
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); updateAllBalances(); afterSpend(); }
   // Fusions-Slot belegen/wechseln: jederzeit, max MAXSYN. Bei vollem Slot ersetzt der älteste (FIFO) → flüssiges Umschalten.
   function synAvail(id){ const s=SID[id]; return !!(s && synUnlocked(id) && arsenal.w[s.pair[0]] && arsenal.w[s.pair[1]]); }
+  const SYN_SWITCH_COST=50;   // Synergie aktivieren/wechseln kostet 50 Coins (deaktivieren ist gratis)
   function toggleSyn(id){ if(!synAvail(id)) return; const i=activeSyn.indexOf(id);
-    if(i>=0){ activeSyn.splice(i,1); }
-    else { if(activeSyn.length>=MAXSYN) activeSyn.shift(); activeSyn.push(id); }
-    recalcArsenal(); sfxPow(); vibe(12);
-    const on=activeSyn.includes(id); banner={text:SID[id].ico+' '+synName(id),sub:on?t('synOn'):t('synNeed'),t:1.2,color:'#ff2e88'};
+    if(i>=0){ activeSyn.splice(i,1); }   // deaktivieren: gratis
+    else { if(coinShort(SYN_SWITCH_COST)) return; meta.chips-=SYN_SWITCH_COST; saveMeta();   // aktivieren/wechseln: 50 Coins
+      if(activeSyn.length>=MAXSYN) activeSyn.shift(); activeSyn.push(id); }
+    recalcArsenal(); sfxPow(); vibe(12); updateAllBalances();
+    const on=activeSyn.includes(id); banner={text:SID[id].ico+' '+synName(id),sub:(on?t('synOn')+' · −◈'+SYN_SWITCH_COST:t('synNeed')),t:1.2,color:'#ff2e88'};
     saveLoadout(); renderArsenalView(); }
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
   function nodeState(id,a,slot,path){ const sel=a[slot];
@@ -2904,15 +2911,18 @@
         wrap.appendChild(card); });
     const sd=document.getElementById('arsenalSyn'); if(sd){
       // Fusions-Slots: ALLE Kombis als Info-/Equip-Karten. Antippen = in einen der 2 Slots legen / wieder raus (jederzeit).
-      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0);
-        const on=syn[s.id], can=synAvail(s.id)&&opt.guns;
-        const cls=on?'on':(can?'avail':(owned===1?'near':'off')), tap=(on||can)?' syntap':'';
-        const badge=on?'<span class="synok">✓</span>':(can?'<span class="synadd">＋</span>':(owned===1?('<span class="synneed">'+(hasA?WID[b].ico:WID[a].ico)+'</span>'):''));
-        const rank=on?3:(can?2:owned);
-        return {rank,html:`<div class="synrow ${cls}${tap}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${badge}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
-      rows.sort((x,y)=>y.rank-x.rank);   // aktiv → wählbar → fast → fehlt
+      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0), bothOwned=hasA&&hasB;
+        const bought=synBought(s.id), on=syn[s.id], can=synAvail(s.id)&&opt.guns, buyable=bothOwned&&!bought&&opt.guns;
+        const cls=on?'on':(can?'avail':(buyable?'buyable':(owned===1?'near':'off'))), tap=(on||can)?' syntap':'';
+        const uCost=metaCost(metaById('sy_'+s.id),0), uAff=(meta.chips||0)>=uCost;
+        const right=buyable?`<button class="synbuy${uAff?'':' locked'}" data-synbuy="${s.id}">🔓 ◈${uCost}</button>`
+          :on?'<span class="synok">✓</span>':(can?('<span class="synadd">＋ ◈'+SYN_SWITCH_COST+'</span>'):(owned===1?('<span class="synneed">'+(hasA?WID[b].ico:WID[a].ico)+'</span>'):''));
+        const rank=on?4:(can?3:(buyable?2:owned));
+        return {rank,html:`<div class="synrow ${cls}${tap}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${right}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
+      rows.sort((x,y)=>y.rank-x.rank);   // aktiv → wählbar → freikaufbar → fast → fehlt
       sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">'+activeSyn.length+'/'+MAXSYN+'</span></h4>'+rows.map(r=>r.html).join('');
-      sd.querySelectorAll('.synrow.syntap').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; toggleSyn(r.dataset.syn); })); }
+      sd.querySelectorAll('.synrow.syntap').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; toggleSyn(r.dataset.syn); }));
+      sd.querySelectorAll('.synbuy').forEach(btn=>btn.addEventListener('click',e=>{ e.stopPropagation(); buyMeta('sy_'+btn.dataset.synbuy,renderArsenalView); })); }   // Synergie mit Coins freikaufen
   }
   // In-Run HUD: Waffenleiste mit Level-Pips + Synergie-Badges
   function drawArsenalHud(){ const ids=ownedW();
