@@ -715,13 +715,15 @@
   canvas.addEventListener('touchstart',e=>{onMove(e);e.preventDefault();},{passive:false});
   canvas.addEventListener('touchmove',e=>{onMove(e);e.preventDefault();},{passive:false});
 
-  // Perspektivisches Sternenfeld: Sterne strömen aus dem Fluchtpunkt (W/2, H*0.42 – wie das Polygon-Gitter)
+  // Perspektivisches Sternenfeld: Sterne strömen aus dem Fluchtpunkt (W/2, H*0.32 – wie das Polygon-Gitter)
   // nach außen/unten heraus und wachsen dabei (Star-Wars-Crawl-Optik). x,y = Welt-Offset, z = Tiefe (klein = nah).
-  function resetStar(s,far){ s.wx=Math.random()*2-1; s.wy=Math.random()*1.85-0.6;   // Abwärts-Tendenz → „nach unten vorne"
+  function resetStar(s,far){ s.wx=Math.random()*2-1; s.wy=Math.random()*1.95-0.4;   // stärkere Abwärts-Tendenz → kohärenter Vorwärtsflug (mit den Obstacles)
     s.z=far?(0.55+Math.random()*0.95):(0.06+Math.random()*1.4); s.br=0.5+Math.random()*0.85; s.spd=0.05+Math.random()*0.17; }
-  function projStar(s){ const hz=H*0.42, F=W*0.05, inv=1/Math.max(0.05,s.z);
+  function projStar(s){ const hz=H*0.32, F=W*0.05, inv=1/Math.max(0.05,s.z);
     s.sx=W/2+s.wx*F*inv; s.sy=hz+s.wy*F*inv; s.size=Math.min(4.2,Math.max(0.6,s.br*inv*0.46));
-    s.alpha=Math.max(0.05,Math.min(1,(1-s.z)*1.0+0.14)); }
+    // oberhalb des Fluchtpunkts (aufwärts strömend) stark abdunkeln → kein Bewegungs-Konflikt mit den von oben kommenden Obstacles
+    const af=s.sy>=hz?1:Math.max(0.1,s.sy/hz);
+    s.alpha=Math.max(0.05,Math.min(1,(1-s.z)*1.0+0.14))*af; }
   function makeStars(){ stars=[]; for(let i=0;i<115;i++){ const s={tw:Math.random()*6.28,tws:0.6+Math.random()*1.8}; resetStar(s,false); projStar(s); stars.push(s); } }
   // Sternenfeld: starke Tiefenstaffelung (Parallax) – ferne Sterne kriechen, nahe rauschen vorbei; leichtes Funkeln
   function updateStars(dt){ if(!stars) return; for(const s of stars){ s.z-=s.spd*dt; s.tw+=s.tws*dt;
@@ -809,9 +811,11 @@
   ];
   // ---------- Flüche: zeitlich begrenzt; Effekt UND Timer stapeln bei Mehrfach-Aufsammeln ----------
   // Dauer je Fluch unterschiedlich – harte Flüche kürzer, milde/lustige länger.
-  const CURSE_DUR={banana:26,smol:30,energy:20,blind:18,clown:24,mirror:28};
+  // Stärke je Fluch (2 = kräftig, 3 = hart/krasser Bonus) → steuert Dauer (stärker = kürzer) UND Effekt-Stapel-Cap (stärker = weniger) → nie „zu krass"
+  const CURSE_POW={banana:3,smol:2,energy:3,blind:3,clown:3,mirror:3};
+  const curseDur=id=>({1:32,2:26,3:19}[CURSE_POW[id]||2]);
+  const curseCap=id=>({1:4,2:3,3:2}[CURSE_POW[id]||2]);
   const CURSE_COL={banana:'#ffd23f',smol:'#ff8ad6',energy:'#ffe600',blind:'#9a86c9',clown:'#ff2e88',mirror:'#ff3b6b'};
-  const CURSE_MAXSTACK=4;   // Effekt-Stapel gedeckelt (Timer stapelt unbegrenzt)
   // on() backt den Effekt in mods, off() macht GENAU eine Anwendung rückgängig (multiplikativ/additiv invertierbar)
   const CURSE_FX={
     banana:{on:()=>{mods.follow*=0.6;mods.slip=true;mods.scoreMult*=1.65;}, off:()=>{mods.follow/=0.6;mods.scoreMult/=1.65;}},
@@ -821,9 +825,9 @@
     clown: {on:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}, off:()=>{mods.spawnMult/=0.7;mods.orbValueMult/=2;}},
     mirror:{on:()=>{mods.mirror=true;mirrorOn=true;mods.scoreMult*=1.55;}, off:()=>{mods.scoreMult/=1.55;}}
   };
-  function triggerCurse(id){ const fx=CURSE_FX[id]; if(!fx) return; const dur=CURSE_DUR[id]||24;
+  function triggerCurse(id){ const fx=CURSE_FX[id]; if(!fx) return; const dur=curseDur(id);
     const ex=activeCurses.find(a=>a.id===id);
-    if(ex){ if(ex.stacks<CURSE_MAXSTACK){ fx.on(); ex.stacks++; } ex.t+=dur; ex.max=ex.t; }   // erneut gesammelt → Effekt (bis Cap) + Timer addieren
+    if(ex){ if(ex.stacks<curseCap(id)){ fx.on(); ex.stacks++; } ex.t+=dur; ex.max=ex.t; }   // erneut gesammelt → Effekt (bis Cap) + Timer addieren
     else { fx.on(); activeCurses.push({id,t:dur,max:dur,stacks:1}); } }
   function endCurse(a){ const fx=CURSE_FX[a.id]; if(fx) for(let k=0;k<(a.stacks||1);k++) fx.off();
     if(a.id==='mirror'){ mods.mirror=false; mirrorOn=false; }
@@ -1250,7 +1254,7 @@
   function applyPickup(u){ if(u.curse&&CURSE_FX[u.id]){ triggerCurse(u.id); } else { u.apply(); upgradeCounts[u.id]=(upgradeCounts[u.id]||0)+1; } }
   function collectGem(g){ const u=g.u, col=g.curse?(CURSE_COL[u.id]||'#ff2e88'):'#ffe600'; applyPickup(u); if(g.curse) unlockAch('curse');
     spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.5,flash+0.16); flashColor=col;
-    banner={text:(g.curse?'🎲 ':'')+uName(u.id).toUpperCase(),sub:uDesc(u.id)+(g.curse?(' · '+(CURSE_DUR[u.id]||24)+'s'):''),t:2.6,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
+    banner={text:(g.curse?'🎲 ':'')+uName(u.id).toUpperCase(),sub:uDesc(u.id)+(g.curse?(' · '+curseDur(u.id)+'s'):''),t:2.6,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
     if(g.curse){ beep(220,0.18,'sawtooth',0.3,-60); setTimeout(()=>beep(140,0.2,'square',0.25,-40),80); vibe([40,30,40]); }
     else { sfxUpgrade(); vibe([15,20,15]); } }
 
@@ -2017,6 +2021,8 @@
         if(o.pattern!=='straight'&&o.trail.length){ for(let i=0;i<o.trail.length;i++){ const t=o.trail[i],a=i/o.trail.length;
           ctx.globalAlpha=a*0.28; ctx.fillStyle=o.color; ctx.beginPath(); ctx.arc(t.x,t.y,o.w*0.18*a,0,6.28); ctx.fill(); } ctx.globalAlpha=1; }
         ctx.save(); ctx.translate(o.cx,o.cy); ctx.rotate(o.rot||0);
+        const ds=Math.max(0.5,Math.min(1,0.5+0.5*(o.cy/(H*0.24))));   // Tiefen-Hauch: oben klein, wächst auf volle Größe (rein kosmetisch, Kollision/Near-Miss unberührt)
+        if(ds<1) ctx.scale(ds,ds);
         const burning=o.burn>0, frozen=o.slow>0, el=elapsed||0;
         const glowCol=burning?(Math.sin(el*34+o.cx)>0?'#ff5a1a':'#ffd24d'):(frozen?'#8fe8ff':o.color);
         const gr=Math.max(o.w,o.h)*(burning?(1.18+Math.sin(el*30+o.cy)*0.16):(frozen?0.95:0.85));   // brennend: pulsierender Feuerschein
@@ -2098,7 +2104,7 @@
     // Fluch „Drip aber blind": Sicht-Tunnel um den Spieler
     if(mods&&mods.fog>0&&player&&(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE)){
       const fr=ctx.createRadialGradient(player.x,player.y,player.r*2.4,player.x,player.y,Math.max(W,H)*0.55);
-      fr.addColorStop(0,'rgba(4,1,10,0)'); fr.addColorStop(1,`rgba(4,1,10,${mods.fog})`); ctx.fillStyle=fr; ctx.fillRect(-40,-40,W+80,H+80); }
+      fr.addColorStop(0,'rgba(4,1,10,0)'); fr.addColorStop(1,`rgba(4,1,10,${Math.min(0.82,mods.fog)})`); ctx.fillStyle=fr; ctx.fillRect(-40,-40,W+80,H+80); }
     // Combo-Overdrive: pulsierender Chroma-Schimmer
     if(overdrive&&opt.fx){ const hue=(elapsed||0)*0.7,
       r=Math.floor(128+127*Math.sin(hue)),g2=Math.floor(128+127*Math.sin(hue+2.09)),b=Math.floor(128+127*Math.sin(hue+4.19));
@@ -2253,7 +2259,7 @@
     const sig=(meta.skin||'std')+'|'+(shipSeed||0)+'|'+wl;
     if(!menuShip||menuShipSig!==sig){ try{ menuShip=buildShipSprite(30,up,nCan); }catch(e){ menuShip=null; } menuShipSig=sig; }
     const S=menuShip; if(!S||!S.cv||!S.cv.height) return;
-    const e=elapsed||0, hz=H*0.42, bob=Math.sin(e*1.05)*7, tilt=Math.sin(e*0.7)*0.04;
+    const e=elapsed||0, hz=H*0.32, bob=Math.sin(e*1.05)*7, tilt=Math.sin(e*0.7)*0.04;
     const sc=Math.min(170,H*0.22)/S.cv.height;
     ctx.save(); ctx.translate(W/2,hz+bob); ctx.rotate(tilt); ctx.scale(sc,sc); ctx.imageSmoothingEnabled=false;
     ctx.shadowBlur=12; ctx.shadowColor='#ff9a2e';
@@ -2363,7 +2369,7 @@
       const sec=chip.querySelector('.fxsec'); if(sec) sec.textContent=Math.max(0,Math.ceil(it[2]))+'s'; } }
 
   let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie
-  function drawGrid(){ const hz=H*0.42,vx=W/2;
+  function drawGrid(){ const hz=H*0.32,vx=W/2;
     // ---- Audio-reaktiver Sonnen-Puls: Musik-Amplitude (kontinuierlich) + Beat-Puls (scharfe Schläge) ----
     const hasAudio=analyser && opt.music>0;
     if(hasAudio){ analyser.getByteTimeDomainData(waveData);
