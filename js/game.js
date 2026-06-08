@@ -2677,7 +2677,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v203';
+  const GAME_VER='v204';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3036,6 +3036,7 @@
     h+='<div class="ckRow ckRowTop">';
     if(opt.guns){ h+='<div class="ckBay ckWeaponBay" aria-label="Waffen-Slots"><span class="ckLbl">'+t('ckLblW')+'</span>';
       for(const w of WEAPONS){ const a=arsenal.w[w.id], unl=weaponUnlocked(w.id), st=a?'eq':(unl?'av':'lk');
+        if(st==='lk') continue;   // gesperrte Waffen nicht im Cockpit zeigen (leben in der Werkstatt 🎒) – HUD bleibt aufgeräumt
         h+='<button class="ckSlot '+st+'" style="--wc:'+w.col+'" data-tab="loadout" aria-label="'+wName(w.id)+' – '+(a?('Stufe '+a.lvl):(unl?'verfügbar, baubar':'gesperrt, in der Werkstatt freischalten'))+'">';
         h+='<span class="cki">'+w.ico+'</span>';
         if(a){ h+='<span class="ckpips">'; for(let i=0;i<5;i++) h+='<i class="'+(i<a.lvl?'on':'')+'"></i>'; h+='</span>'; }
