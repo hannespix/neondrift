@@ -333,6 +333,9 @@
   let beatIdx=0, beatPulse=0, spawnQueued=false, orbQueued=false; // Beat-Sync
   let daily=false;                                    // Daily-Challenge aktiv?
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
+  // Selbstregelnder Flow-Regler: flowI faehrt gedaempft mit der Live-Performance (director) mit + ein zwischen-Runs gelerntes Skill-Offset.
+  // Legt sich gedeckelt [0.8..1.26] auf Tempo & Elite-Haeufigkeit → haelt den Spieler im 'gerade so machbar'-Korridor, egal welcher Skill/Build.
+  let flowI=1, skillBias=0, dbgDDA=false;
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0, runHits=0;  // Statistik pro Run (runHits = kassierte Treffer → Schwierigkeits-Signal)
   let onbDrops=0;   // Onboarding: wie viele der 3 Starter-Skillpunkte in Level 1 schon gedroppt sind
@@ -1029,6 +1032,7 @@
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
     runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
+    flowI=1; skillBias=computeSkillBias();   // Flow-Regler zuruecksetzen + Skill-Offset aus den letzten Runs lernen
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -1062,12 +1066,19 @@
   // (director hoch = viele Near-Misses/Orbs ohne Treffer). Wird man getroffen, fällt director → Druck lässt nach.
   // So bleibt der Grund-Cap als Schutz für schwache Spieler, starke laufen der Schwierigkeit aber nicht mehr davon.
   const ddaPush=()=>Math.max(0,director-0.55)*2.2;
-  const difSpd =()=>1+Math.min(0.55,pwrSurv()*0.020)+pwrSurv()*0.011*ddaPush()+(endless?madness*0.85:0);
+  const difSpd =()=>(1+Math.min(0.55,pwrSurv()*0.020)+pwrSurv()*0.011*ddaPush()+(endless?madness*0.85:0))*flowI;   // Flow-Regler moduliert das Tempo
   const difDen =()=>Math.max(0.32,1-Math.min(0.30,pwrSurv()*0.012)-pwrSurv()*0.006*ddaPush()-(endless?madness*0.35:0));
   // „Coverage": echtes Screen-Clear-Potenzial (Waffen + aktive Fusionen) – treibt die Elite-Häufigkeit,
   // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
-  const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.52,0.02+(level-1)*0.027+coverage()*0.026+(endless?madness*0.5:0)):0;
+  const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.55,(0.02+(level-1)*0.027+coverage()*0.026+(endless?madness*0.5:0))*flowI):0;   // Flow-Regler moduliert die Elite-Haeufigkeit
+  // Zwischen-Runs lernen: aus den letzten Runs (gleicher Modus) ein Skill-Offset ableiten.
+  // Viele Treffer & niedriges Level → struggelt → leichter (negativ). Wenig Treffer & hohes Level → souveraen → haerter (positiv). Gedeckelt ±0.15.
+  function computeSkillBias(){ try{ const log=JSON.parse(localStorage.getItem('neondrift_tlog')||'[]'); if(!Array.isArray(log)) return 0;
+    const rec=log.slice(-10).filter(r=>r&&r.mode===mode); if(rec.length<3) return 0;
+    const avg=(k)=>rec.reduce((s,r)=>s+(+r[k]||0),0)/rec.length;
+    const bias=(avg('lvl')-3)*0.03 - (avg('hits')-3)*0.04;
+    return Math.max(-0.15,Math.min(0.15,bias)); }catch(e){ return 0; } }
   // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
   const difHp  =()=>1.15+gunDps()*0.27+(level-1)*0.26;
@@ -1556,6 +1567,9 @@
 
     // Adaptiver Director: pendelt langsam zur Mitte zurück (Near-Miss/Hit schubsen ihn)
     director+=(0.5-director)*Math.min(1,dt*0.25);
+    // Flow-Regler: Ziel-Intensität aus Live-Performance (director) + gelerntem Skill-Offset, sanft nachgezogen & gedeckelt
+    { let tgtI=0.8+director*0.46+skillBias; if(tgtI<0.8)tgtI=0.8; else if(tgtI>1.26)tgtI=1.26;
+      flowI+=(tgtI-flowI)*Math.min(1,dt*0.5); if(flowI<0.8)flowI=0.8; else if(flowI>1.26)flowI=1.26; }
     // Combo-Overdrive ab x8
     const od=multiplier>=8;
     if(od&&!overdrive){ banner={text:t('overdrive'),sub:t('overdriveSub'),t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
@@ -2154,6 +2168,13 @@
       for(let i=0;i<3+((m*6)|0);i++){ const yy=Math.random()*H;
         ctx.fillStyle=`rgba(${Math.random()<.5?255:25},${(Math.random()*255)|0},${Math.random()<.5?136:255},${0.05+0.13*m})`;
         ctx.fillRect(-40,yy,W+80,2+Math.random()*7); } }
+    // Debug-Overlay des DDA-Reglers (Taste F8) – nur Entwicklung/Feintuning, normal aus
+    if(dbgDDA && (state===S.PLAY||state===S.PAUSE)){ ctx.save(); ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(6,52,182,58);
+      ctx.fillStyle='#7fffd4'; ctx.font='11px Space Mono, monospace'; ctx.textAlign='left'; ctx.textBaseline='top';
+      ctx.fillText('DDA flowI '+flowI.toFixed(2)+(flowI>1.02?' UP':(flowI<0.98?' DOWN':' =')),12,58);
+      ctx.fillText('director '+director.toFixed(2)+'  bias '+(skillBias>=0?'+':'')+skillBias.toFixed(2),12,74);
+      ctx.fillText('hits '+runHits+'  near '+(nearCount||0)+'  dps '+gunDps().toFixed(1),12,90);
+      ctx.restore(); }
     ctx.restore();
   }
 
@@ -2620,7 +2641,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v194';
+  const GAME_VER='v195';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3506,6 +3527,7 @@
       if(isOpen('settings')){ closeSettings(); return; }
       if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
+    if(e.key==='F8'){ dbgDDA=!dbgDDA; }   // Debug: DDA-Regler-Overlay (flowI/director/skillBias) ein-/ausblenden
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
   document.addEventListener('visibilitychange',()=>{ lastT=performance.now();
     if(document.hidden){
