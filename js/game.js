@@ -1273,23 +1273,28 @@
   function dropPowerup(x,y){ if(powerups.length>=4) return; const t=gpick(PUP);
     powerups.push({x:Math.max(20,Math.min(W-20,x)),y,r:16,vy:70,type:t,pulse:Math.random()*6.28}); }
   // ---------- Sammelbare Upgrade-Symbole (positiv & Flüche) ----------
+  // Gems sind reine Sammel-Belohnung: Chips-Bonus oder Schild-Auffüllung – optional ein Fluch (Gamble, erst ab ~3 Runs).
+  // Echte Upgrades laufen klar & kuratiert über die Level-Up-Karten (keine zufälligen Upgrade-Gems mehr).
   function spawnGem(){
-    const pos=UPGRADES.filter(u=>u.pickup&&(upgradeCounts[u.id]||0)<u.max);
-    const cur=(opt.curses&&statN('runs')>=3)?UPGRADES.filter(u=>u.curse&&CURSE_FX[u.id]):[];   // Flüche erst ab ~3 Runs (Neulinge nicht mit Zufalls-Modifikatoren überfordern)
-    let u,curse=false;
-    // Flüche seltener als Upgrades: Gewicht 0.8 ggü. 1.0 → ~44% Flüche, positive Upgrades häufiger
-    if(cur.length && (pos.length?Math.random()<0.44:true)){ u=pick(cur); curse=true; }
-    else if(pos.length){ u=pick(pos); }
-    else if(cur.length){ u=pick(cur); curse=true; }
-    else return;
-    gems.push({x:rand(50,W-50),y:-28,r:17,vy:70+difficulty*14,u,curse,pulse:Math.random()*6.28,rot:0});
+    const cur=(opt.curses&&statN('runs')>=3)?UPGRADES.filter(u=>u.curse&&CURSE_FX[u.id]):[];
+    let kind='chips', u=null;
+    if(cur.length && Math.random()<0.30){ u=pick(cur); kind='curse'; }        // Fluch: optionales Risiko-Gem, seltener
+    else if(shields<5 && Math.random()<0.45){ kind='heal'; }                   // Schild auffüllen (nur wenn nicht voll)
+    gems.push({x:rand(50,W-50),y:-28,r:17,vy:70+difficulty*14,u,kind,curse:kind==='curse',pulse:Math.random()*6.28,rot:0});
   }
-  function applyPickup(u){ if(u.curse&&CURSE_FX[u.id]){ triggerCurse(u.id); } else { u.apply(); upgradeCounts[u.id]=(upgradeCounts[u.id]||0)+1; } }
-  function collectGem(g){ const u=g.u, col=g.curse?(CURSE_COL[u.id]||'#ff2e88'):'#ffe600'; applyPickup(u); if(g.curse) unlockAch('curse');
-    spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.5,flash+0.16); flashColor=col;
-    banner={text:(g.curse?'🎲 ':'')+uName(u.id).toUpperCase(),sub:uDesc(u.id)+(g.curse?(' · '+curseDur(u.id)+'s'):''),t:2.6,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
-    if(g.curse){ beep(220,0.18,'sawtooth',0.3,-60); setTimeout(()=>beep(140,0.2,'square',0.25,-40),80); vibe([40,30,40]); }
-    else { sfxUpgrade(); vibe([15,20,15]); } }
+  const GEM_ICO={chips:'◈',heal:'🛡',curse:'🎲'}, GEM_COL={chips:'#ffe600',heal:'#2effc0'};
+  function collectGem(g){
+    if(g.kind==='curse'){ const u=g.u, col=CURSE_COL[u.id]||'#ff2e88'; triggerCurse(u.id); unlockAch('curse');
+      spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.5,flash+0.16); flashColor=col;
+      banner={text:'🎲 '+uName(u.id).toUpperCase(),sub:uDesc(u.id)+' · '+curseDur(u.id)+'s',t:2.6,color:col}; floatText(g.x,g.y-18,u.ico,col,24);
+      beep(220,0.18,'sawtooth',0.3,-60); setTimeout(()=>beep(140,0.2,'square',0.25,-40),80); vibe([40,30,40]); return; }
+    if(g.kind==='heal'){ shields=Math.min(shields+1,5); const col=GEM_COL.heal;
+      spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.4,flash+0.12); flashColor=col;
+      banner={text:t('pSchild').toUpperCase(),sub:'+1 🛡',t:1.8,color:col}; floatText(g.x,g.y-18,'🛡',col,22); sfxUpgrade(); vibe([15,20,15]); return; }
+    const bonus=Math.max(5,Math.round(8+difficulty*5)), col=GEM_COL.chips;   // Chips-Windfall, skaliert leicht mit Tempo
+    awardCoins(bonus,g.x,g.y-14,true);
+    spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.4,flash+0.1); flashColor=col;
+    banner={text:'◈ +'+bonus,sub:'',t:1.4,color:col}; sfxUpgrade(); vibe([12,16,12]); }
 
   // ---------- Boss ----------
   function startBoss(){
@@ -1486,7 +1491,7 @@
   }
   // Passiv-Upgrade-Angebote für die Level-Up-Karten. Waffen/Skills laufen jetzt über den klickbaren Baum (Skillpunkte).
   function offerPool(){ const out=[];
-    for(const u of UPGRADES){ if(u.curse||u.pickup) continue; if((upgradeCounts[u.id]||0)>=u.max) continue;
+    for(const u of UPGRADES){ if(u.curse) continue; if((upgradeCounts[u.id]||0)>=u.max) continue;   // pickup-Upgrades (Radar, Magnet, Combo …) jetzt als kuratierte Level-Up-Karte statt Zufalls-Gem
       if(u.wpass && (!opt.guns||ownedCount()===0)) continue; out.push({kind:'pass',u}); }
     return out; }
   // Gibt es überhaupt einen freischaltbaren Knoten/eine holbare Waffe? (unabhängig von Punkten)
@@ -2061,12 +2066,12 @@
         ctx.fillStyle=hexA(inf.c,0.22); ctx.strokeStyle=inf.c; ctx.lineWidth=2.5; ctx.beginPath();ctx.arc(p.x,p.y,pr,0,6.28);ctx.fill();ctx.stroke();
         ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(inf.g,p.x,p.y+1); ctx.restore(); }
 
-      // sammel-symbole (rotierende raute, gold=positiv, pink=fluch)
-      for(const g of gems){ const pr=g.r+Math.sin(g.pulse)*2, col=g.curse?'#ff2e88':'#ffe600', gr=pr*2.4; ctx.save(); ctx.translate(g.x,g.y);
+      // sammel-symbole (rotierende raute): gold=Chips, cyan=Heilung, pink=Fluch
+      for(const g of gems){ const pr=g.r+Math.sin(g.pulse)*2, col=g.curse?(CURSE_COL[g.u.id]||'#ff2e88'):(GEM_COL[g.kind]||'#ffe600'), gr=pr*2.4; ctx.save(); ctx.translate(g.x,g.y);
         ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(col),-gr,-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over'; // Glow-Sprite statt shadowBlur
         ctx.rotate(g.rot); ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.fillStyle=hexA(col,0.18);
         ctx.beginPath(); ctx.moveTo(0,-pr); ctx.lineTo(pr,0); ctx.lineTo(0,pr); ctx.lineTo(-pr,0); ctx.closePath(); ctx.fill(); ctx.stroke();
-        ctx.rotate(-g.rot); ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(g.u.ico,0,1); ctx.restore(); }
+        ctx.rotate(-g.rot); ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(g.curse?g.u.ico:GEM_ICO[g.kind],0,1); ctx.restore(); }
 
       // Skillpunkt-Drops: leuchtende cyan Raute (💠) mit hellem Kern + Funkeln
       for(const s of sps){ const pr=s.r+Math.sin(s.pulse)*2, col='#19f0ff', gr=pr*2.9; ctx.save(); ctx.translate(s.x,s.y);
@@ -2675,7 +2680,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v205';
+  const GAME_VER='v206';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
