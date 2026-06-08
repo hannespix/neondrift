@@ -2067,6 +2067,16 @@
           ctx.fillStyle='#7a4f00'; ctx.font='900 '+Math.round(pr*1.15)+'px Orbitron, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(c.val,c.x,c.y+0.5); }
         ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
 
+      // Münzen (1/2/5/10) – Gold-Disc mit aufgedruckter Zahl, Größe nach Wert
+      if(coinz&&coinz.length){ const gs=glowSprite('#ffe066');
+        for(const c of coinz){ const pr=c.r+Math.sin(c.pulse)*1.4, gr=pr*2.4;
+          ctx.globalCompositeOperation='lighter'; ctx.drawImage(gs,c.x-gr,c.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
+          const g=ctx.createRadialGradient(c.x-pr*0.32,c.y-pr*0.32,1,c.x,c.y,pr); g.addColorStop(0,'#fff7c8'); g.addColorStop(0.55,'#ffd23f'); g.addColorStop(1,'#b8770a');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(c.x,c.y,pr,0,6.28); ctx.fill();
+          ctx.lineWidth=1.6; ctx.strokeStyle='#fff2a8'; ctx.stroke();
+          ctx.fillStyle='#7a4f00'; ctx.font='900 '+Math.round(pr*1.15)+'px Orbitron, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(c.val,c.x,c.y+0.5); }
+        ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
+
       // power-ups
       for(const p of powerups){ const inf=PUPINFO[p.type], pr=p.r+Math.sin(p.pulse)*2, gr=pr*2.4; ctx.save();
         ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(inf.c),p.x-gr,p.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over'; // Glow-Sprite statt shadowBlur
