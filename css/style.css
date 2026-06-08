@@ -613,8 +613,8 @@
   /* Hauptmenü: animierte Spiel-Szene (Sterne/Sonne/Grid) durchscheinen lassen + CRT-Scanlines → Space-Shooter-Feeling statt flacher Website.
      Scanlines als Hintergrund-Layer (nicht ::after → sonst kaputter Flex-Spacer/Zentrierung von .screen). */
   #start{backdrop-filter:none;-webkit-backdrop-filter:none;
-    background:repeating-linear-gradient(to bottom,rgba(0,0,0,.13) 0 1px,transparent 1px 3px),
-      radial-gradient(ellipse 130% 90% at 50% 36%,rgba(8,1,15,.58) 0%,rgba(8,1,15,.80) 55%,rgba(8,1,15,.93) 100%);}
+    background:repeating-linear-gradient(to bottom,rgba(0,0,0,.12) 0 1px,transparent 1px 3px),
+      radial-gradient(ellipse 135% 100% at 50% 40%,rgba(8,1,15,.10) 0%,rgba(8,1,15,.40) 60%,rgba(8,1,15,.70) 100%);}
   /* === Arcade-HUD-Chrome: eckige Panels mit Neon-Eckklammern statt weicher Web-Cards === */
   .mode.normal{--ac:var(--cyan);} .mode.hardcore{--ac:var(--pink);} .mode.zen{--ac:var(--yellow);}
   .mode{border-radius:5px;}

@@ -710,7 +710,9 @@
   canvas.addEventListener('touchstart',e=>{onMove(e);e.preventDefault();},{passive:false});
   canvas.addEventListener('touchmove',e=>{onMove(e);e.preventDefault();},{passive:false});
 
-  function makeStars(){ stars=[]; for(let i=0;i<70;i++) stars.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*0.7+0.3,r:Math.random()*1.6+0.4}); }
+  function makeStars(){ stars=[]; for(let i=0;i<95;i++){ const z=Math.random(); stars.push({x:Math.random()*W,y:Math.random()*H,z:z,r:0.6+z*z*2.6,tw:Math.random()*6.28,tws:0.6+Math.random()*1.8}); } }
+  // Sternenfeld: starke Tiefenstaffelung (Parallax) – ferne Sterne kriechen, nahe rauschen vorbei; leichtes Funkeln
+  function updateStars(dt){ if(!stars) return; for(const s of stars){ s.y+=(10+s.z*s.z*135)*dt; if(s.y>H+2){ s.y=-2; s.x=Math.random()*W; } s.tw+=s.tws*dt; } }
   makeStars();
   const rand=(a,b)=>a+Math.random()*(b-a);
   const pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -1437,7 +1439,7 @@
     player.x=Math.max(player.r,Math.min(W-player.r,player.x));
     player.y=Math.max(player.r,Math.min(H-player.r,player.y));
     player.trail.push({x:player.x,y:player.y}); if(player.trail.length>18) player.trail.shift();
-    for(const s of stars){ s.y+=(20+s.z*40)*dt; if(s.y>H){s.y=-2;s.x=Math.random()*W;} }
+    updateStars(dt);
 
     // Level wird durch Boss-Sieg abgeschlossen. Zen kennt keine Bosse → dort weiterhin zeitbasiert.
     if(mode==='zen'){ levelTimer-=dt; if(levelTimer<=0) levelUp(); }
@@ -1799,7 +1801,10 @@
     g.addColorStop(0,rgbS(curBg.top)); g.addColorStop(.55,rgbS(curBg.mid)); g.addColorStop(1,rgbS(curBg.bot));
     ctx.fillStyle=g; ctx.fillRect(-40,-40,W+80,H+80);
     drawGrid();
-    for(const s of stars){ ctx.globalAlpha=s.z; ctx.fillStyle='#bda4ff'; ctx.fillRect(s.x,s.y,s.r,s.r); } ctx.globalAlpha=1;
+    for(const s of stars){ const tw=0.82+0.18*Math.sin(s.tw); ctx.globalAlpha=Math.min(1,(0.32+s.z*0.72)*tw);
+      ctx.fillStyle=s.z>0.62?'#e6dcff':'#c3abff';
+      if(s.z>0.74){ ctx.shadowBlur=5*s.z; ctx.shadowColor='#cfc2ff'; ctx.fillRect(s.x,s.y,s.r,s.r); ctx.shadowBlur=0; }
+      else ctx.fillRect(s.x,s.y,s.r,s.r); } ctx.globalAlpha=1;
 
     if(state===S.PLAY||state===S.OVER||state===S.UPGRADE||state===S.PAUSE){
       // Railgun-Schienen (eigene, kurz aufleuchtend)
@@ -2913,7 +2918,7 @@
     frameMs+=((dt*1000)-frameMs)*0.1;                                                              // geglättete Frame-Zeit (EMA)
     if(frameMs>27) fxQ=Math.max(0.4,fxQ-0.05); else if(frameMs<19) fxQ=Math.min(1,fxQ+0.02);       // <37fps: FX runter · >52fps: wieder hoch
     if(state===S.PLAY) update(dt);
-    else { elapsed=(elapsed||0)+dt; for(const s of stars){s.y+=(20+s.z*40)*dt;if(s.y>H){s.y=-2;s.x=Math.random()*W;}}
+    else { elapsed=(elapsed||0)+dt; updateStars(dt);
       if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
       // Abgangs-FX nachlaufen lassen (update() läuft im OVER-State nicht): Feuer-Konfetti, Schockwellen, Nuklearblitz
       for(let i=gibs.length-1;i>=0;i--){ const g=gibs[i]; g.x+=g.vx*dt; g.y+=g.vy*dt; g.vy+=g.grav*dt; g.vx*=0.99; g.rot+=g.vr*dt; g.life-=dt; if(g.life<=0||g.y>H+50) gibs.splice(i,1); }
