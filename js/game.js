@@ -245,7 +245,7 @@
   // Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<waffe> = Anzahl freier Fork-Slots, 0..4)
   const FORKI={f1:1,f2:2,f3:3,f4:4};
   // Alle Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<id> = 0..4) – vorher nicht wählbar
-  const forkShopOpen=(id,slot)=> true;   // Hangar: Forks direkt kaufbar (Coins gaten)
+  const forkShopOpen=(id,slot)=> metaLvl('fu_'+id) >= (FORKI[slot]||9);   // Fork-Stufe muss erst in der Werkstatt mit Coins freigekauft sein, dann erst Skillpunkt draufpacken
   // Werkstatt-Kategorien (für Tab-UI)
   function shopCat(id){ if(id.indexOf('sy_')===0) return 'synergy';
     if(id==='pxpack'||id==='pxglow') return 'cosmetic';   // im Editor verkauft, nicht als generische Karte
@@ -255,8 +255,16 @@
     return 'economy'; }
   // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
   function dailyShopCheck(){ if(opt.dailyShop && meta.shopDate!==dailyLabel()){ meta.chips=0; meta.lvl={}; meta.shopDate=dailyLabel(); saveMeta(); } }
-  const weaponUnlocked=id=> !!WID[id];   // Hangar: alle Waffen direkt kaufbar
+  const weaponUnlocked=id=> !!WID[id] && (id==='blaster' || metaLvl('bp_'+id)>0);   // Waffe braucht ihren Bauplan (mit Coins gekauft); Blaster ist gratis
+  // Einmalige Migration: bereits gebaute Loadouts behalten ihre Waffen/Forks (sonst würden alte Builds beim Aktivieren der Coin-Sperre verschwinden)
+  function migrateCoinSkills(){ if(meta.mig_cs) return; meta.mig_cs=1; meta.lvl=meta.lvl||{};
+    const L=meta.loadout; if(L&&L.w){ for(const id in L.w){ if(!WID[id]) continue; const s=L.w[id]||{};
+      if(id!=='blaster') meta.lvl['bp_'+id]=Math.max(meta.lvl['bp_'+id]||0,1);   // gebaute Waffe → Bauplan gilt als gekauft
+      let forks=0; for(const f of ['f1','f2','f3','f4']) if(s[f]) forks++;
+      if(forks>0) meta.lvl['fu_'+id]=Math.max(meta.lvl['fu_'+id]||0,forks); } }   // bereits gewählte Fork-Stufen freigeschaltet
+    saveMeta(); }
   function applyMeta(){
+    migrateCoinSkills();                                   // einmalig: alte Builds vor der Coin-Sperre retten
     arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
     arsenal.w={};
     // HANGAR: gespeichertes Loadout laden (bleibt zwischen Runs erhalten – kein Neu-Aufbau jedes Mal)
@@ -1925,7 +1933,8 @@
     ctx.save(); if(sh>0) ctx.translate(rand(-sh,sh),rand(-sh,sh));
     lerpBg(bossActive?BOSS_THEME:THEMES[((level||1)-1)%THEMES.length]);
     const g=ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,rgbS(curBg.top)); g.addColorStop(.55,rgbS(curBg.mid)); g.addColorStop(1,rgbS(curBg.bot));
+    const lift=a=>`rgb(${Math.round(a[0]+8)},${Math.round(a[1]+7)},${Math.round(a[2]+12)})`;   // Hintergrund einen Tick heller (Neon-Grid/Sonne bleiben unberührt → Kontrast bleibt)
+    g.addColorStop(0,lift(curBg.top)); g.addColorStop(.55,lift(curBg.mid)); g.addColorStop(1,lift(curBg.bot));
     ctx.fillStyle=g; ctx.fillRect(-40,-40,W+80,H+80);
     // Sterne ZUERST (tiefster Hintergrund) → Synthwave-Sonne liegt eine Ebene davor
     for(const s of stars){ const tw=0.82+0.18*Math.sin(s.tw); ctx.globalAlpha=Math.min(1,(0.32+s.z*0.72)*tw);
@@ -2084,7 +2093,7 @@
     }
 
     // vignette (action / combo / near)
-    const vig=0.32+Math.min(0.3,(multiplier||1)*0.02)+(nearGlow||0)*0.25;
+    const vig=0.2+Math.min(0.26,(multiplier||1)*0.02)+(nearGlow||0)*0.25;   // Grund-Vignette zurückgenommen (Spiel wirkte insgesamt zu dunkel)
     const rg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.72);
     rg.addColorStop(0,'rgba(0,0,0,0)'); rg.addColorStop(1,`rgba(${bossActive?'40,5,5':'10,0,20'},${vig})`); ctx.fillStyle=rg; ctx.fillRect(-40,-40,W+80,H+80);
     if(effects&&effects.slowmo>0){ ctx.fillStyle='rgba(40,80,160,0.10)'; ctx.fillRect(-40,-40,W+80,H+80); }
