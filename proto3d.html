@@ -113,9 +113,9 @@ function drawGrid(){
   // Horizont-Glühlinie über die KOMPLETTE Breite
   x.save(); x.globalCompositeOperation='lighter'; x.strokeStyle='rgba(25,240,255,.55)'; x.lineWidth=2; x.shadowBlur=12; x.shadowColor='#19f0ff';
   x.beginPath(); x.moveTo(0,VPy); x.lineTo(W,VPy); x.stroke(); x.restore();
-  // vertikale, konvergierende Linien – am Horizont über die volle Breite gespreizt (Boden-Ebene, kein enger Tunnel)
+  // vertikale Linien – STRENG zum Fluchtpunkt konvergierend (alle treffen sich exakt im VP), unten über die volle Breite
   x.strokeStyle='rgba(255,46,136,.32)'; x.lineWidth=1.2;
-  for(let i=-12;i<=12;i++){ x.beginPath(); x.moveTo(VPx+i*W*0.045,VPy); x.lineTo(VPx+i*W*0.18,H); x.stroke(); }
+  for(let i=-14;i<=14;i++){ x.beginPath(); x.moveTo(VPx,VPy); x.lineTo(VPx+i*W*0.16,H); x.stroke(); }
   // horizontale, nach vorne scrollende Linien (volle Breite)
   const t=(elapsed*0.6*speed)%1; x.strokeStyle='rgba(25,240,255,.18)';
   for(let i=0;i<12;i++){ const f=(i+t)/12, yy=VPy+Math.pow(f,2.2)*(H-VPy); x.globalAlpha=Math.min(.7,0.12+f*0.6); x.beginPath(); x.moveTo(0,yy); x.lineTo(W,yy); x.stroke(); }
@@ -165,10 +165,11 @@ function drawParts(){ x.globalCompositeOperation='lighter'; for(const p of parts
   x.globalAlpha=Math.max(0,Math.min(1,p.life*2.2)); x.fillStyle=p.col; x.fillRect(px-s/2,py-s/2,s,s); } x.globalAlpha=1; x.globalCompositeOperation='source-over'; }
 
 // ---- Spieler-Schiff (liegt flach auf der Boden-Ebene, skaliert mit der Tiefe) ----
-function drawPlayer(){ const z=player.z, scl=F/z, px=sx(player.wx,z), py=sy(FLOOR,z), s=player.dr*Math.min(W,H)*scl, sq=0.6;
-  // Boden-Schatten (verkauft „liegt auf der Ebene")
-  x.save(); x.globalAlpha=0.32; x.fillStyle='#000'; x.beginPath(); x.ellipse(px,py+s*0.5,s*1.15,s*0.42,0,0,6.28); x.fill(); x.restore();
-  x.save(); x.translate(px,py); x.scale(1,sq);   // vertikale Stauchung = perspektivisch flach gelegt
+function drawPlayer(){ const z=player.z, scl=F/z, px=sx(player.wx,z), py=sy(FLOOR,z), s=player.dr*Math.min(W,H)*scl, sq=0.78;
+  const ang=Math.atan2(VPy-py,VPx-px)+Math.PI/2;   // Nase zeigt IMMER zum Fluchtpunkt
+  // Boden-Schatten (Screen-space, unter dem Schiff – verkauft „liegt auf der Ebene")
+  x.save(); x.globalAlpha=0.3; x.fillStyle='#000'; x.beginPath(); x.ellipse(px,py+s*0.45,s*1.05,s*0.38,0,0,6.28); x.fill(); x.restore();
+  x.save(); x.translate(px,py); x.rotate(ang); x.scale(1,sq);   // zum Fluchtpunkt drehen + leichte Stauchung (flach auf der Ebene)
   // Triebwerk (hinten = unten)
   x.globalCompositeOperation='lighter'; x.fillStyle=hexA('#ff9a2e',0.6);
   const fl=s*(0.7+0.6*Math.abs(Math.sin(elapsed*26))); x.beginPath(); x.moveTo(-s*0.42,s*0.78); x.lineTo(s*0.42,s*0.78); x.lineTo(0,s*0.78+fl); x.closePath(); x.fill();
