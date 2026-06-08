@@ -189,7 +189,7 @@
   const formName=k=>((FORMTR[lang]&&FORMTR[lang][k])||FORMTR.en[k]||k);
   const modeLabel=m=>t('m_'+(m==='hardcore'?'hard':m));
 
-  let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems, sps;   // sps = einsammelbare Skillpunkt-Drops
+  let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems, sps, coinz;   // sps = Skillpunkt-Drops, coinz = Münz-Pickups (1/2/5/10)
   let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, tNova=0, tRail=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0, beams=[], zaps=[], novas=[], gibs=[];
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
@@ -324,7 +324,7 @@
     achToasts.push({id,t:3.4}); try{ beep(880,0.09,'square',0.18); setTimeout(()=>beep(1320,0.12,'square',0.2),100); }catch(e){} vibe([20,30,20]);
     if(id==='won') unlockSkin('gold'); if(id==='mega') unlockSkin('toxic'); if(id==='madness') unlockSkin('glitch'); }
   function checkComboAch(m){ if(m>=10)unlockAch('combo10'); if(m>=20)unlockAch('combo20'); if(m>=30)unlockAch('combo30'); }
-  let elapsed, spawnT, orbT, powerupT, difficulty, shake, flash, flashColor, nearGlow, nearCount, deathFlash=0;
+  let elapsed, spawnT, orbT, powerupT, coinT, difficulty, shake, flash, flashColor, nearGlow, nearCount, deathFlash=0;
   let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a', deathMsg='';   // Abgang: Timer + Loser-Materialisierung + Spott-Nachricht
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
@@ -397,6 +397,7 @@
     }catch(e){}
   }
   const sfxOrb=c=>{ if(sfxGate('orb',45)) beep(440+Math.min(c,20)*40,0.12,'triangle',0.32); };
+  const sfxCoin=()=>{ if(sfxGate('coin',30)){ beep(988,0.06,'square',0.26); setTimeout(()=>beep(1319,0.13,'square',0.3),58); } };   // Super-Mario-artiger Münz-Sound: B5 → E6
   const sfxNear=()=>{ if(sfxGate('near',70)) beep(900,0.07,'sine',0.18,400); };
   const sfxStart=()=>{beep(523,0.09,'square',0.3);setTimeout(()=>beep(784,0.12,'square',0.3),90);};
   function sfxCrash(){beep(180,0.5,'sawtooth',0.5,-140);beep(90,0.6,'square',0.4,-50);}
@@ -1021,7 +1022,7 @@
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
-    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; sps=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
+    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; sps=[]; coinz=[]; beams=[]; zaps=[]; novas=[]; gibs=[]; coinT=rand(1,2);
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0; deathFlash=0; deathT=0; deathGather=false;
@@ -1251,6 +1252,14 @@
     obstacles.push(o);
   }
   function spawnOrb(){ orbs.push({x:grand(30,W-30),y:-20,r:9,vy:90+difficulty*30,pulse:Math.random()*6.28}); }
+  // ---------- Münz-Pickups: 1/2/5/10, höhere Beträge seltener & größer, manchmal in Gruppen ----------
+  const COINR={1:10,2:12,5:14.5,10:17.5};
+  function coinVal(){ const r=Math.random(); return r<0.58?1:(r<0.84?2:(r<0.955?5:10)); }   // je höher, desto seltener
+  const coinMult=()=>Math.min(5,Math.max(1.1,1+combo*0.1));   // Combo-Multiplikator 1.1–5.0 in 0.1-Schritten je nach Combo
+  function spawnCoin(x,y,val){ if(!coinz) coinz=[]; if(coinz.length>70) return; val=val||coinVal();
+    coinz.push({x:x!=null?x:grand(28,W-28), y:y!=null?y:-22, vy:72+difficulty*15, r:COINR[val]||10, val, pulse:Math.random()*6.28, rot:0}); }
+  function spawnCoinGroup(){ const n=3+((Math.random()*4)|0), cx=grand(70,W-70), v=coinVal();   // ganze Gruppe gleichwertiger Münzen (kleiner Bogen)
+    for(let k=0;k<n;k++) spawnCoin(cx+(k-(n-1)/2)*26, -22-Math.abs(k-(n-1)/2)*15, v); }
   const PUP=['shield','slow','magnet','bomb','double'];
   const PUPINFO={shield:{c:'#2effc0',g:'🛡'},slow:{c:'#5b9bff',g:'⏱'},magnet:{c:'#c45bff',g:'🧲'},bomb:{c:'#ff9a2e',g:'💣'},double:{c:'#ffe600',g:'✕2'}};
   function spawnPowerup(){ const t=gpick(PUP); powerups.push({x:grand(40,W-40),y:-24,r:16,vy:80+difficulty*18,type:t,pulse:Math.random()*6.28}); }
@@ -1481,7 +1490,7 @@
   // Hat man einen Punkt UND etwas zum Ausgeben?
   function hasSkillSpend(){ return skillPts>0 && skillSpendable(); }
   // Live-Chips: aus Score+Near abgeleitetes Run-Guthaben (ohne Boss-Live-Chips, ohne Sieg-Bonus → die laufen separat)
-  function scoreChips(){ const s=score||0, scChips=s<=25000?s/55:25000/55+(s-25000)/160;   // langsamere Coin-Progression → Skill-/Coin-Zuwachs hat mehr Gewicht (Langzeit-Grind)
+  function scoreChips(){ const s=score||0, scChips=s<=25000?s/46:25000/46+(s-25000)/140;   // Score-Trickle leicht angehoben (mehr Coin-Einkommen) – Hauptquelle sind jetzt die Münz-Pickups
     return Math.max(0,Math.round((scChips+(nearCount||0)*1.0)*chipMult()*diffChip)); }
   let coinSaveAcc=0;
   function accrueChips(force){ if(force===undefined) force=true;        // stiller Score-Trickle (Ökonomie-Backbone)
@@ -1627,6 +1636,8 @@
         spawnT=Math.max(0.24,(1.08-difficulty*0.05-level*0.022)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+1.9*introT())*0.95/diffDen); } }   // Start SEHR dünn (1+1.9*introT → wenige Gegner zum Kennenlernen), mehr Obstacles pro Level (level*0.022), spät dichter
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
+    // Münzen fallen laufend (Haupt-Einkommensquelle), gelegentlich als ganze Gruppe
+    coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
     powerupT-=dt; if(powerupT<=0){ if(powerups.length<2 && !bossActive) spawnPowerup(); powerupT=rand(13,19); }
     // Auto-Fire (sobald eine Waffe ausgerüstet ist)
@@ -1743,7 +1754,7 @@
     // Orbs
     for(let i=orbs.length-1;i>=0;i--){ const orb=orbs[i]; orb.y+=orb.vy*dt*ts; orb.pulse+=dt*6;
       const pull=effects.magnet>0?440:mods.magnetPassive;
-      if(pull>0){ const dd=Math.hypot(player.x-orb.x,player.y-orb.y), rng=effects.magnet>0?9999:170;
+      if(pull>0){ const dd=Math.hypot(player.x-orb.x,player.y-orb.y), rng=effects.magnet>0?Math.max(W,H)*0.5:170;   // Magnet-Reichweite gedeckelt (max 50% Bildschirm)
         if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
       const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
       if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); runOrbs++; const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
@@ -1770,12 +1781,23 @@
 
     // Skillpunkt-Drops – langsam sinkend, dezente Nah-Anziehung (wertvoll → fair einsammelbar), Magnet saugt voll
     for(let i=sps.length-1;i>=0;i--){ const s=sps[i]; s.pulse+=dt*4; s.rot+=dt*1.2;
-      const mag=effects.magnet>0, pull=mag?460:90, rng=mag?9999:150, dd=Math.hypot(player.x-s.x,player.y-s.y);
+      const mag=effects.magnet>0, pull=mag?460:90, rng=mag?Math.max(W,H)*0.5:150, dd=Math.hypot(player.x-s.x,player.y-s.y);   // Magnet max 50% Bildschirm
       if(dd>1&&dd<rng){ const a=Math.atan2(player.y-s.y,player.x-s.x); s.x+=Math.cos(a)*pull*dt; s.y+=Math.sin(a)*pull*dt; }
       s.y+=s.vy*dt*ts;
       const dx=player.x-s.x,dy=player.y-s.y,rr=player.r+s.r+6;
       if(dx*dx+dy*dy<rr*rr){ collectSP(s); sps.splice(i,1); continue; }
       if(s.y>H+30) sps.splice(i,1);
+    }
+
+    // Münz-Pickups – sinken, Magnet/Nah-Sog; Wert × Combo-Multiplikator beim Einsammeln
+    for(let i=coinz.length-1;i>=0;i--){ const c=coinz[i]; c.pulse+=dt*5; c.rot+=dt;
+      const mag=effects.magnet>0, pull=mag?460:mods.magnetPassive, rng=mag?Math.max(W,H)*0.5:165, dd=Math.hypot(player.x-c.x,player.y-c.y);   // Magnet max 50% Bildschirm
+      if(pull>0&&dd>1&&dd<rng){ const a=Math.atan2(player.y-c.y,player.x-c.x); c.x+=Math.cos(a)*pull*dt; c.y+=Math.sin(a)*pull*dt; }
+      c.y+=c.vy*dt*ts;
+      const dx=player.x-c.x,dy=player.y-c.y,rr=player.r+c.r+4;
+      if(dx*dx+dy*dy<rr*rr){ const amt=Math.max(1,Math.round(c.val*coinMult())); awardCoins(amt,c.x,c.y-14,c.val>=5);
+        spawnParticles(c.x,c.y,'#ffe066',c.val>=5?14:8,200); sfxCoin(); flash=Math.min(0.4,flash+0.07); flashColor='#ffd23f'; coinz.splice(i,1); continue; }
+      if(c.y>H+26) coinz.splice(i,1);
     }
 
     // Particles & floaters
@@ -2021,6 +2043,16 @@
           ctx.fillStyle='#ffcf33'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr,0,6.28);ctx.fill();
           ctx.fillStyle='#fff3b0'; ctx.beginPath();ctx.arc(orb.x,orb.y,pr*0.78,0,6.28);ctx.fill();
           ctx.fillStyle='#a9710a'; ctx.font='900 '+Math.round(pr*1.5)+'px Orbitron,monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('◈',orb.x,orb.y+0.5); }
+        ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
+
+      // Münzen (1/2/5/10) – Gold-Disc mit aufgedruckter Zahl, Größe nach Wert
+      if(coinz&&coinz.length){ const gs=glowSprite('#ffe066');
+        for(const c of coinz){ const pr=c.r+Math.sin(c.pulse)*1.4, gr=pr*2.4;
+          ctx.globalCompositeOperation='lighter'; ctx.drawImage(gs,c.x-gr,c.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
+          const g=ctx.createRadialGradient(c.x-pr*0.32,c.y-pr*0.32,1,c.x,c.y,pr); g.addColorStop(0,'#fff7c8'); g.addColorStop(0.55,'#ffd23f'); g.addColorStop(1,'#b8770a');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(c.x,c.y,pr,0,6.28); ctx.fill();
+          ctx.lineWidth=1.6; ctx.strokeStyle='#fff2a8'; ctx.stroke();
+          ctx.fillStyle='#7a4f00'; ctx.font='900 '+Math.round(pr*1.15)+'px Orbitron, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(c.val,c.x,c.y+0.5); }
         ctx.textAlign='start'; ctx.textBaseline='alphabetic'; }
 
       // power-ups
@@ -2642,7 +2674,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v198';
+  const GAME_VER='v199';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
