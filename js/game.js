@@ -335,7 +335,7 @@
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   // Selbstregelnder Flow-Regler: flowI faehrt gedaempft mit der Live-Performance (director) mit + ein zwischen-Runs gelerntes Skill-Offset.
   // Legt sich gedeckelt [0.8..1.26] auf Tempo & Elite-Haeufigkeit → haelt den Spieler im 'gerade so machbar'-Korridor, egal welcher Skill/Build.
-  let flowI=1, skillBias=0, dbgDDA=false;
+  let flowI=1, skillBias=0;   // Regler-Overlay-Schalter liegt in opt.dbg (persistent; F8 oder Coin-Shop-Code "dda")
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0, runHits=0;  // Statistik pro Run (runHits = kassierte Treffer → Schwierigkeits-Signal)
   let onbDrops=0;   // Onboarding: wie viele der 3 Starter-Skillpunkte in Level 1 schon gedroppt sind
@@ -346,8 +346,8 @@
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
   // Lautstärke 0..1: alte Boolean-Werte (true/false) + neue Zahlen migrieren
   function volNum(v){ return Math.max(0,Math.min(1, v===true?1:(v===false?0:(+v||0)))); }
-  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,telemetry:r.telemetry==null?false:!!r.telemetry,
-    music:r.music==null?(r.muted?0:1):volNum(r.music), sfx:r.sfx==null?(r.muted?0:1):volNum(r.sfx), fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,telemetry:false,music:1,sfx:1,fullscreen:true}; }
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,telemetry:r.telemetry==null?false:!!r.telemetry,dbg:r.dbg==null?false:!!r.dbg,
+    music:r.music==null?(r.muted?0:1):volNum(r.music), sfx:r.sfx==null?(r.muted?0:1):volNum(r.sfx), fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,telemetry:false,dbg:false,music:1,sfx:1,fullscreen:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
@@ -2169,7 +2169,7 @@
         ctx.fillStyle=`rgba(${Math.random()<.5?255:25},${(Math.random()*255)|0},${Math.random()<.5?136:255},${0.05+0.13*m})`;
         ctx.fillRect(-40,yy,W+80,2+Math.random()*7); } }
     // Debug-Overlay des DDA-Reglers (Taste F8) – nur Entwicklung/Feintuning, normal aus
-    if(dbgDDA && (state===S.PLAY||state===S.PAUSE)){ ctx.save(); ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(6,52,182,58);
+    if(opt.dbg && (state===S.PLAY||state===S.PAUSE)){ ctx.save(); ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(6,52,182,58);
       ctx.fillStyle='#7fffd4'; ctx.font='11px Space Mono, monospace'; ctx.textAlign='left'; ctx.textBaseline='top';
       ctx.fillText('DDA flowI '+flowI.toFixed(2)+(flowI>1.02?' UP':(flowI<0.98?' DOWN':' =')),12,58);
       ctx.fillText('director '+director.toFixed(2)+'  bias '+(skillBias>=0?'+':'')+skillBias.toFixed(2),12,74);
@@ -2641,7 +2641,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v195';
+  const GAME_VER='v196';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3054,7 +3054,10 @@
   function closeCoinShop(){ document.getElementById('coinshop').classList.add('hidden');
     const e=document.getElementById(coinReturn||'start'); if(e) e.classList.remove('hidden'); updateAllBalances(); }
   function redeemCode(){ const inp=document.getElementById('devCode'), msg=document.getElementById('devMsg'); if(!inp) return;
-    const code=(inp.value||'').trim().toLowerCase().replace(/\s+/g,''); const amt=DEVCODES[code];
+    const code=(inp.value||'').trim().toLowerCase().replace(/\s+/g,'');
+    if(code==='dda'||code==='debug'){ opt.dbg=!opt.dbg; saveOpt(); inp.value='';   // Regler-Overlay an/aus (mobil-tauglich, ohne F8) – bleibt gespeichert
+      if(msg){ msg.textContent=(opt.dbg?'✓ DDA-Overlay AN (F8 / Code zum Aus)':'DDA-Overlay AUS'); msg.className='devMsg ok'; } sfxPow(); vibe(15); return; }
+    const amt=DEVCODES[code];
     if(amt){ meta.chips=(meta.chips||0)+amt; saveMeta(); updateMenuChips(); renderCoinShop(); inp.value='';
       if(msg){ msg.textContent='✓ +'+amt+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]); }
     else { if(msg){ msg.textContent='✗ '+t('devBad'); msg.className='devMsg bad'; } beep(200,0.12,'sawtooth',0.2); } }
@@ -3527,7 +3530,7 @@
       if(isOpen('settings')){ closeSettings(); return; }
       if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
-    if(e.key==='F8'){ dbgDDA=!dbgDDA; }   // Debug: DDA-Regler-Overlay (flowI/director/skillBias) ein-/ausblenden
+    if(e.key==='F8'){ opt.dbg=!opt.dbg; saveOpt(); }   // Debug: DDA-Regler-Overlay (flowI/director/skillBias) ein-/ausblenden (Desktop; mobil via Coin-Shop-Code "dda")
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
   document.addEventListener('visibilitychange',()=>{ lastT=performance.now();
     if(document.hidden){
