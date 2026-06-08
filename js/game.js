@@ -1212,7 +1212,7 @@
     const pos=UPGRADES.filter(u=>u.pickup&&(upgradeCounts[u.id]||0)<u.max);
     const cur=opt.curses?UPGRADES.filter(u=>u.curse&&(upgradeCounts[u.id]||0)<u.max):[];
     let u,curse=false;
-    if(cur.length && Math.random()<0.32){ u=pick(cur); curse=true; }
+    if(cur.length && Math.random()<0.42){ u=pick(cur); curse=true; }
     else if(pos.length){ u=pick(pos); }
     else if(cur.length){ u=pick(cur); curse=true; }
     else return;
