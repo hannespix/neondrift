@@ -2228,11 +2228,13 @@
         setc(xx,yy,acc); setc(xx,yy-1,edge); }              // Strebe (2px) + Neon-Kante
       const tx=gw+wingLen, ty=Math.min(gh, wy+Math.round(wingLen*sweep));
       setc(tx,ty,'#fff');                                   // Flügelspitze
-      for(let k=1;k<=2;k++) setc(tx,ty-1-k,acc);            // Spitzen-Kanone nach vorne
     }
-    // --- Frontkanonen (mehr Striche = mehr Waffen) ---
-    for(let i=0;i<nCan;i++){ const col=Math.round(((i+0.5)/Math.max(1,nCan)*2-1)*gw), len=2+((R()*2)|0);
-      for(let k=0;k<=len;k++) grid.set(col+','+(-gh-1-k), (i%2?'#fff':acc)); }
+    // --- Waffen an markanten Hardpoints: Hauptgeschütz an der Nase + symmetrische Flügel-/Rumpf-Paare, die aus der Schiffskontur nach VORNE wachsen (statt Striche vorn draufzukleben) ---
+    const lead=col=>{ for(let yy=-gh-2;yy<=gh+1;yy++) if(grid.has(col+','+yy)) return yy; return -gh; };
+    const mountGun=(col,len)=>{ const ty=lead(col); for(let k=1;k<=len;k++) setc(col,ty-k,(k===len?acc:'#fff')); };   // kurzer Lauf, der aus der Schiffskante nach vorne ragt + Akzent-Mündung
+    const hpCols=[gw+wingLen, gw, gw+Math.round(wingLen/2), Math.max(1,(gw/2)|0)];   // Paar-Hardpoints (Spalte spiegelt → 2 Kanonen): Flügelspitze, Rumpfschulter, Flügelmitte, innen
+    let guns=0; if(nCan>=1){ mountGun(0,1); guns=1; }         // Hauptgeschütz an der Nase – nur kurze Mündung (Nase ist schon spitz, kein langer Spieß)
+    for(const c of hpCols){ if(guns>=nCan) break; mountGun(c,2); guns+=2; }
     // --- Greebles (prozedurale Detailpixel je Run) ---
     const keys=[...grid.keys()]; for(let i=0;i<2+((R()*4)|0);i++){ const p=keys[(R()*keys.length)|0].split(','); setc((+p[0]),(+p[1]), R()<0.5?'#fff':acc); }
     // backen
