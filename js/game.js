@@ -241,6 +241,8 @@
   ];
   const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,2.2)/10)*10;   // steilere Kurve: je höher die Stufe, desto teurer (krasser Grind oben)
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
+  // Roguelite: Start-Skillpunkte je Run = Basis 1 + Veteran-Bonus (freikaufbar). Der Run-Build wird beim Game Over zurückgesetzt.
+  const starterSP=()=>1+metaLvl('veteran');
   function chipMult(){ return 1+0.12*metaLvl('rich'); }
   // Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<waffe> = Anzahl freier Fork-Slots, 0..4)
   const FORKI={f1:1,f2:2,f3:3,f4:4};
@@ -249,8 +251,8 @@
   // Werkstatt-Kategorien (für Tab-UI)
   function shopCat(id){ if(id.indexOf('sy_')===0) return 'synergy';
     if(id==='pxpack'||id==='pxglow') return 'cosmetic';   // im Editor verkauft, nicht als generische Karte
-    if(id.indexOf('bp_')===0||id.indexOf('fu_')===0||id==='veteran') return 'weapons';   // Tab ausgeblendet (redundant zum Hangar)
-    if(id==='shield'||id==='tough'||id==='solid'||id==='reach'||id==='slot') return 'ship';
+    if(id.indexOf('bp_')===0||id.indexOf('fu_')===0) return 'weapons';   // Tab ausgeblendet (redundant zum Hangar – Kauf inline im Loadout)
+    if(id==='shield'||id==='tough'||id==='solid'||id==='reach'||id==='slot'||id==='veteran') return 'ship';   // Start-Boni (inkl. Veteran = +Start-Skillpunkte) im Schiff-Tab kaufbar
     if(id==='wcore'||id==='wtempo'||id==='critcore'||id==='critdmgcore') return 'power';
     return 'economy'; }
   // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
@@ -1460,7 +1462,6 @@
   // ---------- Level / Upgrade flow ----------
   const UNLOCK={2:{key:'sine',name:'Wellenflug'},3:{key:'drift',name:'Gleiter'},4:{key:'orbit',name:'Kreisel'},5:{key:'zigzag',name:'Irrläufer'},6:{key:'pendulum',name:'Pendler'}};
   function levelUp(){ level++; levelTimer=levelDuration;
-    if(level===2 && !meta.sp1){ meta.sp1=1; saveMeta(); }   // Onboarding (Level 1) abgehakt – die 3 Starter-Skillpunkte droppen während Level 1 zum Aufsammeln
     const u=UNLOCK[level]; let sub=t('faster');
     if(u){ unlocked.push(u.key); sub=t('newForm')+formName(u.key); }
     if(SONGS.length>1){ do{ pendingSong=Math.floor(Math.random()*SONGS.length); }while(pendingSong===curSong); }   // neuen Song nur VORMERKEN – Einblendung erfolgt schleichend an ruhiger Stelle (kein Riser/Ansage)
@@ -1598,10 +1599,10 @@
 
     // Level wird durch Boss-Sieg abgeschlossen. Zen kennt keine Bosse → dort weiterhin zeitbasiert.
     if(mode==='zen'){ levelTimer-=dt; if(levelTimer<=0) levelUp(); }
-    // Onboarding: im allerersten Level 1 droppen 3 Skillpunkte zum Aufsammeln, gleichmäßig übers Level verteilt
-    if(level===1 && !bossActive && mode!=='zen' && !meta.sp1 && onbDrops<3){
+    // Roguelite-Ramp: in JEDEM Level 1 droppen 3 Skillpunkte zum Aufsammeln (Build verfällt beim Game Over → verlässlicher Start-Nachschub pro Run)
+    if(level===1 && !bossActive && mode!=='zen' && onbDrops<3){
       const frac=bossTimer/combatDur();   // 1 → 0 über Level 1
-      if(frac<=[0.72,0.46,0.2][onbDrops]){ spawnSP(rand(70,W-70),-20); onbDrops++; if(onbDrops>=3){ meta.sp1=1; saveMeta(); } } }
+      if(frac<=[0.72,0.46,0.2][onbDrops]){ spawnSP(rand(70,W-70),-20); onbDrops++; } }
     // Upgrade trigger
     if(!bossActive && score>=nextUpgradeAt){ openUpgrade(); return; }
 
@@ -2641,7 +2642,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v197';
+  const GAME_VER='v198';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2671,6 +2672,8 @@
     meta.stats=meta.stats||{}; if(runMaxMult>statN('maxCombo')) meta.stats.maxCombo=runMaxMult; if(bossNumber>statN('maxBoss')) meta.stats.maxBoss=bossNumber;
     if(statN('orbs')>=1000) unlockAch('orbs1000'); if(statN('chipsTotal')>=10000) unlockAch('chips10k');
     recordRun(earned);   // anonyme Telemetrie (lokales Log + optional Cloud)
+    // Roguelite-Reset: Run-Build (ausgerüstete Waffen/Forks/Synergien/Skillpunkte) verfällt. Coin-Freischaltungen (Baupläne/Forks/Synergien) + Start-Boni bleiben.
+    meta.loadout=null; meta.spBought=0; meta.sp=starterSP();
     saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden'); showCockpit(false);
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
