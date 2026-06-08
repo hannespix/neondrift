@@ -1062,11 +1062,11 @@
   // „Coverage": echtes Screen-Clear-Potenzial (Waffen + aktive Fusionen) – treibt die Elite-Häufigkeit,
   // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
-  const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.42,0.015+(level-1)*0.018+coverage()*0.022+(endless?madness*0.5:0)):0;
+  const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.52,0.02+(level-1)*0.027+coverage()*0.026+(endless?madness*0.5:0)):0;
   // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
-  const difHp  =()=>1.15+gunDps()*0.27+(level-1)*0.20;
-  const introT =()=>Math.max(0,1-elapsed/12);   // Butter-Start: starke Schonung in den ersten ~12s, fadet linear aus
+  const difHp  =()=>1.15+gunDps()*0.27+(level-1)*0.26;
+  const introT =()=>Math.max(0,1-elapsed/22);   // Butter-Start: lange, sanfte Schonung in den ersten ~22s, fadet linear aus (gemütlicher Einstieg)
   function finalNum(){ return mode==='hardcore'?10:8; }
   function combatDur(){ return mode==='hardcore'?30:38; }   // Kampfphase pro Level vor dem Boss (länger → Zeit zum Aufrüsten)
   // Boss entkommen → Level NICHT geschafft: gleiche Stufe nochmal (Loadout bleibt, man wird stärker)
@@ -1202,7 +1202,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(62+level*8+Math.min(elapsed*2.1,86))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.30*introT())*0.96*diffSpd;   // Grundtempo gemütlicher
+    const sp=(52+level*7+Math.min(elapsed*1.3,90))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*difSpd()*(1-0.45*introT())*0.96*diffSpd;   // langsameres, lesbares Grundtempo – die Härte kommt über Dichte + Elites, nicht über reines Tempo
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -1461,7 +1461,7 @@
   // Hat man einen Punkt UND etwas zum Ausgeben?
   function hasSkillSpend(){ return skillPts>0 && skillSpendable(); }
   // Live-Chips: aus Score+Near abgeleitetes Run-Guthaben (ohne Boss-Live-Chips, ohne Sieg-Bonus → die laufen separat)
-  function scoreChips(){ const s=score||0, scChips=s<=25000?s/40:25000/40+(s-25000)/120;   // schnellere Progression: mehr Coins pro Punkt
+  function scoreChips(){ const s=score||0, scChips=s<=25000?s/55:25000/55+(s-25000)/160;   // langsamere Coin-Progression → Skill-/Coin-Zuwachs hat mehr Gewicht (Langzeit-Grind)
     return Math.max(0,Math.round((scChips+(nearCount||0)*1.0)*chipMult()*diffChip)); }
   let coinSaveAcc=0;
   function accrueChips(force){ if(force===undefined) force=true;        // stiller Score-Trickle (Ökonomie-Backbone)
@@ -1530,7 +1530,7 @@
   // ---------- Update ----------
   function update(dt){
     saveRunT+=dt; if(saveRunT>=1.2){ saveRunT=0; saveRun(); }   // periodischer Snapshot (Reload-Fortsetzen)
-    elapsed+=dt; const dGrow=mode==='hardcore'?0.046:0.032; difficulty=1+Math.min(elapsed,150)*dGrow;
+    elapsed+=dt; const dMax=mode==='hardcore'?6.6:5.6, dT=Math.min(elapsed,190)/190; difficulty=1+dMax*Math.pow(dT,1.5);   // Ease-In-Kurve: sanfter Start, später deutlich steiler & höherer Deckel (über 190s statt 150s)
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
@@ -1597,7 +1597,7 @@
     // Spawns – auf das nächste Achtel quantisiert (alles passiert „auf dem Beat")
     if(!bossActive){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.30,(1.0-difficulty*0.040-level*0.013)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+0.8*introT())*0.95/diffDen); } }
+        spawnT=Math.max(0.24,(1.08-difficulty*0.05-level*0.018)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*(1+1.15*introT())*0.95/diffDen); } }   // früh deutlich dünner (1+1.15*introT), spät deutlich dichter (Deckel 0.30→0.24, difficulty stärker)
     if(mode!=='hardcore'){ orbT-=dt; if(orbT<=0) orbQueued=true;
       if(orbQueued && onStep && step8%2===1){ spawnOrb(); orbQueued=false; orbT=rand(0.9,1.8); } }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
@@ -1720,7 +1720,7 @@
         if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
       const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
       if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); runOrbs++; const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
-        const oc=(2.2+combo*0.08)*chipMult()*diffChip*(mods.orbValueMult||1); awardCoins(oc,orb.x,orb.y-16);   // Orbs = sichtbare Coins (Dopamin-Quelle)
+        const oc=(1.6+combo*0.06)*chipMult()*diffChip*(mods.orbValueMult||1); awardCoins(oc,orb.x,orb.y-16);   // Orbs = sichtbare Coins (Dopamin-Quelle, etwas gedrosselt)
         spawnParticles(orb.x,orb.y,'#ffcf33',16,240); sfxOrb(combo); beep(1500,0.05,'square',0.12,420); bumpCombo(); vibe(10);
         flash=Math.min(0.5,flash+0.18); flashColor='#ffd23f'; orbs.splice(i,1); continue; }
       if(orb.y>H+20) orbs.splice(i,1);
