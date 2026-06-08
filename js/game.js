@@ -2765,9 +2765,9 @@
     if(shopTab==='weapons'){ renderWeaponTab(); return; }       // Waffen-Tab: Accordion-Skilltree pro Waffe
     if(shopTab==='synergy'){ renderSynergyTab(); return; }      // Synergie-Tab: kaufbare Fusionen
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
-  function buyMeta(id){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
+  function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return; const cost=metaCost(m,lvl); if(coinShort(cost)) return;
-    meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); renderShop(); }
+    meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
   function openArsenalView(tab){ if(state!==S.PAUSE && state!==S.MENU) return; arsenalSkillMode=false; arsenalTab=tab||'loadout';
@@ -2838,6 +2838,11 @@
     const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">💠1</span>'):'';
     const ti={f1:0,f2:1,f3:2,f4:3}[slot]||0, tip=pDesc(path)+' · '+(flavPath(path)||flavTier(id,ti));   // echte Pfad-Beschreibung + Subskill-eigener Spruch
     return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${st==='shoplocked'?t('forkLocked'):pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
+  // Eine Fork-Reihe: ist die Stufe noch nicht freigekauft → Coin-Kaufleiste direkt hier (kein Werkstatt-Umweg), sonst die zwei wählbaren Knoten.
+  function treeRow(id,slot,paths){ const a=arsenal.w[id], st=nodeState(id,a,slot,paths[0]);
+    if(st==='shoplocked'){ const fu='fu_'+id, lvl=metaLvl(fu), cost=metaCost(metaById(fu),lvl), aff=(meta.chips||0)>=cost, ti=FORKI[slot];
+      return `<div class="trow"><button class="tbuy${aff?'':' locked'}" data-fu="${id}" title="${pName(paths[0])} / ${pName(paths[1])}">🔓 ${t('forkTier')} ${ti}: ${pName(paths[0])} / ${pName(paths[1])} · <b>◈${cost}</b></button></div>`; }
+    return `<div class="trow">${treeNode(id,slot,paths[0])}${treeNode(id,slot,paths[1])}</div>`; }
   function renderArsenalView(){
     if(arsenalSkillMode) arsenalTab='loadout';   // Skill-Screen erzwingt Loadout
     // Reiter-Leiste (Loadout · Synergien · Werkstatt) — ein Hub für alles
@@ -2864,18 +2869,15 @@
         `<div class="warctag" style="--wc:${w.col}">${wArch(id)}</div>`+
         `<div class="wmech">${wDesc(id)}</div>`+
         `<div class="tnode base chosen"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
-        `<div class="tconn"></div>`+
-        `<div class="trow">${treeNode(id,'f1',f1[0])}${treeNode(id,'f1',f1[1])}</div>`+
-        `<div class="tconn"></div>`+
-        `<div class="trow">${treeNode(id,'f2',f2[0])}${treeNode(id,'f2',f2[1])}</div>`+
-        `<div class="tconn"></div>`+
-        `<div class="trow">${treeNode(id,'f3',f3[0])}${treeNode(id,'f3',f3[1])}</div>`+
-        `<div class="tconn"></div>`+
-        `<div class="trow">${treeNode(id,'f4',f4[0])}${treeNode(id,'f4',f4[1])}</div>`;
+        `<div class="tconn"></div>`+treeRow(id,'f1',f1)+
+        `<div class="tconn"></div>`+treeRow(id,'f2',f2)+
+        `<div class="tconn"></div>`+treeRow(id,'f3',f3)+
+        `<div class="tconn"></div>`+treeRow(id,'f4',f4);
       card.querySelector('button.drop').addEventListener('click',e=>{ e.stopPropagation(); dropWeapon(id); });
       const rb=card.querySelector('button.respec'); if(rb) rb.addEventListener('click',e=>{ e.stopPropagation(); respecWeapon(id); });
       card.querySelectorAll('.tnode.pick').forEach(n=>n.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; spendFork(n.dataset.wid,n.dataset.slot,n.dataset.path); }));
       card.querySelectorAll('.tnode.undoable').forEach(n=>n.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; unspendOne(n.dataset.wid,n.dataset.slot); }));
+      card.querySelectorAll('.tbuy').forEach(btn=>btn.addEventListener('click',()=>buyMeta('fu_'+btn.dataset.fu,renderArsenalView)));   // Fork-Stufe direkt mit Coins freikaufen
       wrap.appendChild(card); });
     const free=arsenal.slots-ownedCount(), notOwned=WEAPONS.filter(w=>!arsenal.w[w.id]);
     const addable=notOwned.filter(w=>weaponUnlocked(w.id)), locked=notOwned.filter(w=>!weaponUnlocked(w.id));
@@ -2887,13 +2889,15 @@
           `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · 💠1</button>`;
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
     else if(!locked.length){ for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
-    // Gesperrte Waffen als Teaser zeigen → Anreiz, in der Werkstatt freizuschalten
-    if(opt.guns) locked.forEach(w=>{ const card=document.createElement('div'); card.className='wtree wlocked'; card.style.opacity='.5';
+    // Gesperrte Waffen: Bauplan direkt hier mit Coins kaufen (kein Werkstatt-Umweg) → danach mit Skillpunkt einrüsten
+    if(opt.guns) locked.forEach(w=>{ const bp='bp_'+w.id, m=metaById(bp), cost=m?metaCost(m,0):0, aff=(meta.chips||0)>=cost;
+        const card=document.createElement('div'); card.className='wtree wlocked';
         card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
-          `<div class="tnode base locked"><span class="ti">🔒</span></div>`+
+          `<div class="tnode base locked"><span class="ti">📐</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
-          `<div class="cost done">${t('lockedW')}</div>`;
+          `<button class="cost buybp${aff?'':' locked'}">📐 ${t('blueprint')} · <b>◈${cost}</b></button>`;
+        card.querySelector('.buybp').addEventListener('click',()=>buyMeta('bp_'+w.id,renderArsenalView));   // Bauplan kaufen → Waffe wird einrüstbar
         wrap.appendChild(card); });
     const sd=document.getElementById('arsenalSyn'); if(sd){
       // Fusions-Slots: ALLE Kombis als Info-/Equip-Karten. Antippen = in einen der 2 Slots legen / wieder raus (jederzeit).
