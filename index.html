@@ -183,8 +183,8 @@
     <div class="utitle" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">EINSTELLUNGEN</div>
     <div class="usub" id="setHint">Tippen zum Umschalten</div>
     <div id="optRows">
-      <button class="optrow" data-opt="music">🎵 Musik · <b>AN</b></button>
-      <button class="optrow" data-opt="sfx">🔊 Game-Sound · <b>AN</b></button>
+      <div class="volrow" data-vol="music"><span class="vlbl">🎵 Musik</span><input type="range" min="0" max="100" step="5" value="100" class="vol" id="volMusic" aria-label="Musik-Lautstärke"><b class="vval" id="volMusicV">100%</b></div>
+      <div class="volrow" data-vol="sfx"><span class="vlbl">🔊 Game-Sound</span><input type="range" min="0" max="100" step="5" value="100" class="vol" id="volSfx" aria-label="Sound-Lautstärke"><b class="vval" id="volSfxV">100%</b></div>
       <button class="optrow" data-opt="fullscreen">⛶ Vollbild · <b>AN</b></button>
       <button class="optrow" data-opt="shake">Screenshake · <b>AN</b></button>
       <button class="optrow" data-opt="fx">Bildschirm-Effekte · <b>AN</b></button>

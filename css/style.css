@@ -135,6 +135,18 @@
     font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.06em;padding:14px 18px;border-radius:14px;text-align:left;transition:border-color .14s,background .14s;}
   .optrow:hover{border-color:var(--cyan);}
   .optrow b{float:right;color:var(--cyan);font-family:'Orbitron',sans-serif;}
+  /* Lautstärke-Slider-Zeilen (Musik/Sound) – gleiche Optik wie .optrow, aber mit Regler */
+  .volrow{display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#e7defc;
+    font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.06em;padding:11px 16px;border-radius:14px;}
+  .volrow .vlbl{flex:0 0 auto;min-width:116px;white-space:nowrap;}
+  .volrow .vval{flex:0 0 auto;min-width:48px;text-align:right;color:var(--cyan);font-family:'Orbitron',sans-serif;}
+  .volrow .vol{flex:1 1 auto;-webkit-appearance:none;appearance:none;height:6px;border-radius:5px;
+    background:rgba(255,255,255,.16);outline:none;touch-action:none;cursor:pointer;}
+  .volrow .vol::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+    background:var(--cyan);box-shadow:0 0 10px var(--cyan);border:2px solid rgba(8,1,15,.6);cursor:pointer;}
+  .volrow .vol::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--cyan);
+    box-shadow:0 0 10px var(--cyan);border:2px solid rgba(8,1,15,.6);cursor:pointer;}
+  .volrow .vol:focus-visible{box-shadow:0 0 0 2px var(--cyan);}
   #optRows,#resetRows{display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;}
   #resetRows{margin-top:20px;}
   .optrow.danger{border-color:rgba(255,46,136,.4);color:#ff9ec2;}

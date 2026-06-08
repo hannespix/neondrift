@@ -326,8 +326,10 @@
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
   let shipSprite=null, shipSig='';                     // gebackener Pixel-Sprite + Signatur
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
+  // Lautstärke 0..1: alte Boolean-Werte (true/false) + neue Zahlen migrieren
+  function volNum(v){ return Math.max(0,Math.min(1, v===true?1:(v===false?0:(+v||0)))); }
   function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,
-    music:r.music==null?(r.muted?false:true):r.music, sfx:r.sfx==null?(r.muted?false:true):r.sfx, fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,music:true,sfx:true,fullscreen:true}; }
+    music:r.music==null?(r.muted?0:1):volNum(r.music), sfx:r.sfx==null?(r.muted?0:1):volNum(r.sfx), fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,music:1,sfx:1,fullscreen:true}; }
   function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
@@ -338,8 +340,8 @@
     try{ actx=new (window.AudioContext||window.webkitAudioContext)();
       masterGain=actx.createGain(); masterGain.gain.value=0.9; masterGain.connect(actx.destination);
       // zwei getrennte Busse: Musik + Game-Sound (SFX) – je eigene Option
-      musicBus=actx.createGain(); musicBus.gain.value=(opt.music!==false)?1:0; musicBus.connect(masterGain);
-      sfxGain=actx.createGain(); sfxGain.gain.value=(opt.sfx!==false)?1:0; sfxGain.connect(masterGain);
+      musicBus=actx.createGain(); musicBus.gain.value=volNum(opt.music); musicBus.connect(masterGain);
+      sfxGain=actx.createGain(); sfxGain.gain.value=volNum(opt.sfx); sfxGain.connect(masterGain);
       musicGain=actx.createGain(); musicGain.gain.value=0.42; musicGain.connect(musicBus);
       analyser=actx.createAnalyser(); analyser.fftSize=256; analyser.smoothingTimeConstant=0.6; musicGain.connect(analyser); // Seiten-Abgriff (Wellenform), kein Audio-Ausgang
       waveData=new Uint8Array(analyser.fftSize);
@@ -366,7 +368,7 @@
   ['pointerdown','touchstart','mousedown','keydown','click'].forEach(ev=>window.addEventListener(ev,unlockAudio,{passive:true}));
 
   function beep(freq,dur,type='sine',vol=0.4,slide=0){
-    if(!actx||opt.sfx===false) return;
+    if(!actx||!opt.sfx) return;
     try{ const o=actx.createOscillator(), g=actx.createGain();
       o.type=type; o.frequency.setValueAtTime(Math.max(20,freq),actx.currentTime);
       if(slide) o.frequency.exponentialRampToValueAtTime(Math.max(30,freq+slide),actx.currentTime+dur);
@@ -381,7 +383,7 @@
   function duckMusic(dur){ if(!musicGain||!actx) return; const t=actx.currentTime;
     musicGain.gain.cancelScheduledValues(t); musicGain.gain.setValueAtTime(musicGain.gain.value,t);
     musicGain.gain.linearRampToValueAtTime(0.06,t+0.08); musicGain.gain.linearRampToValueAtTime(0.42,t+dur); }
-  function sfxGameOver(){ if(!actx||opt.sfx===false) return;
+  function sfxGameOver(){ if(!actx||!opt.sfx) return;
     beep(160,0.45,'sawtooth',0.5,-90);                 // Crash-Boom
     beep(70,0.55,'square',0.4,-25);
     const notes=[[466,160],[415,440],[392,720],[294,1040]]; // absteigend: "wah wah wah waaah"
@@ -601,7 +603,7 @@
     if(musicDelay){ const s=actx.createGain(); s.gain.value=0.4; g.connect(s); s.connect(musicDelay); }
     o.start(time); o.stop(time+dur+0.02);
   }
-  function sfxRiser(){ if(!actx||opt.sfx===false) return; try{
+  function sfxRiser(){ if(!actx||!opt.sfx) return; try{
     const o=actx.createOscillator(), g=actx.createGain(); o.type='sawtooth';
     o.frequency.setValueAtTime(180,actx.currentTime); o.frequency.exponentialRampToValueAtTime(1900,actx.currentTime+0.7);
     g.gain.setValueAtTime(0.0001,actx.currentTime); g.gain.linearRampToValueAtTime(0.22,actx.currentTime+0.55); g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+0.82);
@@ -1146,7 +1148,7 @@
   function bumpCombo(){ comboEl.classList.remove('bump'); void comboEl.offsetWidth; comboEl.classList.add('bump'); }
 
   // ---------- Easteregg: CODE 67 ----------
-  function sfx67(){ if(!actx||opt.sfx===false) return; [[392,0],[523,150],[392,360],[523,510]].forEach(([f,d])=>setTimeout(()=>beep(f,0.16,'square',0.32),d)); }
+  function sfx67(){ if(!actx||!opt.sfx) return; [[392,0],[523,150],[392,360],[523,510]].forEach(([f,d])=>setTimeout(()=>beep(f,0.16,'square',0.32),d)); }
   function trigger67(){ if(state!==S.PLAY||egg67T>0) return; egg67T=8;
     banner={text:'6️⃣ 7️⃣',sub:'CODE 67 — six seveeen',t:2.8,color:'#ffe600'};
     sfx67(); vibe([67,67,67]); addScore(67); shields=Math.min(shields+1,5); flash=0.55; flashColor='#ffe600';
@@ -2291,7 +2293,7 @@
   let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie
   function drawGrid(){ const hz=H*0.42,vx=W/2;
     // ---- Audio-reaktiver Sonnen-Puls: Musik-Amplitude (kontinuierlich) + Beat-Puls (scharfe Schläge) ----
-    const hasAudio=analyser && opt.music!==false;
+    const hasAudio=analyser && opt.music>0;
     if(hasAudio){ analyser.getByteTimeDomainData(waveData);
       let s=0,c=0; for(let i=0;i<waveData.length;i+=4){ s+=Math.abs(waveData[i]-128); c++; }
       const lvl=Math.min(1,(s/c)/38); sunPulse+=(lvl-sunPulse)*0.2; }
@@ -2768,19 +2770,23 @@
   function exitFullscreen(){ try{ const x=document.exitFullscreen||document.webkitExitFullscreen; if(x&&isFull()) x.call(document); }catch(e){} }
   // Beim Spielstart (User-Geste) Fullscreen anfordern – nur wenn die Option an ist (Default: an) → OS-Statusleiste + Navigationsleiste/Bottom-Griff weg
   function goFullscreenSoft(){ if(opt.fullscreen===false||isFull()) return; enterFullscreen(); }
+  // Live-Lautstärken auf die Audio-Busse anwenden (0..1)
+  function applyVolumes(){ if(musicBus) musicBus.gain.value=volNum(opt.music); if(sfxGain) sfxGain.gain.value=volNum(opt.sfx); }
+  // Lautstärke-Slider (Musik/Sound) mit aktuellen Werten + Labels synchronisieren
+  function renderVolRows(){
+    const sync=(slid,val,lblId,lblTxt)=>{ const s=document.getElementById(slid); if(s) s.value=Math.round(volNum(val)*100);
+      const e=document.getElementById(lblId); if(e) e.textContent=Math.round(volNum(val)*100)+'%';
+      const L=document.querySelector('.volrow[data-vol='+(slid==='volMusic'?'music':'sfx')+'] .vlbl'); if(L) L.textContent=lblTxt; };
+    sync('volMusic',opt.music,'volMusicV',t('optMusic')); sync('volSfx',opt.sfx,'volSfxV',t('optSfx')); }
   function renderSettings(){ document.querySelectorAll('#optRows .optrow').forEach(row=>{
     const k=row.dataset.opt; let v;
     if(k==='lang') v=lang.toUpperCase();
     else if(k==='shake') v=(opt.shake===0?t('off'):(opt.shake<1?t('reduced'):t('on')));
-    else if(k==='music') v=(opt.music?t('on'):t('off'));
-    else if(k==='sfx') v=(opt.sfx?t('on'):t('off'));
     else if(k==='fullscreen') v=(opt.fullscreen?t('on'):t('off'));
     else v=(opt[k]?t('on'):t('off'));
-    row.innerHTML=t(OPTLBL[k])+' · <b>'+v+'</b>'; }); renderResetLabels(); }
+    row.innerHTML=t(OPTLBL[k])+' · <b>'+v+'</b>'; }); renderVolRows(); renderResetLabels(); }
   function cycleOpt(k){
     if(k==='lang'){ const order=['de','en','fr']; lang=order[(order.indexOf(lang)+1)%3]; saveLang(); applyI18n(); renderSettings(); beep(740,0.06,'square',0.2); return; }
-    if(k==='music'){ opt.music=!opt.music; saveOpt(); if(opt.music){ unlockAudio(); if(musicBus) musicBus.gain.value=1; } else if(musicBus) musicBus.gain.value=0; renderSettings(); beep(opt.music?740:330,0.06,'square',0.2); return; }
-    if(k==='sfx'){ opt.sfx=!opt.sfx; saveOpt(); if(sfxGain) sfxGain.gain.value=opt.sfx?1:0; renderSettings(); if(opt.sfx) beep(740,0.06,'square',0.2); return; }
     if(k==='fullscreen'){ opt.fullscreen=!opt.fullscreen; saveOpt(); if(opt.fullscreen) enterFullscreen(); else exitFullscreen(); renderSettings(); beep(opt.fullscreen?740:330,0.06,'square',0.2); return; }
     if(k==='shake') opt.shake=(opt.shake>=1?0.4:(opt.shake>0?0:1));
     else opt[k]=!opt[k];
@@ -3107,6 +3113,13 @@
     const dc=document.getElementById('devCode'); if(dc) dc.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); redeemCode(); } }); }
   document.querySelectorAll('#optRows .optrow').forEach(row=>row.addEventListener('click',()=>cycleOpt(row.dataset.opt)));
   document.querySelectorAll('#resetRows .optrow').forEach(b=>b.addEventListener('click',()=>armReset(b)));
+  // Lautstärke-Slider (Musik/Sound): live anwenden, am Ende speichern; Slider-Geste entsperrt zugleich Audio
+  { const wire=(id,key,vId,testBeep)=>{ const s=document.getElementById(id); if(!s) return;
+      const upd=()=>{ opt[key]=Math.max(0,Math.min(1,(+s.value||0)/100)); unlockAudio(); applyVolumes();
+        const e=document.getElementById(vId); if(e) e.textContent=Math.round(opt[key]*100)+'%'; };
+      s.addEventListener('input',upd);
+      s.addEventListener('change',()=>{ upd(); saveOpt(); if(testBeep&&opt[key]>0) beep(740,0.06,'square',0.2); }); };
+    wire('volMusic','music','volMusicV',false); wire('volSfx','sfx','volSfxV',true); }
   document.getElementById('againBtn').addEventListener('click',()=>startGame());
   document.getElementById('menuBtn').addEventListener('click',toMenu);
   document.getElementById('shareBtn').addEventListener('click',shareScore);
