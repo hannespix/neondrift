@@ -58,8 +58,9 @@ function resize(){ DPR=Math.min(2,window.devicePixelRatio||1); W=innerWidth; H=i
   VPx=W/2; VPy=H*0.30; }
 addEventListener('resize',resize); resize();
 
-// ---- Projektion (Tunnel): Welt-Offset (wx,wy) bei Tiefe z → Bildschirm ----
-const F=1.0, SX=()=>W*0.62, SY=()=>H*0.62, ZP=1.0;   // ZP = Spielerebene
+// ---- Projektion (Boden-Ebene zum Fluchtpunkt): Welt (wx lateral, z Tiefe) → Bildschirm ----
+const F=1.0, SX=()=>W*0.62, SY=()=>H*0.62;
+const FLOOR=0.95, ZMIN=0.9, ZMAX=3.0;   // alles liegt auf der Boden-Ebene (wy=FLOOR); z = Tiefe (klein=nah/groß, groß=fern/klein)
 const sx=(wx,z)=>VPx + wx*SX()*(F/z);
 const sy=(wy,z)=>VPy + wy*SY()*(F/z);
 const sc=(z)=>F/z;
@@ -71,7 +72,7 @@ const rand=(a,b)=>a+Math.random()*(b-a);
 
 // ---- State ----
 let state='play', score=0, lives=4, shake=0, flash=0, flashCol='#19f0ff', elapsed=0, speed=1.4, slow=0;
-let player={wx:0,wy:0.62,tx:0,ty:0.62,r:0.085,inv:0};
+let player={wx:0,z:1.5,twx:0,tz:1.5,r:0.085,dr:0.12,inv:0};   // wx=lateral, z=Tiefe (vertikal gesteuert)
 let obstacles=[], bolts=[], parts=[], stars=[];
 let spawnT=0, fireT=0;
 
@@ -119,8 +120,8 @@ function drawGrid(){ x.strokeStyle='rgba(255,46,136,.30)'; x.lineWidth=1.2;
 
 // ---- Obstacles ----
 const SHAPES=['hex','diamond','tri','box','ring'];
-function spawnObstacle(){ const wx=rand(-1.05,1.05), wy=rand(-0.05,1.15);   // in den Flugraum (unter den Fluchtpunkt), nicht in die HUD-Zone
-  obstacles.push({ wx, wy, z:4.0, vz:rand(0.85,1.15),
+function spawnObstacle(){ const wx=rand(-1.05,1.05);   // alle auf der Boden-Ebene (wy=FLOOR), nur lateral verteilt
+  obstacles.push({ wx, wy:FLOOR, z:4.0, vz:rand(0.85,1.15),
     shape:SHAPES[(Math.random()*SHAPES.length)|0], col:COLORS[(Math.random()*COLORS.length)|0],
     rot:Math.random()*6.28, vr:rand(-1.5,1.5), hp:1+(Math.random()<0.3?1:0), r:rand(0.07,0.11), passed:false }); }
 function shapePath(sh,s){ x.beginPath();
@@ -149,8 +150,8 @@ function drawObstacles(){ obstacles.sort((a,b)=>b.z-a.z);   // fern zuerst
 }
 
 // ---- Bolts (ins Bild feuern, Richtung Fluchtpunkt) ----
-function fire(){ bolts.push({wx:player.wx,wy:player.wy,z:ZP,vz:3.4,col:'#caffff'}); }
-function drawBolts(){ for(const b of bolts){ const z=b.z, px=sx(b.wx,z), py=sy(b.wy,z), s=Math.max(1.5,8*(F/z));
+function fire(){ bolts.push({wx:player.wx,z:player.z,vz:3.4,col:'#caffff'}); }
+function drawBolts(){ for(const b of bolts){ const z=b.z, px=sx(b.wx,z), py=sy(FLOOR,z), s=Math.max(1.5,8*(F/z));
   x.globalCompositeOperation='lighter'; x.fillStyle=hexA('#19f0ff',0.5); x.fillRect(px-s,py-s,s*2,s*2);
   x.fillStyle='#fff'; x.fillRect(px-s/2,py-s/2,s,s); } x.globalCompositeOperation='source-over'; }
 
@@ -159,52 +160,57 @@ function burst(wx,wy,z,col,n){ for(let i=0;i<n;i++){ const a=Math.random()*6.28,
 function drawParts(){ x.globalCompositeOperation='lighter'; for(const p of parts){ const z=Math.max(0.1,p.z),px=sx(p.wx,z),py=sy(p.wy,z),s=Math.max(1,3*(F/z));
   x.globalAlpha=Math.max(0,Math.min(1,p.life*2.2)); x.fillStyle=p.col; x.fillRect(px-s/2,py-s/2,s,s); } x.globalAlpha=1; x.globalCompositeOperation='source-over'; }
 
-// ---- Spieler-Schiff ----
-function drawPlayer(){ const px=sx(player.wx,ZP), py=sy(player.wy,ZP), s=player.r*Math.min(W,H);
-  x.save(); x.translate(px,py);
-  // Triebwerk
+// ---- Spieler-Schiff (liegt flach auf der Boden-Ebene, skaliert mit der Tiefe) ----
+function drawPlayer(){ const z=player.z, scl=F/z, px=sx(player.wx,z), py=sy(FLOOR,z), s=player.dr*Math.min(W,H)*scl, sq=0.6;
+  // Boden-Schatten (verkauft „liegt auf der Ebene")
+  x.save(); x.globalAlpha=0.32; x.fillStyle='#000'; x.beginPath(); x.ellipse(px,py+s*0.5,s*1.15,s*0.42,0,0,6.28); x.fill(); x.restore();
+  x.save(); x.translate(px,py); x.scale(1,sq);   // vertikale Stauchung = perspektivisch flach gelegt
+  // Triebwerk (hinten = unten)
   x.globalCompositeOperation='lighter'; x.fillStyle=hexA('#ff9a2e',0.6);
-  const fl=s*(0.6+0.5*Math.abs(Math.sin(elapsed*26))); x.beginPath(); x.moveTo(-s*0.4,s*0.7); x.lineTo(s*0.4,s*0.7); x.lineTo(0,s*0.7+fl); x.closePath(); x.fill();
+  const fl=s*(0.7+0.6*Math.abs(Math.sin(elapsed*26))); x.beginPath(); x.moveTo(-s*0.42,s*0.78); x.lineTo(s*0.42,s*0.78); x.lineTo(0,s*0.78+fl); x.closePath(); x.fill();
   x.globalCompositeOperation='source-over';
-  const blink=player.inv>0&&((player.inv*12|0)%2===0);
-  x.globalAlpha=blink?0.4:1;
-  // Rumpf
-  x.fillStyle='#0b1830'; x.strokeStyle='#19f0ff'; x.lineWidth=2; x.shadowBlur=14; x.shadowColor='#19f0ff';
-  x.beginPath(); x.moveTo(0,-s); x.lineTo(s*0.8,s*0.6); x.lineTo(s*0.3,s*0.4); x.lineTo(0,s*0.62); x.lineTo(-s*0.3,s*0.4); x.lineTo(-s*0.8,s*0.6); x.closePath(); x.fill(); x.stroke();
-  x.shadowBlur=0; x.fillStyle='#caffff'; x.beginPath(); x.arc(0,-s*0.1,s*0.22,0,6.28); x.fill();
+  const blink=player.inv>0&&((player.inv*12|0)%2===0); x.globalAlpha=blink?0.4:1;
+  // Rumpf (Nase nach oben = vorwärts)
+  x.fillStyle='#0b1830'; x.strokeStyle='#19f0ff'; x.lineWidth=Math.max(1.5,s*0.09); x.shadowBlur=14*scl; x.shadowColor='#19f0ff';
+  x.beginPath(); x.moveTo(0,-s*1.05); x.lineTo(s*0.85,s*0.6); x.lineTo(s*0.32,s*0.38); x.lineTo(0,s*0.66); x.lineTo(-s*0.32,s*0.38); x.lineTo(-s*0.85,s*0.6); x.closePath(); x.fill(); x.stroke();
+  // 3D-Andeutung: heller First-Grat + Cockpit
+  x.shadowBlur=0; x.strokeStyle=hexA('#7fe9ff',0.7); x.lineWidth=Math.max(1,s*0.05); x.beginPath(); x.moveTo(0,-s*1.0); x.lineTo(0,s*0.5); x.stroke();
+  x.fillStyle='#caffff'; x.beginPath(); x.ellipse(0,-s*0.12,s*0.22,s*0.3,0,0,6.28); x.fill();
   x.globalAlpha=1; x.restore();
 }
 
 // ---- Input ----
-function setTarget(cx,cy){ // Bildschirm → Welt-Offset (Spielerebene)
-  player.tx=Math.max(-1.05,Math.min(1.05,(cx-VPx)/(SX()*F/ZP)));
-  player.ty=Math.max(-0.05,Math.min(1.15,(cy-VPy)/(SY()*F/ZP))); }
+function setTarget(cx,cy){ // Cursor auf der Boden-Ebene: vertikal = Tiefe (oben=vorne/tiefer), horizontal = strafen
+  const dy=Math.max(8,cy-VPy); let z=(FLOOR*SY()*F)/dy; z=Math.max(ZMIN,Math.min(ZMAX,z));
+  let wx=(cx-VPx)*z/(SX()*F); wx=Math.max(-1.12,Math.min(1.12,wx));
+  player.tz=z; player.twx=wx; }
 cv.addEventListener('pointermove',e=>{ if(state==='play') setTarget(e.clientX,e.clientY); });
 cv.addEventListener('pointerdown',e=>{ if(state==='play') setTarget(e.clientX,e.clientY); });
 
 // ---- Update ----
 function hitPlayer(){ if(player.inv>0) return; lives--; player.inv=1.3; shake=20; flash=0.7; flashCol='#ff2e88';
-  burst(player.wx,player.wy,ZP,'#ff2e88',24); document.getElementById('hearts').innerHTML=heartHTML();
+  burst(player.wx,FLOOR,player.z,'#ff2e88',24); document.getElementById('hearts').innerHTML=heartHTML();
   if(lives<=0) gameOver(); }
 function heartHTML(){ let h=''; for(let i=0;i<4;i++) h+= i<lives?'♥':'<i>♥</i>'; return h; }
 function gameOver(){ state='over'; document.getElementById('ovsub').textContent='Score '+(score|0); document.getElementById('over').classList.add('show'); }
 
 function update(dt){ elapsed+=dt; speed=1.4+Math.min(2.2,elapsed*0.02); score+=dt*speed*12;
   player.inv=Math.max(0,player.inv-dt); shake=Math.max(0,shake-dt*40); flash=Math.max(0,flash-dt*1.6);
-  // Spieler folgt (etwas träge = Flug-Gefühl)
-  player.wx+=(player.tx-player.wx)*Math.min(1,dt*9); player.wy+=(player.ty-player.wy)*Math.min(1,dt*9);
+  // Spieler folgt (etwas träge = Flug-Gefühl): wx lateral schneller, z (Tiefe) gemächlicher
+  player.wx+=(player.twx-player.wx)*Math.min(1,dt*9); player.z+=(player.tz-player.z)*Math.min(1,dt*6.5);
   updateStars(dt);
   // spawn
   spawnT-=dt; const si=Math.max(0.22,0.6-elapsed*0.004); if(spawnT<=0){ spawnObstacle(); spawnT=si; }
   fireT-=dt; if(fireT<=0){ fire(); fireT=0.16; }
   // obstacles
   for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i]; o.z-=o.vz*speed*dt; o.rot+=o.vr*dt;
-    if(!o.passed && o.z<=ZP){ o.passed=true;
-      const dx=o.wx-player.wx, dy=o.wy-player.wy; if(Math.abs(dx)<o.r+player.r && Math.abs(dy)<o.r+player.r){ hitPlayer(); o.dead=true; } }
+    if(!o.passed){ const dz=o.z-player.z;
+      if(Math.abs(dz)<0.2 && Math.abs(o.wx-player.wx)<(o.r+player.r)){ hitPlayer(); o.dead=true; o.passed=true; }
+      else if(dz<-0.28){ o.passed=true; } }
     if(o.z<=0.12||o.dead){ obstacles.splice(i,1); } }
   // bolts
   for(let i=bolts.length-1;i>=0;i--){ const b=bolts[i]; b.z+=b.vz*dt; if(b.z>4.2){ bolts.splice(i,1); continue; }
-    for(const o of obstacles){ if(o.dead) continue; if(Math.abs(o.z-b.z)<0.18 && Math.abs(o.wx-b.wx)<o.r+0.04 && Math.abs(o.wy-b.wy)<o.r+0.04){
+    for(const o of obstacles){ if(o.dead) continue; if(Math.abs(o.z-b.z)<0.18 && Math.abs(o.wx-b.wx)<o.r+0.05){
       o.hp--; burst(o.wx,o.wy,o.z,o.col,6); b.dead=true; if(o.hp<=0){ o.dead=true; score+=20; burst(o.wx,o.wy,o.z,o.col,14); } break; } }
     if(b.dead) bolts.splice(i,1); }
   obstacles=obstacles.filter(o=>!o.dead);
@@ -232,7 +238,7 @@ let last=performance.now();
 function loop(now){ let dt=(now-last)/1000; last=now; if(dt>0.05)dt=0.05;
   if(state==='play') update(dt); draw(); requestAnimationFrame(loop); }
 function reset(){ state='play'; score=0; lives=4; elapsed=0; speed=1.4; obstacles=[]; bolts=[]; parts=[]; spawnT=0; fireT=0;
-  player.wx=0; player.wy=0.62; player.tx=0; player.ty=0.62; player.inv=0;
+  player.wx=0; player.z=1.5; player.twx=0; player.tz=1.5; player.inv=0;
   document.getElementById('hearts').innerHTML=heartHTML(); document.getElementById('over').classList.remove('show'); }
 document.getElementById('again').addEventListener('click',reset);
 reset(); requestAnimationFrame(loop);
