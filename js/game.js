@@ -1278,7 +1278,7 @@
   // ---------- Sammelbare Upgrade-Symbole (positiv & Flüche) ----------
   function spawnGem(){
     const pos=UPGRADES.filter(u=>u.pickup&&(upgradeCounts[u.id]||0)<u.max);
-    const cur=opt.curses?UPGRADES.filter(u=>u.curse&&CURSE_FX[u.id]):[];   // Flüche immer verfügbar (Effekt+Timer stapeln)
+    const cur=(opt.curses&&statN('runs')>=3)?UPGRADES.filter(u=>u.curse&&CURSE_FX[u.id]):[];   // Flüche erst ab ~3 Runs (Neulinge nicht mit Zufalls-Modifikatoren überfordern)
     let u,curse=false;
     // Flüche seltener als Upgrades: Gewicht 0.8 ggü. 1.0 → ~44% Flüche, positive Upgrades häufiger
     if(cur.length && (pos.length?Math.random()<0.44:true)){ u=pick(cur); curse=true; }
@@ -1764,7 +1764,7 @@
     // Orbs
     for(let i=orbs.length-1;i>=0;i--){ const orb=orbs[i]; orb.y+=orb.vy*dt*ts; orb.pulse+=dt*6;
       const pull=effects.magnet>0?440:mods.magnetPassive;
-      if(pull>0){ const dd=Math.hypot(player.x-orb.x,player.y-orb.y), rng=effects.magnet>0?Math.max(W,H)*0.5:170;   // Magnet-Reichweite gedeckelt (max 50% Bildschirm)
+      if(pull>0){ const dd=Math.hypot(player.x-orb.x,player.y-orb.y), rng=effects.magnet>0?Math.max(W,H)*0.25:170;   // Magnet-Reichweite gedeckelt (max ¼ Bildschirm – zieht erst bei Nähe)
         if(dd<rng&&dd>1){ const a=Math.atan2(player.y-orb.y,player.x-orb.x); orb.x+=Math.cos(a)*pull*dt; orb.y+=Math.sin(a)*pull*dt; } }
       const dx=player.x-orb.x,dy=player.y-orb.y,rr=player.r+orb.r+4;
       if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.015); runOrbs++; const g=Math.round(10*multiplier*mods.orbValueMult); addScore(g);
@@ -1792,7 +1792,7 @@
 
     // Skillpunkt-Drops – langsam sinkend, dezente Nah-Anziehung (wertvoll → fair einsammelbar), Magnet saugt voll
     for(let i=sps.length-1;i>=0;i--){ const s=sps[i]; s.pulse+=dt*4; s.rot+=dt*1.2;
-      const mag=effects.magnet>0, pull=mag?460:90, rng=mag?Math.max(W,H)*0.5:150, dd=Math.hypot(player.x-s.x,player.y-s.y);   // Magnet max 50% Bildschirm
+      const mag=effects.magnet>0, pull=mag?460:90, rng=mag?Math.max(W,H)*0.25:150, dd=Math.hypot(player.x-s.x,player.y-s.y);   // Magnet max ¼ Bildschirm
       if(dd>1&&dd<rng){ const a=Math.atan2(player.y-s.y,player.x-s.x); s.x+=Math.cos(a)*pull*dt; s.y+=Math.sin(a)*pull*dt; }
       s.y+=s.vy*dt*ts;
       const dx=player.x-s.x,dy=player.y-s.y,rr=player.r+s.r+6;
@@ -1802,7 +1802,7 @@
 
     // Münz-Pickups – sinken, Magnet/Nah-Sog; Wert × Combo-Multiplikator beim Einsammeln
     for(let i=coinz.length-1;i>=0;i--){ const c=coinz[i]; c.pulse+=dt*5; c.rot+=dt;
-      const mag=effects.magnet>0, pull=mag?460:mods.magnetPassive, rng=mag?Math.max(W,H)*0.5:165, dd=Math.hypot(player.x-c.x,player.y-c.y);   // Magnet max 50% Bildschirm
+      const mag=effects.magnet>0, pull=mag?460:mods.magnetPassive, rng=mag?Math.max(W,H)*0.25:165, dd=Math.hypot(player.x-c.x,player.y-c.y);   // Magnet max ¼ Bildschirm
       if(pull>0&&dd>1&&dd<rng){ const a=Math.atan2(player.y-c.y,player.x-c.x); c.x+=Math.cos(a)*pull*dt; c.y+=Math.sin(a)*pull*dt; }
       c.y+=c.vy*dt*ts;
       const dx=player.x-c.x,dy=player.y-c.y,rr=player.r+c.r+4;
@@ -2696,7 +2696,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v200';
+  const GAME_VER='v201';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2961,9 +2961,11 @@
     return `<div class="trow">${treeNode(id,slot,paths[0])}${treeNode(id,slot,paths[1])}</div>`; }
   function renderArsenalView(){
     if(arsenalSkillMode) arsenalTab='loadout';   // Skill-Screen erzwingt Loadout
+    const synReady=ownedCount()>=2;   // Synergien erst zeigen, wenn ≥2 Waffen (vorher nicht nutzbar → Neulinge nicht verwirren)
+    if(arsenalTab==='syn' && !synReady) arsenalTab='loadout';
     // Reiter-Leiste (Loadout · Synergien · Werkstatt) — ein Hub für alles
     const arTabs=document.getElementById('arTabs');
-    if(arTabs){ const tabs=[['loadout','🎒 '+t('arsenalTab')],['syn','🔗 '+t('synTitle')],['shop','🛠️ '+t('workshop')]];
+    if(arTabs){ const tabs=[['loadout','🎒 '+t('arsenalTab')]]; if(synReady) tabs.push(['syn','🔗 '+t('synTitle')]); tabs.push(['shop','🛠️ '+t('workshop')]);
       arTabs.innerHTML=''; arTabs.setAttribute('role','tablist'); tabs.forEach(([k,lbl])=>{ const b=document.createElement('button'); b.className='shopTab'+(arsenalTab===k?' on':''); b.textContent=lbl;
         b.setAttribute('role','tab'); b.setAttribute('aria-selected',arsenalTab===k);
         b.addEventListener('click',()=>{ arsenalTab=k; renderArsenalView(); }); arTabs.appendChild(b); }); }
@@ -3059,7 +3061,7 @@
         else h+='<span class="ckslotTag">'+(unl?'＋':'🔒')+'</span>';
         h+='</button>'; }
       h+='</div>'; }
-    if(opt.guns){ h+='<div class="ckBay ckSynBay" aria-label="Synergie-Slots '+activeSyn.length+'/'+MAXSYN+'"><span class="ckLbl">'+t('ckLblS')+'</span>';
+    if(opt.guns&&ownedCount()>=2){ h+='<div class="ckBay ckSynBay" aria-label="Synergie-Slots '+activeSyn.length+'/'+MAXSYN+'"><span class="ckLbl">'+t('ckLblS')+'</span>';   // Synergie-Bay erst ab 2 Waffen (Cockpit früh aufgeräumt)
       for(let i=0;i<MAXSYN;i++){ const id=activeSyn[i], s=id?SID[id]:null;
         h+='<button class="ckSyS '+(s?'on':'')+'" data-tab="syn" aria-label="'+(s?('Synergie '+synName(id)):'Freier Synergie-Slot')+'">'+(s?s.ico:'＋')+'</button>'; }
       h+='<span class="ckSynCount" data-tab="syn" aria-label="Synergien freigeschaltet '+synU+' von '+SYNERGIES.length+'">🔗'+synU+'/'+SYNERGIES.length+'</span>';
