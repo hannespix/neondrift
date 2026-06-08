@@ -36,32 +36,37 @@
   <div id="cockpit" class="hidden" aria-label="Cockpit: Leben, Schild, Waffen, Synergien"></div>
 
   <div id="start" class="screen">
-    <div class="logo">NEON<span>DRIFT</span></div>
-    <div class="tag" id="titleTag">weiche aus · sammle · überlebe</div>
-    <div class="soundHint" id="soundHint">🔊 Tippen für Sound &amp; Musik</div>
-    <div class="diffWrap">
-      <button id="diffBtn" class="diffBtn">Schwierigkeit: <b id="diffName">👶 Baby</b> <small>tippen zum Wechseln</small></button>
-      <button id="diffInfoBtn" class="diffInfoBtn" aria-label="Schwierigkeits-Infos">ⓘ</button>
+    <div class="startTop">
+      <div class="logo">NEON<span>DRIFT</span></div>
+      <div class="tag" id="titleTag">weiche aus · sammle · überlebe</div>
+      <div class="soundHint" id="soundHint">🔊 Tippen für Sound &amp; Musik</div>
+      <div class="diffWrap">
+        <button id="diffBtn" class="diffBtn">Schwierigkeit: <b id="diffName">👶 Baby</b> <small>tippen zum Wechseln</small></button>
+        <button id="diffInfoBtn" class="diffInfoBtn" aria-label="Schwierigkeits-Infos">ⓘ</button>
+      </div>
+      <div id="diffInfo" class="diffInfo" aria-live="polite"></div>
     </div>
-    <div id="diffInfo" class="diffInfo" aria-live="polite"></div>
-    <div class="modes">
-      <div class="mode normal" data-mode="normal"><h3>ARCADE</h3><p>Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.</p></div>
-      <div class="mode hardcore" data-mode="hardcore"><h3>BLITZ</h3><p>Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.</p></div>
-    </div>
-    <button id="dailyBtn" data-mode="daily">🗓 TÄGLICHE CHALLENGE</button>
-    <div class="prepRow">
-      <button id="shopBtn"><span id="shopLbl">🛠️ HANGAR</span> · <span id="menuChips">◈ 0</span></button>
-    </div>
-    <div class="iconRow">
-      <button id="achBtn" title="Erfolge">🏅</button>
-      <button id="statusBtn" title="Schiffsstatus" aria-label="Schiffsstatus">📊</button>
-      <button id="shipBtn" title="Schiff-Designer" aria-label="Schiff-Designer">🎨</button>
-      <button id="coinBtn" title="Coin-Shop" aria-label="Coin-Shop"></button>
-      <button id="settingsBtn" title="Einstellungen">⚙️</button>
-    </div>
-    <div id="installRow">
-      <button id="installBtn">📲 App installieren</button>
-      <div id="iosHint">Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.</div>
+    <div class="startSpacer"></div>
+    <div class="startBot">
+      <div class="modes">
+        <div class="mode normal" data-mode="normal"><h3>ARCADE</h3><p>Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.</p></div>
+        <div class="mode hardcore" data-mode="hardcore"><h3>BLITZ</h3><p>Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.</p></div>
+      </div>
+      <button id="dailyBtn" data-mode="daily">🗓 TÄGLICHE CHALLENGE</button>
+      <div class="prepRow">
+        <button id="shopBtn"><span id="shopLbl">🛠️ HANGAR</span> · <span id="menuChips">◈ 0</span></button>
+      </div>
+      <div class="iconRow">
+        <button id="achBtn" title="Erfolge">🏅</button>
+        <button id="statusBtn" title="Schiffsstatus" aria-label="Schiffsstatus">📊</button>
+        <button id="shipBtn" title="Schiff-Designer" aria-label="Schiff-Designer">🎨</button>
+        <button id="coinBtn" title="Coin-Shop" aria-label="Coin-Shop"></button>
+        <button id="settingsBtn" title="Einstellungen">⚙️</button>
+      </div>
+      <div id="installRow">
+        <button id="installBtn">📲 App installieren</button>
+        <div id="iosHint">Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.</div>
+      </div>
     </div>
   </div>
 
