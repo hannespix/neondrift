@@ -314,6 +314,13 @@
   .tnode.shoplocked{border-color:rgba(255,46,136,.5);background:rgba(255,46,136,.07);opacity:.7;}
   .tnode.shoplocked .tn{color:#ff8ab5;}
   .pickhint.shop{background:rgba(255,46,136,.85);}
+  /* Fork-Stufe direkt im Loadout mit Coins freikaufen (Kaufleiste statt Werkstatt-Umweg) */
+  .tbuy{width:100%;cursor:pointer;border:1.5px dashed rgba(255,210,63,.6);background:rgba(255,210,63,.1);color:#ffe08a;
+    font-family:'Orbitron',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;padding:9px 8px;border-radius:11px;transition:transform .15s;}
+  .tbuy b{color:#fff;}
+  .tbuy:hover{transform:scale(1.03);background:rgba(255,210,63,.16);}
+  .tbuy.locked{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#9a86c9;}
+  .wtree.wlocked .buybp{margin-top:auto;}
   /* Werkstatt-Tabs */
   #shopTabs,#arShopTabs{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
   .shopTab{padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(8,1,15,.5);
