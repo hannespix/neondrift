@@ -1800,11 +1800,13 @@
     const g=ctx.createLinearGradient(0,0,0,H);
     g.addColorStop(0,rgbS(curBg.top)); g.addColorStop(.55,rgbS(curBg.mid)); g.addColorStop(1,rgbS(curBg.bot));
     ctx.fillStyle=g; ctx.fillRect(-40,-40,W+80,H+80);
-    drawGrid();
+    // Sterne ZUERST (tiefster Hintergrund) → Synthwave-Sonne liegt eine Ebene davor
     for(const s of stars){ const tw=0.82+0.18*Math.sin(s.tw); ctx.globalAlpha=Math.min(1,(0.32+s.z*0.72)*tw);
       ctx.fillStyle=s.z>0.62?'#e6dcff':'#c3abff';
       if(s.z>0.74){ ctx.shadowBlur=5*s.z; ctx.shadowColor='#cfc2ff'; ctx.fillRect(s.x,s.y,s.r,s.r); ctx.shadowBlur=0; }
       else ctx.fillRect(s.x,s.y,s.r,s.r); } ctx.globalAlpha=1;
+    drawGrid();
+    if(state===S.MENU) drawMenuShip();   // nur Hauptmenü: aktuelles Schiff zentral vor der Sonne (im Hintergrund hinter dem Menü)
 
     if(state===S.PLAY||state===S.OVER||state===S.UPGRADE||state===S.PAUSE){
       // Railgun-Schienen (eigene, kurz aufleuchtend)
@@ -2096,6 +2098,22 @@
     // Pixel-Sprite – der Spieler ist der Fokus, glüht am hellsten und pulsiert mit dem Beat
     ctx.shadowBlur=16+(beatPulse||0)*8+(overdrive?6:0); ctx.shadowColor=S.acc; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
     if(shields>0) drawShipShield(S);   // Energie-Schild um die Schiffsform
+    ctx.restore(); }
+  // Menü-Schaufenster: das aktuelle Schiff (Skin + Loadout-Detail) zentral vor der Sonne, sanft schwebend
+  let menuShip=null, menuShipSig='';
+  function drawMenuShip(){
+    const wl=(meta.loadout&&meta.loadout.w)?Object.keys(meta.loadout.w).length:1;   // mehr Waffen → detaillierteres Schiff (ohne Run-State)
+    const up=Math.min(16,2+wl*3), nCan=Math.min(8,wl+1);
+    const sig=(meta.skin||'std')+'|'+(shipSeed||0)+'|'+wl;
+    if(!menuShip||menuShipSig!==sig){ try{ menuShip=buildShipSprite(30,up,nCan); }catch(e){ menuShip=null; } menuShipSig=sig; }
+    const S=menuShip; if(!S||!S.cv||!S.cv.height) return;
+    const e=elapsed||0, hz=H*0.42, bob=Math.sin(e*1.05)*7, tilt=Math.sin(e*0.7)*0.04;
+    const sc=Math.min(170,H*0.22)/S.cv.height;
+    ctx.save(); ctx.translate(W/2,hz+bob); ctx.rotate(tilt); ctx.scale(sc,sc); ctx.imageSmoothingEnabled=false;
+    ctx.shadowBlur=12; ctx.shadowColor='#ff9a2e';
+    for(const fx of S.flameX){ const fl=S.cp*(1.5+2.0*Math.abs(Math.sin(e*16+fx))); ctx.fillStyle='#ffd000';
+      ctx.beginPath(); ctx.moveTo(fx-S.cp*0.9,S.tailY); ctx.lineTo(fx+S.cp*0.9,S.tailY); ctx.lineTo(fx,S.tailY+fl); ctx.closePath(); ctx.fill(); }
+    ctx.shadowBlur=18+Math.sin(e*2)*5; ctx.shadowColor=S.acc; ctx.drawImage(S.cv,-S.ox,-S.oy); ctx.shadowBlur=0;
     ctx.restore(); }
   function shieldSil(S){ if(S.sil!==undefined) return S.sil; let o=null;   // schiff-förmige Silhouette in Schildfarbe (Kontur-Aura)
     try{ o=document.createElement('canvas'); o.width=S.cv.width; o.height=S.cv.height; const c=o.getContext('2d');
