@@ -23,7 +23,7 @@
       m_hard:'BLITZ', m_hardD:'Keine Orbs. Brutal schnell. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.', mfeat_normal:'📈 Level|👾 Bosse|🃏 Upgrades', mfeat_hard:'⚡ Speed|🎯 Near-Miss|🚫 Orbs', mfeat_zen:'♾️ Kein Tod|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte',buySP:'Skillpunkt kaufen',needSP:'Keine Skillpunkte',needSPsub:'Bosse besiegen oder kaufen',spDrop:'Boss-Beute!',statusTitle:'📊 GEFECHTSDATENBLATT',statusBtn:'Schiffsstatus',statDps:'Ø Schaden/s',statCrit:'Krit-Chance',statCritDmg:'Krit-Wucht',statLives:'Leben',statShield:'Schild',statLuck:'Glück',statScore:'Punkte-Boost',statCoin:'Coin-Boost',statHull:'Hitbox',statReach:'Nähe-Radius',statFirepower:'Feuerkraft-Verteilung',statNoWep:'Keine Waffen ausgerüstet.',statEst:'geschätzt', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', curseOver:'vorbei!', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte',spStart:'Starter-Bonus',buySP:'Skillpunkt kaufen',needSP:'Keine Skillpunkte',needSPsub:'Bosse besiegen oder kaufen',spDrop:'Boss-Beute!',statusTitle:'📊 GEFECHTSDATENBLATT',statusBtn:'Schiffsstatus',statDps:'Ø Schaden/s',statCrit:'Krit-Chance',statCritDmg:'Krit-Wucht',statLives:'Leben',statShield:'Schild',statLuck:'Glück',statScore:'Punkte-Boost',statCoin:'Coin-Boost',statHull:'Hitbox',statReach:'Nähe-Radius',statFirepower:'Feuerkraft-Verteilung',statNoWep:'Keine Waffen ausgerüstet.',statEst:'geschätzt', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte', fxMirror:'Gespiegelt', curseOver:'vorbei!', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Hangar & Werkstatt (Waffen, Upgrades, Chips, Skillpunkte)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optMusic:'🎵 Musik', optSfx:'🔊 Game-Sound', optFull:'⛶ Vollbild', coins:'Coins', coinBalLbl:'Guthaben', coinSoon:'Käufe bald verfügbar', devHint:'Dev-/Tester-Code einlösen', redeem:'EINLÖSEN', devBad:'Ungültiger Code', devPlace:'z. B. dev1000', optShake:'📳 Screenshake & Vibration', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optLang:'🌐 Sprache',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -50,7 +50,7 @@
       m_hard:'BLITZ', m_hardD:'No orbs. Brutally fast. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.', mfeat_normal:'📈 Levels|👾 Bosses|🃏 Upgrades', mfeat_hard:'⚡ Fast|🎯 Near-Miss|🚫 No orbs', mfeat_zen:'♾️ No death|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points',buySP:'Buy skill point',needSP:'No skill points',needSPsub:'Beat bosses or buy them',spDrop:'Boss loot!',statusTitle:'📊 COMBAT DOSSIER',statusBtn:'Ship status',statDps:'Avg damage/s',statCrit:'Crit chance',statCritDmg:'Crit power',statLives:'Lives',statShield:'Shield',statLuck:'Luck',statScore:'Score boost',statCoin:'Coin boost',statHull:'Hitbox',statReach:'Pickup range',statFirepower:'Firepower split',statNoWep:'No weapons equipped.',statEst:'estimated', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', curseOver:'over!', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points',spStart:'starter bonus',buySP:'Buy skill point',needSP:'No skill points',needSPsub:'Beat bosses or buy them',spDrop:'Boss loot!',statusTitle:'📊 COMBAT DOSSIER',statusBtn:'Ship status',statDps:'Avg damage/s',statCrit:'Crit chance',statCritDmg:'Crit power',statLives:'Lives',statShield:'Shield',statLuck:'Luck',statScore:'Score boost',statCoin:'Coin boost',statHull:'Hitbox',statReach:'Pickup range',statFirepower:'Firepower split',statNoWep:'No weapons equipped.',statEst:'estimated', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score', fxMirror:'Mirrored', curseOver:'over!', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Hangar & Workshop (weapons, upgrades, chips, skill points)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optMusic:'🎵 Music', optSfx:'🔊 Game Sound', optFull:'⛶ Fullscreen', coins:'Coins', coinBalLbl:'Balance', coinSoon:'Purchases coming soon', devHint:'Redeem dev/tester code', redeem:'REDEEM', devBad:'Invalid code', devPlace:'e.g. dev1000', optShake:'📳 Screenshake & rumble', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optLang:'🌐 Language',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -77,7 +77,7 @@
       m_hard:'BLITZ', m_hardD:'Pas d’orbes. Ultra rapide. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.', mfeat_normal:'📈 Niveaux|👾 Boss|🃏 Améliorations', mfeat_hard:'⚡ Rapide|🎯 Near-Miss|🚫 Sans orbes', mfeat_zen:'♾️ Sans mort|🌊 Détente|🏆 Score',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points',buySP:'Acheter un point',needSP:'Aucun point',needSPsub:'Battez des boss ou achetez',spDrop:'Butin de boss !',statusTitle:'📊 FICHE DE COMBAT',statusBtn:'Statut du vaisseau',statDps:'Dégâts/s moy.',statCrit:'Chance crit',statCritDmg:'Force crit',statLives:'Vies',statShield:'Bouclier',statLuck:'Chance',statScore:'Bonus points',statCoin:'Bonus coins',statHull:'Hitbox',statReach:'Rayon de collecte',statFirepower:'Répartition puissance',statNoWep:'Aucune arme équipée.',statEst:'estimé', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', curseOver:'fini !', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🛠️ HANGAR', hangar:'🛠️ HANGAR', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points',spStart:'bonus de départ',buySP:'Acheter un point',needSP:'Aucun point',needSPsub:'Battez des boss ou achetez',spDrop:'Butin de boss !',statusTitle:'📊 FICHE DE COMBAT',statusBtn:'Statut du vaisseau',statDps:'Dégâts/s moy.',statCrit:'Chance crit',statCritDmg:'Force crit',statLives:'Vies',statShield:'Bouclier',statLuck:'Chance',statScore:'Bonus points',statCoin:'Bonus coins',statHull:'Hitbox',statReach:'Rayon de collecte',statFirepower:'Répartition puissance',statNoWep:'Aucune arme équipée.',statEst:'estimé', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score', fxMirror:'Inversé', curseOver:'fini !', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Hangar & Atelier (armes, upgrades, chips, points)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optMusic:'🎵 Musique', optSfx:'🔊 Sons du jeu', optFull:'⛶ Plein écran', coins:'Coins', coinBalLbl:'Solde', coinSoon:'Achats bientôt disponibles', devHint:'Saisir un code dev/testeur', redeem:'VALIDER', devBad:'Code invalide', devPlace:'p. ex. dev1000', optShake:'📳 Tremblement & vibration', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optLang:'🌐 Langue',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -198,8 +198,8 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
-    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?3:Math.max(0,r.sp|0)),spBought:r.spBought||0}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:3,spBought:0}; }
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?3:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:3,spBought:0,sp1:0}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
   function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
@@ -321,7 +321,7 @@
   let daily=false;                                    // Daily-Challenge aktiv?
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
-  let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1;  // Statistik pro Run
+  let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0;  // Statistik pro Run
   let runChipsPaid=0;   // Chips aus stillem Score-Trickle (Backbone-Ökonomie)
   let runChipsEarned=0; // Chips aus sichtbaren Events (Orbs/Combos/Boss) – Dopamin-Quelle
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
@@ -1014,7 +1014,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -1356,10 +1356,11 @@
   // Einsammelbarer Skillpunkt-Drop (cyan 💠-Raute) – wie Coins sichtbar, per Hineinfliegen aufzusammeln
   function spawnSP(x,y){ if(!sps) sps=[]; if(sps.length>40) return;
     sps.push({x:Math.max(20,Math.min(W-20,x+rand(-8,8))), y:Math.max(-20,y+rand(-6,6)), r:13, vy:40, pulse:Math.random()*6.28, rot:Math.random()*6.28}); }
-  function collectSP(s){ skillPts++; saveSP(); floatText(s.x,s.y-20,'💠 +1','#19f0ff',22); sfxPow();
+  function collectSP(s){ skillPts++; runSPgain++; saveSP(); floatText(s.x,s.y-20,'💠 +1','#19f0ff',22); sfxPow();
     spawnParticles(s.x,s.y,'#19f0ff',16,240); flash=Math.min(0.5,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); beep(1600,0.06,'square',0.12,300); updateAllBalances(); }
-  // Boss-Drop: 1–3 Skillpunkte, gewichtet (meist 2) – jetzt als sichtbare, einsammelbare Drops
-  function grantBossSP(x,y){ const r=Math.random(), n=r<0.15?1:(r<0.85?2:3);
+  // Boss-Drop: 0–3 Skillpunkte, gewichtet – meist 0/1 (1 ~50%), 2 sehr selten, 3 sehr sehr selten
+  function grantBossSP(x,y){ const r=Math.random(), n=r<0.41?0:(r<0.91?1:(r<0.985?2:3));
+    if(n<=0) return;   // kein Drop
     if(state!==S.PLAY){ skillPts+=n; saveSP(); updateAllBalances(); return; }   // außerhalb des Spiels: direkt gutschreiben (kein Feld)
     for(let i=0;i<n;i++) spawnSP(x+rand(-46,46), y+rand(-12,34));
     sfxPow(); flash=Math.min(0.6,(flash||0)+0.22); flashColor='#19f0ff';
@@ -1431,6 +1432,7 @@
   // ---------- Level / Upgrade flow ----------
   const UNLOCK={2:{key:'sine',name:'Wellenflug'},3:{key:'drift',name:'Gleiter'},4:{key:'orbit',name:'Kreisel'},5:{key:'zigzag',name:'Irrläufer'},6:{key:'pendulum',name:'Pendler'}};
   function levelUp(){ level++; levelTimer=levelDuration;
+    if(level===2 && !meta.sp1){ const need=3-runSPgain; if(need>0){ skillPts+=Math.min(need,5-runSPgain); runSPgain=Math.min(5,runSPgain+need); saveSP(); banner={text:'💠 +'+need+' '+t('skillPts'),sub:t('spStart'),t:2.4,color:'#19f0ff'}; flash=Math.min(0.5,(flash||0)+0.2); flashColor='#19f0ff'; } meta.sp1=1; saveMeta(); }   // Onboarding: erstes Level 1 garantiert 3–5 Skillpunkte
     const u=UNLOCK[level]; let sub=t('faster');
     if(u){ unlocked.push(u.key); sub=t('newForm')+formName(u.key); }
     if(SONGS.length>1){ do{ pendingSong=Math.floor(Math.random()*SONGS.length); }while(pendingSong===curSong); }   // neuen Song nur VORMERKEN – Einblendung erfolgt schleichend an ruhiger Stelle (kein Riser/Ansage)
@@ -1847,7 +1849,7 @@
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
     if(Math.random() < 0.06*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.8:1)) dropPowerup(o.cx,o.cy);
     // Seltener Skillpunkt-Drop (von Glück skaliert, Panzer droppen leicht eher) → kleines Glücksgefühl
-    if(Math.random() < 0.0034*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.5:1)) grantRandomSP(o.cx,o.cy);   // sichtbarer Skillpunkt-Drop (seltener gehalten)
+    if(Math.random() < 0.0012*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.5:1)) grantRandomSP(o.cx,o.cy);   // sichtbarer Skillpunkt-Drop (deutlich seltener)
     if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
       if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
@@ -2089,7 +2091,9 @@
     // Fluch „Drip aber blind": Sicht-Tunnel um den Spieler
     if(mods&&mods.fog>0&&player&&(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE)){
       const fr=ctx.createRadialGradient(player.x,player.y,player.r*2.4,player.x,player.y,Math.max(W,H)*0.55);
-      fr.addColorStop(0,'rgba(4,1,10,0)'); fr.addColorStop(1,`rgba(4,1,10,${Math.min(0.82,mods.fog)})`); ctx.fillStyle=fr; ctx.fillRect(-40,-40,W+80,H+80); }
+      fr.addColorStop(0,'rgba(4,1,10,0)'); fr.addColorStop(1,`rgba(4,1,10,${Math.min(0.82,mods.fog)})`); ctx.fillStyle=fr; ctx.fillRect(-40,-40,W+80,H+80);
+      const ta=Math.min(0.72,mods.fog*0.85); const tg=ctx.createLinearGradient(0,0,0,H*0.5);   // oben zusätzlich abdunkeln (stärkere Vignette nach oben)
+      tg.addColorStop(0,`rgba(4,1,10,${ta})`); tg.addColorStop(1,'rgba(4,1,10,0)'); ctx.fillStyle=tg; ctx.fillRect(0,0,W,H*0.5); }
     // Combo-Overdrive: pulsierender Chroma-Schimmer
     if(overdrive&&opt.fx){ const hue=(elapsed||0)*0.7,
       r=Math.floor(128+127*Math.sin(hue)),g2=Math.floor(128+127*Math.sin(hue+2.09)),b=Math.floor(128+127*Math.sin(hue+4.19));
@@ -2366,11 +2370,11 @@
       else if(r<0.19){ type='dish'; w=ri(22,38); h=ri(22,46); }
       else if(r<0.26){ type='step'; w=ri(22,42); h=ri(28,62); }
       else { type='block'; w=ri(9,30); h=ri(12,64);   // mehr & höhere Wolkenkratzer
-        if(h>14){ for(let wy=6;wy<h-3;wy+=5){ for(let wxp=3;wxp<w-2;wxp+=4){ if(Math.random()<0.30) win.push([wxp,wy,Math.random()<0.34?(1+Math.random()*5):0]); } } } }
+        if(h>14){ for(let wy=6;wy<h-3;wy+=6){ for(let wxp=3;wxp<w-2;wxp+=5){ if(Math.random()<0.20) win.push([wxp,wy,Math.random()<0.34?(1+Math.random()*5):0]); } } } }
       sceneCity.push([xx,w,h,win,type,(type==='block'&&h>30)?Math.random()*6.28:-1]); xx+=w+ri(4,18); } }
   const rgA=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
-  function drawNebula(hz){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const sc=curBg.sun, gc=curBg.grid, e=elapsed||0;
-    const blobs=[[W*0.24+Math.sin(e*0.05)*22,hz*0.40,gc,0.05],[W*0.78+Math.cos(e*0.045)*22,hz*0.6,sc,0.045],[W*0.5+Math.sin(e*0.03)*16,hz*0.18,sc,0.038]];
+  function drawNebula(hz){ if(fxQ<0.6) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const sc=curBg.sun, gc=curBg.grid, e=elapsed||0;
+    const blobs=[[W*0.26+Math.sin(e*0.05)*22,hz*0.42,gc,0.05],[W*0.76+Math.cos(e*0.045)*22,hz*0.55,sc,0.045]];
     for(const bl of blobs){ const r=W*0.52, g=ctx.createRadialGradient(bl[0],bl[1],6,bl[0],bl[1],r); g.addColorStop(0,rgA(bl[2],bl[3])); g.addColorStop(1,rgA(bl[2],0)); ctx.fillStyle=g; ctx.fillRect(bl[0]-r,bl[1]-r,r*2,r*2); }
     ctx.restore(); }
   function drawMountains(hz){ if(sceneW!==W) genScene();
@@ -2418,16 +2422,20 @@
       } else { ctx.fillRect(bx,top,w,h);   // Standard-Block mit Neon-Dachkante (Fensterlichter folgen im Bloom-Pass)
         ctx.beginPath(); ctx.moveTo(bx,top+0.5); ctx.lineTo(bx+w,top+0.5); ctx.stroke(); }
     }
-    // atmosphärischer City-Bloom + blinkende Lichter (Fenster + rote Dach-Baken)
+    // atmosphärischer City-Bloom + blinkende Lichter (Fenster + rote Dach-Baken) – additiver Glow OHNE shadowBlur (mobil flüssig)
     ctx.save(); ctx.globalCompositeOperation='lighter';
-    if(fxQ>0.5){ const bg=ctx.createLinearGradient(0,hz-62,0,hz+4); bg.addColorStop(0,rgA(curBg.grid,0)); bg.addColorStop(0.75,rgA(curBg.grid,0.045)); bg.addColorStop(1,rgA(curBg.sun,0.09)); ctx.fillStyle=bg; ctx.fillRect(0,hz-66,W,70); ctx.shadowBlur=3; }
+    if(fxQ>0.6){ const bg=ctx.createLinearGradient(0,hz-58,0,hz+4); bg.addColorStop(0,rgA(curBg.grid,0)); bg.addColorStop(0.75,rgA(curBg.grid,0.05)); bg.addColorStop(1,rgA(curBg.sun,0.09)); ctx.fillStyle=bg; ctx.fillRect(0,hz-60,W,64); }
+    const halo=fxQ>0.6, sun=curBg.sun;
     for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2],win=b[3],type=b[4],beac=b[5], top=hz-h, cx=bx+w/2;
-      if(type==='block'&&win&&win.length){ ctx.shadowColor=rgA(curBg.sun,0.9);
-        for(const wp of win){ const a=wp[2]>0?(Math.sin(e*2.4+wp[2])>0?0.75:0.07):(0.45+0.25*tw); ctx.fillStyle=rgA(curBg.sun,a); ctx.fillRect(bx+wp[0],top+wp[1],1.6,2.2); } }
-      if(beac>=0){ const on=Math.sin(e*2.4+beac)>0.3; ctx.shadowColor='#ff2233'; ctx.fillStyle=on?'#ff3a48':'rgba(120,20,30,0.4)'; ctx.fillRect(cx-1.5,top-3,3,3); } }
+      if(type==='block'&&win&&win.length){
+        for(const wp of win){ const a=wp[2]>0?(Math.sin(e*2.4+wp[2])>0?0.7:0):(0.4+0.22*tw); if(a<0.05) continue; const X=bx+wp[0], Y=top+wp[1];
+          if(halo){ ctx.fillStyle=rgA(sun,a*0.32); ctx.fillRect(X-1,Y-1,3.6,4.2); }   // weicher Halo (statt teurem shadowBlur)
+          ctx.fillStyle=rgA(sun,a); ctx.fillRect(X,Y,1.6,2.2); } }
+      if(beac>=0){ const on=Math.sin(e*2.4+beac)>0.3; if(on){ if(halo){ ctx.fillStyle='rgba(255,40,55,0.32)'; ctx.fillRect(cx-3,top-5,6,6); } ctx.fillStyle='#ff3a48'; ctx.fillRect(cx-1.5,top-3,3,3); }
+        else { ctx.fillStyle='rgba(120,20,30,0.4)'; ctx.fillRect(cx-1.5,top-3,3,3); } } }
     ctx.restore(); }
-  function drawSunReflection(hz,sc,pulse){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const e=elapsed||0, H2=H-hz;
-    for(let i=-3;i<=3;i++){ const off=i*28+Math.sin(e*2.2+i)*5, a=(0.13-Math.abs(i)*0.028)*(0.75+pulse*0.5); if(a<=0.005) continue;
+  function drawSunReflection(hz,sc,pulse){ if(fxQ<0.6) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const e=elapsed||0, H2=H-hz;
+    for(let i=-2;i<=2;i++){ const off=i*30+Math.sin(e*2.2+i)*5, a=(0.13-Math.abs(i)*0.03)*(0.75+pulse*0.5); if(a<=0.005) continue;
       const g=ctx.createLinearGradient(0,hz,0,hz+H2*0.55); g.addColorStop(0,rgA(sc,a)); g.addColorStop(1,rgA(sc,0)); ctx.fillStyle=g; ctx.fillRect(W/2+off-7,hz,14,H2*0.55); } ctx.restore(); }
   function drawGrid(){ const hz=H*0.42,vx=W/2;
     // ---- Audio-reaktiver Sonnen-Puls: Musik-Amplitude (kontinuierlich) + Beat-Puls (scharfe Schläge) ----
