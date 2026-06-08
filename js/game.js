@@ -189,7 +189,7 @@
   const formName=k=>((FORMTR[lang]&&FORMTR[lang][k])||FORMTR.en[k]||k);
   const modeLabel=m=>t('m_'+(m==='hardcore'?'hard':m));
 
-  let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems;
+  let player, obstacles, orbs, powerups, particles, floaters, lasers, stars, bullets, gems, sps;   // sps = einsammelbare Skillpunkt-Drops
   let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, tNova=0, tRail=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0, beams=[], zaps=[], novas=[], gibs=[];
   let score, displayScore, combo, multiplier, best=loadScores();
   function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
@@ -973,7 +973,7 @@
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
-    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
+    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; sps=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
     score=0; displayScore=0; combo=0; multiplier=1;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0; deathFlash=0; deathT=0; deathGather=false;
@@ -1321,13 +1321,19 @@
     boss=null; bossActive=false; bossNumber++;
     if(wasFinal) winGame();
     else { floatText(bx,by-66,t('defeated')+' +'+bonus,'#2effc0',18); bossTimer=combatDur(); levelUp(); } }   // Boss tot → Level geschafft
-  // Boss-Drop: 1–3 Skillpunkte, gewichtet (meist 2, selten 1/3, immer ≥1)
-  function grantBossSP(x,y){ const r=Math.random(), n=r<0.15?1:(r<0.85?2:3); skillPts+=n; saveSP();
-    floatText(x,y,'💠 +'+n+' '+t('skillPts'),'#19f0ff',24); sfxPow(); flash=Math.min(0.6,(flash||0)+0.25); flashColor='#19f0ff';
-    if(state===S.MENU||state===S.OVER){} else { banner={text:'💠 +'+n+' '+t('skillPts'),sub:t('spDrop'),t:2.2,color:'#19f0ff'}; } updateAllBalances(); }
-  // Seltener Zufalls-Drop: +1 Skillpunkt (leichter Pop, kein großes Banner)
-  function grantRandomSP(x,y){ skillPts++; saveSP(); floatText(x,y-20,'💠 +1','#19f0ff',22); sfxPow();
-    flash=Math.min(0.45,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); updateAllBalances(); }
+  // Einsammelbarer Skillpunkt-Drop (cyan 💠-Raute) – wie Coins sichtbar, per Hineinfliegen aufzusammeln
+  function spawnSP(x,y){ if(!sps) sps=[]; if(sps.length>40) return;
+    sps.push({x:Math.max(20,Math.min(W-20,x+rand(-8,8))), y:Math.max(-20,y+rand(-6,6)), r:13, vy:40, pulse:Math.random()*6.28, rot:Math.random()*6.28}); }
+  function collectSP(s){ skillPts++; saveSP(); floatText(s.x,s.y-20,'💠 +1','#19f0ff',22); sfxPow();
+    spawnParticles(s.x,s.y,'#19f0ff',16,240); flash=Math.min(0.5,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); beep(1600,0.06,'square',0.12,300); updateAllBalances(); }
+  // Boss-Drop: 1–3 Skillpunkte, gewichtet (meist 2) – jetzt als sichtbare, einsammelbare Drops
+  function grantBossSP(x,y){ const r=Math.random(), n=r<0.15?1:(r<0.85?2:3);
+    if(state!==S.PLAY){ skillPts+=n; saveSP(); updateAllBalances(); return; }   // außerhalb des Spiels: direkt gutschreiben (kein Feld)
+    for(let i=0;i<n;i++) spawnSP(x+rand(-46,46), y+rand(-12,34));
+    sfxPow(); flash=Math.min(0.6,(flash||0)+0.22); flashColor='#19f0ff';
+    banner={text:'💠 '+t('skillPts')+' ×'+n,sub:t('spDrop'),t:2.2,color:'#19f0ff'}; }
+  // Seltener Zufalls-Drop bei Gegner-Kill: ein einsammelbarer Skillpunkt
+  function grantRandomSP(x,y){ if(state!==S.PLAY){ skillPts++; saveSP(); updateAllBalances(); return; } spawnSP(x,y); }
   function winGame(){ endless=true; madness=0; wonThisRun=true; meta.won=(meta.won||0)+1; saveMeta(); unlockAch('won');
     banner={text:t('beaten'),sub:t('beatenSub'),t:4.5,color:'#ffe600'};
     flash=0.85; flashColor='#ffe600'; shake=26; effects.slowmo=Math.max(effects.slowmo,1.4);
@@ -1681,6 +1687,16 @@
       if(g.y>H+30) gems.splice(i,1);
     }
 
+    // Skillpunkt-Drops – langsam sinkend, dezente Nah-Anziehung (wertvoll → fair einsammelbar), Magnet saugt voll
+    for(let i=sps.length-1;i>=0;i--){ const s=sps[i]; s.pulse+=dt*4; s.rot+=dt*1.2;
+      const mag=effects.magnet>0, pull=mag?460:90, rng=mag?9999:150, dd=Math.hypot(player.x-s.x,player.y-s.y);
+      if(dd>1&&dd<rng){ const a=Math.atan2(player.y-s.y,player.x-s.x); s.x+=Math.cos(a)*pull*dt; s.y+=Math.sin(a)*pull*dt; }
+      s.y+=s.vy*dt*ts;
+      const dx=player.x-s.x,dy=player.y-s.y,rr=player.r+s.r+6;
+      if(dx*dx+dy*dy<rr*rr){ collectSP(s); sps.splice(i,1); continue; }
+      if(s.y>H+30) sps.splice(i,1);
+    }
+
     // Particles & floaters
     pAlive=0; for(const p of particles){ if(p.life<=0) continue; pAlive++; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay; }   // Pool: tote Slots ueberspringen, kein splice; lebende zählen
     for(let i=floaters.length-1;i>=0;i--){ const f=floaters[i]; f.y+=f.vy*dt; f.vy*=0.96; if(f.vx){ f.x+=f.vx*dt; f.vx*=0.92; } f.life-=dt*(f.dr||0.9); if(f.life<=0)floaters.splice(i,1); }
@@ -1795,7 +1811,7 @@
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
     if(Math.random() < 0.06*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.8:1)) dropPowerup(o.cx,o.cy);
     // Seltener Skillpunkt-Drop (von Glück skaliert, Panzer droppen leicht eher) → kleines Glücksgefühl
-    if(Math.random() < 0.004*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.6:1)) grantRandomSP(o.cx,o.cy);
+    if(Math.random() < 0.006*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.6:1)) grantRandomSP(o.cx,o.cy);   // sichtbarer Skillpunkt-Drop (leicht erhöht, da nun einsammelbar = verpassbar)
     if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
       if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
@@ -1938,6 +1954,18 @@
         ctx.rotate(g.rot); ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.fillStyle=hexA(col,0.18);
         ctx.beginPath(); ctx.moveTo(0,-pr); ctx.lineTo(pr,0); ctx.lineTo(0,pr); ctx.lineTo(-pr,0); ctx.closePath(); ctx.fill(); ctx.stroke();
         ctx.rotate(-g.rot); ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(g.u.ico,0,1); ctx.restore(); }
+
+      // Skillpunkt-Drops: leuchtende cyan Raute (💠) mit hellem Kern + Funkeln
+      for(const s of sps){ const pr=s.r+Math.sin(s.pulse)*2, col='#19f0ff', gr=pr*2.9; ctx.save(); ctx.translate(s.x,s.y);
+        ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(col),-gr,-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
+        ctx.rotate(s.rot);
+        ctx.strokeStyle=col; ctx.lineWidth=2.5; ctx.fillStyle='rgba(25,240,255,0.22)';
+        ctx.beginPath(); ctx.moveTo(0,-pr); ctx.lineTo(pr*0.82,0); ctx.lineTo(0,pr); ctx.lineTo(-pr*0.82,0); ctx.closePath(); ctx.fill(); ctx.stroke();
+        const ip=pr*0.5; ctx.fillStyle='#bdf6ff'; ctx.beginPath(); ctx.moveTo(0,-ip); ctx.lineTo(ip*0.82,0); ctx.lineTo(0,ip); ctx.lineTo(-ip*0.82,0); ctx.closePath(); ctx.fill();
+        ctx.restore();
+        const tw=0.45+0.55*Math.abs(Math.sin(s.pulse)), sk=pr*1.6; ctx.save(); ctx.globalCompositeOperation='lighter';
+        ctx.strokeStyle='rgba(220,250,255,'+tw+')'; ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.moveTo(s.x-sk,s.y); ctx.lineTo(s.x+sk,s.y); ctx.moveTo(s.x,s.y-sk); ctx.lineTo(s.x,s.y+sk); ctx.stroke(); ctx.restore(); }
 
       // obstacles
       for(const o of obstacles){
@@ -3215,7 +3243,7 @@
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
   // (Menü spielt jetzt den eigenen Chill-Track NEON CHILL – keine Song-Rotation mehr im Menü)
 
-  clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
+  clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; sps=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; shields=0; invuln=0;
   // Reload/Browser-Aktualisierung: war ein Run aktiv, pausiert an gleicher Stelle wiederherstellen (statt Sprung ins Menü)
