@@ -198,8 +198,8 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
-    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?3:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:3,spBought:0,sp1:0}; }
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0}; }
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
   function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
@@ -330,6 +330,7 @@
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0;  // Statistik pro Run
+  let onbDrops=0;   // Onboarding: wie viele der 3 Starter-Skillpunkte in Level 1 schon gedroppt sind
   let runChipsPaid=0;   // Chips aus stillem Score-Trickle (Backbone-Ökonomie)
   let runChipsEarned=0; // Chips aus sichtbaren Events (Orbs/Combos/Boss) – Dopamin-Quelle
   let shipSeed=1;                                      // Stil-Seed des Spieler-Raumschiffs
@@ -1022,7 +1023,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0;
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
   // Aktueller Bestwert-Schlüssel (Daily hat eigenen Rekord pro Tag)
@@ -1440,7 +1441,7 @@
   // ---------- Level / Upgrade flow ----------
   const UNLOCK={2:{key:'sine',name:'Wellenflug'},3:{key:'drift',name:'Gleiter'},4:{key:'orbit',name:'Kreisel'},5:{key:'zigzag',name:'Irrläufer'},6:{key:'pendulum',name:'Pendler'}};
   function levelUp(){ level++; levelTimer=levelDuration;
-    if(level===2 && !meta.sp1){ const need=3-runSPgain; if(need>0){ skillPts+=Math.min(need,5-runSPgain); runSPgain=Math.min(5,runSPgain+need); saveSP(); banner={text:'💠 +'+need+' '+t('skillPts'),sub:t('spStart'),t:2.4,color:'#19f0ff'}; flash=Math.min(0.5,(flash||0)+0.2); flashColor='#19f0ff'; } meta.sp1=1; saveMeta(); }   // Onboarding: erstes Level 1 garantiert 3–5 Skillpunkte
+    if(level===2 && !meta.sp1){ meta.sp1=1; saveMeta(); }   // Onboarding (Level 1) abgehakt – die 3 Starter-Skillpunkte droppen während Level 1 zum Aufsammeln
     const u=UNLOCK[level]; let sub=t('faster');
     if(u){ unlocked.push(u.key); sub=t('newForm')+formName(u.key); }
     if(SONGS.length>1){ do{ pendingSong=Math.floor(Math.random()*SONGS.length); }while(pendingSong===curSong); }   // neuen Song nur VORMERKEN – Einblendung erfolgt schleichend an ruhiger Stelle (kein Riser/Ansage)
@@ -1569,6 +1570,10 @@
 
     // Level wird durch Boss-Sieg abgeschlossen. Zen kennt keine Bosse → dort weiterhin zeitbasiert.
     if(mode==='zen'){ levelTimer-=dt; if(levelTimer<=0) levelUp(); }
+    // Onboarding: im allerersten Level 1 droppen 3 Skillpunkte zum Aufsammeln, gleichmäßig übers Level verteilt
+    if(level===1 && !bossActive && mode!=='zen' && !meta.sp1 && onbDrops<3){
+      const frac=bossTimer/combatDur();   // 1 → 0 über Level 1
+      if(frac<=[0.72,0.46,0.2][onbDrops]){ spawnSP(rand(70,W-70),-20); onbDrops++; if(onbDrops>=3){ meta.sp1=1; saveMeta(); } } }
     // Upgrade trigger
     if(!bossActive && score>=nextUpgradeAt){ openUpgrade(); return; }
 
@@ -2368,25 +2373,45 @@
 
   let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie
   // ---------- Horizont-Szene: Nebel, Bergkette, Skyline, Sonnen-Reflexion (alle theme-farbig) ----------
-  let sceneCity=[], sceneMtn=[], sceneRobot=null, sceneW=0;
+  let sceneCity=[], sceneMtn=[], sceneRobot=null, sceneW=0, sceneKey='';
   const ri=(a,b)=>(a+Math.random()*(b-a+1))|0;
-  function genScene(){ sceneW=W;
+  // Pro Level eine eigene Skyline-DNA → komplett andere Vibes. 'block' = überall der Füll-Wolkenkratzer.
+  const SKYSETS=[
+    ['pyramid','tower','step','block','block'],     // 0 Synthwave – Tokyo-3 / NERV
+    ['palm','palm','dome','block','block'],         // 1 Sonnenuntergang – Strand / Resort
+    ['spire','spire','tower','block','block'],      // 2 Aurora – Eis / Kristall
+    ['dome','arch','dome','block','block'],         // 3 Tiefsee – versunkene Kuppeln
+    ['temple','statue','step','block','block'],     // 4 Vaporwave – Antike
+    ['stack','stack','tower','block','block']       // 5 Inferno – Industrie / Raffinerie
+  ];
+  function genScene(key){ sceneW=W; sceneKey=key;
     sceneMtn=[]; let mx=-60; while(mx<W+60){ const w=ri(150,300), h=ri(26,86); sceneMtn.push([mx+w/2,w,h]); mx+=Math.round(w*0.5); }
-    // Skyline à la Tokyo-3/Evangelion: überwiegend blocky Wolkenkratzer + einzelne markante Bauten (Pyramide, Sendeturm, Schüssel, Ziggurat)
-    sceneCity=[]; let xx=-30; while(xx<W+30){ const r=Math.random(); let type,w,h,win=[];
-      if(r<0.06){ type='pyramid'; w=ri(34,60); h=ri(44,80); }
-      else if(r<0.13){ type='tower'; w=ri(10,18); h=ri(58,104); }
-      else if(r<0.19){ type='dish'; w=ri(22,38); h=ri(22,46); }
-      else if(r<0.26){ type='step'; w=ri(22,42); h=ri(28,62); }
-      else { type='block'; w=ri(9,30); h=ri(12,64);   // mehr & höhere Wolkenkratzer
-        if(h>14){ for(let wy=6;wy<h-3;wy+=6){ for(let wxp=3;wxp<w-2;wxp+=5){ if(Math.random()<0.20) win.push([wxp,wy,Math.random()<0.34?(1+Math.random()*5):0]); } } } }
-      sceneCity.push([xx,w,h,win,type,(type==='block'&&h>30)?Math.random()*6.28:-1]); xx+=w+ri(4,18); } }
+    const set=SKYSETS[(+key||0)%SKYSETS.length];
+    sceneCity=[]; let xx=-30; while(xx<W+30){ let type=set[ri(0,set.length-1)], w,h,win=[],beac=-1;
+      switch(type){
+        case 'pyramid': w=ri(34,60); h=ri(44,80); break;
+        case 'tower':   w=ri(10,18); h=ri(58,104); break;
+        case 'step':    w=ri(22,42); h=ri(28,62); break;
+        case 'palm':    w=ri(18,32); h=ri(40,78); break;
+        case 'dome':    w=ri(28,52); h=ri(26,46); break;
+        case 'spire':   w=ri(12,24); h=ri(54,110); break;
+        case 'arch':    w=ri(30,52); h=ri(30,52); break;
+        case 'temple':  w=ri(42,72); h=ri(30,52); break;
+        case 'statue':  w=ri(16,26); h=ri(40,68); break;
+        case 'stack':   w=ri(12,22); h=ri(50,96); break;
+        default: type='block'; w=ri(9,30); h=ri(12,64);   // Standard-Wolkenkratzer mit Fensterlichtern
+          if(h>14){ for(let wy=6;wy<h-3;wy+=6){ for(let wxp=3;wxp<w-2;wxp+=5){ if(Math.random()<0.20) win.push([wxp,wy,Math.random()<0.34?(1+Math.random()*5):0]); } } }
+          beac=(h>30)?Math.random()*6.28:-1;
+      }
+      sceneCity.push([xx,w,h,win,type,beac]); xx+=w+ri(4,18); } }
+  // Skyline pro Level neu würfeln (anderes Set) + bei Resize. bossActive nutzt weiter das Level-Set (nur Farben kippen).
+  function ensureScene(){ const key=String((Math.max(1,level||1)-1)%SKYSETS.length); if(sceneW!==W||sceneKey!==key) genScene(key); }
   const rgA=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
   function drawNebula(hz){ if(fxQ<0.6) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const sc=curBg.sun, gc=curBg.grid, e=elapsed||0;
     const blobs=[[W*0.26+Math.sin(e*0.05)*22,hz*0.42,gc,0.05],[W*0.76+Math.cos(e*0.045)*22,hz*0.55,sc,0.045]];
     for(const bl of blobs){ const r=W*0.52, g=ctx.createRadialGradient(bl[0],bl[1],6,bl[0],bl[1],r); g.addColorStop(0,rgA(bl[2],bl[3])); g.addColorStop(1,rgA(bl[2],0)); ctx.fillStyle=g; ctx.fillRect(bl[0]-r,bl[1]-r,r*2,r*2); }
     ctx.restore(); }
-  function drawMountains(hz){ if(sceneW!==W) genScene();
+  function drawMountains(hz){ ensureScene();
     for(const m of sceneMtn){ const cx=m[0],w=m[1],h=m[2];
       ctx.fillStyle='rgba(9,2,20,0.78)'; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.closePath(); ctx.fill();
       ctx.strokeStyle=rgA(curBg.grid,0.18); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.stroke(); } }
@@ -2405,7 +2430,7 @@
     ctx.fillStyle=rgA(curBg.sun,0.85+0.15*Math.sin(e*3)); ctx.fillRect(-Wm*0.09,-Hr*0.92,Wm*0.18,Hr*0.03);   // glühender Visor
     ctx.fillStyle=rgA(curBg.sun,0.5+0.35*Math.sin(e*2+1)); ctx.beginPath(); ctx.arc(0,-Hr*0.71,Wm*0.07,0,6.28); ctx.fill();   // Brust-Kern
     ctx.restore(); }
-  function drawSkyline(hz){ if(sceneW!==W) genScene(); const e=elapsed||0, tw=0.6+0.4*Math.sin(e*3);
+  function drawSkyline(hz){ ensureScene(); const e=elapsed||0, tw=0.6+0.4*Math.sin(e*3);
     const dark='rgba(4,1,12,0.94)', edge=rgA(curBg.grid,0.55);
     ctx.lineWidth=1;
     for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2],win=b[3],type=b[4], top=hz-h, cx=bx+w/2;
@@ -2419,12 +2444,42 @@
         ctx.strokeStyle=rgA(curBg.grid,0.28); for(let yy=top+7;yy<hz-3;yy+=8){ ctx.beginPath(); ctx.moveTo(lx,yy); ctx.lineTo(lx+tw2,yy); ctx.stroke(); }
         ctx.strokeStyle=edge; ctx.beginPath(); ctx.moveTo(cx,top); ctx.lineTo(cx,top-h*0.3); ctx.stroke();
         const blink=Math.sin(e*2.2+bx)>0.3; ctx.fillStyle=blink?'#ff3344':'rgba(120,24,32,0.6)'; ctx.fillRect(cx-1.5,top-h*0.3-2,3,3);
-      } else if(type==='dish'){ const bh=h*0.55, my=hz-bh, mast=h*0.4;   // Radom/Parabolschüssel auf Mast
+      } else if(type==='palm'){ const ty=top+h*0.12;   // Strand-Palme: geschwungener Stamm + Wedel-Krone
+        ctx.strokeStyle=edge; ctx.lineWidth=Math.max(2,w*0.1); ctx.lineCap='round';
+        ctx.beginPath(); ctx.moveTo(cx-w*0.06,hz); ctx.quadraticCurveTo(cx+w*0.18,hz-h*0.55,cx,ty); ctx.stroke();   // Stamm
+        const fr=h*0.5; for(let k=-3;k<=3;k++){ const a=-1.57+k*0.42; ctx.beginPath(); ctx.moveTo(cx,ty);   // Wedel fächern + droopen
+          ctx.quadraticCurveTo(cx+Math.cos(a)*fr*0.55,ty+Math.sin(a)*fr*0.55-fr*0.18, cx+Math.cos(a)*fr,ty+Math.sin(a)*fr*0.7+5); ctx.stroke(); }
+        ctx.lineWidth=1; ctx.lineCap='butt'; ctx.fillStyle=rgA(curBg.sun,0.55); ctx.beginPath(); ctx.arc(cx,ty-1,2,0,6.28); ctx.fill();   // Krone
+      } else if(type==='dome'){ const bh=h*0.42, my=hz-bh, dr=h*0.66;   // Kuppel/Observatorium mit Spitzenlicht
         ctx.fillRect(bx,my,w,bh); ctx.strokeRect(bx,my,w,bh);
-        ctx.strokeStyle=edge; ctx.beginPath(); ctx.moveTo(cx,my); ctx.lineTo(cx,my-mast); ctx.stroke();
-        ctx.save(); ctx.translate(cx,my-mast); ctx.rotate(-0.6); ctx.fillStyle=dark; ctx.lineWidth=1.4;
-        ctx.beginPath(); ctx.ellipse(0,0,w*0.5,w*0.22,0,Math.PI,Math.PI*2); ctx.closePath(); ctx.fill(); ctx.stroke();
-        ctx.fillStyle=rgA(curBg.sun,0.6); ctx.fillRect(-1.2,-1.4,2.4,2.4); ctx.restore(); ctx.lineWidth=1;
+        ctx.fillStyle=dark; ctx.beginPath(); ctx.ellipse(cx,my,w*0.5,dr,0,Math.PI,Math.PI*2); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle=rgA(curBg.grid,0.22); ctx.beginPath(); ctx.moveTo(cx,my-dr); ctx.lineTo(cx,my); ctx.moveTo(bx,my); ctx.lineTo(bx+w,my); ctx.stroke();
+        ctx.fillStyle=rgA(curBg.sun,0.55+0.45*Math.sin(e*3+bx)); ctx.fillRect(cx-1.5,my-dr-3,3,3);
+      } else if(type==='spire'){   // Eis-Kristall: spitze Nadel mit Facetten + glitzernder Spitze
+        ctx.beginPath(); ctx.moveTo(bx,hz); ctx.lineTo(cx,top); ctx.lineTo(bx+w,hz); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle=rgA(curBg.grid,0.3); ctx.beginPath(); ctx.moveTo(cx,top); ctx.lineTo(cx,hz); ctx.moveTo(cx,top+h*0.42); ctx.lineTo(bx+w*0.18,hz); ctx.moveTo(cx,top+h*0.42); ctx.lineTo(bx+w*0.82,hz); ctx.stroke();
+        ctx.fillStyle=rgA(curBg.sun,0.45+0.55*Math.sin(e*4+bx)); ctx.fillRect(cx-1,top-2,2,5);
+      } else if(type==='arch'){ const top2=hz-h, legW=w*0.2, ar=(w-2*legW)/2, sy=hz-h*0.46;   // versunkener Torbogen (Aqueduct)
+        ctx.beginPath(); ctx.rect(bx,top2,w,h);
+        ctx.moveTo(bx+legW,hz); ctx.lineTo(bx+legW,sy); ctx.arc(cx,sy,ar,Math.PI,0,false); ctx.lineTo(bx+w-legW,hz); ctx.closePath();
+        ctx.fill('evenodd'); ctx.stroke();
+        ctx.fillStyle=rgA(curBg.sun,0.5*tw); ctx.fillRect(cx-1.5,top2-3,3,3);
+      } else if(type==='temple'){ const colH=h*0.6, capY=hz-colH, n=4, gap=w/n;   // Antiker Tempel: Säulen + Giebel
+        for(let i=0;i<n;i++){ const cw=Math.max(3,gap*0.4), sx=bx+i*gap+(gap-cw)/2; ctx.fillRect(sx,capY,cw,colH); ctx.strokeRect(sx,capY,cw,colH); }
+        ctx.fillRect(bx-2,capY-5,w+4,6); ctx.strokeRect(bx-2,capY-5,w+4,6);   // Architrav
+        ctx.beginPath(); ctx.moveTo(bx-2,capY-5); ctx.lineTo(cx,top); ctx.lineTo(bx+w+2,capY-5); ctx.closePath(); ctx.fill(); ctx.stroke();   // Giebel
+        ctx.fillRect(bx-3,hz-3,w+6,3); ctx.fillStyle=rgA(curBg.sun,0.5*tw); ctx.beginPath(); ctx.arc(cx,capY-2,2,0,6.28); ctx.fill();
+      } else if(type==='statue'){ const pedH=h*0.42, py=hz-pedH, figH=h-pedH;   // Vaporwave-Büste auf Sockel
+        ctx.fillRect(cx-w*0.4,py,w*0.8,pedH); ctx.strokeRect(cx-w*0.4,py,w*0.8,pedH);
+        ctx.beginPath(); ctx.moveTo(cx-w*0.3,py); ctx.lineTo(cx-w*0.18,py-figH*0.66); ctx.lineTo(cx+w*0.18,py-figH*0.66); ctx.lineTo(cx+w*0.3,py); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx,py-figH*0.8,w*0.18,0,6.28); ctx.fill(); ctx.stroke();
+        ctx.fillStyle=rgA(curBg.sun,0.4*tw); ctx.fillRect(cx-1,py-figH*0.8-w*0.18-3,2,2);
+      } else if(type==='stack'){ const lx=cx-w*0.5;   // Industrie-Schlot mit Glut + driftendem Rauch
+        ctx.fillRect(lx,top,w,h); ctx.strokeRect(lx,top,w,h); ctx.fillRect(lx-2,top,w+4,4); ctx.strokeRect(lx-2,top,w+4,4);
+        ctx.strokeStyle=rgA(curBg.grid,0.24); for(let yy=top+11;yy<hz-4;yy+=12){ ctx.beginPath(); ctx.moveTo(lx,yy); ctx.lineTo(lx+w,yy); ctx.stroke(); }
+        ctx.fillStyle=rgA(curBg.sun,0.6+0.4*Math.sin(e*3+bx)); ctx.fillRect(cx-1.5,top-2,3,3);
+        if(fxQ>0.6){ ctx.save(); ctx.globalCompositeOperation='lighter'; for(let s=0;s<3;s++){ const dy=(e*9+bx)%12, sy=top-8-s*10-dy, rr=4+s*3+dy*0.3, a=0.06*(1-s*0.28);
+          const gg=ctx.createRadialGradient(cx,sy,1,cx,sy,rr); gg.addColorStop(0,rgA(curBg.sun,a)); gg.addColorStop(1,rgA(curBg.sun,0)); ctx.fillStyle=gg; ctx.fillRect(cx-rr,sy-rr,rr*2,rr*2); } ctx.restore(); }
       } else if(type==='step'){ let yy=hz, ww=w, sx2=bx, sh=h/3;   // Ziggurat / gestufter Bau
         for(let s=0;s<3;s++){ ctx.fillRect(sx2,yy-sh,ww,sh); ctx.strokeRect(sx2,yy-sh,ww,sh); yy-=sh; ww*=0.66; sx2=cx-ww/2; }
         ctx.fillStyle=rgA(curBg.sun,0.5*tw); ctx.fillRect(cx-1,hz-h-3,2,3);
@@ -2442,7 +2497,17 @@
           ctx.fillStyle=rgA(sun,a); ctx.fillRect(X,Y,1.6,2.2); } }
       if(beac>=0){ const on=Math.sin(e*2.4+beac)>0.3; if(on){ if(halo){ ctx.fillStyle='rgba(255,40,55,0.32)'; ctx.fillRect(cx-3,top-5,6,6); } ctx.fillStyle='#ff3a48'; ctx.fillRect(cx-1.5,top-3,3,3); }
         else { ctx.fillStyle='rgba(120,20,30,0.4)'; ctx.fillRect(cx-1.5,top-3,3,3); } } }
-    ctx.restore(); }
+    ctx.restore();
+    drawFogLine(hz); }
+  // Tiefes Nebelband über den Gebäudefüßen → hohe Bauten ragen aus Wolken/Dunst. Weicher Gradient = „blurred Fläche" (ohne teuren Blur).
+  function drawFogLine(hz){ const e=elapsed||0, m=curBg.mid;
+    const haze=[Math.min(255,m[0]+34),Math.min(255,m[1]+26),Math.min(255,m[2]+48)];
+    const g=ctx.createLinearGradient(0,hz-48,0,hz+10); g.addColorStop(0,rgA(haze,0)); g.addColorStop(0.55,rgA(haze,0.16)); g.addColorStop(1,rgA(haze,0.46));
+    ctx.fillStyle=g; ctx.fillRect(0,hz-50,W,62);
+    if(fxQ>0.6){ ctx.save(); ctx.globalCompositeOperation='lighter';   // driftende Wolkenpuffs für lebendigen Dunst
+      for(let i=0;i<4;i++){ const px=(((i*W/4)+e*6*(i%2?1:-1))%(W+200)+W+200)%(W+200)-100, py=hz-9-(i%2)*7, rr=66+i*15;
+        const gg=ctx.createRadialGradient(px,py,4,px,py,rr); gg.addColorStop(0,rgA(haze,0.07)); gg.addColorStop(1,rgA(haze,0)); ctx.fillStyle=gg; ctx.fillRect(px-rr,py-rr,rr*2,rr*2); }
+      ctx.restore(); } }
   function drawSunReflection(hz,sc,pulse){ if(fxQ<0.6) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const e=elapsed||0, H2=H-hz;
     for(let i=-2;i<=2;i++){ const off=i*30+Math.sin(e*2.2+i)*5, a=(0.13-Math.abs(i)*0.03)*(0.75+pulse*0.5); if(a<=0.005) continue;
       const g=ctx.createLinearGradient(0,hz,0,hz+H2*0.55); g.addColorStop(0,rgA(sc,a)); g.addColorStop(1,rgA(sc,0)); ctx.fillStyle=g; ctx.fillRect(W/2+off-7,hz,14,H2*0.55); } ctx.restore(); }
