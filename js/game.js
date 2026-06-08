@@ -99,9 +99,9 @@
   };
   // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
   const UPTR={
-    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Up-Drop-Chance +50%'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Steuerung rutschig, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','Steuerung gespiegelt, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+22% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 14% schneller'],crit:['Zielfokus','+11% Krit-Chance (×2 Schaden)'],critdmg:['Wuchttreffer','+25% Krit-Schaden (rot)']},
-    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-up drop chance +50%'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Slippery steering, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','Steering flipped, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+22% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 14% faster'],crit:['Focus','+11% crit chance (×2 damage)'],critdmg:['Heavy Hit','+25% crit damage']},
-    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Chance de drop +50%'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Pilotage glissant, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+22% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 14% plus vite'],crit:['Focalisation','+11% chance de critique (×2 dégâts)'],critdmg:['Coup Lourd','+25% dégâts critiques']}
+    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Orb-Veredelung','Orbs +60% Punkte'],magnet:['Magnetfeld','Dauerhafter Orb-Sog'],loot:['Glücksbringer','Power-Up-Drop-Chance +50%'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Schiff rutscht & driftet, +65% Punkte'],smol:['Smol Brain','Hitbox +28%, +2 Schild'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','+30% Gedränge, Orbs ×2'],mirror:['Spiegelwelt','30s gespiegelte Steuerung, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+22% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 14% schneller'],crit:['Zielfokus','+11% Krit-Chance (×2 Schaden)'],critdmg:['Wuchttreffer','+25% Krit-Schaden (rot)']},
+    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Orb Refining','Orbs +60% score'],magnet:['Magnet Field','Permanent orb pull'],loot:['Lucky Charm','Power-up drop chance +50%'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Ship slides & drifts, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 shield'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','+30% crowd, orbs ×2'],mirror:['Mirror World','30s flipped steering, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+22% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 14% faster'],crit:['Focus','+11% crit chance (×2 damage)'],critdmg:['Heavy Hit','+25% crit damage']},
+    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage d’Orbe','Orbes +60% score'],magnet:['Champ Magnétique','Attraction permanente'],loot:['Porte-Bonheur','Chance de drop +50%'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Vaisseau glisse & dérive, +65% score'],smol:['Smol Brain','Hitbox +28%, +2 bouclier'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','+30% foule, orbes ×2'],mirror:['Monde Miroir','Pilotage inversé 30s, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+22% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 14% plus vite'],crit:['Focalisation','+11% chance de critique (×2 dégâts)'],critdmg:['Coup Lourd','+25% dégâts critiques']}
   };
   // Waffen (Basis), Skill-Pfade & Synergien – [Name, Beschreibung]
   const WTR={
@@ -314,7 +314,7 @@
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
   let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T, mirrorOn=false;
-  const MIR_ON=11, MIR_OFF=5;   // Spiegelwelt-Rhythmus: gespiegelt 11s, normal 5s – mit Countdown im Effekt-HUD
+  const MIR_DUR=30;   // Spiegelwelt-Fluch: einmalig 30s gespiegelt, dann vorbei (Countdown im Effekt-HUD)
   let comboTime=0, comboTimeMax=3.4;                 // Combo-Decay-Timer
   let beatIdx=0, beatPulse=0, spawnQueued=false, orbQueued=false; // Beat-Sync
   let daily=false;                                    // Daily-Challenge aktiv?
@@ -794,12 +794,12 @@
     {id:'reflex',ico:'🕙',name:'Reflex-Kern',desc:'Slow-Mo hält 50% länger',max:2,pickup:true,apply:()=>{mods.slowmoMult*=1.5;}},
     {id:'heart',ico:'💗',name:'Extra-Herz',desc:'+1 Leben (max 6)',max:3,apply:()=>{lives=Math.min(lives+1,6);}},
     // ---- Fluch-Karten (lustige Nerfs, Deal with the Devil) ----
-    {id:'banana',ico:'🍌',name:'Bananen-Boden',desc:'Steuerung schlüpfrig af, aber +65% Punkte',max:1,curse:true,apply:()=>{mods.follow*=0.7;mods.scoreMult*=1.65;}},
+    {id:'banana',ico:'🍌',name:'Bananen-Boden',desc:'Schiff rutscht & driftet (Trägheit), aber +65% Punkte',max:1,curse:true,apply:()=>{mods.follow*=0.6;mods.slip=true;mods.scoreMult*=1.65;}},
     {id:'smol',ico:'🫠',name:'Smol Brain',desc:'Hitbox +28% (dicke Erbse), dafür +2 Schild',max:1,curse:true,apply:()=>{mods.playerR*=1.28;player.r=mods.playerR;shields=Math.min(shields+2,5);}},
     {id:'energy',ico:'⚡',name:'Energy-Drink-OD',desc:'Hindernisse +22% schneller, Near-Radius +75%',max:1,curse:true,apply:()=>{mods.obSpeed*=1.22;mods.nearRadius*=1.75;}},
     {id:'blind',ico:'🌫️',name:'Drip aber blind',desc:'Sicht eingeschränkt, dafür +90% Punkte',max:1,curse:true,apply:()=>{mods.fog=Math.min(0.82,mods.fog+0.55);mods.scoreMult*=1.9;}},
     {id:'clown',ico:'🤡',name:'Clown-Modus',desc:'30% dichteres Gedränge, aber Orbs ×2 Punkte',max:1,curse:true,apply:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}},
-    {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'Steuerung gespiegelt – aber getaktet (Timer im HUD), +55% Punkte',max:1,curse:true,apply:()=>{mods.mirror=true;mirrorOn=true;if(effects)effects.mirror=MIR_ON;mods.scoreMult*=1.55;}},
+    {id:'mirror',ico:'🪞',name:'Spiegelwelt',desc:'30 Sek. gespiegelte Steuerung (einmalig, Timer im HUD), +55% Punkte',max:1,curse:true,apply:()=>{mods.mirror=true;mirrorOn=true;if(effects)effects.mirror=MIR_DUR;mods.scoreMult*=1.55;}},
     // ---- Globale Waffen-Passive (KEIN Slot, gelten für alle Waffen, multiplikativ = abnehmender Ertrag) ----
     {id:'amp',  ico:'💥',name:'Verstärker',desc:'+22% Schaden für ALLE Waffen',max:6,wpass:true,apply:()=>{ mods.wDmgMult*=1.22; }},
     {id:'tempo',ico:'⏩',name:'Taktung',   desc:'ALLE Waffen feuern 14% schneller',max:5,wpass:true,apply:()=>{ mods.wRate*=1.14; }},
@@ -979,7 +979,7 @@
 
   function reset(){
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
-          obSpeed:1,spawnMult:1,fog:0,invertX:false,mirror:false,
+          obSpeed:1,spawnMult:1,fog:0,invertX:false,mirror:false,slip:false,
           gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2,oc:0};
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
@@ -1502,9 +1502,9 @@
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
-    if(mods.mirror && effects.mirror<=0){ mirrorOn=!mirrorOn; effects.mirror=mirrorOn?MIR_ON:MIR_OFF;   // Spiegel-Takt umschalten
-      flash=Math.max(flash,0.25); flashColor=mirrorOn?'#ff3b6b':'#19f0ff'; sfxPow(); vibe(20);
-      floatText(player.x,player.y-30,mirrorOn?t('fxMirOn'):t('fxMirOff'),mirrorOn?'#ff3b6b':'#19f0ff',16); }
+    if(mods.mirror && effects.mirror<=0){ mods.mirror=false; mirrorOn=false; effects.mirror=0;   // Spiegelwelt endet nach 30s (einmalig, kein Dauer-Takt mehr)
+      flash=Math.max(flash,0.25); flashColor='#19f0ff'; sfxPow(); vibe(15);
+      floatText(player.x,player.y-30,t('fxMirOff'),'#19f0ff',16); }
 
     // Beat-Clock (rhythmische Spawns + Puls auf dem Backbeat)
     const step8=Math.floor(elapsed/(secPerStep*2)), onStep=step8>beatIdx;
@@ -1524,8 +1524,15 @@
     if(endless){ madness+=dt*0.0075; madnessTime+=dt; if(madnessTime>=60) unlockAch('madness'); }   // Wahnsinn-Modus eskaliert – aber gemächlich
 
     player.r+= (mods.playerR-player.r)*0.2;
-    player.x+=(tgt.x-player.x)*Math.min(1,dt*mods.follow);
-    player.y+=(tgt.y-player.y)*Math.min(1,dt*mods.follow);
+    if(mods.slip){   // Bananen-Boden: trägheits-/impulsbasiert → das Schiff driftet, übersteuert und rutscht (deutlich schwerer zu steuern)
+      const k=16, fr=Math.pow(0.905,dt*60);
+      player.vx=((player.vx||0)+(tgt.x-player.x)*k*dt)*fr; player.vy=((player.vy||0)+(tgt.y-player.y)*k*dt)*fr;
+      player.x+=player.vx*dt; player.y+=player.vy*dt;
+    } else {
+      player.x+=(tgt.x-player.x)*Math.min(1,dt*mods.follow);
+      player.y+=(tgt.y-player.y)*Math.min(1,dt*mods.follow);
+      player.vx=0; player.vy=0;
+    }
     player.x=Math.max(player.r,Math.min(W-player.r,player.x));
     player.y=Math.max(player.r,Math.min(H-player.r,player.y));
     player.trail.push({x:player.x,y:player.y}); if(player.trail.length>18) player.trail.shift();
@@ -1822,7 +1829,7 @@
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
     if(Math.random() < 0.06*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.8:1)) dropPowerup(o.cx,o.cy);
     // Seltener Skillpunkt-Drop (von Glück skaliert, Panzer droppen leicht eher) → kleines Glücksgefühl
-    if(Math.random() < 0.006*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.6:1)) grantRandomSP(o.cx,o.cy);   // sichtbarer Skillpunkt-Drop (leicht erhöht, da nun einsammelbar = verpassbar)
+    if(Math.random() < 0.0034*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.5:1)) grantRandomSP(o.cx,o.cy);   // sichtbarer Skillpunkt-Drop (seltener gehalten)
     if(o.burnSpread){ for(const n of obstacles){ if(n===o) continue; const dx=n.cx-o.cx,dy=n.cy-o.cy;  // FLÄCHENBRAND
       if(dx*dx+dy*dy<92*92){ n.burn=Math.max(n.burn||0,1.6); n.burnDmg=Math.max(n.burnDmg||0,(o.burnDmg||0.8)*0.8); n.burnSpread=true; } } } }
   // Lenkrakete: dreht sich zum nächsten Ziel und beschleunigt
@@ -2313,8 +2320,7 @@
     if(effects.slowmo>0) a.push(['slowmo','⏱',effects.slowmo,30*(mods.slowmoMult||1),'#5b9bff',t('fxSlow')]);
     if(effects.magnet>0) a.push(['magnet','🧲',effects.magnet,30,'#c45bff',t('fxMagnet')]);
     if(effects.double>0) a.push(['double','✕2',effects.double,30,'#ffe600',t('fxDouble')]);
-    if(mods&&mods.mirror){ a.push(mirrorOn?['mirror','🪞',effects.mirror,MIR_ON,'#ff3b6b',t('fxMirror')]
-                                          :['mirror','⟳',effects.mirror,MIR_OFF,'#19f0ff',t('fxMirrorSoon')]); }
+    if(mods&&mods.mirror&&effects.mirror>0){ a.push(['mirror','🪞',effects.mirror,MIR_DUR,'#ff3b6b',t('fxMirror')]); }
     return a; }
   let fxSig='';
   function renderFxbar(){ const bar=document.getElementById('fxbar'); if(!bar) return;
