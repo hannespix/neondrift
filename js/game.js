@@ -1052,9 +1052,10 @@
     modeNameEl.textContent=daily?(t('modeDaily')+' '+dailyLabel()):modeLabel(mode); bestHud.textContent=t('best')+' '+fmt(curBest());
     if(daily) banner={text:t('daily2'),sub:dailyLabel(),t:2.6,color:'#ffe600'};
     zenExitBtn.style.display='block';
-    sfxStart(); vibe(20); lastT=performance.now();
+    sfxStart(); vibe(20); lastT=performance.now(); saveRunT=0; saveRun();   // sofort sichern → Reload direkt nach Start setzt diesen Run fort
   }
   function toMenu(){ if((state===S.PLAY||state===S.UPGRADE||state===S.PAUSE)&&score>curBest()){ setBest(score); saveScores(); }
+    clearRun();   // bewusst verlassener Lauf → kein Reload-Fortsetzen mehr
     state=S.MENU; document.getElementById('hud').classList.add('hidden'); showCockpit(false);
     document.getElementById('over').classList.add('hidden'); document.getElementById('upgrade').classList.add('hidden');
     document.getElementById('pause').classList.add('hidden'); document.getElementById('shop').classList.add('hidden');
@@ -1062,11 +1063,78 @@
     document.getElementById('arsenalView').classList.add('hidden');
     document.getElementById('start').classList.remove('hidden'); updateMenuChips();
   }
-  function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE;
+  function pauseGame(){ if(state!==S.PLAY) return; state=S.PAUSE; saveRun();
     pauseSub.textContent=modeLabel(mode)+' · '+Math.round(score)+' '+t('points');
     document.getElementById('pause').classList.remove('hidden'); beep(440,0.08,'square',0.2); }
   function resumeGame(){ if(state!==S.PAUSE) return; state=S.PLAY; invuln=Math.max(invuln,0.9);
     document.getElementById('pause').classList.add('hidden'); lastT=performance.now(); beep(660,0.08,'square',0.2); }
+
+  // ---------- Lauf-Snapshot: Reload/Tab-Wechsel im Browser verliert den laufenden Run nicht mehr ----------
+  // Gespeichert wird nur der DAUERHAFTE Zustand (Loadout, Score, Level, Leben, Position, Timer …).
+  // Das transiente Hindernisfeld wird beim Wiederherstellen geleert (robust statt fragiler Live-Restore);
+  // man landet pausiert an seiner Stelle und tippt zum Weiterspielen. Lauf zählt normal weiter.
+  const RUN_KEY='neondrift_run';
+  let saveRunT=0;
+  function saveRun(){ if(!(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE)||!player) return;
+    try{ localStorage.setItem(RUN_KEY, JSON.stringify({ v:1, ts:Date.now(), mode, daily, useSeed, seedState,
+      score, displayScore, combo, multiplier,
+      level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep,
+      elapsed, difficulty, spawnT, orbT, powerupT,
+      shields, lives, invuln, mods, upgradeCounts, effects, mirrorOn,
+      arsenal, activeSyn, synSeen, skillPts,
+      player:{x:player.x,y:player.y,r:player.r},
+      bossNumber, director, overdrive, endless, madness, wonThisRun, laserFinal,
+      comboTime, comboTimeMax, beatIdx,
+      runOrbs, runPerfect, runBosses, madnessTime, runMaxMult, runChipsPaid, runChipsEarned, coinSaveAcc,
+      shipSeed, curSong, commentT, egg67done, egg67T,
+      tBlast, tMiss, tFlame, tFrost, tChain, tNova, tRail, teslaCount, gemT })); }catch(e){} }
+  function clearRun(){ try{ localStorage.removeItem(RUN_KEY); }catch(e){} }
+  function loadRunSnap(){ try{ const r=JSON.parse(localStorage.getItem(RUN_KEY));
+    if(r&&typeof r==='object'&&r.v===1&&(Date.now()-(r.ts||0))<24*3600*1000&&r.mode&&r.player) return r; }catch(e){} return null; }
+  function restoreRun(s){
+    const num=(v,d)=>typeof v==='number'&&isFinite(v)?v:d;
+    // Schwierigkeit wie beim Spielstart aus meta.diff ableiten (VOR reset → upStep stimmt)
+    const dd=(DIFFS[meta.diff||0]||DIFFS[0]); diffSpd=1+dd.spd/100; diffHp=1+dd.hp/100; diffDen=1+dd.den/100; diffChip=dd.coin; diffMul=1+dd.hp/100;
+    mode=(s.mode==='hardcore'||s.mode==='zen')?s.mode:'normal'; daily=!!s.daily; useSeed=!!s.useSeed; if(s.seedState!=null) seedState=s.seedState|0;
+    reset();                                                            // frische Arrays + Defaults …
+    // … dann den gespeicherten dauerhaften Zustand drüberlegen
+    score=num(s.score,0); displayScore=num(s.displayScore,score); combo=num(s.combo,0); multiplier=num(s.multiplier,1);
+    level=num(s.level,1); levelDuration=num(s.levelDuration,levelDuration); levelTimer=num(s.levelTimer,levelDuration);
+    if(Array.isArray(s.unlocked)&&s.unlocked.length) unlocked=s.unlocked.slice();
+    nextUpgradeAt=num(s.nextUpgradeAt,nextUpgradeAt); upStep=num(s.upStep,upStep);
+    elapsed=num(s.elapsed,0); difficulty=num(s.difficulty,1); spawnT=num(s.spawnT,0); orbT=num(s.orbT,0); powerupT=num(s.powerupT,8);
+    shields=num(s.shields,0); lives=num(s.lives,3); invuln=Math.max(num(s.invuln,0),0.9);
+    if(s.mods) mods=Object.assign(mods,s.mods);
+    if(s.effects) effects=Object.assign(effects,s.effects); mirrorOn=!!s.mirrorOn;
+    if(s.upgradeCounts&&typeof s.upgradeCounts==='object') upgradeCounts=s.upgradeCounts;
+    if(s.arsenal&&s.arsenal.w) arsenal={slots:num(s.arsenal.slots,3),w:s.arsenal.w};
+    if(Array.isArray(s.activeSyn)) activeSyn=s.activeSyn.slice();
+    if(s.synSeen&&typeof s.synSeen==='object') synSeen=s.synSeen; skillPts=num(s.skillPts,0);
+    bossNumber=num(s.bossNumber,1);
+    director=num(s.director,0.5); overdrive=!!s.overdrive; endless=!!s.endless; madness=num(s.madness,0); wonThisRun=!!s.wonThisRun; laserFinal=!!s.laserFinal;
+    comboTime=num(s.comboTime,0); comboTimeMax=num(s.comboTimeMax,3.4); beatIdx=num(s.beatIdx,0)|0;
+    runOrbs=num(s.runOrbs,0); runPerfect=num(s.runPerfect,0); runBosses=num(s.runBosses,0); madnessTime=num(s.madnessTime,0); runMaxMult=num(s.runMaxMult,1);
+    runChipsPaid=num(s.runChipsPaid,0); runChipsEarned=num(s.runChipsEarned,0); coinSaveAcc=num(s.coinSaveAcc,0);
+    shipSeed=num(s.shipSeed,shipSeed); curSong=num(s.curSong,curSong)|0; commentT=num(s.commentT,15); egg67done=!!s.egg67done; egg67T=num(s.egg67T,0);
+    tBlast=num(s.tBlast,0); tMiss=num(s.tMiss,0.5); tFlame=num(s.tFlame,0); tFrost=num(s.tFrost,0); tChain=num(s.tChain,0.6); tNova=num(s.tNova,0.7); tRail=num(s.tRail,0.6); teslaCount=num(s.teslaCount,0)|0; gemT=num(s.gemT,10);
+    if(s.player){ player.x=num(s.player.x,W/2); player.y=num(s.player.y,H*0.72); player.r=num(s.player.r,mods.playerR); player.trail=[]; tgt.x=player.x; tgt.y=player.y; }
+    recalcArsenal();                                                    // Waffen + Fusionen aus arsenal.w/mods neu aufbauen
+    // einen laufenden Boss NICHT mitten im Telegraph wiederherstellen → frische Kampfphase desselben Levels
+    bossActive=false; boss=null; bossPending=false; bossTimer=combatDur(); bossPhaseT=0; laserSpawnT=0; ebullets=[]; lasers=[];
+    curBg=cloneTheme(THEMES[((level||1)-1)%THEMES.length]); banner=null;
+    // UI in den pausierten Zustand bringen – tippen/Resume zum Weiterspielen
+    try{ scoreEl.textContent=fmt(displayScore); comboEl.textContent='x'+multiplier; if(coinHud) coinHud.textContent='◈ '+fmt(meta.chips||0); }catch(e){}
+    state=S.PAUSE;
+    document.getElementById('start').classList.add('hidden');
+    document.getElementById('over').classList.add('hidden');
+    document.getElementById('upgrade').classList.add('hidden');
+    document.getElementById('hud').classList.remove('hidden'); showCockpit(true);
+    zenExitBtn.style.display='block';
+    try{ modeNameEl.textContent=daily?(t('modeDaily')+' '+dailyLabel()):modeLabel(mode); bestHud.textContent=t('best')+' '+fmt(curBest()); }catch(e){}
+    try{ pauseSub.textContent=modeLabel(mode)+' · '+Math.round(score)+' '+t('points'); }catch(e){}
+    document.getElementById('pause').classList.remove('hidden');
+    lastT=performance.now();
+  }
 
   function addScore(n){ score+=Math.round(n*mods.scoreMult*(effects.double>0?2:1)); }
   function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ multiplier=m; onComboUp(m); } else multiplier=m; if(m>runMaxMult)runMaxMult=m; }
@@ -1408,6 +1476,7 @@
 
   // ---------- Update ----------
   function update(dt){
+    saveRunT+=dt; if(saveRunT>=1.2){ saveRunT=0; saveRun(); }   // periodischer Snapshot (Reload-Fortsetzen)
     elapsed+=dt; const dGrow=mode==='hardcore'?0.046:0.032; difficulty=1+Math.min(elapsed,150)*dGrow;
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
@@ -2304,7 +2373,7 @@
     if(Math.random()<0.6) setTimeout(()=>{ if(novas.length<18) novas.push({x,y,r0:6,rMax:diag*0.88,t:0,life:0.8,col:V.cols[1]}); },170+ri(0,60));
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
-  function gameOver(){ state=S.OVER; sfxGameOver(); duckMusic(2.4); bigDeathBlast(player.x,player.y);
+  function gameOver(){ state=S.OVER; clearRun(); sfxGameOver(); duckMusic(2.4); bigDeathBlast(player.x,player.y);
     const rec=score>curBest(); if(rec){ setBest(score); saveScores();
       for(let i=0;i<5;i++) pixelBurst(rand(W*0.2,W*0.8),rand(H*0.2,H*0.55),pick(['#ffe600','#ff2e88','#19f0ff','#2effc0']),8);
       setTimeout(()=>{beep(660,0.1,'square',0.3);},120); setTimeout(()=>{beep(880,0.1,'square',0.3);},260); setTimeout(()=>{beep(1175,0.18,'square',0.35);},400); }
@@ -2717,7 +2786,7 @@
     workshop:()=>{ meta.chips=0; meta.lvl={}; saveMeta(); updateMenuChips(); },
     scores:()=>{ best={normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; saveScores(); },
     achskins:()=>{ meta.ach={}; meta.skins={}; meta.skin='std'; saveMeta(); shipSig=''; updateMenuChips(); },
-    all:()=>{ try{ ['neondrift_meta','neondrift_best','neondrift_opt','neondrift_lang'].forEach(k=>localStorage.removeItem(k)); }catch(e){} try{ location.reload(); }catch(e){} }
+    all:()=>{ try{ ['neondrift_meta','neondrift_best','neondrift_opt','neondrift_lang','neondrift_run'].forEach(k=>localStorage.removeItem(k)); }catch(e){} try{ location.reload(); }catch(e){} }
   };
   let resetArmed=null, resetTimer=null;
   function resetLabel(btn){ btn.textContent=t('rs_'+btn.dataset.reset); btn.classList.remove('armed'); }
@@ -3062,16 +3131,22 @@
   document.addEventListener('visibilitychange',()=>{ lastT=performance.now();
     if(document.hidden){
       if(state===S.PLAY) pauseGame();           // im Hintergrund nicht unbemerkt sterben
+      else if(state===S.UPGRADE||state===S.PAUSE) saveRun();   // Snapshot auch aus Upgrade-/Pause-Screen sichern
       if(actx && actx.state==='running'){ try{ actx.suspend(); }catch(e){} } // Musik & SFX anhalten (auch im Browser)
     } else {
       if(actx && actx.state==='suspended'){ try{ actx.resume(); }catch(e){} }
     }
   });
+  // Reload/Tab-Schließen: letzten Stand sofort sichern (pagehide ist mobil zuverlässiger als beforeunload)
+  window.addEventListener('pagehide',()=>{ if(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE) saveRun(); });
+  window.addEventListener('beforeunload',()=>{ if(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE) saveRun(); });
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
   // (Menü spielt jetzt den eigenen Chill-Track NEON CHILL – keine Song-Rotation mehr im Menü)
 
   clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; beams=[]; zaps=[]; novas=[]; gibs=[];
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; shields=0; invuln=0;
+  // Reload/Browser-Aktualisierung: war ein Run aktiv, pausiert an gleicher Stelle wiederherstellen (statt Sprung ins Menü)
+  try{ const snap=loadRunSnap(); if(snap) restoreRun(snap); }catch(e){ clearRun(); }
   requestAnimationFrame(loop);
 })();
