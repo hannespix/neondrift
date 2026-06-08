@@ -718,13 +718,13 @@
   // Perspektivisches Sternenfeld: Sterne strömen aus dem Fluchtpunkt (W/2, H*0.32 – wie das Polygon-Gitter)
   // nach außen/unten heraus und wachsen dabei (Star-Wars-Crawl-Optik). x,y = Welt-Offset, z = Tiefe (klein = nah).
   function resetStar(s,far){ s.wx=Math.random()*2-1; s.wy=Math.random()*1.95-0.4;   // stärkere Abwärts-Tendenz → kohärenter Vorwärtsflug (mit den Obstacles)
-    s.z=far?(0.55+Math.random()*0.95):(0.06+Math.random()*1.4); s.br=0.5+Math.random()*0.85; s.spd=0.05+Math.random()*0.17; }
-  function projStar(s){ const hz=H*0.32, F=W*0.05, inv=1/Math.max(0.05,s.z);
-    s.sx=W/2+s.wx*F*inv; s.sy=hz+s.wy*F*inv; s.size=Math.min(4.2,Math.max(0.6,s.br*inv*0.46));
+    s.z=far?(0.5+Math.random()*0.95):(0.05+Math.random()*1.4); s.br=0.5+Math.random()*0.9; s.spd=0.07+Math.random()*0.24; }
+  function projStar(s){ const hz=H*0.32, F=W*0.052, inv=1/Math.max(0.05,s.z);
+    s.sx=W/2+s.wx*F*inv; s.sy=hz+s.wy*F*inv; s.size=Math.min(5,Math.max(0.55,s.br*inv*0.5));
     // oberhalb des Fluchtpunkts (aufwärts strömend) stark abdunkeln → kein Bewegungs-Konflikt mit den von oben kommenden Obstacles
     const af=s.sy>=hz?1:Math.max(0.1,s.sy/hz);
     s.alpha=Math.max(0.05,Math.min(1,(1-s.z)*1.0+0.14))*af; }
-  function makeStars(){ stars=[]; for(let i=0;i<115;i++){ const s={tw:Math.random()*6.28,tws:0.6+Math.random()*1.8}; resetStar(s,false); projStar(s); stars.push(s); } }
+  function makeStars(){ stars=[]; for(let i=0;i<155;i++){ const s={tw:Math.random()*6.28,tws:0.6+Math.random()*1.8}; resetStar(s,false); projStar(s); stars.push(s); } }
   // Sternenfeld: starke Tiefenstaffelung (Parallax) – ferne Sterne kriechen, nahe rauschen vorbei; leichtes Funkeln
   function updateStars(dt){ if(!stars) return; for(const s of stars){ s.z-=s.spd*dt; s.tw+=s.tws*dt;
     if(s.z<0.05){ resetStar(s,true); }
@@ -1938,11 +1938,17 @@
     const g=ctx.createLinearGradient(0,0,0,H);
     g.addColorStop(0,rgbS(curBg.top)); g.addColorStop(.55,rgbS(curBg.mid)); g.addColorStop(1,rgbS(curBg.bot));
     ctx.fillStyle=g; ctx.fillRect(-40,-40,W+80,H+80);
-    // Sterne ZUERST (tiefster Hintergrund) → Synthwave-Sonne liegt eine Ebene davor; perspektivisch aus dem Fluchtpunkt
-    for(const s of stars){ const tw=0.82+0.18*Math.sin(s.tw), al=(s.alpha||0)*tw; if(al<=0.02) continue; const sz=s.size||1;
-      ctx.fillStyle=s.z<0.3?'#ffffff':(s.z<0.6?'#e6dcff':'#b7a2f0');
-      if(sz>1.7){ ctx.globalAlpha=al*0.22; ctx.fillStyle='#d6ccff'; ctx.fillRect(s.sx-sz,s.sy-sz,sz*2,sz*2); ctx.fillStyle=s.z<0.3?'#ffffff':'#e6dcff'; }   // weicher Schein bei nahen Sternen
-      ctx.globalAlpha=al; ctx.fillRect(s.sx-sz/2,s.sy-sz/2,sz,sz); } ctx.globalAlpha=1;
+    // Sterne ZUERST (tiefster Hintergrund) → Synthwave-Sonne liegt eine Ebene davor; perspektivischer Vorwärtsflug aus dem Fluchtpunkt
+    { const shz=H*0.32; ctx.lineCap='round';
+      for(const s of stars){ const tw=0.82+0.18*Math.sin(s.tw), al=(s.alpha||0)*tw; if(al<=0.02) continue; const sz=s.size||1;
+        const col=s.z<0.28?'#ffffff':(s.z<0.55?'#e6dcff':'#b7a2f0');
+        // radiale Speed-Linie (vom Fluchtpunkt weg) – verkauft den Vorwärtsflug; nahe/schnelle Sterne ziehen längere Streifen
+        if(sz>1.05){ const rx=s.sx-W/2, ry=s.sy-shz, rl=Math.hypot(rx,ry)||1, L=Math.min(30,sz*sz*1.9);
+          ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=hexA(col,al*0.5); ctx.lineWidth=Math.max(1,sz*0.72);
+          ctx.beginPath(); ctx.moveTo(s.sx-rx/rl*L, s.sy-ry/rl*L); ctx.lineTo(s.sx,s.sy); ctx.stroke();
+          ctx.globalCompositeOperation='source-over'; }
+        ctx.globalAlpha=al; ctx.fillStyle=col; ctx.fillRect(s.sx-sz/2,s.sy-sz/2,sz,sz); }
+      ctx.globalAlpha=1; }
     drawGrid();
     if(state===S.MENU) drawMenuShip();   // nur Hauptmenü: aktuelles Schiff zentral vor der Sonne (im Hintergrund hinter dem Menü)
 
