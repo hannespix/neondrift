@@ -2359,8 +2359,6 @@
   const ri=(a,b)=>(a+Math.random()*(b-a+1))|0;
   function genScene(){ sceneW=W;
     sceneMtn=[]; let mx=-60; while(mx<W+60){ const w=ri(150,300), h=ri(26,86); sceneMtn.push([mx+w/2,w,h]); mx+=Math.round(w*0.5); }
-    // EVA-Mecha-Silhouette seitlich (nicht vor der Sonne)
-    sceneRobot={x:W/2+(Math.random()<0.5?-1:1)*(140+ri(0,46)), h:H*0.21};
     // Skyline à la Tokyo-3/Evangelion: überwiegend blocky Wolkenkratzer + einzelne markante Bauten (Pyramide, Sendeturm, Schüssel, Ziggurat)
     sceneCity=[]; let xx=-30; while(xx<W+30){ const r=Math.random(); let type,w,h,win=[];
       if(r<0.06){ type='pyramid'; w=ri(34,60); h=ri(44,80); }
@@ -2368,8 +2366,8 @@
       else if(r<0.19){ type='dish'; w=ri(22,38); h=ri(22,46); }
       else if(r<0.26){ type='step'; w=ri(22,42); h=ri(28,62); }
       else { type='block'; w=ri(9,30); h=ri(12,64);   // mehr & höhere Wolkenkratzer
-        if(h>14){ for(let wy=6;wy<h-3;wy+=5){ for(let wxp=3;wxp<w-2;wxp+=4){ if(Math.random()<0.28) win.push([wxp,wy]); } } } }
-      sceneCity.push([xx,w,h,win,type]); xx+=w+ri(4,18); } }
+        if(h>14){ for(let wy=6;wy<h-3;wy+=5){ for(let wxp=3;wxp<w-2;wxp+=4){ if(Math.random()<0.30) win.push([wxp,wy,Math.random()<0.34?(1+Math.random()*5):0]); } } } }
+      sceneCity.push([xx,w,h,win,type,(type==='block'&&h>30)?Math.random()*6.28:-1]); xx+=w+ri(4,18); } }
   const rgA=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
   function drawNebula(hz){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const sc=curBg.sun, gc=curBg.grid, e=elapsed||0;
     const blobs=[[W*0.24+Math.sin(e*0.05)*22,hz*0.40,gc,0.05],[W*0.78+Math.cos(e*0.045)*22,hz*0.6,sc,0.045],[W*0.5+Math.sin(e*0.03)*16,hz*0.18,sc,0.038]];
@@ -2395,7 +2393,6 @@
     ctx.fillStyle=rgA(curBg.sun,0.5+0.35*Math.sin(e*2+1)); ctx.beginPath(); ctx.arc(0,-Hr*0.71,Wm*0.07,0,6.28); ctx.fill();   // Brust-Kern
     ctx.restore(); }
   function drawSkyline(hz){ if(sceneW!==W) genScene(); const e=elapsed||0, tw=0.6+0.4*Math.sin(e*3);
-    drawRobot(hz);   // Mecha hinter der Skyline (Gebäude verdecken die Beine → er ragt über die Stadt)
     const dark='rgba(4,1,12,0.94)', edge=rgA(curBg.grid,0.55);
     ctx.lineWidth=1;
     for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2],win=b[3],type=b[4], top=hz-h, cx=bx+w/2;
@@ -2418,10 +2415,17 @@
       } else if(type==='step'){ let yy=hz, ww=w, sx2=bx, sh=h/3;   // Ziggurat / gestufter Bau
         for(let s=0;s<3;s++){ ctx.fillRect(sx2,yy-sh,ww,sh); ctx.strokeRect(sx2,yy-sh,ww,sh); yy-=sh; ww*=0.66; sx2=cx-ww/2; }
         ctx.fillStyle=rgA(curBg.sun,0.5*tw); ctx.fillRect(cx-1,hz-h-3,2,3);
-      } else { ctx.fillRect(bx,top,w,h);   // Standard-Block mit Neon-Dachkante + Fensterlichtern
-        ctx.beginPath(); ctx.moveTo(bx,top+0.5); ctx.lineTo(bx+w,top+0.5); ctx.stroke();
-        if(win&&win.length){ ctx.fillStyle=rgA(curBg.sun,0.45*tw); for(const wp of win) ctx.fillRect(bx+wp[0],top+wp[1],1.6,2.2); } }
-    } }
+      } else { ctx.fillRect(bx,top,w,h);   // Standard-Block mit Neon-Dachkante (Fensterlichter folgen im Bloom-Pass)
+        ctx.beginPath(); ctx.moveTo(bx,top+0.5); ctx.lineTo(bx+w,top+0.5); ctx.stroke(); }
+    }
+    // atmosphärischer City-Bloom + blinkende Lichter (Fenster + rote Dach-Baken)
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    if(fxQ>0.5){ const bg=ctx.createLinearGradient(0,hz-62,0,hz+4); bg.addColorStop(0,rgA(curBg.grid,0)); bg.addColorStop(0.75,rgA(curBg.grid,0.045)); bg.addColorStop(1,rgA(curBg.sun,0.09)); ctx.fillStyle=bg; ctx.fillRect(0,hz-66,W,70); ctx.shadowBlur=3; }
+    for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2],win=b[3],type=b[4],beac=b[5], top=hz-h, cx=bx+w/2;
+      if(type==='block'&&win&&win.length){ ctx.shadowColor=rgA(curBg.sun,0.9);
+        for(const wp of win){ const a=wp[2]>0?(Math.sin(e*2.4+wp[2])>0?0.75:0.07):(0.45+0.25*tw); ctx.fillStyle=rgA(curBg.sun,a); ctx.fillRect(bx+wp[0],top+wp[1],1.6,2.2); } }
+      if(beac>=0){ const on=Math.sin(e*2.4+beac)>0.3; ctx.shadowColor='#ff2233'; ctx.fillStyle=on?'#ff3a48':'rgba(120,20,30,0.4)'; ctx.fillRect(cx-1.5,top-3,3,3); } }
+    ctx.restore(); }
   function drawSunReflection(hz,sc,pulse){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const e=elapsed||0, H2=H-hz;
     for(let i=-3;i<=3;i++){ const off=i*28+Math.sin(e*2.2+i)*5, a=(0.13-Math.abs(i)*0.028)*(0.75+pulse*0.5); if(a<=0.005) continue;
       const g=ctx.createLinearGradient(0,hz,0,hz+H2*0.55); g.addColorStop(0,rgA(sc,a)); g.addColorStop(1,rgA(sc,0)); ctx.fillStyle=g; ctx.fillRect(W/2+off-7,hz,14,H2*0.55); } ctx.restore(); }
