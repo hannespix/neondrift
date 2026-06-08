@@ -16,6 +16,10 @@
     background:radial-gradient(ellipse at center,rgba(26,5,51,.6) 0%,rgba(8,1,15,.94) 75%);transition:opacity .3s ease;}
   /* flexible Abstandshalter zentrieren kurzen Inhalt, kollabieren bei langem -> volles Scrollen (Touch) */
   .screen::before,.screen::after{content:"";flex:1 0 8px;}
+  /* Hauptmenü: Kopf (Logo + Schwierigkeit) oben verankert, Rest (Modi/Buttons) am Boden – Spacer dazwischen */
+  #start::before,#start::after{display:none;}
+  .startTop,.startBot{display:flex;flex-direction:column;align-items:center;width:100%;}
+  .startSpacer{flex:1 0 16px;}
   /* In-Game-Overlays: kein Backdrop-Blur (teuer über animiertem Canvas) + VOLL deckend → kein Durchscheinen eines darunterliegenden Overlays */
   #upgrade,#arsenalView,#pause,#over,#coinshop,#statusView{backdrop-filter:none;-webkit-backdrop-filter:none;background-color:#08010f;
     background-image:radial-gradient(ellipse at center,rgba(20,4,40,1) 0%,rgba(8,1,15,1) 72%);}
