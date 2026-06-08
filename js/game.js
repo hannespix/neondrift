@@ -2793,17 +2793,20 @@
   function buySkillPoint(){ const k=meta.spBought||0, cost=buySpCost(k); if(coinShort(cost)) return;
     meta.chips-=cost; meta.spBought=k+1; skillPts++; saveSP(); sfxPow(); vibe([12,18]);
     banner={text:'💠 +1 '+t('skillPts'),sub:'−◈'+cost,t:1.4,color:'#19f0ff'}; updateAllBalances(); renderArsenalView(); }
+  const RESPEC_COST=100;   // Skills zurücktauschen (Respec / Knoten abwählen) kostet 100 Coins
   function dropWeapon(id){ const a=arsenal.w[id]; const refund=(id==='blaster')?0:(a&&a.spent||0);
     delete arsenal.w[id]; if(refund>0){ skillPts+=refund; saveSP(); } recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); updateAllBalances(); saveLoadout(); renderArsenalView(); }
-  // Zuletzt gewählten Fork wieder abwählen → Skillpunkt zurück
+  // Zuletzt gewählten Fork wieder abwählen → Skillpunkt zurück (kostet 100 Coins)
   function unspendOne(id,slot){ const a=arsenal.w[id]; if(!a||!a[slot]) return; const order=['f1','f2','f3','f4'], ci=order.indexOf(slot);
     if(ci<3 && a[order[ci+1]]) return;   // nur abwählbar, wenn keine höhere Stufe gewählt ist
+    if(coinShort(RESPEC_COST)) return; meta.chips-=RESPEC_COST; saveMeta();   // Zurücktauschen kostet Coins
     const before=Object.assign({},syn), p=a[slot]; a[slot]=null; a.lvl--; a.spent=Math.max(0,(a.spent||0)-1); skillPts++; saveSP(); recalcArsenal(); sfxPow(); vibe([10,16]);
-    banner={text:(wName(id)+' · '+pName(p)).toUpperCase(),sub:'↺ +💠1',t:1.3,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
-  // Komplett-Respec einer Waffe: alle Forks zurück, Skillpunkte gutschreiben
-  function respecWeapon(id){ const a=arsenal.w[id]; if(!a) return; let cnt=0; for(const s of ['f1','f2','f3','f4']){ if(a[s]){ a[s]=null; cnt++; } }
-    if(!cnt) return; const before=Object.assign({},syn); a.lvl=1; a.spent=(id==='blaster'?0:1); skillPts+=cnt; saveSP(); recalcArsenal(); sfxPow(); vibe([12,18,12]);
-    banner={text:wName(id).toUpperCase(),sub:'↺ +💠'+cnt,t:1.4,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
+    banner={text:(wName(id)+' · '+pName(p)).toUpperCase(),sub:'↺ +💠1 · −◈'+RESPEC_COST,t:1.3,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
+  // Komplett-Respec einer Waffe: alle Forks zurück, Skillpunkte gutschreiben (kostet 100 Coins)
+  function respecWeapon(id){ const a=arsenal.w[id]; if(!a) return; let cnt=0; for(const s of ['f1','f2','f3','f4']) if(a[s]) cnt++;
+    if(!cnt) return; if(coinShort(RESPEC_COST)) return; meta.chips-=RESPEC_COST; saveMeta();   // erst Coins prüfen/abziehen, DANN zurücksetzen
+    const before=Object.assign({},syn); for(const s of ['f1','f2','f3','f4']) a[s]=null; a.lvl=1; a.spent=(id==='blaster'?0:1); skillPts+=cnt; saveSP(); recalcArsenal(); sfxPow(); vibe([12,18,12]);
+    banner={text:wName(id).toUpperCase(),sub:'↺ +💠'+cnt+' · −◈'+RESPEC_COST,t:1.4,color:'#ff2e88'}; synBanner(before); updateAllBalances(); saveLoadout(); renderArsenalView(); }
   function synBanner(before){ for(const s of SYNERGIES){ if(syn[s.id]&&!before[s.id]){
     banner={text:s.ico+' '+synName(s.id)+' · '+t('synUnlocked'),sub:synDesc(s.id),t:2.8,color:'#ff2e88'};
     if(player) floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,(flash||0)+0.3); flashColor='#ff2e88'; } } }
@@ -2865,7 +2868,7 @@
     ownedW().forEach(id=>{ const a=arsenal.w[id], w=WID[id], f1=w.forks[0], f2=w.forks[1], f3=w.forks[2], f4=w.forks[3];
       const card=document.createElement('div'); card.className='wtree';
       card.innerHTML=
-        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span>${infoBtn(wName(id),FLAV(id))}${a.lvl>1?`<button class="cost respec" title="${t('respec')}">↺</button>`:''}<button class="cost drop">✕</button></div>`+
+        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span>${infoBtn(wName(id),FLAV(id))}${a.lvl>1?`<button class="cost respec" title="${t('respec')} · ◈${RESPEC_COST}">↺ ◈${RESPEC_COST}</button>`:''}<button class="cost drop">✕</button></div>`+
         `<div class="warctag" style="--wc:${w.col}">${wArch(id)}</div>`+
         `<div class="wmech">${wDesc(id)}</div>`+
         `<div class="tnode base chosen"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
