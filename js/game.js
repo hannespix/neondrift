@@ -818,7 +818,7 @@
     banana:{on:()=>{mods.follow*=0.6;mods.slip=true;mods.scoreMult*=1.65;}, off:()=>{mods.follow/=0.6;mods.scoreMult/=1.65;}},
     smol:  {on:()=>{mods.scoreMult*=1.5;}, off:()=>{mods.scoreMult/=1.5;}},   // Größe NICHT mehr in mods.playerR backen → wird pro Frame aus aktiven Stacks berechnet (selbstheilend, kein Drift)
     energy:{on:()=>{mods.obSpeed*=1.22;mods.nearRadius*=1.75;}, off:()=>{mods.obSpeed/=1.22;mods.nearRadius/=1.75;}},
-    blind: {on:()=>{mods.fog+=0.6;mods.scoreMult*=1.9;}, off:()=>{mods.fog-=0.6;mods.scoreMult/=1.9;}},
+    blind: {on:()=>{mods.scoreMult*=1.9;}, off:()=>{mods.scoreMult/=1.9;}},   // Nebel NICHT mehr hier backen → wird pro Frame aus aktiven Stacks berechnet (selbstheilend)
     clown: {on:()=>{mods.spawnMult*=0.7;mods.orbValueMult*=2;}, off:()=>{mods.spawnMult/=0.7;mods.orbValueMult/=2;}},
     mirror:{on:()=>{mods.mirror=true;mirrorOn=true;mods.scoreMult*=1.55;}, off:()=>{mods.scoreMult/=1.55;}}
   };
@@ -1553,9 +1553,10 @@
     overdrive=od;
     if(endless){ madness+=dt*0.0075; madnessTime+=dt; if(madnessTime>=60) unlockAch('madness'); }   // Wahnsinn-Modus eskaliert – aber gemächlich
 
-    let smolStacks=0; for(const a of activeCurses) if(a.id==='smol') smolStacks+=(a.stacks||1);   // Smol-Brain-Größe rein aus aktiven Stacks → nach Ablauf immer zurück auf Basis
+    let smolStacks=0, blindStacks=0; for(const a of activeCurses){ if(a.id==='smol') smolStacks+=(a.stacks||1); if(a.id==='blind') blindStacks+=(a.stacks||1); }   // Größe & Nebel rein aus aktiven Stacks → nach Ablauf immer zurück auf Basis (selbstheilend)
     const targetR=mods.playerR*(smolStacks?Math.pow(1.28,smolStacks):1);
     player.r+= (targetR-player.r)*0.2;
+    mods.fog=Math.min(0.82,blindStacks*0.6);   // Sicht-Nebel folgt direkt den aktiven Blind-Stacks (kein Bookkeeping-Drift → kein hängender Dunkel-Screen)
     if(mods.slip){   // Bananen-Boden: trägheits-/impulsbasiert → das Schiff driftet, übersteuert und rutscht (deutlich schwerer zu steuern)
       const k=16, fr=Math.pow(0.905,dt*60);
       player.vx=((player.vx||0)+(tgt.x-player.x)*k*dt)*fr; player.vy=((player.vy||0)+(tgt.y-player.y)*k*dt)*fr;
