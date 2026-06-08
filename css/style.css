@@ -595,9 +595,12 @@
     -webkit-mask:radial-gradient(130% 220% at 50% 0,#000 58%,transparent 80%);mask:radial-gradient(130% 220% at 50% 0,#000 58%,transparent 80%);}
   /* Inhalt (nie beschnitten) */
   .ckBody{position:relative;z-index:1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
-  .ckBay{display:flex;align-items:center;gap:5px;padding:4px 7px;border-radius:9px;
+  .ckBay{position:relative;display:flex;align-items:center;gap:5px;padding:4px 7px;border-radius:9px;
     background:linear-gradient(180deg,rgba(14,32,56,.45),rgba(8,1,15,.32));border:1px solid rgba(25,240,255,.16);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 9px rgba(25,240,255,.07);}
+  /* Beschriftung der Symbolgruppen (Waffen/Synergien/Leben) – klein, dezent, über der jeweiligen Bay */
+  .ckLbl{position:absolute;top:-6px;left:8px;font:700 7px/1 'Orbitron',sans-serif;letter-spacing:.13em;text-transform:uppercase;
+    color:rgba(124,231,255,.78);background:rgba(8,1,15,.82);padding:1px 4px;border-radius:4px;pointer-events:none;white-space:nowrap;z-index:2;}
   /* Status */
   .ckRadar{position:relative;width:18px;height:18px;border-radius:50%;overflow:hidden;border:1px solid rgba(46,255,192,.55);background:radial-gradient(circle,rgba(46,255,192,.18),transparent 72%);}
   .ckRadar::after{content:"";position:absolute;inset:0;background:repeating-radial-gradient(circle,rgba(46,255,192,.22) 0 1px,transparent 1px 5px);}
