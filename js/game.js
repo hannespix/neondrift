@@ -286,7 +286,7 @@
         const lvl=Math.max(1,Math.min(5,s.lvl||1));
         arsenal.w[id]={lvl,f1:s.f1||null,f2:s.f2||null,f3:s.f3||null,f4:s.f4||null,spent:(lvl-1)+(id==='blaster'?0:1)}; } } }   // spent = investierte Skillpunkte (für Respec-Rückerstattung)
       if(!Object.keys(arsenal.w).length) arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:0};   // Mindest-Loadout: Blaster (gratis)
-      activeSyn=((L&&L.syn)||[]).filter(sid=>{ const s=SID[sid]; return s&&synUnlocked(sid)&&arsenal.w[s.pair[0]]&&arsenal.w[s.pair[1]]; }).slice(0,MAXSYN);
+      activeSyn=SYNERGIES.filter(s=>arsenal.w[s.pair[0]]&&arsenal.w[s.pair[1]]).map(s=>s.id);   // automatisch alle Synergien aktiv, deren beide Waffen ausgerüstet sind
       mods.oc=(L&&L.oc)||0; skillPts=Math.max(0,meta.sp|0); }   // persistente Skillpunkte (Boss-/Zufalls-Drops, kaufbar)
     if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length;   // ZEN = Sandbox: alle Waffen VOLL ausgebaut (Lvl 5, alle 4 Skill-Pfade zufällig) statt nackt auf Lvl 1
       for(const w of WEAPONS) arsenal.w[w.id]={lvl:5, f1:w.forks[0][Math.random()<0.5?0:1], f2:w.forks[1][Math.random()<0.5?0:1], f3:w.forks[2][Math.random()<0.5?0:1], f4:w.forks[3][Math.random()<0.5?0:1]};
@@ -904,16 +904,15 @@
     {id:'cryorail', pair:['frost','rail'],     ico:'❄️'}
   ];
   const SID=Object.fromEntries(SYNERGIES.map(s=>[s.id,s]));
-  // Synergien müssen in der Werkstatt mit Coins freigeschaltet werden (permanent), bevor man sie im Run nutzen kann
-  { const SYNBASE=500; for(const s of SYNERGIES) META.push({id:'sy_'+s.id, ico:s.ico, base:SYNBASE, max:1}); }
+  // Synergien sind automatisch aktiv (kein Kauf) – daher keine sy_-Shop-Items mehr
   // Pixel-Schiff-Editor: Pixel-Pakete (heben das Mal-Budget) + Glow-Pixel-Freischaltung
   META.push({id:'pxpack', ico:'✏️', base:160, max:6});   // je Stufe +12 Pixel
   META.push({id:'pxglow', ico:'✨', base:350, max:1});    // Glow-Pixel freischalten
   const PIX_BASE=14, PIX_PER=12;
   const pixBudget=()=>PIX_BASE+metaLvl('pxpack')*PIX_PER;
   const glowUnlocked=()=>metaLvl('pxglow')>0;
-  const synBought=id=>metaLvl('sy_'+id)>0;
-  const synUnlocked=id=> metaLvl('sy_'+id)>0;   // Synergie muss erst mit Coins freigekauft sein (danach slotbar)
+  const synBought=id=>true;
+  const synUnlocked=id=>true;   // Synergien automatisch verfügbar – kein Coin-Kauf mehr nötig
   const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
   let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
   let skillPts=0, arsenalSkillMode=false, arsenalResume=false, arsenalFromMenu=false, arsenalTab='loadout';   // arsenalFromMenu = Hangar aus dem Hauptmenü geöffnet
@@ -966,10 +965,9 @@
       if(a.f3==='piercebeam'){width*=1.6;} if(a.f3==='hypervelocity'){dmg*=1.8;rate*=0.8;}
       if(a.f4==='gigawatt'){dmg*=2.1;rate*=0.7;} if(a.f4==='repeater'){rate*=1.8;dmg*=0.6;}
       wpn.rail={rate:rate*rm,dmg:dmg*dm,width,burn:false}; }
-    activeSyn=activeSyn.filter(id=>{ const s=SID[id]; return s&&synUnlocked(id)&&has(s.pair[0])&&has(s.pair[1]); }).slice(0,MAXSYN);  // nur gekaufte & wählbare Slots behalten
-    for(const s of SYNERGIES){ const avail=synUnlocked(s.id)&&has(s.pair[0])&&has(s.pair[1]);   // erst nach Werkstatt-Kauf verfügbar (Zen frei)
-      if(avail && !synSeen[s.id]){ synSeen[s.id]=1; if(activeSyn.length<MAXSYN && !activeSyn.includes(s.id)) activeSyn.push(s.id); } }
-    for(const s of SYNERGIES) syn[s.id]=activeSyn.includes(s.id);                                                   // aktiv = in einem Fusions-Slot
+    // Synergien automatisch: aktiv, sobald BEIDE Waffen ausgerüstet sind – kein Kauf, kein Toggle, kein Limit, kein Verwalten
+    activeSyn=SYNERGIES.filter(s=>has(s.pair[0])&&has(s.pair[1])).map(s=>s.id);
+    for(const s of SYNERGIES) syn[s.id]=activeSyn.includes(s.id);
     if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
     if(syn.cryonova&&wpn.nova) wpn.nova.slow=true;              // CRYONOVA: Puls verlangsamt
     if(syn.plasma&&wpn.rail) wpn.rail.burn=true;                // PLASMA: Schiene entzündet
@@ -2677,7 +2675,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v204';
+  const GAME_VER='v205';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2834,17 +2832,6 @@
     shopCards.appendChild(gen);
     for(const w of WEAPONS) shopCards.appendChild(weaponAccordion(w)); }
   const weaponBpOwned=id=>id==='blaster'||metaLvl('bp_'+id)>0;
-  function synShopRow(s){ const bought=synBought(s.id), pairOk=weaponBpOwned(s.pair[0])&&weaponBpOwned(s.pair[1]);
-    const id='sy_'+s.id, cost=metaCost(metaById(id),0), aff=(meta.chips||0)>=cost;
-    const sub=WID[s.pair[0]].ico+wName(s.pair[0])+' + '+WID[s.pair[1]].ico+wName(s.pair[1]);
-    const st=bought?'done':(pairOk?'buy':'locked');
-    const right = bought?'<span class="wnode-done">✓</span>' : pairOk?`<button class="cost${aff?'':' locked'}" data-buy="${id}">◈ ${cost}</button>` : '<span class="wnode-lock">🔒</span>';
-    const el=document.createElement('div'); el.className='wnode syn '+st;
-    el.innerHTML=`<span class="wni">${s.ico}</span><div class="wnt"><b>${synName(s.id)}</b><span>${st==='locked'?sub:synDesc(s.id)}</span></div>${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}${right}`;
-    const b=el.querySelector('button[data-buy]'); if(b) b.addEventListener('click',()=>buyMeta(id));
-    return el; }
-  function renderSynergyTab(){ const rank=s=>synBought(s.id)?2:((weaponBpOwned(s.pair[0])&&weaponBpOwned(s.pair[1]))?0:1);
-    SYNERGIES.slice().sort((a,b)=>rank(a)-rank(b)).forEach(s=>shopCards.appendChild(synShopRow(s))); }
   function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
@@ -2852,10 +2839,9 @@
     if(tabsEl){ tabsEl.innerHTML=''; tabsEl.setAttribute('role','tablist'); SHOPTABS.forEach(([key,ico])=>{ const b=document.createElement('button');
       b.className='shopTab'+(shopTab===key?' on':''); b.textContent=ico+' '+t('cat_'+key); b.setAttribute('role','tab'); b.setAttribute('aria-selected',shopTab===key);
       b.addEventListener('click',()=>{ shopTab=key; renderShop(); }); tabsEl.appendChild(b); }); }
-    shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons'||shopTab==='synergy');
+    shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons');
     if(shopTab==='cosmetic'){ skinCards(shopCards); return; }   // Kosmetik-Tab: Skins kaufen/wählen
     if(shopTab==='weapons'){ renderWeaponTab(); return; }       // Waffen-Tab: Accordion-Skilltree pro Waffe
-    if(shopTab==='synergy'){ renderSynergyTab(); return; }      // Synergie-Tab: kaufbare Fusionen
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return; const cost=metaCost(m,lvl); if(coinShort(cost)) return;
@@ -2911,16 +2897,7 @@
   function addWeaponSkill(id){ if(!opt.guns||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; if(skillPts<=0){ hangarBroke(); return; } const before=Object.assign({},syn);
     skillPts--; saveSP(); arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:1}; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); updateAllBalances(); afterSpend(); }
-  // Fusions-Slot belegen/wechseln: jederzeit, max MAXSYN. Bei vollem Slot ersetzt der älteste (FIFO) → flüssiges Umschalten.
-  function synAvail(id){ const s=SID[id]; return !!(s && synUnlocked(id) && arsenal.w[s.pair[0]] && arsenal.w[s.pair[1]]); }
-  const SYN_SWITCH_COST=50;   // Synergie aktivieren/wechseln kostet 50 Coins (deaktivieren ist gratis)
-  function toggleSyn(id){ if(!synAvail(id)) return; const i=activeSyn.indexOf(id);
-    if(i>=0){ activeSyn.splice(i,1); }   // deaktivieren: gratis
-    else { if(coinShort(SYN_SWITCH_COST)) return; meta.chips-=SYN_SWITCH_COST; saveMeta();   // aktivieren/wechseln: 50 Coins
-      if(activeSyn.length>=MAXSYN) activeSyn.shift(); activeSyn.push(id); }
-    recalcArsenal(); sfxPow(); vibe(12); updateAllBalances();
-    const on=activeSyn.includes(id); banner={text:SID[id].ico+' '+synName(id),sub:(on?t('synOn')+' · −◈'+SYN_SWITCH_COST:t('synNeed')),t:1.2,color:'#ff2e88'};
-    saveLoadout(); renderArsenalView(); }
+  // (Synergien sind automatisch aktiv – kein manuelles Toggle/Slot-Management mehr)
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
   function nodeState(id,a,slot,path){ const sel=a[slot];
     if(sel===path) return 'chosen';
@@ -2999,19 +2976,14 @@
         card.querySelector('.buybp').addEventListener('click',()=>buyMeta('bp_'+w.id,renderArsenalView));   // Bauplan kaufen → Waffe wird einrüstbar
         wrap.appendChild(card); });
     const sd=document.getElementById('arsenalSyn'); if(sd){
-      // Fusions-Slots: ALLE Kombis als Info-/Equip-Karten. Antippen = in einen der 2 Slots legen / wieder raus (jederzeit).
-      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0), bothOwned=hasA&&hasB;
-        const bought=synBought(s.id), on=syn[s.id], can=synAvail(s.id)&&opt.guns, buyable=bothOwned&&!bought&&opt.guns;
-        const cls=on?'on':(can?'avail':(buyable?'buyable':(owned===1?'near':'off'))), tap=(on||can)?' syntap':'';
-        const uCost=metaCost(metaById('sy_'+s.id),0), uAff=(meta.chips||0)>=uCost;
-        const right=buyable?`<button class="synbuy${uAff?'':' locked'}" data-synbuy="${s.id}">🔓 ◈${uCost}</button>`
-          :on?'<span class="synok">✓</span>':(can?('<span class="synadd">＋ ◈'+SYN_SWITCH_COST+'</span>'):(owned===1?('<span class="synneed">'+(hasA?WID[b].ico:WID[a].ico)+'</span>'):''));
-        const rank=on?4:(can?3:(buyable?2:owned));
-        return {rank,html:`<div class="synrow ${cls}${tap}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${right}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
-      rows.sort((x,y)=>y.rank-x.rank);   // aktiv → wählbar → freikaufbar → fast → fehlt
-      sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">'+activeSyn.length+'/'+MAXSYN+'</span></h4>'+rows.map(r=>r.html).join('');
-      sd.querySelectorAll('.synrow.syntap').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; toggleSyn(r.dataset.syn); }));
-      sd.querySelectorAll('.synbuy').forEach(btn=>btn.addEventListener('click',e=>{ e.stopPropagation(); buyMeta('sy_'+btn.dataset.synbuy,renderArsenalView); })); }   // Synergie mit Coins freikaufen
+      // Synergien sind automatisch: aktiv, sobald beide Waffen ausgerüstet. Liste ist reine Info – kein Kauf, kein Toggle.
+      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0), on=syn[s.id];
+        const cls=on?'on':(owned===1?'near':'off');
+        const right=on?'<span class="synok">✓ '+t('synOn')+'</span>':(owned===1?('<span class="synneed">'+t('synNeed')+' '+(hasA?WID[b].ico:WID[a].ico)+'</span>'):('<span class="synneed">'+WID[a].ico+WID[b].ico+'</span>'));
+        const rank=on?2:owned;
+        return {rank,html:`<div class="synrow ${cls}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${right}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
+      rows.sort((x,y)=>y.rank-x.rank);   // aktiv → fast (eine Waffe fehlt) → fehlt
+      sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">'+activeSyn.length+' '+t('synOn')+'</span></h4>'+rows.map(r=>r.html).join(''); }
   }
   // In-Run HUD: Waffenleiste mit Level-Pips + Synergie-Badges
   function drawArsenalHud(){ const ids=ownedW();
@@ -3043,10 +3015,9 @@
         else h+='<span class="ckslotTag">'+(unl?'＋':'🔒')+'</span>';
         h+='</button>'; }
       h+='</div>'; }
-    if(opt.guns&&ownedCount()>=2){ h+='<div class="ckBay ckSynBay" aria-label="Synergie-Slots '+activeSyn.length+'/'+MAXSYN+'"><span class="ckLbl">'+t('ckLblS')+'</span>';   // Synergie-Bay erst ab 2 Waffen (Cockpit früh aufgeräumt)
-      for(let i=0;i<MAXSYN;i++){ const id=activeSyn[i], s=id?SID[id]:null;
-        h+='<button class="ckSyS '+(s?'on':'')+'" data-tab="syn" aria-label="'+(s?('Synergie '+synName(id)):'Freier Synergie-Slot')+'">'+(s?s.ico:'＋')+'</button>'; }
-      h+='<span class="ckSynCount" data-tab="syn" aria-label="Synergien freigeschaltet '+synU+' von '+SYNERGIES.length+'">🔗'+synU+'/'+SYNERGIES.length+'</span>';
+    if(opt.guns&&ownedCount()>=2){ h+='<div class="ckBay ckSynBay" aria-label="Aktive Synergien '+activeSyn.length+'"><span class="ckLbl">'+t('ckLblS')+'</span>';   // Synergie-Bay erst ab 2 Waffen; zeigt automatisch aktive Fusionen
+      if(activeSyn.length){ for(const id of activeSyn){ const s=SID[id]; h+='<button class="ckSyS on" data-tab="syn" aria-label="Synergie '+synName(id)+'">'+s.ico+'</button>'; } }
+      else h+='<button class="ckSyS" data-tab="syn" aria-label="Noch keine Synergie – passende Waffen kombinieren">–</button>';
       h+='</div>'; }
     if(sp||opt.guns){ h+='<div class="ckBay ckCtl">';
       if(sp) h+='<button class="ckSkill" data-tab="loadout" aria-label="Skillpunkte '+sp+' – Skill-Baum öffnen">💠'+sp+'</button>';
