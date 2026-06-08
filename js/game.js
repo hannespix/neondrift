@@ -2194,10 +2194,10 @@
   function buildShipSprite(r,up,nCan){
     if(meta.skin==='custom' && hasCustomShip()) return buildCustomSprite(r);
     const R=makeRng(shipSeed||1);
-    const cp=Math.max(2,Math.round(r*0.31));                 // Pixel-Zellgröße (kleiner)
-    const gh=8+Math.min(6,(up*0.42)|0);                      // schlank, etwas kürzer
-    const gw=2+Math.min(3,(up*0.22)|0);                      // schmaler Rumpf
-    const wingLen=3+Math.min(4,(up*0.38)|0);
+    const cp=Math.max(2,Math.round(r*0.31));                 // Pixel-Zellgröße (an Hitbox gekoppelt)
+    const gh=8+Math.min(2,(up*0.14)|0);                      // Größe wächst nur noch LEICHT mit Ausrüstung (vorher bis +6 → Schiff wurde riesig)
+    const gw=2+Math.min(1,(up*0.12)|0);                      // schmaler Rumpf, kaum Wachstum
+    const wingLen=3+Math.min(2,(up*0.2)|0);
     const wingPairs=R()<0.55?2:1;                            // 2 = X-Wing-Silhouette, 1 = schlanker Interceptor
     const sweep=0.55+R()*0.45;                               // Flügel-Pfeilung nach hinten
     const sk=curSkin(), hull=sk.hull, edge=sk.edge, acc=sk.rnd?SHIP_ACC[(R()*SHIP_ACC.length)|0]:sk.acc;
@@ -2243,7 +2243,7 @@
     return {cv,ox,oy,cp,acc,flameX,tailY:gh*cp+cp*0.5,muz,bw:(mAbsX+0.6)*cp,bh:(mAbsY+0.6)*cp};
   }
   function drawShip(){ const r=player.r;
-    let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]; up+=ownedCount()*2;
+    let up=0; for(const k in upgradeCounts) up+=upgradeCounts[k]; up+=ownedCount();   // Waffen zählen einfach (vorher ×2 → Schiff wuchs mit jeder Waffe stark)
     const nCan=Math.min(8, ownedCount() + (wpn.blaster?Math.max(0,wpn.blaster.bolts-1):0));
     const sig=shipSeed+'|'+up+'|'+nCan+'|'+Math.round(r)+'|'+(meta.skin||'std');
     if(!shipSprite||shipSig!==sig){ shipSprite=buildShipSprite(r,up,nCan); shipSig=sig; }
