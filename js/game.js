@@ -2355,6 +2355,31 @@
       const sec=chip.querySelector('.fxsec'); if(sec) sec.textContent=Math.max(0,Math.ceil(it[2]))+'s'; } }
 
   let sunOff=null, sunOffCtx=null, waveOff=null, waveOffCtx=null, sunLo=null, sunLoCtx=null, sunPulse=0;   // Sonne (scharf) + Wellen-Ebene; sunPulse = geglättete Musik-Energie
+  // ---------- Horizont-Szene: Nebel, Bergkette, Skyline, Sonnen-Reflexion (alle theme-farbig) ----------
+  let sceneCity=[], sceneMtn=[], sceneW=0;
+  const ri=(a,b)=>(a+Math.random()*(b-a+1))|0;
+  function genScene(){ sceneW=W;
+    sceneMtn=[]; let mx=-60; while(mx<W+60){ const w=ri(150,300), h=ri(26,86); sceneMtn.push([mx+w/2,w,h]); mx+=Math.round(w*0.5); }
+    sceneCity=[]; let xx=-30; while(xx<W+30){ const w=ri(9,32), h=ri(8,46), gap=ri(3,17), win=[];
+      if(h>14){ for(let wy=6;wy<h-3;wy+=5){ for(let wxp=3;wxp<w-2;wxp+=4){ if(Math.random()<0.28) win.push([wxp,wy]); } } }
+      sceneCity.push([xx,w,h,win]); xx+=w+gap; } }
+  const rgA=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
+  function drawNebula(hz){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const sc=curBg.sun, gc=curBg.grid, e=elapsed||0;
+    const blobs=[[W*0.24+Math.sin(e*0.05)*22,hz*0.40,gc,0.05],[W*0.78+Math.cos(e*0.045)*22,hz*0.6,sc,0.045],[W*0.5+Math.sin(e*0.03)*16,hz*0.18,sc,0.038]];
+    for(const bl of blobs){ const r=W*0.52, g=ctx.createRadialGradient(bl[0],bl[1],6,bl[0],bl[1],r); g.addColorStop(0,rgA(bl[2],bl[3])); g.addColorStop(1,rgA(bl[2],0)); ctx.fillStyle=g; ctx.fillRect(bl[0]-r,bl[1]-r,r*2,r*2); }
+    ctx.restore(); }
+  function drawMountains(hz){ if(sceneW!==W) genScene();
+    for(const m of sceneMtn){ const cx=m[0],w=m[1],h=m[2];
+      ctx.fillStyle='rgba(9,2,20,0.78)'; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle=rgA(curBg.grid,0.18); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(cx-w/2,hz+1); ctx.lineTo(cx,hz-h); ctx.lineTo(cx+w/2,hz+1); ctx.stroke(); } }
+  function drawSkyline(hz){ if(sceneW!==W) genScene(); const tw=0.6+0.4*Math.sin((elapsed||0)*3);
+    for(const b of sceneCity){ const bx=b[0],w=b[1],h=b[2];
+      ctx.fillStyle='rgba(4,1,12,0.94)'; ctx.fillRect(bx,hz-h,w,h);
+      ctx.strokeStyle=rgA(curBg.grid,0.5); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(bx,hz-h+0.5); ctx.lineTo(bx+w,hz-h+0.5); ctx.stroke();
+      const win=b[3]; if(win&&win.length){ ctx.fillStyle=rgA(curBg.sun,0.45*tw); for(const wp of win) ctx.fillRect(bx+wp[0],hz-h+wp[1],1.6,2.2); } } }
+  function drawSunReflection(hz,sc,pulse){ if(fxQ<0.5) return; ctx.save(); ctx.globalCompositeOperation='lighter'; const e=elapsed||0, H2=H-hz;
+    for(let i=-3;i<=3;i++){ const off=i*28+Math.sin(e*2.2+i)*5, a=(0.13-Math.abs(i)*0.028)*(0.75+pulse*0.5); if(a<=0.005) continue;
+      const g=ctx.createLinearGradient(0,hz,0,hz+H2*0.55); g.addColorStop(0,rgA(sc,a)); g.addColorStop(1,rgA(sc,0)); ctx.fillStyle=g; ctx.fillRect(W/2+off-7,hz,14,H2*0.55); } ctx.restore(); }
   function drawGrid(){ const hz=H*0.42,vx=W/2;
     // ---- Audio-reaktiver Sonnen-Puls: Musik-Amplitude (kontinuierlich) + Beat-Puls (scharfe Schläge) ----
     const hasAudio=analyser && opt.music>0;
@@ -2365,6 +2390,7 @@
     const beat=(beatPulse||0), pulse=Math.min(1.2,beat*0.7+sunPulse*0.85);            // Gesamt-Puls fürs Leuchten/Farbe
     const bp=1+beat*0.5+sunPulse*0.7+(overdrive?0.3:0);                                // bp = Beat + Musik-Energie (+Overdrive)
     const gc=curBg.grid, sc=curBg.sun;
+    drawNebula(hz); drawMountains(hz);   // Himmel-Atmosphäre + ferne Bergkette HINTER der Sonne
     const pc=[Math.min(255,sc[0]+pulse*50),Math.min(255,sc[1]+pulse*62),Math.min(255,sc[2]+pulse*38)]; // Sonnenfarbe dezent heller/wärmer im Takt
     ctx.shadowBlur=0; ctx.strokeStyle=`rgba(${gc[0]|0},${gc[1]|0},${gc[2]|0},${Math.min(0.6,0.24*bp)})`; ctx.lineWidth=1;
     for(let i=-10;i<=10;i++){ctx.beginPath();ctx.moveTo(vx+i*40,hz);ctx.lineTo(vx+i*220,H);ctx.stroke();}
@@ -2411,6 +2437,7 @@
       ctx.globalAlpha=0.7; ctx.drawImage(sunLo,dx-12,dy-12,SS+24,SS+24);                            // weicher Glow nur um die Welle
       ctx.globalAlpha=0.4; ctx.drawImage(sunLo,dx-24,dy-24,SS+48,SS+48); }
     ctx.restore();
+    drawSkyline(hz); drawSunReflection(hz,sc,pulse);   // Skyline VOR der Sonne (Silhouette) + Sonnen-Reflexion auf dem Boden
   }
 
   // ---------- Game Over ----------
