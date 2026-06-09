@@ -1,6 +1,11 @@
 /* THRONERUSH – Spiellogik. Siehe CLAUDE.md fuer Architektur. */
 (() => {
   "use strict";
+  // Einmalige Migration alter Speicher-Keys (neondrift_* → thronerush_*): Spielstände, Chips, Highscores & Einstellungen bleiben beim Rebrand erhalten.
+  try{ if(!localStorage.getItem('thronerush_migrated')){
+    ['lang','best','meta','opt','tlog','run','cid'].forEach(k=>{ const ov=localStorage.getItem('neondrift_'+k);
+      if(ov!=null){ if(localStorage.getItem('thronerush_'+k)==null) localStorage.setItem('thronerush_'+k,ov); localStorage.removeItem('neondrift_'+k); } });
+    localStorage.setItem('thronerush_migrated','1'); } }catch(e){}
   const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
   let state=S.MENU, mode='normal';
@@ -9,9 +14,9 @@
 
   // ---------- i18n (DE / EN / FR, Jugendsprache je Sprache) ----------
   function detectLang(){ const l=((navigator.language||navigator.userLanguage||'en')+'').slice(0,2).toLowerCase(); return (l==='de'||l==='fr')?l:'en'; }
-  function loadLang(){ try{ const s=localStorage.getItem('neondrift_lang'); if(s==='de'||s==='en'||s==='fr') return s; }catch(e){} return detectLang(); }
+  function loadLang(){ try{ const s=localStorage.getItem('thronerush_lang'); if(s==='de'||s==='en'||s==='fr') return s; }catch(e){} return detectLang(); }
   let lang=loadLang();
-  function saveLang(){ try{ localStorage.setItem('neondrift_lang',lang); }catch(e){} }
+  function saveLang(){ try{ localStorage.setItem('thronerush_lang',lang); }catch(e){} }
   function t(k){ const o=TR[lang]||TR.en; return (o[k]!=null?o[k]:(TR.en[k]!=null?TR.en[k]:k)); }
   function P(k){ const o=TR[lang]||TR.en; return o[k]||TR.en[k]||[]; }   // lokalisierter Pool
   const TR={
@@ -199,15 +204,15 @@
   let tBlast=0, tMiss=0, tFlame=0, tFrost=0, tChain=0, tNova=0, tRail=0, teslaCount=0, bossPending=false, boss=null, ebullets=[], gemT=0, beams=[], zaps=[], novas=[], gibs=[];
   let score, displayScore, combo, multiplier, best=loadScores();
   let comboCoinBonus=0;   // während einer Combo aufgelaufene Zusatz-Münzen (Anzeige am Combo-Ende)
-  function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
-  function saveScores(){ try{ localStorage.setItem('neondrift_best',JSON.stringify(best)); }catch(e){} }
+  function loadScores(){ try{ const r=JSON.parse(localStorage.getItem('thronerush_best')); if(r&&typeof r==='object') return {normal:r.normal||0,hardcore:r.hardcore||0,zen:r.zen||0,daily:r.daily||0,dailyDate:r.dailyDate||''}; }catch(e){} return {normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; }
+  function saveScores(){ try{ localStorage.setItem('thronerush_best',JSON.stringify(best)); }catch(e){} }
   // Meta-Progression: persistente Chips + dauerhafte Upgrade-Stufen
   let meta=loadMeta();
-  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
+  function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('thronerush_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
     return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:(r.diff==null?2:r.diff),ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0,seen:(r.seen&&typeof r.seen==='object')?r.seen:{}}; } }catch(e){}
     return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:2,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{},unlocks:{}}; }   // Standard-Schwierigkeit = Normalo (Index 2), auch nach Reset
-  function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
+  function saveMeta(){ try{ localStorage.setItem('thronerush_meta',JSON.stringify(meta)); }catch(e){} }
   // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
   function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
   // ---- Schwierigkeitsgrade (Baby = aktuelles Balancing = leichteste Stufe; höhere Stufen ziehen Tempo & Dichte ganz leicht an) ----
@@ -355,9 +360,9 @@
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
   // Lautstärke 0..1: alte Boolean-Werte (true/false) + neue Zahlen migrieren
   function volNum(v){ return Math.max(0,Math.min(1, v===true?1:(v===false?0:(+v||0)))); }
-  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,telemetry:r.telemetry==null?false:!!r.telemetry,dbg:r.dbg==null?false:!!r.dbg,
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('thronerush_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,telemetry:r.telemetry==null?false:!!r.telemetry,dbg:r.dbg==null?false:!!r.dbg,
     music:r.music==null?(r.muted?0:1):volNum(r.music), sfx:r.sfx==null?(r.muted?0:1):volNum(r.sfx), fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,telemetry:false,dbg:false,music:1,sfx:1,fullscreen:true}; }
-  function saveOpt(){ try{ localStorage.setItem('neondrift_opt',JSON.stringify(opt)); }catch(e){} }
+  function saveOpt(){ try{ localStorage.setItem('thronerush_opt',JSON.stringify(opt)); }catch(e){} }
 
   // ---------- Audio ----------
   let actx=null, masterGain=null, musicBus=null, sfxGain=null, musicGain=null, musicDelay=null, vibLFO=null, vibGain=null;
@@ -1090,7 +1095,7 @@
   const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.55,(0.02+(level-1)*0.027+coverage()*0.026+(endless?madness*0.5:0))*flowI):0;   // Flow-Regler moduliert die Elite-Haeufigkeit
   // Zwischen-Runs lernen: aus den letzten Runs (gleicher Modus) ein Skill-Offset ableiten.
   // Viele Treffer & niedriges Level → struggelt → leichter (negativ). Wenig Treffer & hohes Level → souveraen → haerter (positiv). Gedeckelt ±0.15.
-  function computeSkillBias(){ try{ const log=JSON.parse(localStorage.getItem('neondrift_tlog')||'[]'); if(!Array.isArray(log)) return 0;
+  function computeSkillBias(){ try{ const log=JSON.parse(localStorage.getItem('thronerush_tlog')||'[]'); if(!Array.isArray(log)) return 0;
     const rec=log.slice(-10).filter(r=>r&&r.mode===mode); if(rec.length<3) return 0;
     const avg=(k)=>rec.reduce((s,r)=>s+(+r[k]||0),0)/rec.length;
     const bias=(avg('lvl')-3)*0.03 - (avg('hits')-3)*0.04;
@@ -1150,7 +1155,7 @@
   // Gespeichert wird nur der DAUERHAFTE Zustand (Loadout, Score, Level, Leben, Position, Timer …).
   // Das transiente Hindernisfeld wird beim Wiederherstellen geleert (robust statt fragiler Live-Restore);
   // man landet pausiert an seiner Stelle und tippt zum Weiterspielen. Lauf zählt normal weiter.
-  const RUN_KEY='neondrift_run';
+  const RUN_KEY='thronerush_run';
   let saveRunT=0;
   function saveRun(){ if(!(state===S.PLAY||state===S.PAUSE||state===S.UPGRADE)||!player) return;
     try{ localStorage.setItem(RUN_KEY, JSON.stringify({ v:1, ts:Date.now(), mode, daily, useSeed, seedState,
@@ -2690,9 +2695,9 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v224';
+  const GAME_VER='v225';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
-  function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
+  function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
     mode:mode, diff:meta.diff||0, daily:daily?1:0,
     lvl:level||1, score:Math.round(score||0), boss:runBosses||0, won:wonThisRun?1:0,
@@ -2702,10 +2707,10 @@
   function sendTelemetry(rec){ try{ if(!TELEMETRY_URL||!opt.telemetry) return;
     fetch(TELEMETRY_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rec),keepalive:true,mode:'cors'}).catch(()=>{}); }catch(e){} }
   function recordRun(earned){ try{ const rec=runRecord(earned);
-    let log=[]; try{ log=JSON.parse(localStorage.getItem('neondrift_tlog'))||[]; }catch(e){} if(!Array.isArray(log)) log=[];
-    log.push(rec); if(log.length>150) log=log.slice(-150); try{ localStorage.setItem('neondrift_tlog',JSON.stringify(log)); }catch(e){}
+    let log=[]; try{ log=JSON.parse(localStorage.getItem('thronerush_tlog'))||[]; }catch(e){} if(!Array.isArray(log)) log=[];
+    log.push(rec); if(log.length>150) log=log.slice(-150); try{ localStorage.setItem('thronerush_tlog',JSON.stringify(log)); }catch(e){}
     sendTelemetry(rec); }catch(e){} }
-  function exportTelemetry(done){ let arr=[]; try{ arr=JSON.parse(localStorage.getItem('neondrift_tlog')||'[]'); }catch(e){} if(!Array.isArray(arr)) arr=[]; const json=JSON.stringify(arr);
+  function exportTelemetry(done){ let arr=[]; try{ arr=JSON.parse(localStorage.getItem('thronerush_tlog')||'[]'); }catch(e){} if(!Array.isArray(arr)) arr=[]; const json=JSON.stringify(arr);
     const ok=()=>done&&done(arr.length,true), fail=()=>{ try{ prompt('Telemetrie-JSON (kopieren):', json); }catch(_){ } done&&done(arr.length,false); };
     try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(json).then(ok,fail); else fail(); }catch(e){ fail(); } }
   function gameOver(){ state=S.OVER; clearRun(); sfxGameOver(); duckMusic(2.4); bigDeathBlast(player.x,player.y);
@@ -2757,14 +2762,14 @@
         if(meta.skin==='custom'){ const s=activeShip(); if(s&&s.name){ x.shadowBlur=0; x.fillStyle='#9be7ff'; x.font='700 30px Orbitron, sans-serif'; x.fillText('« '+s.name+' »',540,Math.min(948,cyS+dh/2+34)); } } }
     }catch(e){}
     x.shadowBlur=0; x.fillStyle='#ff2e88'; x.shadowColor='#ff2e88'; x.shadowBlur=20; x.font='900 50px Orbitron, sans-serif'; x.fillText(t('beatMe'),540,1004);
-    x.shadowBlur=0; x.fillStyle='#5b4a85'; x.font='400 30px "Space Mono", monospace'; x.fillText('hannespix.github.io/neondrift',540,1052);
+    x.shadowBlur=0; x.fillStyle='#5b4a85'; x.font='400 30px "Space Mono", monospace'; x.fillText('hannespix.github.io/thronerush',540,1052);
     return c;
   }
   function shareScore(){
     let blobUrl=null;
     try{
       const c=buildShareCanvas();
-      const text='THRONERUSH'+(daily?(' · '+t('dailyLbl')+' '+dailyLabel()):(' · '+modeLabel(mode)))+': '+Math.round(score)+t('shareScore')+'https://hannespix.github.io/neondrift/';
+      const text='THRONERUSH'+(daily?(' · '+t('dailyLbl')+' '+dailyLabel()):(' · '+modeLabel(mode)))+': '+Math.round(score)+t('shareScore')+'https://hannespix.github.io/thronerush/';
       c.toBlob(blob=>{ if(!blob) return;
         const file=new File([blob],'thronerush-'+Math.round(score)+'.png',{type:'image/png'});
         if(navigator.canShare && navigator.canShare({files:[file]})){
@@ -3125,7 +3130,7 @@
       updateMenuChips(); },
     scores:()=>{ best={normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; saveScores(); },
     achskins:()=>{ meta.ach={}; meta.skins={}; meta.skin='std'; saveMeta(); shipSig=''; updateMenuChips(); },
-    all:()=>{ try{ ['neondrift_meta','neondrift_best','neondrift_opt','neondrift_lang','neondrift_run'].forEach(k=>localStorage.removeItem(k)); }catch(e){} try{ location.reload(); }catch(e){} }
+    all:()=>{ try{ ['thronerush_meta','thronerush_best','thronerush_opt','thronerush_lang','thronerush_run'].forEach(k=>localStorage.removeItem(k)); }catch(e){} try{ location.reload(); }catch(e){} }
   };
   let resetArmed=null, resetTimer=null;
   function resetLabel(btn){ btn.textContent=t('rs_'+btn.dataset.reset); btn.classList.remove('armed'); }
