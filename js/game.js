@@ -206,7 +206,7 @@
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
     return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:(r.diff==null?2:r.diff),ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0,seen:(r.seen&&typeof r.seen==='object')?r.seen:{}}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:2,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{}}; }   // Standard-Schwierigkeit = Normalo (Index 2), auch nach Reset
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:2,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{},unlocks:{}}; }   // Standard-Schwierigkeit = Normalo (Index 2), auch nach Reset
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
   function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
@@ -270,9 +270,15 @@
   function migrateSynUnlock(){ if(meta.mig_syn) return; meta.mig_syn=1; meta.lvl=meta.lvl||{};
     const L=meta.loadout; if(L&&Array.isArray(L.syn)){ for(const sid of L.syn) if(SID[sid]) meta.lvl['sy_'+sid]=Math.max(meta.lvl['sy_'+sid]||0,1); }
     saveMeta(); }
+  // Einmalig: bereits gebaute Waffen/Forks gelten als schon freigeschaltet → kein erneuter Coin-Preis beim Re-/Freischalten (Einmal-Senke gilt rückwirkend)
+  function migrateOneTimeUnlock(){ if(meta.mig_otu) return; meta.mig_otu=1; if(!meta.unlocks) meta.unlocks={};
+    const L=meta.loadout; if(L&&L.w){ for(const id in L.w){ if(!WID[id]) continue; meta.unlocks['w:'+id]=1; const s=L.w[id]||{};
+      for(const f of ['f1','f2','f3','f4']) if(s[f]) meta.unlocks['f:'+id+':'+s[f]]=1; } }
+    saveMeta(); }
   function applyMeta(){
     migrateCoinSkills();                                   // einmalig: alte Builds vor der Coin-Sperre retten
     migrateSynUnlock();                                    // einmalig: aktive Synergien grandfathern
+    migrateOneTimeUnlock();                                // einmalig: gebaute Waffen/Forks als freigeschaltet markieren
     arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
     arsenal.w={};
     // HANGAR: gespeichertes Loadout laden (bleibt zwischen Runs erhalten – kein Neu-Aufbau jedes Mal)
@@ -2684,7 +2690,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v222';
+  const GAME_VER='v223';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2874,10 +2880,14 @@
   // ---------- Hangar: bauen/ausrüsten mit Skillpunkten (persistent) ----------
   // 1 Skillpunkt = 1 Waffe ausrüsten ODER 1 Pfad-Knoten. Voller Rückerstatt beim Abwählen (freier Respec).
   function hangarBroke(){ beep(200,0.12,'sawtooth',0.25); vibe(20); banner={text:t('needSP'),sub:t('needSPsub'),t:1.6,color:'#ff5a7a'}; }
-  // Chips als Senke: Waffen & Fork-Pfade kosten zusätzlich zum Skillpunkt Chips (steigt mit Umfang). Respec gibt Skillpunkte zurück (Chips sind verbraucht).
-  const wChipCost=()=>150+150*ownedCount();                       // nächste Waffe ausrüsten
+  // Chips als EINMAL-Senke: Waffen & Fork-Pfade kosten nur beim ALLERERSTEN Freischalten Chips (+Skillpunkt).
+  // Einmal freigeschaltet → danach gratis per Skillpunkt re-/freischaltbar (Respec kostet keine Chips mehr).
+  const wChipCost=()=>150+150*ownedCount();                       // nächste Waffe ausrüsten (nur 1. Mal)
   const FORKCHIP={f1:70,f2:130,f3:210,f4:300};
-  const forkChipCost=slot=>FORKCHIP[slot]||130;                   // Fork-Knoten (teurer je Stufe)
+  const forkChipCost=slot=>FORKCHIP[slot]||130;                   // Fork-Knoten (nur 1. Mal, teurer je Stufe)
+  const isUnlocked=key=> !!(meta.unlocks&&meta.unlocks[key]);     // schon je gekauft?
+  const markUnlocked=key=>{ if(!meta.unlocks) meta.unlocks={}; meta.unlocks[key]=1; };
+  const wKey=id=>'w:'+id, fKey=(id,path)=>'f:'+id+':'+path;
   function chipBroke(cost){ beep(200,0.12,'sawtooth',0.25); vibe(20); banner={text:t('needChips'),sub:'🪙 '+cost,t:1.6,color:'#ff5a7a'}; }
   // Zentral: zu wenig Chips → kurzes Feedback + Coin-Shop öffnen (an allen Kauf-Stellen genutzt). Rückgabe true = nicht genug.
   function coinShort(cost){ if((meta.chips||0)>=cost) return false; beep(200,0.12,'square',0.2,-60); vibe(15); openCoinShop(); return true; }
@@ -2905,12 +2915,14 @@
   function saveLoadout(){ try{ meta.loadout={w:JSON.parse(JSON.stringify(arsenal.w||{})), syn:(activeSyn||[]).slice(), oc:mods.oc||0}; saveMeta(); }catch(e){} }
   function afterSpend(){ saveLoadout(); if(arsenalSkillMode && !hasSkillSpend()) closeArsenalView(); else renderArsenalView(); }
   function spendFork(id,slot,path){ const a=arsenal.w[id]; if(!a||nodeState(id,a,slot,path)!=='avail') return; if(skillPts<=0){ hangarBroke(); return; }
-    const cc=forkChipCost(slot); if((meta.chips||0)<cc){ chipBroke(cc); return; } const before=Object.assign({},syn);
-    meta.chips-=cc; skillPts--; saveSP(); saveMeta(); a.spent=(a.spent||0)+1; a[slot]=path; a.lvl++; recalcArsenal(); sfxPow(); vibe(15);
+    const key=fKey(id,path), firstTime=!isUnlocked(key), cc=firstTime?forkChipCost(slot):0;   // Chips nur beim ersten Mal
+    if(firstTime && (meta.chips||0)<cc){ chipBroke(cc); return; } const before=Object.assign({},syn);
+    if(firstTime){ meta.chips-=cc; markUnlocked(key); } skillPts--; saveSP(); saveMeta(); a.spent=(a.spent||0)+1; a[slot]=path; a.lvl++; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:(wName(id)+' · '+pName(path)).toUpperCase(),sub:t('activated'),t:1.4,color:'#19f0ff'}; synBanner(before); updateAllBalances(); afterSpend(); }
   function addWeaponSkill(id){ if(!opt.guns||arsenal.w[id]||ownedCount()>=arsenal.slots||!weaponUnlocked(id)) return; if(skillPts<=0){ hangarBroke(); return; }
-    const cc=wChipCost(); if((meta.chips||0)<cc){ chipBroke(cc); return; } const before=Object.assign({},syn);
-    meta.chips-=cc; skillPts--; saveSP(); saveMeta(); arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:1}; recalcArsenal(); sfxPow(); vibe(15);
+    const key=wKey(id), firstTime=!isUnlocked(key), cc=firstTime?wChipCost():0;   // Chips nur beim ersten Mal
+    if(firstTime && (meta.chips||0)<cc){ chipBroke(cc); return; } const before=Object.assign({},syn);
+    if(firstTime){ meta.chips-=cc; markUnlocked(key); } skillPts--; saveSP(); saveMeta(); arsenal.w[id]={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:1}; recalcArsenal(); sfxPow(); vibe(15);
     banner={text:wName(id).toUpperCase(),sub:t('newWeapon'),t:1.4,color:'#19f0ff'}; synBanner(before); updateAllBalances(); afterSpend(); }
   // (Synergien sind automatisch aktiv – kein manuelles Toggle/Slot-Management mehr)
   // Zustand eines Pfad-Knotens: chosen (gewählt) / avail (als nächstes wählbar) / dim (Geschwister verworfen) / locked (noch nicht erreichbar)
@@ -2922,8 +2934,8 @@
     return 'avail'; }
   function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(id,a,slot,path), can=(st==='avail'&&opt.guns);
     const next={f1:'f2',f2:'f3',f3:'f4'}[slot], undoable=(st==='chosen'&&opt.guns&&!(next&&a[next]));   // zuletzt gewählte Stufe → abwählbar (Reskill)
-    const cc=forkChipCost(slot), aff=can&&skillPts>0&&(meta.chips||0)>=cc;
-    const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">💠1 🪙'+cc+'</span>'):'';
+    const firstTime=!isUnlocked(fKey(id,path)), cc=firstTime?forkChipCost(slot):0, aff=can&&skillPts>0&&(!firstTime||(meta.chips||0)>=cc);
+    const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">💠1'+(firstTime?(' 🪙'+cc):'')+'</span>'):'';
     const ti={f1:0,f2:1,f3:2,f4:3}[slot]||0, tip=pDesc(path)+' · '+(flavPath(path)||flavTier(id,ti));   // echte Pfad-Beschreibung + Subskill-eigener Spruch
     return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
   // Eine Fork-Reihe: die zwei wählbaren Knoten (Skillpunkt).
@@ -2968,12 +2980,12 @@
       card.querySelectorAll('.tnode.undoable').forEach(n=>n.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')) return; unspendOne(n.dataset.wid,n.dataset.slot); }));
       wrap.appendChild(card); });
     const free=arsenal.slots-ownedCount(), addable=WEAPONS.filter(w=>!arsenal.w[w.id]);   // alle nicht-ausgerüsteten Waffen direkt per Skillpunkt baubar
-    if(opt.guns&&free>0&&addable.length){ const wcc=wChipCost(); addable.forEach(w=>{ const aff=skillPts>0&&(meta.chips||0)>=wcc; const card=document.createElement('div'); card.className='wtree addable';
+    if(opt.guns&&free>0&&addable.length){ const wcc=wChipCost(); addable.forEach(w=>{ const wFirst=!isUnlocked(wKey(w.id)), wCost=wFirst?wcc:0, aff=skillPts>0&&(!wFirst||(meta.chips||0)>=wCost); const card=document.createElement('div'); card.className='wtree addable';
         card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
-          `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · 💠1 🪙${wcc}</button>`;
+          `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · 💠1${wFirst?(' 🪙'+wCost):''}</button>`;
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
     else { for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     const sd=document.getElementById('arsenalSyn'); if(sd){
