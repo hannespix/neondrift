@@ -2685,7 +2685,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v216';
+  const GAME_VER='v217';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3439,10 +3439,11 @@
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
     renderCockpit();   // DOM-Cockpit (sig-guarded, nur bei Änderung)
     renderFxbar();     // DOM-Effekt-Timer oben
-    // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
-    // sonst rendert die Szene 60fps unter dem Backdrop-Blur weiter → mehrere Sekunden Lag auf Mobil.
+    // Funken-Layer immer animieren (auch über Pause/Hangar/Upgrade) → derselbe coole Sparkle-Hintergrund wie in den Menüs.
+    asFrame(dt);
+    // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) die SPIEL-Szene einfrieren (kein draw()) → spart Render-Last; das Menü deckt sie eh ab.
     if(state===S.UPGRADE||state===S.PAUSE){ requestAnimationFrame(loop); return; }
-    draw(); drawAchToast(); if(state===S.MENU) mfxFrame(dt); asFrame(dt); requestAnimationFrame(loop);
+    draw(); drawAchToast(); if(state===S.MENU) mfxFrame(dt); requestAnimationFrame(loop);
   }
   function drawAchToast(){ if(!achToasts.length) return; const a=achToasts[0], id=a.id, al=Math.min(1,a.t,3.4-a.t+0.6);
     const w=Math.min(W*0.86,360), x=W/2-w/2, y=Math.max(54,H*0.12);
