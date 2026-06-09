@@ -2685,7 +2685,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v213';
+  const GAME_VER='v214';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
