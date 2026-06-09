@@ -2685,7 +2685,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v215';
+  const GAME_VER='v216';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3407,7 +3407,8 @@
   function asOpen(){ return !!document.querySelector('#settings:not(.hidden),#ach:not(.hidden),#shop:not(.hidden),#shipEditor:not(.hidden),#coinshop:not(.hidden),#statusView:not(.hidden),#howto:not(.hidden),#pause:not(.hidden),#over:not(.hidden),#upgrade:not(.hidden),#arsenalView:not(.hidden)'); }
   function asFrame(dt){
     if(!asCv){ asCv=document.getElementById('fxSparkle'); if(!asCv) return; asX=asCv.getContext('2d'); }
-    if(!asOpen()){ if(asM.length){ asM.length=0; if(asX&&asW) asX.clearRect(0,0,asW,asH); } return; }   // nur in Untermenüs
+    if(state===S.PLAY || !asOpen()){ if(asCv.style.display!=='none'){ asM.length=0; if(asX&&asW) asX.clearRect(0,0,asW,asH); asCv.style.display='none'; } return; }   // im Spiel (S.PLAY zuerst → kein querySelector pro Frame) / Hauptmenü: Canvas ganz aus dem Compositing nehmen
+    if(asCv.style.display==='none') asCv.style.display='block';
     const dpr=Math.min(2,window.devicePixelRatio||1), w=window.innerWidth, h=window.innerHeight;
     if(asCv.width!==Math.round(w*dpr)||asCv.height!==Math.round(h*dpr)){ asCv.width=Math.round(w*dpr); asCv.height=Math.round(h*dpr); asW=w; asH=h; asX.setTransform(dpr,0,0,dpr,0,0); }
     while(asM.length<58) asM.push(asSpawn());

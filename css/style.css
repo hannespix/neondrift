@@ -67,7 +67,7 @@
   /* Menü-Belebung: Kettenblitz-/Funken-Overlay hinter den Menü-Elementen */
   #menuFx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
   /* Ambient-Neon-Sparkle über den Untermenüs (liegt über den Glas-Screens, dezente Funken wie im Hauptmenü) */
-  #fxSparkle{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:11;}
+  #fxSparkle{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:11;display:none;}
   /* Reaktion der Elemente, wenn ein Blitz/Funke sie trifft */
   .menuZap{animation:menuZap .48s ease-out;}
   @keyframes menuZap{0%{filter:brightness(1)}16%{filter:brightness(1.55) drop-shadow(0 0 12px var(--cyan))}100%{filter:brightness(1)}}
