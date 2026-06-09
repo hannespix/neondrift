@@ -17,7 +17,7 @@
   const TR={
     de:{
       tag:'weiche aus · sammle · überlebe', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
-      howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen ◈ und Skillpunkte 💠 – im Hangar 🎒 rüstest du auf.',
+      howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen 🪙 und Skillpunkte 💠 – im Hangar 🎒 rüstest du auf.',
       tipSP:'💠 Skillpunkt!', tipSPd:'Hangar 🎒 unten öffnen & aufrüsten', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.',
@@ -34,7 +34,7 @@
       overdrive:'⚡ OVERDRIVE', overdriveSub:'du brennst!', enrage:'🔥 ENRAGE!', enrageSub:'es dreht völlig durch!',
       beaten:'🏆 DURCHGESPIELT!', beatenSub:'…aber es hört nicht auf.', madness:'☣ WAHNSINN-MODUS', madnessSub:'wie weit kommst du?', clearedTag:'🏆 DURCHGESPIELT!  ·  ',
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
-      pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'✕2 PUNKTE & ◈', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
+      pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'✕2 PUNKTE & 🪙', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
       shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
       achBtn:'🏅 ERFOLGE', shipDesigner:'Schiff-Designer', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', newShip:'Neues Schiff', del:'Löschen', shipDefault:'Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
@@ -46,7 +46,7 @@
     },
     en:{
       tag:'dodge · collect · survive', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
-      howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins ◈ and skill points 💠 – gear up in the Hangar 🎒.',
+      howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins 🪙 and skill points 💠 – gear up in the Hangar 🎒.',
       tipSP:'💠 Skill point!', tipSPd:'Open the Hangar 🎒 below to gear up', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then NEONDRIFT runs fullscreen.',
@@ -63,7 +63,7 @@
       overdrive:'⚡ OVERDRIVE', overdriveSub:"you're on fire!", enrage:'🔥 ENRAGE!', enrageSub:'it totally loses it!',
       beaten:'🏆 YOU BEAT IT!', beatenSub:'…but it never stops.', madness:'☣ MADNESS MODE', madnessSub:'how far can you go?', clearedTag:'🏆 BEATEN!  ·  ',
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
-      pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'✕2 SCORE & ◈', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
+      pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'✕2 SCORE & 🪙', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
       shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
       achBtn:'🏅 ACHIEVEMENTS', shipDesigner:'Ship Designer', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', newShip:'New Ship', del:'Delete', shipDefault:'Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow',
       near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
@@ -75,7 +75,7 @@
     },
     fr:{
       tag:'esquive · collecte · survis', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
-      howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins ◈ et points 💠 – équipe-toi au Hangar 🎒.',
+      howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins 🪙 et points 💠 – équipe-toi au Hangar 🎒.',
       tipSP:'💠 Point de skill !', tipSPd:'Ouvre le Hangar 🎒 en bas pour t’équiper', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – NEONDRIFT passe en plein écran.',
@@ -92,7 +92,7 @@
       overdrive:'⚡ OVERDRIVE', overdriveSub:'tu es en feu !', enrage:'🔥 ENRAGE !', enrageSub:'il pète un câble !',
       beaten:'🏆 TERMINÉ !', beatenSub:'…mais ça ne s’arrête pas.', madness:'☣ MODE FOLIE', madnessSub:'jusqu’où iras-tu ?', clearedTag:'🏆 TERMINÉ !  ·  ',
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
-      pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'✕2 SCORE & ◈', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
+      pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'✕2 SCORE & 🪙', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
       shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
       achBtn:'🏅 SUCCÈS', shipDesigner:'Designer de vaisseau', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', newShip:'Nouveau', del:'Supprimer', shipDefault:'Vaisseau', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow',
       near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
@@ -186,7 +186,7 @@
   const mTxt =id=>(((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||['',''])[1])||'';
   let shopTab='ship';   // aktiver Werkstatt-Reiter (Waffen/Synergien laufen über den Hangar)
   // Waffen/Synergien laufen jetzt über den Hangar (Loadout/Synergien) → in der Werkstatt nur noch dauerhafte Boosts + Kosmetik
-  const SHOPTABS=[['ship','🛡️'],['power','💥'],['economy','◈'],['cosmetic','🎨']];
+  const SHOPTABS=[['ship','🛡️'],['power','💥'],['economy','🪙'],['cosmetic','🎨']];
   const shopName=m=> m.id.indexOf('fu_')===0 ? wName(m.id.slice(3))+' – Pfade' : mName(m.id);
   const shopDesc=m=> m.id.indexOf('fu_')===0 ? (wArch(m.id.slice(3))+' · nächste Skill-Pfad-Stufe (im Run wählbar)') : (mTxt(m.id)+(m.id.indexOf('bp_')===0?(' · '+wArch(m.id.slice(3))):''));
   const FORMTR={de:{sine:'Wellenflug',drift:'Gleiter',orbit:'Kreisel',zigzag:'Irrläufer',pendulum:'Pendler'},
@@ -238,7 +238,7 @@
     {id:'reach',       ico:'📡',name:'Fern-Sensor',  base:70, max:4},
     {id:'score',       ico:'💎',name:'Punkte-Boost', base:130,max:4},
     {id:'luck',        ico:'🎁',name:'Glückssträhne',base:100,max:3},
-    {id:'rich',        ico:'◈', name:'Chip-Magnet',  base:60, max:6}
+    {id:'rich',        ico:'🪙', name:'Chip-Magnet',  base:60, max:6}
   ];
   const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,2.2)/10)*10;   // steilere Kurve: je höher die Stufe, desto teurer (krasser Grind oben)
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
@@ -303,7 +303,7 @@
   const ACH=[
     {id:'firstNear',ico:'😎'},{id:'combo10',ico:'🔗'},{id:'combo20',ico:'⚡'},{id:'combo30',ico:'👑'},
     {id:'perfect10',ico:'🎯'},{id:'boss5',ico:'🌊'},{id:'mega',ico:'🛸'},{id:'won',ico:'🏆'},
-    {id:'madness',ico:'☣'},{id:'orbs1000',ico:'🔷'},{id:'chips10k',ico:'◈'},{id:'allmodes',ico:'🎮'},
+    {id:'madness',ico:'☣'},{id:'orbs1000',ico:'🔷'},{id:'chips10k',ico:'🪙'},{id:'allmodes',ico:'🎮'},
     {id:'curse',ico:'🎲'},{id:'daily',ico:'🗓'}
   ];
   const ACHTR={
@@ -1048,7 +1048,7 @@
   function refillCombo(){ comboTimeMax=Math.max(1.7,(mode==='zen'?4.4:3.4)-multiplier*0.12); comboTime=comboTimeMax; }
   // Combo vorbei → den durch die Combo erspielten Münz-Zusatzgewinn kurz aufpoppen (Beleg, dass sich die Combo gelohnt hat)
   function flushComboBonus(x,y){ const b=Math.round(comboCoinBonus); comboCoinBonus=0;
-    if(b>=1){ floatText(x,y-46,'COMBO +◈'+b,'#ffd23f',20); } }
+    if(b>=1){ floatText(x,y-46,'COMBO +🪙'+b,'#ffd23f',20); } }
   // ---------- Adaptives Balancing: Spielerstärke -> härtere Gegner ----------
   // Gesamt-DPS des Arsenals (Flächen-/Multi-Treffer eingerechnet) → für HP-Skalierung
   function gunDps(){ let d=0;
@@ -1196,7 +1196,7 @@
     bossActive=false; boss=null; bossPending=false; bossTimer=combatDur(); bossPhaseT=0; laserSpawnT=0; ebullets=[]; lasers=[];
     curBg=cloneTheme(THEMES[((level||1)-1)%THEMES.length]); banner=null;
     // UI in den pausierten Zustand bringen – tippen/Resume zum Weiterspielen
-    try{ scoreEl.textContent=fmt(displayScore); comboEl.textContent='x'+multiplier; if(coinHud) coinHud.textContent='◈ '+fmt(meta.chips||0); }catch(e){}
+    try{ scoreEl.textContent=fmt(displayScore); comboEl.textContent='x'+multiplier; if(coinHud) coinHud.textContent='🪙 '+fmt(meta.chips||0); }catch(e){}
     state=S.PAUSE;
     document.getElementById('start').classList.add('hidden');
     document.getElementById('over').classList.add('hidden');
@@ -1282,7 +1282,7 @@
     else if(shields<5 && Math.random()<0.45){ kind='heal'; }                   // Schild auffüllen (nur wenn nicht voll)
     gems.push({x:rand(50,W-50),y:-28,r:17,vy:70+difficulty*14,u,kind,curse:kind==='curse',pulse:Math.random()*6.28,rot:0});
   }
-  const GEM_ICO={chips:'◈',heal:'🛡',curse:'🎲'}, GEM_COL={chips:'#ffe600',heal:'#2effc0'};
+  const GEM_ICO={chips:'🪙',heal:'🛡',curse:'🎲'}, GEM_COL={chips:'#ffe600',heal:'#2effc0'};
   function collectGem(g){
     if(g.kind==='curse'){ const u=g.u, col=CURSE_COL[u.id]||'#ff2e88'; triggerCurse(u.id); unlockAch('curse');
       spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.5,flash+0.16); flashColor=col;
@@ -1294,7 +1294,7 @@
     const bonus=Math.max(5,Math.round(8+difficulty*5)), col=GEM_COL.chips;   // Chips-Windfall, skaliert leicht mit Tempo
     awardCoins(bonus,g.x,g.y-14,true);
     spawnParticles(g.x,g.y,col,18,240); flash=Math.min(0.4,flash+0.1); flashColor=col;
-    banner={text:'◈ +'+bonus,sub:'',t:1.4,color:col}; sfxUpgrade(); vibe([12,16,12]); }
+    banner={text:'🪙 +'+bonus,sub:'',t:1.4,color:col}; sfxUpgrade(); vibe([12,16,12]); }
 
   // ---------- Boss ----------
   function startBoss(){
@@ -1512,7 +1512,7 @@
   // Sichtbare Coin-Belohnung an Ort X/Y (Dopamin: Gold-Pop). Quelle klar erkennbar (Orb/Combo/Boss).
   function awardCoins(n,x,y,big){ n=Math.max(0,Math.round(n)); if(!n) return;
     meta.chips=(meta.chips||0)+n; runChipsEarned+=n; coinSaveAcc+=n; updateMenuChips();
-    if(x!=null) floatText(x,y,'+◈'+n,'#ffd23f',big?22:16);
+    if(x!=null) floatText(x,y,'+🪙'+n,'#ffd23f',big?22:16);
     if(coinSaveAcc>=30){ saveMeta(); coinSaveAcc=0; } }
   function openUpgrade(armed){ accrueChips(); updateRunShopBtns();   // Live-Chips gutschreiben; Skillpunkte sind persistent (Boss-/Zufalls-Drops, kaufbar) → im Hangar einsetzbar
     state=S.UPGRADE; sfxUpgrade(); vibe([30,20,30]);
@@ -1816,7 +1816,7 @@
     accrueChips(false);                                   // Coins laufend verdienen (Live-Guthaben, gedrosselt gespeichert)
     shake=Math.max(0,shake-dt*60); flash=Math.max(0,flash-dt*1.5); nearGlow=Math.max(0,nearGlow-dt*2);
     scoreEl.textContent=fmt(displayScore); comboEl.textContent='x'+multiplier;
-    if(coinHud) coinHud.textContent='◈ '+fmt(meta.chips||0);
+    if(coinHud) coinHud.textContent='🪙 '+fmt(meta.chips||0);
     const cf=(combo>0&&comboTimeMax>0)?Math.max(0,Math.min(1,comboTime/comboTimeMax)):0;
     comboFillEl.style.transform='scaleX('+cf+')'; comboBarEl.classList.toggle('on',combo>0);
   }
@@ -2684,7 +2684,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v220';
+  const GAME_VER='v221';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2719,7 +2719,7 @@
     saveMeta(); updateMenuChips();
     document.getElementById('hud').classList.add('hidden'); showCockpit(false);
     finalScore.textContent=Math.round(score); finalBest.textContent=curBest(); overModeEl.textContent=(daily?(t('modeDaily')+' · '+dailyLabel()):modeLabel(mode))+' · '+(DIFFS[meta.diff||0]||DIFFS[0]).name;
-    chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'◈ +'+earned+'  ·  '+t('balance')+' ◈ '+(meta.chips||0);
+    chipsEarnedEl.textContent=(wonThisRun?t('clearedTag'):'')+'🪙 +'+earned+'  ·  '+t('balance')+' 🪙 '+(meta.chips||0);
     quipEl.textContent=pick(P('quips')); deathMsg=pick(P('insults')); insultEl.textContent=deathMsg; newrecEl.style.display=rec?'block':'none';   // deathMsg materialisiert sich auch im Canvas-Abgang
     setTimeout(()=>document.getElementById('over').classList.remove('hidden'),1600);   // Explosion erst auswüten lassen
   }
@@ -2774,9 +2774,9 @@
   }
 
   // ---------- Werkstatt (Meta-Shop) ----------
-  function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='◈ '+fmt(meta.chips)+((meta.won)?('  ·  🏆 '+meta.won):''); }
+  function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='🪙 '+fmt(meta.chips)+((meta.won)?('  ·  🏆 '+meta.won):''); }
   let shopFrom='start';                                  // Werkstatt: aus Menü, Game-Over ODER mitten im Run (Upgrade-/Skill-Screen)
-  function runShopLabel(){ return '🛠️ '+t('workshop')+' ◈ '+fmt(meta.chips); }
+  function runShopLabel(){ return '🛠️ '+t('workshop')+' 🪙 '+fmt(meta.chips); }
   function updateRunShopBtns(){ const a=document.getElementById('upgradeShopBtn'), b=document.getElementById('arsenalShopBtn');
     if(a) a.textContent=runShopLabel(); if(b) b.textContent=runShopLabel(); }
   function openShop(from){ setShopHost('shop'); const run=(from==='upgrade'||from==='arsenalView'||from==='pause');
@@ -2807,13 +2807,13 @@
     if(ib){ e.preventDefault(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } });
   function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
     const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
-    const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">◈ '+cost+'</button>');
+    const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+'</button>');
     card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
     const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
     return card; }
   function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy,tip}
     const right = o.state==='done' ? '<span class="wnode-done">✓</span>'
-      : o.state==='buy' ? `<button class="cost${o.aff?'':' locked'}" data-buy="${o.buy}">◈ ${o.cost}</button>`
+      : o.state==='buy' ? `<button class="cost${o.aff?'':' locked'}" data-buy="${o.buy}">🪙 ${o.cost}</button>`
       : '<span class="wnode-lock">🔒</span>';
     return `<div class="wnode ${o.state}"><span class="wni">${o.ico}</span><div class="wnt"><b>${o.title}</b>${o.sub?`<span>${o.sub}</span>`:''}</div>${infoBtn(o.title,o.tip)}${right}</div>`; }
   function weaponAccordion(w){ const id=w.id, bpId='bp_'+id, free=(id==='blaster');
@@ -2841,7 +2841,7 @@
     shopCards.appendChild(gen);
     for(const w of WEAPONS) shopCards.appendChild(weaponAccordion(w)); }
   const weaponBpOwned=id=>id==='blaster'||metaLvl('bp_'+id)>0;
-  function renderShop(){ shopChipsEl.textContent='◈ '+fmt(meta.chips);
+  function renderShop(){ shopChipsEl.textContent='🪙 '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
     const tabsEl=document.getElementById(shopTabsHostId);
@@ -2878,14 +2878,14 @@
   const wChipCost=()=>150+150*ownedCount();                       // nächste Waffe ausrüsten
   const FORKCHIP={f1:70,f2:130,f3:210,f4:300};
   const forkChipCost=slot=>FORKCHIP[slot]||130;                   // Fork-Knoten (teurer je Stufe)
-  function chipBroke(cost){ beep(200,0.12,'sawtooth',0.25); vibe(20); banner={text:t('needChips'),sub:'◈ '+cost,t:1.6,color:'#ff5a7a'}; }
+  function chipBroke(cost){ beep(200,0.12,'sawtooth',0.25); vibe(20); banner={text:t('needChips'),sub:'🪙 '+cost,t:1.6,color:'#ff5a7a'}; }
   // Zentral: zu wenig Chips → kurzes Feedback + Coin-Shop öffnen (an allen Kauf-Stellen genutzt). Rückgabe true = nicht genug.
   function coinShort(cost){ if((meta.chips||0)>=cost) return false; beep(200,0.12,'square',0.2,-60); vibe(15); openCoinShop(); return true; }
   // Coins → Skillpunkt kaufen: quadratisch steigend (50, 100, 250, 500, 850, 1300 …) = steiler als linear, nicht exponentiell
   const buySpCost=k=>50+50*(k|0)*(k|0);
   function buySkillPoint(){ const k=meta.spBought||0, cost=buySpCost(k); if(coinShort(cost)) return;
     meta.chips-=cost; meta.spBought=k+1; skillPts++; saveSP(); sfxPow(); vibe([12,18]);
-    banner={text:'💠 +1 '+t('skillPts'),sub:'−◈'+cost,t:1.4,color:'#19f0ff'}; updateAllBalances(); renderArsenalView(); }
+    banner={text:'💠 +1 '+t('skillPts'),sub:'−🪙'+cost,t:1.4,color:'#19f0ff'}; updateAllBalances(); renderArsenalView(); }
   function dropWeapon(id){ const a=arsenal.w[id]; const refund=(id==='blaster')?0:(a&&a.spent||0);
     delete arsenal.w[id]; if(refund>0){ skillPts+=refund; saveSP(); } recalcArsenal(); beep(220,0.18,'sawtooth',0.3,-100); vibe([25,20]); updateAllBalances(); saveLoadout(); renderArsenalView(); }
   // Zuletzt gewählten Fork wieder abwählen → Skillpunkt zurück (gratis – Umskillen kostet nichts)
@@ -2923,7 +2923,7 @@
   function treeNode(id,slot,path){ const a=arsenal.w[id], st=nodeState(id,a,slot,path), can=(st==='avail'&&opt.guns);
     const next={f1:'f2',f2:'f3',f3:'f4'}[slot], undoable=(st==='chosen'&&opt.guns&&!(next&&a[next]));   // zuletzt gewählte Stufe → abwählbar (Reskill)
     const cc=forkChipCost(slot), aff=can&&skillPts>0&&(meta.chips||0)>=cc;
-    const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">💠1 ◈'+cc+'</span>'):'';
+    const hint=can?('<span class="pickhint'+(aff?'':' shop')+'">💠1 🪙'+cc+'</span>'):'';
     const ti={f1:0,f2:1,f3:2,f4:3}[slot]||0, tip=pDesc(path)+' · '+(flavPath(path)||flavTier(id,ti));   // echte Pfad-Beschreibung + Subskill-eigener Spruch
     return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
   // Eine Fork-Reihe: die zwei wählbaren Knoten (Skillpunkt).
@@ -2942,10 +2942,12 @@
     show('arSecLoadout',arsenalTab==='loadout'); show('arSecSyn',arsenalTab==='syn'); show('arSecShop',arsenalTab==='shop');
     if(arsenalTab==='shop'){ setShopHost('arsenal'); renderShop(); const bb0=document.getElementById('arsenalBackBtn'); if(bb0) bb0.textContent=t('back'); return; }
     updateRunShopBtns(); const sub=document.getElementById('arsenalViewSub');
-    if(sub){ sub.textContent=t('slotsLbl')+' '+ownedCount()+'/'+arsenal.slots+' · 💠'+skillPts+' '+t('skillPts')+' · ◈'+(meta.chips||0); }
+    if(sub){ sub.innerHTML='<span class="rp" title="'+t('slotsLbl')+'">🎒 '+ownedCount()+'/'+arsenal.slots+'</span>'
+      +'<span class="rp" title="'+t('skillPts')+'">💠 '+skillPts+'</span>'
+      +'<span class="rp coin" title="'+t('balance')+'">🪙 '+fmt(meta.chips||0)+'</span>'; }
     const bsp=document.getElementById('arBuySpBtn');
     if(bsp){ if(!opt.guns){ bsp.classList.add('hidden'); } else { const cost=buySpCost(meta.spBought||0), aff=(meta.chips||0)>=cost; bsp.classList.remove('hidden');
-      bsp.classList.toggle('locked',!aff); bsp.innerHTML='💠 '+t('buySP')+' · <b>◈'+cost+'</b>';
+      bsp.classList.toggle('locked',!aff); bsp.innerHTML='💠 '+t('buySP')+' · <b>🪙'+cost+'</b>';
       bsp.onclick=()=>buySkillPoint(); } }
     const bb=document.getElementById('arsenalBackBtn'); if(bb) bb.textContent=arsenalSkillMode?t('skillNext'):t('back');
     const wrap=document.getElementById('arsenalCards'); if(!wrap) return; wrap.innerHTML='';
@@ -2971,7 +2973,7 @@
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
-          `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · 💠1 ◈${wcc}</button>`;
+          `<button class="cost addw${aff?'':' locked'}">➕ ${t('addWeapon')} · 💠1 🪙${wcc}</button>`;
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
     else { for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     const sd=document.getElementById('arsenalSyn'); if(sd){
@@ -3054,7 +3056,7 @@
     fr:['L’argent n’a pas d’odeur, le néon brille.','Le capitalisme – mais en rose.','N’économise pas, dépense !','Deviens riche en dormant. Ou ici.','Plus de coins = plus de boum. Science.','Ta tirelire a déjà peur.','Investis dans les pixels. Anticrise.','De l’argent réel ? Bientôt. D’abord les codes.']
   };
   let coinReturn='start';
-  function updateAllBalances(){ const bal='◈ '+(meta.chips||0); ['shopChips','arShopChips','coinBal'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent=bal; }); if(typeof updateMenuChips==='function') updateMenuChips(); }
+  function updateAllBalances(){ const bal='🪙 '+(meta.chips||0); ['shopChips','arShopChips','coinBal'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent=bal; }); if(typeof updateMenuChips==='function') updateMenuChips(); }
   function renderCoinShop(){ updateAllBalances(); }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
   function openCoinShop(){ const m=document.getElementById('devMsg'); if(m){m.textContent='';m.className='devMsg';}
@@ -3130,7 +3132,7 @@
   function renderAch(){ const got=ACH.filter(a=>meta.ach&&meta.ach[a.id]).length, sub=document.getElementById('achSub');
     if(sub) sub.textContent=got+'/'+ACH.length;
     const sp=document.getElementById('achStats');
-    if(sp){ const rows=[['runs','🎮',statN('runs')],['orbs','🪙',statN('orbs')],['near','😎',statN('near')],['perfect','🎯',statN('perfect')],['bosses','🛸',statN('bosses')],['maxCombo','🔗','x'+statN('maxCombo')],['maxBoss','🌊',statN('maxBoss')],['chipsTotal','◈',fmt(statN('chipsTotal'))],['won','🏆',meta.won||0]];
+    if(sp){ const rows=[['runs','🎮',statN('runs')],['orbs','🪙',statN('orbs')],['near','😎',statN('near')],['perfect','🎯',statN('perfect')],['bosses','🛸',statN('bosses')],['maxCombo','🔗','x'+statN('maxCombo')],['maxBoss','🌊',statN('maxBoss')],['chipsTotal','🪙',fmt(statN('chipsTotal'))],['won','🏆',meta.won||0]];
       const hs=(ico,label,v)=>'<div class="sttile hs"><span class="i">'+ico+'</span><b>'+fmt(v||0)+'</b><span class="l">'+label+'</span></div>';
       let hsTiles=hs('🕹️',modeLabel('normal'),best&&best.normal)+hs('⚡',modeLabel('hardcore'),best&&best.hardcore);
       if(best&&best.daily) hsTiles+=hs('🗓️',t('modeDaily'),best.daily);
@@ -3180,7 +3182,7 @@
     const tele=document.getElementById('statusTele'); if(tele){ const pc=v=>Math.round(v)+'%', mx=v=>'×'+(Math.round(v*100)/100);
       const rows=[['💥',t('statDps'),fmt(Math.round(s.dps))],['🎯',t('statCrit'),pc(s.crit*100)],['💢',t('statCritDmg'),mx(s.critMult)],
         ['❤️',t('statLives'),s.lives],['🛡️',t('statShield'),s.shields],['🍀',t('statLuck'),'+'+pc((s.luck-1)*100)],
-        ['💎',t('statScore'),'+'+pc((s.scoreMult-1)*100)],['◈',t('statCoin'),mx(s.coinMult)],['◎',t('statHull'),Math.round(s.hull)],['📡',t('statReach'),Math.round(s.nearR)]];
+        ['💎',t('statScore'),'+'+pc((s.scoreMult-1)*100)],['🪙',t('statCoin'),mx(s.coinMult)],['◎',t('statHull'),Math.round(s.hull)],['📡',t('statReach'),Math.round(s.nearR)]];
       tele.innerHTML='<div class="stGrid">'+rows.map(r=>'<div class="sttile"><span class="i">'+r[0]+'</span><b>'+r[2]+'</b><span class="l">'+r[1]+'</span></div>').join('')+'</div>'; }
     const weps=document.getElementById('statusWeps'); if(weps){ const max=s.perW.length?s.perW[0].dps:1;
       let h='<div class="stHead">🔥 '+t('statFirepower')+' <small>('+t('statEst')+')</small></div>';
@@ -3222,10 +3224,10 @@
     const tools=document.getElementById('edTools'); if(tools){ tools.innerHTML='';
       if(glowUnlocked()){ const g=document.createElement('button'); g.className=edGlow?'buy':''; g.textContent='✨ Glow: '+(edGlow?t('on'):t('off'));
         g.addEventListener('click',()=>{ edGlow=!edGlow; edErase=false; renderEditor(); }); tools.appendChild(g); }
-      else { const gm=metaById('pxglow'), cost=metaCost(gm,0), aff=(meta.chips||0)>=cost; const g=document.createElement('button'); g.className='buy'+(aff?'':' lock'); g.textContent='✨ '+t('glowUnlock')+' ◈'+cost;
+      else { const gm=metaById('pxglow'), cost=metaCost(gm,0), aff=(meta.chips||0)>=cost; const g=document.createElement('button'); g.className='buy'+(aff?'':' lock'); g.textContent='✨ '+t('glowUnlock')+' 🪙'+cost;
         g.addEventListener('click',()=>{ buyMeta('pxglow'); renderEditor(); }); tools.appendChild(g); }
       const pm=metaById('pxpack'), lvl=metaLvl('pxpack');
-      if(lvl<pm.max){ const cost=metaCost(pm,lvl), aff=(meta.chips||0)>=cost; const p=document.createElement('button'); p.className='buy'+(aff?'':' lock'); p.textContent='➕'+PIX_PER+' '+t('pixels')+' ◈'+cost;
+      if(lvl<pm.max){ const cost=metaCost(pm,lvl), aff=(meta.chips||0)>=cost; const p=document.createElement('button'); p.className='buy'+(aff?'':' lock'); p.textContent='➕'+PIX_PER+' '+t('pixels')+' 🪙'+cost;
         p.addEventListener('click',()=>{ buyMeta('pxpack'); renderEditor(); }); tools.appendChild(p); } }
     const tpl=document.getElementById('edTemplates'); if(tpl){ tpl.innerHTML='<div class="tplLbl">'+t('templates')+'</div>';
       ED_TEMPLATES.forEach((T,i)=>{ const b=document.createElement('button'); b.textContent=T.name; b.addEventListener('click',()=>loadTemplate(i)); tpl.appendChild(b); }); }
@@ -3280,7 +3282,7 @@
       let btn;
       if(active) btn='<div class="pick on">'+t('active')+'</div>';
       else if(unlocked) btn='<button class="pick" data-sk="'+s.id+'" data-act="sel">'+t('choose')+'</button>';
-      else if(s.cost){ const aff=(meta.chips||0)>=s.cost; btn='<button class="pick'+(aff?'':' lock')+'" data-sk="'+s.id+'" data-act="buy">◈ '+s.cost+'</button>'; }
+      else if(s.cost){ const aff=(meta.chips||0)>=s.cost; btn='<button class="pick'+(aff?'':' lock')+'" data-sk="'+s.id+'" data-act="buy">🪙 '+s.cost+'</button>'; }
       else btn='<div class="pick lock">🏅 '+achName(s.ach)+'</div>';
       card.innerHTML='<div class="prev" style="background:'+prevBg+';border-color:'+s.edge+'"></div><h5>'+skinName(s.id)+'</h5>'+btn;
       const b=card.querySelector('button.pick'); if(b) b.addEventListener('click',()=>{ b.dataset.act==='buy'?buySkin(s.id):selectSkin(s.id); });

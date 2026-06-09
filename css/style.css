@@ -361,9 +361,15 @@
   .tnode .pickhint{position:absolute;top:-8px;right:-8px;min-width:19px;height:18px;border-radius:9px;padding:0 6px;background:#19f0ff;color:#08010f;
     font-family:'VT323',monospace;font-size:14px;font-weight:700;line-height:18px;text-align:center;white-space:nowrap;box-shadow:0 0 9px rgba(25,240,255,.9);}
   .tnode .pickhint.shop{background:#ff5a7a;}   /* nicht leistbar */
+  /* Hangar-Kopfzeile: Ressourcen-Pillen + Kauf-Button in einer responsiven Leiste (einzeilig wenn Platz, sonst Umbruch) */
+  .arStatBar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px 9px;margin:8px 0 10px;}
+  .arStats{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 7px;margin:0;}
+  .arStats .rp{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);font:700 13px 'Orbitron',sans-serif;letter-spacing:.04em;white-space:nowrap;}
+  .arStats .rp.coin{border-color:rgba(255,210,63,.5);background:rgba(255,210,63,.1);color:#ffe27a;text-shadow:0 0 8px rgba(255,210,63,.45);}
   /* Hangar: Skillpunkt für Coins kaufen */
-  .arBuySp{display:block;margin:6px auto 10px;padding:7px 16px;border-radius:11px;border:1px solid rgba(25,240,255,.55);
-    background:rgba(25,240,255,.1);color:#bfeaff;font:700 12px 'Orbitron',sans-serif;letter-spacing:.5px;cursor:pointer;
+  .arBuySp{margin:0;padding:6px 14px;border-radius:999px;border:1px solid rgba(25,240,255,.55);
+    background:rgba(25,240,255,.1);color:#bfeaff;font:700 12px 'Orbitron',sans-serif;letter-spacing:.5px;cursor:pointer;white-space:nowrap;
     box-shadow:0 0 12px rgba(25,240,255,.25);transition:transform .08s,background .15s;}
   .arBuySp b{color:#ffd23f;}
   .arBuySp:active{transform:scale(.96);}

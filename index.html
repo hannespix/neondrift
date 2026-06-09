@@ -24,7 +24,7 @@
   <div id="hud" class="hidden">
     <div id="left-hud">
       <div id="score">0</div>
-      <div id="coinHud">◈ 0</div>
+      <div id="coinHud">🪙 0</div>
       <div id="modeName">NORMAL</div>
       <button id="zenExit">⏸ PAUSE</button>
     </div>
@@ -56,7 +56,7 @@
       </div>
       <button id="dailyBtn" data-mode="daily">🗓 TÄGLICHE CHALLENGE</button>
       <div class="prepRow">
-        <button id="shopBtn"><span id="shopLbl">🛠️ HANGAR</span> · <span id="menuChips">◈ 0</span></button>
+        <button id="shopBtn"><span id="shopLbl">🛠️ HANGAR</span> · <span id="menuChips">🪙 0</span></button>
       </div>
       <div class="iconRow">
         <button id="achBtn" title="Erfolge">🏅</button>
@@ -77,7 +77,7 @@
     <div class="howRows">
       <div class="howRow"><span class="howIco">✥</span><div class="howTxt"><b id="howDodge">Ausweichen</b><span id="howDodgeD"></span></div></div>
       <div class="howRow"><span class="howIco">✦</span><div class="howTxt"><b id="howCombo">Knapp = Combo</b><span id="howComboD"></span></div></div>
-      <div class="howRow"><span class="howIco">◈</span><div class="howTxt"><b id="howGear">Münzen & Skill</b><span id="howGearD"></span></div></div>
+      <div class="howRow"><span class="howIco">🪙</span><div class="howTxt"><b id="howGear">Münzen & Skill</b><span id="howGearD"></span></div></div>
     </div>
     <button class="btn" id="howtoBtn" style="margin-top:22px;">LOS!</button>
   </div>
@@ -99,15 +99,17 @@
     <div class="utitle" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">🎒 ARSENAL</div>
     <div id="arTabs"></div>
     <div id="arSecLoadout">
-      <div class="usub" id="arsenalViewSub">Slots 0/3</div>
-      <button id="arBuySpBtn" class="arBuySp hidden" type="button"></button>
+      <div class="arStatBar">
+        <div class="usub arStats" id="arsenalViewSub">Slots 0/3</div>
+        <button id="arBuySpBtn" class="arBuySp hidden" type="button"></button>
+      </div>
       <div id="arsenalCards"></div>
     </div>
     <div id="arSecSyn" class="hidden">
       <div id="arsenalSyn"></div>
     </div>
     <div id="arSecShop" class="hidden">
-      <div class="usub"><span id="balLbl2">Guthaben</span> <span id="arShopChips" style="color:var(--yellow)">◈ 0</span> <button id="arShopChestBtn" class="balChest" title="Coin-Shop" aria-label="Coin-Shop"></button></div>
+      <div class="usub"><span id="balLbl2">Guthaben</span> <span id="arShopChips" style="color:var(--yellow)">🪙 0</span> <button id="arShopChestBtn" class="balChest" title="Coin-Shop" aria-label="Coin-Shop"></button></div>
       <div class="usub" id="arShopHint" style="font-size:11px;opacity:.8;"></div>
       <div id="arShopTabs"></div>
       <div id="arShopCards"></div>
@@ -126,7 +128,7 @@
   <div id="shop" class="screen hidden">
     <button class="closeBtn" id="shopCloseBtn" aria-label="Schließen">✕</button>
     <div class="utitle" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">WERKSTATT</div>
-    <div class="usub"><span id="balLbl">Guthaben</span> <span id="shopChips" style="color:var(--yellow)">◈ 0</span> <button id="shopChestBtn" class="balChest" title="Coin-Shop" aria-label="Coin-Shop"></button></div>
+    <div class="usub"><span id="balLbl">Guthaben</span> <span id="shopChips" style="color:var(--yellow)">🪙 0</span> <button id="shopChestBtn" class="balChest" title="Coin-Shop" aria-label="Coin-Shop"></button></div>
     <div class="usub" id="shopHint" style="font-size:11px;opacity:.8;margin-top:2px;"></div>
     <div id="shopTabs"></div>
     <div id="shopCards"></div>
@@ -152,12 +154,12 @@
   <div id="coinshop" class="screen hidden">
     <button class="closeBtn" id="coinCloseBtn" aria-label="Schließen">✕</button>
     <div class="utitle" id="coinTitle" style="color:var(--yellow);text-shadow:0 0 20px var(--yellow);">COINS</div>
-    <div class="usub"><span id="coinBalLbl">Guthaben</span>: <b id="coinBal">◈ 0</b></div>
+    <div class="usub"><span id="coinBalLbl">Guthaben</span>: <b id="coinBal">🪙 0</b></div>
     <div class="usub" id="coinQuip" style="font-style:italic;color:#ffd9f0;margin-top:2px;min-height:1.2em;"></div>
     <div class="coinPacks" id="coinPacks">
-      <button class="coinPack" disabled>◈ 1.000<small>0,99 €</small></button>
-      <button class="coinPack" disabled>◈ 5.000<small>3,99 €</small></button>
-      <button class="coinPack" disabled>◈ 12.000<small>7,99 €</small></button>
+      <button class="coinPack" disabled>🪙 1.000<small>0,99 €</small></button>
+      <button class="coinPack" disabled>🪙 5.000<small>3,99 €</small></button>
+      <button class="coinPack" disabled>🪙 12.000<small>7,99 €</small></button>
     </div>
     <div class="usub" id="coinSoon" style="opacity:.6;margin-top:8px;">Käufe bald verfügbar</div>
     <div class="devBox">
