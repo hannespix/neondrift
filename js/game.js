@@ -214,7 +214,7 @@
   const DIFFS=[
     {name:'👶 Baby',                         spd:-15, hp:-30, den:-20, coin:0.5,  q:'So entspannt, dass sogar dein Toaster gewinnen würde.'},
     {name:'🙈 Schau mal Mama',               spd:0,   hp:0,   den:0,   coin:0.75, q:'Erste Gehversuche – Mama ist stolz, der Highscore weniger.'},
-    {name:'😎 Normalo',                      spd:10,  hp:40,  den:20,  coin:1.0,  q:'Goldene Mitte. Für Leute mit Job und Restwürde.'},
+    {name:'😎 Normalo',                      spd:15,  hp:75,  den:35,  coin:1.0,  q:'Goldene Mitte. Für Leute mit Job und Restwürde.'},
     {name:'📱 Doomscroll-König',             spd:20,  hp:80,  den:40,  coin:1.5,  q:'Daumen-Ausdauer wie beim 3-Stunden-Reels-Marathon.'},
     {name:'🚽 Toiletten-Kaiser',            spd:30,  hp:120, den:60,  coin:2.0,  q:'Nur für Profis mit Sitzfleisch und Nerven aus Stahl.'},
     {name:'💀 Chuck Norris ist hier gestorben', spd:40, hp:160, den:80, coin:2.5, q:'Hier starb sogar Chuck Norris. Viel Glück, Sterblicher.'}
@@ -1261,7 +1261,7 @@
   // ---------- Münz-Pickups: 1/2/5/10, höhere Beträge seltener & größer, manchmal in Gruppen (Combo + Punkte + Geld) ----------
   const COINR={1:10,2:12,5:14.5,10:17.5};
   function coinVal(){ const r=Math.random(); return r<0.58?1:(r<0.84?2:(r<0.955?5:10)); }   // je höher, desto seltener
-  const coinMult=()=>Math.min(5,Math.max(1.1,1+combo*0.1));   // Combo-Multiplikator 1.1–5.0 in 0.1-Schritten je nach Combo
+  const coinMult=()=>Math.min(3,Math.max(1,1+combo*0.08));   // Combo-Münz-Multiplikator 1.0–3.0 (gedeckelt – Coin-Wirtschaft gebremst)
   function spawnCoin(x,y,val){ if(!coinz) coinz=[]; if(coinz.length>70) return; val=val||coinVal();
     coinz.push({x:x!=null?x:grand(28,W-28), y:y!=null?y:-22, vy:72+difficulty*15, r:COINR[val]||10, val, pulse:Math.random()*6.28, rot:0}); }
   function spawnCoinGroup(){ const n=3+((Math.random()*4)|0), cx=grand(70,W-70), v=coinVal();   // ganze Gruppe gleichwertiger Münzen (kleiner Bogen)
@@ -1572,7 +1572,7 @@
   // ---------- Update ----------
   function update(dt){
     saveRunT+=dt; if(saveRunT>=1.2){ saveRunT=0; saveRun(); }   // periodischer Snapshot (Reload-Fortsetzen)
-    elapsed+=dt; const dMax=mode==='hardcore'?6.6:5.6, dT=Math.min(elapsed,190)/190; difficulty=1+dMax*Math.pow(dT,1.5);   // Ease-In-Kurve: sanfter Start, später deutlich steiler & höherer Deckel (über 190s statt 150s)
+    elapsed+=dt; const dMax=mode==='hardcore'?7.4:6.6, dT=Math.min(elapsed,170)/170; difficulty=1+dMax*Math.pow(dT,1.42);   // Ease-In-Kurve: sanfter Start, später steiler & höherer Deckel (Rebalance: härter & früher als zuvor)
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
@@ -1798,11 +1798,10 @@
       const dx=player.x-c.x,dy=player.y-c.y,rr=player.r+c.r+4;
       if(dx*dx+dy*dy<rr*rr){ combo++; setMult(); refillCombo(); director=Math.min(1,director+0.012); runOrbs++;   // Münzen bauen jetzt auch Combo + geben Punkte (Orbs sind dadurch überflüssig)
         addScore(Math.round(8*multiplier));
-        const dbl=effects.double>0?2:1;                                   // ×2-Power-up wirkt auch auf Münzen
-        const base=Math.max(1,Math.round(c.val*coinMult()*(mods.orbValueMult||1)));
-        const comboMul=1+(multiplier-1)*0.5;                              // Combo verrechnet sich auf Münzen (sanfter als Score)
-        const amt=Math.max(1,Math.round(base*comboMul*dbl));
-        comboCoinBonus+=amt-base*dbl;                                     // Combo-Zusatzgewinn aufsummieren (für Anzeige am Combo-Ende)
+        const dbl=effects.double>0?2:1;                                  // ×2-Power-up wirkt auch auf Münzen
+        const flat=c.val*(mods.orbValueMult||1);                         // Grundwert ohne Combo
+        const amt=Math.max(1,Math.round(flat*coinMult()*dbl));           // coinMult() ist der EINZIGE Combo-Faktor (kein Doppel-Multiplikator mehr → Coin-Flut behoben)
+        comboCoinBonus+=Math.max(0,amt-Math.round(flat*dbl));            // nur der Combo-Anteil für die Anzeige am Combo-Ende
         awardCoins(amt,c.x,c.y-14,c.val>=5);
         spawnParticles(c.x,c.y,'#ffe066',c.val>=5?14:8,200); sfxCoin(); bumpCombo(); vibe(9); flash=Math.min(0.45,flash+0.08); flashColor='#ffd23f'; coinz.splice(i,1); continue; }
       if(c.y>H+26) coinz.splice(i,1);
@@ -2685,7 +2684,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v218';
+  const GAME_VER='v219';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
