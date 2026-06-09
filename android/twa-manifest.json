@@ -1,0 +1,43 @@
+{
+  "packageId": "io.github.hannespix.thronerush",
+  "host": "hannespix.github.io",
+  "name": "THRONERUSH",
+  "launcherName": "THRONERUSH",
+  "display": "fullscreen",
+  "themeColor": "#08010f",
+  "themeColorDark": "#08010f",
+  "navigationColor": "#08010f",
+  "navigationColorDark": "#08010f",
+  "navigationDividerColor": "#08010f",
+  "navigationDividerColorDark": "#08010f",
+  "backgroundColor": "#08010f",
+  "enableNotifications": false,
+  "startUrl": "/thronerush/",
+  "iconUrl": "https://hannespix.github.io/thronerush/icons/icon-512.png",
+  "maskableIconUrl": "https://hannespix.github.io/thronerush/icons/icon-maskable-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://hannespix.github.io/thronerush/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://hannespix.github.io/thronerush/",
+  "minSdkVersion": 21,
+  "orientation": "default",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "1.0.0"
+}
