@@ -2685,7 +2685,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v212';
+  const GAME_VER='v213';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2861,14 +2861,15 @@
   function openArsenalView(tab){ if(state!==S.PAUSE && state!==S.MENU) return; arsenalSkillMode=false; arsenalTab=tab||'loadout';
     arsenalFromMenu=(state===S.MENU);
     if(arsenalFromMenu){ if(!mode) mode='normal'; reset(); applyMeta(); document.getElementById('start').classList.add('hidden'); }   // Hangar im Menü: State aus dem Loadout aufbauen (mods etc.), ohne den Run zu starten
-    else accrueChips();
+    else { accrueChips(); document.getElementById('pause').classList.add('hidden'); }   // Pause ausblenden, sonst scheint es durch das Glas durch
     renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   // Skill-Screen: friert das Spiel ein, zeigt den klickbaren Baum zum Ausgeben der Skillpunkte
   function openSkillScreen(){ arsenalSkillMode=true; state=S.PAUSE; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   function closeArsenalView(){ document.getElementById('arsenalView').classList.add('hidden');
     if(arsenalFromMenu){ arsenalFromMenu=false; document.getElementById('start').classList.remove('hidden'); updateMenuChips(); }
     else if(arsenalSkillMode){ arsenalSkillMode=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); }
-    else if(arsenalResume){ arsenalResume=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); } }
+    else if(arsenalResume){ arsenalResume=false; state=S.PLAY; invuln=Math.max(invuln,0.9); lastT=performance.now(); }
+    else { document.getElementById('pause').classList.remove('hidden'); } }   // aus dem Pause-Menü geöffnet → zurück zur Pause
   function openArsenalFromCockpit(tab){ if(state===S.PLAY){ state=S.PAUSE; arsenalResume=true; } if(state!==S.PAUSE) return;
     arsenalSkillMode=false; arsenalTab=tab||'loadout'; accrueChips(); renderArsenalView(); const av=document.getElementById('arsenalView'); av.classList.remove('hidden'); av.scrollTop=0; sfxUpgrade(); }
   // ---------- Hangar: bauen/ausrüsten mit Skillpunkten (persistent) ----------
@@ -3141,6 +3142,7 @@
   function openStatusView(){ if(state!==S.MENU && state!==S.PAUSE) return;
     statusFromMenu=(state===S.MENU);
     if(statusFromMenu){ if(!mode) mode='normal'; reset(); applyMeta(); document.getElementById('start').classList.add('hidden'); }
+    else document.getElementById('pause').classList.add('hidden');   // aus Pause: Pause ausblenden (Glas sonst durchscheinend)
     renderStatusView();
     const sv=document.getElementById('statusView'); if(sv){ sv.classList.remove('hidden'); sv.scrollTop=0; } beep(660,0.06,'square',0.2); }
   // Aus dem Arsenal heraus den Schiffsstatus zeigen (aktuelles Loadout, kein reset) → zurück ins Arsenal
@@ -3148,7 +3150,8 @@
     renderStatusView(); const sv=document.getElementById('statusView'); if(sv){ sv.classList.remove('hidden'); sv.scrollTop=0; } beep(660,0.06,'square',0.2); }
   function closeStatusView(){ const sv=document.getElementById('statusView'); if(sv) sv.classList.add('hidden');
     if(statusFromArsenal){ statusFromArsenal=false; const av=document.getElementById('arsenalView'); if(av){ renderArsenalView(); av.classList.remove('hidden'); av.scrollTop=0; } return; }
-    if(statusFromMenu){ statusFromMenu=false; state=S.MENU; document.getElementById('start').classList.remove('hidden'); } }
+    if(statusFromMenu){ statusFromMenu=false; state=S.MENU; document.getElementById('start').classList.remove('hidden'); return; }
+    document.getElementById('pause').classList.remove('hidden'); }   // aus Pause geöffnet → zurück zur Pause
   function drawRadar(cv,axes){ const dpr=Math.min(2,window.devicePixelRatio||1), size=300;
     cv.width=size*dpr; cv.height=size*dpr; cv.style.width=size+'px'; cv.style.height=size+'px';
     const g=cv.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,size,size);
