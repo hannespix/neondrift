@@ -1,5 +1,5 @@
-// NEONDRIFT Service Worker – Offline-Cache
-const CACHE = 'neondrift-v223';
+// THRONERUSH Service Worker – Offline-Cache
+const CACHE = 'thronerush-v224';
 const ASSETS = [
   './',
   './index.html',

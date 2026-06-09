@@ -1,4 +1,4 @@
-/* NEONDRIFT – PWA-Integration (Service Worker, Install-Prompt, Wake Lock). */
+/* THRONERUSH – PWA-Integration (Service Worker, Install-Prompt, Wake Lock). */
 /* ---------- PWA-Integration ---------- */
 (function(){
   // Service Worker registrieren (nur über http/https, nicht file://)

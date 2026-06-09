@@ -2,7 +2,7 @@
 
 Leitfaden für die Arbeit an diesem Projekt mit Claude Code. Bitte vor Änderungen lesen.
 
-## Was ist NEONDRIFT?
+## Was ist THRONERUSH?
 
 Ein süchtig machendes Neon-Synthwave-Arcade-Spiel im Browser. Man steuert per Maus/Finger einen leuchtenden Kern, weicht Hindernissen aus, sammelt Orbs und baut Combos über „Near-Misses" auf. Es ist eine installierbare **PWA** (läuft auf Android & iOS) mit prozeduraler Chiptune-Musik, Level-System, Boss-Wellen, Roguelite-Upgrades, Power-Ups und Herzensystem.
 
@@ -12,7 +12,7 @@ Ein süchtig machendes Neon-Synthwave-Arcade-Spiel im Browser. Man steuert per M
 - **Keine ES-Module.** `js/game.js` ist ein klassisches Script (eine große IIFE). Das ist Absicht: So läuft das Spiel auch ohne Bundler. Bitte nicht ungefragt auf `import/export` umstellen.
 - **Sprache der gesamten Spiel-UI ist Deutsch.** Alle sichtbaren Texte, Sprüche und Kommentare auf Deutsch halten.
 - **Kein `localStorage` in Sandboxes**, aber in der echten App schon: Persistenz ist mit `try/catch` gekapselt (`loadScores`/`saveScores`), fällt sonst auf In-Memory zurück. Diese Robustheit beibehalten.
-- Funktioniert offline (Service Worker). Bei neuen Assets die `ASSETS`-Liste in `service-worker.js` ergänzen **und** die `CACHE`-Version hochzählen (z. B. `neondrift-v4`).
+- Funktioniert offline (Service Worker). Bei neuen Assets die `ASSETS`-Liste in `service-worker.js` ergänzen **und** die `CACHE`-Version hochzählen (z. B. `thronerush-v4`).
 
 ## Dateistruktur
 

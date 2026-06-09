@@ -1,4 +1,4 @@
-# 🌆 NEONDRIFT
+# 🚽 THRONERUSH
 
 Ein süchtig machendes Neon-Synthwave-Arcade-Spiel im Browser – mit prozeduraler Chiptune-Musik, Level-System, Boss-Wellen, Roguelite-Upgrades und Power-Ups. Reines Vanilla JS, kein Build, installierbar als PWA auf Android & iOS.
 

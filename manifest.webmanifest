@@ -1,7 +1,7 @@
 {
-  "name": "NEONDRIFT",
-  "short_name": "NEONDRIFT",
-  "description": "Süchtig machendes Neon-Synthwave-Arcade-Spiel mit Chiptune-Musik.",
+  "name": "THRONERUSH",
+  "short_name": "THRONERUSH",
+  "description": "Süchtig machendes Neon-Synthwave-Arcade-Spiel mit Chiptune-Musik. Jede Sitzung ein Highscore.",
   "lang": "de",
   "start_url": "./index.html",
   "scope": "./",
