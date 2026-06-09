@@ -1,5 +1,5 @@
 {
-  "name": "neondrift",
+  "name": "thronerush",
   "version": "3.0.0",
   "description": "Süchtig machendes Neon-Synthwave-Arcade-Spiel (Vanilla JS, Canvas, Web Audio) als installierbare PWA.",
   "scripts": {

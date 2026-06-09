@@ -1,4 +1,4 @@
-/* NEONDRIFT – Spiellogik. Siehe CLAUDE.md fuer Architektur. */
+/* THRONERUSH – Spiellogik. Siehe CLAUDE.md fuer Architektur. */
 (() => {
   "use strict";
   const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
@@ -16,11 +16,11 @@
   function P(k){ const o=TR[lang]||TR.en; return o[k]||TR.en[k]||[]; }   // lokalisierter Pool
   const TR={
     de:{
-      tag:'weiche aus · sammle · überlebe', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
+      tag:'Jede Sitzung ein Highscore', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
       howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen 🪙 und Skillpunkte 💠 – im Hangar 🎒 rüstest du auf.',
       tipSP:'💠 Skillpunkt!', tipSPd:'Hangar 🎒 unten öffnen & aufrüsten', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
-      ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft NEONDRIFT als Vollbild-App.',
+      ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft THRONERUSH als Vollbild-App.',
       m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
       m_hard:'BLITZ', m_hardD:'Brutal schnell, keine Level-Pausen. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.', mfeat_normal:'📈 Level|👾 Bosse|🃏 Upgrades', mfeat_hard:'⚡ Speed|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ Kein Tod|🌊 Chill|🏆 Highscore',
@@ -45,11 +45,11 @@
       crazy:["weiche aus · sammle · überlebe","probier nicht zu sterben (du wirst)","100% chiptune, 0% gnade","heute schon explodiert?","no cap, das wird mid","reflexe verkauft? hier zurückholen"]
     },
     en:{
-      tag:'dodge · collect · survive', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
+      tag:'Every sitting a highscore', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
       howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins 🪙 and skill points 💠 – gear up in the Hangar 🎒.',
       tipSP:'💠 Skill point!', tipSPd:'Open the Hangar 🎒 below to gear up', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
-      ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then NEONDRIFT runs fullscreen.',
+      ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then THRONERUSH runs fullscreen.',
       m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
       m_hard:'BLITZ', m_hardD:'Brutally fast, no breathers. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.', mfeat_normal:'📈 Levels|👾 Bosses|🃏 Upgrades', mfeat_hard:'⚡ Fast|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ No death|🌊 Chill|🏆 Highscore',
@@ -74,11 +74,11 @@
       crazy:["dodge · collect · survive","try not to die (you will)","100% chiptune, 0% mercy","exploded yet today?","no cap, this'll be mid","sold your reflexes? get 'em back here"]
     },
     fr:{
-      tag:'esquive · collecte · survis', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
+      tag:'Chaque séance un highscore', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
       howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins 🪙 et points 💠 – équipe-toi au Hangar 🎒.',
       tipSP:'💠 Point de skill !', tipSPd:'Ouvre le Hangar 🎒 en bas pour t’équiper', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
-      ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – NEONDRIFT passe en plein écran.',
+      ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – THRONERUSH passe en plein écran.',
       m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
       m_hard:'BLITZ', m_hardD:'Ultra rapide, sans répit. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.', mfeat_normal:'📈 Niveaux|👾 Boss|🃏 Améliorations', mfeat_hard:'⚡ Rapide|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ Sans mort|🌊 Détente|🏆 Score',
@@ -2690,7 +2690,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v223';
+  const GAME_VER='v224';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -2741,7 +2741,7 @@
     for(let i=0;i<12;i++){ const f=i/12, y=660+Math.pow(f,2.2)*420; x.globalAlpha=0.12+f*0.3; x.beginPath(); x.moveTo(0,y); x.lineTo(1080,y); x.stroke(); }
     x.globalAlpha=1; x.textAlign='center';
     x.fillStyle='#fff'; x.shadowColor='#ff2e88'; x.shadowBlur=42; x.font='900 110px Orbitron, sans-serif';
-    x.fillText('NEONDRIFT',540,196);
+    x.fillText('THRONERUSH',540,196);
     x.shadowBlur=0; x.fillStyle='#9a86c9'; x.font='700 32px Orbitron, sans-serif';
     x.fillText(daily?(t('dailyLbl')+' · '+dailyLabel()):modeLabel(mode),540,256);
     x.fillStyle='#19f0ff'; x.shadowColor='#19f0ff'; x.shadowBlur=46; x.font='900 188px Orbitron, sans-serif';
@@ -2764,11 +2764,11 @@
     let blobUrl=null;
     try{
       const c=buildShareCanvas();
-      const text='NEONDRIFT'+(daily?(' · '+t('dailyLbl')+' '+dailyLabel()):(' · '+modeLabel(mode)))+': '+Math.round(score)+t('shareScore')+'https://hannespix.github.io/neondrift/';
+      const text='THRONERUSH'+(daily?(' · '+t('dailyLbl')+' '+dailyLabel()):(' · '+modeLabel(mode)))+': '+Math.round(score)+t('shareScore')+'https://hannespix.github.io/neondrift/';
       c.toBlob(blob=>{ if(!blob) return;
-        const file=new File([blob],'neondrift-'+Math.round(score)+'.png',{type:'image/png'});
+        const file=new File([blob],'thronerush-'+Math.round(score)+'.png',{type:'image/png'});
         if(navigator.canShare && navigator.canShare({files:[file]})){
-          navigator.share({files:[file],text,title:'NEONDRIFT'}).catch(()=>{});
+          navigator.share({files:[file],text,title:'THRONERUSH'}).catch(()=>{});
         } else {
           blobUrl=URL.createObjectURL(blob);
           const a=document.createElement('a'); a.href=blobUrl; a.download=file.name; document.body.appendChild(a); a.click(); a.remove();
@@ -3557,7 +3557,7 @@
   { const hb=document.getElementById('howtoBtn'); if(hb) hb.addEventListener('click',()=>{ closeHowto(); beep(740,0.08,'square',0.25); }); }
   if(!(meta.seen&&meta.seen.howto)){ const h=document.getElementById('howto'); if(h) h.classList.remove('hidden'); }
   // Versions-Label dynamisch aus der echten Cache-Version (kein hartkodiertes „v54" mehr)
-  try{ if(window.caches&&caches.keys) caches.keys().then(ks=>{ const m=(ks.find(k=>/neondrift-v\d+/.test(k))||'').match(/v\d+/); const el=document.querySelector('.credit'); if(el&&m) el.textContent='NEONDRIFT '+m[0]; }); }catch(e){}
+  try{ if(window.caches&&caches.keys) caches.keys().then(ks=>{ const m=(ks.find(k=>/(?:thronerush|neondrift)-v\d+/.test(k))||'').match(/v\d+/); const el=document.querySelector('.credit'); if(el&&m) el.textContent='THRONERUSH '+m[0]; }); }catch(e){}
   zenExitBtn.addEventListener('click',pauseGame);
   document.getElementById('resumeBtn').addEventListener('click',resumeGame);
   document.getElementById('pauseMenuBtn').addEventListener('click',toMenu);
