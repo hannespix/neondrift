@@ -2685,7 +2685,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v211';
+  const GAME_VER='v212';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
@@ -3396,6 +3396,26 @@
     x.globalAlpha=1; x.restore();
   }
 
+  // ---------- Ambient-Neon-Sparkle: dezente Funken über allen Untermenüs (Hauptmenü-Feeling überall) ----------
+  let asCv,asX,asW=0,asH=0,asM=[]; const AS_COLS=['#19f0ff','#ff2e88','#ffe600','#b06bff','#caffff'];
+  function asReset(m){ m.x=Math.random()*(asW||320); m.y=(asH||640)+6+Math.random()*40; m.vx=(Math.random()-0.5)*9; m.vy=-(7+Math.random()*16);
+    m.r=1.1+Math.random()*2; m.base=0.45+Math.random()*0.5; m.ph=Math.random()*6.28; m.tw=1.3+Math.random()*2.4; m.col=AS_COLS[(Math.random()*AS_COLS.length)|0]; return m; }
+  function asSpawn(){ const m=asReset({}); m.y=Math.random()*(asH||640); return m; }   // Erstbefüllung über die ganze Höhe
+  function asOpen(){ return !!document.querySelector('#settings:not(.hidden),#ach:not(.hidden),#shop:not(.hidden),#shipEditor:not(.hidden),#coinshop:not(.hidden),#statusView:not(.hidden),#howto:not(.hidden),#pause:not(.hidden),#over:not(.hidden),#upgrade:not(.hidden),#arsenalView:not(.hidden)'); }
+  function asFrame(dt){
+    if(!asCv){ asCv=document.getElementById('fxSparkle'); if(!asCv) return; asX=asCv.getContext('2d'); }
+    if(!asOpen()){ if(asM.length){ asM.length=0; if(asX&&asW) asX.clearRect(0,0,asW,asH); } return; }   // nur in Untermenüs
+    const dpr=Math.min(2,window.devicePixelRatio||1), w=window.innerWidth, h=window.innerHeight;
+    if(asCv.width!==Math.round(w*dpr)||asCv.height!==Math.round(h*dpr)){ asCv.width=Math.round(w*dpr); asCv.height=Math.round(h*dpr); asW=w; asH=h; asX.setTransform(dpr,0,0,dpr,0,0); }
+    while(asM.length<58) asM.push(asSpawn());
+    const x=asX; x.clearRect(0,0,asW,asH); x.save(); x.globalCompositeOperation='lighter';
+    for(const m of asM){ m.x+=m.vx*dt; m.y+=m.vy*dt; m.ph+=m.tw*dt;
+      if(m.y<-12||m.x<-12||m.x>asW+12){ asReset(m); continue; }
+      const a=m.base*(0.45+0.55*Math.sin(m.ph)), s=m.r; x.fillStyle=m.col;   // sanftes Funkeln (Twinkle)
+      x.globalAlpha=a*0.34; x.fillRect(m.x-s*1.6,m.y-s*1.6,s*3.2,s*3.2);      // weicher Halo
+      x.globalAlpha=a;     x.fillRect(m.x-s*0.5,m.y-s*0.5,s,s); }          // eckiger Kern (Pixel-Look wie im Spiel)
+    x.globalAlpha=1; x.restore();
+  }
   // ---------- Loop ----------
   function loop(now){ let dt=(now-lastT)/1000; lastT=now; if(dt>0.05)dt=0.05;
     frameMs+=((dt*1000)-frameMs)*0.1;                                                              // geglättete Frame-Zeit (EMA)
@@ -3418,7 +3438,7 @@
     // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) den Canvas einfrieren:
     // sonst rendert die Szene 60fps unter dem Backdrop-Blur weiter → mehrere Sekunden Lag auf Mobil.
     if(state===S.UPGRADE||state===S.PAUSE){ requestAnimationFrame(loop); return; }
-    draw(); drawAchToast(); if(state===S.MENU) mfxFrame(dt); requestAnimationFrame(loop);
+    draw(); drawAchToast(); if(state===S.MENU) mfxFrame(dt); asFrame(dt); requestAnimationFrame(loop);
   }
   function drawAchToast(){ if(!achToasts.length) return; const a=achToasts[0], id=a.id, al=Math.min(1,a.t,3.4-a.t+0.6);
     const w=Math.min(W*0.86,360), x=W/2-w/2, y=Math.max(54,H*0.12);
