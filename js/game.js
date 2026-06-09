@@ -205,8 +205,8 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('neondrift_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
-    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:r.diff||0,ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0,seen:(r.seen&&typeof r.seen==='object')?r.seen:{}}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:0,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{}}; }
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:(r.diff==null?2:r.diff),ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0,seen:(r.seen&&typeof r.seen==='object')?r.seen:{}}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:2,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{}}; }   // Standard-Schwierigkeit = Normalo (Index 2), auch nach Reset
   function saveMeta(){ try{ localStorage.setItem('neondrift_meta',JSON.stringify(meta)); }catch(e){} }
   // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
   function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
@@ -2685,7 +2685,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v209';
+  const GAME_VER='v210';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
