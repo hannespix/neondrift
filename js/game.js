@@ -214,7 +214,7 @@
   const DIFFS=[
     {name:'👶 Baby',                         spd:-15, hp:-30, den:-20, coin:0.5,  q:'So entspannt, dass sogar dein Toaster gewinnen würde.'},
     {name:'🙈 Schau mal Mama',               spd:0,   hp:0,   den:0,   coin:0.75, q:'Erste Gehversuche – Mama ist stolz, der Highscore weniger.'},
-    {name:'😎 Normalo',                      spd:15,  hp:75,  den:35,  coin:1.0,  q:'Goldene Mitte. Für Leute mit Job und Restwürde.'},
+    {name:'😎 Normalo',                      spd:11,  hp:58,  den:26,  coin:1.0,  q:'Goldene Mitte. Für Leute mit Job und Restwürde.'},
     {name:'📱 Doomscroll-König',             spd:20,  hp:80,  den:40,  coin:1.5,  q:'Daumen-Ausdauer wie beim 3-Stunden-Reels-Marathon.'},
     {name:'🚽 Toiletten-Kaiser',            spd:30,  hp:120, den:60,  coin:2.0,  q:'Nur für Profis mit Sitzfleisch und Nerven aus Stahl.'},
     {name:'💀 Chuck Norris ist hier gestorben', spd:40, hp:160, den:80, coin:2.5, q:'Hier starb sogar Chuck Norris. Viel Glück, Sterblicher.'}
@@ -2684,7 +2684,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v221';
+  const GAME_VER='v222';
   const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('neondrift_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('neondrift_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
