@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ab Android 8.1 (API 27): App zeichnet randlos in den Display-Cutout/Statusleisten-
+         Bereich, statt ihn schwarz zu letterboxen. Behebt den schwarzen Balken oben im
+         Vollbild-/Immersive-Modus der TWA. -->
+    <style name="AppTheme" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+</resources>
