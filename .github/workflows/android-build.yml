@@ -65,7 +65,9 @@ jobs:
         env:
           BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: bubblewrap build --skipPwaValidation
+        # 'n' beantwortet eine evtl. Rückfrage "twa-manifest-Änderungen anwenden?" mit Nein
+        # → es werden die committeten Projektdateien (inkl. LauncherActivity-Cutout-Override) gebaut.
+        run: printf 'n\n' | bubblewrap build --skipPwaValidation
 
       - name: Show signing fingerprint (Upload-Key)
         working-directory: android
