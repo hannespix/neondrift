@@ -21,7 +21,7 @@ plugins {
 }
 
 def twaManifest = [
-    applicationId: 'io.github.hannespix.thronerush',
+    applicationId: 'com.thronerush.com',
     hostName: 'hannespix.github.io', // The domain being opened in the TWA.
     launchUrl: '/thronerush/', // The start path for the TWA. Must be relative to the domain.
     name: 'THRONERUSH', // The application name.
@@ -52,9 +52,9 @@ def twaManifest = [
 
 android {
     compileSdkVersion 36
-    namespace "io.github.hannespix.thronerush"
+    namespace "com.thronerush.com"
     defaultConfig {
-        applicationId "io.github.hannespix.thronerush"
+        applicationId "com.thronerush.com"
         minSdkVersion 21
         targetSdkVersion 35
         versionCode 1

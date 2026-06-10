@@ -1,4 +1,4 @@
-package io.github.hannespix.thronerush;
+package com.thronerush.com;
 
 
 
