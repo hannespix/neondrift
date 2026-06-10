@@ -45,10 +45,8 @@ public class LauncherActivity
         }
     }
 
-    // Immersive-Vollbild MIT randlosem Zeichnen in den Display-Cutout/Statusleisten-Bereich.
-    // Der Standard-Immersive-Modus (DISPLAY_MODE=immersive) nutzt Cutout-Modus DEFAULT und
-    // letterboxed den oberen Bereich schwarz. SHORT_EDGES lässt den Inhalt bis ganz nach oben
-    // (und an die kurzen Kanten) zeichnen → kein schwarzer Balken.
+    // Immersive-Vollbild MIT randlosem Zeichnen in den Display-Cutout/Statusleisten-Bereich
+    // (SHORT_EDGES) → kein schwarzer Balken oben. Wird an Chrome übergeben.
     @Override
     protected TrustedWebActivityDisplayMode getDisplayMode() {
         int cutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;

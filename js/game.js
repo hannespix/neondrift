@@ -3083,7 +3083,45 @@
   };
   let coinReturn='start';
   function updateAllBalances(){ const bal='🪙 '+(meta.chips||0); ['shopChips','arShopChips','coinBal'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent=bal; }); if(typeof updateMenuChips==='function') updateMenuChips(); }
-  function renderCoinShop(){ updateAllBalances(); }
+  // ---------- In-App-Käufe: Google Play Billing in der TWA via Digital Goods API ----------
+  // Funktioniert NUR in der installierten Play-App (mit aktiviertem Play Billing). Im Browser/iOS
+  // ist getDigitalGoodsService nicht vorhanden → Shop bleibt auf „bald verfügbar".
+  const PLAY_BILLING='https://play.google.com/billing';
+  const COIN_AMOUNTS={coins_1000:1000, coins_5000:5000, coins_12000:12000};
+  const BUYFAIL={de:'Kauf fehlgeschlagen',en:'Purchase failed',fr:'Achat échoué'};
+  let dgService=null, billingReady=false;
+  function fmtPrice(p){ if(!p||p.value==null) return ''; const v=String(p.value); return p.currency==='EUR'?(v.replace('.',',')+' €'):(v+' '+(p.currency||'')); }
+  async function initBilling(){ if(billingReady) return true;
+    if(typeof window.getDigitalGoodsService!=='function') return false;
+    try{ dgService=await window.getDigitalGoodsService(PLAY_BILLING); }catch(e){ dgService=null; }
+    if(!dgService) return false; billingReady=true;
+    // Offene (bezahlte, aber noch nicht verbuchte) Käufe nachträglich gutschreiben + verbrauchen
+    try{ if(dgService.listPurchases){ const ps=await dgService.listPurchases(); for(const p of ps){ await grantPurchase(p.itemId,p.purchaseToken); } } }catch(e){}
+    return true; }
+  async function grantPurchase(sku,token){ const amt=COIN_AMOUNTS[sku]; if(!amt) return;
+    meta.chips=(meta.chips||0)+amt; saveMeta(); updateAllBalances();
+    try{ if(token&&dgService&&dgService.consume) await dgService.consume(token); }catch(e){} }   // Coins = Verbrauchsartikel → wieder kaufbar
+  async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!(sku in COIN_AMOUNTS)) return;
+    const msg=document.getElementById('devMsg');
+    try{
+      const pr=new PaymentRequest([{supportedMethods:PLAY_BILLING,data:{sku}}],
+        {total:{label:'THRONERUSH',amount:{currency:'EUR',value:'0'}}});   // Betrag wird von Play durch den SKU-Preis ersetzt
+      const resp=await pr.show();
+      const token=resp.details&&(resp.details.purchaseToken||resp.details.token);
+      await grantPurchase(sku,token); await resp.complete('success');
+      if(msg){ msg.textContent='✓ +'+fmt(COIN_AMOUNTS[sku])+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
+    }catch(e){ if(e&&(e.name==='AbortError'||e.name==='NotAllowedError')) return;   // Nutzer hat abgebrochen → still
+      if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
+  async function renderCoinShop(){ updateAllBalances();
+    const soon=document.getElementById('coinSoon'); const packs=document.querySelectorAll('#coinPacks .coinPack');
+    const ok=await initBilling();
+    if(!ok){ if(soon) soon.style.display=''; packs.forEach(b=>{ b.disabled=true; }); return; }
+    if(soon) soon.style.display='none';
+    let details={}; try{ if(dgService.getDetails){ const arr=await dgService.getDetails(Object.keys(COIN_AMOUNTS)); (arr||[]).forEach(d=>{ details[d.itemId]=d; }); } }catch(e){}
+    packs.forEach(b=>{ const sku=b.dataset.sku; if(!sku||!(sku in COIN_AMOUNTS)) return;
+      const d=details[sku], pr=b.querySelector('.cpPrice'); const px=d&&fmtPrice(d.price); if(px&&pr) pr.textContent=px;
+      b.disabled=false;
+      if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(sku); }); } }); }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
   function openCoinShop(){ const m=document.getElementById('devMsg'); if(m){m.textContent='';m.className='devMsg';}
     const q=document.getElementById('coinQuip'); if(q){ const pool=COINQUIPS[lang]||COINQUIPS.de; q.textContent='„'+pick(pool)+'"'; }
