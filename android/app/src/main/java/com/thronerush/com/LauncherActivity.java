@@ -19,6 +19,9 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.WindowManager;
+
+import androidx.browser.trusted.TrustedWebActivityDisplayMode;
 
 
 
@@ -40,6 +43,16 @@ public class LauncherActivity
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
+    }
+
+    // Immersive-Vollbild MIT randlosem Zeichnen in den Display-Cutout/Statusleisten-Bereich.
+    // Der Standard-Immersive-Modus (DISPLAY_MODE=immersive) nutzt Cutout-Modus DEFAULT und
+    // letterboxed den oberen Bereich schwarz. SHORT_EDGES lässt den Inhalt bis ganz nach oben
+    // (und an die kurzen Kanten) zeichnen → kein schwarzer Balken.
+    @Override
+    protected TrustedWebActivityDisplayMode getDisplayMode() {
+        int cutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        return new TrustedWebActivityDisplayMode.ImmersiveMode(/* isSticky= */ true, cutoutMode);
     }
 
     @Override
