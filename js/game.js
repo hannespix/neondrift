@@ -3112,8 +3112,8 @@
       const token=resp.details&&(resp.details.purchaseToken||resp.details.token);
       await grantPurchase(sku,token); await resp.complete('success');
       if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
-    }catch(e){ if(e&&(e.name==='AbortError'||e.name==='NotAllowedError')) return;   // Nutzer hat abgebrochen → still
-      if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
+    }catch(e){ const nm=(e&&(e.name||e.message))||'?';   // DIAGNOSE: alle Fehler sichtbar machen (auch Abbruch)
+      if(msg){ msg.textContent='IAP-Klick: '+nm; msg.className='devMsg bad'; } } }
   async function renderCoinShop(){ updateAllBalances();
     const soon=document.getElementById('coinSoon'); const packs=document.querySelectorAll('#coinPacks .coinPack');
     const ok=await initBilling();
@@ -3121,14 +3121,17 @@
     // Beide ID-Schreibweisen abfragen (Unterstrich/Bindestrich), getrennt gekapselt
     let details={};
     for(const ch of ['_','-']){ try{ const arr=await dgService.getDetails(COIN_PACKS.map(n=>'coins'+ch+n)); (arr||[]).forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }catch(e){} }
-    let anyFound=false;
+    let matched=0;
     packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku);
-      const cand=skuVariants(n).find(s=>details[s]);
+      // 1) exakte Schreibweisen, 2) Fallback: irgendeine gefundene ID mit passender Coin-Zahl
+      let cand=skuVariants(n).find(s=>details[s]) || Object.keys(details).find(id=>coinsFromId(id)===n);
       if(!cand){ b.disabled=true; return; }
-      anyFound=true; b.dataset.sku=cand; const d=details[cand], pr=b.querySelector('.cpPrice'); const px=fmtPrice(d.price); if(px&&pr) pr.textContent=px;
+      matched++; b.dataset.sku=cand; const d=details[cand], pr=b.querySelector('.cpPrice'); const px=fmtPrice(d.price); if(px&&pr) pr.textContent=px;
       b.disabled=false;
       if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
-    if(soon) soon.style.display=anyFound?'none':'';   // nichts gefunden → „bald verfügbar" bleibt sichtbar
+    // DIAGNOSE: wenn nicht alle Packs gefunden → tatsächlich von Play gelieferte IDs anzeigen
+    if(soon){ if(matched>=COIN_PACKS.length){ soon.style.display='none'; }
+      else { soon.style.display=''; soon.textContent='IAP gefunden: '+(Object.keys(details).join(' , ')||'keine'); } }
   }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
   function openCoinShop(){ const m=document.getElementById('devMsg'); if(m){m.textContent='';m.className='devMsg';}
