@@ -3118,7 +3118,7 @@
   async function renderCoinShop(){ updateAllBalances();
     const soon=document.getElementById('coinSoon'); const packs=document.querySelectorAll('#coinPacks .coinPack');
     const ok=await initBilling();
-    if(!ok){ if(soon) soon.style.display=''; packs.forEach(b=>{ b.disabled=true; }); return; }
+    if(!ok){ if(soon){ soon.textContent='⚠ Billing nicht verbunden (Play-Dienst)'; soon.style.display=''; } packs.forEach(b=>{ b.disabled=true; }); return; }
     // Beide ID-Schreibweisen abfragen (Unterstrich/Bindestrich), getrennt gekapselt
     let details={};
     for(const ch of ['_','-']){ try{ const arr=await dgService.getDetails(COIN_PACKS.map(n=>'coins'+ch+n)); (arr||[]).forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }catch(e){} }
@@ -3131,7 +3131,7 @@
       b.disabled=false;
       if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
     // Mind. ein Pack kaufbar → „bald verfügbar"-Hinweis aus; sonst (kein Produkt gefunden) anzeigen
-    if(soon){ if(matched>0){ soon.style.display='none'; } else { soon.textContent=t('coinSoon'); soon.style.display=''; } }
+    if(soon){ if(matched>0){ soon.style.display='none'; } else { soon.textContent='IAP gefunden: '+(Object.keys(details).join(' , ')||'keine'); soon.style.display=''; } }
   }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
   function openCoinShop(){ const m=document.getElementById('coinMsg'); if(m){m.textContent='';m.className='devMsg';}
