@@ -3092,7 +3092,8 @@
   const coinsFromId=(id)=>{ const m=String(id||'').match(/(\d+)/); return m?parseInt(m[1],10):0; };
   const BUYFAIL={de:'Kauf fehlgeschlagen',en:'Purchase failed',fr:'Achat échoué'};
   let dgService=null, billingReady=false;
-  function fmtPrice(p){ if(!p||p.value==null) return ''; const v=String(p.value); return p.currency==='EUR'?(v.replace('.',',')+' €'):(v+' '+(p.currency||'')); }
+  function fmtPrice(p){ if(!p||p.value==null) return ''; const num=parseFloat(p.value); const v=isNaN(num)?String(p.value):num.toFixed(2);
+    return p.currency==='EUR'?(v.replace('.',',')+' €'):(v+' '+(p.currency||'')); }   // „7,99 €" statt „7,990000 €"
   async function initBilling(){ if(billingReady) return true;
     if(typeof window.getDigitalGoodsService!=='function') return false;
     try{ dgService=await window.getDigitalGoodsService(PLAY_BILLING); }catch(e){ dgService=null; }
@@ -3104,7 +3105,7 @@
     meta.chips=(meta.chips||0)+amt; saveMeta(); updateAllBalances();
     try{ if(token&&dgService&&dgService.consume) await dgService.consume(token); }catch(e){} }   // Coins = Verbrauchsartikel → wieder kaufbar
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
-    const msg=document.getElementById('devMsg');
+    const msg=document.getElementById('coinMsg');
     try{
       const pr=new PaymentRequest([{supportedMethods:PLAY_BILLING,data:{sku}}],
         {total:{label:'THRONERUSH',amount:{currency:'EUR',value:'0'}}});   // Betrag wird von Play durch den SKU-Preis ersetzt
@@ -3112,8 +3113,8 @@
       const token=resp.details&&(resp.details.purchaseToken||resp.details.token);
       await grantPurchase(sku,token); await resp.complete('success');
       if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
-    }catch(e){ const nm=(e&&(e.name||e.message))||'?';   // DIAGNOSE: alle Fehler sichtbar machen (auch Abbruch)
-      if(msg){ msg.textContent='IAP-Klick: '+nm; msg.className='devMsg bad'; } } }
+    }catch(e){ if(e&&(e.name==='AbortError'||e.name==='NotAllowedError')) return;   // Nutzer hat abgebrochen → still
+      if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
   async function renderCoinShop(){ updateAllBalances();
     const soon=document.getElementById('coinSoon'); const packs=document.querySelectorAll('#coinPacks .coinPack');
     const ok=await initBilling();
@@ -3129,26 +3130,17 @@
       matched++; b.dataset.sku=cand; const d=details[cand], pr=b.querySelector('.cpPrice'); const px=fmtPrice(d.price); if(px&&pr) pr.textContent=px;
       b.disabled=false;
       if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
-    // DIAGNOSE: wenn nicht alle Packs gefunden → tatsächlich von Play gelieferte IDs anzeigen
-    if(soon){ if(matched>=COIN_PACKS.length){ soon.style.display='none'; }
-      else { soon.style.display=''; soon.textContent='IAP gefunden: '+(Object.keys(details).join(' , ')||'keine'); } }
+    // Mind. ein Pack kaufbar → „bald verfügbar"-Hinweis aus; sonst (kein Produkt gefunden) anzeigen
+    if(soon){ if(matched>0){ soon.style.display='none'; } else { soon.textContent=t('coinSoon'); soon.style.display=''; } }
   }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
-  function openCoinShop(){ const m=document.getElementById('devMsg'); if(m){m.textContent='';m.className='devMsg';}
+  function openCoinShop(){ const m=document.getElementById('coinMsg'); if(m){m.textContent='';m.className='devMsg';}
     const q=document.getElementById('coinQuip'); if(q){ const pool=COINQUIPS[lang]||COINQUIPS.de; q.textContent='„'+pick(pool)+'"'; }
     coinReturn=['arsenalView','shop','over','start'].find(id=>{ const e=document.getElementById(id); return e && !e.classList.contains('hidden'); })||'start';
     document.getElementById(coinReturn).classList.add('hidden');
     renderCoinShop(); document.getElementById('coinshop').classList.remove('hidden'); beep(880,0.06,'square',0.2); }
   function closeCoinShop(){ document.getElementById('coinshop').classList.add('hidden');
     const e=document.getElementById(coinReturn||'start'); if(e) e.classList.remove('hidden'); updateAllBalances(); }
-  function redeemCode(){ const inp=document.getElementById('devCode'), msg=document.getElementById('devMsg'); if(!inp) return;
-    const code=(inp.value||'').trim().toLowerCase().replace(/\s+/g,'');
-    if(code==='dda'||code==='debug'){ opt.dbg=!opt.dbg; saveOpt(); inp.value='';   // Regler-Overlay an/aus (mobil-tauglich, ohne F8) – bleibt gespeichert
-      if(msg){ msg.textContent=(opt.dbg?'✓ DDA-Overlay AN (F8 / Code zum Aus)':'DDA-Overlay AUS'); msg.className='devMsg ok'; } sfxPow(); vibe(15); return; }
-    const amt=DEVCODES[code];
-    if(amt){ meta.chips=(meta.chips||0)+amt; saveMeta(); updateMenuChips(); renderCoinShop(); inp.value='';
-      if(msg){ msg.textContent='✓ +'+amt+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]); }
-    else { if(msg){ msg.textContent='✗ '+t('devBad'); msg.className='devMsg bad'; } beep(200,0.12,'sawtooth',0.2); } }
   const OPTLBL={music:'optMusic',sfx:'optSfx',fullscreen:'optFull',shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',dmg:'optDmg',telemetry:'optTelemetry',lang:'optLang'};
   // In der installierten App (TWA/PWA) läuft Vollbild NATIV (immersive) – ab dem ersten Frame,
   // also auch im Hauptmenü. Die JS-Fullscreen-API ist dort überflüssig: sie greift erst nach
@@ -3411,8 +3403,7 @@
     setSel('#over .gover',t('crash')); set('newrec',t('newRec')); set('againBtn',t('again')); set('overShopBtn','🚀 '+t('workshop')); set('shareBtn',t('share')); set('menuBtn',t('menu'));
     const lbls=document.querySelectorAll('#over .scorebox .lbl'); if(lbls[0])lbls[0].textContent=t('points'); if(lbls[1])lbls[1].textContent=t('record');
     set('balLbl2',t('balance')); set('arsenalBackBtn',t('back'));
-    set('coinBalLbl',t('coinBalLbl')); set('coinSoon',t('coinSoon')); set('devHint',t('devHint')); set('devRedeem',t('redeem')); set('coinBackBtn',t('back'));
-    { const dc=document.getElementById('devCode'); if(dc) dc.setAttribute('placeholder',t('devPlace')); }
+    set('coinBalLbl',t('coinBalLbl')); set('coinSoon',t('coinSoon')); set('coinBackBtn',t('back'));
     if(typeof renderSettings==='function') renderSettings();
     if(typeof renderDiffInfo==='function') renderDiffInfo();
   }catch(e){} }
@@ -3607,8 +3598,7 @@
     const ct=document.getElementById('coinTitle'); if(ct) ct.innerHTML=CHEST_SVG+' COINS';
     const cbk=document.getElementById('coinBackBtn'); if(cbk) cbk.addEventListener('click',closeCoinShop);
     const ccl=document.getElementById('coinCloseBtn'); if(ccl) ccl.addEventListener('click',closeCoinShop);
-    const dr=document.getElementById('devRedeem'); if(dr) dr.addEventListener('click',redeemCode);
-    const dc=document.getElementById('devCode'); if(dc) dc.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); redeemCode(); } }); }
+  }
   document.querySelectorAll('#optRows .optrow').forEach(row=>row.addEventListener('click',()=>cycleOpt(row.dataset.opt)));
   { const tx=document.getElementById('tlmExportBtn'); if(tx) tx.addEventListener('click',()=>{ exportTelemetry((n,okc)=>{ tx.textContent=(n>0?(t('tlmDone')+' ('+n+')'):t('tlmEmpty')); beep(n>0?740:330,0.06,'square',0.2); setTimeout(()=>{ tx.textContent=t('tlmExport'); },1600); }); }); }   // Telemetrie-JSON in die Zwischenablage
   document.querySelectorAll('#resetRows .optrow').forEach(b=>b.addEventListener('click',()=>armReset(b)));
