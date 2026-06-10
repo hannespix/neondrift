@@ -26,7 +26,7 @@ Wichtige Eckdaten dieses Projekts (stehen in `android/twa-manifest.json`):
 
 | Feld | Wert |
 |---|---|
-| Paketname (Application ID) | `io.github.hannespix.thronerush` |
+| Paketname (Application ID) | `com.thronerush.com` |
 | Host | `hannespix.github.io` |
 | Start-URL | `/thronerush/` |
 | App-Name | THRONERUSH |
@@ -121,7 +121,7 @@ Vorgehen:
      "relation": ["delegate_permission/common.handle_all_urls"],
      "target": {
        "namespace": "android_app",
-       "package_name": "io.github.hannespix.thronerush",
+       "package_name": "com.thronerush.com",
        "sha256_cert_fingerprints": ["<SHA256 DES PLAY-APP-SIGNING-KEYS>"]
      }
    }]

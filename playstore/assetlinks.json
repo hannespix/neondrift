@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "io.github.hannespix.thronerush",
+      "package_name": "com.thronerush.com",
       "sha256_cert_fingerprints": [
         "HIER_SHA256_DES_PLAY_APP_SIGNING_KEYS_EINTRAGEN",
         "OPTIONAL_SHA256_DES_UPLOAD_KEYS"
