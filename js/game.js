@@ -10,7 +10,7 @@
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
-  let frameMs=16, fxQ=1;   // Performance-Governor: geglättete Frame-Zeit + FX-Qualität (1=voll, sinkt automatisch bei Lag)
+  let frameMs=16, fxQ=1, qScale=1, vsyncMs=16;   // Performance-Governor: geglättete Frame-Zeit, FX-Qualität, interne Render-Skala, erkannte Bildwiederholrate
 
   // ---------- i18n (DE / EN / FR, Jugendsprache je Sprache) ----------
   function detectLang(){ const l=((navigator.language||navigator.userLanguage||'en')+'').slice(0,2).toLowerCase(); return (l==='de'||l==='fr')?l:'en'; }
@@ -734,8 +734,14 @@
     // sonst bleibt auf Mobil-Browsern unten ein heller Streifen in der Safe Area.
     const wrap=document.getElementById('wrap');
     W=wrap.clientWidth||window.innerWidth; H=wrap.clientHeight||window.innerHeight;
-    canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0);
+    canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    applyScale();
     ctx.imageSmoothingEnabled=false; }   // Pixel-Sprites (Schiff/Boss) nearest-neighbor → scharfe Kanten statt verwaschen
+  // Interne Render-Auflösung = W·H · DPR · qScale. qScale<1 (vom Governor unter Last) senkt die Füllrate
+  // massiv (Browser skaliert hoch) → flüssiger, ohne dass Spiel-Koordinaten sich ändern (Transform gleicht aus).
+  function applyScale(){ const bw=Math.max(1,Math.round(W*DPR*qScale)), bh=Math.max(1,Math.round(H*DPR*qScale));
+    if(canvas.width!==bw||canvas.height!==bh){ canvas.width=bw; canvas.height=bh; }
+    ctx.setTransform(DPR*qScale,0,0,DPR*qScale,0,0); ctx.imageSmoothingEnabled=false; }
   window.addEventListener('resize',resize);
   // In TWA/PWA-Vollbild blenden sich die System-Leisten erst KURZ nach dem Laden aus →
   // dvh/clientHeight stimmt anfangs noch nicht. Auf weitere Signale hören + mehrfach nachmessen.
@@ -3505,7 +3511,12 @@
   // ---------- Loop ----------
   function loop(now){ let dt=(now-lastT)/1000; lastT=now; if(dt>0.05)dt=0.05;
     frameMs+=((dt*1000)-frameMs)*0.1;                                                              // geglättete Frame-Zeit (EMA)
-    if(frameMs>27) fxQ=Math.max(0.4,fxQ-0.05); else if(frameMs<19) fxQ=Math.min(1,fxQ+0.02);       // <37fps: FX runter · >52fps: wieder hoch
+    // Erkennt die echte Bildwiederholrate selbst: vsyncMs folgt schnell der Untergrenze, driftet nur langsam hoch.
+    vsyncMs+=(frameMs-vsyncMs)*(frameMs<vsyncMs?0.25:0.0008); if(vsyncMs<6) vsyncMs=6;
+    // Governor RELATIV zur erkannten Rate (60/90/120/144 Hz gleichermaßen): erst FX-Dichte, dann interne Auflösung
+    // senken, wenn Frames verloren gehen (>1.6× vsync); in Ruhe (<1.25×) umgekehrt wieder anheben.
+    if(frameMs>vsyncMs*1.6){ if(fxQ>0.45) fxQ=Math.max(0.45,fxQ-0.04); else if(qScale>0.6){ qScale=Math.max(0.6,qScale-0.05); applyScale(); } }
+    else if(frameMs<vsyncMs*1.25){ if(qScale<1){ qScale=Math.min(1,qScale+0.04); applyScale(); } else if(fxQ<1) fxQ=Math.min(1,fxQ+0.02); }
     if(state===S.PLAY) update(dt);
     else { elapsed=(elapsed||0)+dt; updateStars(dt);
       if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
