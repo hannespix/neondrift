@@ -33,7 +33,7 @@ def twaManifest = [
     navigationDividerColor: '#08010F', // The navbar divider color.
     navigationDividerColorDark: '#08010F', // The dark navbar divider color.
     backgroundColor: '#08010F', // The color used for the splash screen background.
-    enableNotifications: false, // Set to true to enable notification delegation.
+    enableNotifications: true, // Set to true to enable notification delegation.
     // Every shortcut must include the following fields:
     // - name: String that will show up in the shortcut.
     // - short_name: Shorter string used if |name| is too long.
@@ -55,10 +55,10 @@ android {
     namespace "com.thronerush.com"
     defaultConfig {
         applicationId "com.thronerush.com"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 35
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
@@ -208,6 +208,8 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     
-        implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.2'
+        implementation 'com.google.androidbrowserhelper:billing:1.1.0'
+    
+        implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.7.0-alpha02'
     
 }

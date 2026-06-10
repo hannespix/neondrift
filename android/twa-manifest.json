@@ -11,7 +11,7 @@
   "navigationDividerColor": "#08010f",
   "navigationDividerColorDark": "#08010f",
   "backgroundColor": "#08010f",
-  "enableNotifications": false,
+  "enableNotifications": true,
   "startUrl": "/thronerush/",
   "iconUrl": "https://hannespix.github.io/thronerush/icons/icon-512.png",
   "maskableIconUrl": "https://hannespix.github.io/thronerush/icons/icon-maskable-512.png",
@@ -20,24 +20,28 @@
     "path": "./android.keystore",
     "alias": "android"
   },
-  "appVersionName": "1.0.2",
-  "appVersionCode": 3,
+  "appVersionName": "1.0.3",
+  "appVersionCode": 4,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://hannespix.github.io/thronerush/manifest.webmanifest",
   "fallbackType": "customtabs",
-  "features": {},
+  "features": {
+    "playBilling": {
+      "enabled": true
+    }
+  },
   "alphaDependencies": {
-    "enabled": false
+    "enabled": true
   },
   "enableSiteSettingsShortcut": true,
   "isChromeOSOnly": false,
   "isMetaQuest": false,
   "fullScopeUrl": "https://hannespix.github.io/thronerush/",
-  "minSdkVersion": 21,
+  "minSdkVersion": 23,
   "orientation": "default",
   "fingerprints": [],
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
-  "appVersion": "1.0.2"
+  "appVersion": "1.0.3"
 }
