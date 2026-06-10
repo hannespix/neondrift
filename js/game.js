@@ -3101,11 +3101,19 @@
       if(msg){ msg.textContent='✓ +'+amt+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]); }
     else { if(msg){ msg.textContent='✗ '+t('devBad'); msg.className='devMsg bad'; } beep(200,0.12,'sawtooth',0.2); } }
   const OPTLBL={music:'optMusic',sfx:'optSfx',fullscreen:'optFull',shake:'optShake',fx:'optFx',curses:'optCurses',guns:'optGuns',dmg:'optDmg',telemetry:'optTelemetry',lang:'optLang'};
+  // In der installierten App (TWA/PWA) läuft Vollbild NATIV (immersive) – ab dem ersten Frame,
+  // also auch im Hauptmenü. Die JS-Fullscreen-API ist dort überflüssig: sie greift erst nach
+  // einer Geste (Run-Start) und blendet den OS-Toast „Vollbildmodus aktiviert" ein. Daher in
+  // diesem Modus komplett abschalten und das native Vollbild nutzen.
+  const STANDALONE = (function(){ try{
+    return (window.matchMedia && (matchMedia('(display-mode: fullscreen)').matches||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: minimal-ui)').matches))
+      || navigator.standalone===true || (document.referrer||'').indexOf('android-app://')===0;
+  }catch(e){ return false; } })();
   const isFull=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
-  function toggleFullscreen(){ try{ const el=document.documentElement;
+  function toggleFullscreen(){ if(STANDALONE) return; try{ const el=document.documentElement;
     if(!isFull()){ const r=el.requestFullscreen||el.webkitRequestFullscreen; if(r) r.call(el); }
     else { const x=document.exitFullscreen||document.webkitExitFullscreen; if(x) x.call(document); } }catch(e){} }
-  function enterFullscreen(){ try{ const el=document.documentElement, r=el.requestFullscreen||el.webkitRequestFullscreen; if(r){ const p=r.call(el); if(p&&p.catch) p.catch(()=>{}); } }catch(e){} }
+  function enterFullscreen(){ if(STANDALONE) return; try{ const el=document.documentElement, r=el.requestFullscreen||el.webkitRequestFullscreen; if(r){ const p=r.call(el); if(p&&p.catch) p.catch(()=>{}); } }catch(e){} }
   function exitFullscreen(){ try{ const x=document.exitFullscreen||document.webkitExitFullscreen; if(x&&isFull()) x.call(document); }catch(e){} }
   // Beim Spielstart (User-Geste) Fullscreen anfordern – nur wenn die Option an ist (Default: an) → OS-Statusleiste + Navigationsleiste/Bottom-Griff weg
   function goFullscreenSoft(){ if(opt.fullscreen===false||isFull()) return; enterFullscreen(); }
@@ -3587,7 +3595,8 @@
   // Sound + Vollbild sind jetzt im Options-Menü; Label bei Fullscreen-Wechsel (auch via ESC) live halten
   document.addEventListener('fullscreenchange',()=>{ if(isOpen('settings')) renderSettings(); });
   // Fullscreen schon bei der ALLERERSTEN Geste anfordern (sauberste Aktivierung; Browser drosseln Auto-Requests nach Spielstart/Exit)
-  { let fsTried=false; const tryFs=()=>{ if(fsTried) return; fsTried=true; document.removeEventListener('pointerdown',tryFs); if(opt.fullscreen!==false) enterFullscreen(); };
+  if(STANDALONE){ const fr=document.querySelector('.optrow[data-opt="fullscreen"]'); if(fr) fr.style.display='none'; }   // natives Vollbild → JS-Option ausblenden
+  else { let fsTried=false; const tryFs=()=>{ if(fsTried) return; fsTried=true; document.removeEventListener('pointerdown',tryFs); if(opt.fullscreen!==false) enterFullscreen(); };
     document.addEventListener('pointerdown',tryFs,{passive:true}); }
   let lastKey='';
   const isOpen=id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hidden'); };
