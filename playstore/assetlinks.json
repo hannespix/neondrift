@@ -1,0 +1,14 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.thronerush.com",
+      "sha256_cert_fingerprints": [
+        "A2:0E:DB:48:72:4D:38:1B:17:DF:A3:D6:F4:4F:B2:37:84:AA:FA:2E:5A:F7:6E:2F:9F:D0:71:2A:C9:B0:C7:26",
+        "2F:CB:E3:FD:F9:3E:40:91:3F:76:45:D5:6A:E8:73:E1:B9:7C:7D:E4:93:27:CC:29:63:54:A3:00:ED:D4:95:74",
+        "18:C7:E0:40:A2:BD:50:28:64:34:66:5D:46:73:50:D4:7D:26:D2:BA:12:1F:EA:99:55:01:3F:1F:58:F9:90:F9"
+      ]
+    }
+  }
+]

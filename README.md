@@ -40,6 +40,10 @@ python3 -m http.server 8000
 - **Android (Chrome):** Seite über HTTPS öffnen → „📲 App installieren" im Startmenü oder Chrome-Menü → „App installieren".
 - **iOS (Safari):** Teilen → „Zum Home-Bildschirm". (Hinweis: Vibration ist auf iOS systemseitig nicht verfügbar.)
 
+### Google Play Store
+
+THRONERUSH lässt sich als **Trusted Web Activity (TWA)** in den Play Store bringen. Das fertige Android-Projekt liegt unter [`android/`](./android/), die komplette Schritt-für-Schritt-Anleitung (Keystore, Build, `assetlinks.json`, Store-Eintrag, Release) steht in **[PLAYSTORE.md](./PLAYSTORE.md)**.
+
 ## Projektstruktur
 
 ```

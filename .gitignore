@@ -18,3 +18,16 @@ Thumbs.db
 # Lokales
 .env
 .env.local
+
+# Android / TWA (Play Store) – Build-Artefakte & Signatur-Geheimnisse NIE committen
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.aab
+*.apk
+*.idsig
+# Signatur-Keystores & Passwörter (lokal halten, sicher sichern!)
+*.keystore
+*.jks
+android/keystore.properties

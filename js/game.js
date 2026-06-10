@@ -736,7 +736,16 @@
     W=wrap.clientWidth||window.innerWidth; H=wrap.clientHeight||window.innerHeight;
     canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0);
     ctx.imageSmoothingEnabled=false; }   // Pixel-Sprites (Schiff/Boss) nearest-neighbor → scharfe Kanten statt verwaschen
-  window.addEventListener('resize',resize); resize();
+  window.addEventListener('resize',resize);
+  // In TWA/PWA-Vollbild blenden sich die System-Leisten erst KURZ nach dem Laden aus →
+  // dvh/clientHeight stimmt anfangs noch nicht. Auf weitere Signale hören + mehrfach nachmessen.
+  if(window.visualViewport) window.visualViewport.addEventListener('resize',resize);
+  window.addEventListener('orientationchange',()=>{ resize(); setTimeout(resize,250); });
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) resize(); });
+  document.addEventListener('fullscreenchange',()=>setTimeout(resize,50));
+  document.addEventListener('webkitfullscreenchange',()=>setTimeout(resize,50));
+  resize();
+  [120,400,900,1600].forEach((d)=>setTimeout(resize,d));   // Vollbild-Übergang abwarten
   function applyFx(){ const w=document.getElementById('wrap'); if(w) w.classList.toggle('crt',!!opt.fx); }   // CRT-Scanlines an/aus (CSS, koppelt an „Effekte")
   applyFx();
   const tgt={x:W/2,y:H*0.72};
