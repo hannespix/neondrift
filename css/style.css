@@ -434,6 +434,13 @@
 
   /* Game over */
   .gover{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(32px,9vw,72px);color:var(--pink);text-shadow:0 0 18px var(--pink),0 0 48px rgba(255,46,136,.6);}
+  /* Weiterleben-Continue */
+  #continue{gap:0;}
+  .contTitle{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(30px,8vw,60px);color:var(--cyan);text-shadow:0 0 18px var(--cyan),0 0 48px rgba(25,240,255,.5);animation:wiggle .5s ease;}
+  .contSub{margin:14px 0 22px;font-family:'Space Mono',monospace;font-size:clamp(13px,3.4vw,16px);color:#d6c9f5;line-height:1.7;text-align:center;}
+  .contSub .contBal{color:var(--yellow);font-weight:700;}
+  #continueBtn{border-color:var(--cyan);color:#cffaff;box-shadow:0 0 20px rgba(25,240,255,.35);}
+  #continueBtn b{color:var(--yellow);}
   .insult{margin-top:10px;font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(15px,4vw,24px);letter-spacing:.06em;color:var(--yellow);text-shadow:0 0 16px var(--yellow);animation:wiggle .5s ease;}
   @keyframes wiggle{0%{transform:rotate(-3deg) scale(.9)}50%{transform:rotate(2deg) scale(1.08)}100%{transform:rotate(0) scale(1)}}
   .quip{margin-top:10px;font-size:clamp(13px,3.6vw,18px);color:var(--cyan);min-height:2.6em;letter-spacing:.04em;max-width:460px;line-height:1.4;}
