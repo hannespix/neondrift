@@ -3145,7 +3145,12 @@
     let det='?'; try{ const r=await dgService.getDetails(['coins_1000']); det=(r&&r.length)?('ok'+(r[0]&&r[0].price?(' '+fmtPrice(r[0].price)):'')):'leer'; }catch(e){ det='FEHLER:'+errInfo(e); }
     let lp='?'; try{ const r=await dgService.listPurchases(); lp='ok('+((r&&r.length)||0)+')'; }catch(e){ lp='FEHLER:'+errInfo(e); }
     const pend=(meta.pendTok&&meta.pendTok.length)||0;
-    msg.textContent='🔧 Details:'+det+' · Liste:'+lp+(pend?(' · offen:'+pend):''); msg.className='devMsg'; }
+    // Host-Browser + Versionen: clientAppUnavailable kommt fast immer von einem veralteten/Nicht-Chrome-
+    // Host oder einem WebView-Fallback (kein Digital-Goods-Support). UA macht das ohne PC sichtbar.
+    const ua=navigator.userAgent||''; const cr=(ua.match(/Chrome\/(\d+)/)||[])[1]||'?';
+    const av=(ua.match(/Android[ /](\d+)/)||[])[1]||'?'; const wv=/; wv\)/.test(ua)||/\bwv\b/.test(ua);
+    const sams=/SamsungBrowser\/([\d.]+)/.exec(ua); const host=wv?'WebView!':(sams?('Samsung '+sams[1]):('Chrome '+cr));
+    msg.textContent='🔧 Details:'+det+' · Liste:'+lp+(pend?(' · offen:'+pend):'')+' · '+host+' / Android '+av; msg.className='devMsg'; }
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
     const msg=document.getElementById('coinMsg');
     try{
