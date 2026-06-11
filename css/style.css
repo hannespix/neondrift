@@ -254,6 +254,17 @@
   .ucard .cost.locked,.wnode .cost.locked{background:rgba(255,255,255,.12);color:#9a86c9;cursor:not-allowed;}
   .ucard .cost.done{background:transparent;color:var(--cyan);border:1px solid rgba(25,240,255,.4);cursor:default;}
   .chips{margin-top:14px;font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:.1em;font-size:clamp(14px,3.4vw,18px);color:var(--yellow);text-shadow:0 0 16px rgba(255,230,0,.5);}
+  /* Game-Over: Run-Zusammenfassung + Karotte zum nächsten Upgrade */
+  .runsum{margin-top:7px;font-family:'Space Mono',monospace;font-size:clamp(11px,2.8vw,13px);color:#b9a9e0;letter-spacing:.02em;}
+  .nextunlock{margin:12px auto 0;max-width:320px;width:86%;}
+  .nextunlock .nuhead{font-family:'Space Mono',monospace;font-size:12px;color:#d6c9f5;margin-bottom:6px;line-height:1.5;}
+  .nextunlock .nuhead .nul{color:#8f7fc0;text-transform:uppercase;letter-spacing:.08em;font-size:10px;}
+  .nextunlock .nuhead b{color:#fff;}
+  .nextunlock .nuok{color:#2effc0;font-weight:700;white-space:nowrap;}
+  .nextunlock .nugap{color:#ffe08a;white-space:nowrap;}
+  .nextunlock .nubar{height:9px;border-radius:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);overflow:hidden;}
+  .nextunlock .nubar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#19f0ff,#7c5bff);box-shadow:0 0 10px rgba(124,91,255,.6);transition:width .6s cubic-bezier(.2,.8,.2,1);}
+  .nextunlock .nubar.full i{background:linear-gradient(90deg,#2effc0,#7cff2e);box-shadow:0 0 12px rgba(46,255,192,.7);}
 
   /* Upgrade */
   #upgrade .utitle{font-family:'Orbitron';font-weight:900;font-size:clamp(22px,6vw,40px);color:var(--yellow);text-shadow:0 0 20px var(--yellow);}
