@@ -3086,7 +3086,7 @@
   const COIN_PACKS=[1000,5000,12000];   // Coin-Mengen je Pack (Buttons via data-coins)
   const coinsFromId=(id)=>{ const m=String(id||'').match(/(\d+)/); return m?parseInt(m[1],10):0; };
   const BUYFAIL={de:'Kauf fehlgeschlagen',en:'Purchase failed',fr:'Achat échoué'};
-  let dgService=null, billingReady=false, lastDetErr='';
+  let dgService=null, billingReady=false, lastDetErr='', lastBillingDbg='';
   function fmtPrice(p){ if(!p||p.value==null) return ''; const num=parseFloat(p.value); const v=isNaN(num)?String(p.value):num.toFixed(2);
     return p.currency==='EUR'?(v.replace('.',',')+' €'):(v+' '+(p.currency||'')); }   // „7,99 €" statt „7,990000 €"
   async function initBilling(){ if(billingReady) return true;
@@ -3105,10 +3105,13 @@
     return []; }
   // Alle „besessenen" Käufe konsumieren → Verbrauchsartikel (Coins) werden dadurch wieder kaufbar.
   // Token zuverlässig aus listPurchases (statt PaymentResponse.details); consume ODER acknowledge.
-  async function consumeOwned(){ try{ if(!dgService||!dgService.listPurchases) return;
-      const ps=(await dgService.listPurchases())||[];
-      for(const p of ps){ const tok=p&&(p.purchaseToken||p.token); if(!tok) continue;
-        try{ if(dgService.consume) await dgService.consume(tok); else if(dgService.acknowledge) await dgService.acknowledge(tok,true); }catch(e){} } }catch(e){} }
+  async function consumeOwned(){ try{ if(!dgService){ lastBillingDbg='kein dgService'; return; }
+      const has=['getDetails','listPurchases','consume','acknowledge'].filter(m=>typeof dgService[m]==='function').join(',');
+      if(typeof dgService.listPurchases!=='function'){ lastBillingDbg='API:'+has+' | kein listPurchases'; return; }
+      const ps=(await dgService.listPurchases())||[]; let done=0, err='';
+      for(const p of ps){ const tok=p&&(p.purchaseToken||p.token); if(!tok){ err=err||'kein Token'; continue; }
+        try{ if(typeof dgService.consume==='function'){ await dgService.consume(tok); done++; } else if(typeof dgService.acknowledge==='function'){ await dgService.acknowledge(tok,true); done++; } else err='kein consume/ack'; }catch(e){ err=(e&&(e.name||e.message))||'consume-Fehler'; } }
+      lastBillingDbg='API:'+has+' | besessen:'+ps.length+' | konsumiert:'+done+(err?(' | '+err):''); }catch(e){ lastBillingDbg='consumeOwned-Fehler:'+((e&&(e.name||e.message))||'?'); } }
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
     const msg=document.getElementById('coinMsg');
     try{
@@ -3134,6 +3137,7 @@
     packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku); b.dataset.sku='coins_'+n; b.disabled=false;
       if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
     if(soon) soon.style.display='none';
+    { const cm=document.getElementById('coinMsg'); if(cm){ cm.textContent='IAP-Debug · '+(lastBillingDbg||'—'); cm.className='devMsg'; } }   // TEMP: Consume-Diagnose
     (async()=>{ for(const b of packs){ const n=parseInt(b.dataset.coins,10); try{ const d=(await detailsFor('coins_'+n))[0];
       if(d){ if(d.itemId) b.dataset.sku=d.itemId; const pr=b.querySelector('.cpPrice'), px=fmtPrice(d.price); if(px&&pr) pr.textContent=px; } }catch(e){} } })();
   }
