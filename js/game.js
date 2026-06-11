@@ -3129,21 +3129,24 @@
       if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
   async function renderCoinShop(){ updateAllBalances();
     const soon=document.getElementById('coinSoon'); const packs=document.querySelectorAll('#coinPacks .coinPack');
-    const ok=await initBilling();
-    if(!ok){ if(soon){ soon.textContent=t('coinSoon'); soon.style.display=''; } packs.forEach(b=>{ b.disabled=true; }); return; }
-    // Beide ID-Schreibweisen abfragen (Unterstrich/Bindestrich), getrennt gekapselt
-    let details={};
-    for(const ch of ['_','-']){ try{ const arr=await dgService.getDetails(COIN_PACKS.map(n=>'coins'+ch+n)); (arr||[]).forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }catch(e){} }
-    let matched=0;
-    packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku);
-      // 1) exakte Schreibweisen, 2) Fallback: irgendeine gefundene ID mit passender Coin-Zahl
-      let cand=skuVariants(n).find(s=>details[s]) || Object.keys(details).find(id=>coinsFromId(id)===n);
-      if(!cand){ b.disabled=true; return; }
-      matched++; b.dataset.sku=cand; const d=details[cand], pr=b.querySelector('.cpPrice'); const px=fmtPrice(d.price); if(px&&pr) pr.textContent=px;
-      b.disabled=false;
-      if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
-    // Mind. ein Pack kaufbar → „bald verfügbar"-Hinweis aus; sonst (kein Produkt gefunden) anzeigen
-    if(soon){ if(matched>0){ soon.style.display='none'; } else { soon.textContent=t('coinSoon'); soon.style.display=''; } }
+    packs.forEach(b=>{ b.disabled=true; });                 // erst alle aus, unten ggf. wieder an
+    let reason='', matched=0;
+    if(typeof window.getDigitalGoodsService!=='function'){   // Browser/iOS: kein Play-Billing
+      reason='Käufe nur in der Play-Store-App verfügbar.';
+    } else if(!await initBilling()){                          // TWA, aber Billing-Dienst nicht erreichbar
+      reason='Play-Zahlungsdienst nicht verbunden – Play Store öffnen & erneut versuchen.';
+    } else {
+      let details={}, err='';
+      for(const ch of ['_','-']){ try{ const arr=await dgService.getDetails(COIN_PACKS.map(n=>'coins'+ch+n)); (arr||[]).forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }catch(e){ err=(e&&(e.name||e.message))||'Fehler'; } }
+      packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku);
+        const cand=skuVariants(n).find(s=>details[s]) || Object.keys(details).find(id=>coinsFromId(id)===n);
+        if(!cand) return;
+        matched++; b.dataset.sku=cand; const d=details[cand], pr=b.querySelector('.cpPrice'); const px=fmtPrice(d.price); if(px&&pr) pr.textContent=px;
+        b.disabled=false;
+        if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
+      if(matched===0) reason = err ? ('Produkt-Abruf fehlgeschlagen: '+err) : 'Produkte werden von Google noch synchronisiert – bitte später erneut.';
+    }
+    if(soon){ if(matched>0){ soon.style.display='none'; } else { soon.textContent=reason; soon.style.display=''; } }
   }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
   function openCoinShop(){ const m=document.getElementById('coinMsg'); if(m){m.textContent='';m.className='devMsg';}
