@@ -3135,27 +3135,19 @@
       if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
   async function renderCoinShop(){ updateAllBalances();
     const soon=document.getElementById('coinSoon'); const packs=document.querySelectorAll('#coinPacks .coinPack');
-    packs.forEach(b=>{ b.disabled=true; });                 // erst alle aus, unten ggf. wieder an
-    let reason='', matched=0;
-    if(typeof window.getDigitalGoodsService!=='function'){   // Browser/iOS: kein Play-Billing
-      reason='Käufe nur in der Play-Store-App verfügbar.';
-    } else if(!await initBilling()){                          // TWA, aber Billing-Dienst nicht erreichbar
-      reason='Play-Zahlungsdienst nicht verbunden – Play Store öffnen & erneut versuchen.';
-    } else {
-      let details={}; lastDetErr='';
-      // Jede Produkt-ID (Unterstrich = echte Produkt-ID) EINZELN mit Retry abfragen – isoliert,
-      // damit ein fehlendes Produkt die anderen nicht mitreißt und Verbindungs-Races abgefangen werden.
-      for(const n of COIN_PACKS){ const arr=await detailsFor('coins_'+n); arr.forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }
-      const err=lastDetErr;
-      packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku);
-        const cand=skuVariants(n).find(s=>details[s]) || Object.keys(details).find(id=>coinsFromId(id)===n);
-        if(!cand) return;
-        matched++; b.dataset.sku=cand; const d=details[cand], pr=b.querySelector('.cpPrice'); const px=fmtPrice(d.price); if(px&&pr) pr.textContent=px;
-        b.disabled=false;
-        if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
-      if(matched===0) reason = err ? ('Produkt-Abruf fehlgeschlagen: '+err) : 'Produkte werden von Google noch synchronisiert – bitte später erneut.';
-    }
-    if(soon){ if(matched>0){ soon.style.display='none'; } else { soon.textContent=reason; soon.style.display=''; } }
+    const billing = (typeof window.getDigitalGoodsService==='function') && await initBilling();
+    if(!billing){   // Browser/iOS oder Dienst nicht erreichbar → Buttons aus, Hinweis zeigen
+      packs.forEach(b=>{ b.disabled=true; });
+      if(soon){ soon.textContent=(typeof window.getDigitalGoodsService!=='function')?'Käufe nur in der Play-Store-App verfügbar.':'Play-Zahlungsdienst nicht verbunden – Play Store öffnen & erneut versuchen.'; soon.style.display=''; }
+      return; }
+    // WICHTIG: Sobald Billing verbunden ist, Buttons SOFORT aktivieren. Der Kauf läuft über Play
+    // (PaymentRequest), das den Preis selbst auflöst – ein erfolgreicher getDetails ist dafür NICHT
+    // nötig. Preise nur best-effort im Hintergrund nachladen (Fehler dabei egal). (Verhalten wie v205.)
+    packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku); b.dataset.sku='coins_'+n; b.disabled=false;
+      if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
+    if(soon) soon.style.display='none';
+    (async()=>{ for(const b of packs){ const n=parseInt(b.dataset.coins,10); try{ const d=(await detailsFor('coins_'+n))[0];
+      if(d){ if(d.itemId) b.dataset.sku=d.itemId; const pr=b.querySelector('.cpPrice'), px=fmtPrice(d.price); if(px&&pr) pr.textContent=px; } }catch(e){} } })();
   }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
   function openCoinShop(){ const m=document.getElementById('coinMsg'); if(m){m.textContent='';m.className='devMsg';}
