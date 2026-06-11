@@ -1,5 +1,5 @@
 // THRONERUSH Service Worker – Offline-Cache
-const CACHE = 'thronerush-v253';
+const CACHE = 'thronerush-v254';
 const ASSETS = [
   './',
   './index.html',
