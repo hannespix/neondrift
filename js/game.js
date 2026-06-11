@@ -30,7 +30,7 @@
       m_hard:'BLITZ', m_hardD:'Brutal schnell, keine Level-Pausen. Nur Mut, Near-Misses & Power-Ups retten dich.',
       m_zen:'ZEN', m_zenD:'Kein Tod. Treffer kostet nur Combo. Entspannt sammeln, Highscore jagen.', mfeat_normal:'📈 Level|👾 Bosse|🃏 Upgrades', mfeat_hard:'⚡ Speed|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ Kein Tod|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ WEITER', mainmenu:'☰ HAUPTMENÜ', chooseUp:'UPGRADE WÄHLEN', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEUE WAFFE', path:'PFAD', ckLblW:'Waffen', ckLblS:'Synergien', ckLblV:'Leben', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', hangar:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte',spStart:'Starter-Bonus',buySP:'Skillpunkt kaufen',needSP:'Keine Skillpunkte',needSPsub:'Bosse besiegen oder kaufen',needChips:'Nicht genug Chips',spDrop:'Boss-Beute!',statusTitle:'📊 GEFECHTSDATENBLATT',statusBtn:'Schiffsstatus',statDps:'Ø Schaden/s',statCrit:'Krit-Chance',statCritDmg:'Krit-Wucht',statLives:'Leben',statShield:'Schild',statLuck:'Glück',statScore:'Punkte-Boost',statCoin:'Coin-Boost',statHull:'Hitbox',statReach:'Nähe-Radius',statFirepower:'Feuerkraft-Verteilung',statNoWep:'Keine Waffen ausgerüstet.',statEst:'geschätzt', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte & Münzen', fxMirror:'Gespiegelt', curseOver:'vorbei!', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt',
+      newWeapon:'NEUE WAFFE', path:'PFAD', ckLblW:'Waffen', ckLblS:'Synergien', ckLblV:'Leben', slotsLbl:'Slots', synTitle:'Synergien', noSyn:'— noch keine —', drop:'ablegen', lockedW:'🔒 Werkstatt', equipHint:'Tippen zum Aus-/Einrüsten', arsenalTitle:'🎒 ARSENAL', hangar:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'frei', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE!', legChosen:'gewählt', legAvail:'wählbar', legLocked:'gesperrt', forkLocked:'🔒 In der Werkstatt freischalten', blueprint:'Bauplan', startWeapon:'Startwaffe', forkTier:'Fork-Stufe', cat_weapons:'Waffen', cat_ship:'Schiff', cat_power:'Kräfte', cat_economy:'Ökonomie', cat_cosmetic:'Kosmetik', cat_synergy:'Synergien', treeHint:'Pfade wählst du beim Level-Up', hangarHint:'Tippe Knoten/Waffe zum Kaufen', addWeapon:'Waffe holen', skillPts:'Skillpunkte',spStart:'Starter-Bonus',buySP:'Skillpunkt kaufen',needSP:'Keine Skillpunkte',needSPsub:'Bosse besiegen oder kaufen',needChips:'Nicht genug Chips',spDrop:'Boss-Beute!',statusTitle:'📊 GEFECHTSDATENBLATT',statusBtn:'Schiffsstatus',statDps:'Ø Schaden/s',statCrit:'Krit-Chance',statCritDmg:'Krit-Wucht',statLives:'Leben',statShield:'Schild',statLuck:'Glück',statScore:'Punkte-Boost',statCoin:'Coin-Boost',statHull:'Hitbox',statReach:'Nähe-Radius',statFirepower:'Feuerkraft-Verteilung',statNoWep:'Keine Waffen ausgerüstet.',statEst:'geschätzt', overchargeName:'Verstärken', fxSlow:'Zeitlupe', diffRating:'Anspruch', diffSpeed:'Tempo', diffArmor:'Gegner-HP', diffCoins:'Münzen', hiscores:'Highscores', fxMagnet:'Magnet', fxDouble:'×2 Punkte & Münzen', fxMirror:'Gespiegelt', curseOver:'vorbei!', fxMirrorSoon:'Spiegel folgt', fxMirOn:'GESPIEGELT!', fxMirOff:'normal', overchargeHint:'oder Pfad im Baum wählen', damage:'Schaden', skillHint:'💠 Tippe einen Knoten zum Freischalten', skillNext:'▶ WEITER', synOn:'aktiv', synNeed:'fehlt', synPick:'aktivieren', synFull:'Slots voll', synHint:'Fusionen kaufen → bis zum Slot-Limit frei kombinieren. Kills laden die ÜBERLADUNG – im Cockpit antippen (Tasten 1–4) für den Doppel-Skill beider Waffen!', ultReady:'ÜBERLADUNG bereit!',
       balance:'Guthaben', shopHint:'dauerhaft gespeichert · immer teurer & krasser', back:'← ZURÜCK', reallyQ:'WIRKLICH? ✓ (tippen)', resetTitle:'DATEN ZURÜCKSETZEN', rs_workshop:'🛠️ Arsenal & Werkstatt (Waffen, Upgrades, Chips, Skillpunkte)', rs_scores:'🏆 Highscores', rs_achskins:'🏅 Erfolge & Skins', rs_all:'⚠️ ALLES löschen', rsDone:'✓ ZURÜCKGESETZT',
       setTitle:'EINSTELLUNGEN', tapToggle:'Tippen zum Umschalten', optMusic:'🎵 Musik', optSfx:'🔊 Game-Sound', optFull:'⛶ Vollbild', coins:'Coins', coinBalLbl:'Guthaben', coinSoon:'Käufe bald verfügbar', devHint:'Dev-/Tester-Code einlösen', redeem:'EINLÖSEN', devBad:'Ungültiger Code', devPlace:'z. B. dev1000', optShake:'📳 Screenshake & Vibration', optFx:'Bildschirm-Effekte', optCurses:'🎲 Lustige Flüche', optGuns:'🔫 Schießen / Waffen', optDmg:'🔢 Schadenszahlen', optTelemetry:'📊 Anonyme Statistik', tlmExport:'📤 Telemetrie exportieren', tlmDone:'✓ Kopiert', tlmEmpty:'noch keine Daten', optLang:'🌐 Sprache', advOpt:'Erweitert',
       on:'AN', off:'AUS', reduced:'REDUZIERT', activated:'aktiviert', loser:'LOSER', respec:'Skills zurücksetzen', reskilled:'zurückgenommen', crash:'CRASH', points:'Punkte', record:'Rekord', newRec:'★ NEUER REKORD ★', again:'NOCHMAL', share:'📤 TEILEN', menu:'MENÜ', best:'BEST',
@@ -59,7 +59,7 @@
       m_hard:'BLITZ', m_hardD:'Brutally fast, no breathers. Only guts, near-misses & power-ups save you.',
       m_zen:'ZEN', m_zenD:'No death. A hit only costs your combo. Chill, collect, chase the highscore.', mfeat_normal:'📈 Levels|👾 Bosses|🃏 Upgrades', mfeat_hard:'⚡ Fast|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ No death|🌊 Chill|🏆 Highscore',
       pause:'PAUSE', resume:'▶ RESUME', mainmenu:'☰ MAIN MENU', chooseUp:'CHOOSE UPGRADE', arsenal:'🔫 ARSENAL', level:'Level',
-      newWeapon:'NEW WEAPON', path:'PATH', ckLblW:'Weapons', ckLblS:'Synergies', ckLblV:'Life', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', hangar:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points',spStart:'starter bonus',buySP:'Buy skill point',needSP:'No skill points',needSPsub:'Beat bosses or buy them',needChips:'Not enough chips',spDrop:'Boss loot!',statusTitle:'📊 COMBAT DOSSIER',statusBtn:'Ship status',statDps:'Avg damage/s',statCrit:'Crit chance',statCritDmg:'Crit power',statLives:'Lives',statShield:'Shield',statLuck:'Luck',statScore:'Score boost',statCoin:'Coin boost',statHull:'Hitbox',statReach:'Pickup range',statFirepower:'Firepower split',statNoWep:'No weapons equipped.',statEst:'estimated', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score & Coins', fxMirror:'Mirrored', curseOver:'over!', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need',
+      newWeapon:'NEW WEAPON', path:'PATH', ckLblW:'Weapons', ckLblS:'Synergies', ckLblV:'Life', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— none yet —', drop:'drop', lockedW:'🔒 Workshop', equipHint:'Tap to equip / unequip', arsenalTitle:'🎒 ARSENAL', hangar:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'free', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGY!', legChosen:'chosen', legAvail:'available', legLocked:'locked', forkLocked:'🔒 Unlock in the Workshop', blueprint:'Blueprint', startWeapon:'Starter weapon', forkTier:'Fork tier', cat_weapons:'Weapons', cat_ship:'Ship', cat_power:'Power', cat_economy:'Economy', cat_cosmetic:'Cosmetic', cat_synergy:'Synergies', treeHint:'Paths are chosen on level-up', hangarHint:'Tap a node/weapon to buy', addWeapon:'Get weapon', skillPts:'skill points',spStart:'starter bonus',buySP:'Buy skill point',needSP:'No skill points',needSPsub:'Beat bosses or buy them',needChips:'Not enough chips',spDrop:'Boss loot!',statusTitle:'📊 COMBAT DOSSIER',statusBtn:'Ship status',statDps:'Avg damage/s',statCrit:'Crit chance',statCritDmg:'Crit power',statLives:'Lives',statShield:'Shield',statLuck:'Luck',statScore:'Score boost',statCoin:'Coin boost',statHull:'Hitbox',statReach:'Pickup range',statFirepower:'Firepower split',statNoWep:'No weapons equipped.',statEst:'estimated', overchargeName:'Overcharge', fxSlow:'Slow-Mo', diffRating:'Challenge', diffSpeed:'Speed', diffArmor:'Enemy HP', diffCoins:'Coins', hiscores:'High Scores', fxMagnet:'Magnet', fxDouble:'×2 Score & Coins', fxMirror:'Mirrored', curseOver:'over!', fxMirrorSoon:'Mirror soon', fxMirOn:'MIRRORED!', fxMirOff:'normal', overchargeHint:'or pick a path below', damage:'damage', skillHint:'💠 Tap a node to unlock', skillNext:'▶ CONTINUE', synOn:'active', synNeed:'need', synPick:'activate', synFull:'slots full', synHint:'Buy fusions → combine freely up to the slot limit. Kills charge the OVERLOAD – tap it in the cockpit (keys 1–4) to unleash both weapons\u2019 skills!', ultReady:'OVERLOAD ready!',
       balance:'Balance', shopHint:'saved permanently · ever pricier & crazier', back:'← BACK', reallyQ:'SURE? ✓ (tap)', resetTitle:'RESET DATA', rs_workshop:'🛠️ Arsenal & Workshop (weapons, upgrades, chips, skill points)', rs_scores:'🏆 High scores', rs_achskins:'🏅 Achievements & skins', rs_all:'⚠️ DELETE EVERYTHING', rsDone:'✓ RESET',
       setTitle:'SETTINGS', tapToggle:'Tap to toggle', optMusic:'🎵 Music', optSfx:'🔊 Game Sound', optFull:'⛶ Fullscreen', coins:'Coins', coinBalLbl:'Balance', coinSoon:'Purchases coming soon', devHint:'Redeem dev/tester code', redeem:'REDEEM', devBad:'Invalid code', devPlace:'e.g. dev1000', optShake:'📳 Screenshake & rumble', optFx:'Screen effects', optCurses:'🎲 Funny curses', optGuns:'🔫 Shooting / weapons', optDmg:'🔢 Damage numbers', optTelemetry:'📊 Anonymous stats', tlmExport:'📤 Export telemetry', tlmDone:'✓ Copied', tlmEmpty:'no data yet', optLang:'🌐 Language', advOpt:'Advanced',
       on:'ON', off:'OFF', reduced:'REDUCED', activated:'activated', loser:'LOSER', respec:'Reset skills', reskilled:'refunded', crash:'CRASH', points:'Score', record:'Best', newRec:'★ NEW RECORD ★', again:'AGAIN', share:'📤 SHARE', menu:'MENU', best:'BEST',
@@ -88,7 +88,7 @@
       m_hard:'BLITZ', m_hardD:'Ultra rapide, sans répit. Seuls le cran, les near-miss & power-ups te sauvent.',
       m_zen:'ZEN', m_zenD:'Pas de mort. Un coup coûte juste ton combo. Chill, collecte, vise le highscore.', mfeat_normal:'📈 Niveaux|👾 Boss|🃏 Améliorations', mfeat_hard:'⚡ Rapide|🎯 Near-Miss|🔥 Brutal', mfeat_zen:'♾️ Sans mort|🌊 Détente|🏆 Score',
       pause:'PAUSE', resume:'▶ REPRENDRE', mainmenu:'☰ MENU', chooseUp:'CHOISIS UNE AMÉLIORATION', arsenal:'🔫 ARSENAL', level:'Niveau',
-      newWeapon:'NOUVELLE ARME', path:'VOIE', ckLblW:'Armes', ckLblS:'Synergies', ckLblV:'Vies', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', hangar:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points',spStart:'bonus de départ',buySP:'Acheter un point',needSP:'Aucun point',needSPsub:'Battez des boss ou achetez',needChips:'Pas assez de chips',spDrop:'Butin de boss !',statusTitle:'📊 FICHE DE COMBAT',statusBtn:'Statut du vaisseau',statDps:'Dégâts/s moy.',statCrit:'Chance crit',statCritDmg:'Force crit',statLives:'Vies',statShield:'Bouclier',statLuck:'Chance',statScore:'Bonus points',statCoin:'Bonus coins',statHull:'Hitbox',statReach:'Rayon de collecte',statFirepower:'Répartition puissance',statNoWep:'Aucune arme équipée.',statEst:'estimé', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score & Pièces', fxMirror:'Inversé', curseOver:'fini !', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque',
+      newWeapon:'NOUVELLE ARME', path:'VOIE', ckLblW:'Armes', ckLblS:'Synergies', ckLblV:'Vies', slotsLbl:'Slots', synTitle:'Synergies', noSyn:'— aucune —', drop:'retirer', lockedW:'🔒 Atelier', equipHint:'Touchez pour équiper/retirer', arsenalTitle:'🎒 ARSENAL', hangar:'🎒 ARSENAL', arsenalTab:'Loadout', freeSlot:'libre', arsenalBtn:'🎒 ARSENAL', synUnlocked:'SYNERGIE !', legChosen:'choisi', legAvail:'disponible', legLocked:'verrouillé', forkLocked:'🔒 Débloquer à l’Atelier', blueprint:'Plan', startWeapon:'Arme de base', forkTier:'Palier', cat_weapons:'Armes', cat_ship:'Vaisseau', cat_power:'Puissance', cat_economy:'Économie', cat_cosmetic:'Cosmétique', cat_synergy:'Synergies', treeHint:'Les voies se choisissent au level-up', hangarHint:'Touchez un nœud/arme pour acheter', addWeapon:'Prendre arme', skillPts:'points',spStart:'bonus de départ',buySP:'Acheter un point',needSP:'Aucun point',needSPsub:'Battez des boss ou achetez',needChips:'Pas assez de chips',spDrop:'Butin de boss !',statusTitle:'📊 FICHE DE COMBAT',statusBtn:'Statut du vaisseau',statDps:'Dégâts/s moy.',statCrit:'Chance crit',statCritDmg:'Force crit',statLives:'Vies',statShield:'Bouclier',statLuck:'Chance',statScore:'Bonus points',statCoin:'Bonus coins',statHull:'Hitbox',statReach:'Rayon de collecte',statFirepower:'Répartition puissance',statNoWep:'Aucune arme équipée.',statEst:'estimé', overchargeName:'Surcharge', fxSlow:'Ralenti', diffRating:'Défi', diffSpeed:'Vitesse', diffArmor:'PV ennemis', diffCoins:'Pièces', hiscores:'Meilleurs scores', fxMagnet:'Aimant', fxDouble:'×2 Score & Pièces', fxMirror:'Inversé', curseOver:'fini !', fxMirrorSoon:'Inversion proche', fxMirOn:'INVERSÉ!', fxMirOff:'normal', overchargeHint:'ou choisis une voie', damage:'dégâts', skillHint:'💠 Touchez un nœud pour débloquer', skillNext:'▶ CONTINUER', synOn:'actif', synNeed:'manque', synPick:'activer', synFull:'slots pleins', synHint:'Achetez des fusions → combinez librement jusqu\u2019à la limite. Les kills chargent la SURCHARGE – touchez-la dans le cockpit (touches 1–4) !', ultReady:'SURCHARGE prête !',
       balance:'Solde', shopHint:'sauvegardé · toujours plus cher & plus fou', back:'← RETOUR', reallyQ:'SÛR ? ✓ (touche)', resetTitle:'RÉINITIALISER', rs_workshop:'🛠️ Arsenal & Atelier (armes, upgrades, chips, points)', rs_scores:'🏆 Scores', rs_achskins:'🏅 Succès & skins', rs_all:'⚠️ TOUT EFFACER', rsDone:'✓ OK',
       setTitle:'RÉGLAGES', tapToggle:'Touche pour changer', optMusic:'🎵 Musique', optSfx:'🔊 Sons du jeu', optFull:'⛶ Plein écran', coins:'Coins', coinBalLbl:'Solde', coinSoon:'Achats bientôt disponibles', devHint:'Saisir un code dev/testeur', redeem:'VALIDER', devBad:'Code invalide', devPlace:'p. ex. dev1000', optShake:'📳 Tremblement & vibration', optFx:'Effets d’écran', optCurses:'🎲 Malédictions fun', optGuns:'🔫 Tir / armes', optDmg:'🔢 Chiffres de dégâts', optTelemetry:'📊 Stats anonymes', tlmExport:'📤 Exporter télémétrie', tlmDone:'✓ Copié', tlmEmpty:'aucune donnée', optLang:'🌐 Langue', advOpt:'Avancé',
       on:'OUI', off:'NON', reduced:'RÉDUIT', activated:'activé', loser:'LOSER', respec:'Réinitialiser', reskilled:'remboursé', crash:'CRASH', points:'Score', record:'Record', newRec:'★ NOUVEAU RECORD ★', again:'REJOUER', share:'📤 PARTAGER', menu:'MENU', best:'BEST',
@@ -126,15 +126,15 @@
     fr:{rapid:['Tir Rapide','+50% cadence, un peu moins de dégâts'],heavy:['Tir Lourd','Plus lent, mais double dégâts'],scatter:['Dispersion','+2 projectiles (éventail), plus faibles'],precise:['Précision','+2 perforation, +40% dégâts'],swarm:['Essaim','2 missiles plus petits'],warhead:['Ogive','1 gros missile, +50% rayon'],shrapnel:['Éclats','L’explosion projette des éclats'],incendiary:['Incendiaire','L’explosion enflamme les cibles'],ember:['Braise','Brûlure plus que doublée'],wildfire:['Embrasement','Le feu se propage à la mort'],accel:['Accélérant','Brûle plus vite (court, fort)'],consume:['Consumer','Les kills par feu donnent des points'],permafrost:['Permafrost','Ralenti plus long & plus fort'],glaciate:['Glaciation','Chance de geler totalement'],shatter:['Éclatement','Les cibles gelées éclatent (AoE)'],brittle:['Fragile','Les cibles gelées subissent +50%'],fork:['Ramification','+3 sauts, moins de dégâts'],highv:['Haute Tension','Moins de sauts, gros dégâts + stun'],stormhit:['Orage','Chaîne aussi sur les kills de tir'],dischargeaoe:['Décharge','Chaque saut avec petit AoE'],shock:['Onde de Choc','+50% de rayon'],overload:['Surcharge','+90% dégâts, plus lent'],repel:['Répulsion','Repousse les cibles touchées'],staticfield:['Champ Statique','Le pulsar ralentit les cibles'],charged:['Chargé','+100% dégâts, plus lent'],autoload:['Rechargeur','+70% cadence, moins de dégâts'],wide:['Rail Large','Rail deux fois plus large'],overdrive:['Overdrive','+70% dégâts du rail'],overcharge:['Haute Pression','+40% dégâts, plus lent'],stabil:['Stabilisateur','Éventail serré, +20% cadence'],volley:['Salve','+1 projectile, plus faibles'],lance:['Lance','+2 perforation, +30% dégâts'],cluster:['Grappe','+1 missile, plus faibles'],bunker:['Anti-Bunker','+50% dégâts, plus lent'],wide_aoe:['Grosse Explosion','+50% de rayon'],rapidload:['Chargeur Rapide','+60% cadence, moins de dégâts'],inferno:['Enfer','+85% dégâts de brûlure'],lingering:['Combustion','Brûle 80% plus longtemps'],blaze:['Embrasement','+50% cadence, un peu moins de dégâts'],firestorm:['Tempête de Feu','Plus de brûlure & durée, propage'],deepfreeze:['Grand Froid','Ralenti plus fort & long'],blizzard:['Blizzard','+50% cadence, moins de dégâts'],absolute:['Zéro Absolu','Gèle les cibles de façon fiable'],frostbite:['Gelure','+85% dégâts, plus lent'],arc:['Arc','+2 sauts, moins de dégâts'],conduit:['Conducteur','+80% dégâts, plus lent'],tempest:['Tempête','+50% cadence, moins de dégâts'],paralyze:['Paralysie','Stun plus long, +dégâts'],expand:['Expansion','+50% de rayon'],collapse:['Implosion','+80% dégâts, plus serré'],pulsar:['Pulsar','+60% cadence, moins de dégâts'],singularity:['Singularité','Repousse & ralentit'],piercebeam:['Voie Large','+60% largeur du faisceau'],hypervelocity:['Hypervitesse','+80% dégâts, plus lent'],gigawatt:['Gigawatt','+110% dégâts, bien plus lent'],repeater:['Rail Rapide','+80% cadence, moins de dégâts']}
   };
   const SYNTR={
-    de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +1 Sprung & +50% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 5. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele'],cryonova:['Cryonova','Nova-Puls verlangsamt zusätzlich alle Ziele'],plasma:['Plasma-Schiene','Railgun entzündet getroffene Ziele'],voltspark:['Voltbogen','Jeder Ketten-Treffer zündet eine Mini-Nova'],pyrobolt:['Pyro-Bolzen','Blaster-Bolzen entzünden getroffene Ziele'],railnova:['Schienen-Nova','Railgun-Schuss löst eine Nova aus'],cryoshot:['Frost-Salve','Blaster-Bolzen verlangsamen getroffene Ziele'],novabomb:['Nova-Bombe','Raketen-Explosion löst eine Nova aus'],railchain:['Schienen-Kette','Railgun-Treffer starten einen Kettenblitz'],barrage:['Sperrfeuer','Blaster-Bolzen explodieren klein beim Treffer'],shockbolt:['Schock-Bolzen','Jeder Blaster-Kill löst eine Mini-Nova aus'],overclock:['Übertaktung','Blaster feuert 40% schneller'],clusterarc:['Cluster-Bogen','Raketen-Explosion startet einen Kettenblitz'],siege:['Belagerung','Raketen +30% Schaden & Radius'],wildarc:['Brand-Bogen','Kettenblitz entzündet getroffene Ziele'],embernova:['Glut-Nova','Nova-Puls entzündet alle Ziele'],cryorail:['Frost-Schiene','Railgun vereist die getroffene Spalte']},
-    en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +1 jump & +50% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 5th blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets'],cryonova:['Cryonova','Nova pulse also slows all targets'],plasma:['Plasma Rail','Railgun ignites targets it hits'],voltspark:['Volt Arc','Each chain hit triggers a mini nova'],pyrobolt:['Pyro Bolt','Blaster bolts ignite the targets they hit'],railnova:['Rail Nova','Railgun shot triggers a nova'],cryoshot:['Frost Volley','Blaster bolts slow the targets they hit'],novabomb:['Nova Bomb','Missile blast triggers a nova'],railchain:['Rail Chain','Railgun hits start a chain lightning'],barrage:['Barrage','Blaster bolts burst on hit'],shockbolt:['Shock Bolt','Every blaster kill triggers a mini nova'],overclock:['Overclock','Blaster fires 40% faster'],clusterarc:['Cluster Arc','Missile blast starts a chain lightning'],siege:['Siege','Missiles +30% damage & radius'],wildarc:['Wild Arc','Chain lightning ignites the targets it hits'],embernova:['Ember Nova','Nova pulse ignites all targets'],cryorail:['Cryo Rail','Railgun freezes the column it hits']},
-    fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +1 saut & +50% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 5e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent'],cryonova:['Cryonova','Le pulsar nova ralentit aussi les cibles'],plasma:['Rail Plasma','Le railgun enflamme les cibles touchées'],voltspark:['Arc Volt','Chaque saut de chaîne déclenche une mini-nova'],pyrobolt:['Boulon Pyro','Les tirs du blaster enflamment les cibles'],railnova:['Nova Rail','Le tir du railgun déclenche une nova'],cryoshot:['Salve de Givre','Les tirs du blaster ralentissent les cibles'],novabomb:['Bombe Nova','L’explosion de missile déclenche une nova'],railchain:['Chaîne Rail','Les tirs du railgun lancent un éclair en chaîne'],barrage:['Barrage','Les tirs du blaster explosent à l’impact'],shockbolt:['Boulon Choc','Chaque kill du blaster déclenche une mini-nova'],overclock:['Surcadence','Le blaster tire 40% plus vite'],clusterarc:['Arc en Grappe','L’explosion de missile lance un éclair en chaîne'],siege:['Siège','Missiles +30% dégâts & rayon'],wildarc:['Arc Sauvage','L’éclair en chaîne enflamme les cibles'],embernova:['Nova Braise','Le pulsar nova enflamme toutes les cibles'],cryorail:['Rail Cryo','Le railgun gèle la colonne touchée']}
+    de:{thermo:['Thermoschock','Brennende + gefrorene Ziele nehmen massiven Schaden'],super:['Supraleiter','Kette +2 Sprünge & +80% an Gefrorenen'],napalm:['Napalm','Raketen hinterlassen starken Brand im Explosionsradius'],tesla:['Tesla-Salve','Jeder 3. Blaster-Bolzen verzweigt als Blitz'],icebomb:['Eisbombe','Raketen-Explosion vereist Ziele'],cryonova:['Cryonova','Nova-Puls verlangsamt zusätzlich alle Ziele'],plasma:['Plasma-Schiene','Railgun entzündet getroffene Ziele'],voltspark:['Voltbogen','Jeder Ketten-Treffer zündet eine Mini-Nova'],pyrobolt:['Pyro-Bolzen','Blaster-Bolzen entzünden getroffene Ziele'],railnova:['Schienen-Nova','Railgun-Schuss löst eine Nova aus'],cryoshot:['Frost-Salve','Blaster-Bolzen verlangsamen getroffene Ziele'],novabomb:['Nova-Bombe','Raketen-Explosion löst eine Nova aus'],railchain:['Schienen-Kette','Railgun-Treffer starten einen Kettenblitz'],barrage:['Sperrfeuer','Blaster-Bolzen explodieren klein beim Treffer'],shockbolt:['Schock-Bolzen','Jeder Blaster-Kill löst eine Mini-Nova aus'],overclock:['Übertaktung','Blaster feuert 60% schneller'],clusterarc:['Cluster-Bogen','Raketen-Explosion startet einen Kettenblitz'],siege:['Belagerung','Raketen +50% Schaden & Radius'],wildarc:['Brand-Bogen','Kettenblitz entzündet getroffene Ziele'],embernova:['Glut-Nova','Nova-Puls entzündet alle Ziele'],cryorail:['Frost-Schiene','Railgun vereist die getroffene Spalte']},
+    en:{thermo:['Thermal Shock','Burning + frozen targets take massive damage'],super:['Superconductor','Chain +2 jumps & +80% vs frozen'],napalm:['Napalm','Missiles leave fire in the blast radius'],tesla:['Tesla Volley','Every 3rd blaster bolt arcs as lightning'],icebomb:['Ice Bomb','Missile blasts freeze targets'],cryonova:['Cryonova','Nova pulse also slows all targets'],plasma:['Plasma Rail','Railgun ignites targets it hits'],voltspark:['Volt Arc','Each chain hit triggers a mini nova'],pyrobolt:['Pyro Bolt','Blaster bolts ignite the targets they hit'],railnova:['Rail Nova','Railgun shot triggers a nova'],cryoshot:['Frost Volley','Blaster bolts slow the targets they hit'],novabomb:['Nova Bomb','Missile blast triggers a nova'],railchain:['Rail Chain','Railgun hits start a chain lightning'],barrage:['Barrage','Blaster bolts burst on hit'],shockbolt:['Shock Bolt','Every blaster kill triggers a mini nova'],overclock:['Overclock','Blaster fires 60% faster'],clusterarc:['Cluster Arc','Missile blast starts a chain lightning'],siege:['Siege','Missiles +50% damage & radius'],wildarc:['Wild Arc','Chain lightning ignites the targets it hits'],embernova:['Ember Nova','Nova pulse ignites all targets'],cryorail:['Cryo Rail','Railgun freezes the column it hits']},
+    fr:{thermo:['Choc Thermique','Cibles en feu + gelées subissent d’énormes dégâts'],super:['Supraconducteur','Chaîne +2 sauts & +80% vs gelés'],napalm:['Napalm','Les missiles laissent du feu dans le rayon'],tesla:['Salve Tesla','Chaque 3e tir du blaster se ramifie'],icebomb:['Bombe de Glace','Les explosions de missiles gèlent'],cryonova:['Cryonova','Le pulsar nova ralentit aussi les cibles'],plasma:['Rail Plasma','Le railgun enflamme les cibles touchées'],voltspark:['Arc Volt','Chaque saut de chaîne déclenche une mini-nova'],pyrobolt:['Boulon Pyro','Les tirs du blaster enflamment les cibles'],railnova:['Nova Rail','Le tir du railgun déclenche une nova'],cryoshot:['Salve de Givre','Les tirs du blaster ralentissent les cibles'],novabomb:['Bombe Nova','L’explosion de missile déclenche une nova'],railchain:['Chaîne Rail','Les tirs du railgun lancent un éclair en chaîne'],barrage:['Barrage','Les tirs du blaster explosent à l’impact'],shockbolt:['Boulon Choc','Chaque kill du blaster déclenche une mini-nova'],overclock:['Surcadence','Le blaster tire 60% plus vite'],clusterarc:['Arc en Grappe','L’explosion de missile lance un éclair en chaîne'],siege:['Siège','Missiles +50% dégâts & rayon'],wildarc:['Arc Sauvage','L’éclair en chaîne enflamme les cibles'],embernova:['Nova Braise','Le pulsar nova enflamme toutes les cibles'],cryorail:['Rail Cryo','Le railgun gèle la colonne touchée']}
   };
   // Lustige/ironische Tooltip-Texte (Info-Button). Keys: Waffen-IDs, Meta-IDs, Synergie-IDs, _tier[i] für Fork-Stufen.
   const FLAVOR={
     de:{ blaster:'Der Klassiker. Schießt nach oben und stellt keine Fragen.', missile:'Zielsuchend. Wie ein Ex, der genau weiß, wo du wohnst.', flame:'Macht aus Hindernissen Grillgut. Medium-rare.', frost:'Klimaanlage mit Aggressionsproblem.', chain:'Stromrechnung rauf, Gegnerzahl runter.', nova:'Sicherheitsabstand – jetzt mit Schockwelle.', rail:'Eine Linie. Eine Meinung. Ganze Spalte weg.',
       bp_missile:'Raketen-Bauplan. IKEA, nur tödlich.', bp_flame:'Feuer-Bauplan. Streichholz war gestern.', bp_frost:'Frost-Bauplan. Bring ’ne Jacke mit.', bp_chain:'Blitz-Bauplan. Erdung optional.', bp_nova:'Nova-Bauplan. Urknall im Taschenformat.', bp_rail:'Railgun-Bauplan. Physiklehrer weinen.',
-      slot:'Mehr Modul-Platz. Marie Kondo hasst diesen Trick.', veteran:'Du startest mit Erfahrung statt mit Naivität.', wcore:'Mehr Bumms pro Schuss. Studien belegen: viel Bumms.', wtempo:'Schneller feuern. Geduld ist eh überbewertet.', critcore:'Mehr Krits. Glück ist jetzt planbar.', critdmgcore:'Krits, die richtig wehtun. Aua.', shield:'Startschild. Bonus-Leben für clevere Feiglinge.', tough:'Mehr aushalten. Härter als deine Montagslaune.', solid:'Kleinere Hitbox. Schlank in den Tod schlängeln.', reach:'Mehr Near-Miss-Reichweite. Knapp ist das neue sicher.', score:'Mehr Punkte. Dein Ego dankt es dir.', luck:'Bessere Karten. Das Universum mag dich – kurz.', rich:'Mehr Coins. Kapitalismus, aber in Neon.',
+      slot:'Mehr Modul-Platz. Marie Kondo hasst diesen Trick.', synslot:'Mehr aktive Fusionen. Der Chemie-Unterricht zahlt sich endlich aus.', veteran:'Du startest mit Erfahrung statt mit Naivität.', wcore:'Mehr Bumms pro Schuss. Studien belegen: viel Bumms.', wtempo:'Schneller feuern. Geduld ist eh überbewertet.', critcore:'Mehr Krits. Glück ist jetzt planbar.', critdmgcore:'Krits, die richtig wehtun. Aua.', shield:'Startschild. Bonus-Leben für clevere Feiglinge.', tough:'Mehr aushalten. Härter als deine Montagslaune.', solid:'Kleinere Hitbox. Schlank in den Tod schlängeln.', reach:'Mehr Near-Miss-Reichweite. Knapp ist das neue sicher.', score:'Mehr Punkte. Dein Ego dankt es dir.', luck:'Bessere Karten. Das Universum mag dich – kurz.', rich:'Mehr Coins. Kapitalismus, aber in Neon.',
       thermo:'Heiß trifft kalt. Sauna-Aufguss in der Antarktis.', super:'Strom ohne Widerstand. Die Kette dreht komplett frei.', napalm:'Raketen, die nachglühen. Brandschutz hat Feierabend.', tesla:'Jeder 5. Bolzen wird Blitz. Tesla wäre stolz.', icebomb:'Explosion plus Eiswürfel. Cocktail für Hindernisse.', cryonova:'Nova mit Kühlfunktion. Alles wird langsam… und kalt.', plasma:'Railgun, die brennt. Linie mit Nachglühen.', voltspark:'Kette zündet Mini-Novas. Stromschlag-Buffet.', pyrobolt:'Bolzen, die anzünden. Feuerzeug mit Zielwasser.', railnova:'Schuss löst Nova aus. Doppelt hält besser.', cryoshot:'Bolzen mit Bremse. Tempolimit für Gegner.', novabomb:'Rakete plus Nova. Explosion hoch zwei.', railchain:'Railgun startet Kettenblitz. Eine Linie, alle leiden.', barrage:'Bolzen mit Mini-Knall. Popcorn, aber gefährlich.', shockbolt:'Jeder Kill ein Mini-Knall. Abgang mit Stil.', overclock:'Blaster 40% schneller. Der Lüfter dreht hoch.', clusterarc:'Raketen-Explosion zündet Kette. Domino deluxe.', siege:'Raketen größer & härter. Türen? Welche Türen.', wildarc:'Kettenblitz, der entzündet. Strom + Feuer = Chaos.', embernova:'Nova entzündet alles. Lagerfeuer, nur tödlich.', cryorail:'Railgun vereist die Spalte. Tiefkühl-Express.',
       tier:{ blaster:['Erste Bolzen – süß, fast harmlos.','Jetzt mit Nachdruck. Pew-pew wird ernst.','Dauerfeuer. Der Abzug glüht.','Bolzen-Apokalypse. Wer zählt noch mit?'],
         missile:['Erste Rakete. Zielt grob in die richtige Richtung.','Mehr Sprengkraft. Die Versicherung kündigt.','Salven mit Suchkopf. Niemand entkommt.','Raketenhagel. Der Himmel brennt.'],
@@ -146,7 +146,7 @@
       path:{ rapid:'Finger am Abzug festgeklebt.', heavy:'Selten, aber dann tut’s richtig weh.', scatter:'Gießkanne, aber mit Bolzen.', precise:'Durchschlag-Diplom mit Auszeichnung.', overcharge:'Mehr Druck im Lauf.', stabil:'Ruhige Hand, enges Muster.', volley:'Einer geht noch. Immer.', lance:'Spießt alles auf wie Grillgut.', swarm:'Zwei kleine Quälgeister statt einem.', warhead:'Größe ist eben doch alles.', shrapnel:'Teilt aus – im wörtlichsten Sinn.', incendiary:'Explosion mit Nachglühen.', cluster:'Je mehr, desto Bumms.', bunker:'Klopft auch bei dicken Wänden an.', wide_aoe:'Der Radius grüßt die Nachbarn.', rapidload:'Nachladen? Quasi nie.', ember:'Glüht nach wie ein schlechtes Gewissen.', wildfire:'Teilt das Feuer großzügig.', accel:'Kurz, heiß, schmerzhaft.', consume:'Asche zu Punkten.', inferno:'Medium-rare war gestern.', lingering:'Brennt wie eine alte Rechnung.', blaze:'Dauerflamme, kein Feuerzeug nötig.', firestorm:'Wirbelt Feuer wie Konfetti.', permafrost:'Dauerwinter ohne Heizkosten.', glaciate:'Tiefkühl-Roulette: manchmal komplett vereist.', shatter:'Erst frosten, dann zersplittern.', brittle:'Kalt und zerbrechlich – wie deine Ausreden.', deepfreeze:'Bis aufs Mark durchgekühlt.', blizzard:'Schneesturm im Dauerfeuer.', absolute:'Null Kelvin, null Mitleid.', frostbite:'Erfrierung mit Ansage.', fork:'Springt rum wie auf einer Hüpfburg.', highv:'Ein Schlag, große Wirkung.', stormhit:'Jeder Tote lädt zur Party.', dischargeaoe:'Knistert an allen Ecken.', arc:'Hangelt sich von Ziel zu Ziel.', conduit:'Bester Leiter seit der Hochspannung.', tempest:'Dauergewitter, kein Schirm hilft.', paralyze:'Schockstarre inklusive.', shock:'Mehr Abstand, mehr Respekt.', overload:'Lädt durch, drückt zu.', repel:'Persönlicher Türsteher.', staticfield:'Bremst alles im Umkreis aus.', expand:'Die Welle holt weiter aus.', collapse:'Klein, aber brachial.', pulsar:'Pulsiert wie ein nervöser Bass.', singularity:'Schwarzes Loch im Taschenformat.', charged:'Lange zielen, kurz weinen lassen.', autoload:'Schiene am Fließband.', wide:'Spalte? Eher Schneise.', overdrive:'Voll aufgedreht.', piercebeam:'Trifft auch, was daneben steht.', hypervelocity:'Schneller als deine Reflexe.', gigawatt:'1,21 Gigawatt. Großartig.', repeater:'Schiene auf Repeat.' } },
     en:{ blaster:'The classic. Shoots up, asks no questions.', missile:'Homing. Like an ex who knows your address.', flame:'Turns obstacles into BBQ. Medium-rare.', frost:'Air conditioning with anger issues.', chain:'Power bill up, enemy count down.', nova:'Personal space — now with a shockwave.', rail:'One line. One opinion. Whole column gone.',
       bp_missile:'Missile blueprint. IKEA, but lethal.', bp_flame:'Fire blueprint. Matches are so last season.', bp_frost:'Frost blueprint. Bring a jacket.', bp_chain:'Lightning blueprint. Grounding optional.', bp_nova:'Nova blueprint. Big Bang, travel size.', bp_rail:'Railgun blueprint. Physics teachers cry.',
-      slot:'More module space. Marie Kondo hates this trick.', veteran:'Start with experience instead of naivety.', wcore:'More boom per shot. Studies confirm: much boom.', wtempo:'Fire faster. Patience is overrated anyway.', critcore:'More crits. Luck, now schedulable.', critdmgcore:'Crits that really hurt. Ouch.', shield:'Start shield. A bonus life for clever cowards.', tough:'Take more hits. Tougher than your Monday mood.', solid:'Smaller hitbox. Slim your way out of death.', reach:'More near-miss range. Close is the new safe.', score:'More points. Your ego says thanks.', luck:'Better cards. The universe likes you — briefly.', rich:'More coins. Capitalism, but in neon.',
+      slot:'More module space. Marie Kondo hates this trick.', synslot:'More active fusions. Chemistry class finally pays off.', veteran:'Start with experience instead of naivety.', wcore:'More boom per shot. Studies confirm: much boom.', wtempo:'Fire faster. Patience is overrated anyway.', critcore:'More crits. Luck, now schedulable.', critdmgcore:'Crits that really hurt. Ouch.', shield:'Start shield. A bonus life for clever cowards.', tough:'Take more hits. Tougher than your Monday mood.', solid:'Smaller hitbox. Slim your way out of death.', reach:'More near-miss range. Close is the new safe.', score:'More points. Your ego says thanks.', luck:'Better cards. The universe likes you — briefly.', rich:'More coins. Capitalism, but in neon.',
       thermo:'Hot meets cold. Sauna session in Antarctica.', super:'No resistance. The chain goes fully feral.', napalm:'Missiles that keep burning. Fire safety clocked out.', tesla:'Every 5th bolt becomes lightning. Tesla approves.', icebomb:'Explosion plus ice cubes. A cocktail for obstacles.', cryonova:'Nova with cooling. Everything slows… and chills.', plasma:'A railgun that burns. A line with afterglow.', voltspark:'Chain triggers mini novas. Electro buffet.', pyrobolt:'Bolts that ignite. A lighter with good aim.', railnova:'Shot triggers a nova. Twice is nice.', cryoshot:'Bolts with brakes. Speed limit for enemies.', novabomb:'Missile plus nova. Explosion squared.', railchain:'Railgun starts a chain. One line, everyone suffers.', barrage:'Bolts with mini-blasts. Popcorn, but dangerous.', shockbolt:'Every kill a mini-blast. Exit with style.', overclock:'Blaster 40% faster. The fan spins up.', clusterarc:'Missile blast lights a chain. Domino deluxe.', siege:'Missiles bigger & harder. Doors? What doors.', wildarc:'Chain that ignites. Volts + fire = chaos.', embernova:'Nova ignites everything. Campfire, but lethal.', cryorail:'Railgun freezes the column. Frozen-aisle express.',
       tier:{ blaster:['First bolts — cute, almost harmless.','Now with attitude. Pew-pew gets serious.','Full auto. The trigger glows.','Bolt apocalypse. Who’s still counting?'],
         missile:['First rocket. Aims roughly the right way.','More boom. Insurance cancels.','Homing volleys. Nobody escapes.','Missile storm. The sky is on fire.'],
@@ -181,9 +181,9 @@
   // Icons für die Skill-Pfad-Knoten (visueller Baum)
   const PATHICO={rapid:'⏩',heavy:'💢',scatter:'🌬️',precise:'🎯',swarm:'🐝',warhead:'💣',shrapnel:'🎇',incendiary:'🔥',ember:'🥵',wildfire:'🌋',accel:'♨️',consume:'🍽️',permafrost:'🧊',glaciate:'❄️',shatter:'💥',brittle:'🩹',fork:'🌿',highv:'⚡',stormhit:'⛈️',dischargeaoe:'🔆',shock:'🌐',overload:'🟪',repel:'↗️',staticfield:'🕸️',charged:'🔋',autoload:'🔁',wide:'↔️',overdrive:'🚀',overcharge:'🔺',stabil:'🎚️',volley:'🔱',lance:'🗡️',cluster:'🧫',bunker:'🏚️',wide_aoe:'💥',rapidload:'⏬',inferno:'😈',lingering:'🕯️',blaze:'🔆',firestorm:'🌪️',deepfreeze:'🧊',blizzard:'🌨️',absolute:'❄️',frostbite:'🦷',arc:'🌈',conduit:'🔌',tempest:'🌩️',paralyze:'💫',expand:'⭕',collapse:'🕳️',pulsar:'💠',singularity:'🌌',piercebeam:'🛤️',hypervelocity:'☄️',gigawatt:'🔋',repeater:'🚄'};
   const METATR={
-    de:{slot:['Modul-Slot','+1 Waffen-Slot (max 5)'],bp_missile:['Bauplan: Raketen','Schaltet Lenkraketen dauerhaft frei – im Run baubar'],bp_flame:['Bauplan: Brand','Schaltet Brandbolzen dauerhaft frei – im Run baubar'],bp_frost:['Bauplan: Frost','Schaltet Frostschuss dauerhaft frei – im Run baubar'],bp_chain:['Bauplan: Kette','Schaltet Kettenblitz dauerhaft frei – im Run baubar'],bp_nova:['Bauplan: Nova','Schaltet den Nova-Puls dauerhaft frei – im Run baubar'],bp_rail:['Bauplan: Railgun','Schaltet die Railgun dauerhaft frei – im Run baubar'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Up-Droprate +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe'],veteran:['Veteran','+1 Start-Skillpunkt je Stufe'],wcore:['Waffenkern','ALLE Waffen +6% Schaden je Stufe'],wtempo:['Taktchip','ALLE Waffen +5% Feuerrate je Stufe'],critcore:['Zielkern','+3% Krit-Chance je Stufe'],critdmgcore:['Wuchtkern','Mehr Krit-Schaden je Stufe (abflachend)']},
-    en:{slot:['Module Slot','+1 weapon slot (max 5)'],bp_missile:['Blueprint: Missiles','Unlocks homing missiles permanently · build it in-run'],bp_flame:['Blueprint: Flame','Unlocks flame bolts permanently · build it in-run'],bp_frost:['Blueprint: Frost','Unlocks frost shot permanently · build it in-run'],bp_chain:['Blueprint: Chain','Unlocks chain lightning permanently · build it in-run'],bp_nova:['Blueprint: Nova','Unlocks the Nova pulse permanently · build it in-run'],bp_rail:['Blueprint: Railgun','Unlocks the railgun permanently · build it in-run'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-up drop rate +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl'],veteran:['Veteran','+1 start skill point per lvl'],wcore:['Weapon Core','ALL weapons +6% damage per lvl'],wtempo:['Cadence Chip','ALL weapons +5% fire rate per lvl'],critcore:['Focus Core','+3% crit chance per lvl'],critdmgcore:['Heavy Core','More crit damage per lvl (diminishing)']},
-    fr:{slot:['Slot de Module','+1 slot d’arme (max 5)'],bp_missile:['Plan: Missiles','Débloque les missiles (jouable en partie)'],bp_flame:['Plan: Feu','Débloque les tirs incendiaires'],bp_frost:['Plan: Givre','Débloque le tir de givre'],bp_chain:['Plan: Chaîne','Débloque l’éclair en chaîne'],bp_nova:['Plan: Nova','Débloque le pulsar nova'],bp_rail:['Plan: Railgun','Débloque le railgun'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Taux de drop +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv'],veteran:['Vétéran','+1 point de skill au départ/niv'],wcore:['Noyau d’Arme','TOUTES les armes +6% dégâts/niv'],wtempo:['Puce de Cadence','TOUTES les armes +5% cadence/niv'],critcore:['Noyau de Focus','+3% chance de critique/niv'],critdmgcore:['Noyau Lourd','Plus de dégâts crit/niv (dégressif)']}
+    de:{slot:['Modul-Slot','+1 Waffen-Slot (max 5)'],synslot:['Fusions-Slot','+1 gleichzeitig aktive Fusion (max 4)'],bp_missile:['Bauplan: Raketen','Schaltet Lenkraketen dauerhaft frei – im Run baubar'],bp_flame:['Bauplan: Brand','Schaltet Brandbolzen dauerhaft frei – im Run baubar'],bp_frost:['Bauplan: Frost','Schaltet Frostschuss dauerhaft frei – im Run baubar'],bp_chain:['Bauplan: Kette','Schaltet Kettenblitz dauerhaft frei – im Run baubar'],bp_nova:['Bauplan: Nova','Schaltet den Nova-Puls dauerhaft frei – im Run baubar'],bp_rail:['Bauplan: Railgun','Schaltet die Railgun dauerhaft frei – im Run baubar'],shield:['Startschild','+1 Schild zu Beginn je Stufe'],tough:['Zähigkeit','+1 Leben zu Beginn je Stufe'],solid:['Solide Hülle','Start-Hitbox −5% je Stufe'],reach:['Fern-Sensor','Near-Miss-Radius +9% je Stufe'],score:['Punkte-Boost','+15% Punkte je Stufe'],luck:['Glückssträhne','Power-Up-Droprate +10% je Stufe'],rich:['Chip-Magnet','+12% Chip-Ausbeute je Stufe'],veteran:['Veteran','+1 Start-Skillpunkt je Stufe'],wcore:['Waffenkern','ALLE Waffen +6% Schaden je Stufe'],wtempo:['Taktchip','ALLE Waffen +5% Feuerrate je Stufe'],critcore:['Zielkern','+3% Krit-Chance je Stufe'],critdmgcore:['Wuchtkern','Mehr Krit-Schaden je Stufe (abflachend)']},
+    en:{slot:['Module Slot','+1 weapon slot (max 5)'],synslot:['Fusion Slot','+1 active fusion at once (max 4)'],bp_missile:['Blueprint: Missiles','Unlocks homing missiles permanently · build it in-run'],bp_flame:['Blueprint: Flame','Unlocks flame bolts permanently · build it in-run'],bp_frost:['Blueprint: Frost','Unlocks frost shot permanently · build it in-run'],bp_chain:['Blueprint: Chain','Unlocks chain lightning permanently · build it in-run'],bp_nova:['Blueprint: Nova','Unlocks the Nova pulse permanently · build it in-run'],bp_rail:['Blueprint: Railgun','Unlocks the railgun permanently · build it in-run'],shield:['Start Shield','+1 shield at start per lvl'],tough:['Toughness','+1 life at start per lvl'],solid:['Solid Hull','Start hitbox −5% per lvl'],reach:['Far Sensor','Near-miss radius +9% per lvl'],score:['Score Boost','+15% score per lvl'],luck:['Lucky Streak','Power-up drop rate +10% per lvl'],rich:['Chip Magnet','+12% chip yield per lvl'],veteran:['Veteran','+1 start skill point per lvl'],wcore:['Weapon Core','ALL weapons +6% damage per lvl'],wtempo:['Cadence Chip','ALL weapons +5% fire rate per lvl'],critcore:['Focus Core','+3% crit chance per lvl'],critdmgcore:['Heavy Core','More crit damage per lvl (diminishing)']},
+    fr:{slot:['Slot de Module','+1 slot d’arme (max 5)'],synslot:['Slot de Fusion','+1 fusion active à la fois (max 4)'],bp_missile:['Plan: Missiles','Débloque les missiles (jouable en partie)'],bp_flame:['Plan: Feu','Débloque les tirs incendiaires'],bp_frost:['Plan: Givre','Débloque le tir de givre'],bp_chain:['Plan: Chaîne','Débloque l’éclair en chaîne'],bp_nova:['Plan: Nova','Débloque le pulsar nova'],bp_rail:['Plan: Railgun','Débloque le railgun'],shield:['Bouclier de Départ','+1 bouclier au départ/niv'],tough:['Robustesse','+1 vie au départ/niv'],solid:['Coque Solide','Hitbox de départ −5%/niv'],reach:['Capteur Lointain','Rayon near-miss +9%/niv'],score:['Boost de Score','+15% score/niv'],luck:['Veine','Taux de drop +10%/niv'],rich:['Aimant à Chips','+12% de chips/niv'],veteran:['Vétéran','+1 point de skill au départ/niv'],wcore:['Noyau d’Arme','TOUTES les armes +6% dégâts/niv'],wtempo:['Puce de Cadence','TOUTES les armes +5% cadence/niv'],critcore:['Noyau de Focus','+3% chance de critique/niv'],critdmgcore:['Noyau Lourd','Plus de dégâts crit/niv (dégressif)']}
   };
   const uName=id=>((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||[id])[0];
   const uDesc=id=>(((UPTR[lang]&&UPTR[lang][id])||UPTR.en[id]||UPTR.de[id]||['',''])[1])||'';
@@ -191,9 +191,9 @@
   const mTxt =id=>(((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||['',''])[1])||'';
   let shopTab='ship';   // aktiver Werkstatt-Reiter (Waffen/Synergien laufen über den Hangar)
   // Waffen/Synergien laufen jetzt über den Hangar (Loadout/Synergien) → in der Werkstatt nur noch dauerhafte Boosts + Kosmetik
-  const SHOPTABS=[['ship','🛡️'],['power','💥'],['economy','🪙'],['cosmetic','🎨']];
-  const shopName=m=> m.id.indexOf('fu_')===0 ? wName(m.id.slice(3))+' – Pfade' : mName(m.id);
-  const shopDesc=m=> m.id.indexOf('fu_')===0 ? (wArch(m.id.slice(3))+' · nächste Skill-Pfad-Stufe (im Run wählbar)') : (mTxt(m.id)+(m.id.indexOf('bp_')===0?(' · '+wArch(m.id.slice(3))):''));
+  const SHOPTABS=[['ship','🛡️'],['power','💥'],['synergy','🧬'],['economy','🪙'],['cosmetic','🎨']];
+  const shopName=m=> m.id.indexOf('fu_')===0 ? wName(m.id.slice(3))+' – Pfade' : (m.id.indexOf('sy_')===0 ? synName(m.id.slice(3)) : mName(m.id));
+  const shopDesc=m=> m.id.indexOf('fu_')===0 ? (wArch(m.id.slice(3))+' · nächste Skill-Pfad-Stufe (im Run wählbar)') : (m.id.indexOf('sy_')===0 ? synDesc(m.id.slice(3)) : (mTxt(m.id)+(m.id.indexOf('bp_')===0?(' · '+wArch(m.id.slice(3))):'')));
   const FORMTR={de:{sine:'Wellenflug',drift:'Gleiter',orbit:'Kreisel',zigzag:'Irrläufer',pendulum:'Pendler'},
     en:{sine:'Wave Flight',drift:'Glider',orbit:'Orbiter',zigzag:'Zigzagger',pendulum:'Pendulum'},
     fr:{sine:'Vol Ondulé',drift:'Planeur',orbit:'Orbiteur',zigzag:'Zigzagueur',pendulum:'Pendule'}};
@@ -255,7 +255,7 @@
   // Alle Fork-Stufen werden in der Werkstatt freigeschaltet (fu_<id> = 0..4) – vorher nicht wählbar
   const forkShopOpen=()=>true;   // Fork-Stufen nur noch per Skillpunkt – kein Coin-Vorkauf mehr (eine Hürde)
   // Werkstatt-Kategorien (für Tab-UI)
-  function shopCat(id){ if(id.indexOf('sy_')===0) return 'synergy';
+  function shopCat(id){ if(id.indexOf('sy_')===0||id==='synslot') return 'synergy';
     if(id==='pxpack'||id==='pxglow') return 'cosmetic';   // im Editor verkauft, nicht als generische Karte
     if(id.indexOf('bp_')===0||id.indexOf('fu_')===0) return 'weapons';   // Tab ausgeblendet (redundant zum Hangar – Kauf inline im Loadout)
     if(id==='shield'||id==='tough'||id==='solid'||id==='reach'||id==='slot'||id==='veteran') return 'ship';   // Start-Boni (inkl. Veteran = +Start-Skillpunkte) im Schiff-Tab kaufbar
@@ -275,6 +275,10 @@
   function migrateSynUnlock(){ if(meta.mig_syn) return; meta.mig_syn=1; meta.lvl=meta.lvl||{};
     const L=meta.loadout; if(L&&Array.isArray(L.syn)){ for(const sid of L.syn) if(SID[sid]) meta.lvl['sy_'+sid]=Math.max(meta.lvl['sy_'+sid]||0,1); }
     saveMeta(); }
+  // Einmalig (Fusionen 2.0): während der Auto-Phase aktive Synergien (beide Waffen im gespeicherten Loadout) gelten als gekauft – kein Bestand wird enteignet
+  function migrateSynUnlock2(){ if(meta.mig_syn2) return; meta.mig_syn2=1; meta.lvl=meta.lvl||{};
+    const L=meta.loadout; if(L&&L.w){ for(const sy of SYNERGIES){ if(L.w[sy.pair[0]]&&L.w[sy.pair[1]]) meta.lvl['sy_'+sy.id]=Math.max(meta.lvl['sy_'+sy.id]||0,1); } }
+    saveMeta(); }
   // Einmalig: bereits gebaute Waffen/Forks gelten als schon freigeschaltet → kein erneuter Coin-Preis beim Re-/Freischalten (Einmal-Senke gilt rückwirkend)
   function migrateOneTimeUnlock(){ if(meta.mig_otu) return; meta.mig_otu=1; if(!meta.unlocks) meta.unlocks={};
     const L=meta.loadout; if(L&&L.w){ for(const id in L.w){ if(!WID[id]) continue; meta.unlocks['w:'+id]=1; const s=L.w[id]||{};
@@ -283,6 +287,7 @@
   function applyMeta(){
     migrateCoinSkills();                                   // einmalig: alte Builds vor der Coin-Sperre retten
     migrateSynUnlock();                                    // einmalig: aktive Synergien grandfathern
+    migrateSynUnlock2();                                   // einmalig (Fusionen 2.0): zuletzt aktive Paar-Synergien als gekauft übernehmen
     migrateOneTimeUnlock();                                // einmalig: gebaute Waffen/Forks als freigeschaltet markieren
     arsenal.slots=3+metaLvl('slot');                       // Werkstatt: Modul-Slots (max +2 → 5)
     arsenal.w={};
@@ -292,8 +297,7 @@
         const lvl=Math.max(1,Math.min(5,s.lvl||1));
         arsenal.w[id]={lvl,f1:s.f1||null,f2:s.f2||null,f3:s.f3||null,f4:s.f4||null,spent:(lvl-1)+(id==='blaster'?0:1)}; } } }   // spent = investierte Skillpunkte (für Respec-Rückerstattung)
       if(!Object.keys(arsenal.w).length) arsenal.w.blaster={lvl:1,f1:null,f2:null,f3:null,f4:null,spent:0};   // Mindest-Loadout: Blaster (gratis)
-      activeSyn=SYNERGIES.filter(s=>arsenal.w[s.pair[0]]&&arsenal.w[s.pair[1]]).map(s=>s.id);   // automatisch alle Synergien aktiv, deren beide Waffen ausgerüstet sind
-      mods.oc=(L&&L.oc)||0; skillPts=Math.max(0,meta.sp|0); }   // persistente Skillpunkte (Boss-/Zufalls-Drops, kaufbar)
+      mods.oc=(L&&L.oc)||0; skillPts=Math.max(0,meta.sp|0); }   // persistente Skillpunkte (Boss-/Zufalls-Drops, kaufbar); aktive Fusionen setzt recalcArsenal() aus meta.synSel
     if(opt.guns && mode==='zen'){ arsenal.slots=WEAPONS.length;   // ZEN = Sandbox: alle Waffen VOLL ausgebaut (Lvl 5, alle 4 Skill-Pfade zufällig) statt nackt auf Lvl 1
       for(const w of WEAPONS) arsenal.w[w.id]={lvl:5, f1:w.forks[0][Math.random()<0.5?0:1], f2:w.forks[1][Math.random()<0.5?0:1], f3:w.forks[2][Math.random()<0.5?0:1], f4:w.forks[3][Math.random()<0.5?0:1]};
       skillPts=0; }
@@ -923,17 +927,24 @@
     {id:'cryorail', pair:['frost','rail'],     ico:'❄️'}
   ];
   const SID=Object.fromEntries(SYNERGIES.map(s=>[s.id,s]));
-  // Synergien sind automatisch aktiv (kein Kauf) – daher keine sy_-Shop-Items mehr
+  // FUSIONEN 2.0: Synergien werden in der Werkstatt GEKAUFT (sy_<id>) und dann FREI kombiniert (bis Slot-Limit)
+  for(const s of SYNERGIES) META.push({id:'sy_'+s.id, ico:s.ico, base:420, max:1});
+  META.push({id:'synslot', ico:'🧬', base:900, max:2});   // +1 gleichzeitig aktive Fusion (2 Basis → max 4)
+  // Farb-Mischung: aktive Fusion färbt die Waffe sichtbar als Mix beider Partnertypen (Projektil, Glow, Trail)
+  const hexC=h=>{ const v=parseInt(h.slice(1),16); return [(v>>16)&255,(v>>8)&255,v&255]; };
+  const mixCol=(a,b,t)=>{ const A=hexC(a),B=hexC(b),m=i=>Math.round(A[i]+(B[i]-A[i])*t); return '#'+((1<<24)|(m(0)<<16)|(m(1)<<8)|m(2)).toString(16).slice(1); };
+  const synPartner=wid=>{ for(const id of activeSyn){ const s=SID[id]; if(!s) continue; if(s.pair[0]===wid) return s.pair[1]; if(s.pair[1]===wid) return s.pair[0]; } return null; };
+  const wepCol=wid=>{ const p=synPartner(wid); return p?mixCol(WID[wid].col,WID[p].col,0.45):WID[wid].col; };
   // Pixel-Schiff-Editor: Pixel-Pakete (heben das Mal-Budget) + Glow-Pixel-Freischaltung
   META.push({id:'pxpack', ico:'✏️', base:160, max:6});   // je Stufe +12 Pixel
   META.push({id:'pxglow', ico:'✨', base:350, max:1});    // Glow-Pixel freischalten
   const PIX_BASE=14, PIX_PER=12;
   const pixBudget=()=>PIX_BASE+metaLvl('pxpack')*PIX_PER;
   const glowUnlocked=()=>metaLvl('pxglow')>0;
-  const synBought=id=>true;
-  const synUnlocked=id=>true;   // Synergien automatisch verfügbar – kein Coin-Kauf mehr nötig
-  const MAXSYN=3;                                    // 3 Fusionen gleichzeitig aktiv
-  let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[];   // activeSyn=belegte Fusions-Slots; synSeen=schon einmal verfügbar; synNovas=Voltbogen-Queue
+  const synBought=id=> metaLvl('sy_'+id)>0 || mode==='zen';   // Werkstatt-Kauf (Bestand per Migration übernommen); Zen = Sandbox
+  const synUnlocked=id=> synBought(id);
+  const synSlots=()=> 2+metaLvl('synslot');          // gleichzeitig aktive Fusionen (2 Basis, Werkstatt: bis 4)
+  let arsenal={slots:3,w:{}}, wpn={}, syn={}, activeSyn=[], synSeen={}, synNovas=[], synCharge={}, zenSynSel=null;   // activeSyn=belegte Fusions-Slots; synCharge=Überladung 0..1 je Fusion
   let skillPts=0, arsenalSkillMode=false, arsenalResume=false, arsenalFromMenu=false, arsenalTab='loadout';   // arsenalFromMenu = Hangar aus dem Hauptmenü geöffnet
   let statusFromMenu=false;   // Schiffsstatus aus dem Hauptmenü geöffnet (Loadout-Vorschau)
   let statusFromArsenal=false;   // Schiffsstatus aus dem Arsenal geöffnet → dorthin zurück (Loadout sofort prüfen)
@@ -988,14 +999,20 @@
       if(a.f3==='piercebeam'){width*=1.6;} if(a.f3==='hypervelocity'){dmg*=1.8;rate*=0.8;}
       if(a.f4==='gigawatt'){dmg*=2.1;rate*=0.7;} if(a.f4==='repeater'){rate*=1.8;dmg*=0.6;}
       wpn.rail={rate:rate*rm,dmg:dmg*dm,width,burn:false}; }
-    // Synergien automatisch: aktiv, sobald BEIDE Waffen ausgerüstet sind – kein Kauf, kein Toggle, kein Limit, kein Verwalten
-    activeSyn=SYNERGIES.filter(s=>has(s.pair[0])&&has(s.pair[1])).map(s=>s.id);
+    // Fusionen: gekauft (Werkstatt) + beide Waffen ausgerüstet → wählbar; aktiv = Auswahl (meta.synSel), gedeckelt auf synSlots()
+    const cand=SYNERGIES.filter(s=>has(s.pair[0])&&has(s.pair[1])&&synBought(s.id)).map(s=>s.id);
+    if(mode==='zen'){ if(!Array.isArray(zenSynSel)) zenSynSel=cand.slice(0,synSlots());   // Zen: transiente Auswahl (persistente meta.synSel bleibt unberührt)
+      activeSyn=zenSynSel.filter(id=>cand.includes(id)).slice(0,synSlots()); }
+    else { if(!Array.isArray(meta.synSel)) meta.synSel=[]; if(!meta.synOff) meta.synOff={};
+      for(const id of cand){ if(!meta.synSel.includes(id)&&!meta.synOff[id]&&meta.synSel.filter(x=>cand.includes(x)).length<synSlots()) meta.synSel.push(id); }   // neu verfügbare Fusion rückt automatisch in einen freien Slot (jederzeit abwählbar)
+      activeSyn=meta.synSel.filter(id=>cand.includes(id)).slice(0,synSlots()); }
     for(const s of SYNERGIES) syn[s.id]=activeSyn.includes(s.id);
-    if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung
-    if(syn.cryonova&&wpn.nova) wpn.nova.slow=true;              // CRYONOVA: Puls verlangsamt
+    for(const id of activeSyn) if(synCharge[id]===undefined) synCharge[id]=0;
+    if(syn.super&&wpn.chain) wpn.chain.jumps+=2;                 // SUPRALEITER: +2 Kettensprünge
+    if(syn.cryonova&&wpn.nova) wpn.nova.slow=true;              // CRYONOVA: Puls verlangsamt (stärker, s. fireNova)
     if(syn.plasma&&wpn.rail) wpn.rail.burn=true;                // PLASMA: Schiene entzündet
-    if(syn.overclock&&wpn.blaster) wpn.blaster.rate*=1.4;       // ÜBERTAKTUNG: Blaster schneller
-    if(syn.siege&&wpn.missile){ wpn.missile.dmg*=1.3; wpn.missile.aoe*=1.3; }   // BELAGERUNG: Raketen stärker & größer
+    if(syn.overclock&&wpn.blaster) wpn.blaster.rate*=1.6;       // ÜBERTAKTUNG: Blaster 60% schneller
+    if(syn.siege&&wpn.missile){ wpn.missile.dmg*=1.5; wpn.missile.aoe*=1.5; }   // BELAGERUNG: Raketen stärker & größer
     // Krit: Passiv-Basis + Blaster-Pfad „Präzision"
     mods.crit=Math.min(0.75,(mods.critBase||0)+((arsenal.w.blaster&&arsenal.w.blaster.f2==='precise')?0.15:0));
     mods.gun=has('blaster')?1:0;
@@ -1049,7 +1066,7 @@
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
           obSpeed:1,spawnMult:1,fog:0,invertX:false,mirror:false,slip:false,
           gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2,oc:0};
-    arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; skillPts=0; arsenalSkillMode=false;
+    arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; synCharge={}; zenSynSel=null; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
     obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; sps=[]; coinz=[]; beams=[]; zaps=[]; novas=[]; gibs=[]; coinT=rand(1,2);
@@ -1710,7 +1727,7 @@
       if(o.hitFlash>0) o.hitFlash-=dt;
       // Frost: verlangsamt die Bewegung; Brand: Schaden über Zeit
       if(o.slow>0) o.slow-=dt;
-      if(o.burn>0){ o.burn-=dt; let bd=(o.burnDmg||0); if(syn.thermo&&o.slow>0) bd*=1.9;   // THERMOSCHOCK: brennend+gefroren
+      if(o.burn>0){ o.burn-=dt; let bd=(o.burnDmg||0); if(syn.thermo&&o.slow>0) bd*=2.6;   // THERMOSCHOCK: brennend+gefroren
         o.hp-=bd*dt;
         if(Math.random()<0.8) emitP(o.cx+rand(-o.w*0.35,o.w*0.35),o.cy+rand(-4,6),rand(-18,18),-rand(45,100),0.45,Math.random()<0.4?'#ffe24d':'#ff5a1a',rand(3,6));   // aufsteigende Glut
         o.burnTick=(o.burnTick||0)+bd*dt; if(o.burnTick>=3){ floatDamage(o.cx+rand(-6,6),o.cy-o.h*0.5,o.burnTick,false); o.burnTick=0; }   // sichtbarer Brennschaden
@@ -1869,33 +1886,36 @@
   function muzAt(i){ const M=shipMuz(), m=M[((i%M.length)+M.length)%M.length]; return {x:player.x+m.x,y:player.y+m.y}; }
   function muzSpread(i,n){ const M=shipMuz(); if(n<=1||M.length<=1) return muzPrimary(); const m=M[Math.round(i*(M.length-1)/(n-1))]; return {x:player.x+m.x,y:player.y+m.y}; }
   function fireBlaster(){ const w=wpn.blaster, n=w.bolts, spd=640;
-    let teslaShot=false; if(syn.tesla){ teslaCount++; teslaShot=(teslaCount%5===0); }   // TESLA-SALVE: jeder 5. Bolzen verzweigt
+    let teslaShot=false; if(syn.tesla){ teslaCount++; teslaShot=(teslaCount%3===0); }   // TESLA-SALVE: jeder 3. Bolzen verzweigt
     const pyro=syn.pyrobolt, pdot=wpn.flame?wpn.flame.dot:0.9*(mods.wDmgMult||1);                                   // PYRO-BOLZEN: entzünden
     const cryo=syn.cryoshot, camt=wpn.frost?wpn.frost.slowAmt:0.55, cdur=wpn.frost?wpn.frost.slowDur:1.2;            // FROST-SALVE: verlangsamen
-    const pcol=pyro?'#ff9a2e':(cryo?'#8fe8ff':'#caffff');
+    const bp=synPartner('blaster'), pcol=bp?wepCol('blaster'):'#caffff', pcol2=bp?WID[bp].col:null;   // Fusions-Mix: Bolzen tragen die Mischfarbe + Partner-Glow
     for(let i=0;i<n;i++){ const ang=(i-(n-1)/2)*w.spread, mp=muzSpread(i,n);
-      bullets.push({x:mp.x,y:mp.y,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?1.6:0,frost:cryo?camt:0,frostDur:cryo?cdur:0,splash:syn.barrage,novakill:syn.shockbolt}); }
+      bullets.push({x:mp.x,y:mp.y,vx:Math.sin(ang)*spd,vy:-Math.cos(ang)*spd,r:5,dmg:w.dmg,pierce:w.pierce,col:pcol,col2:pcol2,tesla:teslaShot,burn:pyro?pdot:0,burnDur:pyro?2.4:0,frost:cryo?camt:0,frostDur:cryo?cdur:0,splash:syn.barrage,novakill:syn.shockbolt}); }
     const fp=muzPrimary(); emitP(fp.x,fp.y,0,-30,0.14,teslaShot?'#9be7ff':pcol,rand(5,8));
     sfxShoot(); }
   function fireFlame(){ const w=wpn.flame, mp=muzAt(muzIdx++);
-    bullets.push({x:mp.x,y:mp.y,vx:rand(-30,30),vy:-560,r:6,dmg:w.dmg,pierce:0,col:'#ffae4d',burn:w.dot,burnDur:w.dur,burnSpread:w.spread,burnConsume:w.consume});
-    emitP(mp.x,mp.y,0,-20,0.12,'#ff9a2e',rand(5,9));
+    const fpp=synPartner('flame');
+    bullets.push({x:mp.x,y:mp.y,vx:rand(-30,30),vy:-560,r:6,dmg:w.dmg,pierce:0,col:wepCol('flame'),col2:fpp?WID[fpp].col:null,burn:w.dot,burnDur:w.dur,burnSpread:w.spread,burnConsume:w.consume});
+    emitP(mp.x,mp.y,0,-20,0.12,wepCol('flame'),rand(5,9));
     beep(360,0.04,'sawtooth',0.07,90); }
   function fireFrost(){ const w=wpn.frost, mp=muzAt(muzIdx++);
-    bullets.push({x:mp.x,y:mp.y,vx:rand(-20,20),vy:-600,r:5,dmg:w.dmg,pierce:1,col:'#8fe8ff',frost:w.slowAmt,frostDur:w.slowDur,freeze:w.freeze,shatter:w.shatter,brittle:w.brittle});
-    emitP(mp.x,mp.y,0,-20,0.12,'#8fe8ff',rand(4,7));
+    const zpp=synPartner('frost');
+    bullets.push({x:mp.x,y:mp.y,vx:rand(-20,20),vy:-600,r:5,dmg:w.dmg,pierce:1,col:wepCol('frost'),col2:zpp?WID[zpp].col:null,frost:w.slowAmt,frostDur:w.slowDur,freeze:w.freeze,shatter:w.shatter,brittle:w.brittle});
+    emitP(mp.x,mp.y,0,-20,0.12,wepCol('frost'),rand(4,7));
     beep(880,0.04,'sine',0.06,240); }
   function fireMissileW(){ const w=wpn.missile; for(let i=0;i<w.count;i++){ const mp=muzSpread(i,w.count);
-      bullets.push({x:mp.x+rand(-4,4),y:mp.y,vx:rand(-50,50),vy:-340,r:7,dmg:w.dmg,pierce:0,homing:true,aoe:w.aoe,life:4,col:'#ff9a2e',shrapnel:w.shrapnel,incendiary:w.incendiary}); }
+      const mpp=synPartner('missile');
+      bullets.push({x:mp.x+rand(-4,4),y:mp.y,vx:rand(-50,50),vy:-340,r:7,dmg:w.dmg,pierce:0,homing:true,aoe:w.aoe,life:4,col:'#ff9a2e',col2:mpp?WID[mpp].col:null,shrapnel:w.shrapnel,incendiary:w.incendiary}); }
     beep(300,0.05,'square',0.12,160); }
   function fireChainW(){ const w=wpn.chain;
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<260*260){
       boss.hp-=w.dmg; boss.hitFlash=0.07; arcParticles(player.x,player.y-player.r,boss.x,boss.y); beep(1200,0.03,'square',0.08,260); if(boss.hp<=0)startBossDeath(); return; } }
     let best=null,bd=99999; for(const o of obstacles){ const dx=o.cx-player.x,dy=o.cy-player.y,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
     if(!best) return; arcParticles(player.x,player.y-player.r,best.cx,best.cy);
-    const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.5;
+    const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.8;
     best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,h0.crit); if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
-    if(syn.wildarc){ best.burn=Math.max(best.burn||0,1.8); best.burnDmg=Math.max(best.burnDmg||0,0.9*(mods.wDmgMult||1)); }   // BRAND-BOGEN
+    if(syn.wildarc){ best.burn=Math.max(best.burn||0,2.2); best.burnDmg=Math.max(best.burnDmg||0,1.3*(mods.wDmgMult||1)); }   // BRAND-BOGEN
     if(w.aoe) chainAoe(best.cx,best.cy,dd*0.5);
     const fx=best.cx,fy=best.cy,skip=[best]; if(syn.voltspark) synNovas.push({x:fx,y:fy}); if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0)obstacles.splice(ix,1); }
     chainLightning(fx,fy,w.dmg,w.jumps-1,{skip,stun:w.stun,aoe:w.aoe}); beep(1300,0.03,'square',0.06,260); }
@@ -1903,34 +1923,55 @@
   function fireNova(){ const w=wpn.nova, R=w.radius;
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-player.x,dy=o.cy-player.y;
       if(dx*dx+dy*dy<R*R){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.1; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
-        if(w.slow){ applySlow(o,1.2,0.5); }
-        if(syn.embernova){ o.burn=Math.max(o.burn||0,1.8); o.burnDmg=Math.max(o.burnDmg||0,0.85*(mods.wDmgMult||1)); }   // GLUT-NOVA: Puls entzündet
+        if(w.slow){ applySlow(o,syn.cryonova?1.8:1.2,syn.cryonova?0.35:0.5); }
+        if(syn.embernova){ o.burn=Math.max(o.burn||0,2.2); o.burnDmg=Math.max(o.burnDmg||0,1.2*(mods.wDmgMult||1)); }   // GLUT-NOVA: Puls entzündet
         if(w.knock){ o.cy-=26; }
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ const h=rollHit(w.dmg); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); } }
-    const col=w.slow?'#8fe8ff':'#c45bff';
+    const col=synPartner('nova')?wepCol('nova'):(w.slow?'#8fe8ff':'#c45bff');
     if(novas.length>18) novas.shift(); novas.push({x:player.x,y:player.y,r0:14,rMax:R,t:0,life:0.44,col,fill:true});   // Cap + Schockwellen-Ring mit Füll-Blitz
     for(let i=0;i<22;i++){ const a=i/22*6.28, s=R*2.6; emitP(player.x+Math.cos(a)*16,player.y+Math.sin(a)*16,Math.cos(a)*s,Math.sin(a)*s,0.09,col,rand(3,7)); }
     flash=Math.min(0.5,flash+0.16); flashColor=col; shake=Math.max(shake,7); beep(150,0.15,'sine',0.22,210); vibe(11); }
   // VOLTBOGEN: kleine Nova an einem Ketten-Treffer (entkoppelt verarbeitet, damit das Splicen die Kette nicht stört)
-  function miniNova(x,y){ const R=56, dmg=(wpn.nova?wpn.nova.dmg*0.5:1.6)*(mods.wDmgMult||1);
+  function miniNova(x,y){ const R=72, dmg=(wpn.nova?wpn.nova.dmg*0.65:2.0)*(mods.wDmgMult||1);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-x,dy=o.cy-y;
       if(dx*dx+dy*dy<R*R){ o.hp-=dmg; o.hitFlash=0.1; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(novas.length>18) novas.shift(); novas.push({x,y,r0:6,rMax:R,t:0,life:0.28,col:'#c45bff'});
     for(let i=0;i<7;i++){ const a=i/7*6.28; emitP(x,y,Math.cos(a)*R*2,Math.sin(a)*R*2,0.12,'#c45bff',rand(2,4)); }
     beep(220,0.06,'sine',0.10,160); }
+  // ---- ÜBERLADUNG (aktive Fusions-Skills, D2-Style): Kills laden – Antippen entfesselt BEIDE Waffen-Komponenten ----
+  function ultComponent(wid){ const dm=(mods.wDmgMult||1);
+    if(wid==='blaster'){ const d=(wpn.blaster?wpn.blaster.dmg:1.2*dm)*1.6, pp=synPartner('blaster');
+      for(let i=0;i<20;i++){ const a=i/20*6.28; bullets.push({x:player.x,y:player.y,vx:Math.cos(a)*620,vy:Math.sin(a)*620,r:5,dmg:d,pierce:1,life:1.2,col:wepCol('blaster'),col2:pp?WID[pp].col:null}); } }
+    else if(wid==='missile'){ const d=(wpn.missile?wpn.missile.dmg:4*dm)*1.3, pp=synPartner('missile');
+      for(let i=0;i<3;i++) bullets.push({x:player.x+(i-1)*22,y:player.y-10,vx:rand(-160,160),vy:-300,r:8,dmg:d,homing:true,aoe:120,life:4,col:'#ff9a2e',col2:pp?WID[pp].col:null}); }
+    else if(wid==='flame'){ for(const o of obstacles){ o.burn=Math.max(o.burn||0,3.2); o.burnDmg=Math.max(o.burnDmg||0,1.6*dm); emitP(o.cx,o.cy,0,-40,0.2,wepCol('flame'),rand(4,7)); } }
+    else if(wid==='frost'){ for(const o of obstacles){ applySlow(o,2.6,0.22); emitP(o.cx,o.cy,0,20,0.2,wepCol('frost'),rand(3,6)); } }
+    else if(wid==='chain'){ chainLightning(player.x,player.y-20,(wpn.chain?wpn.chain.dmg:2.5*dm)*1.4,9,{}); }
+    else if(wid==='nova'){ const R=250, d=(wpn.nova?wpn.nova.dmg:3.2*dm)*1.6;
+      for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k],dx=o.cx-player.x,dy=o.cy-player.y;
+        if(dx*dx+dy*dy<R*R){ o.hp-=d; o.hitFlash=0.1; o.cy-=34; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
+      if(novas.length>18) novas.shift(); novas.push({x:player.x,y:player.y,r0:18,rMax:R,t:0,life:0.5,col:wepCol('nova'),fill:true}); }
+    else if(wid==='rail'){ const d=(wpn.rail?wpn.rail.dmg:5*dm)*1.2, wdt=30;
+      for(const off of [-110,0,110]){ const bx=Math.max(20,Math.min(W-20,player.x+off));
+        for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; if(Math.abs(o.cx-bx)<wdt+(o.w?o.w/2:0)){ o.hp-=d; o.hitFlash=0.12; if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
+        beams.push({x:bx,w:wdt,t:0.22,col:wepCol('rail')}); } } }
+  function fireUlt(id){ if(state!==S.PLAY||!syn[id]||(synCharge[id]||0)<1||!player) return; synCharge[id]=0;
+    const s=SID[id]; ultComponent(s.pair[0]); ultComponent(s.pair[1]);
+    flash=Math.min(0.6,flash+0.3); flashColor='#ff2e88'; shake=Math.max(shake,12); vibe([20,30,20]);
+    floatText(player.x,player.y-44,s.ico+' '+synName(id)+'!','#ff7ab8',20); sfxPow(); }
   // Railgun: sofortige Schiene auf die nächste Bedrohung – trifft alle Ziele in der Spalte
   function fireRail(){ const w=wpn.rail; const bx=player.x;   // Strahl kommt AUS dem Schiff (gerade nach oben) – kein Auto-Aim mehr; gezielt wird über die Schiffsposition
     const baseY=player.y-player.r-2;
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; if(o.cy>baseY+12) continue;
       if(Math.abs(o.cx-bx)<w.width+(o.w?o.w/2:0)){ const h=rollHit(w.dmg); o.hp-=h.dmg; o.hitFlash=0.12; floatDamage(o.cx,o.cy-o.h*0.4,h.dmg,h.crit);
-        if(w.burn){ o.burn=Math.max(o.burn||0,2.0); o.burnDmg=Math.max(o.burnDmg||0,0.9*(mods.wDmgMult||1)); }
-        if(syn.cryorail){ applySlow(o,1.5,0.4); }   // FROST-SCHIENE: vereist die Spalte
+        if(w.burn){ o.burn=Math.max(o.burn||0,2.6); o.burnDmg=Math.max(o.burnDmg||0,1.2*(mods.wDmgMult||1)); }
+        if(syn.cryorail){ applySlow(o,2.2,0.3); }   // FROST-SCHIENE: vereist die Spalte
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(boss&&!boss.dead&&!boss.fleeing && Math.abs(boss.x-bx)<w.width+boss.r && boss.y<baseY){ const h=rollHit(w.dmg*1.5); boss.hp-=h.dmg; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,h.dmg,h.crit); if(boss.hp<=0) startBossDeath(); }
     if(syn.railnova) synNovas.push({x:bx,y:baseY-40});                                   // SCHIENEN-NOVA: Nova in der Schussspalte
-    if(syn.railchain && wpn.chain) chainLightning(bx,baseY-40,wpn.chain.dmg*0.8,wpn.chain.jumps,{});   // SCHIENEN-KETTE
-    beams.push({x:bx,w:w.width,t:0.22}); flash=Math.min(0.5,flash+0.16); flashColor='#fff27a'; shake=Math.max(shake,8); beep(110,0.16,'sawtooth',0.32,-50); vibe(10);
+    if(syn.railchain && wpn.chain) chainLightning(bx,baseY-40,wpn.chain.dmg*1.0,wpn.chain.jumps,{});   // SCHIENEN-KETTE
+    beams.push({x:bx,w:w.width,t:0.22,col:wepCol('rail')}); flash=Math.min(0.5,flash+0.16); flashColor=wepCol('rail'); shake=Math.max(shake,8); beep(110,0.16,'sawtooth',0.32,-50); vibe(10);
     for(let i=0;i<10;i++){ emitP(bx+rand(-w.width,w.width),baseY-rand(0,player.y),0,-rand(60,200),0.18,'#fff27a',rand(2,5)); }   // Mündungs-/Spalten-Funken
     pixelBurst(bx,baseY-6,'#fff7c0',5); }
   function pixelBurst(x,y,color,power){ const n=Math.max(3,Math.round((8+Math.min(20,(power||1)*5))*fxQ)), wn=Math.max(1,Math.round(4*fxQ));   // fxQ: Burst bei Lag kleiner
@@ -1943,6 +1984,7 @@
   function killObstacle(o){ const pts=3*(o.maxHp||1); addScore(pts);
     pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
+    for(const sid of activeSyn) synCharge[sid]=Math.min(1,(synCharge[sid]||0)+1/16);   // ÜBERLADUNG lädt über Kills (voll = aktiver Fusions-Skill bereit)
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008);
     // Power-Up-Drop: Grundchance, von Glück (mods.powerupRate) skaliert, größere Gegner droppen eher
     if(Math.random() < 0.06*(mods.powerupRate||1)*((o.maxHp||1)>=3?1.8:1)) dropPowerup(o.cx,o.cy);
@@ -1965,11 +2007,11 @@
     flash=Math.min(0.5,flash+0.14); flashColor='#ff9a2e'; shake=Math.max(shake,6); beep(140,0.16,'sawtooth',0.3,-60); vibe([18,12]);
     for(let k=obstacles.length-1;k>=0;k--){ const o=obstacles[k]; const dx=o.cx-b.x,dy=o.cy-b.y;
       if(dx*dx+dy*dy<R*R){ o.hp-=edmg; o.hitFlash=0.12;
-        if(b.incendiary||syn.napalm){ o.burn=Math.max(o.burn||0,2.2); o.burnDmg=Math.max(o.burnDmg||0,1.0*(mods.wDmgMult||1)); }  // Brandsatz / NAPALM
-        if(syn.icebomb){ applySlow(o,1.6,0.45); }                 // EISBOMBE
+        if(b.incendiary||syn.napalm){ o.burn=Math.max(o.burn||0,3.0); o.burnDmg=Math.max(o.burnDmg||0,1.4*(mods.wDmgMult||1)); }  // Brandsatz / NAPALM
+        if(syn.icebomb){ applySlow(o,2.2,0.32); }                 // EISBOMBE
         if(o.hp<=0){ killObstacle(o); obstacles.splice(k,1); } } }
     if(syn.novabomb) synNovas.push({x:b.x,y:b.y});                  // NOVA-BOMBE: Explosion löst zusätzlich eine Nova aus
-    if(syn.clusterarc && wpn.chain) chainLightning(b.x,b.y,wpn.chain.dmg*0.7,wpn.chain.jumps,{});   // CLUSTER-BOGEN: Explosion startet Kettenblitz
+    if(syn.clusterarc && wpn.chain) chainLightning(b.x,b.y,wpn.chain.dmg*0.9,wpn.chain.jumps,{});   // CLUSTER-BOGEN: Explosion startet Kettenblitz
     if(b.shrapnel){ for(let i=0;i<8;i++){ const a=i/8*6.28; bullets.push({x:b.x,y:b.y,vx:Math.cos(a)*420,vy:Math.sin(a)*420,r:3,dmg:b.dmg*0.4,pierce:0,col:'#ffd36b',life:0.5,frag:true}); } } // Splittergranate
     if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-b.x,dy=boss.y-b.y; if(dx*dx+dy*dy<(R+boss.r)*(R+boss.r)){ boss.hp-=edmg*2; boss.hitFlash=0.07; floatDamage(boss.x,boss.y-boss.r*0.5,edmg*2,h.crit); if(boss.hp<=0) startBossDeath(); } } }
   // Splitterbruch: gefrorenes Ziel zerspringt beim Tod → Scherben-AoE
@@ -1983,9 +2025,9 @@
   function chainLightning(x,y,dmg,jumps,opts){ opts=opts||{}; let cx=x,cy=y; const used=new Set(opts.skip||[]);
     for(let h=0;h<jumps;h++){ let best=null,bd=185*185; for(const o of obstacles){ if(used.has(o)) continue; const dx=o.cx-cx,dy=o.cy-cy,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
       if(!best) break; used.add(best); arcParticles(cx,cy,best.cx,best.cy);
-      const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.5;
+      const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.8;
       best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,hh.crit); if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
-      if(syn.wildarc){ best.burn=Math.max(best.burn||0,1.8); best.burnDmg=Math.max(best.burnDmg||0,0.9*(mods.wDmgMult||1)); }   // BRAND-BOGEN (je Sprung)
+      if(syn.wildarc){ best.burn=Math.max(best.burn||0,2.2); best.burnDmg=Math.max(best.burnDmg||0,1.3*(mods.wDmgMult||1)); }   // BRAND-BOGEN (je Sprung)
       if(opts.aoe) chainAoe(best.cx,best.cy,dd*0.5);
       const nx=best.cx,ny=best.cy; if(syn.voltspark) synNovas.push({x:nx,y:ny});
       if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0) obstacles.splice(ix,1); }
@@ -1994,7 +2036,7 @@
     // gezackter Blitz-Bogen: Zwischenpunkte mit seitlichem Versatz → sichtbarer Kettenblitz
     const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len, seg=Math.max(4,Math.min(9,(len/26)|0)), pts=[[x1,y1]];
     for(let i=1;i<seg;i++){ const tt=i/seg, j=(Math.random()-0.5)*Math.min(30,len*0.32); pts.push([x1+dx*tt+nx*j, y1+dy*tt+ny*j]); }
-    pts.push([x2,y2]); if(zaps.length>26) zaps.shift(); zaps.push({pts,t:0.15,life:0.15});   // Cap gegen Effekt-Spike
+    pts.push([x2,y2]); if(zaps.length>26) zaps.shift(); zaps.push({pts,t:0.15,life:0.15,col:synPartner('chain')?wepCol('chain'):null});   // Cap gegen Effekt-Spike; Fusions-Mix färbt den Bogen
     spawnParticles(x2,y2,'#eaffff',6,150); beep(1100,0.03,'square',0.07,260); }
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
@@ -2037,15 +2079,17 @@
     if(state===S.PLAY||state===S.OVER||state===S.UPGRADE||state===S.PAUSE){
       // Railgun-Schienen (eigene, kurz aufleuchtend)
       if(player) for(const bm of beams){ const a=Math.max(0,bm.t/0.22); ctx.save(); ctx.globalCompositeOperation='lighter';
-        const grd=ctx.createLinearGradient(bm.x-bm.w*1.3,0,bm.x+bm.w*1.3,0); grd.addColorStop(0,'rgba(255,242,122,0)'); grd.addColorStop(.5,'rgba(255,255,255,'+(0.9*a)+')'); grd.addColorStop(1,'rgba(255,242,122,0)');
+        const bc=bm.col||'#fff27a';
+        const grd=ctx.createLinearGradient(bm.x-bm.w*1.3,0,bm.x+bm.w*1.3,0); grd.addColorStop(0,hexA(bc,0)); grd.addColorStop(.35,hexA(bc,0.5*a)); grd.addColorStop(.5,'rgba(255,255,255,'+(0.9*a)+')'); grd.addColorStop(.65,hexA(bc,0.5*a)); grd.addColorStop(1,hexA(bc,0));
         ctx.fillStyle=grd; ctx.fillRect(bm.x-bm.w*1.3,0,bm.w*2.6,player.y);
         ctx.fillStyle='rgba(255,255,255,'+a+')'; ctx.fillRect(bm.x-bm.w*0.28,0,bm.w*0.56,player.y);   // gleißender Kern
         ctx.restore(); }
       // Kettenblitz-Bögen (gezackt, glühend)
       for(const z of zaps){ const a=Math.max(0,z.t/z.life); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
         ctx.beginPath(); ctx.moveTo(z.pts[0][0],z.pts[0][1]); for(let i=1;i<z.pts.length;i++) ctx.lineTo(z.pts[i][0],z.pts[i][1]);
-        ctx.strokeStyle='rgba(120,231,255,'+(0.46*a)+')'; ctx.lineWidth=12; ctx.stroke();           // breites weiches Glühen (ersetzt shadowBlur, additiv)
-        ctx.strokeStyle='rgba(190,245,255,'+(0.72*a)+')'; ctx.lineWidth=5; ctx.stroke();             // mittlere Schicht
+        const zc=z.col||'#78e7ff';
+        ctx.strokeStyle=hexA(zc,0.46*a); ctx.lineWidth=12; ctx.stroke();           // breites weiches Glühen (ersetzt shadowBlur, additiv); Fusions-Mix färbt mit
+        ctx.strokeStyle=hexA(mixCol(zc,'#ffffff',0.45),0.72*a); ctx.lineWidth=5; ctx.stroke();       // mittlere Schicht
         ctx.strokeStyle='rgba(255,255,255,'+a+')'; ctx.lineWidth=2.5; ctx.stroke();                  // heller Kern
         ctx.restore(); }
       // Nova-Schockwellen-Ringe (expandierend, ausblendend)
@@ -2134,11 +2178,12 @@
       // bolzen (neon-laser, skin-farbig) & raketen — Glow via Sprite statt shadowBlur
       ctx.globalCompositeOperation='lighter'; ctx.lineCap='round';
       for(const b of bullets){
-        if(b.homing){ const gr=b.r*4.5; ctx.drawImage(glowSprite('#ff8a2e'),b.x-gr,b.y-gr,gr*2,gr*2);
+        if(b.homing){ const gr=b.r*4.5; ctx.drawImage(glowSprite(b.col2||'#ff8a2e'),b.x-gr,b.y-gr,gr*2,gr*2);
           ctx.fillStyle='#ff6a00'; ctx.beginPath(); ctx.arc(b.x-b.vx*0.012,b.y-b.vy*0.012,b.r*0.8,0,6.28); ctx.fill();
           ctx.fillStyle='#ffd36b'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.28); ctx.fill();
           ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.4,0,6.28); ctx.fill(); }
-        else { const gr=b.r*3.4; ctx.drawImage(glowSprite(b.col||'#19f0ff'),b.x-gr,b.y-gr,gr*2,gr*2);
+        else { const gr=b.r*3.4; if(b.col2){ const g2=b.r*5; ctx.drawImage(glowSprite(b.col2),b.x-g2,b.y-g2,g2*2,g2*2); }   // Fusions-Aura in Partnerfarbe
+          ctx.drawImage(glowSprite(b.col||'#19f0ff'),b.x-gr,b.y-gr,gr*2,gr*2);
           ctx.strokeStyle=b.col||'#caffff'; ctx.lineWidth=b.r;
           ctx.beginPath(); ctx.moveTo(b.x,b.y); ctx.lineTo(b.x-b.vx*0.022,b.y-b.vy*0.022); ctx.stroke();
           ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.5,0,6.28); ctx.fill(); } }
@@ -2856,6 +2901,15 @@
     ['slot','veteran'].forEach(id=>{ const m=metaById(id); if(m) gen.appendChild(metaCard(m)); });
     shopCards.appendChild(gen);
     for(const w of WEAPONS) shopCards.appendChild(weaponAccordion(w)); }
+  function renderSynergyTab(){ const gen=document.createElement('div'); gen.className='shopRow';
+    const m=metaById('synslot'); if(m) gen.appendChild(metaCard(m)); shopCards.appendChild(gen);
+    const hint=document.createElement('p'); hint.className='synhint'; hint.textContent=t('synHint'); shopCards.appendChild(hint);
+    const list=document.createElement('div'); list.className='synShopList';
+    const rows=SYNERGIES.map(sy=>({sy,owned:metaLvl('sy_'+sy.id)>0})).sort((a,b)=>(a.owned?1:0)-(b.owned?1:0));   // kaufbare zuerst
+    for(const {sy,owned} of rows){ const mm=metaById('sy_'+sy.id), cost=metaCost(mm,0), aff=(meta.chips||0)>=cost;
+      list.insertAdjacentHTML('beforeend', shopNode({ico:WID[sy.pair[0]].ico+WID[sy.pair[1]].ico, title:synName(sy.id), sub:synDesc(sy.id), state:owned?'done':'buy', cost, aff, buy:'sy_'+sy.id, tip:FLAV(sy.id)})); }
+    list.querySelectorAll('button[data-buy]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); buyMeta(b.dataset.buy); }));
+    shopCards.appendChild(list); }
   const weaponBpOwned=id=>id==='blaster'||metaLvl('bp_'+id)>0;
   function renderShop(){ shopChipsEl.textContent='🪙 '+fmt(meta.chips);
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
@@ -2867,11 +2921,13 @@
     shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons');
     if(shopTab==='cosmetic'){ skinCards(shopCards); return; }   // Kosmetik-Tab: Skins kaufen/wählen
     if(shopTab==='weapons'){ renderWeaponTab(); return; }       // Waffen-Tab: Accordion-Skilltree pro Waffe
+    if(shopTab==='synergy'){ renderSynergyTab(); return; }      // Fusionen: Slots + alle 21 Synergien kaufbar
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return; const cost=metaCost(m,lvl); if(coinShort(cost)) return;
     meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta();
     if(id==='slot') arsenal.slots=3+metaLvl('slot');   // neuen Modul-Slot SOFORT nutzbar machen (sonst erst nach Neustart, da arsenal.slots nur in applyMeta() berechnet wird)
+    if(id.indexOf('sy_')===0||id==='synslot') recalcArsenal();   // gekaufte Fusion / neuer Fusions-Slot sofort aktiv (Auto-Slot, solange frei)
     sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
@@ -2952,6 +3008,16 @@
     return `<div class="tnode ${st}${can?' pick':''}${undoable?' undoable':''}" data-wid="${id}" data-slot="${slot}" data-path="${path}" title="${pDesc(path)}">${infoBtn(pName(path),tip,'tnInfo')}<span class="ti">${PATHICO[path]||'•'}</span><span class="tn">${pName(path)}</span>${hint}</div>`; }
   // Eine Fork-Reihe: die zwei wählbaren Knoten (Skillpunkt).
   function treeRow(id,slot,paths){ return `<div class="trow">${treeNode(id,slot,paths[0])}${treeNode(id,slot,paths[1])}</div>`; }
+  // Fusion an-/abwählen (freie Slot-Wahl ersetzt das alte Auto-Aktivieren)
+  function toggleSyn(id){ if(!synBought(id)) return;
+    if(mode==='zen'){ if(!Array.isArray(zenSynSel)) zenSynSel=[];   // Zen: nur die transiente Auswahl anfassen
+      if(zenSynSel.includes(id)){ zenSynSel=zenSynSel.filter(x=>x!==id); beep(330,0.06,'square',0.18); }
+      else { if(activeSyn.length>=synSlots()){ beep(150,0.1,'square',0.2); return; } zenSynSel.push(id); sfxUpgrade(); }
+      recalcArsenal(); renderArsenalView(); return; }
+    if(!Array.isArray(meta.synSel)) meta.synSel=[]; if(!meta.synOff) meta.synOff={};
+    if(meta.synSel.includes(id)){ meta.synSel=meta.synSel.filter(x=>x!==id); meta.synOff[id]=1; beep(330,0.06,'square',0.18); }
+    else { if(activeSyn.length>=synSlots()){ beep(150,0.1,'square',0.2); return; } meta.synSel.push(id); delete meta.synOff[id]; sfxUpgrade(); }
+    saveMeta(); recalcArsenal(); renderArsenalView(); }
   function renderArsenalView(){
     if(arsenalSkillMode) arsenalTab='loadout';   // Skill-Screen erzwingt Loadout
     const synReady=ownedCount()>=2;   // Synergien erst zeigen, wenn ≥2 Waffen (vorher nicht nutzbar → Neulinge nicht verwirren)
@@ -2978,7 +3044,8 @@
     ownedW().forEach(id=>{ const a=arsenal.w[id], w=WID[id], f1=w.forks[0], f2=w.forks[1], f3=w.forks[2], f4=w.forks[3];
       const card=document.createElement('div'); card.className='wtree';
       card.innerHTML=
-        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span>${infoBtn(wName(id),FLAV(id))}${a.lvl>1?`<button class="cost respec" title="${t('respec')}">↺</button>`:''}<button class="cost drop">✕</button></div>`+
+        infoBtn(wName(id),FLAV(id),'cardInfo')+
+        `<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><div class="whmain"><b>${wName(id)}</b><span class="wlv">Lv ${a.lvl}/5</span></div>${a.lvl>1?`<button class="cost respec" title="${t('respec')}">↺</button>`:''}<button class="cost drop">✕</button></div>`+
         `<div class="warctag" style="--wc:${w.col}">${wArch(id)}</div>`+
         `<div class="wmech">${wDesc(id)}</div>`+
         `<div class="tnode base chosen"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
@@ -2993,7 +3060,7 @@
       wrap.appendChild(card); });
     const free=arsenal.slots-ownedCount(), addable=WEAPONS.filter(w=>!arsenal.w[w.id]);   // alle nicht-ausgerüsteten Waffen direkt per Skillpunkt baubar
     if(opt.guns&&free>0&&addable.length){ const wcc=wChipCost(); addable.forEach(w=>{ const wFirst=!isUnlocked(wKey(w.id)), wCost=wFirst?wcc:0, aff=skillPts>0&&(!wFirst||(meta.chips||0)>=wCost); const card=document.createElement('div'); card.className='wtree addable';
-        card.innerHTML=`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><b>${wName(w.id)}</b>${infoBtn(wName(w.id),FLAV(w.id))}</div>`+
+        card.innerHTML=infoBtn(wName(w.id),FLAV(w.id),'cardInfo')+`<div class="wtree-head" style="--wc:${w.col}"><span class="whico">${w.ico}</span><div class="whmain"><b>${wName(w.id)}</b></div></div>`+
           `<div class="warctag" style="--wc:${w.col}">${wArch(w.id)}</div>`+
           `<div class="tnode base avail"><span class="ti">${w.ico}</span><span class="tn">L1</span></div>`+
           `<p class="adddesc">${wDesc(w.id)}</p>`+
@@ -3001,14 +3068,21 @@
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
     else { for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     const sd=document.getElementById('arsenalSyn'); if(sd){
-      // Synergien sind automatisch: aktiv, sobald beide Waffen ausgerüstet. Liste ist reine Info – kein Kauf, kein Toggle.
-      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],owned=(hasA?1:0)+(hasB?1:0), on=syn[s.id];
-        const cls=on?'on':(owned===1?'near':'off');
-        const right=on?'<span class="synok">✓ '+t('synOn')+'</span>':(owned===1?('<span class="synneed">'+t('synNeed')+' '+(hasA?WID[b].ico:WID[a].ico)+'</span>'):('<span class="synneed">'+WID[a].ico+WID[b].ico+'</span>'));
-        const rank=on?2:owned;
-        return {rank,html:`<div class="synrow ${cls}" data-syn="${s.id}"><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${right}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
-      rows.sort((x,y)=>y.rank-x.rank);   // aktiv → fast (eine Waffe fehlt) → fehlt
-      sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">'+activeSyn.length+' '+t('synOn')+'</span></h4>'+rows.map(r=>r.html).join(''); }
+      // FUSIONEN 2.0: kaufen (hier oder Werkstatt) → bis Slot-Limit frei kombinieren → Kills laden die ÜBERLADUNG (Cockpit)
+      const slots=synSlots();
+      const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],both=hasA&&hasB;
+        const bought=synBought(s.id), on=syn[s.id]; let cls,right,tap='';
+        if(on){ cls='on syntap'; right='<span class="synok">✓ '+t('synOn')+' · '+t('drop')+'</span>'; tap='1'; }
+        else if(bought&&both){ const free=activeSyn.length<slots; cls=(free?'avail':'near')+(free?' syntap':''); right='<span class="synok">'+(free?('＋ '+t('synPick')):('🧬 '+t('synFull')))+'</span>'; if(free) tap='1'; }
+        else if(!bought&&both){ const mm=metaById('sy_'+s.id), cost=metaCost(mm,0), aff=(meta.chips||0)>=cost; cls='buyable';
+          right='<button class="cost synbuy'+(aff?'':' locked')+'" data-buy="sy_'+s.id+'">🪙 '+cost+'</button>'; }
+        else { cls='off'; right='<span class="synneed">'+(bought?'':'🔒 ')+t('synNeed')+' '+(hasA?WID[b].ico:(hasB?WID[a].ico:WID[a].ico+WID[b].ico))+'</span>'; }
+        const rank=on?3:(bought&&both?2.5:(both?2:((hasA||hasB)?1:0)));
+        return {rank,html:`<div class="synrow ${cls}" data-syn="${s.id}"${tap?' data-tap="1"':''}><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${right}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
+      rows.sort((x,y)=>y.rank-x.rank);   // aktiv → wählbar → kaufbar → fehlt
+      sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">🧬 '+activeSyn.length+'/'+slots+'</span></h4><p class="synhint">'+t('synHint')+'</p>'+rows.map(r=>r.html).join('');
+      sd.querySelectorAll('.synrow[data-tap]').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')||e.target.closest('button')) return; toggleSyn(r.dataset.syn); }));
+      sd.querySelectorAll('button[data-buy]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); buyMeta(b.dataset.buy,renderArsenalView); })); }
   }
   // In-Run HUD: Waffenleiste mit Level-Pips + Synergie-Badges
   function drawArsenalHud(){ const ids=ownedW();
@@ -3026,7 +3100,8 @@
   function renderCockpit(){ const ck=cockpitEl(); if(!ck||ck.classList.contains('hidden')) return;
     const sp=(opt.guns&&skillPts>0)?skillPts:0, synU=SYNERGIES.filter(s=>synUnlocked(s.id)).length;
     const wsig=WEAPONS.map(w=>{ const a=arsenal.w[w.id]; return w.id+(a?('E'+a.lvl):(weaponUnlocked(w.id)?'U':'L')); }).join(',');
-    const sig=mode+'|'+lives+'|'+shields+'|'+wsig+'|'+activeSyn.join(',')+'|'+synU+'|'+sp+'|'+opt.guns;
+    const csig=activeSyn.map(id=>Math.round((synCharge[id]||0)*24)).join('.');
+    const sig=mode+'|'+lives+'|'+shields+'|'+wsig+'|'+activeSyn.join(',')+'|'+csig+'|'+synU+'|'+sp+'|'+opt.guns;
     if(ck._sig===sig) return; ck._sig=sig;
     let h='<div class="ckFrame"><div class="ckDeco" aria-hidden="true"><span class="ckScan"></span><span class="ckGrid"></span><span class="ckRivets"></span></div><div class="ckBody">';
     // OBERE Reihe: Waffen + Synergien + Steuerung (darf umbrechen, wächst nach oben)
@@ -3041,7 +3116,8 @@
         h+='</button>'; }
       h+='</div>'; }
     if(opt.guns&&ownedCount()>=2){ h+='<div class="ckBay ckSynBay" aria-label="Aktive Synergien '+activeSyn.length+'"><span class="ckLbl">'+t('ckLblS')+'</span>';   // Synergie-Bay erst ab 2 Waffen; zeigt automatisch aktive Fusionen
-      if(activeSyn.length){ for(const id of activeSyn){ const s=SID[id]; h+='<button class="ckSyS on" data-tab="syn" aria-label="Synergie '+synName(id)+'">'+s.ico+'</button>'; } }
+      if(activeSyn.length){ for(const id of activeSyn){ const s=SID[id], c=Math.min(1,synCharge[id]||0), rdy=c>=1;
+        h+='<button class="ckSyS on'+(rdy?' rdy':'')+'" data-ult="'+id+'" data-tab="syn" style="--p:'+Math.round(c*100)+'%" aria-label="'+synName(id)+(rdy?' – '+t('ultReady'):'')+'">'+s.ico+'</button>'; } }
       else h+='<button class="ckSyS" data-tab="syn" aria-label="Noch keine Synergie – passende Waffen kombinieren">–</button>';
       h+='</div>'; }
     if(sp||opt.guns){ h+='<div class="ckBay ckCtl">';
@@ -3694,7 +3770,9 @@
   const avs=document.getElementById('arsenalStatusBtn'); if(avs) avs.addEventListener('click',openStatusFromArsenal);   // Arsenal → Schiffsstatus (Loadout sofort prüfen)
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
   const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openArsenalView('shop'));
-  const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ const el=e.target.closest('[data-tab]'); if(!el) return; openArsenalFromCockpit(el.dataset.tab||'loadout'); });
+  const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ const u=e.target.closest('[data-ult]');
+    if(u&&state===S.PLAY&&(synCharge[u.dataset.ult]||0)>=1){ fireUlt(u.dataset.ult); return; }   // volle ÜBERLADUNG → aktiver Fusions-Skill
+    const el=e.target.closest('[data-tab]'); if(!el) return; openArsenalFromCockpit(el.dataset.tab||'loadout'); });
   // Sound + Vollbild sind jetzt im Options-Menü; Label bei Fullscreen-Wechsel (auch via ESC) live halten
   document.addEventListener('fullscreenchange',()=>{ if(isOpen('settings')) renderSettings(); });
   // Fullscreen schon bei der ALLERERSTEN Geste anfordern (sauberste Aktivierung; Browser drosseln Auto-Requests nach Spielstart/Exit)
@@ -3710,6 +3788,7 @@
       if(isOpen('settings')){ closeSettings(); return; }
       if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
+    else if(state===S.PLAY&&e.code.indexOf('Digit')===0){ const i=parseInt(e.code.slice(5),10)-1; if(i>=0&&i<activeSyn.length) fireUlt(activeSyn[i]); }   // Tasten 1–4 = ÜBERLADUNG der aktiven Fusionen
     if(e.key==='F8'){ opt.dbg=!opt.dbg; saveOpt(); }   // Debug: DDA-Regler-Overlay (flowI/director/skillBias) ein-/ausblenden (Desktop; mobil via Coin-Shop-Code "dda")
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
   document.addEventListener('visibilitychange',()=>{ lastT=performance.now();
