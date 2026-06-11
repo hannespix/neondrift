@@ -3093,8 +3093,9 @@
     if(typeof window.getDigitalGoodsService!=='function') return false;
     try{ dgService=await window.getDigitalGoodsService(PLAY_BILLING); }catch(e){ dgService=null; }
     if(!dgService) return false; billingReady=true;
-    // Offene (bezahlte, aber noch nicht verbuchte) Käufe nachträglich gutschreiben + verbrauchen
-    try{ if(dgService.listPurchases){ const ps=await dgService.listPurchases(); for(const p of ps){ await grantPurchase(p.itemId,p.purchaseToken); } } }catch(e){}
+    // Beim Verbinden alle noch „besessenen" (nicht konsumierten) Käufe aufräumen → wieder kaufbar.
+    // (Coins wurden beim Kauf bereits gutgeschrieben; hier NICHT erneut gutschreiben → kein Doppel.)
+    await consumeOwned();
     return true; }
   // getDetails für EINE Produkt-ID mit Retry: OperationError tritt oft auf, solange die Billing-
   // Verbindung noch nicht fertig steht → bis zu 3 Versuche mit kurzer Pause.
@@ -3102,18 +3103,22 @@
       try{ return (await dgService.getDetails([id]))||[]; }
       catch(e){ lastDetErr=(e&&(e.name||e.message))||'Fehler'; if(i<2) await new Promise(r=>setTimeout(r,350+i*450)); } }
     return []; }
-  async function grantPurchase(itemId,token){ const amt=coinsFromId(itemId); if(!amt) return;
-    meta.chips=(meta.chips||0)+amt; saveMeta(); updateAllBalances();
-    try{ if(token&&dgService&&dgService.consume) await dgService.consume(token); }catch(e){} }   // Coins = Verbrauchsartikel → wieder kaufbar
+  // Alle „besessenen" Käufe konsumieren → Verbrauchsartikel (Coins) werden dadurch wieder kaufbar.
+  // Token zuverlässig aus listPurchases (statt PaymentResponse.details); consume ODER acknowledge.
+  async function consumeOwned(){ try{ if(!dgService||!dgService.listPurchases) return;
+      const ps=(await dgService.listPurchases())||[];
+      for(const p of ps){ const tok=p&&(p.purchaseToken||p.token); if(!tok) continue;
+        try{ if(dgService.consume) await dgService.consume(tok); else if(dgService.acknowledge) await dgService.acknowledge(tok,true); }catch(e){} } }catch(e){} }
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
     const msg=document.getElementById('coinMsg');
     try{
       const pr=new PaymentRequest([{supportedMethods:PLAY_BILLING,data:{sku}}],
         {total:{label:'THRONERUSH',amount:{currency:'EUR',value:'0'}}});   // Betrag wird von Play durch den SKU-Preis ersetzt
       const resp=await pr.show();
-      const token=resp.details&&(resp.details.purchaseToken||resp.details.token);
-      await grantPurchase(sku,token); await resp.complete('success');
+      await resp.complete('success');
+      meta.chips=(meta.chips||0)+coinsFromId(sku); saveMeta(); updateAllBalances();   // Coins sofort gutschreiben (SKU ist bekannt)
       if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
+      await consumeOwned();   // Kauf konsumieren → sofort wieder kaufbar (sonst „Artikel bereits besessen")
     }catch(e){ if(e&&(e.name==='AbortError'||e.name==='NotAllowedError')) return;   // Nutzer hat abgebrochen → still
       if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
   async function renderCoinShop(){ updateAllBalances();
