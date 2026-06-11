@@ -133,6 +133,24 @@
   .acard .ico{font-size:30px;line-height:1;}
   .acard h5{font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;margin:7px 0 3px;color:#fff;}
   .acard p{font-size:11px;color:#c9b9ef;line-height:1.4;}
+  /* === Meilenstein-Leiter (Erfolge-Screen) === */
+  .msTitle{font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:.08em;font-size:13px;color:var(--cyan);text-shadow:0 0 14px rgba(25,240,255,.4);margin:18px 0 10px;}
+  #msCards{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%;max-width:520px;}
+  .mcard{width:150px;max-width:42vw;padding:11px 12px;border-radius:14px;background:rgba(25,240,255,.06);border:1px solid rgba(25,240,255,.2);text-align:left;}
+  .mcard.done{border-color:rgba(124,255,46,.55);background:rgba(124,255,46,.08);box-shadow:inset 0 0 16px rgba(124,255,46,.14);}
+  .mcard .mico{font-size:22px;line-height:1;}
+  .mcard.done .mico{color:#9cff5e;}
+  .mcard .mmain{display:flex;align-items:baseline;justify-content:space-between;gap:6px;margin:5px 0 4px;}
+  .mcard .mmain b{font-family:'Orbitron',sans-serif;font-weight:700;font-size:12.5px;color:#fff;}
+  .mcard .mrew{font-family:'Space Mono',monospace;font-size:11px;color:var(--yellow);white-space:nowrap;}
+  .mcard .mbar{height:6px;border-radius:5px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:3px;}
+  .mcard .mbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#19f0ff,#7c5bff);}
+  .mcard .mprog{font-family:'Space Mono',monospace;font-size:10px;color:#9f90c8;display:block;margin-top:3px;}
+  /* Game-Over: neu erreichte Meilensteine */
+  .milestoneHit{margin:12px auto 0;max-width:340px;width:88%;padding:9px 12px;border-radius:12px;background:rgba(124,255,46,.1);border:1px solid rgba(124,255,46,.4);box-shadow:0 0 16px rgba(124,255,46,.2);font-family:'Space Mono',monospace;font-size:12px;color:#d6ffb0;line-height:1.5;}
+  .milestoneHit .mhl{font-family:'Orbitron',sans-serif;font-weight:700;color:#9cff5e;letter-spacing:.06em;}
+  .milestoneHit b{color:var(--yellow);}
+  .milestoneHit.hidden{display:none;}
   /* === Schiffsstatus / Gefechtsdatenblatt === */
   #statusView{justify-content:flex-start;}
   .radarCv{margin:14px auto 4px;display:block;width:300px;max-width:84vw;height:auto;
