@@ -3150,7 +3150,8 @@
     const ua=navigator.userAgent||''; const cr=(ua.match(/Chrome\/(\d+)/)||[])[1]||'?';
     const av=(ua.match(/Android[ /](\d+)/)||[])[1]||'?'; const wv=/; wv\)/.test(ua)||/\bwv\b/.test(ua);
     const sams=/SamsungBrowser\/([\d.]+)/.exec(ua); const host=wv?'WebView!':(sams?('Samsung '+sams[1]):('Chrome '+cr));
-    msg.textContent='🔧 Details:'+det+' · Liste:'+lp+(pend?(' · offen:'+pend):'')+' · '+host+' / Android '+av; msg.className='devMsg'; }
+    // Host/Android ZUERST (kritischste Info) – sonst rechts abgeschnitten. Fehlertexte kurz.
+    msg.textContent='🔧 '+host+' / Android '+av+' · Det:'+det+' · Lst:'+lp+(pend?(' · offen:'+pend):''); msg.className='devMsg'; }
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
     const msg=document.getElementById('coinMsg');
     try{
