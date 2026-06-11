@@ -90,6 +90,14 @@
     font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;padding:11px 24px;border-radius:50px;transition:transform .12s,box-shadow .14s,border-color .14s;}
   #dailyBtn:hover{transform:translateY(-3px);border-color:var(--yellow);box-shadow:0 0 24px rgba(255,230,0,.35);}
   #dailyBtn:active{transform:translateY(-1px);}
+  /* Menü: laufenden Run fortsetzen (nur sichtbar, wenn ein Snapshot existiert) */
+  .resumeRun{margin:0 0 16px;cursor:pointer;border:1.5px solid var(--cyan);background:rgba(25,240,255,.1);color:#cffaff;
+    font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;padding:13px 26px;border-radius:50px;
+    box-shadow:0 0 22px rgba(25,240,255,.3);transition:transform .12s,box-shadow .14s;animation:resPulse 2.2s ease-in-out infinite;}
+  .resumeRun:hover{transform:translateY(-3px);box-shadow:0 0 30px rgba(25,240,255,.5);}
+  .resumeRun:active{transform:translateY(-1px);}
+  .resumeRun.hidden{display:none;}
+  @keyframes resPulse{0%,100%{box-shadow:0 0 18px rgba(25,240,255,.25);}50%{box-shadow:0 0 30px rgba(25,240,255,.5);}}
   /* Prep-Gruppe: Werkstatt (vor dem Run) – bewusst prominent als Meta-Progression-Einstieg */
   .prepRow{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;width:100%;max-width:520px;}
   #shopBtn{margin:0;width:auto;max-width:94vw;cursor:pointer;border:2px solid rgba(176,107,255,.85);
