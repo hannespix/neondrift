@@ -3,9 +3,13 @@
 (function(){
   // Service Worker registrieren (nur über http/https, nicht file://)
   if('serviceWorker' in navigator && location.protocol.startsWith('http')){
-    window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').then(reg=>{
-      if(reg) setInterval(()=>reg.update().catch(()=>{}), 60000); // regelmäßig auf Update prüfen
+    // updateViaCache:'none' → Chrome revalidiert das SW-Skript immer (umgeht den 10-Min-HTTP-Cache von Pages),
+    // damit neue Versionen sofort erkannt werden statt bis zu 10 Min/24 h zu hängen.
+    window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js',{updateViaCache:'none'}).then(reg=>{
+      if(reg){ reg.update().catch(()=>{}); setInterval(()=>reg.update().catch(()=>{}), 60000); }
     }).catch(()=>{}));
+    // Bei Rückkehr in den Vordergrund auf Update prüfen (Spieler öffnet App neu)
+    document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') navigator.serviceWorker.getRegistration().then(r=>{ if(r) r.update(); }).catch(()=>{}); });
     // Auto-Reload, sobald ein neuer Service Worker übernimmt (kein „hart neu laden" mehr nötig)
     let reloaded=false;
     navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(reloaded) return; reloaded=true; location.reload(); });
