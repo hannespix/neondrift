@@ -3087,6 +3087,10 @@
   const coinsFromId=(id)=>{ const m=String(id||'').match(/(\d+)/); return m?parseInt(m[1],10):0; };
   const BUYFAIL={de:'Kauf fehlgeschlagen',en:'Purchase failed',fr:'Achat échoué'};
   let dgService=null, billingReady=false, lastDetErr='', lastBillingDbg='';
+  // Voller Fehlertext: name UND message (die DOMException der Digital-Goods-API trägt die echte
+  // native Ursache – z. B. ITEM_NOT_OWNED/SERVICE_DISCONNECTED/DEVELOPER_ERROR – oft nur in message).
+  function errInfo(e){ if(!e) return '?'; const n=e.name||''; const m=e.message||''; const c=(e.code!=null&&e.code!==0)?(' #'+e.code):'';
+    if(n&&m&&n!==m) return n+': '+m+c; return (n||m||String(e))+c; }
   function fmtPrice(p){ if(!p||p.value==null) return ''; const num=parseFloat(p.value); const v=isNaN(num)?String(p.value):num.toFixed(2);
     return p.currency==='EUR'?(v.replace('.',',')+' €'):(v+' '+(p.currency||'')); }   // „7,99 €" statt „7,990000 €"
   async function initBilling(){ if(billingReady) return true;
@@ -3109,15 +3113,15 @@
   // noch nicht steht); Token daraus; consume ODER acknowledge (je nach Digital-Goods-Version).
   async function listPurchasesRetry(){ for(let i=0;i<4;i++){
       try{ return (await dgService.listPurchases())||[]; }
-      catch(e){ lastBillingDbg='listPurchases'+(i+1)+':'+((e&&(e.name||e.message))||'?'); if(i<3) await new Promise(r=>setTimeout(r,400+i*500)); } }
+      catch(e){ lastBillingDbg='listPurchases'+(i+1)+':'+errInfo(e); if(i<3) await new Promise(r=>setTimeout(r,400+i*500)); } }
     return null; }
   async function consumeOwned(){ try{ if(!dgService||typeof dgService.listPurchases!=='function'){ lastBillingDbg='kein listPurchases'; return; }
       const ps=await listPurchasesRetry();
       if(ps==null){ lastBillingDbg='listPurchases scheitert (Retry erschöpft)'; return; }
       let done=0, err='';
       for(const p of ps){ const tok=p&&(p.purchaseToken||p.token); if(!tok){ err=err||'kein Token'; continue; }
-        try{ if(typeof dgService.consume==='function'){ await dgService.consume(tok); done++; } else if(typeof dgService.acknowledge==='function'){ await dgService.acknowledge(tok,true); done++; } else err='kein consume/ack'; }catch(e){ err=(e&&(e.name||e.message))||'consume-Fehler'; } }
-      lastBillingDbg='besessen:'+ps.length+' | konsumiert:'+done+(err?(' | '+err):''); }catch(e){ lastBillingDbg='consumeOwned-Fehler:'+((e&&(e.name||e.message))||'?'); } }
+        try{ if(typeof dgService.consume==='function'){ await dgService.consume(tok); done++; } else if(typeof dgService.acknowledge==='function'){ await dgService.acknowledge(tok,true); done++; } else err='kein consume/ack'; }catch(e){ err=errInfo(e); } }
+      lastBillingDbg='besessen:'+ps.length+' | konsumiert:'+done+(err?(' | '+err):''); }catch(e){ lastBillingDbg='consumeOwned-Fehler:'+errInfo(e); } }
   // consume EINES Tokens mit Wiederholung: direkt nach dem Kauf kann der Digital-Goods-BillingClient
   // (eigene Verbindung, getrennt vom Kauf-Flow) den Kauf noch nicht „sehen" (ITEM_NOT_OWNED) oder kurz
   // getrennt sein (SERVICE_DISCONNECTED) → mehrere Versuche mit wachsender Pause. '' = Erfolg.
@@ -3126,7 +3130,7 @@
              : (dgService&&typeof dgService.acknowledge==='function') ? (t)=>dgService.acknowledge(t,true) : null;
     if(!fn) return 'keine consume/ack-API';
     let last=''; for(let i=0;i<5;i++){ try{ await fn(tok); return ''; }
-      catch(e){ last=(e&&(e.name||e.message))||'Fehler'; if(i<4) await new Promise(r=>setTimeout(r,600+i*900)); } }
+      catch(e){ last=errInfo(e); if(i<4) await new Promise(r=>setTimeout(r,600+i*900)); } }
     return last||'Fehler'; }
   // Offene (noch nicht konsumierte) Tokens persistent merken → bei jedem Shop-Öffnen erneut versuchen,
   // damit ein hängender Kauf sich selbst aufräumt, sobald consume wieder klappt.
@@ -3138,8 +3142,8 @@
   // funktionieren – grenzt ein, ob die GESAMTE Digital-Goods-Verbindung tot ist oder nur das Konsumieren.
   async function billingSelfTest(){ const msg=document.getElementById('coinMsg'); if(!msg||!dgService) return;
     msg.textContent='🔧 Diagnose läuft…'; msg.className='devMsg';
-    let det='?'; try{ const r=await dgService.getDetails(['coins_1000']); det=(r&&r.length)?('ok'+(r[0]&&r[0].price?(' '+fmtPrice(r[0].price)):'')):'leer'; }catch(e){ det='FEHLER:'+((e&&(e.name||e.message))||'?'); }
-    let lp='?'; try{ const r=await dgService.listPurchases(); lp='ok('+((r&&r.length)||0)+')'; }catch(e){ lp='FEHLER:'+((e&&(e.name||e.message))||'?'); }
+    let det='?'; try{ const r=await dgService.getDetails(['coins_1000']); det=(r&&r.length)?('ok'+(r[0]&&r[0].price?(' '+fmtPrice(r[0].price)):'')):'leer'; }catch(e){ det='FEHLER:'+errInfo(e); }
+    let lp='?'; try{ const r=await dgService.listPurchases(); lp='ok('+((r&&r.length)||0)+')'; }catch(e){ lp='FEHLER:'+errInfo(e); }
     const pend=(meta.pendTok&&meta.pendTok.length)||0;
     msg.textContent='🔧 Details:'+det+' · Liste:'+lp+(pend?(' · offen:'+pend):''); msg.className='devMsg'; }
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
