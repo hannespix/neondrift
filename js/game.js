@@ -3104,14 +3104,19 @@
       catch(e){ lastDetErr=(e&&(e.name||e.message))||'Fehler'; if(i<2) await new Promise(r=>setTimeout(r,350+i*450)); } }
     return []; }
   // Alle „besessenen" Käufe konsumieren → Verbrauchsartikel (Coins) werden dadurch wieder kaufbar.
-  // Token zuverlässig aus listPurchases (statt PaymentResponse.details); consume ODER acknowledge.
-  async function consumeOwned(){ try{ if(!dgService){ lastBillingDbg='kein dgService'; return; }
-      const has=['getDetails','listPurchases','consume','acknowledge'].filter(m=>typeof dgService[m]==='function').join(',');
-      if(typeof dgService.listPurchases!=='function'){ lastBillingDbg='API:'+has+' | kein listPurchases'; return; }
-      const ps=(await dgService.listPurchases())||[]; let done=0, err='';
+  // listPurchases mit Retry (wirft – wie getDetails – OperationError, solange die Billing-Verbindung
+  // noch nicht steht); Token daraus; consume ODER acknowledge (je nach Digital-Goods-Version).
+  async function listPurchasesRetry(){ for(let i=0;i<4;i++){
+      try{ return (await dgService.listPurchases())||[]; }
+      catch(e){ lastBillingDbg='listPurchases'+(i+1)+':'+((e&&(e.name||e.message))||'?'); if(i<3) await new Promise(r=>setTimeout(r,400+i*500)); } }
+    return null; }
+  async function consumeOwned(){ try{ if(!dgService||typeof dgService.listPurchases!=='function'){ lastBillingDbg='kein listPurchases'; return; }
+      const ps=await listPurchasesRetry();
+      if(ps==null){ lastBillingDbg='listPurchases scheitert (Retry erschöpft)'; return; }
+      let done=0, err='';
       for(const p of ps){ const tok=p&&(p.purchaseToken||p.token); if(!tok){ err=err||'kein Token'; continue; }
         try{ if(typeof dgService.consume==='function'){ await dgService.consume(tok); done++; } else if(typeof dgService.acknowledge==='function'){ await dgService.acknowledge(tok,true); done++; } else err='kein consume/ack'; }catch(e){ err=(e&&(e.name||e.message))||'consume-Fehler'; } }
-      lastBillingDbg='API:'+has+' | besessen:'+ps.length+' | konsumiert:'+done+(err?(' | '+err):''); }catch(e){ lastBillingDbg='consumeOwned-Fehler:'+((e&&(e.name||e.message))||'?'); } }
+      lastBillingDbg='besessen:'+ps.length+' | konsumiert:'+done+(err?(' | '+err):''); }catch(e){ lastBillingDbg='consumeOwned-Fehler:'+((e&&(e.name||e.message))||'?'); } }
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
     const msg=document.getElementById('coinMsg');
     try{
