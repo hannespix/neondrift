@@ -3103,7 +3103,7 @@
   const skuVariants=(n)=>['coins_'+n,'coins-'+n];   // Produkt-ID (Unterstrich) ODER Kaufoptions-ID (Bindestrich) – neues Play-Modell
   const coinsFromId=(id)=>{ const m=String(id||'').match(/(\d+)/); return m?parseInt(m[1],10):0; };
   const BUYFAIL={de:'Kauf fehlgeschlagen',en:'Purchase failed',fr:'Achat échoué'};
-  let dgService=null, billingReady=false;
+  let dgService=null, billingReady=false, lastDetErr='';
   function fmtPrice(p){ if(!p||p.value==null) return ''; const num=parseFloat(p.value); const v=isNaN(num)?String(p.value):num.toFixed(2);
     return p.currency==='EUR'?(v.replace('.',',')+' €'):(v+' '+(p.currency||'')); }   // „7,99 €" statt „7,990000 €"
   async function initBilling(){ if(billingReady) return true;
@@ -3113,6 +3113,12 @@
     // Offene (bezahlte, aber noch nicht verbuchte) Käufe nachträglich gutschreiben + verbrauchen
     try{ if(dgService.listPurchases){ const ps=await dgService.listPurchases(); for(const p of ps){ await grantPurchase(p.itemId,p.purchaseToken); } } }catch(e){}
     return true; }
+  // getDetails für EINE Produkt-ID mit Retry: OperationError tritt oft auf, solange die Billing-
+  // Verbindung noch nicht fertig steht → bis zu 3 Versuche mit kurzer Pause.
+  async function detailsFor(id){ for(let i=0;i<3;i++){
+      try{ return (await dgService.getDetails([id]))||[]; }
+      catch(e){ lastDetErr=(e&&(e.name||e.message))||'Fehler'; if(i<2) await new Promise(r=>setTimeout(r,350+i*450)); } }
+    return []; }
   async function grantPurchase(itemId,token){ const amt=coinsFromId(itemId); if(!amt) return;
     meta.chips=(meta.chips||0)+amt; saveMeta(); updateAllBalances();
     try{ if(token&&dgService&&dgService.consume) await dgService.consume(token); }catch(e){} }   // Coins = Verbrauchsartikel → wieder kaufbar
@@ -3136,13 +3142,11 @@
     } else if(!await initBilling()){                          // TWA, aber Billing-Dienst nicht erreichbar
       reason='Play-Zahlungsdienst nicht verbunden – Play Store öffnen & erneut versuchen.';
     } else {
-      let details={}, err='';
-      // WICHTIG: jede ID EINZELN abfragen. getDetails wirft OperationError, sobald EINE ID im
-      // Sammel-Abruf ungültig/nicht verfügbar ist – und reißt sonst alle gültigen mit. Einzeln
-      // isoliert: vorhandene Produkte kommen durch, fehlende scheitern nur für sich.
-      for(const n of COIN_PACKS){ for(const id of skuVariants(n)){
-        try{ const arr=await dgService.getDetails([id]); (arr||[]).forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }
-        catch(e){ err=(e&&(e.name||e.message))||'Fehler'; } } }
+      let details={}; lastDetErr='';
+      // Jede Produkt-ID (Unterstrich = echte Produkt-ID) EINZELN mit Retry abfragen – isoliert,
+      // damit ein fehlendes Produkt die anderen nicht mitreißt und Verbindungs-Races abgefangen werden.
+      for(const n of COIN_PACKS){ const arr=await detailsFor('coins_'+n); arr.forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }
+      const err=lastDetErr;
       packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku);
         const cand=skuVariants(n).find(s=>details[s]) || Object.keys(details).find(id=>coinsFromId(id)===n);
         if(!cand) return;
