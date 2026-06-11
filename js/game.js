@@ -3096,6 +3096,7 @@
     // Beim Verbinden alle noch „besessenen" (nicht konsumierten) Käufe aufräumen → wieder kaufbar.
     // (Coins wurden beim Kauf bereits gutgeschrieben; hier NICHT erneut gutschreiben → kein Doppel.)
     await consumeOwned();
+    await retryPendingConsumes();   // gemerkte hängende Tokens erneut konsumieren
     return true; }
   // getDetails für EINE Produkt-ID mit Retry: OperationError tritt oft auf, solange die Billing-
   // Verbindung noch nicht fertig steht → bis zu 3 Versuche mit kurzer Pause.
@@ -3117,6 +3118,30 @@
       for(const p of ps){ const tok=p&&(p.purchaseToken||p.token); if(!tok){ err=err||'kein Token'; continue; }
         try{ if(typeof dgService.consume==='function'){ await dgService.consume(tok); done++; } else if(typeof dgService.acknowledge==='function'){ await dgService.acknowledge(tok,true); done++; } else err='kein consume/ack'; }catch(e){ err=(e&&(e.name||e.message))||'consume-Fehler'; } }
       lastBillingDbg='besessen:'+ps.length+' | konsumiert:'+done+(err?(' | '+err):''); }catch(e){ lastBillingDbg='consumeOwned-Fehler:'+((e&&(e.name||e.message))||'?'); } }
+  // consume EINES Tokens mit Wiederholung: direkt nach dem Kauf kann der Digital-Goods-BillingClient
+  // (eigene Verbindung, getrennt vom Kauf-Flow) den Kauf noch nicht „sehen" (ITEM_NOT_OWNED) oder kurz
+  // getrennt sein (SERVICE_DISCONNECTED) → mehrere Versuche mit wachsender Pause. '' = Erfolg.
+  async function consumeToken(tok){ if(!tok) return 'kein Token';
+    const fn = (dgService&&typeof dgService.consume==='function') ? (t)=>dgService.consume(t)
+             : (dgService&&typeof dgService.acknowledge==='function') ? (t)=>dgService.acknowledge(t,true) : null;
+    if(!fn) return 'keine consume/ack-API';
+    let last=''; for(let i=0;i<5;i++){ try{ await fn(tok); return ''; }
+      catch(e){ last=(e&&(e.name||e.message))||'Fehler'; if(i<4) await new Promise(r=>setTimeout(r,600+i*900)); } }
+    return last||'Fehler'; }
+  // Offene (noch nicht konsumierte) Tokens persistent merken → bei jedem Shop-Öffnen erneut versuchen,
+  // damit ein hängender Kauf sich selbst aufräumt, sobald consume wieder klappt.
+  function addPendingToken(tok){ if(!tok) return; meta.pendTok=meta.pendTok||[]; if(meta.pendTok.indexOf(tok)<0){ meta.pendTok.push(tok); saveMeta(); } }
+  async function retryPendingConsumes(){ if(!dgService||!meta.pendTok||!meta.pendTok.length) return;
+    for(const tok of meta.pendTok.slice()){ const err=await consumeToken(tok);
+      if(!err){ const i=meta.pendTok.indexOf(tok); if(i>=0) meta.pendTok.splice(i,1); saveMeta(); } } }
+  // Sichtbare Billing-Selbstdiagnose (ohne PC/USB): zeigt, ob getDetails bzw. listPurchases nativ
+  // funktionieren – grenzt ein, ob die GESAMTE Digital-Goods-Verbindung tot ist oder nur das Konsumieren.
+  async function billingSelfTest(){ const msg=document.getElementById('coinMsg'); if(!msg||!dgService) return;
+    msg.textContent='🔧 Diagnose läuft…'; msg.className='devMsg';
+    let det='?'; try{ const r=await dgService.getDetails(['coins_1000']); det=(r&&r.length)?('ok'+(r[0]&&r[0].price?(' '+fmtPrice(r[0].price)):'')):'leer'; }catch(e){ det='FEHLER:'+((e&&(e.name||e.message))||'?'); }
+    let lp='?'; try{ const r=await dgService.listPurchases(); lp='ok('+((r&&r.length)||0)+')'; }catch(e){ lp='FEHLER:'+((e&&(e.name||e.message))||'?'); }
+    const pend=(meta.pendTok&&meta.pendTok.length)||0;
+    msg.textContent='🔧 Details:'+det+' · Liste:'+lp+(pend?(' · offen:'+pend):''); msg.className='devMsg'; }
   async function buyCoins(sku){ if(!billingReady||!window.PaymentRequest||!coinsFromId(sku)) return;
     const msg=document.getElementById('coinMsg');
     try{
@@ -3127,10 +3152,10 @@
       await resp.complete('success');
       meta.chips=(meta.chips||0)+coinsFromId(sku); saveMeta(); updateAllBalances();   // Coins sofort gutschreiben (SKU ist bekannt)
       let cdbg='token:'+(tok?'ja':'nein');
-      try{ if(tok&&typeof dgService.consume==='function'){ await dgService.consume(tok); cdbg+=' consume:ok'; }
-           else if(tok&&typeof dgService.acknowledge==='function'){ await dgService.acknowledge(tok,true); cdbg+=' ack:ok'; }
-           else cdbg+=(tok?' keine-consume-API':' (kein Token)'); }
-      catch(e){ cdbg+=' consume-Fehler:'+((e&&(e.name||e.message))||'?'); }
+      if(!tok){ cdbg+=' (kein Token)'; }
+      else { const err=await consumeToken(tok);   // mit Wiederholung/Backoff
+        if(err){ cdbg+=' consume-Fehler:'+err; addPendingToken(tok); }   // hängenden Token merken → später erneut versuchen
+        else cdbg+=' consume:ok'; }
       if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'! · '+cdbg; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
       consumeOwned();   // zusätzlich best-effort (falls listPurchases doch verfügbar ist)
     }catch(e){ if(e&&(e.name==='AbortError'||e.name==='NotAllowedError')) return;   // Nutzer hat abgebrochen → still
@@ -3148,6 +3173,7 @@
     packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku); b.dataset.sku='coins_'+n; b.disabled=false;
       if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
     if(soon) soon.style.display='none';
+    billingSelfTest();   // sichtbare Diagnose (Details/Liste) – zeigt ohne PC, welcher Aufruf klemmt
     (async()=>{ for(const b of packs){ const n=parseInt(b.dataset.coins,10); try{ const d=(await detailsFor('coins_'+n))[0];
       if(d){ if(d.itemId) b.dataset.sku=d.itemId; const pr=b.querySelector('.cpPrice'), px=fmtPrice(d.price); if(px&&pr) pr.textContent=px; } }catch(e){} } })();
   }
