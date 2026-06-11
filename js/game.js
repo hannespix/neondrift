@@ -2870,7 +2870,9 @@
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return; const cost=metaCost(m,lvl); if(coinShort(cost)) return;
-    meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta(); sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); }
+    meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta();
+    if(id==='slot') arsenal.slots=3+metaLvl('slot');   // neuen Modul-Slot SOFORT nutzbar machen (sonst erst nach Neustart, da arsenal.slots nur in applyMeta() berechnet wird)
+    sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
   function openArsenalView(tab){ if(state!==S.PAUSE && state!==S.MENU) return; arsenalSkillMode=false; arsenalTab=tab||'loadout';
