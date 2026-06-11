@@ -3137,7 +3137,12 @@
       reason='Play-Zahlungsdienst nicht verbunden – Play Store öffnen & erneut versuchen.';
     } else {
       let details={}, err='';
-      for(const ch of ['_','-']){ try{ const arr=await dgService.getDetails(COIN_PACKS.map(n=>'coins'+ch+n)); (arr||[]).forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }catch(e){ err=(e&&(e.name||e.message))||'Fehler'; } }
+      // WICHTIG: jede ID EINZELN abfragen. getDetails wirft OperationError, sobald EINE ID im
+      // Sammel-Abruf ungültig/nicht verfügbar ist – und reißt sonst alle gültigen mit. Einzeln
+      // isoliert: vorhandene Produkte kommen durch, fehlende scheitern nur für sich.
+      for(const n of COIN_PACKS){ for(const id of skuVariants(n)){
+        try{ const arr=await dgService.getDetails([id]); (arr||[]).forEach(d=>{ if(d&&d.itemId) details[d.itemId]=d; }); }
+        catch(e){ err=(e&&(e.name||e.message))||'Fehler'; } } }
       packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku);
         const cand=skuVariants(n).find(s=>details[s]) || Object.keys(details).find(id=>coinsFromId(id)===n);
         if(!cand) return;
