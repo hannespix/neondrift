@@ -1,5 +1,5 @@
 // THRONERUSH Service Worker – Offline-Cache
-const CACHE = 'thronerush-v247';
+const CACHE = 'thronerush-v248';
 const ASSETS = [
   './',
   './index.html',
@@ -29,13 +29,30 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
-  // Cache-first für eigene Assets, Netz als Fallback (Google Fonts werden online geladen)
+  const url = new URL(e.request.url);
+  const sameOrigin = url.origin === self.location.origin;
+  // Code/Shell (HTML/JS/CSS/Manifest, Navigationen) → NETWORK-FIRST: immer die frische Version,
+  // Cache nur als Offline-Fallback. Verhindert, dass altes JS dauerhaft hängenbleibt.
+  const isShell = sameOrigin && (
+    e.request.mode === 'navigate' ||
+    url.pathname.endsWith('/') ||
+    /\.(?:js|css|html|webmanifest)$/.test(url.pathname)
+  );
+  if (isShell) {
+    e.respondWith(
+      fetch(e.request).then((res) => {
+        const copy = res.clone();
+        if (res.ok) caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
+        return res;
+      }).catch(() => caches.match(e.request).then((hit) => hit || caches.match('./index.html')))
+    );
+    return;
+  }
+  // Übrige Assets (Icons/Bilder/Fonts) → Cache-first, Netz als Fallback
   e.respondWith(
     caches.match(e.request).then((hit) => hit || fetch(e.request).then((res) => {
       const copy = res.clone();
-      if (res.ok && e.request.url.startsWith(self.location.origin)) {
-        caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
-      }
+      if (res.ok && sameOrigin) caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
       return res;
     }).catch(() => caches.match('./index.html')))
   );
