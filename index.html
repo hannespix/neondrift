@@ -59,11 +59,11 @@
         <button id="shopBtn"><span id="shopLbl">🎒 ARSENAL</span> · <span id="menuChips">🪙 0</span></button>
       </div>
       <div class="iconRow">
-        <button id="achBtn" title="Erfolge">🏅</button>
-        <button id="statusBtn" title="Schiffsstatus" aria-label="Schiffsstatus">📊</button>
-        <button id="shipBtn" title="Schiff-Designer" aria-label="Schiff-Designer">🎨</button>
+        <button id="achBtn" title="Erfolge"><span class="ico">🏅</span><span class="iconLbl" id="lblAch">Erfolge</span></button>
+        <button id="statusBtn" title="Schiffsstatus" aria-label="Schiffsstatus"><span class="ico">📊</span><span class="iconLbl" id="lblStatus">Status</span></button>
+        <button id="shipBtn" title="Schiff-Designer" aria-label="Schiff-Designer"><span class="ico">🎨</span><span class="iconLbl" id="lblShip">Schiff</span></button>
         <button id="coinBtn" title="Coin-Shop" aria-label="Coin-Shop"></button>
-        <button id="settingsBtn" title="Einstellungen">⚙️</button>
+        <button id="settingsBtn" title="Einstellungen"><span class="ico">⚙️</span><span class="iconLbl" id="lblSet">Setup</span></button>
       </div>
       <div id="installRow">
         <button id="installBtn">📲 App installieren</button>
@@ -194,18 +194,21 @@
       <div class="volrow" data-vol="music"><span class="vlbl">🎵 Musik</span><input type="range" min="0" max="100" step="5" value="100" class="vol" id="volMusic" aria-label="Musik-Lautstärke"><b class="vval" id="volMusicV">100%</b></div>
       <div class="volrow" data-vol="sfx"><span class="vlbl">🔊 Game-Sound</span><input type="range" min="0" max="100" step="5" value="100" class="vol" id="volSfx" aria-label="Sound-Lautstärke"><b class="vval" id="volSfxV">100%</b></div>
       <button class="optrow" data-opt="fullscreen">⛶ Vollbild · <b>AN</b></button>
-      <button class="optrow" data-opt="shake">Screenshake · <b>AN</b></button>
-      <button class="optrow" data-opt="fx">Bildschirm-Effekte · <b>AN</b></button>
-      <button class="optrow" data-opt="curses">🎲 Lustige Flüche · <b>AN</b></button>
       <button class="optrow" data-opt="guns">🔫 Schießen / Waffen · <b>AN</b></button>
-      <button class="optrow" data-opt="dmg">🔢 Schadenszahlen · <b>AN</b></button>
-      <button class="optrow" data-opt="telemetry">📊 Anonyme Statistik · <b>AUS</b></button>
       <button class="optrow" data-opt="lang">🌐 Sprache · <b>DE</b></button>
+      <button class="advToggle" id="advToggleBtn" type="button">Erweitert ▸</button>
+      <div id="advOpts" class="advCollapsed">
+        <button class="optrow" data-opt="shake">Screenshake · <b>AN</b></button>
+        <button class="optrow" data-opt="fx">Bildschirm-Effekte · <b>AN</b></button>
+        <button class="optrow" data-opt="curses">🎲 Lustige Flüche · <b>AN</b></button>
+        <button class="optrow" data-opt="dmg">🔢 Schadenszahlen · <b>AN</b></button>
+        <button class="optrow" data-opt="telemetry">📊 Anonyme Statistik · <b>AUS</b></button>
+      </div>
     </div>
     <button class="btn ghost" id="tlmExportBtn" style="margin-top:10px;font-size:13px;opacity:.85;">📤 Telemetrie exportieren</button>
     <div id="resetRows">
       <div class="usub" id="resetTitle" style="color:#ff8ab5;margin-top:4px;">DATEN ZURÜCKSETZEN</div>
-      <button class="optrow danger" data-reset="workshop">🛠️ Hangar & Werkstatt (Waffen, Upgrades, Chips, Skillpunkte)</button>
+      <button class="optrow danger" data-reset="workshop">🛠️ Arsenal & Werkstatt (Waffen, Upgrades, Chips, Skillpunkte)</button>
       <button class="optrow danger" data-reset="scores">🏆 Highscores</button>
       <button class="optrow danger" data-reset="achskins">🏅 Erfolge & Skins</button>
       <button class="optrow danger" data-reset="all">⚠️ ALLES löschen</button>

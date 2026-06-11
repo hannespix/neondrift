@@ -102,9 +102,11 @@
   #menuChips{color:var(--yellow);}
   /* Sekundäre Meta-Aktionen als kompakte Icon-Leiste (Erfolge/Skins/Einstellungen) */
   .iconRow{margin-top:16px;display:flex;gap:14px;justify-content:center;}
-  .iconRow button{width:52px;height:52px;border-radius:15px;cursor:pointer;color:#fff;font-size:23px;line-height:1;
-    border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;
+  .iconRow button{width:58px;min-height:60px;padding:7px 4px 6px;border-radius:15px;cursor:pointer;color:#fff;font-size:23px;line-height:1;
+    border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
     transition:transform .12s,box-shadow .14s,border-color .14s;}
+  .iconRow button .ico{display:flex;align-items:center;justify-content:center;line-height:1;}
+  .iconRow .iconLbl{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:.5px;text-transform:uppercase;opacity:.72;line-height:1;}
   .iconRow button:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 0 18px rgba(25,240,255,.3);}
   .iconRow button:active{transform:translateY(-1px);}
   #achBtn:hover{border-color:var(--yellow);box-shadow:0 0 18px rgba(255,230,0,.3);}
@@ -181,6 +183,13 @@
   .optrow.danger{border-color:rgba(255,46,136,.4);color:#ff9ec2;}
   .optrow.danger:hover{border-color:var(--pink);}
   .optrow.danger.armed{background:rgba(255,46,136,.18);border-color:var(--pink);color:#fff;}
+  /* Einklappbarer „Erweitert"-Block in den Einstellungen */
+  .advToggle{cursor:pointer;border:1px dashed rgba(255,255,255,.22);background:transparent;color:#bfb4e0;
+    font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:11px 16px;border-radius:11px;
+    transition:border-color .14s,color .14s;}
+  .advToggle:hover{border-color:var(--cyan);color:#e7defc;}
+  #advOpts{display:flex;flex-direction:column;gap:10px;}
+  #advOpts.advCollapsed{display:none;}
   /* Fluch-Karten */
   .ucard.curse{border-color:rgba(255,46,136,.55);background:rgba(255,46,136,.06);box-shadow:0 0 18px rgba(255,46,136,.15) inset;}
   .ucard.curse:hover{border-color:var(--pink);box-shadow:0 0 30px rgba(255,46,136,.4);}
