@@ -3123,10 +3123,16 @@
       const pr=new PaymentRequest([{supportedMethods:PLAY_BILLING,data:{sku}}],
         {total:{label:'THRONERUSH',amount:{currency:'EUR',value:'0'}}});   // Betrag wird von Play durch den SKU-Preis ersetzt
       const resp=await pr.show();
+      const tok=resp&&resp.details&&(resp.details.purchaseToken||resp.details.token);   // Token DIREKT aus der Kauf-Antwort (kein listPurchases nötig)
       await resp.complete('success');
       meta.chips=(meta.chips||0)+coinsFromId(sku); saveMeta(); updateAllBalances();   // Coins sofort gutschreiben (SKU ist bekannt)
-      if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
-      await consumeOwned();   // Kauf konsumieren → sofort wieder kaufbar (sonst „Artikel bereits besessen")
+      let cdbg='token:'+(tok?'ja':'nein');
+      try{ if(tok&&typeof dgService.consume==='function'){ await dgService.consume(tok); cdbg+=' consume:ok'; }
+           else if(tok&&typeof dgService.acknowledge==='function'){ await dgService.acknowledge(tok,true); cdbg+=' ack:ok'; }
+           else cdbg+=(tok?' keine-consume-API':' (kein Token)'); }
+      catch(e){ cdbg+=' consume-Fehler:'+((e&&(e.name||e.message))||'?'); }
+      if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'! · '+cdbg; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
+      consumeOwned();   // zusätzlich best-effort (falls listPurchases doch verfügbar ist)
     }catch(e){ if(e&&(e.name==='AbortError'||e.name==='NotAllowedError')) return;   // Nutzer hat abgebrochen → still
       if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
   async function renderCoinShop(){ updateAllBalances();
@@ -3142,7 +3148,6 @@
     packs.forEach(b=>{ const n=parseInt(b.dataset.coins,10)||coinsFromId(b.dataset.sku); b.dataset.sku='coins_'+n; b.disabled=false;
       if(!b._wired){ b._wired=true; b.addEventListener('click',()=>{ if(!b.disabled) buyCoins(b.dataset.sku); }); } });
     if(soon) soon.style.display='none';
-    { const cm=document.getElementById('coinMsg'); if(cm){ cm.textContent='IAP-Debug · '+(lastBillingDbg||'—'); cm.className='devMsg'; } }   // TEMP: Consume-Diagnose
     (async()=>{ for(const b of packs){ const n=parseInt(b.dataset.coins,10); try{ const d=(await detailsFor('coins_'+n))[0];
       if(d){ if(d.itemId) b.dataset.sku=d.itemId; const pr=b.querySelector('.cpPrice'), px=fmtPrice(d.price); if(px&&pr) pr.textContent=px; } }catch(e){} } })();
   }
