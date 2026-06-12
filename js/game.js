@@ -1503,7 +1503,7 @@
     case 'meteorgate': return {dur:2.4,interval:0.22};
     case 'lasercage':  return {dur:1.5,interval:99,instant:true};
     default:           return {dur:2.3,interval:0.52}; } }   // ringstorm
-  function megaSalvo(B){ if(ebullets.length>240) return; const tier=megaTier(B), sd=B.megaSeed||{}, spd=120+bossNumber*6;
+  function megaSalvo(B){ if(ebullets.length>150) return; const tier=megaTier(B), sd=B.megaSeed||{}, spd=120+bossNumber*6;
     if(B.mega==='spiralhell'){ const arms=sd.arms||3; for(let i=0;i<arms;i++){ const a=B.t*3.2*(sd.rot||1)+i*6.28/arms; ebullets.push(meb(B.x,B.y,Math.cos(a)*(spd+22),Math.sin(a)*(spd+22))); } }
     else if(B.mega==='aimedstorm'){ const a0=Math.atan2(player.y-B.y,player.x-B.x), n=5+tier; for(let i=0;i<n;i++){ const a=a0+(i-(n-1)/2)*0.16; ebullets.push(meb(B.x,B.y,Math.cos(a)*spd*1.5,Math.sin(a)*spd*1.5)); } sfxFire(); }
     else if(B.mega==='meteorgate'){ const cols=11; B._g=(B._g==null?(sd.gap||0.5):B._g+0.03*(sd.rot||1)); const g=((B._g%1)+1)%1; for(let i=0;i<cols;i++){ if(Math.abs(i/(cols-1)-g)<0.13) continue; ebullets.push(meb(W*i/(cols-1),-18,0,spd*1.1)); } }
@@ -2361,9 +2361,11 @@
 
       // mega-boss + gegner-kugeln
       if(boss) drawBoss();
-      if(ebullets.length){ const gs=glowSprite('#ff2e88'); ctx.globalCompositeOperation='lighter';
-        for(const e of ebullets){ const gr=e.r*3.8; ctx.drawImage(gs,e.x-gr,e.y-gr,gr*2,gr*2); }
-        ctx.globalCompositeOperation='source-over';
+      if(ebullets.length){
+        // Glow (additive drawImage) nur bei moderater Kugelzahl + Budget – bei dichten Mega-Salven sofort weglassen (Fillrate-Schutz, der Governor reagiert zu träge)
+        if(fxQ>0.6 && ebullets.length<=120){ const gs=glowSprite('#ff2e88'); ctx.globalCompositeOperation='lighter';
+          for(const e of ebullets){ const gr=e.r*3.8; ctx.drawImage(gs,e.x-gr,e.y-gr,gr*2,gr*2); }
+          ctx.globalCompositeOperation='source-over'; }
         for(const e of ebullets){ ctx.fillStyle='#ff5ea8'; ctx.beginPath(); ctx.arc(e.x,e.y,e.r,0,6.28); ctx.fill();
           ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(e.x,e.y,e.r*0.4,0,6.28); ctx.fill(); } }
 
@@ -2575,7 +2577,7 @@
   // Aufladering des Sprung-Dash um das Schiff (füllt sich in JUMP_CD; bei „voll" sanft pulsierend)
   function drawJumpRing(){ if(mode==='zen'||jumping>0) return; const x=player.x,y=player.y,rr=player.r+9;
     ctx.save(); ctx.lineWidth=2.6;
-    if(jumpCharge>=1){ const pu=0.5+0.5*Math.sin((elapsed||0)*6); ctx.globalAlpha=0.45+0.45*pu; ctx.strokeStyle='#19f0ff'; ctx.shadowBlur=10; ctx.shadowColor='#19f0ff'; ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke(); }
+    if(jumpCharge>=1){ const pu=0.5+0.5*Math.sin((elapsed||0)*6); ctx.globalAlpha=0.45+0.45*pu; ctx.strokeStyle='#19f0ff'; if(fxQ>0.7){ ctx.shadowBlur=10; ctx.shadowColor='#19f0ff'; } ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke(); }
     else { ctx.globalAlpha=0.22; ctx.strokeStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke();
       ctx.globalAlpha=0.9; ctx.strokeStyle='#19f0ff'; ctx.beginPath(); ctx.arc(x,y,rr,-Math.PI/2,-Math.PI/2+6.28*jumpCharge); ctx.stroke(); }
     ctx.restore(); }
