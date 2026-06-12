@@ -3663,9 +3663,11 @@
       if(d){ if(d.itemId) b.dataset.sku=d.itemId; const pr=b.querySelector('.cpPrice'), px=fmtPrice(d.price); if(px&&pr) pr.textContent=px; } }catch(e){} } })();
   }
   // Coin-Shop öffnet über dem gerade sichtbaren Screen (Menü/Werkstatt/Arsenal) und kehrt dorthin zurück
+  // Coin-Tap aus dem laufenden Spiel (HUD-Zähler/Badge): erst pausieren → Run geht nicht verloren, Rückkehr über Pause
+  function coinTapToShop(){ if(state===S.PLAY) pauseGame(); openCoinShop(); }
   function openCoinShop(){ const m=document.getElementById('coinMsg'); if(m){m.textContent='';m.className='devMsg';}
     const q=document.getElementById('coinQuip'); if(q){ const pool=COINQUIPS[lang]||COINQUIPS.de; q.textContent='„'+pick(pool)+'"'; }
-    coinReturn=['arsenalView','shop','over','start'].find(id=>{ const e=document.getElementById(id); return e && !e.classList.contains('hidden'); })||'start';
+    coinReturn=['arsenalView','shop','over','upgrade','pause','settings','ach','statusView','start'].find(id=>{ const e=document.getElementById(id); return e && !e.classList.contains('hidden'); })||'start';
     document.getElementById(coinReturn).classList.add('hidden');
     renderCoinShop(); document.getElementById('coinshop').classList.remove('hidden'); beep(880,0.06,'square',0.2); }
   function closeCoinShop(){ document.getElementById('coinshop').classList.add('hidden');
@@ -4125,7 +4127,7 @@
   document.getElementById('shopBtn').addEventListener('click',()=>openArsenalView('loadout'));   // Menü → Hangar (kaufen + ausrüsten + wechseln, mit Coins)
   document.getElementById('overShopBtn').addEventListener('click',()=>openArsenalView('shop'));   // Over → der EINE Hub (Werkstatt-Tab)
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
-  { coinBadgeEl=document.getElementById('coinBadge'); if(coinBadgeEl) coinBadgeEl.addEventListener('click',()=>openArsenalView('shop')); }   // Coin-Badge → der EINE Hub (Werkstatt-Tab), Rückkehr zum Ursprungs-Screen
+  { coinBadgeEl=document.getElementById('coinBadge'); if(coinBadgeEl) coinBadgeEl.addEventListener('click',coinTapToShop); }   // Coin-Badge → Coinshop (Münzen holen)
   document.getElementById('shopCloseBtn').addEventListener('click',closeShop);
   // Pixel-Schiff-Editor: Buttons + Mal-Eingabe
   { const g=id=>document.getElementById(id);
@@ -4147,8 +4149,10 @@
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
   { const sb=document.getElementById('shipBtn'); if(sb) sb.addEventListener('click',()=>{ shopTab='cosmetic'; openArsenalView('shop'); }); }   // Hauptmenü → Hub auf Werkstatt/Kosmetik (Skins + Editor)
   { const cb=document.getElementById('coinBtn'); if(cb){ cb.innerHTML='<span class="ico">'+CHEST_SVG+'</span><span class="iconLbl" id="lblCoin">'+t('il_coin')+'</span>'; cb.addEventListener('click',openCoinShop); }
-    // Coin-Shop außerhalb des Hauptmenüs: Klick auf die Coin-Anzeige (Werkstatt + Arsenal-Werkstatt) – keine Schatztruhe mehr
+    // JEDE Coin-Anzeige → Coinshop (konsistent): Guthaben-Buttons, HUD-Zähler, Menü-Coins
     ['shopChips','arShopChips'].forEach(id=>{ const e=document.getElementById(id); if(e) e.addEventListener('click',openCoinShop); });
+    { const ch=document.getElementById('coinHud'); if(ch) ch.addEventListener('click',coinTapToShop); }                                  // HUD oben links (pausiert den Run zuerst)
+    { const mc=document.getElementById('menuChips'); if(mc) mc.addEventListener('click',e=>{ e.stopPropagation(); openCoinShop(); }); }   // Coins im WERKSTATT-Knopf: nur die Zahl → Coinshop (Knopf selbst → Hub)
     const ct=document.getElementById('coinTitle'); if(ct) ct.innerHTML=CHEST_SVG+' COINS';
     const cbk=document.getElementById('coinBackBtn'); if(cbk) cbk.addEventListener('click',closeCoinShop);
     const ccl=document.getElementById('coinCloseBtn'); if(ccl) ccl.addEventListener('click',closeCoinShop);
