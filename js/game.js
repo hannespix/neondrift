@@ -110,9 +110,9 @@
   };
   // Upgrade-Karten- & Werkstatt-Übersetzungen [Name, Beschreibung]
   const UPTR={
-    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Münz-Veredelung','Münzen +60% Wert'],magnet:['Magnetfeld','Dauerhafter Münz-Sog'],loot:['Glücksbringer','Power-Up-Drop-Chance +50%'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Schiff rutscht & driftet, +65% Punkte'],smol:['Smol Brain','Hitbox +28% (stapelt), dafür +50% Punkte'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','Mehr Gegner-Andrang, dafür Münzen ×2 Wert'],mirror:['Spiegelwelt','30s gespiegelte Steuerung, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+22% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 14% schneller'],crit:['Zielfokus','+11% Krit-Chance (×2 Schaden)'],critdmg:['Wuchttreffer','Mehr Krit-Schaden (abflachend, rot)']},
-    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Coin Refining','Coins +60% value'],magnet:['Magnet Field','Permanent coin pull'],loot:['Lucky Charm','Power-up drop chance +50%'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Ship slides & drifts, +65% score'],smol:['Smol Brain','Hitbox +28% (stacks), +50% score'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','More enemy crowding, but coins ×2 value'],mirror:['Mirror World','30s flipped steering, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+22% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 14% faster'],crit:['Focus','+11% crit chance (×2 damage)'],critdmg:['Heavy Hit','More crit damage (diminishing)']},
-    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage de Pièces','Pièces +60% valeur'],magnet:['Champ Magnétique','Attraction de pièces'],loot:['Porte-Bonheur','Chance de drop +50%'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Vaisseau glisse & dérive, +65% score'],smol:['Smol Brain','Hitbox +28% (cumul), +50% score'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','Plus d’ennemis, mais pièces ×2 valeur'],mirror:['Monde Miroir','Pilotage inversé 30s, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+22% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 14% plus vite'],crit:['Focalisation','+11% chance de critique (×2 dégâts)'],critdmg:['Coup Lourd','Plus de dégâts crit (dégressif)']}
+    de:{radar:['Radar','Near-Miss-Radius +45%'],shieldgen:['Schildgenerator','+1 Schild & +1 pro Boss'],glass:['Glaskanone','+30% Punkte, +15% Hitbox'],nimble:['Flink','Reaktion schneller'],small:['Kompakt','Hitbox −18%'],orbval:['Münz-Veredelung','Münzen +60% Wert'],magnet:['Magnetfeld','Dauerhafter Münz-Sog'],loot:['Glücksbringer','Power-Up-Drop-Chance +50%'],combo:['Combo-Anker','+1 Combo je Near-Miss'],reflex:['Reflex-Kern','Slow-Mo +50% länger'],heart:['Extra-Herz','+1 Leben'],banana:['Bananen-Boden','Schiff rutscht & driftet, +65% Punkte'],smol:['Smol Brain','Hitbox +28% (stapelt), dafür +50% Punkte'],energy:['Energy-Drink-OD','Gegner +22% schnell, Radar +75%'],blind:['Drip aber blind','Sicht eng, +90% Punkte'],clown:['Clown-Modus','Mehr Gegner-Andrang, dafür Münzen ×2 Wert'],mirror:['Spiegelwelt','30s gespiegelte Steuerung, +55% Punkte'],blaster:['Blaster','Auto-Feuer · +Feuerrate'],twin:['Doppellauf','+1 Bolzen · je Bolzen schwächer'],power:['Schadenskern','+1 Schaden'],pierce:['Durchschlag','Bolzen durchschlägt +1'],missile:['Lenkraketen','Zielsuchend · Explosion (AoE)'],flame:['Brandbolzen','Entzündet Ziele (Brennschaden)'],frost:['Frostschuss','Vereist & verlangsamt Ziele'],chain:['Kettenblitz','Kill springt auf nahe Ziele'],amp:['Verstärker','+22% Schaden für ALLE Waffen'],tempo:['Taktung','ALLE Waffen feuern 14% schneller'],crit:['Zielfokus','+11% Krit-Chance (×2 Schaden)'],critdmg:['Wuchttreffer','Mehr Krit-Schaden (abflachend, rot)'],jumpcd:['Sprung-Kondensator','Sprung lädt 25% schneller'],jumpdouble:['Doppelsprung','+1 Sprung-Ladung (mehrfach springen)'],jumpstomp:['Stoß-Landung','Landung: Schockwelle räumt Hindernisse & Kugeln'],jumpphase:['Phasenflug','Sprung dauert länger & vaultet weiter']},
+    en:{radar:['Radar','Near-miss radius +45%'],shieldgen:['Shield Gen','+1 shield & +1 per boss'],glass:['Glass Cannon','+30% score, +15% hitbox'],nimble:['Nimble','Faster reaction'],small:['Compact','Hitbox −18%'],orbval:['Coin Refining','Coins +60% value'],magnet:['Magnet Field','Permanent coin pull'],loot:['Lucky Charm','Power-up drop chance +50%'],combo:['Combo Anchor','+1 combo per near-miss'],reflex:['Reflex Core','Slow-mo +50% longer'],heart:['Extra Heart','+1 life'],banana:['Banana Floor','Ship slides & drifts, +65% score'],smol:['Smol Brain','Hitbox +28% (stacks), +50% score'],energy:['Energy-Drink OD','Enemies +22% fast, radar +75%'],blind:['Drip but Blind','Limited view, +90% score'],clown:['Clown Mode','More enemy crowding, but coins ×2 value'],mirror:['Mirror World','30s flipped steering, +55% score'],blaster:['Blaster','Auto-fire · +fire rate'],twin:['Twin Barrel','+1 bolt · each bolt weaker'],power:['Damage Core','+1 damage'],pierce:['Piercing','Bolt pierces +1'],missile:['Homing Missiles','Seeking · explosion (AoE)'],flame:['Flame Bolts','Ignites targets (burn damage)'],frost:['Frost Shot','Freezes & slows targets'],chain:['Chain Lightning','Kills arc to nearby targets'],amp:['Amplifier','+22% damage for ALL weapons'],tempo:['Cadence','ALL weapons fire 14% faster'],crit:['Focus','+11% crit chance (×2 damage)'],critdmg:['Heavy Hit','More crit damage (diminishing)'],jumpcd:['Jump Capacitor','Jump recharges 25% faster'],jumpdouble:['Double Jump','+1 jump charge (multi-jump)'],jumpstomp:['Stomp Landing','Landing shockwave clears obstacles & bullets'],jumpphase:['Phase Flight','Longer jump & farther vault']},
+    fr:{radar:['Radar','Rayon near-miss +45%'],shieldgen:['Générateur','+1 bouclier & +1 par boss'],glass:['Canon de Verre','+30% score, +15% hitbox'],nimble:['Agile','Réaction plus vive'],small:['Compact','Hitbox −18%'],orbval:['Raffinage de Pièces','Pièces +60% valeur'],magnet:['Champ Magnétique','Attraction de pièces'],loot:['Porte-Bonheur','Chance de drop +50%'],combo:['Ancre Combo','+1 combo par near-miss'],reflex:['Noyau Réflexe','Ralenti +50% plus long'],heart:['Cœur Bonus','+1 vie'],banana:['Sol Banane','Vaisseau glisse & dérive, +65% score'],smol:['Smol Brain','Hitbox +28% (cumul), +50% score'],energy:['Energy-Drink OD','Ennemis +22% vite, radar +75%'],blind:['Drip mais Aveugle','Vue réduite, +90% score'],clown:['Mode Clown','Plus d’ennemis, mais pièces ×2 valeur'],mirror:['Monde Miroir','Pilotage inversé 30s, +55% score'],blaster:['Blaster','Tir auto · +cadence'],twin:['Double Canon','+1 projectile · chacun plus faible'],power:['Noyau de Dégâts','+1 dégât'],pierce:['Perforant','Le tir traverse +1'],missile:['Missiles Guidés','À tête chercheuse · explosion (AoE)'],flame:['Tirs Incendiaires','Enflamme les cibles (brûlure)'],frost:['Tir de Givre','Gèle et ralentit les cibles'],chain:['Éclair en Chaîne','Le kill rebondit sur les cibles'],amp:['Amplificateur','+22% dégâts pour TOUTES les armes'],tempo:['Cadence','TOUTES les armes tirent 14% plus vite'],crit:['Focalisation','+11% chance de critique (×2 dégâts)'],critdmg:['Coup Lourd','Plus de dégâts crit (dégressif)'],jumpcd:['Condensateur','Le saut recharge 25% plus vite'],jumpdouble:['Double Saut','+1 charge de saut'],jumpstomp:['Atterrissage Choc','Onde de choc : dégage obstacles & projectiles'],jumpphase:['Vol Spectral','Saut plus long & bond plus loin']}
   };
   // Waffen (Basis), Skill-Pfade & Synergien – [Name, Beschreibung]
   const WTR={
@@ -409,8 +409,8 @@
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT;
   let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T, mirrorOn=false;
   let runContinued=false, pendingContinue=false;   // Weiterleben-Continue: einmal pro Run gegen (mit Lauf-Tiefe steigende) Chip-Kosten
-  const JUMP_CD=10, JUMP_DUR=0.55, JUMP_R=140;      // Sprung-Dash: alle 10 s aufgeladen, kurze Hüpf-/Unverwundbarkeits-Phase, vaultet aus der Klemme
-  let jumpCharge=1, jumping=0, jumpClutch=0, jumpClutchFired=false, jumpSeq=0;
+  const JUMP_R=140;      // Sprung-Dash: Hüpf-/Unverwundbarkeits-Phase, vaultet aus der Klemme (Cooldown/Ladungen/Dauer via mods)
+  let jumpCharge=0, jumpStock=1, jumping=0, jumpClutch=0, jumpClutchFired=false, jumpSeq=0;
   let activeCurses=[];   // zeitlich begrenzte Flüche: [{id,t,max}] – Effekt in mods gebacken, off() macht ihn rückgängig
   const MIR_DUR=30;   // Spiegelwelt-Fluch: einmalig 30s gespiegelt, dann vorbei (Countdown im Effekt-HUD)
   let comboTime=0, comboTimeMax=3.4;                 // Combo-Decay-Timer
@@ -910,6 +910,11 @@
     {id:'combo',ico:'🔗',name:'Combo-Anker',desc:'Jeder Near-Miss gibt +1 Combo extra',max:2,pickup:true,apply:()=>{mods.comboBonus+=1;}},
     {id:'reflex',ico:'🕙',name:'Reflex-Kern',desc:'Slow-Mo hält 50% länger',max:2,pickup:true,apply:()=>{mods.slowmoMult*=1.5;}},
     {id:'heart',ico:'💗',name:'Extra-Herz',desc:'+1 Leben (max 6)',max:3,apply:()=>{lives=Math.min(lives+1,6);}},
+    // ---- Sprung-Dash-Upgrades ----
+    {id:'jumpcd',ico:'🌀',name:'Sprung-Kondensator',desc:'Sprung lädt 25% schneller',max:3,jump:true,apply:()=>{mods.jumpCd*=0.75;}},
+    {id:'jumpdouble',ico:'🪽',name:'Doppelsprung',desc:'+1 Sprung-Ladung',max:2,jump:true,apply:()=>{mods.jumpMax++; jumpStock=Math.min(mods.jumpMax,jumpStock+1);}},
+    {id:'jumpstomp',ico:'💥',name:'Stoß-Landung',desc:'Landung: Schockwelle räumt Hindernisse & Kugeln',max:1,jump:true,apply:()=>{mods.jumpStomp=1;}},
+    {id:'jumpphase',ico:'👻',name:'Phasenflug',desc:'Sprung dauert länger & vaultet weiter',max:2,jump:true,apply:()=>{mods.jumpDur+=0.18; mods.jumpVault+=0.4;}},
     // ---- Fluch-Karten (lustige Nerfs, Deal with the Devil) ----
     {id:'banana',ico:'🍌',name:'Bananen-Boden',desc:'Schiff rutscht & driftet (Trägheit), aber +65% Punkte',max:1,curse:true,apply:()=>{mods.follow*=0.6;mods.slip=true;mods.scoreMult*=1.65;}},
     {id:'smol',ico:'🫠',name:'Smol Brain',desc:'Hitbox +28% (stapelt), dafür +50% Punkte',max:1,curse:true,apply:()=>{mods.playerR*=1.28;if(player)player.r=mods.playerR;mods.scoreMult*=1.5;}},
@@ -1137,7 +1142,8 @@
   function reset(){
     mods={nearRadius:30,scoreMult:1,playerR:13,follow:14,orbValueMult:1,magnetPassive:0,powerupRate:1,comboBonus:0,shieldPerBoss:0,slowmoMult:1,
           obSpeed:1,spawnMult:1,fog:0,invertX:false,mirror:false,slip:false,
-          gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2,oc:0};
+          gun:0,wDmgMult:1,wRate:1,critBase:0,crit:0,critMult:2,oc:0,
+          jumpCd:10,jumpMax:1,jumpDur:0.55,jumpVault:1,jumpStomp:0};   // Sprung-Dash: Cooldown, Ladungen, Dauer, Vault-Weite, Stoß-Landung (per Upgrade)
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; synCharge={}; zenSynSel=null; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
@@ -1148,7 +1154,7 @@
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
     upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
     bossActive=false; bossNumber=1; bossTimer=combatDur(); bossPhaseT=0; laserSpawnT=0;
-    banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; activeCurses=[]; shields=0; invuln=0; upgradeCounts={}; lives=3; runContinued=false; pendingContinue=false; jumpCharge=1; jumping=0; jumpClutch=0; jumpClutchFired=false; jumpSeq=0;
+    banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; activeCurses=[]; shields=0; invuln=0; upgradeCounts={}; lives=3; runContinued=false; pendingContinue=false; jumpCharge=0; jumpStock=mods.jumpMax; jumping=0; jumpClutch=0; jumpClutchFired=false; jumpSeq=0;
     curSong=Math.floor(Math.random()*SONGS.length); curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
@@ -1649,7 +1655,9 @@
   // Passiv-Upgrade-Angebote für die Level-Up-Karten. Waffen/Skills laufen jetzt über den klickbaren Baum (Skillpunkte).
   function offerPool(){ const out=[];
     for(const u of UPGRADES){ if(u.curse) continue; if((upgradeCounts[u.id]||0)>=u.max) continue;   // pickup-Upgrades (Radar, Magnet, Combo …) jetzt als kuratierte Level-Up-Karte statt Zufalls-Gem
-      if(u.wpass && (!opt.guns||ownedCount()===0)) continue; out.push({kind:'pass',u}); }
+      if(u.wpass && (!opt.guns||ownedCount()===0)) continue;
+      if(u.jump && mode==='zen') continue;   // Sprung-Upgrades nur wo der Sprung existiert
+      out.push({kind:'pass',u}); }
     return out; }
   // Gibt es überhaupt einen freischaltbaren Knoten/eine holbare Waffe? (unabhängig von Punkten)
   // Mit Waffen ist ein Punkt IMMER einsetzbar (Fork/Waffe ODER universelles „Verstärken") → keine toten Punkte
@@ -1757,15 +1765,24 @@
   function sfxJump(){ try{ beep(300,0.1,'sine',0.28,520); setTimeout(()=>beep(680,0.12,'triangle',0.22,260),70); }catch(e){} }
   function tryJump(){
     if(state!==S.PLAY||mode==='zen'||jumping>0) return;
-    if(jumpCharge<1){ beep(170,0.06,'square',0.12); return; }   // noch nicht geladen → kurzes „nope"
-    jumpCharge=0; jumping=JUMP_DUR; invuln=Math.max(invuln,JUMP_DUR+0.2); jumpSeq++; jumpClutch=0; jumpClutchFired=false;
+    if(jumpStock<1){ beep(170,0.06,'square',0.12); return; }   // keine Ladung → kurzes „nope"
+    jumpStock--; jumping=mods.jumpDur; invuln=Math.max(invuln,mods.jumpDur+0.2); jumpSeq++; jumpClutch=0; jumpClutchFired=false;
     // Fluchtrichtung = weg vom Schwerpunkt naher Hindernisse (sonst nach oben); Schiff vaultet dorthin
     let ax=0,ay=0,n=0; for(const o of obstacles){ const ox=(o.cx!=null?o.cx:o.x), oy=(o.cy!=null?o.cy:o.y); const dx=ox-player.x,dy=oy-player.y; if(dx*dx+dy*dy<JUMP_R*JUMP_R){ ax+=ox; ay+=oy; n++; } }
     let ex=0,ey=-1; if(n){ const cx=ax/n,cy=ay/n; ex=player.x-cx; ey=player.y-cy; const d=Math.hypot(ex,ey)||1; ex/=d; ey/=d; }
-    setT(Math.max(player.r,Math.min(W-player.r,player.x+ex*92)), Math.max(player.r,Math.min(H-player.r,player.y+ey*92)));
+    const vd=92*mods.jumpVault;
+    setT(Math.max(player.r,Math.min(W-player.r,player.x+ex*vd)), Math.max(player.r,Math.min(H-player.r,player.y+ey*vd)));
     shake=Math.max(shake,15); flash=0.3; flashColor='#19f0ff'; spawnParticles(player.x,player.y,'#19f0ff',30,360);
     floatText(player.x,player.y-32,t('jumpTxt'),'#19f0ff',20); sfxJump(); vibe([18,35,18]);
   }
+  // Stoß-Landung (Upgrade): beim Aufkommen Schockwelle – stößt Hindernisse weg, beschädigt/zerstört sie UND fegt nahe Gegner-Kugeln weg (Mega-Konter!)
+  function jumpStomp(){ const R=JUMP_R*1.35, R2=R*R, dmg=(gunDps()||10)*1.4;
+    if(novas.length<18) novas.push({x:player.x,y:player.y,r0:player.r,rMax:R,t:0,life:0.42,col:'#19f0ff'});
+    for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i], dx=o.cx-player.x,dy=o.cy-player.y, d2=dx*dx+dy*dy; if(d2>=R2) continue;
+      const d=Math.sqrt(d2)||1, k=(R-d)/R; o.cx+=dx/d*70*k; o.cy+=dy/d*70*k;   // wegschubsen
+      if(o.hp!=null){ o.hp-=dmg*(0.6+k); if(o.hp<=0){ killObstacle(o); obstacles.splice(i,1); } } }
+    for(let i=ebullets.length-1;i>=0;i--){ const e=ebullets[i], dx=e.x-player.x,dy=e.y-player.y; if(dx*dx+dy*dy<R2) ebullets.splice(i,1); }   // Kugeln im Radius weggefegt
+    shake=Math.max(shake,16); flash=Math.max(flash||0,0.32); flashColor='#19f0ff'; spawnParticles(player.x,player.y,'#19f0ff',26,380); try{ sfxBoom(); }catch(_){ } vibe([20,40,30]); }
   // CLUTCH: während des Sprungs (unverwundbar) knapp an Kugeln/Hindernissen vorbei = Belohnung + Bullet-Time-Moment (Clip-Material)
   function scanClutch(){ const cr=player.r+30, cr2=cr*cr;
     for(const e of ebullets){ if(e._cl===jumpSeq) continue; const dx=e.x-player.x,dy=e.y-player.y; if(dx*dx+dy*dy<cr2){ e._cl=jumpSeq; jumpClutch++; } }
@@ -1785,8 +1802,9 @@
     elapsed+=dt; const dMax=mode==='hardcore'?7.4:6.6, dT=Math.min(elapsed,170)/170; difficulty=1+dMax*Math.pow(dT,1.42);   // Ease-In-Kurve: sanfter Start, später steiler & höherer Deckel (Rebalance: härter & früher als zuvor)
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
-    if(jumping>0){ jumping-=dt; scanClutch(); if(jumping<=0 && jumpClutch>0) clutchReward(jumpClutch); } else if(jumpCharge<1) jumpCharge=Math.min(1,jumpCharge+dt/JUMP_CD);
-    if(mode!=='zen' && jumpCharge>=1 && (elapsed||0)>6.5 && !(meta.seen&&meta.seen.jump)){ meta.seen=meta.seen||{}; meta.seen.jump=1; saveMeta(); banner={text:t('jumpHint'),sub:t('jumpHint2'),t:3.4,color:'#19f0ff'}; }   // einmaliges Tutorial: Tippen = Sprung (nach dem Story-Intro)
+    if(jumping>0){ jumping-=dt; scanClutch(); if(jumping<=0){ if(jumpClutch>0) clutchReward(jumpClutch); if(mods.jumpStomp) jumpStomp(); } }   // Landung: Clutch-Belohnung + (Upgrade) Stoßwelle
+    else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ jumpCharge=0; jumpStock++; } }
+    if(mode!=='zen' && jumpStock>=1 && (elapsed||0)>6.5 && !(meta.seen&&meta.seen.jump)){ meta.seen=meta.seen||{}; meta.seen.jump=1; saveMeta(); banner={text:t('jumpHint'),sub:t('jumpHint2'),t:3.4,color:'#19f0ff'}; }   // einmaliges Tutorial: Tippen = Sprung (nach dem Story-Intro)
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
     tickCurses(dt);   // zeitlich begrenzte Flüche herunterzählen + bei 0 zurücksetzen
 
@@ -2558,11 +2576,11 @@
     const sig=shipSeed+'|'+up+'|'+nCan+'|'+Math.round(r)+'|'+(meta.skin||'std');
     if(!shipSprite||shipSig!==sig){ shipSprite=buildShipSprite(r,up,nCan); shipSig=sig; }
     const S=shipSprite;
-    const jp=jumping>0?Math.sin((1-jumping/JUMP_DUR)*Math.PI):0;   // Hüpf-Höhe 0→1→0
+    const jd=mods.jumpDur||0.55, jp=jumping>0?Math.sin((1-jumping/jd)*Math.PI):0;   // Hüpf-Höhe 0→1→0
     // Bodenschatten + expandierender Schockwellenring beim Sprung
     if(jp>0){ ctx.save();
       ctx.globalAlpha=0.3*(1-jp*0.7); ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(player.x,player.y+r*1.1,r*(1-jp*0.45),r*0.42*(1-jp*0.45),0,0,6.28); ctx.fill();
-      const rr=r+(1-jumping/JUMP_DUR)*JUMP_R; ctx.globalAlpha=Math.max(0,0.55*(jumping/JUMP_DUR)); ctx.strokeStyle='#19f0ff'; ctx.lineWidth=3; ctx.shadowBlur=12; ctx.shadowColor='#19f0ff'; ctx.beginPath(); ctx.arc(player.x,player.y,rr,0,6.28); ctx.stroke();
+      const rr=r+(1-jumping/jd)*JUMP_R; ctx.globalAlpha=Math.max(0,0.55*(jumping/jd)); ctx.strokeStyle='#19f0ff'; ctx.lineWidth=3; ctx.shadowBlur=12; ctx.shadowColor='#19f0ff'; ctx.beginPath(); ctx.arc(player.x,player.y,rr,0,6.28); ctx.stroke();
       ctx.restore(); }
     ctx.save(); ctx.translate(player.x,player.y-jp*r*1.3); if(jp>0){ const js=1+0.5*jp; ctx.scale(js,js); }
     // Live-Triebwerksflammen am Heck
@@ -2575,11 +2593,12 @@
     ctx.restore();
     drawJumpRing(); }
   // Aufladering des Sprung-Dash um das Schiff (füllt sich in JUMP_CD; bei „voll" sanft pulsierend)
-  function drawJumpRing(){ if(mode==='zen'||jumping>0) return; const x=player.x,y=player.y,rr=player.r+9;
+  function drawJumpRing(){ if(mode==='zen'||jumping>0) return; const x=player.x,y=player.y,rr=player.r+9, ready=jumpStock>=1;
     ctx.save(); ctx.lineWidth=2.6;
-    if(jumpCharge>=1){ const pu=0.5+0.5*Math.sin((elapsed||0)*6); ctx.globalAlpha=0.45+0.45*pu; ctx.strokeStyle='#19f0ff'; if(fxQ>0.7){ ctx.shadowBlur=10; ctx.shadowColor='#19f0ff'; } ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke(); }
-    else { ctx.globalAlpha=0.22; ctx.strokeStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke();
+    if(ready){ const pu=0.5+0.5*Math.sin((elapsed||0)*6); ctx.globalAlpha=0.45+0.45*pu; ctx.strokeStyle='#19f0ff'; if(fxQ>0.7){ ctx.shadowBlur=10; ctx.shadowColor='#19f0ff'; } ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke(); ctx.shadowBlur=0; }
+    if(jumpStock<mods.jumpMax){ ctx.globalAlpha=0.2; ctx.strokeStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke();
       ctx.globalAlpha=0.9; ctx.strokeStyle='#19f0ff'; ctx.beginPath(); ctx.arc(x,y,rr,-Math.PI/2,-Math.PI/2+6.28*jumpCharge); ctx.stroke(); }
+    if(mods.jumpMax>1){ ctx.globalAlpha=1; for(let i=0;i<mods.jumpMax;i++){ const a=-Math.PI/2+(i-(mods.jumpMax-1)/2)*0.4, px=x+Math.cos(a)*(rr+7), py=y+Math.sin(a)*(rr+7); ctx.fillStyle=i<jumpStock?'#19f0ff':'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.arc(px,py,2.6,0,6.28); ctx.fill(); } }   // Ladungs-Pips
     ctx.restore(); }
   // Menü-Schaufenster: das aktuelle Schiff (Skin + Loadout-Detail) zentral vor der Sonne, sanft schwebend
   let menuShip=null, menuShipSig='';
