@@ -403,6 +403,22 @@
   .shopTab{padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(8,1,15,.5);
     color:#cbbdf0;font-family:inherit;font-size:clamp(12px,2.6vw,14px);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;}
   .shopTab.on{border-color:var(--cyan);color:var(--cyan);background:rgba(25,240,255,.12);}
+  /* Empfohlene nächste Upgrades (oben im Shop) */
+  #shopReco{width:100%;max-width:440px;margin:6px auto 2px;}
+  #shopReco.hidden{display:none;}
+  .recoLbl{font-family:'Orbitron',sans-serif;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);text-shadow:0 0 8px rgba(255,230,0,.4);margin-bottom:6px;}
+  .recoRow{display:flex;gap:7px;justify-content:center;}
+  .recoCard{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 6px;border-radius:12px;cursor:pointer;
+    font-family:'Space Mono',monospace;color:#fff;background:linear-gradient(180deg,rgba(20,40,20,.5),rgba(8,1,15,.8));
+    border:1px solid rgba(124,255,46,.55);box-shadow:0 0 12px rgba(124,255,46,.18);-webkit-tap-highlight-color:transparent;transition:transform .08s ease;}
+  .recoCard:active{transform:scale(.95);}
+  .recoCard.locked{border-color:rgba(255,255,255,.18);background:linear-gradient(180deg,rgba(22,9,44,.5),rgba(8,1,15,.8));box-shadow:none;opacity:.78;}
+  .recoIco{font-size:22px;line-height:1;}
+  .recoName{font-size:11px;line-height:1.15;text-align:center;color:#e7dcff;}
+  .recoMeta{display:flex;flex-direction:column;align-items:center;gap:1px;}
+  .recoLv{font-size:10px;color:#9a86c9;}
+  .recoCost{font-size:12px;font-weight:700;color:var(--yellow);text-shadow:0 0 6px rgba(255,230,0,.4);}
+  .recoCard.locked .recoCost{color:#c9b9ef;text-shadow:none;}
   @keyframes tnpulse{0%,100%{box-shadow:0 0 4px rgba(25,240,255,.25);}50%{box-shadow:0 0 16px rgba(25,240,255,.6);}}
   .wtree.slotEmpty{justify-content:center;opacity:.4;border-style:dashed;min-height:150px;}
   .wtree.slotEmpty .ico{font-size:30px;}
