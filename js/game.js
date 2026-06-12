@@ -361,36 +361,36 @@
     const cur={lvl:level||1,boss:runBosses||0,score:Math.round(score||0),won:wonThisRun?1:0};
     for(const m of MILESTONES){ if(meta.ms[m.id]) continue; if((cur[m.type]||0)>=m.need){ meta.ms[m.id]=1; chips+=m.chips; hit.push(m); } }
     if(chips) meta.chips=(meta.chips||0)+chips; return {chips,hit}; }
-  // ---------- Lore/Story: schwarzer, flacher Klo-Humor, der die Mechaniken im Vorbeigehen erklärt (jeder Beat einmalig) ----------
-  // Setting: Du bist der letzte glühende Kern, runtergespült in die kosmische Kanalisation eines toten Imperiums. Der „Thron" war das Klo. Der „Rush" ist die ewige Spülung.
+  // ---------- Lore/Story: zusammenhängende Meme-/Jugendsprache, die die Mechaniken nebenbei erklärt (jeder Beat einmalig) ----------
+  // Setting: Du bist der letzte echte Vibe-Kern im abgestürzten Algorithmus. Alles drumherum ist NPC, Cringe & Hater. Bleib im Flow, sonst wirst du geratio't.
   const LORE={
-    intro:{ de:['DER LETZTE SPÜLGANG','Du bist der Kern. Das Imperium liegt im Klo. Bleib oben, solang die Spülung läuft.'],
-            en:['THE FINAL FLUSH','You are the Core. The empire went down the drain. Stay afloat while the flush lasts.'],
-            fr:['LA DERNIÈRE CHASSE','Tu es le Noyau. L’empire est aux toilettes. Reste à flot tant que ça tire la chasse.'] },
-    weapon:{ de:['BEWAFFNUNG','Schießen löst keine Probleme. Aber es fühlt sich produktiv an. Hol dir Waffen im Arsenal (💠).'],
-             en:['ARMING UP','Shooting solves nothing. But it feels productive. Grab weapons in the Arsenal (💠).'],
-             fr:['ARMEMENT','Tirer ne résout rien. Mais ça fait productif. Prends des armes dans l’Arsenal (💠).'] },
-    fork:{ de:['SKILLBAUM','Spezialisieren heißt: aus einem mittelmäßigen Ding ein mittelmäßiges Spezial-Ding machen.'],
-           en:['SKILL TREE','Specializing: turning a mediocre thing into a mediocre special thing.'],
-           fr:['ARBRE DE TALENTS','Se spécialiser : transformer un truc moyen en truc moyen spécialisé.'] },
-    synergy:{ de:['FUSION','Zwei Waffen verschmelzen — wie zwei Dönerreste in der Mikrowelle. Riskant, aber sagenhaft.'],
-              en:['FUSION','Two weapons merge — like two kebab leftovers in the microwave. Risky, but legendary.'],
-              fr:['FUSION','Deux armes fusionnent — comme deux restes de kebab au micro-ondes. Risqué, mais légendaire.'] },
-    boss:{ de:['ES KOMMT HOCH','Etwas wurde nie runtergespült. Es ist groß, es ist sauer, und es riecht nach Niederlage.'],
-           en:['SOMETHING SURFACED','Something never flushed. It’s big, it’s angry, and it smells like defeat.'],
-           fr:['ÇA REMONTE','Un truc n’est jamais parti. C’est gros, énervé, et ça sent la défaite.'] },
-    upgrade:{ de:['UPGRADE','Wähl eine Karte. Reue ist Teil des Charmes. Wie beim zweiten Burrito.'],
-              en:['UPGRADE','Pick a card. Regret is part of the charm. Like the second burrito.'],
-              fr:['AMÉLIORATION','Choisis une carte. Le regret fait partie du charme. Comme le deuxième burrito.'] },
-    lvl3:{ de:['TIEFER GESPÜLT','Level 3. Hier unten waren schon ganze Dynastien. Alle dachten, sie wären besonders.'],
-           en:['FLUSHED DEEPER','Level 3. Whole dynasties have been down here. All thought they were special.'],
-           fr:['PLUS PROFOND','Niveau 3. Des dynasties entières sont passées par là. Toutes se croyaient spéciales.'] },
-    lvl6:{ de:['DRUCK STEIGT','Level 6. Das Rohr wird enger, der Humor flacher. Atme nicht ein.'],
-           en:['PRESSURE RISING','Level 6. The pipe narrows, the jokes get flatter. Don’t inhale.'],
-           fr:['LA PRESSION MONTE','Niveau 6. Le tuyau se resserre, l’humour s’aplatit. N’inspire pas.'] },
-    lvl10:{ de:['LEGENDE DER KLOAKE','Level 10. Man wird Lieder über dich singen. Schräge, peinliche Lieder.'],
-            en:['LEGEND OF THE SEWER','Level 10. They’ll sing songs about you. Awkward, embarrassing songs.'],
-            fr:['LÉGENDE DE L’ÉGOUT','Niveau 10. On chantera ta gloire. Des chansons gênantes et fausses.'] }
+    intro:{ de:['DER LETZTE ECHTE','Du bist der einzige echte Kern im abgestürzten Algorithmus. Der Rest sind NPCs. Bleib im Flow.'],
+            en:['THE LAST REAL ONE','You’re the only real core left in a crashed algorithm. Everything else is an NPC. Stay in the flow.'],
+            fr:['LE DERNIER VRAI','Tu es le seul vrai noyau dans un algorithme planté. Le reste, ce sont des NPC. Reste dans le flow.'] },
+    weapon:{ de:['RIZZ AUFRÜSTEN','Waffen = Selbstbewusstsein. Reden bringt nix gegen Hater. Hol dir welche im Arsenal (💠).'],
+             en:['GET SOME RIZZ','Weapons = confidence. Talking won’t stop the haters. Grab some in the Arsenal (💠).'],
+             fr:['CHOPE DU RIZZ','Les armes = la confiance. Parler ne calme pas les haters. Prends-en dans l’Arsenal (💠).'] },
+    fork:{ de:['SKILL ISSUE FIXEN','Spezialisieren: aus „mid" wird „kinda based". Pfade im Skillbaum wählen.'],
+           en:['FIX THE SKILL ISSUE','Specialize: turn “mid” into “kinda based”. Pick paths in the skill tree.'],
+           fr:['RÉPARE LE SKILL ISSUE','Spécialise-toi : de « mid » à « un peu based ». Choisis les voies dans l’arbre.'] },
+    synergy:{ de:['FUSION = MAIN-CHARACTER-ENERGY','Zwei Waffen verschmelzen → absoluter Sigma-Move. Im Arsenal kombinieren.'],
+              en:['FUSION = MAIN CHARACTER ENERGY','Two weapons merge → absolute sigma move. Combine in the Arsenal.'],
+              fr:['FUSION = ÉNERGIE MAIN CHARACTER','Deux armes fusionnent → move sigma absolu. Combine dans l’Arsenal.'] },
+    boss:{ de:['FINAL BOSS DETECTED','Ein riesiger Cringe-Lord wurde nie geblockt. Jetzt ist er sauer. Pure Ohio-Energie.'],
+           en:['FINAL BOSS DETECTED','A huge cringe-lord never got blocked. Now he’s mad. Pure Ohio energy.'],
+           fr:['BOSS FINAL DÉTECTÉ','Un énorme cringe-lord n’a jamais été bloqué. Il est vénère. Énergie Ohio pure.'] },
+    upgrade:{ de:['LEVEL UP, NO CAP','Wähl eine Karte. Reue gehört dazu — wie beim dritten Energy.'],
+              en:['LEVEL UP, NO CAP','Pick a card. Regret is part of it — like the third energy drink.'],
+              fr:['LEVEL UP, NO CAP','Choisis une carte. Le regret fait partie du délire — comme le 3e energy.'] },
+    lvl3:{ de:['STILL GANZ OK','Level 3. Schon mehr Runs überlebt als die meisten NPCs. Lowkey stolz.'],
+           en:['STILL KINDA VALID','Level 3. Outlived most NPCs already. Lowkey proud.'],
+           fr:['ENCORE VALIDE','Niveau 3. Déjà plus de runs que la plupart des NPC. Lowkey fier.'] },
+    lvl6:{ de:['ES WIRD SPICY','Level 6. Der Algorithmus pusht dich jetzt härter. Bleib lock-in.'],
+           en:['IT’S GETTING SPICY','Level 6. The algorithm is pushing you harder now. Stay locked in.'],
+           fr:['ÇA DEVIENT SPICY','Niveau 6. L’algo te pousse plus fort maintenant. Reste lock-in.'] },
+    lvl10:{ de:['ABSOLUTE LEGENDE','Level 10. Du bist jetzt Main Character. Sie machen Edits über dich.'],
+            en:['ABSOLUTE LEGEND','Level 10. You’re the main character now. They make edits about you.'],
+            fr:['LÉGENDE ABSOLUE','Niveau 10. T’es le main character. Ils font des edits sur toi.'] }
   };
   let loreReturn=S.PLAY;
   function lore(id){ const e=LORE[id]; if(!e||(meta.seen&&meta.seen['lore_'+id])) return; meta.seen=meta.seen||{}; meta.seen['lore_'+id]=1; saveMeta(); showLore(id); }
@@ -1438,7 +1438,18 @@
   const NPRE=['MEGA','GIGA','TURBO','OBER','HYPER','ULTRA','PROTO','OMEGA','KILLER'];
   const NCORE=['GLIBBER','ZAHN','AUGEN','SCHLEIM','NEON','BROCKEN','GRUSEL','WUSEL','KNORP','MATSCH','ZACKEN','BLUBB','GNUBBEL'];
   const NSUF=['MONSTER','VIEH','ZILLA','TRON','KRAKE','KLOPS','BIEST','WUMMS','SCHRECK'];
-  const MEGANAMES=['SPÜLSTURM','NEON-GEWITTER','KLO-KASKADE','BLUBB-BARRAGE','ZACKEN-ZORN','MATSCH-MÖRSER','GRUSEL-GEYSIR','TURBO-TSUNAMI','GULLY-GROLL','BIDET-BLITZ'];
+  // Boss-Namen = bekannte Meme-/Internet-Charaktere, pro Sprache passend zur jeweiligen Netzkultur (keine echten Personen)
+  const MEMENAMES={
+    de:['@kevin','Erdbeerkäse','halt Stop Andreas','Hans-Peter 3000','Brötchentaste','Digga Deluxe','Sigma Günther','Gigachad Jens','Smombie','Bratan Olaf','Lauch Larry','NPC Norbert','Backpfeifen-Bernd','Cringe-Kevin','Mett-Igel'],
+    en:['Big Chungus','Ohio Final Boss','Skibidi Sigma','Gigachad','Karen','Sussy Impostor','Doge Lord','Stonks Master','Pog Champion','Moai 🗿','NPC Norman','Rizzlord Rick','Lord Cringe','Sigma Steve','Gronk'],
+    fr:['Jean-Kévin','Camembert Destroyer','Baguette Suprême','Tonton Cringe','Le Frometon','Papy Rizz','Jean-Mi Sigma','Gérard 3000','Croissant Boi','Boomer Bernard','Le Sanglier','Ratio Raymond','NPC Norbert','Gigachad Gégé','Lord Cringe']
+  };
+  // Mega-Attacken-Namen = Jugendsprache/Meme statt Klo, pro Sprache
+  const MEGANAMES={
+    de:['RATIO-STURM','CRINGE-KASKADE','SIGMA-SALVE','NPC-SCHWARM','RIZZ-RAKETEN','GIGA-GEWITTER','OHIO-OVERLOAD','SKILL-ISSUE-STORM','HATER-HAGEL','VIBE-CHECK'],
+    en:['RATIO STORM','CRINGE CASCADE','SIGMA SALVO','NPC SWARM','RIZZ ROCKETS','GIGA STORM','OHIO OVERLOAD','SKILL-ISSUE STORM','HATER HAIL','VIBE CHECK'],
+    fr:['TEMPÊTE RATIO','CASCADE CRINGE','SALVE SIGMA','ESSAIM NPC','ROQUETTES RIZZ','ORAGE GIGA','OVERLOAD OHIO','TEMPÊTE SKILL-ISSUE','GRÊLE DE HATERS','VIBE CHECK']
+  };
   const MEGAKINDS=['ringstorm','spiralhell','aimedstorm','meteorgate','lasercage'];
   const BPALS=[['#ff2e88','#19f0ff','#ffe600'],['#2effc0','#19f0ff','#ff2e88'],['#c45bff','#ff2e88','#19f0ff'],['#ff9a2e','#ffe600','#ff2e88'],['#19f0ff','#2effc0','#ffe600'],['#ff2e6e','#ffd000','#19f0ff'],['#7cff2e','#19f0ff','#ff2e88']];
   function genBossSprite(R,tier){
@@ -1471,7 +1482,7 @@
     for(let i=0;i<2+((R()*3)|0);i++){ const k=bodyKeys[(R()*bodyKeys.length)|0].split(','); lights.push({ox:(+k[0])*cp,oy:(+k[1])*cp,ph:R()*6.28}); }
     return {cv,white:wv,ox,oy,pal,rad:(gw+0.6)*cp,eyes,mouth,tents,ants,brows,lights,cp};
   }
-  function genName(R){ return NPRE[(R()*NPRE.length)|0]+'-'+NCORE[(R()*NCORE.length)|0]+'-'+NSUF[(R()*NSUF.length)|0]; }
+  function genName(R){ const pool=MEMENAMES[lang]||MEMENAMES.en; return pool[(R()*pool.length)|0]; }
   function startMegaBoss(final){ bossActive=true;
     const tier=final?7:Math.min(6,Math.max(1,Math.floor(bossNumber/2)));
     const R=makeRng(((daily?dailySeed():(Math.random()*1e9))|0)^Math.imul(bossNumber,2654435761));
@@ -1485,7 +1496,7 @@
       limit:final?9999:(22+bossNumber*2),
       hitFlash:0, shootT:1.5, warn:0, telegraph:false, fireGap:Math.max(0.9,2.5-bossNumber*0.1-Math.min(0.7,pwrSurv()*0.022)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0,
-      mega:MEGAKINDS[(R()*MEGAKINDS.length)|0], megaName:MEGANAMES[(R()*MEGANAMES.length)|0],   // prozedurale Signatur-Mega-Attacke pro Boss
+      mega:MEGAKINDS[(R()*MEGAKINDS.length)|0], megaName:(MEGANAMES[lang]||MEGANAMES.en)[(R()*(MEGANAMES[lang]||MEGANAMES.en).length)|0],   // prozedurale Signatur-Mega-Attacke pro Boss
       megaSeed:{rot:(R()<0.5?1:-1), gap:R(), arms:2+((R()*3)|0)}, megaT:rand(4.5,6.5), megaPhase:null};
     boss.hp=boss.maxHp; ebullets=[];
     banner=final?{text:t('endgegner'),sub:boss.name,t:3,color:'#ff2e88'}:{text:t('megaBoss'),sub:boss.name,t:2.6,color:'#ffe600'};
