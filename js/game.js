@@ -3196,7 +3196,7 @@
   // ---------- Werkstatt (Meta-Shop) ----------
   function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='🪙 '+fmt(meta.chips)+((meta.won)?('  ·  🏆 '+meta.won):''); }
   // Persistentes Coin-Badge: auf allen Overlay-Screens außer Hauptmenü (#start) / Werkstatt (#shop, zeigt Guthaben selbst) sichtbar
-  const BADGE_SCREENS=['over','upgrade','pause','arsenalView','settings','ach','statusView','howto','shipEditor','coinshop'];
+  const BADGE_SCREENS=['over','upgrade','pause','arsenalView','settings','ach','statusView','howto','shipEditor'];   // NICHT auf coinshop: dort würde das Badge eine Werkstatt↔Coinshop-Schleife erzeugen
   let coinBadgeEl=null;
   function visibleBadgeScreen(){ for(const id of BADGE_SCREENS){ const e=document.getElementById(id); if(e && !e.classList.contains('hidden')) return id; } return null; }
   function syncCoinBadge(){ const el=coinBadgeEl||(coinBadgeEl=document.getElementById('coinBadge')); if(!el) return;
@@ -3209,7 +3209,8 @@
     if(a) a.textContent=runShopLabel(); }
   function openShop(from){ setShopHost('shop'); const run=(from==='upgrade'||from==='arsenalView'||from==='pause');
     // beliebigen sichtbaren Overlay-Screen als Rückkehrziel akzeptieren (Coin-Badge kann von überall öffnen); Fallback Hauptmenü
-    shopFrom=(from && from!=='shop' && document.getElementById(from))?from:'start';
+    // 'shop'/'coinshop' NIE als Rückkehrziel → sonst Schleife (Werkstatt↔Coinshop, kein Weg zurück ins Spiel)
+    shopFrom=(from && from!=='shop' && from!=='coinshop' && document.getElementById(from))?from:'start';
     if(run) accrueChips();                               // Live-Chips frisch, bevor man sie ausgibt
     document.getElementById(shopFrom).classList.add('hidden'); renderShop();
     const sh=document.getElementById('shop'); sh.classList.remove('hidden'); sh.scrollTop=0; sfxUpgrade(); }
