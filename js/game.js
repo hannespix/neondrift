@@ -2354,22 +2354,23 @@
       // Railgun-Schienen (eigene, kurz aufleuchtend)
       if(player) for(const bm of beams){ const a=Math.max(0,bm.t/0.22); ctx.save(); ctx.globalCompositeOperation='lighter';
         const bc=bm.col||'#fff27a';
-        const grd=ctx.createLinearGradient(bm.x-bm.w*1.3,0,bm.x+bm.w*1.3,0); grd.addColorStop(0,hexA(bc,0)); grd.addColorStop(.35,hexA(bc,0.5*a)); grd.addColorStop(.5,'rgba(255,255,255,'+(0.9*a)+')'); grd.addColorStop(.65,hexA(bc,0.5*a)); grd.addColorStop(1,hexA(bc,0));
-        ctx.fillStyle=grd; ctx.fillRect(bm.x-bm.w*1.3,0,bm.w*2.6,player.y);
+        if(fxQ>0.6){ const grd=ctx.createLinearGradient(bm.x-bm.w*1.3,0,bm.x+bm.w*1.3,0); grd.addColorStop(0,hexA(bc,0)); grd.addColorStop(.35,hexA(bc,0.5*a)); grd.addColorStop(.5,'rgba(255,255,255,'+(0.9*a)+')'); grd.addColorStop(.65,hexA(bc,0.5*a)); grd.addColorStop(1,hexA(bc,0));
+        ctx.fillStyle=grd; ctx.fillRect(bm.x-bm.w*1.3,0,bm.w*2.6,player.y); }
+        else { ctx.fillStyle=hexA(bc,0.42*a); ctx.fillRect(bm.x-bm.w*0.8,0,bm.w*1.6,player.y); }   // unter Last: schmaler Flachfüller statt teurem Verlauf (Governor)
         ctx.fillStyle='rgba(255,255,255,'+a+')'; ctx.fillRect(bm.x-bm.w*0.28,0,bm.w*0.56,player.y);   // gleißender Kern
         ctx.restore(); }
       // Kettenblitz-Bögen (gezackt, glühend)
       for(const z of zaps){ const a=Math.max(0,z.t/z.life); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
         ctx.beginPath(); ctx.moveTo(z.pts[0][0],z.pts[0][1]); for(let i=1;i<z.pts.length;i++) ctx.lineTo(z.pts[i][0],z.pts[i][1]);
         const zc=z.col||'#78e7ff';
-        ctx.strokeStyle=hexA(zc,0.46*a); ctx.lineWidth=12; ctx.stroke();           // breites weiches Glühen (ersetzt shadowBlur, additiv); Fusions-Mix färbt mit
+        if(fxQ>0.6){ ctx.strokeStyle=hexA(zc,0.46*a); ctx.lineWidth=12; ctx.stroke(); }           // breites weiches Glühen nur bei Budget (Governor)
         ctx.strokeStyle=hexA(mixCol(zc,'#ffffff',0.45),0.72*a); ctx.lineWidth=5; ctx.stroke();       // mittlere Schicht
         ctx.strokeStyle='rgba(255,255,255,'+a+')'; ctx.lineWidth=2.5; ctx.stroke();                  // heller Kern
         ctx.restore(); }
       // Nova-Schockwellen-Ringe (expandierend, ausblendend)
       for(const nv of novas){ const p=nv.t/nv.life, r=nv.r0+(nv.rMax-nv.r0)*p, a=Math.max(0,1-p); ctx.save(); ctx.globalCompositeOperation='lighter';
-        if(nv.fill){ ctx.fillStyle=hexA(nv.col,0.18*a*(1-p)); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.fill(); }   // Druckwellen-Füllung (Wumms)
-        ctx.strokeStyle=hexA(nv.col,0.5*a); ctx.lineWidth=12*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();   // breiter weicher Ring (ersetzt shadowBlur)
+        if(fxQ>0.6){ if(nv.fill){ ctx.fillStyle=hexA(nv.col,0.18*a*(1-p)); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.fill(); }
+        ctx.strokeStyle=hexA(nv.col,0.5*a); ctx.lineWidth=12*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke(); }   // Füllung + breiter Ring nur bei Budget (Governor)
         ctx.strokeStyle=hexA(nv.col,0.9*a); ctx.lineWidth=4.5*(1-p*0.6); ctx.beginPath(); ctx.arc(nv.x,nv.y,r,0,6.28); ctx.stroke();
         ctx.strokeStyle=hexA('#ffffff',0.5*a); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(nv.x,nv.y,r*0.92,0,6.28); ctx.stroke();
         ctx.restore(); }
@@ -2383,8 +2384,9 @@
         if(L.state==='warn'){ const a=0.25+0.35*Math.abs(Math.sin(L.t*16)); ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=`rgba(255,230,0,${a})`; ctx.setLineDash([10,10]); ctx.lineWidth=3; ctx.beginPath();
           if(L.orient==='v'){ctx.moveTo(L.pos,0);ctx.lineTo(L.pos,H);}else{ctx.moveTo(0,L.pos);ctx.lineTo(W,L.pos);} ctx.stroke(); }
         else { const fd=1-L.t/L.fireDur;
-          const grd=L.orient==='v'?ctx.createLinearGradient(L.pos-L.thick/2,0,L.pos+L.thick/2,0):ctx.createLinearGradient(0,L.pos-L.thick/2,0,L.pos+L.thick/2);
-          grd.addColorStop(0,'rgba(255,46,136,0)');grd.addColorStop(.5,`rgba(255,255,255,${0.9*fd})`);grd.addColorStop(1,'rgba(255,46,136,0)'); ctx.fillStyle=grd;
+          if(fxQ>0.6){ const grd=L.orient==='v'?ctx.createLinearGradient(L.pos-L.thick/2,0,L.pos+L.thick/2,0):ctx.createLinearGradient(0,L.pos-L.thick/2,0,L.pos+L.thick/2);
+          grd.addColorStop(0,'rgba(255,46,136,0)');grd.addColorStop(.5,`rgba(255,255,255,${0.9*fd})`);grd.addColorStop(1,'rgba(255,46,136,0)'); ctx.fillStyle=grd; }
+          else ctx.fillStyle=`rgba(255,120,170,${0.85*fd})`;   // unter Last: flacher Balken statt Verlauf (Governor)
           if(L.orient==='v')ctx.fillRect(L.pos-L.thick/2,0,L.thick,H); else ctx.fillRect(0,L.pos-L.thick/2,W,L.thick); }
         ctx.restore(); }
 
@@ -2468,7 +2470,7 @@
       if(ebullets.length){
         // Glow (additive drawImage) nur bei moderater Kugelzahl + Budget – bei dichten Mega-Salven sofort weglassen (Fillrate-Schutz, der Governor reagiert zu träge)
         if(fxQ>0.6 && ebullets.length<=120){ const gs=glowSprite('#ff2e88'); ctx.globalCompositeOperation='lighter';
-          for(const e of ebullets){ const gr=e.r*3.8; ctx.drawImage(gs,e.x-gr,e.y-gr,gr*2,gr*2); }
+          for(const e of ebullets){ const gr=e.r*2.8; ctx.drawImage(gs,e.x-gr,e.y-gr,gr*2,gr*2); }
           ctx.globalCompositeOperation='source-over'; }
         for(const e of ebullets){ ctx.fillStyle='#ff5ea8'; ctx.beginPath(); ctx.arc(e.x,e.y,e.r,0,6.28); ctx.fill();
           ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(e.x,e.y,e.r*0.4,0,6.28); ctx.fill(); } }
@@ -4062,7 +4064,7 @@
     vsyncMs+=(frameMs-vsyncMs)*(frameMs<vsyncMs?0.25:0.0008); if(vsyncMs<6) vsyncMs=6;
     // Governor RELATIV zur erkannten Rate (60/90/120/144 Hz gleichermaßen): erst FX-Dichte, dann interne Auflösung
     // senken, wenn Frames verloren gehen (>1.6× vsync); in Ruhe (<1.25×) umgekehrt wieder anheben.
-    if(frameMs>vsyncMs*1.6){ if(fxQ>0.45) fxQ=Math.max(0.45,fxQ-0.04); else if(qScale>0.6){ qScale=Math.max(0.6,qScale-0.05); applyScale(); } }
+    if(frameMs>vsyncMs*1.6){ if(fxQ>0.45) fxQ=Math.max(0.45,fxQ-0.04); else if(qScale>0.5){ qScale=Math.max(0.5,qScale-0.05); applyScale(); } }
     else if(frameMs<vsyncMs*1.25){ if(qScale<1){ qScale=Math.min(1,qScale+0.04); applyScale(); } else if(fxQ<1) fxQ=Math.min(1,fxQ+0.02); }
     if(state===S.PLAY) update(dt);
     else { elapsed=(elapsed||0)+dt; updateStars(dt);
