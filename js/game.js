@@ -808,9 +808,14 @@
 
   // ---------- Resize / Input ----------
   function resize(){ DPR=Math.min(window.devicePixelRatio||1,2);
-    // An die tatsächliche #wrap-Größe (100dvh) koppeln, nicht an innerHeight –
-    // sonst bleibt auf Mobil-Browsern unten ein heller Streifen in der Safe Area.
     const wrap=document.getElementById('wrap');
+    // #wrap-Höhe an den WIRKLICH sichtbaren Viewport koppeln (visualViewport) statt nur ans CSS
+    // 100dvh: dvh löst auf etlichen Mobil-Engines zum GROSSEN Viewport auf, wenn die Browser-/
+    // Systemleiste ein-/ausfährt → die Screens (Menü-Leiste, Overlays, Cockpit) ragen unter den
+    // sichtbaren Rand und werden unten ABGESCHNITTEN (und sind dann nicht mal scrollbar). Mit der
+    // gemessenen vv.height sitzt #wrap exakt im sichtbaren Bereich. Fallback: CSS 100dvh.
+    const vv=window.visualViewport, vh=(vv&&vv.height>0)?Math.round(vv.height):0;
+    wrap.style.height=vh?vh+'px':'';
     W=wrap.clientWidth||window.innerWidth; H=wrap.clientHeight||window.innerHeight;
     canvas.style.width=W+'px'; canvas.style.height=H+'px';
     applyScale();
