@@ -448,6 +448,15 @@
 
   /* Game over */
   .gover{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(32px,9vw,72px);color:var(--pink);text-shadow:0 0 18px var(--pink),0 0 48px rgba(255,46,136,.6);}
+  /* Story-Overlay (pausiert, groß & gut lesbar) */
+  #lore{justify-content:center;background:rgba(8,1,15,.82);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);cursor:pointer;}
+  .loreCard{width:min(460px,90vw);margin:0 auto;padding:30px 26px 24px;border-radius:22px;
+    background:linear-gradient(165deg,rgba(40,16,58,.96),rgba(20,8,34,.96));border:1.5px solid rgba(196,91,255,.55);
+    box-shadow:0 0 44px rgba(196,91,255,.32),inset 0 0 26px rgba(196,91,255,.08);text-align:center;}
+  .loreCard .loreHd{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(20px,5.6vw,30px);line-height:1.2;letter-spacing:.02em;
+    color:#e9ccff;text-shadow:0 0 18px rgba(196,91,255,.6);margin-bottom:16px;}
+  .loreCard .loreBody{font-family:'Space Mono',monospace;font-size:clamp(15px,4.1vw,18px);line-height:1.65;color:#f0e8ff;margin-bottom:22px;}
+  .loreCard .loreCont{font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;color:#c45bff;opacity:.9;animation:resPulse 1.8s ease-in-out infinite;}
   /* Weiterleben-Continue */
   #continue{gap:0;}
   .contTitle{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(30px,8vw,60px);color:var(--cyan);text-shadow:0 0 18px var(--cyan),0 0 48px rgba(25,240,255,.5);animation:wiggle .5s ease;}
