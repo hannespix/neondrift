@@ -1835,9 +1835,11 @@
     for(let i=ebullets.length-1;i>=0;i--){ const e=ebullets[i], dx=e.x-player.x,dy=e.y-player.y; if(dx*dx+dy*dy<R2) ebullets.splice(i,1); }   // Kugeln im Radius weggefegt
     shake=Math.max(shake,16); flash=Math.max(flash||0,0.32); flashColor='#19f0ff'; spawnParticles(player.x,player.y,'#19f0ff',26,380); try{ sfxBoom(); }catch(_){ } vibe([20,40,30]); }
   // Landungs-Aufprall (Basis): auf Hindernisse landen → GARANTIERTE Zerstörung; auf Boss → Schaden + Stagger + Katapult in Sicherheit
-  function jumpLand(){ invuln=Math.max(invuln,0.5);
-    const R=player.r+26, R2=R*R; let hit=false, kills=0;
-    for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i], dx=o.cx-player.x,dy=o.cy-player.y; if(dx*dx+dy*dy>=R2) continue;
+  function jumpLand(){ invuln=Math.max(invuln,0.6);
+    const base=player.r+30; let hit=false, kills=0;
+    for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i], dx=o.cx-player.x,dy=o.cy-player.y,
+        reach=Math.max(base, player.r+Math.max(o.w||0,o.h||0)*0.5+12);   // größenbewusst: alles wegräumen, was den Landepunkt berührt (kein Sofort-Treffer durch große Hindernisse)
+        if(dx*dx+dy*dy>=reach*reach) continue;
       o.hitFlash=0.12; killObstacle(o); obstacles.splice(i,1); hit=true; kills++; }   // immer zerstören – kein HP-Check mehr (auch zähe/Elite-Gegner)
     // Stomp-Kill-Belohnung: offensives Springen lohnt sich auch ökonomisch (Bonus-Punkte + Münzen)
     if(kills>0){ addScore(50*kills*Math.max(1,multiplier)); awardCoins((3+kills*3)*chipMult()*diffChip,player.x,player.y-42,true); floatText(player.x,player.y-50,'×'+kills+' 💥','#ffe600',18); }
@@ -1878,7 +1880,9 @@
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     if(bossIntroT>0) bossIntroT-=dt;   // VS-Auftritt läuft in Echtzeit (auch während der Intro-Zeitlupe)
-    if(jumping>0){ jumping-=dt; scanClutch(); if(jumping<=0){ jumpLand(); if(jumpClutch>0) clutchReward(jumpClutch); if(mods.jumpStomp) jumpStomp(); } }   // Landung: Aufprall-Schaden + 0,5s Invuln + Clutch + (Upgrade) Stoßwelle
+    if(jumping>0){ jumping-=dt; scanClutch(); if(jumping<=0){
+        player.x=jumpToX; player.y=jumpToY; player.vx=0; player.vy=0; tgt.x=jumpToX; tgt.y=jumpToY;   // exakt am angetippten Landepunkt aufkommen, BEVOR der Einschlag dort räumt → kein „auf Hindernis gelandet"-Treffer mehr
+        jumpLand(); if(jumpClutch>0) clutchReward(jumpClutch); if(mods.jumpStomp) jumpStomp(); } }   // Landung: Einschlag räumt den Landepunkt + Invuln + Clutch + (Upgrade) Stoßwelle
     else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ jumpCharge=0; jumpStock++; jumpReadyT=1.7; try{ beep(620,0.07,'triangle',0.16,820); setTimeout(()=>beep(930,0.08,'triangle',0.14,900),60); }catch(_){ } vibe(12); } }   // Sprung-Ladung wieder verfügbar → kleine Top-Meldung (auch bei Doppelsprung-Nachladungen)
     if(jumpReadyT>0) jumpReadyT-=dt;
     if(flungT>0){ flungT-=dt; tgt.x=flungX; tgt.y=flungY; if(invuln<flungT) invuln=flungT; }   // Boss-Katapult: Steuerung kurz gesperrt + Invuln, bis der Spieler sicher gelandet ist
