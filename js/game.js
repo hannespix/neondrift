@@ -1809,7 +1809,7 @@
     const R=player.r+22, R2=R*R, dmg=Math.max(60,(gunDps()||0)*3); let hit=false;
     for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i], dx=o.cx-player.x,dy=o.cy-player.y; if(dx*dx+dy*dy>=R2) continue;
       if(o.hp!=null){ o.hp-=dmg; o.hitFlash=0.12; floatDamage(o.cx,o.cy-o.h*0.4,dmg,true); hit=true; if(o.hp<=0){ killObstacle(o); obstacles.splice(i,1); } } }
-    if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y, rr=boss.r*0.92; if(dx*dx+dy*dy<rr*rr){ const bd=Math.max(30,(gunDps()||0)*2); boss.hp-=bd; boss.hitFlash=0.1; floatDamage(boss.x,boss.y-boss.r*0.5,bd,true); hit=true; if(boss.hp<=0) startBossDeath(); } }
+    if(boss&&!boss.dead&&!boss.fleeing){ const dx=boss.x-player.x,dy=boss.y-player.y, rr=boss.r*0.92; if(dx*dx+dy*dy<rr*rr){ const bd=Math.min((boss.maxHp||999)*0.1, Math.max(30,(gunDps()||0)*2)); boss.hp-=bd; boss.hitFlash=0.1; floatDamage(boss.x,boss.y-boss.r*0.5,bd,true); hit=true; if(boss.hp<=0) startBossDeath(); } }   // gedeckelt auf max 10% der Boss-HP → cool, aber trivialisiert den Boss nicht
     if(hit){ shake=Math.max(shake,13); flash=Math.max(flash||0,0.32); flashColor='#19f0ff'; spawnParticles(player.x,player.y,'#19f0ff',20,320); floatText(player.x,player.y-30,t('stomp'),'#19f0ff',20); try{ sfxBoom(); }catch(_){ } vibe([22,32]); } }
   // CLUTCH: während des Sprungs (unverwundbar) knapp an Kugeln/Hindernissen vorbei = Belohnung + Bullet-Time-Moment (Clip-Material)
   function scanClutch(){ const cr=player.r+30, cr2=cr*cr;
