@@ -831,6 +831,10 @@
   .balChest{cursor:pointer;padding:2px;border:none;background:none;line-height:0;display:inline-flex;align-items:center;vertical-align:-0.3em;-webkit-tap-highlight-color:transparent;}
   .balChest .chestIco{width:22px;height:22px;}
   .balChest:active{transform:scale(.9);}
+  /* Coin-Anzeige als Coin-Shop-Zugang (ersetzt die Schatztruhe außerhalb des Hauptmenüs) */
+  .coinTap{font:inherit;color:var(--yellow);background:none;border:1px solid rgba(255,230,0,.4);border-radius:999px;padding:2px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .14s,border-color .14s;}
+  .coinTap:hover{border-color:var(--yellow);box-shadow:0 0 14px rgba(255,230,0,.3);}
+  .coinTap:active{transform:scale(.94);}
   /* Highscore-Kacheln im Erfolge-Screen (Akzent gold) */
   .sttile.hs{border-color:rgba(255,230,0,.4);background:rgba(255,230,0,.06);}
   .sttile.hs b{color:var(--yellow);}
