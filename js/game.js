@@ -416,9 +416,11 @@
   let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T, mirrorOn=false;
   let runContinued=false, pendingContinue=false;   // Weiterleben-Continue: einmal pro Run gegen (mit Lauf-Tiefe steigende) Chip-Kosten
   const JUMP_R=140;      // Sprung-Dash: Hüpf-/Unverwundbarkeits-Phase, vaultet aus der Klemme (Cooldown/Ladungen/Dauer via mods)
+  const JUMP_RANGE=340;  // max. Sprungweite (× jumpVault): Tap weiter weg → Schiff kommt bei dieser Reichweite auf (kurz)
   let jumpCharge=0, jumpStock=1, jumping=0, jumpClutch=0, jumpClutchFired=false, jumpSeq=0;
   let flungT=0, flungX=0, flungY=0;   // Boss-Katapult: kurzer Steuer-Lock, der den Spieler nach dem Boss-Stomp in Sicherheit schleudert
-  let jumpReadyT=0;   // kleine Top-Meldung, sobald der Sprung wieder verfügbar ist (Ladung 0→1)
+  let jumpReadyT=0;   // kleine Top-Meldung, sobald der Sprung wieder verfügbar ist
+  let jumpFromX=0, jumpFromY=0, jumpToX=0, jumpToY=0;   // gerichteter Sprung: deterministische Flugbahn Start→Landepunkt
   let activeCurses=[];   // zeitlich begrenzte Flüche: [{id,t,max}] – Effekt in mods gebacken, off() macht ihn rückgängig
   const MIR_DUR=30;   // Spiegelwelt-Fluch: einmalig 30s gespiegelt, dann vorbei (Countdown im Effekt-HUD)
   let comboTime=0, comboTimeMax=3.4;                 // Combo-Decay-Timer
@@ -1812,12 +1814,14 @@
     if(state!==S.PLAY||mode==='zen'||jumping>0) return;
     if(jumpStock<1){ beep(170,0.06,'square',0.12); return; }   // keine Ladung → kurzes „nope"
     jumpStock--; jumping=mods.jumpDur; invuln=Math.max(invuln,mods.jumpDur+0.2); jumpSeq++; jumpClutch=0; jumpClutchFired=false;
-    // Lenkst du aktiv → Schiff springt dorthin (gezielt auf Gegner landen). Stehst du ~still → Panik-Vault weg vom Schwerpunkt naher Gefahr.
-    const mdx=tgt.x-player.x, mdy=tgt.y-player.y, moving=(mdx*mdx+mdy*mdy)>40*40;
-    if(!moving){ let ax=0,ay=0,n=0; for(const o of obstacles){ const ox=(o.cx!=null?o.cx:o.x), oy=(o.cy!=null?o.cy:o.y); const dx=ox-player.x,dy=oy-player.y; if(dx*dx+dy*dy<JUMP_R*JUMP_R){ ax+=ox; ay+=oy; n++; } }
-      let ex=0,ey=-1; if(n){ const cx=ax/n,cy=ay/n; ex=player.x-cx; ey=player.y-cy; const d=Math.hypot(ex,ey)||1; ex/=d; ey/=d; }
-      const vd=92*mods.jumpVault;
-      setT(Math.max(player.r,Math.min(W-player.r,player.x+ex*vd)), Math.max(player.r,Math.min(H-player.r,player.y+ey*vd))); }
+    // Gerichteter Sprung: ans angetippte Ziel (tgt) springen – über alles drüber (unverwundbar). Weiter als die
+    // Reichweite? Dann kommt das Schiff bei max. Reichweite auf (entsprechend früher / kurz davor).
+    const range=JUMP_RANGE*(mods.jumpVault||1);
+    let dx=tgt.x-player.x, dy=tgt.y-player.y, d=Math.hypot(dx,dy);
+    let lx,ly; if(d<=range||d<1){ lx=tgt.x; ly=tgt.y; } else { lx=player.x+dx/d*range; ly=player.y+dy/d*range; }
+    lx=Math.max(player.r,Math.min(W-player.r,lx)); ly=Math.max(player.r,Math.min(H-player.r,ly));
+    jumpFromX=player.x; jumpFromY=player.y; jumpToX=lx; jumpToY=ly;
+    tgt.x=lx; tgt.y=ly;   // Landepunkt = Steuerziel: Schiff bleibt nach der Landung dort, Visier zeigt den echten Landepunkt
     shake=Math.max(shake,15); flash=0.3; flashColor='#19f0ff'; spawnParticles(player.x,player.y,'#19f0ff',30,360);
     floatText(player.x,player.y-32,t('jumpTxt'),'#19f0ff',20); sfxJump(); vibe([18,35,18]);
   }
@@ -1874,7 +1878,7 @@
     if(invuln>0) invuln-=dt;
     if(bossIntroT>0) bossIntroT-=dt;   // VS-Auftritt läuft in Echtzeit (auch während der Intro-Zeitlupe)
     if(jumping>0){ jumping-=dt; scanClutch(); if(jumping<=0){ jumpLand(); if(jumpClutch>0) clutchReward(jumpClutch); if(mods.jumpStomp) jumpStomp(); } }   // Landung: Aufprall-Schaden + 0,5s Invuln + Clutch + (Upgrade) Stoßwelle
-    else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ const was=jumpStock; jumpCharge=0; jumpStock++; if(was===0){ jumpReadyT=1.7; try{ beep(620,0.07,'triangle',0.16,820); setTimeout(()=>beep(930,0.08,'triangle',0.14,900),60); }catch(_){ } vibe(12); } } }   // Ladung wieder verfügbar (0→1) → kleine Top-Meldung
+    else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ jumpCharge=0; jumpStock++; jumpReadyT=1.7; try{ beep(620,0.07,'triangle',0.16,820); setTimeout(()=>beep(930,0.08,'triangle',0.14,900),60); }catch(_){ } vibe(12); } }   // Sprung-Ladung wieder verfügbar → kleine Top-Meldung (auch bei Doppelsprung-Nachladungen)
     if(jumpReadyT>0) jumpReadyT-=dt;
     if(flungT>0){ flungT-=dt; tgt.x=flungX; tgt.y=flungY; if(invuln<flungT) invuln=flungT; }   // Boss-Katapult: Steuerung kurz gesperrt + Invuln, bis der Spieler sicher gelandet ist
     if(mode!=='zen' && jumpStock>=1 && (elapsed||0)>6.5 && !(meta.seen&&meta.seen.jump)){ meta.seen=meta.seen||{}; meta.seen.jump=1; saveMeta(); banner={text:t('jumpHint'),sub:t('jumpHint2'),t:3.4,color:'#19f0ff'}; }   // einmaliges Tutorial: Tippen = Sprung (nach dem Story-Intro)
@@ -1910,7 +1914,10 @@
     if(mods.fog<0.004 && fogTgt===0) mods.fog=0;   // sauber auf 0 schnappen, wenn ausgefadet
     mods.obSpeed=energyStacks?Math.pow(1.22,energyStacks):1;   // Obstacle-Tempo des Energy-Fluchs folgt den Stacks → bleibt nie zu schnell hängen
     mods.spawnMult=clownStacks?Math.pow(0.7,clownStacks):1;    // Clown-Gedränge (Spawn-Dichte) folgt den Stacks → bleibt nie dichter hängen
-    if(mods.slip){   // Bananen-Boden: trägheits-/impulsbasiert → das Schiff driftet, übersteuert und rutscht (deutlich schwerer zu steuern)
+    if(jumping>0){   // gerichteter Sprung: deterministisch Start→Landepunkt (easeInOut) → leapt zuverlässig genau aufs Ziel, über alles drüber
+      const jd=mods.jumpDur||0.55, p=Math.max(0,Math.min(1,1-jumping/jd)), e=p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+      player.x=jumpFromX+(jumpToX-jumpFromX)*e; player.y=jumpFromY+(jumpToY-jumpFromY)*e; player.vx=0; player.vy=0;
+    } else if(mods.slip){   // Bananen-Boden: trägheits-/impulsbasiert → das Schiff driftet, übersteuert und rutscht (deutlich schwerer zu steuern)
       const k=16, fr=Math.pow(0.905,dt*60);
       player.vx=((player.vx||0)+(tgt.x-player.x)*k*dt)*fr; player.vy=((player.vy||0)+(tgt.y-player.y)*k*dt)*fr;
       player.x+=player.vx*dt; player.y+=player.vy*dt;
