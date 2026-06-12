@@ -418,6 +418,7 @@
   const JUMP_R=140;      // Sprung-Dash: Hüpf-/Unverwundbarkeits-Phase, vaultet aus der Klemme (Cooldown/Ladungen/Dauer via mods)
   let jumpCharge=0, jumpStock=1, jumping=0, jumpClutch=0, jumpClutchFired=false, jumpSeq=0;
   let flungT=0, flungX=0, flungY=0;   // Boss-Katapult: kurzer Steuer-Lock, der den Spieler nach dem Boss-Stomp in Sicherheit schleudert
+  let jumpReadyT=0;   // kleine Top-Meldung, sobald der Sprung wieder verfügbar ist (Ladung 0→1)
   let activeCurses=[];   // zeitlich begrenzte Flüche: [{id,t,max}] – Effekt in mods gebacken, off() macht ihn rückgängig
   const MIR_DUR=30;   // Spiegelwelt-Fluch: einmalig 30s gespiegelt, dann vorbei (Countdown im Effekt-HUD)
   let comboTime=0, comboTimeMax=3.4;                 // Combo-Decay-Timer
@@ -1172,7 +1173,7 @@
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
     upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
     bossActive=false; bossNumber=1; bossTimer=combatDur(); bossPhaseT=0; laserSpawnT=0; bossIntroT=0;
-    banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; activeCurses=[]; shields=0; invuln=0; upgradeCounts={}; lives=3; runContinued=false; pendingContinue=false; jumpCharge=0; jumpStock=mods.jumpMax; jumping=0; jumpClutch=0; jumpClutchFired=false; jumpSeq=0; flungT=0; lastBossName='';
+    banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; activeCurses=[]; shields=0; invuln=0; upgradeCounts={}; lives=3; runContinued=false; pendingContinue=false; jumpCharge=0; jumpStock=mods.jumpMax; jumping=0; jumpClutch=0; jumpClutchFired=false; jumpSeq=0; flungT=0; jumpReadyT=0; lastBossName='';
     curSong=Math.floor(Math.random()*SONGS.length); curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
@@ -1868,7 +1869,8 @@
     if(invuln>0) invuln-=dt;
     if(bossIntroT>0) bossIntroT-=dt;   // VS-Auftritt läuft in Echtzeit (auch während der Intro-Zeitlupe)
     if(jumping>0){ jumping-=dt; scanClutch(); if(jumping<=0){ jumpLand(); if(jumpClutch>0) clutchReward(jumpClutch); if(mods.jumpStomp) jumpStomp(); } }   // Landung: Aufprall-Schaden + 0,5s Invuln + Clutch + (Upgrade) Stoßwelle
-    else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ jumpCharge=0; jumpStock++; } }
+    else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ const was=jumpStock; jumpCharge=0; jumpStock++; if(was===0){ jumpReadyT=1.7; try{ beep(620,0.07,'triangle',0.16,820); setTimeout(()=>beep(930,0.08,'triangle',0.14,900),60); }catch(_){ } vibe(12); } } }   // Ladung wieder verfügbar (0→1) → kleine Top-Meldung
+    if(jumpReadyT>0) jumpReadyT-=dt;
     if(flungT>0){ flungT-=dt; tgt.x=flungX; tgt.y=flungY; if(invuln<flungT) invuln=flungT; }   // Boss-Katapult: Steuerung kurz gesperrt + Invuln, bis der Spieler sicher gelandet ist
     if(mode!=='zen' && jumpStock>=1 && (elapsed||0)>6.5 && !(meta.seen&&meta.seen.jump)){ meta.seen=meta.seen||{}; meta.seen.jump=1; saveMeta(); banner={text:t('jumpHint'),sub:t('jumpHint2'),t:3.4,color:'#19f0ff'}; }   // einmaliges Tutorial: Tippen = Sprung (nach dem Story-Intro)
     if(mode!=='zen' && opt.guns && ownedCount()>=2 && !(meta.seen&&meta.seen.syn2)) tutHint('syn2',t('tipSyn'),t('tipSynd'),'#ff2e88');   // 2 Waffen → Synergie-System einführen (richtiger Moment, nicht zu früh)
@@ -2485,6 +2487,7 @@
         ctx.font='900 clamp(22px,6vw,40px) Orbitron, sans-serif'; ctx.shadowBlur=24; ctx.shadowColor=banner.color; ctx.fillStyle='#fff'; ctx.fillText(banner.text,W/2,H*0.32);
         if(banner.sub){ ctx.font='700 clamp(13px,3vw,18px) Orbitron, sans-serif'; ctx.fillStyle=banner.color; ctx.fillText(banner.sub,W/2,H*0.32+34); } ctx.restore(); }
       if(bossIntroT>0) drawBossIntro();
+      drawJumpReady();
     }
 
     // vignette (action / combo / near)
@@ -2668,6 +2671,14 @@
     ctx.beginPath(); ctx.arc(x,y,rr*(0.7+0.3*pu),0,6.28); ctx.stroke();
     for(let i=0;i<4;i++){ const a=i*Math.PI/2+p*1.2, c=Math.cos(a),s=Math.sin(a); ctx.beginPath(); ctx.moveTo(x+c*rr*0.5,y+s*rr*0.5); ctx.lineTo(x+c*rr*1.15,y+s*rr*1.15); ctx.stroke(); }
     ctx.restore(); }
+  // Kleine Top-Meldung „Sprung bereit", sobald eine Ladung wieder verfügbar ist (ein-/ausblendend)
+  function drawJumpReady(){ if(jumpReadyT<=0||mode==='zen') return;
+    const al=Math.max(0,Math.min(1,(1.7-jumpReadyT)/0.18, jumpReadyT/0.4)), txt='▲ '+t('jumpHint');
+    ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='800 15px Orbitron, sans-serif';
+    const w=ctx.measureText(txt).width+34, h=30, x=W/2, y=Math.max(70,H*0.155);
+    ctx.globalAlpha=al*0.9; ctx.fillStyle='rgba(8,1,15,0.82)'; ctx.strokeStyle='#19f0ff'; ctx.lineWidth=1.6; if(fxQ>0.7){ ctx.shadowBlur=14; ctx.shadowColor='#19f0ff'; }
+    ctx.beginPath(); rr(x-w/2,y-h/2,w,h,10); ctx.fill(); ctx.stroke(); ctx.shadowBlur=0;
+    ctx.globalAlpha=al; ctx.fillStyle='#19f0ff'; ctx.fillText(txt,x,y+1); ctx.restore(); }
   // Aufladering des Sprung-Dash um das Schiff (füllt sich in JUMP_CD; bei „voll" sanft pulsierend)
   function drawJumpRing(){ if(mode==='zen'||jumping>0) return; const x=player.x,y=player.y,rr=player.r+9, ready=jumpStock>=1;
     ctx.save(); ctx.lineWidth=2.6;
