@@ -807,7 +807,17 @@
     W=wrap.clientWidth||window.innerWidth; H=wrap.clientHeight||window.innerHeight;
     canvas.style.width=W+'px'; canvas.style.height=H+'px';
     applyScale();
-    ctx.imageSmoothingEnabled=false; }   // Pixel-Sprites (Schiff/Boss) nearest-neighbor → scharfe Kanten statt verwaschen
+    ctx.imageSmoothingEnabled=false; placeCockpit(); }   // Pixel-Sprites (Schiff/Boss) nearest-neighbor → scharfe Kanten statt verwaschen
+  // Cockpit immer am WIRKLICH sichtbaren unteren Rand verankern. Reines CSS bottom:0 gegen
+  // #wrap=100dvh rutscht auf manchen Mobil-Engines unter die ein-/ausfahrende Browser-/System-
+  // leiste (100dvh löst dort zum großen Viewport auf) → Cockpit unten angeschnitten. Wir messen
+  // die verdeckte Höhe selbstkorrigierend gegen die echte #wrap-Höhe: bei korrektem dvh = 0
+  // (also exakt bottom:0), sonst hebt es genau um den verdeckten Betrag an. Safe-Area-Padding
+  // (Gesten-/Systemleiste) wirkt zusätzlich obendrauf.
+  function placeCockpit(){ const ck=document.getElementById('cockpit'), wrap=document.getElementById('wrap'); if(!ck||!wrap) return;
+    const vv=window.visualViewport; let gap=0;
+    if(vv){ gap=Math.max(0,Math.round(wrap.clientHeight-(vv.height+vv.offsetTop))); }
+    ck.style.bottom=gap+'px'; }
   // Interne Render-Auflösung = W·H · DPR · qScale. qScale<1 (vom Governor unter Last) senkt die Füllrate
   // massiv (Browser skaliert hoch) → flüssiger, ohne dass Spiel-Koordinaten sich ändern (Transform gleicht aus).
   function applyScale(){ const bw=Math.max(1,Math.round(W*DPR*qScale)), bh=Math.max(1,Math.round(H*DPR*qScale));
@@ -816,7 +826,8 @@
   window.addEventListener('resize',resize);
   // In TWA/PWA-Vollbild blenden sich die System-Leisten erst KURZ nach dem Laden aus →
   // dvh/clientHeight stimmt anfangs noch nicht. Auf weitere Signale hören + mehrfach nachmessen.
-  if(window.visualViewport) window.visualViewport.addEventListener('resize',resize);
+  if(window.visualViewport){ window.visualViewport.addEventListener('resize',resize);
+    window.visualViewport.addEventListener('scroll',placeCockpit); }   // Toolbar-Ein/Ausblenden feuert oft nur 'scroll' → Cockpit nachführen
   window.addEventListener('orientationchange',()=>{ resize(); setTimeout(resize,250); });
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) resize(); });
   document.addEventListener('fullscreenchange',()=>setTimeout(resize,50));
@@ -3393,7 +3404,7 @@
   // ---------- Cockpit-HUD (DOM, unten): Leben/Schild/Waffen/Synergien ----------
   const SHIELD_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L21 6 V12 C21 17 17 21 12 22 C7 21 3 17 3 12 V6 Z" fill="#2effc0"/></svg>';
   const cockpitEl=()=>document.getElementById('cockpit');
-  function showCockpit(on){ const ck=cockpitEl(); if(ck){ ck.classList.toggle('hidden',!on); if(on) ck._sig=''; } }
+  function showCockpit(on){ const ck=cockpitEl(); if(ck){ ck.classList.toggle('hidden',!on); if(on){ ck._sig=''; placeCockpit(); } } }
   function renderCockpit(){ const ck=cockpitEl(); if(!ck||ck.classList.contains('hidden')) return;
     const sp=(opt.guns&&skillPts>0)?skillPts:0, synU=SYNERGIES.filter(s=>synUnlocked(s.id)).length;
     const wsig=WEAPONS.map(w=>{ const a=arsenal.w[w.id]; return w.id+(a?('E'+a.lvl):(weaponUnlocked(w.id)?'U':'L')); }).join(',');
