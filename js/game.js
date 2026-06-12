@@ -1337,10 +1337,17 @@
   }
 
   function addScore(n){ score+=Math.round(n*mods.scoreMult*(effects.double>0?2:1)); }
-  function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ multiplier=m; onComboUp(m); } else multiplier=m; if(m>runMaxMult)runMaxMult=m; }
-  function onComboUp(m){ floatText(player.x,player.y-30,'x'+m,'#ff2e88',20); checkComboAch(m);
+  function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ const prev=multiplier; multiplier=m; onComboUp(m,prev); } else multiplier=m; if(m>runMaxMult)runMaxMult=m; }
+  // Combo-Hitze: Farbe steigt mit dem Multiplikator (cyan → mint → gold → orange → heißes Pink)
+  function comboColor(m){ return m>=20?'#ff2e88':m>=15?'#ff9a2e':m>=10?'#ffe600':m>=5?'#2effc0':'#19f0ff'; }
+  function onComboUp(m,prev){ const col=comboColor(m); floatText(player.x,player.y-30,'x'+m,col,20+Math.min(14,m)); checkComboAch(m);
+    if(m>=5 && Math.floor(m/5)>Math.floor((prev||1)/5)){   // Meilenstein überschritten (auch bei Sprüngen): Flash + Shake + Ring-Puls + steigender Ton
+      const tier=Math.floor(m/5); flash=Math.max(flash||0,0.28+Math.min(0.3,tier*0.06)); flashColor=col; shake=Math.max(shake,8+Math.min(16,tier*3));
+      for(let i=0;i<14;i++){ const a=i/14*6.28; emitP(player.x,player.y,Math.cos(a)*240,Math.sin(a)*240,0.08,col,rand(3,6)); }
+      try{ beep(440+m*18,0.07,'square',0.18); setTimeout(()=>beep(660+m*22,0.09,'square',0.16),70); }catch(_){}
+      vibe([20,30,20]); }
     const w=(P('combo')||{})[m];
-    if(w){ banner={text:w,sub:'',t:1.4,color:'#ffe600'}; vibe([15,25,15]); } }
+    if(w){ banner={text:w,sub:'',t:1.4,color:col}; vibe([15,25,15]); } }
   function bumpCombo(){ comboEl.classList.remove('bump'); void comboEl.offsetWidth; comboEl.classList.add('bump'); }
 
   // ---------- Easteregg: CODE 67 ----------
@@ -2411,7 +2418,8 @@
           ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(e.x,e.y,e.r*0.4,0,6.28); ctx.fill(); } }
 
       // player trail
-      for(let i=0;i<player.trail.length;i++){ const t=player.trail[i],a=i/player.trail.length; ctx.globalAlpha=a*0.5; ctx.fillStyle='#19f0ff'; ctx.beginPath(); ctx.arc(t.x,t.y,player.r*a*0.8,0,6.28); ctx.fill(); } ctx.globalAlpha=1;
+      const tcol=comboColor(multiplier||1);   // Trail glüht in der Combo-Hitze-Farbe (visuelles „on fire")
+      for(let i=0;i<player.trail.length;i++){ const t=player.trail[i],a=i/player.trail.length; ctx.globalAlpha=a*0.5; ctx.fillStyle=tcol; ctx.beginPath(); ctx.arc(t.x,t.y,player.r*a*0.8,0,6.28); ctx.fill(); } ctx.globalAlpha=1;
 
       // player (mitwachsendes Pixel-Raumschiff)
       if(state===S.PLAY||state===S.UPGRADE||state===S.PAUSE){ const blink=invuln>0&&jumping<=0&&Math.floor(invuln*16)%2===0;
