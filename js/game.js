@@ -3407,9 +3407,10 @@
     if(arsenalSkillMode) arsenalTab='loadout';   // Skill-Screen erzwingt Loadout
     const synReady=ownedCount()>=2;   // Synergien erst zeigen, wenn ≥2 Waffen (vorher nicht nutzbar → Neulinge nicht verwirren)
     if(arsenalTab==='syn' && !synReady) arsenalTab='loadout';
-    // Reiter-Leiste (Loadout · Synergien · Werkstatt) — ein Hub für alles
+    if(arsenalTab==='shop') arsenalTab='loadout';   // Werkstatt ist jetzt EIN eigener Screen (#shop) – kein doppelter Shop-Tab mehr im Arsenal
+    // Reiter-Leiste (Loadout · Synergien) — Arsenal = nur Ausrüstung; Upgrades/Skins laufen über die Werkstatt
     const arTabs=document.getElementById('arTabs');
-    if(arTabs){ const tabs=[['loadout','🎒 '+t('arsenalTab')]]; if(synReady) tabs.push(['syn','🔗 '+t('synTitle')]); tabs.push(['shop','🛠️ '+t('workshop')]);
+    if(arTabs){ const tabs=[['loadout','🎒 '+t('arsenalTab')]]; if(synReady) tabs.push(['syn','🔗 '+t('synTitle')]);
       arTabs.innerHTML=''; arTabs.setAttribute('role','tablist'); tabs.forEach(([k,lbl])=>{ const b=document.createElement('button'); b.className='shopTab'+(arsenalTab===k?' on':''); b.textContent=lbl;
         b.setAttribute('role','tab'); b.setAttribute('aria-selected',arsenalTab===k);
         b.addEventListener('click',()=>{ arsenalTab=k; renderArsenalView(); }); arTabs.appendChild(b); }); }
@@ -4181,7 +4182,7 @@
   const avb=document.getElementById('arsenalBackBtn'); if(avb) avb.addEventListener('click',closeArsenalView);
   const avs=document.getElementById('arsenalStatusBtn'); if(avs) avs.addEventListener('click',openStatusFromArsenal);   // Arsenal → Schiffsstatus (Loadout sofort prüfen)
   const usb=document.getElementById('upgradeShopBtn'); if(usb) usb.addEventListener('click',()=>openShop('upgrade'));
-  const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openArsenalView('shop'));
+  const psb=document.getElementById('pauseShopBtn'); if(psb) psb.addEventListener('click',()=>openShop('pause'));   // Pause → Werkstatt = der EINE Shop-Screen (#shop), konsistent mit Over/Upgrade/Coin-Badge
   const ckEl=document.getElementById('cockpit'); if(ckEl) ckEl.addEventListener('click',e=>{ const u=e.target.closest('[data-ult]');
     if(u&&state===S.PLAY&&(synCharge[u.dataset.ult]||0)>=1){ fireUlt(u.dataset.ult); return; }   // volle ÜBERLADUNG → aktiver Fusions-Skill
     const el=e.target.closest('[data-tab]'); if(!el) return; openArsenalFromCockpit(el.dataset.tab||'loadout'); });
