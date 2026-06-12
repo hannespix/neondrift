@@ -23,7 +23,7 @@
     de:{
       tag:'Jede Sitzung ein Highscore', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
       howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen 🪙 und Skillpunkte 💠 – im Hangar 🎒 rüstest du auf.',
-      tipSP:'💠 Skillpunkt!', tipSPd:'Hangar 🎒 unten öffnen & aufrüsten', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab',
+      tipSP:'💠 Skillpunkt!', tipSPd:'Hangar 🎒 unten öffnen & aufrüsten', tipSyn:'🔗 Fusion möglich!', tipSynd:'Arsenal → „Synergien": 2 Waffen verschmelzen', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft THRONERUSH als Vollbild-App.',
       m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
@@ -52,7 +52,7 @@
     en:{
       tag:'Every sitting a highscore', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
       howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins 🪙 and skill points 💠 – gear up in the Hangar 🎒.',
-      tipSP:'💠 Skill point!', tipSPd:'Open the Hangar 🎒 below to gear up', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off',
+      tipSP:'💠 Skill point!', tipSPd:'Open the Hangar 🎒 below to gear up', tipSyn:'🔗 Fusion ready!', tipSynd:'Arsenal → “Synergies”: fuse two weapons', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then THRONERUSH runs fullscreen.',
       m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
@@ -81,7 +81,7 @@
     fr:{
       tag:'Chaque séance un highscore', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
       howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins 🪙 et points 💠 – équipe-toi au Hangar 🎒.',
-      tipSP:'💠 Point de skill !', tipSPd:'Ouvre le Hangar 🎒 en bas pour t’équiper', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire',
+      tipSP:'💠 Point de skill !', tipSPd:'Ouvre le Hangar 🎒 en bas pour t’équiper', tipSyn:'🔗 Fusion possible !', tipSynd:'Arsenal → « Synergies » : fusionne deux armes', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – THRONERUSH passe en plein écran.',
       m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
@@ -1560,7 +1560,8 @@
     spawnParticles(s.x,s.y,'#19f0ff',16,240); flash=Math.min(0.5,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); beep(1600,0.06,'square',0.12,300); updateAllBalances();
     tutHint('sp',t('tipSP'),t('tipSPd'),'#19f0ff'); }   // erster Skillpunkt: zeig, wo man aufrüstet
   // Boss-Drop: 0–3 Skillpunkte, gewichtet – meist 0/1 (1 ~50%), 2 sehr selten, 3 sehr sehr selten
-  function grantBossSP(x,y){ const r=Math.random(), n=r<0.41?0:(r<0.91?1:(r<0.985?2:3));
+  function grantBossSP(x,y){ const r=Math.random(); let n=r<0.41?0:(r<0.91?1:(r<0.985?2:3));
+    if(runBosses<=2 && n<1) n=1;   // verlässlicher Progress-Einstieg: die ersten beiden Bosse geben sicher mind. 1 Skillpunkt
     if(n<=0) return;   // kein Drop
     if(state!==S.PLAY){ skillPts+=n; saveSP(); updateAllBalances(); return; }   // außerhalb des Spiels: direkt gutschreiben (kein Feld)
     for(let i=0;i<n;i++) spawnSP(x+rand(-46,46), y+rand(-12,34));
@@ -1805,6 +1806,7 @@
     if(jumping>0){ jumping-=dt; scanClutch(); if(jumping<=0){ if(jumpClutch>0) clutchReward(jumpClutch); if(mods.jumpStomp) jumpStomp(); } }   // Landung: Clutch-Belohnung + (Upgrade) Stoßwelle
     else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ jumpCharge=0; jumpStock++; } }
     if(mode!=='zen' && jumpStock>=1 && (elapsed||0)>6.5 && !(meta.seen&&meta.seen.jump)){ meta.seen=meta.seen||{}; meta.seen.jump=1; saveMeta(); banner={text:t('jumpHint'),sub:t('jumpHint2'),t:3.4,color:'#19f0ff'}; }   // einmaliges Tutorial: Tippen = Sprung (nach dem Story-Intro)
+    if(mode!=='zen' && opt.guns && ownedCount()>=2 && !(meta.seen&&meta.seen.syn2)) tutHint('syn2',t('tipSyn'),t('tipSynd'),'#ff2e88');   // 2 Waffen → Synergie-System einführen (richtiger Moment, nicht zu früh)
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
     tickCurses(dt);   // zeitlich begrenzte Flüche herunterzählen + bei 0 zurücksetzen
 
