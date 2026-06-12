@@ -3978,8 +3978,8 @@
   document.getElementById('settingsCloseBtn').addEventListener('click',closeSettings);
   { const sb=document.getElementById('shipBtn'); if(sb) sb.addEventListener('click',()=>{ shopTab='cosmetic'; openShop('start'); }); }   // Hauptmenü → Skin-Auswahl (Kosmetik-Tab); Editor sitzt prominent oben darin
   { const cb=document.getElementById('coinBtn'); if(cb){ cb.innerHTML='<span class="ico">'+CHEST_SVG+'</span><span class="iconLbl" id="lblCoin">'+t('il_coin')+'</span>'; cb.addEventListener('click',openCoinShop); }
-    // Truhen-Button neben dem Werkstatt-Guthaben (Menü-Werkstatt + Arsenal-Werkstatt) – NICHT im Spiel-HUD
-    ['shopChestBtn','arShopChestBtn'].forEach(id=>{ const e=document.getElementById(id); if(e){ e.innerHTML=CHEST_SVG; e.addEventListener('click',openCoinShop); } });
+    // Coin-Shop außerhalb des Hauptmenüs: Klick auf die Coin-Anzeige (Werkstatt + Arsenal-Werkstatt) – keine Schatztruhe mehr
+    ['shopChips','arShopChips'].forEach(id=>{ const e=document.getElementById(id); if(e) e.addEventListener('click',openCoinShop); });
     const ct=document.getElementById('coinTitle'); if(ct) ct.innerHTML=CHEST_SVG+' COINS';
     const cbk=document.getElementById('coinBackBtn'); if(cbk) cbk.addEventListener('click',closeCoinShop);
     const ccl=document.getElementById('coinCloseBtn'); if(ccl) ccl.addEventListener('click',closeCoinShop);
