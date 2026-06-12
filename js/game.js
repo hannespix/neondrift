@@ -402,6 +402,11 @@
     const sc=document.getElementById('lore'); if(sc){ sc.classList.remove('hidden'); sc.scrollTop=0; }
     try{ beep(523,0.09,'sine',0.2); setTimeout(()=>beep(392,0.11,'sine',0.18),120); }catch(_){} }
   function dismissLore(){ const sc=document.getElementById('lore'); if(!sc||sc.classList.contains('hidden')) return; sc.classList.add('hidden');
+    // Ghost-Tap abfangen: die Lore schließt bei 'pointerdown', der vom selben Tap erzeugte
+    // 'click' würde sonst die freigelegte Upgrade-Karte darunter sofort auswählen.
+    const eat=ev=>{ ev.stopPropagation(); ev.preventDefault(); };
+    window.addEventListener('click',eat,{capture:true,once:true});
+    setTimeout(()=>{ try{ window.removeEventListener('click',eat,{capture:true}); }catch(_){} },500);
     state=loreReturn; if(loreReturn===S.PLAY) lastT=performance.now(); try{ beep(440,0.06,'square',0.16); }catch(_){} }
   let elapsed, spawnT, orbT, powerupT, coinT, difficulty, shake, flash, flashColor, nearGlow, nearCount, deathFlash=0;
   let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a', deathMsg='';   // Abgang: Timer + Loser-Materialisierung + Spott-Nachricht
