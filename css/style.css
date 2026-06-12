@@ -485,6 +485,15 @@
   #hud{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:flex-start;padding:18px 22px;pointer-events:none;font-family:'Orbitron',sans-serif;}
   #score{font-weight:900;font-size:clamp(26px,7vw,46px);text-shadow:0 0 14px var(--cyan);}
   #coinHud{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(14px,3.4vw,20px);color:var(--yellow);text-shadow:0 0 12px rgba(255,230,0,.6);margin-top:-2px;}
+  /* Persistentes Coin-Badge: gleiche Stelle (oben links) auf allen Overlay-Screens außer Hauptmenü → Tipp öffnet die Werkstatt */
+  #coinBadge{position:fixed;top:max(10px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));z-index:13;
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(14px,3.6vw,18px);color:var(--yellow);
+    background:linear-gradient(180deg,rgba(38,28,4,.85),rgba(8,1,15,.92));border:1px solid rgba(255,230,0,.5);border-radius:12px;
+    padding:7px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;text-shadow:0 0 10px rgba(255,230,0,.5);
+    box-shadow:0 0 14px rgba(255,230,0,.22),inset 0 0 10px rgba(255,230,0,.08);transition:transform .08s ease;}
+  #coinBadge.hidden{display:none;}
+  #coinBadge::after{content:" 🛠️";font-size:.82em;opacity:.85;}
+  #coinBadge:active{transform:scale(.93);}
   #left-hud{display:flex;flex-direction:column;gap:6px;}
   #modeName{font-family:'Space Mono';font-size:11px;letter-spacing:.22em;color:#9a86c9;}
   #zenExit{pointer-events:auto;cursor:pointer;display:none;margin-top:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.3);color:#fff;font-family:'Space Mono';font-size:12px;letter-spacing:.15em;padding:6px 14px;border-radius:30px;width:max-content;}

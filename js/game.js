@@ -3172,12 +3172,21 @@
 
   // ---------- Werkstatt (Meta-Shop) ----------
   function updateMenuChips(){ if(menuChipsEl) menuChipsEl.textContent='🪙 '+fmt(meta.chips)+((meta.won)?('  ·  🏆 '+meta.won):''); }
+  // Persistentes Coin-Badge: auf allen Overlay-Screens außer Hauptmenü (#start) / Werkstatt (#shop, zeigt Guthaben selbst) sichtbar
+  const BADGE_SCREENS=['over','upgrade','pause','arsenalView','settings','ach','statusView','howto','shipEditor','coinshop'];
+  let coinBadgeEl=null;
+  function visibleBadgeScreen(){ for(const id of BADGE_SCREENS){ const e=document.getElementById(id); if(e && !e.classList.contains('hidden')) return id; } return null; }
+  function syncCoinBadge(){ const el=coinBadgeEl||(coinBadgeEl=document.getElementById('coinBadge')); if(!el) return;
+    const scr=visibleBadgeScreen();
+    if(scr){ const txt='🪙 '+fmt(meta.chips); if(el._t!==txt){ el._t=txt; el.textContent=txt; } el.dataset.from=scr; el.classList.remove('hidden'); }
+    else el.classList.add('hidden'); }
   let shopFrom='start';                                  // Werkstatt: aus Menü, Game-Over ODER mitten im Run (Upgrade-/Skill-Screen)
   function runShopLabel(){ return '🛠️ '+t('workshop')+' 🪙 '+fmt(meta.chips); }
   function updateRunShopBtns(){ const a=document.getElementById('upgradeShopBtn');
     if(a) a.textContent=runShopLabel(); }
   function openShop(from){ setShopHost('shop'); const run=(from==='upgrade'||from==='arsenalView'||from==='pause');
-    shopFrom=(from==='over')?'over':run?from:'start';
+    // beliebigen sichtbaren Overlay-Screen als Rückkehrziel akzeptieren (Coin-Badge kann von überall öffnen); Fallback Hauptmenü
+    shopFrom=(from && from!=='shop' && document.getElementById(from))?from:'start';
     if(run) accrueChips();                               // Live-Chips frisch, bevor man sie ausgibt
     document.getElementById(shopFrom).classList.add('hidden'); renderShop();
     const sh=document.getElementById('shop'); sh.classList.remove('hidden'); sh.scrollTop=0; sfxUpgrade(); }
@@ -4021,6 +4030,7 @@
     if(achToasts.length){ achToasts[0].t-=dt; if(achToasts[0].t<=0) achToasts.shift(); }
     renderCockpit();   // DOM-Cockpit (sig-guarded, nur bei Änderung)
     renderFxbar();     // DOM-Effekt-Timer oben
+    syncCoinBadge();   // persistentes Coin-Badge (oben, alle Overlay-Screens außer Hauptmenü) → Werkstatt-Shortcut
     // Funken-Layer immer animieren (auch über Pause/Hangar/Upgrade) → derselbe coole Sparkle-Hintergrund wie in den Menüs.
     asFrame(dt);
     // Bei offenem Vollbild-Overlay (Upgrade/Skill-Baum/Pause) die SPIEL-Szene einfrieren (kein draw()) → spart Render-Last; das Menü deckt sie eh ab.
@@ -4072,6 +4082,7 @@
   document.getElementById('shopBtn').addEventListener('click',()=>openArsenalView('loadout'));   // Menü → Hangar (kaufen + ausrüsten + wechseln, mit Coins)
   document.getElementById('overShopBtn').addEventListener('click',()=>openShop('over'));
   document.getElementById('shopBackBtn').addEventListener('click',closeShop);
+  { coinBadgeEl=document.getElementById('coinBadge'); if(coinBadgeEl) coinBadgeEl.addEventListener('click',()=>{ const from=coinBadgeEl.dataset.from||'start'; if(from==='shop') return; openShop(from); }); }   // Coin-Badge → immer zur Werkstatt (Rückkehr zum Ursprungs-Screen)
   document.getElementById('shopCloseBtn').addEventListener('click',closeShop);
   // Pixel-Schiff-Editor: Buttons + Mal-Eingabe
   { const g=id=>document.getElementById(id);
