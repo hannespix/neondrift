@@ -461,7 +461,7 @@
   let director=0.5, overdrive=false;                  // DDA + Combo-Overdrive
   // Selbstregelnder Flow-Regler: flowI faehrt gedaempft mit der Live-Performance (director) mit + ein zwischen-Runs gelerntes Skill-Offset.
   // Legt sich gedeckelt [0.8..1.26] auf Tempo & Elite-Haeufigkeit → haelt den Spieler im 'gerade so machbar'-Korridor, egal welcher Skill/Build.
-  let flowI=1, skillBias=0;   // Regler-Overlay-Schalter liegt in opt.dbg (persistent; F8 oder Coin-Shop-Code "dda")
+  let flowI=1, skillBias=0;   // DDA-Regler-Overlay nur für Dev: opt.dbg ist im fertigen Spiel nicht erreichbar (kein F8/Code, wird nie als true geladen) – zum Debuggen manuell in der Konsole opt.dbg=true setzen
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0, runHits=0;  // Statistik pro Run (runHits = kassierte Treffer → Schwierigkeits-Signal)
   let onbDrops=0;   // Onboarding: wie viele der 3 Starter-Skillpunkte in Level 1 schon gedroppt sind
@@ -472,7 +472,7 @@
   let opt=loadOpt();                                  // Einstellungen (Screenshake/Effekte/Flüche)
   // Lautstärke 0..1: alte Boolean-Werte (true/false) + neue Zahlen migrieren
   function volNum(v){ return Math.max(0,Math.min(1, v===true?1:(v===false?0:(+v||0)))); }
-  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('thronerush_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,telemetry:r.telemetry==null?false:!!r.telemetry,dbg:r.dbg==null?false:!!r.dbg,
+  function loadOpt(){ try{ const r=JSON.parse(localStorage.getItem('thronerush_opt')); if(r&&typeof r==='object') return {shake:r.shake==null?1:r.shake,fx:r.fx==null?1:r.fx,curses:r.curses==null?true:r.curses,guns:r.guns==null?true:r.guns,dmg:r.dmg==null?true:r.dmg,dailyShop:r.dailyShop==null?true:r.dailyShop,telemetry:r.telemetry==null?false:!!r.telemetry,dbg:false,
     music:r.music==null?(r.muted?0:1):volNum(r.music), sfx:r.sfx==null?(r.muted?0:1):volNum(r.sfx), fullscreen:r.fullscreen==null?true:r.fullscreen}; }catch(e){} return {shake:1,fx:1,curses:true,guns:true,dmg:true,dailyShop:true,telemetry:false,dbg:false,music:1,sfx:1,fullscreen:true}; }
   function saveOpt(){ try{ localStorage.setItem('thronerush_opt',JSON.stringify(opt)); }catch(e){} }
 
@@ -2766,7 +2766,7 @@
       for(let i=0;i<3+((m*6)|0);i++){ const yy=Math.random()*H;
         ctx.fillStyle=`rgba(${Math.random()<.5?255:25},${(Math.random()*255)|0},${Math.random()<.5?136:255},${0.05+0.13*m})`;
         ctx.fillRect(-40,yy,W+80,2+Math.random()*7); } }
-    // Debug-Overlay des DDA-Reglers (Taste F8) – nur Entwicklung/Feintuning, normal aus
+    // Debug-Overlay des DDA-Reglers – nur Entwicklung/Feintuning, im fertigen Spiel nicht erreichbar (opt.dbg manuell in der Konsole setzen)
     if(opt.dbg && (state===S.PLAY||state===S.PAUSE)){ ctx.save(); ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.fillRect(6,52,182,58);
       ctx.fillStyle='#7fffd4'; ctx.font='11px Space Mono, monospace'; ctx.textAlign='left'; ctx.textBaseline='top';
       ctx.fillText('DDA flowI '+flowI.toFixed(2)+(flowI>1.02?' UP':(flowI<0.98?' DOWN':' =')),12,58);
@@ -3879,12 +3879,8 @@
       const tok=resp&&resp.details&&(resp.details.purchaseToken||resp.details.token);   // Token DIREKT aus der Kauf-Antwort (kein listPurchases nötig)
       await resp.complete('success');
       meta.chips=(meta.chips||0)+coinsFromId(sku); saveMeta(); updateAllBalances();   // Coins sofort gutschreiben (SKU ist bekannt)
-      let cdbg='token:'+(tok?'ja':'nein');
-      if(!tok){ cdbg+=' (kein Token)'; }
-      else { const err=await consumeToken(tok);   // mit Wiederholung/Backoff
-        if(err){ cdbg+=' consume-Fehler:'+err; addPendingToken(tok); }   // hängenden Token merken → später erneut versuchen
-        else cdbg+=' consume:ok'; }
-      if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'! · '+cdbg; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
+      if(tok){ const err=await consumeToken(tok); if(err) addPendingToken(tok); }   // Token mit Wiederholung/Backoff konsumieren; Fehler → hängenden Token merken (später erneut versuchen)
+      if(msg){ msg.textContent='✓ +'+fmt(coinsFromId(sku))+' '+t('coins')+'!'; msg.className='devMsg ok'; } sfxPow(); vibe([20,20,40]);
       consumeOwned();   // zusätzlich best-effort (falls listPurchases doch verfügbar ist)
     }catch(e){ if(e&&(e.name==='AbortError'||e.name==='NotAllowedError')) return;   // Nutzer hat abgebrochen → still
       if(msg){ msg.textContent='✗ '+(BUYFAIL[lang]||BUYFAIL.de); msg.className='devMsg bad'; } } }
@@ -4475,7 +4471,6 @@
       if(state===S.PLAY) pauseGame(); else if(state===S.PAUSE) resumeGame(); else if(state!==S.MENU) toMenu(); }
     else if((e.code==='Space'||e.code==='Enter')&&state===S.OVER){e.preventDefault();startGame();}
     else if(state===S.PLAY&&e.code.indexOf('Digit')===0){ const i=parseInt(e.code.slice(5),10)-1; if(i>=0&&i<activeSyn.length) fireUlt(activeSyn[i]); }   // Tasten 1–4 = ÜBERLADUNG der aktiven Fusionen
-    if(e.key==='F8'){ opt.dbg=!opt.dbg; saveOpt(); }   // Debug: DDA-Regler-Overlay (flowI/director/skillBias) ein-/ausblenden (Desktop; mobil via Coin-Shop-Code "dda")
     if(e.key==='7'&&lastKey==='6') trigger67(); lastKey=e.key; });
   document.addEventListener('visibilitychange',()=>{ lastT=performance.now();
     if(document.hidden){
