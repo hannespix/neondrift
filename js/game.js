@@ -194,7 +194,7 @@
   const mTxt =id=>(((METATR[lang]&&METATR[lang][id])||METATR.en[id]||METATR.de[id]||['',''])[1])||'';
   let shopTab='ship';   // aktiver Werkstatt-Reiter (Waffen/Synergien laufen über den Hangar)
   // Waffen/Synergien laufen jetzt über den Hangar (Loadout/Synergien) → in der Werkstatt nur noch dauerhafte Boosts + Kosmetik
-  const SHOPTABS=[['ship','🛡️'],['power','💥'],['synergy','🧬'],['economy','🪙'],['cosmetic','🎨']];
+  const SHOPTABS=[['ship','🛡️'],['power','💥'],['economy','🪙'],['cosmetic','🎨']];
   const shopName=m=> m.id.indexOf('fu_')===0 ? wName(m.id.slice(3))+' – Pfade' : (m.id.indexOf('sy_')===0 ? synName(m.id.slice(3)) : mName(m.id));
   const shopDesc=m=> m.id.indexOf('fu_')===0 ? (wArch(m.id.slice(3))+' · nächste Skill-Pfad-Stufe (im Run wählbar)') : (m.id.indexOf('sy_')===0 ? synDesc(m.id.slice(3)) : (mTxt(m.id)+(m.id.indexOf('bp_')===0?(' · '+wArch(m.id.slice(3))):'')));
   const FORMTR={de:{sine:'Wellenflug',drift:'Gleiter',orbit:'Kreisel',zigzag:'Irrläufer',pendulum:'Pendler'},
@@ -3310,7 +3310,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v334';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v335';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
@@ -3480,7 +3480,7 @@
     if(ib){ e.stopPropagation(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } else hideTip(); });
   document.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ') return; const ib=e.target&&e.target.classList&&e.target.classList.contains('infoBtn')?e.target:null;
     if(ib){ e.preventDefault(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } });
-  function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max;
+  function metaCard(m,rr=renderShop){ const lvl=metaLvl(m.id), maxed=lvl>=m.max;
     const a=researchActive(), here=!!(a&&a.id===m.id), qn=queuedCount(m.id);
     const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'')+(here?' researching':'');
     let btn;
@@ -3492,8 +3492,8 @@
       else { const c=metaCost(m,effLvl), aff=(meta.chips||0)>=c; btn='<button class="cost queue'+(aff?'':' locked')+'" type="button">＋ 🪙 '+c+'</button>'; } }
     else { const cost=metaCost(m,lvl), afford=(meta.chips||0)>=cost; btn='<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+' · 🔬 '+fmtTime(metaDuration(m,lvl))+'</button>'; }
     card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+(here?' · 🔬 läuft':'')+(qn>0?(' · ⏳×'+qn):'')+'</div>'+btn;
-    const ab=card.querySelector('button.accel'); if(ab) ab.addEventListener('click',()=>{ if(accelerateResearch()) sfxUpgrade(); renderShop(); });
-    else { const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id)); }
+    const ab=card.querySelector('button.accel'); if(ab) ab.addEventListener('click',()=>{ if(accelerateResearch()) sfxUpgrade(); rr(); });
+    else { const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id,rr)); }
     return card; }
   function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy,tip}
     const right = o.state==='done' ? '<span class="wnode-done">✓</span>'
@@ -3524,19 +3524,11 @@
     ['slot','veteran'].forEach(id=>{ const m=metaById(id); if(m) gen.appendChild(metaCard(m)); });
     shopCards.appendChild(gen);
     for(const w of WEAPONS) shopCards.appendChild(weaponAccordion(w)); }
-  function renderSynergyTab(){ const gen=document.createElement('div'); gen.className='shopRow';
-    const m=metaById('synslot'); if(m) gen.appendChild(metaCard(m)); shopCards.appendChild(gen);
-    const hint=document.createElement('p'); hint.className='synhint'; hint.textContent=t('synHint'); shopCards.appendChild(hint);
-    const list=document.createElement('div'); list.className='synShopList';
-    const rows=SYNERGIES.map(sy=>({sy,owned:metaLvl('sy_'+sy.id)>0})).sort((a,b)=>(a.owned?1:0)-(b.owned?1:0));   // kaufbare zuerst
-    for(const {sy,owned} of rows){ const mm=metaById('sy_'+sy.id), cost=metaCost(mm,0), aff=(meta.chips||0)>=cost;
-      list.insertAdjacentHTML('beforeend', shopNode({ico:WID[sy.pair[0]].ico+WID[sy.pair[1]].ico, title:synName(sy.id), sub:synDesc(sy.id), state:owned?'done':'buy', cost, aff, buy:'sy_'+sy.id, tip:FLAV(sy.id)})); }
-    list.querySelectorAll('button[data-buy]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); buyMeta(b.dataset.buy); }));
-    shopCards.appendChild(list); }
+  // (Synergien/Fusionen werden ausschließlich im Arsenal-Hub-Reiter „🔗 Synergien" gekauft UND kombiniert – kein zweiter Shop-Reiter mehr.)
   const weaponBpOwned=id=>id==='blaster'||metaLvl('bp_'+id)>0;
   // „Beste nächste Upgrades": leistbare zuerst (nach Wirkung/Prio, dann günstigste), sonst nächste Ziele – direkt kaufbar
   function renderShopReco(){ const host=document.getElementById('shopReco'); if(!host) return; host.innerHTML='';
-    const cand=META.filter(m=>metaLvl(m.id)<m.max).map(m=>{ const lvl=metaLvl(m.id),cost=metaCost(m,lvl); return {m,lvl,cost,aff:(meta.chips||0)>=cost}; });
+    const cand=META.filter(m=>metaLvl(m.id)<m.max&&shopCat(m.id)!=='synergy').map(m=>{ const lvl=metaLvl(m.id),cost=metaCost(m,lvl); return {m,lvl,cost,aff:(meta.chips||0)>=cost}; });   // Synergien laufen über den Arsenal-Reiter, nicht über die Shop-Reco
     if(!cand.length){ host.classList.add('hidden'); return; } host.classList.remove('hidden');
     cand.sort((a,b)=> (b.aff-a.aff) || ((b.m.prio||0)-(a.m.prio||0)) || (a.cost-b.cost));
     const pick=cand.slice(0,3);
@@ -3560,7 +3552,6 @@
     shopCards.innerHTML=''; shopCards.classList.toggle('treeCols',shopTab==='weapons');
     if(shopTab==='cosmetic'){ skinCards(shopCards); return; }   // Kosmetik-Tab: Skins kaufen/wählen
     if(shopTab==='weapons'){ renderWeaponTab(); return; }       // Waffen-Tab: Accordion-Skilltree pro Waffe
-    if(shopTab==='synergy'){ renderSynergyTab(); return; }      // Fusionen: Slots + alle 21 Synergien kaufbar
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return;
@@ -3724,7 +3715,7 @@
         card.querySelector('.addw').addEventListener('click',()=>addWeaponSkill(w.id)); wrap.appendChild(card); }); }
     else { for(let i=ownedCount();i<arsenal.slots;i++){ const card=document.createElement('div'); card.className='wtree slotEmpty'; card.innerHTML=`<div class="ico">＋</div><p>${t('freeSlot')}</p>`; wrap.appendChild(card); } }
     const sd=document.getElementById('arsenalSyn'); if(sd){
-      // FUSIONEN 2.0: kaufen (hier oder Werkstatt) → bis Slot-Limit frei kombinieren → Kills laden die ÜBERLADUNG (Cockpit)
+      // FUSIONEN 2.0: hier kaufen → bis Slot-Limit frei kombinieren → Kills laden die ÜBERLADUNG (Cockpit). EINZIGER Synergie-Ort.
       const slots=synSlots();
       const rows=SYNERGIES.map(s=>{ const a=s.pair[0],b=s.pair[1],hasA=!!arsenal.w[a],hasB=!!arsenal.w[b],both=hasA&&hasB;
         const bought=synBought(s.id), on=syn[s.id]; let cls,right,tap='';
@@ -3736,7 +3727,9 @@
         const rank=on?3:(bought&&both?2.5:(both?2:((hasA||hasB)?1:0)));
         return {rank,html:`<div class="synrow ${cls}" data-syn="${s.id}"${tap?' data-tap="1"':''}><div class="synhead"><span class="synpair">${WID[a].ico}+${WID[b].ico}</span> <b>${synName(s.id)}</b> ${right}${infoBtn(synName(s.id),FLAV(s.id)+' — '+synDesc(s.id))}</div><div class="synd">${synDesc(s.id)}</div></div>`}; });
       rows.sort((x,y)=>y.rank-x.rank);   // aktiv → wählbar → kaufbar → fehlt
-      sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">🧬 '+activeSyn.length+'/'+slots+'</span></h4><p class="synhint">'+t('synHint')+'</p>'+rows.map(r=>r.html).join('');
+      sd.innerHTML='<h4>'+t('synTitle')+' <span class="synslots">🧬 '+activeSyn.length+'/'+slots+'</span></h4><p class="synhint">'+t('synHint')+'</p><div id="arSynSlot"></div>'+rows.map(r=>r.html).join('');
+      const sm=metaById('synslot'), slotHost=document.getElementById('arSynSlot');   // Slot-Ausbau (+1 aktive Fusion) jetzt direkt hier statt im entfernten Shop-Reiter
+      if(sm&&slotHost) slotHost.appendChild(metaCard(sm,renderArsenalView));
       sd.querySelectorAll('.synrow[data-tap]').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('.infoBtn')||e.target.closest('button')) return; toggleSyn(r.dataset.syn); }));
       sd.querySelectorAll('button[data-buy]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); buyMeta(b.dataset.buy,renderArsenalView); })); }
   }
