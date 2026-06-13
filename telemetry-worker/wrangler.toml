@@ -5,12 +5,12 @@ name = "thronerush-telemetry"
 main = "worker.js"
 compatibility_date = "2024-11-01"
 
-# D1-Datenbank-Binding. database_id nach `wrangler d1 create thronerush_telemetry`
+# D1-Datenbank-Binding. database_id aus `wrangler d1 create` / Dashboard → D1.
 # aus der Ausgabe hier eintragen.
 [[d1_databases]]
 binding = "DB"
 database_name = "thronerush_telemetry"
-database_id = "PLACEHOLDER_NACH_D1_CREATE_EINTRAGEN"
+database_id = "c1f4d8e8-106f-4bf2-aa1a-41ef53794838"
 migrations_dir = "migrations"   # Wrangler-Migrationen (von der GitHub Action automatisch angewendet)
 
 [vars]
