@@ -4014,11 +4014,13 @@
     const ct=document.getElementById('codexTitle'); if(ct) ct.textContent=t('codexTitle')+' · '+cgot+'/'+allCK.length;
     const cw=document.getElementById('codexCards'); if(cw){ cw.innerHTML='';
       const addC=(seen,col,title,desc)=>{ const c=document.createElement('div'); c.className='lcard'+(seen?'':' lock'); c.innerHTML=seen?('<h5 style="color:'+col+'">'+title+'</h5><p>'+desc+'</p>'):('<h5>🔒 ???</h5><p>'+t('codexLocked')+'</p>'); cw.appendChild(c); };
-      const SEPL={de:['⚙️ MECHANIK','✨ EFFEKTE','👾 GEGNER'],en:['⚙️ MECHANICS','✨ EFFECTS','👾 ENEMIES'],fr:['⚙️ MÉCANIQUES','✨ EFFETS','👾 ENNEMIS']}, SL=SEPL[lang]||SEPL.en;
+      const SEPL={de:['⚙️ MECHANIK','✨ EFFEKTE','👾 GEGNER','🔫 WAFFEN','🧬 SYNERGIEN'],en:['⚙️ MECHANICS','✨ EFFECTS','👾 ENEMIES','🔫 WEAPONS','🧬 SYNERGIES'],fr:['⚙️ MÉCANIQUES','✨ EFFETS','👾 ENNEMIS','🔫 ARMES','🧬 SYNERGIES']}, SL=SEPL[lang]||SEPL.en;
       const sep=l=>{ const d=document.createElement('div'); d.style.cssText='flex:1 0 100%;width:100%;grid-column:1/-1;font:700 12px Orbitron,sans-serif;opacity:.55;margin:10px 2px 2px;letter-spacing:1px'; d.textContent=l; cw.appendChild(d); };
       sep(SL[0]); LESSON_ORDER.forEach(k=>{ const L=LESSONS[k]||{col:'#19f0ff'}; addC(!!(meta.seen&&meta.seen[k]),L.col,t('coach_'+k),t('coach_'+k+'d')); });
       sep(SL[1]); CODEX_FX.forEach(e=>addC(!!(meta.seen&&meta.seen[e[0]]),e[3],t(e[1]),t(e[2])));
-      sep(SL[2]); CODEX_ENEMY.forEach(e=>addC(!!(meta.seen&&meta.seen[e[0]]),e[3],t(e[1]),t(e[2]))); } }
+      sep(SL[2]); CODEX_ENEMY.forEach(e=>addC(!!(meta.seen&&meta.seen[e[0]]),e[3],t(e[1]),t(e[2])));
+      sep(SL[3]); WEAPONS.forEach(w=>addC(true,w.col,w.ico+' '+wName(w.id),wDesc(w.id)));   // volle Waffen-Referenz
+      sep(SL[4]); SYNERGIES.forEach(sy=>{ const a=WID[sy.pair[0]],b=WID[sy.pair[1]]; addC(true,'#ff2e88',sy.ico+' '+synName(sy.id)+' ('+(a?a.ico:'')+'+'+(b?b.ico:'')+')',synDesc(sy.id)); }); } }
   // ---------- Schiffsstatus / Gefechtsdatenblatt ----------
   const RAXIS={de:{power:'Feuerkraft',prec:'Präzision',area:'Fläche',control:'Kontrolle',surv:'Überleben',luck:'Glück'},
     en:{power:'Firepower',prec:'Precision',area:'Area',control:'Control',surv:'Survival',luck:'Luck'},
