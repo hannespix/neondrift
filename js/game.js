@@ -41,7 +41,7 @@
       shieldGone:'SCHILD WEG!', comboGoneZ:'COMBO WEG', lifeLost:'−1 ♥', livesLeft:' ♥ ÜBRIG', comboOut:'COMBO AUS', perfect:'PERFEKT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SCHILD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'✕2 PUNKTE & 🪙', pBomb:'BOMBE', boom:'BOOM!', boomSub:' pulverisiert', curseTag:'🎲 FLUCH',
       shareScore:' Punkte! Schlag mich 🔥 ', beatMe:'SCHLAG MICH. 🔥', pointsBig:'PUNKTE', dailyLbl:'TÄGLICH', modeDaily:'TÄGLICH',
-      achBtn:'🏅 ERFOLGE', shipDesigner:'Schiff-Designer', il_ach:'Erfolge', il_status:'Status', il_ship:'Schiff', il_coin:'Coins', il_set:'Setup', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', newShip:'Neues Schiff', del:'Löschen', shipDefault:'Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten', codexTitle:'📚 ENTDECKT', codexLocked:'Noch nicht entdeckt – spiel weiter.',
+      achBtn:'🏅 ERFOLGE', shipDesigner:'Schiff-Designer', il_ach:'Erfolge', il_status:'Status', il_ship:'Schiff', il_coin:'Coins', il_set:'Setup', achTitle:'ERFOLGE', achGot:'🏅 ERFOLG', locked:'gesperrt', active:'AKTIV', choose:'WÄHLEN', customShip:'Eigenes Schiff', newShip:'Neues Schiff', del:'Löschen', shipDefault:'Schiff', design:'Entwerfen', edit:'Bearbeiten', pixels:'Pixel', templates:'Vorlagen', glowUnlock:'Glow freischalten', codexTitle:'📚 ENTDECKT', codexLocked:'Noch nicht entdeckt – spiel weiter.', cefCrit:'🎯 Kritischer Treffer', cefCritd:'Manche Schüsse sind Krits – doppelter (roter) Schaden. Die Krit-Chance steigerst du mit Upgrades.', cefMag:'🧲 Magnet', cefMagd:'Zieht kurz alle Münzen automatisch zu dir. Einfach weiter ausweichen – das Sammeln läuft von selbst.', cefSlow:'⏱ Zeitlupe', cefSlowd:'Verlangsamt kurz die ganze Welt – perfekt, um aus engen Situationen herauszuzirkeln.', cefDbl:'✕2 Punkte', cefDbld:'Kurze Zeit zählen Punkte UND Münzen doppelt. Jetzt lohnt sich Risiko besonders!', cefBomb:'💣 Bombe', cefBombd:'Fegt sofort alle Hindernisse vom Bildschirm. Notbremse für brenzlige Momente.', cefLife:'❤️ Leben', cefLifed:'Ohne Schild kostet ein Treffer ein Leben & setzt die Combo zurück. Bei 0 ist Schluss – sammle Extra-Herzen!',
       near:['KNAPP!','lowkey close','W ausweichen','ZACK!','fr fr','skill 🔥','HUI!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GÖTTLICH fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Dein Pixel-Ich ist jetzt Teil des Bodenbelags.","Tod durch Quadrat. Wie würdevoll.","Die gute Nachricht: Es tat nur einen Frame lang weh.","R.I.P. – Rendered In Pieces.","Selbst das Tutorial weint gerade.","Reflexe wie ein Faultier im Winterschlaf.","Glückwunsch! Du hast den Boden gefunden.","Die Synthwave-Götter schütteln den Kopf.","Du hattest EINE Aufgabe.","Statistisch gesehen: peinlich.","Organspende war gestern. Heute: Pixelspende.","Der Block kam aus dem Nichts. Dein Talent auch.","Game Over. Aber immerhin stilvoll explodiert."],
@@ -70,7 +70,7 @@
       shieldGone:'SHIELD GONE!', comboGoneZ:'COMBO LOST', lifeLost:'−1 ♥', livesLeft:' ♥ LEFT', comboOut:'COMBO OUT', perfect:'PERFECT! 🎯', daily2:'🗓 DAILY',
       pSchild:'SHIELD', pSlow:'SLOW-MO', pMagnet:'MAGNET', pDouble:'✕2 SCORE & 🪙', pBomb:'BOMB', boom:'BOOM!', boomSub:' vaporized', curseTag:'🎲 CURSE',
       shareScore:' points! Beat me 🔥 ', beatMe:'BEAT ME. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 ACHIEVEMENTS', shipDesigner:'Ship Designer', il_ach:'Awards', il_status:'Status', il_ship:'Ship', il_coin:'Coins', il_set:'Setup', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', newShip:'New Ship', del:'Delete', shipDefault:'Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow', codexTitle:'📚 DISCOVERED', codexLocked:'Not discovered yet – keep playing.',
+      achBtn:'🏅 ACHIEVEMENTS', shipDesigner:'Ship Designer', il_ach:'Awards', il_status:'Status', il_ship:'Ship', il_coin:'Coins', il_set:'Setup', achTitle:'ACHIEVEMENTS', achGot:'🏅 ACHIEVEMENT', locked:'locked', active:'ACTIVE', choose:'SELECT', customShip:'Custom Ship', newShip:'New Ship', del:'Delete', shipDefault:'Ship', design:'Design', edit:'Edit', pixels:'Pixels', templates:'Templates', glowUnlock:'Unlock glow', codexTitle:'📚 DISCOVERED', codexLocked:'Not discovered yet – keep playing.', cefCrit:'🎯 Critical Hit', cefCritd:'Some shots are crits – double (red) damage. Raise your crit chance with upgrades.', cefMag:'🧲 Magnet', cefMagd:'Pulls all coins to you for a short while. Just keep dodging – collecting is automatic.', cefSlow:'⏱ Slow-Mo', cefSlowd:'Briefly slows the whole world – perfect for weaving out of tight spots.', cefDbl:'✕2 Points', cefDbld:'For a short time points AND coins count double. Taking risks really pays off now!', cefBomb:'💣 Bomb', cefBombd:'Instantly clears all obstacles off the screen. An emergency brake for hairy moments.', cefLife:'❤️ Lives', cefLifed:'Without a shield a hit costs a life & resets your combo. At 0 it’s over – collect extra hearts!',
       near:['CLOSE!','lowkey close','clean dodge','ZOOM!','fr fr','skill 🔥','WHEW!'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'GODLIKE fr',20:'NO CAP 🔥',24:'CYBER-GOD'},
       quips:["Your pixel self is now part of the flooring.","Death by square. How dignified.","Good news: it only hurt for one frame.","R.I.P. – Rendered In Pieces.","Even the tutorial is crying.","Reflexes like a sloth on melatonin.","Congrats! You found the floor.","The synthwave gods shake their heads.","You had ONE job.","Statistically speaking: embarrassing."],
@@ -99,7 +99,7 @@
       shieldGone:'BOUCLIER PERDU !', comboGoneZ:'COMBO PERDU', lifeLost:'−1 ♥', livesLeft:' ♥ RESTANT', comboOut:'COMBO FINI', perfect:'PARFAIT ! 🎯', daily2:'🗓 DAILY',
       pSchild:'BOUCLIER', pSlow:'RALENTI', pMagnet:'AIMANT', pDouble:'✕2 SCORE & 🪙', pBomb:'BOMBE', boom:'BOUM !', boomSub:' pulvérisés', curseTag:'🎲 MALÉDICTION',
       shareScore:' points ! Bats-moi 🔥 ', beatMe:'BATS-MOI. 🔥', pointsBig:'POINTS', dailyLbl:'DAILY', modeDaily:'DAILY',
-      achBtn:'🏅 SUCCÈS', shipDesigner:'Designer de vaisseau', il_ach:'Succès', il_status:'Statut', il_ship:'Skin', il_coin:'Coins', il_set:'Réglages', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', newShip:'Nouveau', del:'Supprimer', shipDefault:'Vaisseau', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow', codexTitle:'📚 DÉCOUVERT', codexLocked:'Pas encore découvert – continue.',
+      achBtn:'🏅 SUCCÈS', shipDesigner:'Designer de vaisseau', il_ach:'Succès', il_status:'Statut', il_ship:'Skin', il_coin:'Coins', il_set:'Réglages', achTitle:'SUCCÈS', achGot:'🏅 SUCCÈS', locked:'verrouillé', active:'ACTIF', choose:'CHOISIR', customShip:'Vaisseau perso', newShip:'Nouveau', del:'Supprimer', shipDefault:'Vaisseau', design:'Créer', edit:'Modifier', pixels:'Pixels', templates:'Modèles', glowUnlock:'Débloquer glow', codexTitle:'📚 DÉCOUVERT', codexLocked:'Pas encore découvert – continue.', cefCrit:'🎯 Coup Critique', cefCritd:'Certains tirs sont des crits – dégâts doublés (rouge). Augmente ta chance de crit avec des upgrades.', cefMag:'🧲 Aimant', cefMagd:'Attire toutes les pièces vers toi un court instant. Continue d’esquiver – la collecte est automatique.', cefSlow:'⏱ Ralenti', cefSlowd:'Ralentit brièvement tout le monde – parfait pour se faufiler hors des situations serrées.', cefDbl:'✕2 Points', cefDbld:'Un court instant, points ET pièces comptent double. Prendre des risques paie vraiment !', cefBomb:'💣 Bombe', cefBombd:'Nettoie instantanément tous les obstacles. Un frein d’urgence pour les moments chauds.', cefLife:'❤️ Vies', cefLifed:'Sans bouclier, un coup coûte une vie & remet le combo à zéro. À 0 c’est fini – ramasse des cœurs !',
       near:['JUSTE !','presque touché','esquive propre','ZOU !','fr fr','skill 🔥','OUF !'],
       combo:{3:'W COMBO',5:'GOATED 🐐',8:'SIGMA 🗿',12:'+1000 AURA',16:'DIVIN fr',20:'NO CAP 🔥',24:'CYBER-DIEU'},
       quips:["Ton toi en pixels fait maintenant partie du sol.","Mort par carré. Quelle dignité.","Bonne nouvelle : ça n’a fait mal qu’une frame.","R.I.P. – Rendu En Pièces.","Même le tutoriel pleure.","Des réflexes de paresseux sous mélatonine.","Bravo ! Tu as trouvé le sol.","Les dieux de la synthwave secouent la tête.","Tu avais UNE mission.","Statistiquement : gênant."],
@@ -1163,7 +1163,7 @@
   }
   const critFactor=()=>1+(mods.crit||0)*((mods.critMult||2)-1);   // erwarteter Krit-Multiplikator
   // Krit-Wurf auf einen Basis-Schaden → {dmg, crit}
-  function rollHit(base){ if((mods.crit||0)>0 && Math.random()<mods.crit) return {dmg:base*(mods.critMult||2),crit:true}; return {dmg:base,crit:false}; }
+  function rollHit(base){ if((mods.crit||0)>0 && Math.random()<mods.crit){ coachDyn('crithit','🎯',t('cefCrit'),t('cefCritd'),'#ff2e6e'); return {dmg:base*(mods.critMult||2),crit:true}; } return {dmg:base,crit:false}; }
   // ---- Schiffsstatus: aus dem aktuellen Loadout abgeleitete Kennzahlen (Synergien sind bereits in wpn/mods eingerechnet) ----
   const sNrm=(v,max)=>Math.max(0,Math.min(100, (v/max)*100));
   function computeShipStats(){
@@ -1876,7 +1876,7 @@
     lives--;
     if(lives>0){ invuln=1.6; flash=0.6; flashColor='#ff2e88'; shake=16; combo=0; multiplier=1; flushComboBonus(player.x,player.y);
       spawnParticles(player.x,player.y,'#ff4d6d',26,300); sfxShieldBreak(); beep(220,0.3,'sawtooth',0.4,-120); vibe([70,40,70]);
-      floatText(player.x,player.y-28,t('lifeLost'),'#ff4d6d',20); banner={text:lives+t('livesLeft'),sub:'',t:1.3,color:'#ff4d6d'}; return false; }
+      floatText(player.x,player.y-28,t('lifeLost'),'#ff4d6d',20); banner={text:lives+t('livesLeft'),sub:'',t:1.3,color:'#ff4d6d'}; coachDyn('life','❤️',t('cefLife'),t('cefLifed'),'#ff4d6d'); return false; }
     if(continueEligible()){ offerContinue(); return true; }   // letzter Tod, aber Weiterleben möglich → Abfrage statt Game Over
     gameOver(); return true;
   }
@@ -2430,11 +2430,11 @@
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
     if(p.type==='shield'){ shields=Math.min(shields+1,5); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
-    else if(p.type==='slow'){ effects.slowmo=30*mods.slowmoMult; floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); }
-    else if(p.type==='magnet'){ effects.magnet=30; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); }
-    else if(p.type==='double'){ effects.double=30; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); }
+    else if(p.type==='slow'){ effects.slowmo=30*mods.slowmoMult; floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); coachDyn('pslow','⏱',t('cefSlow'),t('cefSlowd'),'#5b9bff'); }
+    else if(p.type==='magnet'){ effects.magnet=30; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); coachDyn('pmagnet','🧲',t('cefMag'),t('cefMagd'),'#c45bff'); }
+    else if(p.type==='double'){ effects.double=30; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); coachDyn('pdouble','✕2',t('cefDbl'),t('cefDbld'),'#ffe600'); }
     else if(p.type==='bomb'){ let n=0; for(const o of obstacles){ spawnParticles(o.cx,o.cy,o.color,8,200); n++; addScore(3*multiplier); }
-      obstacles=[]; lasers=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:t('boom'),sub:n+t('boomSub'),t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,t('pBomb'),'#ff9a2e',16); }
+      obstacles=[]; lasers=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:t('boom'),sub:n+t('boomSub'),t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,t('pBomb'),'#ff9a2e',16); coachDyn('pbomb','💣',t('cefBomb'),t('cefBombd'),'#ff9a2e'); }
   }
 
   // ---------- Shapes ----------
