@@ -23,7 +23,7 @@
     de:{
       tag:'Jede Sitzung ein Highscore', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
       howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen 🪙 und Skillpunkte 💠 – in der Werkstatt 🛠️ rüstest du auf.',
-      tipSP:'💠 Skillpunkt!', tipSPd:'Werkstatt 🛠️ unten öffnen & aufrüsten', tipSyn:'🔗 Fusion möglich!', tipSynd:'Werkstatt → „Synergien": 2 Waffen verschmelzen', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab',
+      tipSP:'💠 Skillpunkt!', tipSPd:'Werkstatt 🛠️ unten öffnen & aufrüsten', tipSyn:'🔗 Fusion möglich!', tipSynd:'Werkstatt → „Synergien": 2 Waffen verschmelzen', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab', coach_move:'🕹️ Bewegen', coach_moved:'Dein leuchtender Kern folgt Maus oder Finger. Lenk ihn ruhig durch die Lücken zwischen den Hindernissen.', coach_near:'✦ Near-Miss', coach_neard:'Ganz knapp an Gegnern vorbei = deine Combo steigt & es regnet mehr Münzen. Risiko lohnt sich!', coach_combo:'🔥 Combo-Faktor', coach_combod:'Jede 4. Combo-Stufe hebt deinen Punkte-Multiplikator. Bleib in Bewegung – ein Treffer setzt ihn zurück.', coach_beat:'🎵 Im Takt', coach_beatd:'Weich genau im Beat der Musik aus → „IM TAKT!": Extra-Combo, mehr Punkte und dein HYPE füllt schneller.',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft THRONERUSH als Vollbild-App.',
       m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
@@ -52,7 +52,7 @@
     en:{
       tag:'Every sitting a highscore', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
       howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins 🪙 and skill points 💠 – gear up in the Workshop 🛠️.',
-      tipSP:'💠 Skill point!', tipSPd:'Open the Workshop 🛠️ below to gear up', tipSyn:'🔗 Fusion ready!', tipSynd:'Workshop → “Synergies”: fuse two weapons', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off',
+      tipSP:'💠 Skill point!', tipSPd:'Open the Workshop 🛠️ below to gear up', tipSyn:'🔗 Fusion ready!', tipSynd:'Workshop → “Synergies”: fuse two weapons', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off', coach_move:'🕹️ Move', coach_moved:'Your glowing core follows your mouse or finger. Steer it calmly through the gaps between obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Skim right past enemies = your combo climbs & more coins drop. Risk pays off!', coach_combo:'🔥 Combo Multiplier', coach_combod:'Every 4th combo step raises your score multiplier. Keep moving – one hit resets it.', coach_beat:'🎵 On Beat', coach_beatd:'Dodge right on the music’s beat → "ON BEAT!": bonus combo, more points and faster HYPE.',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then THRONERUSH runs fullscreen.',
       m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
@@ -81,7 +81,7 @@
     fr:{
       tag:'Chaque séance un highscore', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
       howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins 🪙 et points 💠 – équipe-toi à l’Atelier 🛠️.',
-      tipSP:'💠 Point de skill !', tipSPd:'Ouvre l’Atelier 🛠️ en bas pour t’équiper', tipSyn:'🔗 Fusion possible !', tipSynd:'Atelier → « Synergies » : fusionne deux armes', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire',
+      tipSP:'💠 Point de skill !', tipSPd:'Ouvre l’Atelier 🛠️ en bas pour t’équiper', tipSyn:'🔗 Fusion possible !', tipSynd:'Atelier → « Synergies » : fusionne deux armes', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire', coach_move:'🕹️ Bouger', coach_moved:'Ton noyau lumineux suit la souris ou le doigt. Faufile-le tranquillement dans les trous entre les obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Frôle les ennemis = ton combo grimpe & plus de pièces tombent. Le risque paie !', coach_combo:'🔥 Multiplicateur', coach_combod:'Chaque 4e palier de combo augmente ton multiplicateur. Reste mobile – un coup le remet à zéro.', coach_beat:'🎵 Dans le rythme', coach_beatd:'Esquive pile sur le beat → « EN RYTHME » : combo bonus, plus de points et HYPE plus vite.',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – THRONERUSH passe en plein écran.',
       m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
@@ -423,6 +423,7 @@
   let breatherT=0, breatherActive=0;   // Feel-Good: Verschnaufpausen
   let hype=0, hypeT=0;   // HYPE-Meter: Near-Miss/On-Beat fuellt -> ~6s Score x2 + Muenz-Magnet + Regenbogen
   let mkCount=0, mkTimer=0;   // Multikill-Feedback (sichtbare Staerke bei hoher DPS)
+  let coachQueue=[], coachCd=0, coachCard=null;   // Onboarding-Coach: gestaffelte, einmalige Lektionen (nie zwei gleichzeitig)
   let flungT=0, flungX=0, flungY=0;   // Boss-Katapult: kurzer Steuer-Lock, der den Spieler nach dem Boss-Stomp in Sicherheit schleudert
   let jumpReadyT=0;   // kleine Top-Meldung, sobald der Sprung wieder verfügbar ist
   let jumpFromX=0, jumpFromY=0, jumpToX=0, jumpToY=0;   // gerichteter Sprung: deterministische Flugbahn Start→Landepunkt
@@ -900,6 +901,29 @@
   // Einmal-Hinweis fürs Onboarding (pro Schlüssel nur einmal, in meta gemerkt) – nutzt das Banner-System
   function tutHint(key,text,sub,color){ meta.seen=meta.seen||{}; if(meta.seen[key]) return; meta.seen[key]=1; saveMeta();
     banner={text:text,sub:sub||'',t:3.8,color:color||'#19f0ff'}; flash=Math.min(0.4,(flash||0)+0.12); flashColor=color||'#19f0ff'; }
+  // ---------- Onboarding-Coach: erklaert Mechaniken nach und nach, einmal pro Spielerleben (meta.seen) ----------
+  const LESSONS={
+    move:  {ico:'🕹️', col:'#19f0ff'},
+    near:  {ico:'✦',  col:'#ff2e88'},
+    combo: {ico:'🔥', col:'#ffe600'},
+    beat:  {ico:'🎵', col:'#19f0ff'},
+  };
+  const LESSON_ORDER=['move','near','combo','beat'];   // Curriculum-Reihenfolge (wird schrittweise erweitert)
+  function coach(key){ if(!LESSONS[key]) return; meta.seen=meta.seen||{}; if(meta.seen[key]) return; if(coachQueue.indexOf(key)>=0) return; coachQueue.push(key); }
+  function tickCoach(dt){
+    if(coachCard){ coachCard.t-=dt; if(coachCard.t<=0) coachCard=null; }
+    if(coachCd>0) coachCd-=dt;
+    if(!coachCard && coachCd<=0 && coachQueue.length && bossIntroT<=0){
+      coachQueue.sort((a,b)=>LESSON_ORDER.indexOf(a)-LESSON_ORDER.indexOf(b));   // hoechste Prio zuerst
+      const key=coachQueue.shift(), L=LESSONS[key]; if(!L) return;
+      meta.seen=meta.seen||{}; meta.seen[key]=1; saveMeta();
+      coachCard={key:key, ico:L.ico, title:t('coach_'+key), desc:t('coach_'+key+'d'), col:L.col, t:5.4, t0:5.4};
+      flash=Math.min(0.32,(flash||0)+0.10); flashColor=L.col;
+      try{ beep(560,0.07,'sine',0.16); setTimeout(()=>beep(840,0.08,'sine',0.14),90); }catch(_){ }
+      vibe(12);
+      coachCd=5.4+3.0;   // erst nach Fade + Ruhepause die naechste Lektion
+    }
+  }
   // Schadenszahl (weiß = normal, rot = Krit). Mit Soft-Cap gegen Spam & nur wenn aktiviert.
   function floatDamage(x,y,amt,crit){ if(!opt.dmg||floaters.length>66) return; const a=Math.round(amt); if(a<=0) return;
     floaters.push({x:x+rand(-5,5),y,text:crit?(a+'!'):''+a,color:crit?'#ff3b3b':'#ffffff',size:crit?20:13,life:1,vy:-58,vx:rand(-14,14),dr:crit?1.25:1.8}); }
@@ -1191,7 +1215,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; runOnBeat=0; runLetters=0; breatherT=rand(24,32); breatherActive=0; hype=0; hypeT=0; mkCount=0; mkTimer=0; pickMissions();
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; runOnBeat=0; runLetters=0; breatherT=rand(24,32); breatherActive=0; hype=0; hypeT=0; mkCount=0; mkTimer=0; coachQueue=[]; coachCd=0; coachCard=null; pickMissions();
     flowI=1; skillBias=computeSkillBias();   // Flow-Regler zuruecksetzen + Skill-Offset aus den letzten Runs lernen
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
@@ -1380,7 +1404,8 @@
       try{ beep(440+m*18,0.07,'square',0.18); setTimeout(()=>beep(660+m*22,0.09,'square',0.16),70); }catch(_){}
       vibe([20,30,20]); }
     const w=(P('combo')||{})[m];
-    if(w){ banner={text:w,sub:'',t:1.4,color:col}; vibe([15,25,15]); } }
+    if(w){ banner={text:w,sub:'',t:1.4,color:col}; vibe([15,25,15]); }
+    if(m>=2) coach('combo'); }
   function bumpCombo(){ comboEl.classList.remove('bump'); void comboEl.offsetWidth; comboEl.classList.add('bump'); }
 
   // ---------- Easteregg: CODE 67 ----------
@@ -1973,6 +1998,7 @@
     // HYPE-Meter: aktiv → läuft runter (Balken leert sich), sonst langsamer Idle-Drain
     if(hypeT>0){ hypeT-=dt; hype=Math.max(0,hypeT/6); if(hypeT<=0){ hype=0; floatText(player.x,player.y-42,t('hypeEnd'),'#ff2ee0',16); } } else hype=Math.max(0,hype-dt*0.04);
     if(mkTimer>0){ mkTimer-=dt; if(mkTimer<=0) mkCount=0; }   // Multikill-Fenster
+    coach('move'); tickCoach(dt);   // Onboarding-Coach (Lektion 'Bewegen' direkt beim Start)
     { const ri=rankFor(score); if(ri>rankIdx){ rankIdx=ri; banner={text:t('promo'),sub:P('ranks')[ri]||'',t:2.4,color:'#ffe600'}; flash=Math.max(flash,0.4); flashColor='#ffe600'; vibe([15,25,15]); beep(660,0.08,'square',0.25); setTimeout(()=>beep(990,0.1,'square',0.22),90); } }   // Rang-Beförderung
     for(const m of missions){ if(!m.done && m.val()>=m.goal){ m.done=true; awardCoins(Math.round(m.rw*chipMult()*diffChip),player.x,player.y-52,true); banner={text:t('missionDone'),sub:missionText(m),t:2.6,color:'#2effc0'}; flash=Math.max(flash,0.4); flashColor='#2effc0'; vibe([15,25,15]); beep(880,0.08,'square',0.24); setTimeout(()=>beep(1175,0.1,'square',0.22),90); } }   // Run-Missionen erfüllt
     if(endless){ madness+=dt*0.0075; madnessTime+=dt; if(madnessTime>=60) unlockAch('madness'); }   // Wahnsinn-Modus eskaliert – aber gemächlich
@@ -2214,11 +2240,11 @@
 
   function doNear(o){ const onBeat=beatPulse>0.5; if(onBeat) runOnBeat++; combo+=1+mods.comboBonus+(onBeat?1:0); setMult(); refillCombo(); const g=(5+(onBeat?5:0))*multiplier; addScore(g);
     spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
-    if(onBeat){ floatText(player.x,player.y-40,t('onBeat'),'#19f0ff',18); beep(1320,0.06,'triangle',0.22,300); }   // Near-Miss im Takt → Extra-Combo & Punkte
+    if(onBeat){ floatText(player.x,player.y-40,t('onBeat'),'#19f0ff',18); beep(1320,0.06,'triangle',0.22,300); coach('beat'); }   // Near-Miss im Takt → Extra-Combo & Punkte
     if(hypeT<=0){ hype=Math.min(1,hype+(onBeat?0.085:0.05)); if(hype>=1) startHype(); }   // HYPE-Meter füllen (im Takt schneller)
     director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
-    tutHint('near',t('tipNear'),t('tipNeard'),'#ff2e88');   // erster Near-Miss: erklär Combo
+    coach('near');   // erster Near-Miss → Coach erklärt Combo/Münzen
     unlockAch('firstNear');
     if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]);
       awardCoins((2+multiplier*0.6)*chipMult()*diffChip,player.x+22,player.y-26); } }   // Combo-Strähne = Coin-Bündel (auch in BLITZ ohne Orbs)
@@ -2600,6 +2626,23 @@
         ctx.strokeStyle=act?'#fff':'rgba(255,255,255,0.25)'; ctx.lineWidth=1; ctx.strokeRect(bx,by,bw,bh);
         ctx.font='800 11px Orbitron,sans-serif'; ctx.fillStyle=act?'#fff':(hp>=1?'#ff2ee0':'rgba(255,255,255,0.6)');
         ctx.fillText(act?('🔥 '+t('hype')+' '+Math.ceil(hypeT)+'s'):t('hype'),W/2,by-5); ctx.restore(); }
+      // Coach-Karte: liebevoll animierte Tutorial-Einblendung unten-mittig (nicht-blockierend → Flow bleibt erhalten)
+      if(coachCard && (state===S.PLAY||state===S.PAUSE)){ const C=coachCard, tt=C.t, t0=C.t0||5.4;
+        const fin=Math.min(1,(t0-tt)/0.35), fout=Math.min(1,tt/0.5), a=Math.max(0,Math.min(1,Math.min(fin,fout)));
+        const cw=Math.min(420,W*0.9), cx=(W-cw)/2, padL=74, maxW=cw-padL-16;
+        ctx.save(); ctx.textBaseline='alphabetic'; ctx.font='600 12.5px Orbitron, sans-serif';
+        const words=(C.desc||'').split(' '); let line='', lines=[];
+        for(const w of words){ const tst=line?line+' '+w:w; if(ctx.measureText(tst).width>maxW && line){ lines.push(line); line=w; } else line=tst; } if(line) lines.push(line);
+        const ch=Math.max(82,40+lines.length*16+12), cy=H*0.72+(1-fin)*26;   // sanftes Hochgleiten beim Einblenden
+        ctx.globalAlpha=a;
+        ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.fillStyle='rgba(10,3,24,0.93)'; ctx.shadowBlur=26; ctx.shadowColor=C.col; ctx.fill(); ctx.shadowBlur=0;
+        ctx.lineWidth=2; ctx.strokeStyle=C.col; ctx.globalAlpha=a*(0.55+0.45*Math.abs(Math.sin((elapsed||0)*3))); ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.stroke(); ctx.globalAlpha=a;   // sanft pulsierender Rand
+        ctx.fillStyle=C.col; ctx.beginPath(); rr(cx+2,cy+8,5,ch-16,2.5); ctx.fill();   // Akzentbalken links
+        ctx.textAlign='center'; ctx.font='32px sans-serif'; ctx.fillStyle='#fff'; ctx.fillText(C.ico,cx+40,cy+ch*0.5+11);
+        const tx=cx+padL; ctx.textAlign='left'; ctx.font='900 16px Orbitron, sans-serif'; ctx.fillStyle=C.col; ctx.fillText(C.title,tx,cy+28);
+        ctx.font='600 12.5px Orbitron, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.92)';
+        let ly=cy+47; for(const ln of lines){ ctx.fillText(ln,tx,ly); ly+=16; }
+        ctx.restore(); }
       drawJumpReady();
     }
 
