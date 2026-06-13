@@ -1779,8 +1779,10 @@
     if(wasFinal){ const chips=Math.round((120+Math.min(bossNumber,15)*8)*diffChip); meta.chips=(meta.chips||0)+chips; saveMeta(); updateMenuChips(); winGame(); }
     else { floatText(W/2,H*0.4,t('survived')+' +'+bonus,'#2effc0',18); levelUp(); } }   // Welle überstanden → Level geschafft
   function spawnLaserWave(){ const mixed=bossNumber>=3, vert=(bossNumber%2===1);
-    const count=Math.min(6,1+Math.floor(bossNumber/2)+Math.min(2,Math.floor(pwrSurv()*0.14)));
-    const warn=Math.max(0.4,1-bossNumber*0.05-Math.min(0.25,pwrSurv()*0.012));
+    const room=Math.max(0,5-lasers.length);   // gleichzeitige Wände hart begrenzen → Bild bleibt lesbar (kein Linien-Wirrwarr im Lategame)
+    const count=Math.min(room,Math.min(6,1+Math.floor(bossNumber/2)+Math.min(2,Math.floor(pwrSurv()*0.14))));
+    if(count<=0){ sfxWarn(); return; }
+    const warn=Math.max(0.55,1-bossNumber*0.04-Math.min(0.2,pwrSurv()*0.01));   // Mindest-Warnzeit angehoben (0.55s) → fair lesbar
     for(let i=0;i<count;i++){ const orient=mixed?(Math.random()<0.5?'v':'h'):(vert?'v':'h');
       const pos=orient==='v'?rand(W*0.1,W*0.9):rand(H*0.15,H*0.9);
       lasers.push({orient,pos,thick:rand(42,64),state:'warn',t:0,warnDur:warn,fireDur:0.45}); }
@@ -3171,7 +3173,7 @@
     // horizontale Linien als Wasser-Wellen vor der Skyline – Welle nimmt nach vorne zu, lineare Abwärtsbewegung (Flow) bleibt
     const wph=(elapsed||0)*1.6, ws=fxQ>0.5?12:24;
     for(let i=0;i<14;i++){ const f=(i+t)/14, y=hz+Math.pow(f,2.2)*(H-hz), amp=1+f*f*6, k=0.024;
-      ctx.globalAlpha=Math.min(0.7,(0.1+f*0.25)*bp); ctx.beginPath();
+      ctx.globalAlpha=Math.min(0.4,(0.08+f*0.2)*bp); ctx.beginPath();   // gedeckelt: in Overdrive/Madness nicht mehr grell (Lesbarkeit)
       for(let xx=0;xx<=W;xx+=ws){ const yy=y+Math.sin(xx*k+wph+f*2.5)*amp; xx?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy); } ctx.stroke(); } ctx.globalAlpha=1;
     // weicher Halo um die Sonne – dezent, nur leicht im Takt (kein großer Schleier!)
     const hr=200*(0.95+pulse*0.12), ha=Math.min(0.5,0.3+pulse*0.13);
