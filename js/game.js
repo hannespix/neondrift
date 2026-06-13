@@ -263,9 +263,14 @@
   function startResearch(id){ const m=META.find(x=>x.id===id); if(!m) return false; const lvl=metaLvl(id);
     if(lvl>=m.max || researchActive()) return false; const cost=metaCost(m,lvl); if((meta.chips||0)<cost) return false;
     meta.chips-=cost; researchState().active={id,lvl,start:Date.now(),dur:metaDuration(m,lvl)}; saveMeta(); return true; }
-  function finishResearch(){ const a=researchActive(); if(!a) return null; meta.lvl=meta.lvl||{}; meta.lvl[a.id]=a.lvl+1; researchState().active=null; saveMeta(); applyResearchUnlock(a.id); return a.id; }
-  function accelerateResearch(){ const a=researchActive(); if(!a) return false; const c=accelerateCost(); if((meta.chips||0)<c) return false; meta.chips-=c; finishResearch(); return true; }
-  function tickResearch(){ return researchDone()?finishResearch():null; }   // schließt fertige (auch offline abgelaufene) Forschung ab
+  function queuedCount(id){ const q=researchState().queue||[]; let n=0; for(const e of q) if(e.id===id) n++; return n; }
+  function startNext(nextStart){ const q=researchState().queue||[]; if(q.length){ const nx=q.shift(); researchState().active={id:nx.id,lvl:nx.lvl,start:nextStart||Date.now(),dur:nx.dur}; } else researchState().active=null; }
+  function enqueueResearch(id){ const m=META.find(x=>x.id===id); if(!m) return false; const q=(researchState().queue=researchState().queue||[]); if(q.length>=5) return false;
+    const a=researchActive(), pend=queuedCount(id)+((a&&a.id===id)?1:0), lvl=metaLvl(id)+pend; if(lvl>=m.max) return false;
+    const cost=metaCost(m,lvl); if((meta.chips||0)<cost) return false; meta.chips-=cost; q.push({id,lvl,dur:metaDuration(m,lvl)}); saveMeta(); return true; }
+  function finishResearch(nextStart){ const a=researchActive(); if(!a) return null; meta.lvl=meta.lvl||{}; meta.lvl[a.id]=a.lvl+1; applyResearchUnlock(a.id); startNext(nextStart||Date.now()); saveMeta(); return a.id; }
+  function accelerateResearch(){ const a=researchActive(); if(!a) return false; const c=accelerateCost(); if((meta.chips||0)<c) return false; meta.chips-=c; finishResearch(Date.now()); return true; }   // beschleunigt → nächstes Projekt startet JETZT
+  function tickResearch(){ let r=null,g=0; while(researchDone()&&g++<60){ const a=researchActive(); r=finishResearch(a.start+a.dur*1000); } return r; }   // drainen: mehrere offline abgelaufene Projekte korrekt hintereinander abschließen
   // Roguelite: Start-Skillpunkte je Run = Basis 1 + Veteran-Bonus (freikaufbar). Der Run-Build wird beim Game Over zurückgesetzt.
   const starterSP=()=>1+metaLvl('veteran');
   // Günstigstes noch nicht ausgereiztes Werkstatt-Upgrade → Karotte auf dem Game-Over-Screen
@@ -3454,17 +3459,20 @@
     if(ib){ e.stopPropagation(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } else hideTip(); });
   document.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ') return; const ib=e.target&&e.target.classList&&e.target.classList.contains('infoBtn')?e.target:null;
     if(ib){ e.preventDefault(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } });
-  function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
-    const a=researchActive(), here=!!(a&&a.id===m.id), busy=!!(a&&a.id!==m.id);
+  function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max;
+    const a=researchActive(), here=!!(a&&a.id===m.id), qn=queuedCount(m.id);
     const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'')+(here?' researching':'');
     let btn;
     if(maxed) btn='<div class="cost done">MAX</div>';
     else if(here) btn='<div class="cost rsch">🔬 '+fmtTime(researchRemaining())+'</div><button class="cost accel" type="button">⚡ '+fmt(accelerateCost())+'</button>';
-    else if(busy) btn='<div class="cost locked">🔬 belegt</div>';
-    else btn='<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+' · 🔬 '+fmtTime(metaDuration(m,lvl))+'</button>';
-    card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+(here?' · 🔬 läuft':'')+'</div>'+btn;
+    else if(a){ const pend=qn+(a.id===m.id?1:0), effLvl=lvl+pend, full=(researchState().queue||[]).length>=5;   // belegt → einreihbar
+      if(effLvl>=m.max) btn='<div class="cost done">MAX</div>';
+      else if(full) btn='<div class="cost locked">🔬 Queue voll</div>';
+      else { const c=metaCost(m,effLvl), aff=(meta.chips||0)>=c; btn='<button class="cost queue'+(aff?'':' locked')+'" type="button">＋ 🪙 '+c+'</button>'; } }
+    else { const cost=metaCost(m,lvl), afford=(meta.chips||0)>=cost; btn='<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+' · 🔬 '+fmtTime(metaDuration(m,lvl))+'</button>'; }
+    card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+(here?' · 🔬 läuft':'')+(qn>0?(' · ⏳×'+qn):'')+'</div>'+btn;
     const ab=card.querySelector('button.accel'); if(ab) ab.addEventListener('click',()=>{ if(accelerateResearch()) sfxUpgrade(); renderShop(); });
-    else { const b=card.querySelector('button.cost'); if(b&&!busy) b.addEventListener('click',()=>buyMeta(m.id)); }
+    else { const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id)); }
     return card; }
   function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy,tip}
     const right = o.state==='done' ? '<span class="wnode-done">✓</span>'
@@ -3533,9 +3541,12 @@
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
     if(lvl>=m.max) return;
-    if(researchActive()){ beep(170,0.06,'square',0.12); return; }   // Labor belegt: nur eine Forschung gleichzeitig
-    const cost=metaCost(m,lvl); if(coinShort(cost)) return;
-    if(startResearch(id)){ sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); }   // statt Sofortkauf: Echtzeit-Forschung starten (Abschluss → applyResearchUnlock)
+    if(!researchActive()){ const cost=metaCost(m,lvl); if(coinShort(cost)) return;
+      if(startResearch(id)){ sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); } return; }   // frei: Echtzeit-Forschung starten
+    const a=researchActive(), pend=queuedCount(id)+(a.id===id?1:0), effLvl=lvl+pend;   // belegt: in die Warteschlange einreihen
+    if(effLvl>=m.max || (researchState().queue||[]).length>=5){ beep(170,0.06,'square',0.12); return; }
+    if(coinShort(metaCost(m,effLvl))) return;
+    if(enqueueResearch(id)){ sfxUpgrade(); vibe([12,16,12]); (rerender||renderShop)(); }
   }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
