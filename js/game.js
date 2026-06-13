@@ -464,6 +464,7 @@
   let flowI=1, skillBias=0;   // DDA-Regler-Overlay nur für Dev: opt.dbg ist im fertigen Spiel nicht erreichbar (kein F8/Code, wird nie als true geladen) – zum Debuggen manuell in der Konsole opt.dbg=true setzen
   let endless=false, madness=0, wonThisRun=false, laserFinal=false; // Finale + Wahnsinn-Modus
   let runOrbs=0, runPerfect=0, runBosses=0, madnessTime=0, runMaxMult=1, runSPgain=0, runHits=0;  // Statistik pro Run (runHits = kassierte Treffer → Schwierigkeits-Signal)
+  let inputDirty=false, idleStretch=0, runIdleMax=0, runIdleAcc=0;   // Passivität: längste eingabefreie Überlebens-Strecke (Camping-/„zu leicht"-Signal)
   let onbDrops=0;   // Onboarding: wie viele der 3 Starter-Skillpunkte in Level 1 schon gedroppt sind
   let runChipsPaid=0;   // Chips aus stillem Score-Trickle (Backbone-Ökonomie)
   let runChipsEarned=0; // Chips aus sichtbaren Events (Orbs/Combos/Boss) – Dopamin-Quelle
@@ -883,7 +884,7 @@
   function applyFx(){ const w=document.getElementById('wrap'); if(w) w.classList.toggle('crt',!!opt.fx); }   // CRT-Scanlines an/aus (CSS, koppelt an „Effekte")
   applyFx();
   const tgt={x:W/2,y:H*0.72};
-  function setT(x,y){ if(mods&&(mods.invertX||(mods.mirror&&mirrorOn))) x=W-x; tgt.x=x; tgt.y=y; }   // Spiegelwelt-Fluch (getaktet)
+  function setT(x,y){ if(mods&&(mods.invertX||(mods.mirror&&mirrorOn))) x=W-x; tgt.x=x; tgt.y=y; inputDirty=true; }   // Spiegelwelt-Fluch (getaktet) · inputDirty = Eingabe-Signal für Passivitäts-Metrik
   function onMove(e){ if(coachPause) return; const r=canvas.getBoundingClientRect();
     if(e.touches&&e.touches[0]) setT(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top); else setT(e.clientX-r.left,e.clientY-r.top); }
   canvas.addEventListener('mousemove',onMove);
@@ -1254,7 +1255,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; runOnBeat=0; runLetters=0; breatherT=rand(24,32); breatherActive=0; hype=0; hypeT=0; mkCount=0; mkTimer=0; coachQueue=[]; coachCd=0; coachCard=null; coachPause=false; pickMissions();
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; runOnBeat=0; runLetters=0; inputDirty=false; idleStretch=0; runIdleMax=0; runIdleAcc=0; breatherT=rand(24,32); breatherActive=0; hype=0; hypeT=0; mkCount=0; mkTimer=0; coachQueue=[]; coachCd=0; coachCard=null; coachPause=false; pickMissions();
     flowI=1; skillBias=computeSkillBias();   // Flow-Regler zuruecksetzen + Skill-Offset aus den letzten Runs lernen
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
@@ -1958,6 +1959,7 @@
   function sfxJump(){ try{ beep(300,0.1,'sine',0.28,520); setTimeout(()=>beep(680,0.12,'triangle',0.22,260),70); }catch(e){} }
   function tryJump(){
     if(state!==S.PLAY||mode==='zen'||jumping>0) return;
+    inputDirty=true;   // Tap = Interaktion → Passivitäts-Timer zurücksetzen
     if(jumpStock<1){ beep(170,0.06,'square',0.12); return; }   // keine Ladung → kurzes „nope"
     jumpStock--; jumping=mods.jumpDur; invuln=Math.max(invuln,mods.jumpDur+0.2); jumpSeq++; jumpClutch=0; jumpClutchFired=false; runJumps++;
     // Gerichteter Sprung: ans angetippte Ziel (tgt) springen – über alles drüber (unverwundbar). Weiter als die
@@ -2024,6 +2026,8 @@
   // ---------- Update ----------
   function update(dt){
     saveRunT+=dt; if(saveRunT>=1.2){ saveRunT=0; saveRun(); }   // periodischer Snapshot (Reload-Fortsetzen)
+    // Passivität: keine Eingabe in diesem Frame → eingabefreie Strecke wächst; sonst zurücksetzen. Längste Strecke + Idle-Anteil = „zu leicht / Campen"-Signal
+    if(inputDirty){ idleStretch=0; inputDirty=false; } else { idleStretch+=dt; runIdleAcc+=dt; if(idleStretch>runIdleMax) runIdleMax=idleStretch; }
     elapsed+=dt; const dMax=mode==='hardcore'?7.0:6.3, dT=Math.min(elapsed,200)/200; difficulty=1+dMax*Math.pow(dT,1.42);   // Feel-Good: sanftere Beschleunigung (längere Rampe 200s, etwas niedrigerer Deckel)
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
@@ -3303,7 +3307,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v331';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v332';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
@@ -3316,6 +3320,7 @@
     wpn:Object.keys(arsenal.w||{}), syn:(activeSyn||[]).slice(), ups:Object.keys(upgradeCounts||{}), runUp:upN, coins:Math.round(earned||0),
     chipsBal:Math.round(meta.chips||0), spLeft:skillPts||0, revive:runContinued?1:0,
     director:Math.round((director||0)*10)/10, jumps:runJumps||0, onBeat:runOnBeat||0,
+    idleMax:Math.round((runIdleMax||0)*10)/10, idlePct:Math.round(((runIdleAcc||0)/Math.max(1,elapsed||0))*1000)/10,
     death:(wonThisRun?'':(deathCause||'unknown')) }; }
   function sendTelemetry(rec){ try{ if(!TELEMETRY_URL||!opt.telemetry) return;
     const body=JSON.stringify(rec);

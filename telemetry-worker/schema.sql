@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS runs (
   director  REAL,               -- DDA-Druck (Souveränitäts-Proxy)
   jumps     INTEGER,            -- ausgeführte Sprünge
   onBeat    INTEGER,            -- Aktionen im Takt
+  idleMax   REAL,               -- längste eingabefreie Überlebens-Strecke in s (Camping-/„zu leicht"-Signal)
+  idlePct   REAL,               -- Anteil der Run-Zeit ohne Eingabe (%)
   death     TEXT                -- Todesursache (z. B. obs:sine, laser, bullet, elite, boss:laser; '' bei Sieg)
 );
 

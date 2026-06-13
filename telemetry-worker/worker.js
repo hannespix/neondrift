@@ -91,6 +91,8 @@ function sanitize(rec) {
     director: num(rec.director, 0, 1e6),
     jumps: int(rec.jumps, 0, 1e6),
     onBeat: int(rec.onBeat, 0, 1e6),
+    idleMax: num(rec.idleMax, 0, 1e6),
+    idlePct: num(rec.idlePct, 0, 100),
     death: str(rec.death, 32),
   };
 }
@@ -137,16 +139,16 @@ async function handleIngest(request, env) {
   await env.DB.prepare(
     `INSERT INTO runs
       (server_ts, ts, ver, cid, mode, diff, daily, lvl, score, boss, won, durS, hits, near, perfect, orbs, combo, dps, surv, wpn, syn, coins,
-       bossReached, ups, runUp, chipsBal, spLeft, revive, director, jumps, onBeat, death)
+       bossReached, ups, runUp, chipsBal, spLeft, revive, director, jumps, onBeat, idleMax, idlePct, death)
      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
-             ?,?,?,?,?,?,?,?,?,?)`
+             ?,?,?,?,?,?,?,?,?,?,?,?)`
   )
     .bind(
       Date.now(), rec.ts, rec.ver, rec.cid, rec.mode, rec.diff, rec.daily, rec.lvl,
       rec.score, rec.boss, rec.won, rec.durS, rec.hits, rec.near, rec.perfect,
       rec.orbs, rec.combo, rec.dps, rec.surv, rec.wpn, rec.syn, rec.coins,
       rec.bossReached, rec.ups, rec.runUp, rec.chipsBal, rec.spLeft, rec.revive,
-      rec.director, rec.jumps, rec.onBeat, rec.death
+      rec.director, rec.jumps, rec.onBeat, rec.idleMax, rec.idlePct, rec.death
     )
     .run();
 
@@ -169,7 +171,10 @@ async function handleStats(url, env) {
               MAX(score) AS maxScore, COUNT(DISTINCT cid) AS players, SUM(durS) AS totalDurS,
               AVG(CASE WHEN durS>0 THEN coins*60.0/durS END) AS coinsPerMin,
               AVG(chipsBal) AS avgChipsBal, AVG(spLeft) AS avgSpLeft, AVG(runUp) AS avgRunUp,
-              AVG(revive) AS reviveRate
+              AVG(revive) AS reviveRate,
+              AVG(idleMax) AS avgIdleMax, MAX(idleMax) AS maxIdleMax, AVG(idlePct) AS avgIdlePct,
+              AVG(CASE WHEN won=1 THEN idleMax END) AS avgIdleMaxWon,
+              SUM(CASE WHEN won=1 AND idleMax>=10 THEN 1 ELSE 0 END) AS campWins
        FROM runs`
     )
     .first();

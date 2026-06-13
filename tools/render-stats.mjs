@@ -76,6 +76,18 @@ L.push('| Ø ungenutzte Skillpunkte | ' + round(t.avgSpLeft) + ' | hoch = Belohn
 L.push('| Ø Upgrades / Run | ' + round(t.avgRunUp) + ' | wird investiert? |');
 L.push('| Revive-Rate | ' + pct((t.reviveRate || 0) * (t.runs || 0), t.runs || 0) + ' | wie oft „unbedingt weiter" |');
 
+// ---- Passivität / Camping ----
+h2('🛌 Passivität — zu leicht?');
+L.push('| Kennzahl | Wert | Lesart |');
+L.push('|---|---|---|');
+L.push('| Ø längste Idle-Strecke | ' + round(t.avgIdleMax) + ' s | so lange überlebt man im Schnitt ohne Eingabe |');
+L.push('| Max Idle-Strecke | ' + round(t.maxIdleMax) + ' s | Rekord: so lange ging „Hände weg" |');
+L.push('| Ø Idle-Anteil | ' + round(t.avgIdlePct) + ' % | wie viel einer Runde passiv läuft |');
+L.push('| Ø längste Idle bei **Siegen** | ' + round(t.avgIdleMaxWon) + ' s | hoch = man gewinnt ohne zu spielen |');
+L.push('| Camp-Siege (≥10 s idle) | ' + (t.campWins || 0) + ' · ' + pct(t.campWins || 0, t.wins || 0) + ' der Siege | „unten campen & trotzdem gewinnen" |');
+L.push('');
+L.push('_Hohe Werte (v. a. bei Siegen) = OP-Builds/zu wenig Druck → Schwierigkeit oder Waffen anziehen._');
+
 // ---- Funnel (Level) ----
 h2('📉 Level-Funnel (wo enden Runs?)');
 const fn = data.funnel || [];
