@@ -4007,13 +4007,18 @@
         c.innerHTML=seen?('<h5>📖 '+tx[0]+'</h5><p>'+tx[1]+'</p>'):('<h5>🔒 ???</h5><p>'+t('loreLocked')+'</p>');
         if(seen) c.addEventListener('click',()=>showLore(id));   // entdeckten Beat groß nachlesen
         lw.appendChild(c); }); }
-    // Mechanik-Codex: vom Coach entdeckte Mechaniken (sonst „???")
-    const cgot=LESSON_ORDER.filter(k=>meta.seen&&meta.seen[k]).length;
-    const ct=document.getElementById('codexTitle'); if(ct) ct.textContent=t('codexTitle')+' · '+cgot+'/'+LESSON_ORDER.length;
+    // Mechanik-Codex: Kern-Lektionen + entdeckte Effekte + Gegner (sonst „???")
+    const CODEX_FX=[['crithit','cefCrit','cefCritd','#ff2e6e'],['pmagnet','cefMag','cefMagd','#c45bff'],['pslow','cefSlow','cefSlowd','#5b9bff'],['pdouble','cefDbl','cefDbld','#ffe600'],['pbomb','cefBomb','cefBombd','#ff9a2e'],['life','cefLife','cefLifed','#ff4d6d']];
+    const CODEX_ENEMY=[['enemy_elite','ceElite','ceEliteD','#c45bff'],['enemy_flank','ceFlank','ceFlankD','#ff3a3a'],['enemy_shield','ceShield','ceShieldD','#2effc0']];
+    const allCK=LESSON_ORDER.concat(CODEX_FX.map(e=>e[0]),CODEX_ENEMY.map(e=>e[0])), cgot=allCK.filter(k=>meta.seen&&meta.seen[k]).length;
+    const ct=document.getElementById('codexTitle'); if(ct) ct.textContent=t('codexTitle')+' · '+cgot+'/'+allCK.length;
     const cw=document.getElementById('codexCards'); if(cw){ cw.innerHTML='';
-      LESSON_ORDER.forEach(k=>{ const seen=!!(meta.seen&&meta.seen[k]), L=LESSONS[k]||{col:'#19f0ff'}; const c=document.createElement('div'); c.className='lcard'+(seen?'':' lock');
-        c.innerHTML=seen?('<h5 style="color:'+L.col+'">'+t('coach_'+k)+'</h5><p>'+t('coach_'+k+'d')+'</p>'):('<h5>🔒 ???</h5><p>'+t('codexLocked')+'</p>');
-        cw.appendChild(c); }); } }
+      const addC=(seen,col,title,desc)=>{ const c=document.createElement('div'); c.className='lcard'+(seen?'':' lock'); c.innerHTML=seen?('<h5 style="color:'+col+'">'+title+'</h5><p>'+desc+'</p>'):('<h5>🔒 ???</h5><p>'+t('codexLocked')+'</p>'); cw.appendChild(c); };
+      const SEPL={de:['⚙️ MECHANIK','✨ EFFEKTE','👾 GEGNER'],en:['⚙️ MECHANICS','✨ EFFECTS','👾 ENEMIES'],fr:['⚙️ MÉCANIQUES','✨ EFFETS','👾 ENNEMIS']}, SL=SEPL[lang]||SEPL.en;
+      const sep=l=>{ const d=document.createElement('div'); d.style.cssText='flex:1 0 100%;width:100%;grid-column:1/-1;font:700 12px Orbitron,sans-serif;opacity:.55;margin:10px 2px 2px;letter-spacing:1px'; d.textContent=l; cw.appendChild(d); };
+      sep(SL[0]); LESSON_ORDER.forEach(k=>{ const L=LESSONS[k]||{col:'#19f0ff'}; addC(!!(meta.seen&&meta.seen[k]),L.col,t('coach_'+k),t('coach_'+k+'d')); });
+      sep(SL[1]); CODEX_FX.forEach(e=>addC(!!(meta.seen&&meta.seen[e[0]]),e[3],t(e[1]),t(e[2])));
+      sep(SL[2]); CODEX_ENEMY.forEach(e=>addC(!!(meta.seen&&meta.seen[e[0]]),e[3],t(e[1]),t(e[2]))); } }
   // ---------- Schiffsstatus / Gefechtsdatenblatt ----------
   const RAXIS={de:{power:'Feuerkraft',prec:'Präzision',area:'Fläche',control:'Kontrolle',surv:'Überleben',luck:'Glück'},
     en:{power:'Firepower',prec:'Precision',area:'Area',control:'Control',surv:'Survival',luck:'Luck'},
