@@ -3532,7 +3532,9 @@
       row.appendChild(card); }
     host.appendChild(row); }
   function renderShop(){ shopChipsEl.textContent='🪙 '+fmt(meta.chips); renderShopReco();
-    clearTimeout(shopTick); if(researchActive()){ shopTick=setTimeout(()=>{ const sh=document.getElementById('shop'); if(sh&&!sh.classList.contains('hidden')){ tickResearch(); renderShop(); } },1000); }   // Timer live nachführen
+    clearTimeout(shopTick); if(researchActive()){ shopTick=setTimeout(()=>{ const sh=document.getElementById('shop'), av=document.getElementById('arsenalView');
+      const vis=(sh&&!sh.classList.contains('hidden')) || (av&&!av.classList.contains('hidden')&&arsenalTab==='shop');   // Shop ist je nach Einstieg im alten #shop ODER im Arsenal-Hub (Forschungs-Reiter) sichtbar
+      if(vis){ tickResearch(); renderShop(); } },1000); }   // Timer live im Sekundentakt nachführen
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
     const tabsEl=document.getElementById(shopTabsHostId);
