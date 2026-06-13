@@ -423,7 +423,7 @@
   let breatherT=0, breatherActive=0;   // Feel-Good: Verschnaufpausen
   let hype=0, hypeT=0;   // HYPE-Meter: Near-Miss/On-Beat fuellt -> ~6s Score x2 + Muenz-Magnet + Regenbogen
   let mkCount=0, mkTimer=0;   // Multikill-Feedback (sichtbare Staerke bei hoher DPS)
-  let coachQueue=[], coachCd=0, coachCard=null;   // Onboarding-Coach: gestaffelte, einmalige Lektionen (nie zwei gleichzeitig)
+  let coachQueue=[], coachCd=0, coachCard=null, coachPause=false;   // Onboarding-Coach: gestaffelte, einmalige Lektionen (nie zwei gleichzeitig); friert beim Erklären ein
   let flungT=0, flungX=0, flungY=0;   // Boss-Katapult: kurzer Steuer-Lock, der den Spieler nach dem Boss-Stomp in Sicherheit schleudert
   let jumpReadyT=0;   // kleine Top-Meldung, sobald der Sprung wieder verfügbar ist
   let jumpFromX=0, jumpFromY=0, jumpToX=0, jumpToY=0;   // gerichteter Sprung: deterministische Flugbahn Start→Landepunkt
@@ -858,7 +858,7 @@
   applyFx();
   const tgt={x:W/2,y:H*0.72};
   function setT(x,y){ if(mods&&(mods.invertX||(mods.mirror&&mirrorOn))) x=W-x; tgt.x=x; tgt.y=y; }   // Spiegelwelt-Fluch (getaktet)
-  function onMove(e){ const r=canvas.getBoundingClientRect();
+  function onMove(e){ if(coachPause) return; const r=canvas.getBoundingClientRect();
     if(e.touches&&e.touches[0]) setT(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top); else setT(e.clientX-r.left,e.clientY-r.top); }
   canvas.addEventListener('mousemove',onMove);
   canvas.addEventListener('touchstart',e=>{onMove(e);e.preventDefault();},{passive:false});
@@ -867,8 +867,9 @@
   let tapT=0, tapSX=0, tapSY=0, tapOK=false;
   canvas.addEventListener('pointerdown',e=>{ tapT=performance.now(); tapSX=e.clientX; tapSY=e.clientY; tapOK=true; });
   canvas.addEventListener('pointermove',e=>{ if(tapOK&&(Math.abs(e.clientX-tapSX)>14||Math.abs(e.clientY-tapSY)>14)) tapOK=false; });
-  canvas.addEventListener('pointerup',()=>{ if(tapOK&&performance.now()-tapT<=300&&state===S.PLAY) tryJump(); tapOK=false; });
+  canvas.addEventListener('pointerup',()=>{ if(coachPause){ resumeCoach(); tapOK=false; return; } if(tapOK&&performance.now()-tapT<=300&&state===S.PLAY) tryJump(); tapOK=false; });
   canvas.addEventListener('pointercancel',()=>{ tapOK=false; });
+  window.addEventListener('keydown',e=>{ if(coachPause&&(e.code==='Space'||e.code==='Enter')){ resumeCoach(); e.preventDefault(); } });   // Desktop: Leertaste/Enter → weiter
 
   // Sternenfeld: senkrechtes Parallax (ferne Sterne kriechen, nahe rauschen vorbei) + leichtes Funkeln
   function makeStars(){ stars=[]; for(let i=0;i<95;i++){ const z=Math.random(); stars.push({x:Math.random()*W,y:Math.random()*H,z:z,r:0.6+z*z*2.6,tw:Math.random()*6.28,tws:0.6+Math.random()*1.8}); } }
@@ -916,21 +917,24 @@
     syn:   {ico:'🔗', col:'#ff2e88'},
   };
   const LESSON_ORDER=['move','near','combo','beat','coin','jump','hype','letter','sp','shield','syn'];   // Curriculum-Reihenfolge
-  function coach(key){ if(!LESSONS[key]) return; meta.seen=meta.seen||{}; if(meta.seen[key]) return; if(coachQueue.indexOf(key)>=0) return; coachQueue.push(key); }
+  function queueLesson(sk,ico,title,desc,col,ord){ meta.seen=meta.seen||{}; if(meta.seen[sk]) return; for(const c of coachQueue) if(c.sk===sk) return; coachQueue.push({sk:sk,ico:ico,title:title,desc:desc,col:col,ord:ord}); }
+  function coach(key){ if(!LESSONS[key]) return; queueLesson(key,LESSONS[key].ico,t('coach_'+key),t('coach_'+key+'d'),LESSONS[key].col,LESSON_ORDER.indexOf(key)); }   // statische Kern-Lektion
+  function coachDyn(sk,ico,title,desc,col){ queueLesson(sk,ico,title,desc,col,999); }   // dynamische Lektion (Upgrade/Waffe/Effekt) mit eigenem Text
   function tickCoach(dt){
-    if(coachCard){ coachCard.t-=dt; if(coachCard.t<=0) coachCard=null; }
+    if(coachCard){ if(coachCard.app<1) coachCard.app=Math.min(1,coachCard.app+dt/0.28); if(coachCard.closing){ coachCard.ct+=dt/0.4; if(coachCard.ct>=1) coachCard=null; } }
     if(coachCd>0) coachCd-=dt;
     if(!coachCard && coachCd<=0 && coachQueue.length && bossIntroT<=0 && !(banner && banner.t>0.6)){   // ein Fokuspunkt: nicht gleichzeitig mit prominentem Banner
-      coachQueue.sort((a,b)=>LESSON_ORDER.indexOf(a)-LESSON_ORDER.indexOf(b));   // hoechste Prio zuerst
-      const key=coachQueue.shift(), L=LESSONS[key]; if(!L) return;
-      meta.seen=meta.seen||{}; meta.seen[key]=1; saveMeta();
-      coachCard={key:key, ico:L.ico, title:t('coach_'+key), desc:t('coach_'+key+'d'), col:L.col, t:5.4, t0:5.4};
+      coachQueue.sort((a,b)=>a.ord-b.ord);   // Kern-Lektionen (Curriculum) vor dynamischen
+      const L=coachQueue.shift(); meta.seen=meta.seen||{}; meta.seen[L.sk]=1; saveMeta();
+      coachCard={sk:L.sk,ico:L.ico,title:L.title,desc:L.desc,col:L.col,app:0,closing:false,ct:0};
+      coachPause=true;   // Spiel einfrieren, bis getippt wird
       flash=Math.min(0.32,(flash||0)+0.10); flashColor=L.col;
       try{ beep(560,0.07,'sine',0.16); setTimeout(()=>beep(840,0.08,'sine',0.14),90); }catch(_){ }
       vibe(12);
-      coachCd=5.4+3.0;   // erst nach Fade + Ruhepause die naechste Lektion
     }
   }
+  function coachFreezeTick(dt){ if(coachCard && coachCard.app<1) coachCard.app=Math.min(1,coachCard.app+dt/0.28); }   // im Freeze nur die Karte einblenden
+  function resumeCoach(){ if(!coachPause) return; coachPause=false; if(coachCard) coachCard.closing=true; coachCd=2.6; invuln=Math.max(invuln||0,0.6); try{ beep(720,0.06,'square',0.2); }catch(_){ } }   // Tippen → weiter, kurze Unverwundbarkeit zum Schutz
   // Schadenszahl (weiß = normal, rot = Krit). Mit Soft-Cap gegen Spam & nur wenn aktiviert.
   function floatDamage(x,y,amt,crit){ if(!opt.dmg||floaters.length>66) return; const a=Math.round(amt); if(a<=0) return;
     floaters.push({x:x+rand(-5,5),y,text:crit?(a+'!'):''+a,color:crit?'#ff3b3b':'#ffffff',size:crit?20:13,life:1,vy:-58,vx:rand(-14,14),dr:crit?1.25:1.8}); }
@@ -1222,7 +1226,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; runOnBeat=0; runLetters=0; breatherT=rand(24,32); breatherActive=0; hype=0; hypeT=0; mkCount=0; mkTimer=0; coachQueue=[]; coachCd=0; coachCard=null; pickMissions();
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; runOnBeat=0; runLetters=0; breatherT=rand(24,32); breatherActive=0; hype=0; hypeT=0; mkCount=0; mkTimer=0; coachQueue=[]; coachCd=0; coachCard=null; coachPause=false; pickMissions();
     flowI=1; skillBias=computeSkillBias();   // Flow-Regler zuruecksetzen + Skill-Offset aus den letzten Runs lernen
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
@@ -2633,27 +2637,29 @@
         ctx.strokeStyle=act?'#fff':'rgba(255,255,255,0.25)'; ctx.lineWidth=1; ctx.strokeRect(bx,by,bw,bh);
         ctx.font='800 11px Orbitron,sans-serif'; ctx.fillStyle=act?'#fff':(hp>=1?'#ff2ee0':'rgba(255,255,255,0.6)');
         ctx.fillText(act?('🔥 '+t('hype')+' '+Math.ceil(hypeT)+'s'):t('hype'),W/2,by-5); ctx.restore(); }
-      // Coach-Karte: liebevoll animierte Tutorial-Einblendung unten-mittig (nicht-blockierend → Flow bleibt erhalten)
-      if(coachCard && (state===S.PLAY||state===S.PAUSE)){ const C=coachCard, tt=C.t, t0=C.t0||5.4;
-        const fin=Math.min(1,(t0-tt)/0.35), fout=Math.min(1,tt/0.5), a=Math.max(0,Math.min(1,Math.min(fin,fout)));
+      // Coach-Karte: animierte Tutorial-Einblendung unten-mittig — friert das Spiel ein, bis getippt wird
+      if(coachCard && (state===S.PLAY||state===S.PAUSE)){ const C=coachCard;
+        const a=Math.max(0,Math.min(1,C.closing?1-C.ct:C.app));
         const cw=Math.min(420,W*0.9), cx=(W-cw)/2, padL=74, maxW=cw-padL-16;
         ctx.save(); ctx.textBaseline='alphabetic'; ctx.font='600 12.5px Orbitron, sans-serif';
         const words=(C.desc||'').split(' '); let line='', lines=[];
         for(const w of words){ const tst=line?line+' '+w:w; if(ctx.measureText(tst).width>maxW && line){ lines.push(line); line=w; } else line=tst; } if(line) lines.push(line);
-        const ch=Math.max(92,40+lines.length*16+24), cy=H*0.72+(1-fin)*26;   // sanftes Hochgleiten beim Einblenden (inkl. Fortschrittsleiste unten)
-        const dn=LESSON_ORDER.filter(k=>meta.seen&&meta.seen[k]).length, dtot=LESSON_ORDER.length;   // sichtbarer Lernfortschritt
+        const core=LESSON_ORDER.indexOf(C.sk)>=0, tapH=coachPause?16:0;   // Fortschrittsleiste nur Kern-Lektionen · Platz für „Tippen zum Weiter"
+        const ch=Math.max(92,40+lines.length*16+(core?24:12)+tapH), cy=H*0.72+(1-C.app)*26;   // Hochgleiten via app (auch im Freeze)
         ctx.globalAlpha=a;
-        ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.fillStyle='rgba(10,3,24,0.93)'; ctx.shadowBlur=26; ctx.shadowColor=C.col; ctx.fill(); ctx.shadowBlur=0;
-        ctx.lineWidth=2; ctx.strokeStyle=C.col; ctx.globalAlpha=a*(0.55+0.45*Math.abs(Math.sin((elapsed||0)*3))); ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.stroke(); ctx.globalAlpha=a;   // sanft pulsierender Rand
+        ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.fillStyle='rgba(10,3,24,0.95)'; ctx.shadowBlur=26; ctx.shadowColor=C.col; ctx.fill(); ctx.shadowBlur=0;
+        ctx.lineWidth=2; ctx.strokeStyle=C.col; ctx.globalAlpha=a*(0.55+0.45*Math.abs(Math.sin(performance.now()*0.003))); ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.stroke(); ctx.globalAlpha=a;   // pulsierender Rand (läuft auch im Freeze)
         ctx.fillStyle=C.col; ctx.beginPath(); rr(cx+2,cy+8,5,ch-16,2.5); ctx.fill();   // Akzentbalken links
-        ctx.textAlign='center'; ctx.font='32px sans-serif'; ctx.fillStyle='#fff'; ctx.fillText(C.ico,cx+40,cy+ch*0.5+11);
-        const tx=cx+padL; ctx.textAlign='right'; ctx.font='800 11px Orbitron, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillText('📚 '+dn+'/'+dtot,cx+cw-14,cy+27);
+        ctx.textAlign='center'; ctx.font='32px sans-serif'; ctx.fillStyle='#fff'; ctx.fillText(C.ico,cx+40,cy+44);
+        const tx=cx+padL;
+        if(core){ const dn=LESSON_ORDER.filter(k=>meta.seen&&meta.seen[k]).length, dtot=LESSON_ORDER.length;
+          ctx.textAlign='right'; ctx.font='800 11px Orbitron, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillText('📚 '+dn+'/'+dtot,cx+cw-14,cy+27);
+          const bw2=cx+cw-14-tx, by2=cy+ch-13-tapH; ctx.fillStyle='rgba(255,255,255,0.14)'; ctx.beginPath(); rr(tx,by2,bw2,4,2); ctx.fill();
+          ctx.fillStyle=C.col; ctx.beginPath(); rr(tx,by2,Math.max(4,bw2*dn/dtot),4,2); ctx.fill(); }
         ctx.textAlign='left'; ctx.font='900 16px Orbitron, sans-serif'; ctx.fillStyle=C.col; ctx.fillText(C.title,tx,cy+28);
         ctx.font='600 12.5px Orbitron, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.92)';
         let ly=cy+47; for(const ln of lines){ ctx.fillText(ln,tx,ly); ly+=16; }
-        const bw2=cx+cw-14-tx, by2=cy+ch-13;   // dünne Fortschrittsleiste (entdeckte Mechaniken)
-        ctx.fillStyle='rgba(255,255,255,0.14)'; ctx.beginPath(); rr(tx,by2,bw2,4,2); ctx.fill();
-        ctx.fillStyle=C.col; ctx.beginPath(); rr(tx,by2,Math.max(4,bw2*dn/dtot),4,2); ctx.fill();
+        if(coachPause){ ctx.textAlign='center'; ctx.font='800 11px Orbitron, sans-serif'; ctx.globalAlpha=a*(0.6+0.4*Math.abs(Math.sin(performance.now()*0.005))); ctx.fillStyle=C.col; ctx.fillText(t('loreNext'),W/2,cy+ch-9); ctx.globalAlpha=a; }
         ctx.restore(); }
       drawJumpReady();
     }
@@ -4224,7 +4230,7 @@
     // senken, wenn Frames verloren gehen (>1.6× vsync); in Ruhe (<1.25×) umgekehrt wieder anheben.
     if(frameMs>vsyncMs*1.6){ if(fxQ>0.45) fxQ=Math.max(0.45,fxQ-0.04); else if(qScale>0.5){ qScale=Math.max(0.5,qScale-0.05); applyScale(); } }
     else if(frameMs<vsyncMs*1.25){ if(qScale<1){ qScale=Math.min(1,qScale+0.04); applyScale(); } else if(fxQ<1) fxQ=Math.min(1,fxQ+0.02); }
-    if(state===S.PLAY) update(dt);
+    if(state===S.PLAY){ if(coachPause) coachFreezeTick(dt); else update(dt); }
     else { elapsed=(elapsed||0)+dt; updateStars(dt);
       if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
       // Abgangs-FX nachlaufen lassen (update() läuft im OVER-State nicht): Feuer-Konfetti, Schockwellen, Nuklearblitz
