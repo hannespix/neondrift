@@ -1290,6 +1290,7 @@
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
   const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.55,(0.02+(level-1)*0.027+coverage()*0.032+(endless?madness*0.5:0))*flowI):0;   // Flow-Regler moduliert die Elite-Haeufigkeit
   const flankChance=()=>(opt.guns&&level>=3)?Math.min(0.16,(0.01+(level-2)*0.01+coverage()*0.008)*flowI):0;   // Flanker: zielsuchender Camper-Konter, seltener als Elites
+  const shieldChance=()=>(opt.guns&&level>=4)?Math.min(0.14,(0.01+(level-3)*0.009+coverage()*0.006)*flowI):0;   // Schild-Gegner: Konter gegen reine Bolzen-DPS (AoE/Elementar umgeht das Schild)
   // Zwischen-Runs lernen: aus den letzten Runs (gleicher Modus) ein Skill-Offset ableiten.
   // Viele Treffer & niedriges Level → struggelt → leichter (negativ). Wenig Treffer & hohes Level → souveraen → haerter (positiv). Gedeckelt ±0.15.
   function computeSkillBias(){ try{ const log=JSON.parse(localStorage.getItem('thronerush_tlog')||'[]'); if(!Array.isArray(log)) return 0;
@@ -1490,6 +1491,8 @@
       o.flank=true; o.pattern='flank'; o.shape='tri'; o.w=grand(28,38); o.h=Math.round(o.w*1.25); o.color='#ff3a3a';
       o.cx=grand(o.w,W-o.w); o.cy=-o.h; o.vx=0; o.rot=0; o.vy=Math.min(175,sp*0.6+45); o.flankPull=230; o.ccRes=0.45;
       o.maxHp=Math.max(1,Math.round(o.maxHp*0.55)); o.hp=o.maxHp;   // niedrige HP: wegballern oder ausweichen
+    } else if(grnd()<shieldChance()){                 // SCHILD-GEGNER: Frontschild absorbiert direkte Bolzen, AoE/Elementar umgeht es
+      o.shielded=true; o.shieldMax=Math.max(2,Math.round(o.maxHp*1.4)); o.shield=o.shieldMax; o.vy*=0.8; if(o.vx) o.vx*=0.8;
     }
     obstacles.push(o);
   }
@@ -2193,7 +2196,8 @@
         if(ddx*ddx+ddy*ddy<er*er){
           if(b.homing){ explodeMissile(b); gone=true; break; }
           const hit=rollHit(b.dmg); let dmg=hit.dmg; if(o.slow>0 && mods.brittle) dmg*=1.5;     // Krit + SPRÖDE
-          o.hp-=dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,hit.crit?'#ff3b3b':(b.col||'#caffff'),hit.crit?6:3,hit.crit?180:120);
+          if(o.shield>0){ o.shield-=dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,'#2effc0',hit.crit?5:3,140); if(o.shield<0){ o.hp+=o.shield; o.shield=0; } }   // Schild fängt direkte Bolzen ab (Rest-Überlauf trifft HP)
+          else { o.hp-=dmg; o.hitFlash=0.12; spawnParticles(b.x,b.y,hit.crit?'#ff3b3b':(b.col||'#caffff'),hit.crit?6:3,hit.crit?180:120); }
           if(!b.frag){ floatDamage(o.cx,o.cy-o.h*0.45,dmg,hit.crit); if(hit.crit) beep(1500,0.04,'square',0.1,420); }
           if(b.burn){ o.burn=Math.max(o.burn||0,b.burnDur||1.8); o.burnDmg=Math.max(o.burnDmg||0,b.burn); o.burnSpread=b.burnSpread; o.burnConsume=b.burnConsume; }
           if(b.frost){ const amt=(b.freeze&&Math.random()<0.4)?0.05:b.frost; applySlow(o,b.frostDur||1.4,amt); spawnParticles(b.x,b.y,'#8fe8ff',2,80); }
@@ -2599,6 +2603,7 @@
         if(o.elite){ const er=Math.max(o.w,o.h)*0.62, pw=1+Math.sin((elapsed||0)*6)*0.18;   // Panzer-Telegraph: pulsierender Achteck-Schild
           ctx.strokeStyle=o.hitFlash>0?'#ffffff':'#e6b3ff'; ctx.lineWidth=2.4*pw;
           ctx.beginPath(); for(let k=0;k<8;k++){ const a=k/8*6.28, px=Math.cos(a)*er, py=Math.sin(a)*er; k?ctx.lineTo(px,py):ctx.moveTo(px,py); } ctx.closePath(); ctx.stroke(); }
+        if(o.shielded && o.shield>0){ const sr=Math.max(o.w,o.h)*0.66; ctx.globalAlpha=Math.min(1,0.32+0.5*(o.shield/(o.shieldMax||1))); ctx.strokeStyle=o.hitFlash>0?'#ffffff':'#2effc0'; ctx.lineWidth=2.6; ctx.beginPath(); ctx.arc(0,0,sr,0,6.28); ctx.stroke(); ctx.globalAlpha=1; }   // Schild-Ring (verblasst mit Restschild)
         ctx.restore();
         // Mini-HP-Balken über angeschlagenen Gegnern (macht Zähigkeit & Schaden lesbar)
         if(o.hp<o.maxHp-0.01 && o.maxHp>1){ const bw=Math.max(18,o.w*0.7), bx=o.cx-bw/2, by=o.cy-o.h*0.5-9, f=Math.max(0,o.hp/o.maxHp);
