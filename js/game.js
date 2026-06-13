@@ -9,7 +9,7 @@
   const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
   /* === AUTO-BALANCE START (wird von tools/auto-balance.mjs gepflegt – nur Werte, keine Logik!) === */
-  const BAL={ difficulty:1.00, spawnRate:1.00, eliteChance:1.00 };   // Multiplikatoren (1.00 = neutral). Höher = schwerer / mehr.
+  const BAL={ difficulty:1.15, spawnRate:1.12, eliteChance:1.20 };   // Multiplikatoren (1.00 = neutral). Höher = schwerer / mehr.
   /* === AUTO-BALANCE END === */
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
@@ -3310,7 +3310,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v333';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v334';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
