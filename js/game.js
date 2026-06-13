@@ -1264,8 +1264,8 @@
   // (director hoch = viele Near-Misses/Orbs ohne Treffer). Wird man getroffen, fällt director → Druck lässt nach.
   // So bleibt der Grund-Cap als Schutz für schwache Spieler, starke laufen der Schwierigkeit aber nicht mehr davon.
   const ddaPush=()=>Math.max(0,director-0.55)*2.2;
-  const difSpd =()=>(1+Math.min(0.55,pwrSurv()*0.020)+pwrSurv()*0.011*ddaPush()+(endless?madness*0.85:0))*flowI;   // Flow-Regler moduliert das Tempo
-  const difDen =()=>Math.max(0.32,1-Math.min(0.30,pwrSurv()*0.012)-pwrSurv()*0.006*ddaPush()-(endless?madness*0.35:0));
+  const difSpd =()=>(1+Math.min(0.55,pwrSurv()*0.020)+pwrSurv()*0.011*ddaPush()+(endless?Math.min(0.5,madness*0.3):0))*flowI;   // Endlos-Tempo GEDECKELT (max +50% statt unbegrenzt) → wird nicht mehr unspielbar schnell
+  const difDen =()=>Math.max(0.30,1-Math.min(0.30,pwrSurv()*0.012)-pwrSurv()*0.006*ddaPush()-(endless?Math.min(0.45,madness*0.5):0));   // Endlos: Druck über DICHTE statt Tempo
   // „Coverage": echtes Screen-Clear-Potenzial (Waffen + aktive Fusionen) – treibt die Elite-Häufigkeit,
   // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
@@ -1283,8 +1283,8 @@
   const introT =()=>Math.max(0,1-elapsed/22);   // Butter-Start: lange, sanfte Schonung in den ersten ~22s, fadet linear aus (gemütlicher Einstieg)
   // DPS-gekoppeltes Tempo: mehr Feuerkraft → schnellere Obstacles. Hält den Ausweich-Druck konstant (mit wenig DPS hat man Zeit zu zerstören, mit viel DPS kommt es schneller). Sanft & gedeckelt.
   const DPS_BASE=4;   // ~Start-Blaster-DPS als Referenz
-  const dpsSpd =()=>1+Math.min(1.1,Math.max(0,gunDps()/DPS_BASE-1)*0.05);
-  const dpsDen =()=>1-Math.min(0.30,Math.max(0,gunDps()/DPS_BASE-1)*0.03);   // mehr DPS -> etwas dichtere Wellen (Druck per Anzahl statt HP), Grund-Spieler unberuehrt
+  const dpsSpd =()=>1+Math.min(0.12,Math.max(0,gunDps()/DPS_BASE-1)*0.012);   // ENTKOPPELT: starke Builds machen das Spiel kaum noch schneller (max +12%)
+  const dpsDen =()=>1-Math.min(0.45,Math.max(0,gunDps()/DPS_BASE-1)*0.05);   // KOMPENSATION: mehr DPS -> deutlich dichtere Wellen (Druck per Anzahl/Qualität statt Tempo)
   function finalNum(){ return mode==='hardcore'?10:8; }
   function combatDur(){ return mode==='hardcore'?30:38; }   // Kampfphase pro Level vor dem Boss (länger → Zeit zum Aufrüsten)
   // Boss entkommen → Level NICHT geschafft: gleiche Stufe nochmal (Loadout bleibt, man wird stärker)
@@ -1442,7 +1442,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(52+level*5+Math.min(elapsed*0.7,46))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo primär an DPS gekoppelt (dpsSpd) + milder Level-Druck; Start sehr langsam (Intro), reine Zeit zählt kaum noch
+    const sp=(52+Math.min(level*5,64)+Math.min(elapsed*0.7,46))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo primär an DPS gekoppelt (dpsSpd) + milder Level-Druck; Start sehr langsam (Intro), reine Zeit zählt kaum noch
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
