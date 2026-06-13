@@ -1289,6 +1289,7 @@
   // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
   const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.55,(0.02+(level-1)*0.027+coverage()*0.032+(endless?madness*0.5:0))*flowI):0;   // Flow-Regler moduliert die Elite-Haeufigkeit
+  const flankChance=()=>(opt.guns&&level>=3)?Math.min(0.16,(0.01+(level-2)*0.01+coverage()*0.008)*flowI):0;   // Flanker: zielsuchender Camper-Konter, seltener als Elites
   // Zwischen-Runs lernen: aus den letzten Runs (gleicher Modus) ein Skill-Offset ableiten.
   // Viele Treffer & niedriges Level → struggelt → leichter (negativ). Wenig Treffer & hohes Level → souveraen → haerter (positiv). Gedeckelt ±0.15.
   function computeSkillBias(){ try{ const log=JSON.parse(localStorage.getItem('thronerush_tlog')||'[]'); if(!Array.isArray(log)) return 0;
@@ -1485,6 +1486,10 @@
       o.maxHp=Math.round(o.maxHp*2.8)+3; o.hp=o.maxHp; // zäh: weglasern dauert, er kommt näher (Elites = Anker-Ziele, während Trash schmilzt)
       o.vy*=0.84; if(o.vx) o.vx*=0.84;                // langsamer = lesbarer, bedrohlich heranschwebender Tank
       o.color='#c45bff';
+    } else if(grnd()<flankChance()){                  // FLANKER: schnell, wenig HP, jagt deine Position
+      o.flank=true; o.pattern='flank'; o.shape='tri'; o.w=grand(28,38); o.h=Math.round(o.w*1.25); o.color='#ff3a3a';
+      o.cx=grand(o.w,W-o.w); o.cy=-o.h; o.vx=0; o.rot=0; o.vy=Math.min(175,sp*0.6+45); o.flankPull=230; o.ccRes=0.45;
+      o.maxHp=Math.max(1,Math.round(o.maxHp*0.55)); o.hp=o.maxHp;   // niedrige HP: wegballern oder ausweichen
     }
     obstacles.push(o);
   }
@@ -2148,6 +2153,7 @@
       else if(o.pattern==='orbit'){ o.centerY+=o.vy*mt; o.ang+=o.angVel*mt; o.cx=o.baseX+o.radius*Math.cos(o.ang); o.cy=o.centerY+o.radius*Math.sin(o.ang); }
       else if(o.pattern==='zigzag'){ o.cy+=o.vy*mt; o.cx+=o.vx*mt; if(o.cx<o.w/2){o.cx=o.w/2;o.vx*=-1;} if(o.cx>W-o.w/2){o.cx=W-o.w/2;o.vx*=-1;} o.rot+=8*mt; }
       else if(o.pattern==='pendulum'){ o.cy+=o.vy*mt; o.ang+=o.angVel*mt; o.cx=o.baseX+o.swing*Math.sin(o.ang); }
+      else if(o.pattern==='flank'){ const tx=player.x; o.cx+=Math.sign(tx-o.cx)*Math.min(Math.abs(tx-o.cx),(o.flankPull||220)*mt); o.cy+=o.vy*mt; o.rot+=7*mt; if(o.cx<o.w/2)o.cx=o.w/2; else if(o.cx>W-o.w/2)o.cx=W-o.w/2; }   // FLANKER: jagt aggressiv deine Spalte & sinkt dabei ab → zwingt zum Ausweichen statt Dauer-Camping
       if(o.elite){ const tx=player.x, pull=42*mt;   // Camper-Konter: Elites lehnen sich sanft auf deine x-Position zu → reines Unten-Sitzen-und-Abräumen wird bestraft
         if(o.baseX!=null) o.baseX+=Math.sign(tx-o.baseX)*Math.min(Math.abs(tx-o.baseX),pull);
         o.cx+=Math.sign(tx-o.cx)*Math.min(Math.abs(tx-o.cx),pull);
