@@ -1490,18 +1490,19 @@
     }
     o.maxHp=Math.max(1,Math.round(((o.w+o.h)/46+(o.shape==='long'?2:0)+(o.shape==='rect'?1:0))*difHp()*diffHp));
     o.hp=o.maxHp; o.hitFlash=0;
+    const specials=obstacles.reduce((n,e)=>n+((e.elite||e.flank||e.shielded)?1:0),0), canSpecial=specials<Math.min(5,2+Math.floor((level||1)/4));   // gleichzeitige Sonder-Gegner deckeln → kein Schirm voller Homing/Schild (fair lesbar)
     // ---- Elite/Panzer: überlebt den Screen-Clear & widersteht CC → erzwingt im Lategame wieder echtes Ausweichen ----
-    if(grnd()<eliteChance()){
+    if(canSpecial && grnd()<eliteChance()){
       o.elite=true; o.ccRes=0.62;                     // stark CC-resistent: kaum bremsbar, nie einfrierbar (Konter gegen reine CC-Builds)
       o.maxHp=Math.round(o.maxHp*2.8)+3; o.hp=o.maxHp; // zäh: weglasern dauert, er kommt näher (Elites = Anker-Ziele, während Trash schmilzt)
       o.vy*=0.84; if(o.vx) o.vx*=0.84;                // langsamer = lesbarer, bedrohlich heranschwebender Tank
       o.color='#c45bff'; coachDyn('enemy_elite','🛡️',t('ceElite'),t('ceEliteD'),'#c45bff');
-    } else if(grnd()<flankChance()){                  // FLANKER: schnell, wenig HP, jagt deine Position
+    } else if(canSpecial && grnd()<flankChance()){                  // FLANKER: schnell, wenig HP, jagt deine Position
       o.flank=true; o.pattern='flank'; o.shape='tri'; o.w=grand(28,38); o.h=Math.round(o.w*1.25); o.color='#ff3a3a';
       o.cx=grand(o.w,W-o.w); o.cy=-o.h; o.vx=0; o.rot=0; o.vy=Math.min(175,sp*0.6+45); o.flankPull=230; o.ccRes=0.45;
       o.maxHp=Math.max(1,Math.round(o.maxHp*0.55)); o.hp=o.maxHp;   // niedrige HP: wegballern oder ausweichen
       coachDyn('enemy_flank','🔻',t('ceFlank'),t('ceFlankD'),'#ff3a3a');
-    } else if(grnd()<shieldChance()){                 // SCHILD-GEGNER: Frontschild absorbiert direkte Bolzen, AoE/Elementar umgeht es
+    } else if(canSpecial && grnd()<shieldChance()){                 // SCHILD-GEGNER: Frontschild absorbiert direkte Bolzen, AoE/Elementar umgeht es
       o.shielded=true; o.shieldMax=Math.max(2,Math.round(o.maxHp*1.4)); o.shield=o.shieldMax; o.vy*=0.8; if(o.vx) o.vx*=0.8;
       coachDyn('enemy_shield','🛡️',t('ceShield'),t('ceShieldD'),'#2effc0');
     }
