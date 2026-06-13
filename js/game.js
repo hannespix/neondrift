@@ -2129,6 +2129,10 @@
       else if(o.pattern==='orbit'){ o.centerY+=o.vy*mt; o.ang+=o.angVel*mt; o.cx=o.baseX+o.radius*Math.cos(o.ang); o.cy=o.centerY+o.radius*Math.sin(o.ang); }
       else if(o.pattern==='zigzag'){ o.cy+=o.vy*mt; o.cx+=o.vx*mt; if(o.cx<o.w/2){o.cx=o.w/2;o.vx*=-1;} if(o.cx>W-o.w/2){o.cx=W-o.w/2;o.vx*=-1;} o.rot+=8*mt; }
       else if(o.pattern==='pendulum'){ o.cy+=o.vy*mt; o.ang+=o.angVel*mt; o.cx=o.baseX+o.swing*Math.sin(o.ang); }
+      if(o.elite){ const tx=player.x, pull=42*mt;   // Camper-Konter: Elites lehnen sich sanft auf deine x-Position zu → reines Unten-Sitzen-und-Abräumen wird bestraft
+        if(o.baseX!=null) o.baseX+=Math.sign(tx-o.baseX)*Math.min(Math.abs(tx-o.baseX),pull);
+        o.cx+=Math.sign(tx-o.cx)*Math.min(Math.abs(tx-o.cx),pull);
+        if(o.cx<o.w/2)o.cx=o.w/2; else if(o.cx>W-o.w/2)o.cx=W-o.w/2; }
 
       const hw=o.w/2,hh=o.h/2;
       // Rotations- & formgenaue Hitbox (fairer als die alte AABB für alle Formen)
