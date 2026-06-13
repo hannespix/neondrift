@@ -1196,10 +1196,10 @@
   // Wiederholtes Vereisen wirkt zunehmend schwächer → kein „dauerhaft eingefrorenes" Lategame, Ausweichen bleibt relevant.
   function applySlow(o,dur,amt){ if(!o) return;
     const res=o.ccRes||0;
-    o.ccSat=Math.min(0.55,(o.ccSat||0)+0.10);              // Gegner „gewöhnt sich" an die Kälte
-    const floor=Math.max(res,o.ccSat);                     // Slow-Boden: nie langsamer als das
+    o.ccSat=Math.min(0.70,(o.ccSat||0)+0.15);              // Anti-Snowball: schnellere & stärkere Kälte-Gewöhnung (Decke 0.70 = nur noch leicht bremsbar)
+    const floor=Math.max(0.12,res,o.ccSat);                // Frost VERLANGSAMT, friert nie komplett ein (min. 12% Resttempo) → kein Dauer-Lock des Feldes
     o.slow=Math.max(o.slow||0,dur*(1-res*0.5));            // Elites: kürzere Slow-Dauer
-    o.slowAmt=Math.min(o.slowAmt!=null?o.slowAmt:1,Math.max(floor,amt)); }
+    o.slowAmt=Math.max(floor,Math.min(o.slowAmt!=null?o.slowAmt:1,amt)); }   // Sättigungs-Boden GEWINNT: bei Dauer-CC kriecht der Boden nach oben (kein Permafrost-Lock des Feldes)
   // Waffen-Level/Fork-Logik: lvl1=Basis, lvl2=Gabelung1 gewählt, lvl3=Gabelung2 gewählt
   function nextNode(id){ const a=arsenal.w[id]; if(!a) return 'new';
     for(const s of ['f1','f2','f3','f4']){ if(!a[s]) return forkShopOpen(id,s)?s:null; }   // nächster Slot nur, wenn in Werkstatt freigeschaltet
@@ -1462,7 +1462,7 @@
     o.hp=o.maxHp; o.hitFlash=0;
     // ---- Elite/Panzer: überlebt den Screen-Clear & widersteht CC → erzwingt im Lategame wieder echtes Ausweichen ----
     if(grnd()<eliteChance()){
-      o.elite=true; o.ccRes=0.5;                      // halbe CC-Wirkung, nie einfrierbar
+      o.elite=true; o.ccRes=0.62;                     // stark CC-resistent: kaum bremsbar, nie einfrierbar (Konter gegen reine CC-Builds)
       o.maxHp=Math.round(o.maxHp*2.8)+3; o.hp=o.maxHp; // zäh: weglasern dauert, er kommt näher (Elites = Anker-Ziele, während Trash schmilzt)
       o.vy*=0.84; if(o.vx) o.vx*=0.84;                // langsamer = lesbarer, bedrohlich heranschwebender Tank
       o.color='#c45bff';
@@ -2114,7 +2114,7 @@
     for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i];
       if(o.hitFlash>0) o.hitFlash-=dt;
       // Frost: verlangsamt die Bewegung; Brand: Schaden über Zeit
-      if(o.slow>0) o.slow-=dt;
+      if(o.slow>0){ o.slow-=dt; if(o.slow<=0) o.slowAmt=1; }   // Slow ausgelaufen → Resttempo zurück (ccSat bleibt: Wieder-Einfrieren ist gesättigt)
       if(o.burn>0){ o.burn-=dt; let bd=(o.burnDmg||0); if(syn.thermo&&o.slow>0) bd*=2.6;   // THERMOSCHOCK: brennend+gefroren
         o.hp-=bd*dt;
         if(Math.random()<0.8) emitP(o.cx+rand(-o.w*0.35,o.w*0.35),o.cy+rand(-4,6),rand(-18,18),-rand(45,100),0.45,Math.random()<0.4?'#ffe24d':'#ff5a1a',rand(3,6));   // aufsteigende Glut
