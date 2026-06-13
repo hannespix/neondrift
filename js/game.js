@@ -22,7 +22,7 @@
   const TR={
     de:{
       tag:'Jede Sitzung ein Highscore', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
-      howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen 🪙 und Skillpunkte 💠 – in der Werkstatt 🛠️ rüstest du auf.',
+      howTitle:'BEREIT?', howGo:'LOS!', howDodge:'Weiche aus & bleib in Bewegung', howDodgeD:'Münzen, Combos & der Rest erklären sich ganz von selbst beim Spielen. 🎮',
       tipSP:'💠 Skillpunkt!', tipSPd:'Werkstatt 🛠️ unten öffnen & aufrüsten', tipSyn:'🔗 Fusion möglich!', tipSynd:'Werkstatt → „Synergien": 2 Waffen verschmelzen', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab', coach_move:'🕹️ Bewegen', coach_moved:'Dein leuchtender Kern folgt Maus oder Finger. Lenk ihn ruhig durch die Lücken zwischen den Hindernissen.', coach_near:'✦ Near-Miss', coach_neard:'Ganz knapp an Gegnern vorbei = deine Combo steigt & es regnet mehr Münzen. Risiko lohnt sich!', coach_combo:'🔥 Combo-Faktor', coach_combod:'Jede 4. Combo-Stufe hebt deinen Punkte-Multiplikator. Bleib in Bewegung – ein Treffer setzt ihn zurück.', coach_beat:'🎵 Im Takt', coach_beatd:'Weich genau im Beat der Musik aus → „IM TAKT!": Extra-Combo, mehr Punkte und dein HYPE füllt schneller.', coach_coin:'🪙 Münzen', coach_coind:'Münzen sind deine Währung. In der Werkstatt 🛠️ kaufst du dauerhafte Upgrades – auch zwischen den Runs.', coach_jump:'🦘 Sprung', coach_jumpd:'Tippe dein Schiff an → spring über Gefahr hinweg und entkomme. Lädt danach automatisch nach.', coach_hype:'🌈 HYPE-Meter', coach_hyped:'Near-Misses füllen den Balken oben. Ist er voll → HYPE: Score ×2, Münz-Magnet & Regenbogen-Trail.', coach_letter:'🔤 BEUTE', coach_letterd:'Sammle die Buchstaben der Reihe nach ein. Wort komplett = fette Beute-Belohnung!', coach_sp:'💠 Skillpunkt', coach_spd:'Öffne die Werkstatt 🛠️ unten und schalte im Fähigkeitsbaum neue Waffen & Kräfte frei.', coach_shield:'🛡️ Schild', coach_shieldd:'Der Ring um dein Schiff fängt genau einen Treffer ab. Danach ist er weg – hol dir Nachschub.', coach_syn:'🔗 Synergie', coach_synd:'Zwei Waffen lassen sich in der Werkstatt verschmelzen → neuer Effekt + ÜBERLADUNG. Probier es aus!',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft THRONERUSH als Vollbild-App.',
@@ -51,7 +51,7 @@
     },
     en:{
       tag:'Every sitting a highscore', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
-      howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins 🪙 and skill points 💠 – gear up in the Workshop 🛠️.',
+      howTitle:'READY?', howGo:'GO!', howDodge:'Dodge & keep moving', howDodgeD:'Coins, combos & everything else explain themselves as you play. 🎮',
       tipSP:'💠 Skill point!', tipSPd:'Open the Workshop 🛠️ below to gear up', tipSyn:'🔗 Fusion ready!', tipSynd:'Workshop → “Synergies”: fuse two weapons', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off', coach_move:'🕹️ Move', coach_moved:'Your glowing core follows your mouse or finger. Steer it calmly through the gaps between obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Skim right past enemies = your combo climbs & more coins drop. Risk pays off!', coach_combo:'🔥 Combo Multiplier', coach_combod:'Every 4th combo step raises your score multiplier. Keep moving – one hit resets it.', coach_beat:'🎵 On Beat', coach_beatd:'Dodge right on the music’s beat → "ON BEAT!": bonus combo, more points and faster HYPE.', coach_coin:'🪙 Coins', coach_coind:'Coins are your currency. In the Workshop 🛠️ you buy permanent upgrades – even between runs.', coach_jump:'🦘 Jump', coach_jumpd:'Tap your ship → leap over danger and escape. It recharges automatically afterwards.', coach_hype:'🌈 HYPE Meter', coach_hyped:'Near-misses fill the bar up top. When full → HYPE: score ×2, coin magnet & rainbow trail.', coach_letter:'🔤 BONUS', coach_letterd:'Collect the letters in order. Complete the word = big bonus reward!', coach_sp:'💠 Skill Point', coach_spd:'Open the Workshop 🛠️ below and unlock new weapons & powers in the skill tree.', coach_shield:'🛡️ Shield', coach_shieldd:'The ring around your ship blocks exactly one hit. Then it’s gone – grab more.', coach_syn:'🔗 Synergy', coach_synd:'Fuse two weapons in the Workshop → new effect + OVERLOAD. Give it a try!',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then THRONERUSH runs fullscreen.',
@@ -80,7 +80,7 @@
     },
     fr:{
       tag:'Chaque séance un highscore', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
-      howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins 🪙 et points 💠 – équipe-toi à l’Atelier 🛠️.',
+      howTitle:'PRÊT ?', howGo:'C’EST PARTI !', howDodge:'Esquive & reste mobile', howDodgeD:'Pièces, combos & le reste s’expliquent tout seuls en jouant. 🎮',
       tipSP:'💠 Point de skill !', tipSPd:'Ouvre l’Atelier 🛠️ en bas pour t’équiper', tipSyn:'🔗 Fusion possible !', tipSynd:'Atelier → « Synergies » : fusionne deux armes', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire', coach_move:'🕹️ Bouger', coach_moved:'Ton noyau lumineux suit la souris ou le doigt. Faufile-le tranquillement dans les trous entre les obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Frôle les ennemis = ton combo grimpe & plus de pièces tombent. Le risque paie !', coach_combo:'🔥 Multiplicateur', coach_combod:'Chaque 4e palier de combo augmente ton multiplicateur. Reste mobile – un coup le remet à zéro.', coach_beat:'🎵 Dans le rythme', coach_beatd:'Esquive pile sur le beat → « EN RYTHME » : combo bonus, plus de points et HYPE plus vite.', coach_coin:'🪙 Pièces', coach_coind:'Les pièces sont ta monnaie. À l’Atelier 🛠️ tu achètes des améliorations permanentes – même entre les parties.', coach_jump:'🦘 Saut', coach_jumpd:'Touche ton vaisseau → saute par-dessus le danger et échappe-toi. Il se recharge ensuite tout seul.', coach_hype:'🌈 Jauge HYPE', coach_hyped:'Les near-miss remplissent la barre en haut. Pleine → HYPE : score ×2, aimant à pièces & traînée arc-en-ciel.', coach_letter:'🔤 BUTIN', coach_letterd:'Ramasse les lettres dans l’ordre. Mot complet = grosse récompense !', coach_sp:'💠 Point de skill', coach_spd:'Ouvre l’Atelier 🛠️ en bas et débloque de nouvelles armes & pouvoirs dans l’arbre.', coach_shield:'🛡️ Bouclier', coach_shieldd:'L’anneau autour de ton vaisseau bloque un seul coup. Ensuite il disparaît – reprends-en.', coach_syn:'🔗 Synergie', coach_synd:'Fusionne deux armes à l’Atelier → nouvel effet + SURCHARGE. Essaie !',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – THRONERUSH passe en plein écran.',
@@ -920,7 +920,7 @@
   function tickCoach(dt){
     if(coachCard){ coachCard.t-=dt; if(coachCard.t<=0) coachCard=null; }
     if(coachCd>0) coachCd-=dt;
-    if(!coachCard && coachCd<=0 && coachQueue.length && bossIntroT<=0){
+    if(!coachCard && coachCd<=0 && coachQueue.length && bossIntroT<=0 && !(banner && banner.t>0.6)){   // ein Fokuspunkt: nicht gleichzeitig mit prominentem Banner
       coachQueue.sort((a,b)=>LESSON_ORDER.indexOf(a)-LESSON_ORDER.indexOf(b));   // hoechste Prio zuerst
       const key=coachQueue.shift(), L=LESSONS[key]; if(!L) return;
       meta.seen=meta.seen||{}; meta.seen[key]=1; saveMeta();
@@ -2836,10 +2836,10 @@
     for(let i=0;i<4;i++){ const a=i*Math.PI/2+p*1.2, c=Math.cos(a),s=Math.sin(a); ctx.beginPath(); ctx.moveTo(x+c*rr*0.5,y+s*rr*0.5); ctx.lineTo(x+c*rr*1.15,y+s*rr*1.15); ctx.stroke(); }
     ctx.restore(); }
   // Kleine Top-Meldung „Sprung bereit", sobald eine Ladung wieder verfügbar ist (ein-/ausblendend)
-  function drawJumpReady(){ if(jumpReadyT<=0||mode==='zen') return;
+  function drawJumpReady(){ if(jumpReadyT<=0||mode==='zen') return; if(banner && banner.t>0.05) return;   // niemals über einer aktiven Banner-Meldung
     const al=Math.max(0,Math.min(1,(1.7-jumpReadyT)/0.18, jumpReadyT/0.4)), txt='▲ '+t('jumpHint');
     ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='800 15px Orbitron, sans-serif';
-    const w=ctx.measureText(txt).width+34, h=30, x=W/2, y=Math.max(70,H*0.155);
+    const w=ctx.measureText(txt).width+34, h=30, x=W/2, y=Math.max(112,H*0.16);   // klar unter der HYPE-Leiste (y≈70)
     ctx.globalAlpha=al*0.9; ctx.fillStyle='rgba(8,1,15,0.82)'; ctx.strokeStyle='#19f0ff'; ctx.lineWidth=1.6; if(fxQ>0.7){ ctx.shadowBlur=14; ctx.shadowColor='#19f0ff'; }
     ctx.beginPath(); rr(x-w/2,y-h/2,w,h,10); ctx.fill(); ctx.stroke(); ctx.shadowBlur=0;
     ctx.globalAlpha=al; ctx.fillStyle='#19f0ff'; ctx.fillText(txt,x,y+1); ctx.restore(); }
@@ -4096,7 +4096,7 @@
     const setSel=(sel,v,html)=>{ const e=document.querySelector(sel); if(e){ if(html) e.innerHTML=v; else e.textContent=v; } };
     const setIco=(id,ico,lbl,short)=>{ const e=document.getElementById(id); if(e){ const i=e.querySelector('.ico'); if(i) i.textContent=ico; else e.textContent=ico; const l=e.querySelector('.iconLbl'); if(l&&short!=null) l.textContent=short; e.title=lbl; } };
     set('titleTag',t('tag')); set('dailyBtn',t('daily')); set('shopLbl',t('hangar'));
-    set('howTitle',t('howTitle')); set('howtoBtn',t('howGo')); set('howDodge',t('howDodge')); set('howDodgeD',t('howDodgeD')); set('howCombo',t('howCombo')); set('howComboD',t('howComboD')); set('howGear',t('howGear')); set('howGearD',t('howGearD'));
+    set('howTitle',t('howTitle')); set('howtoBtn',t('howGo')); set('howDodge',t('howDodge')); set('howDodgeD',t('howDodgeD'));
     setIco('achBtn','🏅',t('achBtn'),t('il_ach')); setIco('settingsBtn','⚙️',t('settings'),t('il_set')); setIco('shipBtn','🎨',t('shipDesigner'),t('il_ship')); setIco('statusBtn','📊',t('statusBtn'),t('il_status'));
     { const cl=document.querySelector('#coinBtn .iconLbl'); if(cl) cl.textContent=t('il_coin'); }
     setSel('.how',t('how'),true); set('installBtn',t('install')); set('iosHint',t('ios'),true);
