@@ -233,19 +233,19 @@
   const META=[
     // Waffen & Fork-Stufen laufen jetzt rein über Skillpunkte (kein Coin-Bauplan/Vorkauf mehr) → eine Hürde
     {id:'slot',        ico:'🧩',name:'Modul-Slot',   base:600,max:2,prio:9},
-    {id:'veteran',     ico:'🎖️',name:'Veteran',      base:300,max:3,prio:6},
-    {id:'wcore',       ico:'💥',name:'Waffenkern',   base:240,max:4,prio:8},
-    {id:'wtempo',      ico:'⏩',name:'Taktchip',     base:240,max:4,prio:7},
-    {id:'critcore',    ico:'🎯',name:'Zielkern',     base:280,max:3,prio:7},
-    {id:'critdmgcore', ico:'💢',name:'Wuchtkern',    base:360,max:3,prio:6},
+    {id:'veteran',     ico:'🎖️',name:'Veteran',      base:300,max:6,prio:6},
+    {id:'wcore',       ico:'💥',name:'Waffenkern',   base:240,max:7,prio:8},
+    {id:'wtempo',      ico:'⏩',name:'Taktchip',     base:240,max:7,prio:7},
+    {id:'critcore',    ico:'🎯',name:'Zielkern',     base:280,max:6,prio:7},
+    {id:'critdmgcore', ico:'💢',name:'Wuchtkern',    base:360,max:6,prio:6},
     {id:'shield',      ico:'🛡️',name:'Startschild',  base:90, max:3,prio:5},
     {id:'tough',       ico:'💗',name:'Zähigkeit',    base:300,max:2,prio:8},
-    {id:'solid',       ico:'🔻',name:'Solide Hülle', base:80, max:4,prio:3},
-    {id:'reach',       ico:'📡',name:'Fern-Sensor',  base:70, max:4,prio:3},
-    {id:'score',       ico:'💎',name:'Punkte-Boost', base:130,max:4,prio:5},
-    {id:'luck',        ico:'🎁',name:'Glückssträhne',base:100,max:3,prio:4},
-    {id:'rich',        ico:'🪙', name:'Chip-Magnet',  base:60, max:6,prio:4},
-    {id:'rspeed',      ico:'🔬', name:'Forschungslabor', base:220,max:5,prio:7}
+    {id:'solid',       ico:'🔻',name:'Solide Hülle', base:80, max:7,prio:3},
+    {id:'reach',       ico:'📡',name:'Fern-Sensor',  base:70, max:7,prio:3},
+    {id:'score',       ico:'💎',name:'Punkte-Boost', base:130,max:8,prio:5},
+    {id:'luck',        ico:'🎁',name:'Glückssträhne',base:100,max:6,prio:4},
+    {id:'rich',        ico:'🪙', name:'Chip-Magnet',  base:60, max:10,prio:4},
+    {id:'rspeed',      ico:'🔬', name:'Forschungslabor', base:220,max:8,prio:7}
   ];
   const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,2.2)/10)*10;   // steilere Kurve: je höher die Stufe, desto teurer (krasser Grind oben)
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
