@@ -163,7 +163,21 @@ function adminOk(url, env) {
 async function handleStats(url, env) {
   if (!adminOk(url, env)) return json({ ok: false, error: 'unauthorized' }, 401, env);
   const db = env.DB;
-  const all = (s) => db.prepare(s).all().then((r) => r.results);
+
+  // Optionale Filter: ?ver=v332 (nur eine Spielversion) und ?sinceDays=7 (nur letzte N Tage).
+  // So bleiben Balancing-Kennzahlen aussagekräftig zum jeweiligen Spielstand, statt
+  // über Versionsgrenzen hinweg vermischt zu werden.
+  const verRaw = url.searchParams.get('ver');
+  const ver = verRaw ? String(verRaw).slice(0, 16) : null;
+  const sinceDays = Number(url.searchParams.get('sinceDays')) || 0;
+  const conds = [];
+  const params = [];
+  if (ver) { conds.push('ver = ?'); params.push(ver); }
+  if (sinceDays > 0) { conds.push('server_ts >= ?'); params.push(Date.now() - sinceDays * 86400000); }
+  const WHERE = conds.length ? ' WHERE ' + conds.join(' AND ') : '';   // für Queries ohne eigenes WHERE
+  const AND = conds.length ? ' AND ' + conds.join(' AND ') : '';        // zum Anhängen an bestehendes WHERE
+
+  const all = (s) => db.prepare(s).bind(...params).all().then((r) => r.results);
 
   const totals = await db
     .prepare(
@@ -175,43 +189,51 @@ async function handleStats(url, env) {
               AVG(idleMax) AS avgIdleMax, MAX(idleMax) AS maxIdleMax, AVG(idlePct) AS avgIdlePct,
               AVG(CASE WHEN won=1 THEN idleMax END) AS avgIdleMaxWon,
               SUM(CASE WHEN won=1 AND idleMax>=10 THEN 1 ELSE 0 END) AS campWins
-       FROM runs`
+       FROM runs` + WHERE
     )
+    .bind(...params)
     .first();
 
   // Wiederkehrende Spieler = an >=2 verschiedenen Tagen aktiv (Retention-Proxy)
   const ret = await db
     .prepare(
       `SELECT COUNT(*) AS retn FROM
-         (SELECT cid FROM runs GROUP BY cid HAVING COUNT(DISTINCT CAST(server_ts/86400000 AS INTEGER)) >= 2)`
+         (SELECT cid FROM runs` + WHERE + ` GROUP BY cid HAVING COUNT(DISTINCT CAST(server_ts/86400000 AS INTEGER)) >= 2)`
     )
+    .bind(...params)
     .first();
 
+  // Verfügbare Versionen (immer ungefiltert) → Auswahl im Dashboard
+  const versions = (await db
+    .prepare('SELECT ver, COUNT(*) AS n, MIN(server_ts) AS first, MAX(server_ts) AS last FROM runs GROUP BY ver ORDER BY last DESC')
+    .all()).results;
+
   const byMode = await all(
-    'SELECT mode, diff, COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl FROM runs GROUP BY mode, diff ORDER BY runs DESC'
+    'SELECT mode, diff, COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl FROM runs' + WHERE + ' GROUP BY mode, diff ORDER BY runs DESC'
   );
   // Funnel: wie viele Runs enden auf Level N (Abbruch-Verteilung → Schwierigkeits-Wände)
-  const funnel = await all('SELECT lvl, COUNT(*) AS n FROM runs GROUP BY lvl ORDER BY lvl');
+  const funnel = await all('SELECT lvl, COUNT(*) AS n FROM runs' + WHERE + ' GROUP BY lvl ORDER BY lvl');
   const bossFunnel = await all(
-    'SELECT bossReached AS boss, COUNT(*) AS runs, SUM(won) AS wins FROM runs WHERE bossReached IS NOT NULL GROUP BY bossReached ORDER BY bossReached'
+    'SELECT bossReached AS boss, COUNT(*) AS runs, SUM(won) AS wins FROM runs WHERE bossReached IS NOT NULL' + AND + ' GROUP BY bossReached ORDER BY bossReached'
   );
   // Todesursachen (nur verlorene Runs)
   const deaths = await all(
-    "SELECT death, COUNT(*) AS n FROM runs WHERE won=0 AND death IS NOT NULL AND death != '' GROUP BY death ORDER BY n DESC"
+    "SELECT death, COUNT(*) AS n FROM runs WHERE won=0 AND death IS NOT NULL AND death != ''" + AND + ' GROUP BY death ORDER BY n DESC'
   );
   // Pick-Rate × Win-Rate (Balance): Waffen, Synergien, Upgrades
   const weapons = await all(
-    "SELECT j.value AS weapon, COUNT(*) AS picks, SUM(r.won) AS wins FROM (SELECT wpn, won FROM runs WHERE wpn IS NOT NULL AND wpn != '') AS r, json_each(r.wpn) AS j GROUP BY weapon ORDER BY picks DESC"
+    "SELECT j.value AS weapon, COUNT(*) AS picks, SUM(r.won) AS wins FROM (SELECT wpn, won FROM runs WHERE wpn IS NOT NULL AND wpn != ''" + AND + ") AS r, json_each(r.wpn) AS j GROUP BY weapon ORDER BY picks DESC"
   );
   const synergies = await all(
-    "SELECT j.value AS synergy, COUNT(*) AS uses, SUM(r.won) AS wins FROM (SELECT syn, won FROM runs WHERE syn IS NOT NULL AND syn != '') AS r, json_each(r.syn) AS j GROUP BY synergy ORDER BY uses DESC"
+    "SELECT j.value AS synergy, COUNT(*) AS uses, SUM(r.won) AS wins FROM (SELECT syn, won FROM runs WHERE syn IS NOT NULL AND syn != ''" + AND + ") AS r, json_each(r.syn) AS j GROUP BY synergy ORDER BY uses DESC"
   );
   const upgrades = await all(
-    "SELECT j.value AS upgrade, COUNT(*) AS picks, SUM(r.won) AS wins FROM (SELECT ups, won FROM runs WHERE ups IS NOT NULL AND ups != '') AS r, json_each(r.ups) AS j GROUP BY upgrade ORDER BY picks DESC"
+    "SELECT j.value AS upgrade, COUNT(*) AS picks, SUM(r.won) AS wins FROM (SELECT ups, won FROM runs WHERE ups IS NOT NULL AND ups != ''" + AND + ") AS r, json_each(r.ups) AS j GROUP BY upgrade ORDER BY picks DESC"
   );
 
   return json(
-    { ok: true, totals, returning: (ret && ret.retn) || 0, byMode, funnel, bossFunnel, deaths, weapons, synergies, upgrades },
+    { ok: true, filter: { ver, sinceDays: sinceDays || null }, versions,
+      totals, returning: (ret && ret.retn) || 0, byMode, funnel, bossFunnel, deaths, weapons, synergies, upgrades },
     200,
     env
   );

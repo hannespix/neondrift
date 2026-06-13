@@ -118,7 +118,7 @@ ignoriert sie korrekt.
 | Methode | Pfad | Zweck |
 |---|---|---|
 | `POST` | `/` | einen Run-Datensatz speichern (vom Spiel) |
-| `GET` | `/stats?token=…` | Aggregate als JSON (Admin) |
+| `GET` | `/stats?token=…` | Aggregate als JSON (Admin). Optional `&ver=v332` (nur eine Spielversion) und `&sinceDays=7` (nur letzte N Tage) – für versionsreines Balancing. |
 | `GET` | `/export?token=…&format=ndjson\|json&limit=N` | Rohdaten (Admin) |
 | `GET` | `/` | Health-Check |
 
