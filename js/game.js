@@ -439,7 +439,7 @@
   let lastBossName='', lastRunRecord=false;   // für die teilbare Game-Over-Karte: zuletzt getroffener Meme-Boss + Rekord-Flag
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT, bossIntroT=0;
-  let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T, mirrorOn=false;
+  let banner, effects, shields, invuln, mods, upgradeCounts, lives, commentT, egg67done, egg67T, mirrorOn=false, deathCause='';
   let runContinued=false, pendingContinue=false;   // Weiterleben-Continue: einmal pro Run gegen (mit Lauf-Tiefe steigende) Chip-Kosten
   const JUMP_R=140;      // Sprung-Dash: Hüpf-/Unverwundbarkeits-Phase, vaultet aus der Klemme (Cooldown/Ladungen/Dauer via mods)
   const JUMP_RANGE=340;  // max. Sprungweite (× jumpVault): Tap weiter weg → Schiff kommt bei dieser Reichweite auf (kurz)
@@ -1249,7 +1249,7 @@
     level=1; levelDuration=(mode==='hardcore')?18:24; levelTimer=levelDuration; unlocked=['straight'];  // Level etwas länger → ruhigerer Form-/Song-Wechsel
     upStep=Math.round(500*(1+(diffMul-1)*0.6)); nextUpgradeAt=upStep;                                    // Upgrade-Karten: höhere Schwierigkeit → höhere Schwelle → seltener
     bossActive=false; bossNumber=1; bossTimer=combatDur(); bossPhaseT=0; laserSpawnT=0; bossIntroT=0;
-    banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; activeCurses=[]; shields=0; invuln=0; upgradeCounts={}; lives=3; runContinued=false; pendingContinue=false; jumpCharge=0; jumpStock=mods.jumpMax; jumping=0; jumpClutch=0; jumpClutchFired=false; jumpSeq=0; flungT=0; jumpReadyT=0; lastBossName='';
+    banner=null; effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; activeCurses=[]; shields=0; invuln=0; upgradeCounts={}; lives=3; runContinued=false; deathCause=''; pendingContinue=false; jumpCharge=0; jumpStock=mods.jumpMax; jumping=0; jumpClutch=0; jumpClutchFired=false; jumpSeq=0; flungT=0; jumpReadyT=0; lastBossName='';
     curSong=Math.floor(Math.random()*SONGS.length); curBg=cloneTheme(THEMES[0]); commentT=rand(12,20); egg67done=false; egg67T=0;
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
@@ -1910,9 +1910,10 @@
     closeUpgrade(); }
 
   // ---------- Hit ----------
-  function hitPlayer(color){
+  function hitPlayer(color,cause){
     if(invuln>0) return false;
     runHits++;                           // kassierter Treffer (Telemetrie/Schwierigkeits-Signal)
+    if(cause) deathCause=(bossActive?'boss:':'')+cause;   // letzter Treffer = tödlicher → Todesursache fürs Balancing
     director=Math.max(0,director-0.2);   // Director: bei Treffer Druck rausnehmen
     if(shields>0){ shields--; invuln=1.4; flash=0.5; flashColor='#2effc0'; shake=14;
       spawnParticles(player.x,player.y,'#2effc0',22,260); sfxShieldBreak(); vibe([30,40,30]);
@@ -2155,7 +2156,7 @@
     for(let i=lasers.length-1;i>=0;i--){ const L=lasers[i]; L.t+=dt*ts;
       if(L.state==='warn'&&L.t>=L.warnDur){ L.state='fire'; L.t=0; sfxFire(); shake=Math.max(shake,6); vibe(20); }
       if(L.state==='fire'){ const hit=L.orient==='v'?Math.abs(player.x-L.pos)<L.thick/2+player.r:Math.abs(player.y-L.pos)<L.thick/2+player.r;
-        if(hit){ if(hitPlayer('#ff2e88')) return; } if(L.t>=L.fireDur) lasers.splice(i,1); } }
+        if(hit){ if(hitPlayer('#ff2e88','laser')) return; } if(L.t>=L.fireDur) lasers.splice(i,1); } }
 
     // Obstacles
     for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i];
@@ -2194,7 +2195,7 @@
       } else { // diamond/tri/hex/star → eng anliegender effektiver Radius statt Eck-Leerraum
         const er=o.w*({diamond:0.44,tri:0.44,hex:0.46,star:0.46}[o.shape]||0.45), dd=Math.max(0,Math.hypot(lx,ly)-er); d2=dd*dd;
       }
-      if(invuln<=0 && d2<player.r*player.r){ spawnParticles(player.x,player.y,o.color,10,180); obstacles.splice(i,1); if(hitPlayer(o.color)) return; continue; }
+      if(invuln<=0 && d2<player.r*player.r){ spawnParticles(player.x,player.y,o.color,10,180); obstacles.splice(i,1); if(hitPlayer(o.color, o.elite?'elite':'obs:'+(o.pattern||'straight'))) return; continue; }
       const nr=player.r+mods.nearRadius;
       if(invuln<=0 && o.near){ const gap=Math.sqrt(d2)-player.r; if(gap<o.minGap) o.minGap=gap; }
       if(!o.near && invuln<=0 && d2<nr*nr && d2>player.r*player.r){ o.near=true; o.minGap=Math.sqrt(d2)-player.r; doNear(o); }
@@ -2245,7 +2246,7 @@
     for(let i=ebullets.length-1;i>=0;i--){ const e=ebullets[i]; e.x+=e.vx*dt*ts; e.y+=e.vy*dt*ts;
       if(e.x<-40||e.x>W+40||e.y<-40||e.y>H+40){ ebullets.splice(i,1); continue; }
       const dx=player.x-e.x, dy=player.y-e.y, rr=player.r+e.r;
-      if(invuln<=0 && dx*dx+dy*dy<rr*rr){ ebullets.splice(i,1); if(hitPlayer('#ff2e88')) return; }
+      if(invuln<=0 && dx*dx+dy*dy<rr*rr){ ebullets.splice(i,1); if(hitPlayer('#ff2e88','bullet')) return; }
     }
 
 
@@ -3302,15 +3303,20 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v330';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v331';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
-  function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
+  function runRecord(earned){
+    let upN=0; for(const k in (upgradeCounts||{})) upN+=upgradeCounts[k]||0;   // gewählte Upgrades gesamt
+    return { v:2, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
     mode:mode, diff:meta.diff||0, daily:daily?1:0,
-    lvl:level||1, score:Math.round(score||0), boss:runBosses||0, won:wonThisRun?1:0,
+    lvl:level||1, score:Math.round(score||0), boss:runBosses||0, bossReached:bossNumber||1, won:wonThisRun?1:0,
     durS:Math.round(elapsed||0), hits:runHits||0, near:nearCount||0, perfect:runPerfect||0, orbs:runOrbs||0, combo:Math.round(runMaxMult||1),
     dps:Math.round((gunDps()||0)*10)/10, surv:Math.round((pwrSurv()||0)*10)/10,
-    wpn:Object.keys(arsenal.w||{}), syn:(activeSyn||[]).slice(), coins:Math.round(earned||0) }; }
+    wpn:Object.keys(arsenal.w||{}), syn:(activeSyn||[]).slice(), ups:Object.keys(upgradeCounts||{}), runUp:upN, coins:Math.round(earned||0),
+    chipsBal:Math.round(meta.chips||0), spLeft:skillPts||0, revive:runContinued?1:0,
+    director:Math.round((director||0)*10)/10, jumps:runJumps||0, onBeat:runOnBeat||0,
+    death:(wonThisRun?'':(deathCause||'unknown')) }; }
   function sendTelemetry(rec){ try{ if(!TELEMETRY_URL||!opt.telemetry) return;
     const body=JSON.stringify(rec);
     if(navigator.sendBeacon){ try{ if(navigator.sendBeacon(TELEMETRY_URL,new Blob([body],{type:'text/plain'}))) return; }catch(e){} }   // bevorzugt: zuverlässig auch beim Game-Over/Entladen, kein CORS-Preflight (text/plain), Worker parst JSON

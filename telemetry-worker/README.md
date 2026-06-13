@@ -66,6 +66,24 @@ Alle Befehle aus dem Repo-Root.
 Ab jetzt sendet jeder Spieler **mit aktiviertem Opt-in** seinen Run anonym
 an den Worker.
 
+## Update auf v2 (Balancing-KPIs)
+
+Wenn die DB schon mit der v1-Tabelle läuft, fügt die Migration die neuen Spalten
+hinzu (Todesursache, Boss-Funnel, Ökonomie-Werte, Upgrades, Revive …):
+
+1. **D1-Konsole** (Dashboard → D1 → `thronerush_telemetry` → Console) den Inhalt
+   von **`telemetry-worker/migrate-v2.sql`** einfügen & ausführen. *(Browser-Weg.)*
+   Per CLI alternativ:
+   ```bash
+   wrangler d1 execute thronerush_telemetry --remote \
+     --file=telemetry-worker/migrate-v2.sql -c telemetry-worker/wrangler.toml
+   ```
+2. **Worker neu deployen** – im Dashboard den aktualisierten `worker.js` einfügen
+   und „Deploy", bzw. `wrangler deploy`.
+
+Bestehende v1-Zeilen behalten in den neuen Spalten `NULL`; die Auswertung
+ignoriert sie korrekt.
+
 ## Endpunkte
 
 | Methode | Pfad | Zweck |

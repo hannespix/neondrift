@@ -81,6 +81,17 @@ function sanitize(rec) {
     wpn: JSON.stringify(arr(rec.wpn, 12, 24)),
     syn: JSON.stringify(arr(rec.syn, 24, 24)),
     coins: int(rec.coins, 0, 1e12),
+    // Telemetrie v2
+    bossReached: int(rec.bossReached, 0, 9999),
+    ups: JSON.stringify(arr(rec.ups, 40, 24)),
+    runUp: int(rec.runUp, 0, 9999),
+    chipsBal: int(rec.chipsBal, 0, 1e12),
+    spLeft: int(rec.spLeft, 0, 9999),
+    revive: rec.revive ? 1 : 0,
+    director: num(rec.director, 0, 1e6),
+    jumps: int(rec.jumps, 0, 1e6),
+    onBeat: int(rec.onBeat, 0, 1e6),
+    death: str(rec.death, 32),
   };
 }
 
@@ -125,13 +136,17 @@ async function handleIngest(request, env) {
 
   await env.DB.prepare(
     `INSERT INTO runs
-      (server_ts, ts, ver, cid, mode, diff, daily, lvl, score, boss, won, durS, hits, near, perfect, orbs, combo, dps, surv, wpn, syn, coins)
-     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+      (server_ts, ts, ver, cid, mode, diff, daily, lvl, score, boss, won, durS, hits, near, perfect, orbs, combo, dps, surv, wpn, syn, coins,
+       bossReached, ups, runUp, chipsBal, spLeft, revive, director, jumps, onBeat, death)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
+             ?,?,?,?,?,?,?,?,?,?)`
   )
     .bind(
       Date.now(), rec.ts, rec.ver, rec.cid, rec.mode, rec.diff, rec.daily, rec.lvl,
       rec.score, rec.boss, rec.won, rec.durS, rec.hits, rec.near, rec.perfect,
-      rec.orbs, rec.combo, rec.dps, rec.surv, rec.wpn, rec.syn, rec.coins
+      rec.orbs, rec.combo, rec.dps, rec.surv, rec.wpn, rec.syn, rec.coins,
+      rec.bossReached, rec.ups, rec.runUp, rec.chipsBal, rec.spLeft, rec.revive,
+      rec.director, rec.jumps, rec.onBeat, rec.death
     )
     .run();
 
@@ -146,19 +161,55 @@ function adminOk(url, env) {
 async function handleStats(url, env) {
   if (!adminOk(url, env)) return json({ ok: false, error: 'unauthorized' }, 401, env);
   const db = env.DB;
+  const all = (s) => db.prepare(s).all().then((r) => r.results);
+
   const totals = await db
-    .prepare('SELECT COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl, AVG(durS) AS avgDurS, MAX(score) AS maxScore FROM runs')
+    .prepare(
+      `SELECT COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl, AVG(durS) AS avgDurS,
+              MAX(score) AS maxScore, COUNT(DISTINCT cid) AS players, SUM(durS) AS totalDurS,
+              AVG(CASE WHEN durS>0 THEN coins*60.0/durS END) AS coinsPerMin,
+              AVG(chipsBal) AS avgChipsBal, AVG(spLeft) AS avgSpLeft, AVG(runUp) AS avgRunUp,
+              AVG(revive) AS reviveRate
+       FROM runs`
+    )
     .first();
-  const byMode = (await db
-    .prepare('SELECT mode, diff, COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl FROM runs GROUP BY mode, diff ORDER BY runs DESC')
-    .all()).results;
-  const weapons = (await db
-    .prepare("SELECT j.value AS weapon, COUNT(*) AS picks FROM runs, json_each(runs.wpn) AS j GROUP BY weapon ORDER BY picks DESC")
-    .all()).results;
-  const synergies = (await db
-    .prepare("SELECT j.value AS synergy, COUNT(*) AS uses FROM runs, json_each(runs.syn) AS j GROUP BY synergy ORDER BY uses DESC")
-    .all()).results;
-  return json({ ok: true, totals, byMode, weapons, synergies }, 200, env);
+
+  // Wiederkehrende Spieler = an >=2 verschiedenen Tagen aktiv (Retention-Proxy)
+  const ret = await db
+    .prepare(
+      `SELECT COUNT(*) AS retn FROM
+         (SELECT cid FROM runs GROUP BY cid HAVING COUNT(DISTINCT CAST(server_ts/86400000 AS INTEGER)) >= 2)`
+    )
+    .first();
+
+  const byMode = await all(
+    'SELECT mode, diff, COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl FROM runs GROUP BY mode, diff ORDER BY runs DESC'
+  );
+  // Funnel: wie viele Runs enden auf Level N (Abbruch-Verteilung → Schwierigkeits-Wände)
+  const funnel = await all('SELECT lvl, COUNT(*) AS n FROM runs GROUP BY lvl ORDER BY lvl');
+  const bossFunnel = await all(
+    'SELECT bossReached AS boss, COUNT(*) AS runs, SUM(won) AS wins FROM runs WHERE bossReached IS NOT NULL GROUP BY bossReached ORDER BY bossReached'
+  );
+  // Todesursachen (nur verlorene Runs)
+  const deaths = await all(
+    "SELECT death, COUNT(*) AS n FROM runs WHERE won=0 AND death IS NOT NULL AND death != '' GROUP BY death ORDER BY n DESC"
+  );
+  // Pick-Rate × Win-Rate (Balance): Waffen, Synergien, Upgrades
+  const weapons = await all(
+    "SELECT j.value AS weapon, COUNT(*) AS picks, SUM(r.won) AS wins FROM (SELECT wpn, won FROM runs WHERE wpn IS NOT NULL AND wpn != '') AS r, json_each(r.wpn) AS j GROUP BY weapon ORDER BY picks DESC"
+  );
+  const synergies = await all(
+    "SELECT j.value AS synergy, COUNT(*) AS uses, SUM(r.won) AS wins FROM (SELECT syn, won FROM runs WHERE syn IS NOT NULL AND syn != '') AS r, json_each(r.syn) AS j GROUP BY synergy ORDER BY uses DESC"
+  );
+  const upgrades = await all(
+    "SELECT j.value AS upgrade, COUNT(*) AS picks, SUM(r.won) AS wins FROM (SELECT ups, won FROM runs WHERE ups IS NOT NULL AND ups != '') AS r, json_each(r.ups) AS j GROUP BY upgrade ORDER BY picks DESC"
+  );
+
+  return json(
+    { ok: true, totals, returning: (ret && ret.retn) || 0, byMode, funnel, bossFunnel, deaths, weapons, synergies, upgrades },
+    200,
+    env
+  );
 }
 
 async function handleExport(url, env) {
