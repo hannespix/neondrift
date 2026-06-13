@@ -2072,7 +2072,7 @@
     coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
     powerupT-=dt; if(powerupT<=0){ if(powerups.length<2 && !bossActive) spawnPowerup(); powerupT=rand(13,19); }
-    letterT-=dt; if(letterT<=0){ if(!bossActive && letters.length<2) spawnLetter(); letterT=rand(7,12); }   // Bonus-Buchstaben streuen
+    letterT-=dt; if(letterT<=0){ if(!bossActive && letters.length<2 && (level>=2||(elapsed||0)>38)) spawnLetter(); letterT=rand(7,12); }   // Bonus-Buchstaben streuen (Pacing: erst ab Lvl 2 / >38s → ruhiger Einstieg)
     for(let i=letters.length-1;i>=0;i--){ const L=letters[i]; L.y+=L.vy*dt*ts; L.pulse+=dt*5;
       const dx=player.x-L.x,dy=player.y-L.y,rr=player.r+L.r+4;
       if(dx*dx+dy*dy<rr*rr){ collectLetter(L); letters.splice(i,1); continue; }
@@ -2197,7 +2197,7 @@
     }
 
     // Sammel-Symbole (Upgrades & Flüche) – schwebende Items zum Aufsammeln
-    gemT-=dt; if(gemT<=0){ if(!bossActive) spawnGem(); gemT=rand(12,20)/Math.max(0.5,mods.powerupRate||1); }   // Glück erhöht NUR die Drop-Rate (nicht die Qualität – Fluch/Upgrade-Split bleibt gleich)
+    gemT-=dt; if(gemT<=0){ if(!bossActive && (level>=2||(elapsed||0)>30)) spawnGem(); gemT=rand(12,20)/Math.max(0.5,mods.powerupRate||1); }   // Glück erhöht NUR die Drop-Rate; Pacing: erst ab Lvl 2 / >30s
     for(let i=gems.length-1;i>=0;i--){ const g=gems[i]; g.y+=g.vy*dt*ts; g.pulse+=dt*4; g.rot+=dt*1.5;
       const dx=player.x-g.x,dy=player.y-g.y,rr=player.r+g.r+4;
       if(dx*dx+dy*dy<rr*rr){ collectGem(g); gems.splice(i,1); continue; }
