@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "npx --yes serve -l 8000 .",
     "start": "npx --yes serve -l 8000 .",
-    "check": "node --check js/game.js && node --check js/pwa.js && node --check service-worker.js"
+    "check": "node --check js/game.js && node --check js/pwa.js && node --check service-worker.js",
+    "stats": "node tools/render-stats.mjs"
   },
   "keywords": ["game", "arcade", "synthwave", "canvas", "webaudio", "pwa", "vanilla-js", "chiptune"],
   "license": "MIT",

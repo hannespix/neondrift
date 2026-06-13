@@ -1,0 +1,21 @@
+# THRONERUSH – Telemetrie-Worker (Cloudflare)
+# Deploy-Schritte: siehe README.md
+
+name = "thronerush-telemetry"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# D1-Datenbank-Binding. database_id nach `wrangler d1 create thronerush_telemetry`
+# aus der Ausgabe hier eintragen.
+[[d1_databases]]
+binding = "DB"
+database_name = "thronerush_telemetry"
+database_id = "PLACEHOLDER_NACH_D1_CREATE_EINTRAGEN"
+
+[vars]
+# Erlaubte Origin für CORS. Im Betrieb auf die echte Spiel-URL setzen,
+# z. B. "https://thronerush.example". "*" = alle (nur zum Testen).
+ALLOW_ORIGIN = "*"
+
+# Hinweis: ADMIN_TOKEN NICHT hier eintragen, sondern als Secret setzen:
+#   wrangler secret put ADMIN_TOKEN

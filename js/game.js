@@ -3302,8 +3302,8 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v225';
-  const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Später Endpoint-URL eintragen (Supabase REST / Cloudflare Worker / Firestore REST), dann greift der Opt-in-Schalter.
+  const GAME_VER='v328';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const TELEMETRY_URL='';   // leer = kein Cloud-Versand. Nach dem Deploy des Workers (siehe telemetry-worker/README.md) die Worker-URL eintragen; dann greift der Opt-in-Schalter.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){ return { v:1, ver:GAME_VER, cid:telemetryCid(), ts:Date.now(),
     mode:mode, diff:meta.diff||0, daily:daily?1:0,
@@ -3312,7 +3312,9 @@
     dps:Math.round((gunDps()||0)*10)/10, surv:Math.round((pwrSurv()||0)*10)/10,
     wpn:Object.keys(arsenal.w||{}), syn:(activeSyn||[]).slice(), coins:Math.round(earned||0) }; }
   function sendTelemetry(rec){ try{ if(!TELEMETRY_URL||!opt.telemetry) return;
-    fetch(TELEMETRY_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rec),keepalive:true,mode:'cors'}).catch(()=>{}); }catch(e){} }
+    const body=JSON.stringify(rec);
+    if(navigator.sendBeacon){ try{ if(navigator.sendBeacon(TELEMETRY_URL,new Blob([body],{type:'text/plain'}))) return; }catch(e){} }   // bevorzugt: zuverlässig auch beim Game-Over/Entladen, kein CORS-Preflight (text/plain), Worker parst JSON
+    fetch(TELEMETRY_URL,{method:'POST',headers:{'Content-Type':'application/json'},body,keepalive:true,mode:'cors'}).catch(()=>{}); }catch(e){} }   // Fallback für Browser ohne sendBeacon
   function recordRun(earned){ try{ const rec=runRecord(earned);
     let log=[]; try{ log=JSON.parse(localStorage.getItem('thronerush_tlog'))||[]; }catch(e){} if(!Array.isArray(log)) log=[];
     log.push(rec); if(log.length>150) log=log.slice(-150); try{ localStorage.setItem('thronerush_tlog',JSON.stringify(log)); }catch(e){}
