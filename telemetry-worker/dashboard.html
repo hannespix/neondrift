@@ -52,6 +52,7 @@
 
   <div class="cards" id="cards"></div>
   <section id="ecoSec" hidden><h2>💰 Ökonomie</h2><div id="ecoBox"></div></section>
+  <section id="idleSec" hidden><h2>🛌 Passivität — zu leicht?</h2><div id="idleBox"></div></section>
   <section id="funSec" hidden><h2>📉 Level-Funnel — wo enden Runs?</h2><div id="funBox"></div></section>
   <section id="bossSec" hidden><h2>👾 Boss-Funnel &amp; Win-Rate</h2><div id="bossBox"></div></section>
   <section id="deathSec" hidden><h2>💀 Todesursachen (verlorene Runs)</h2><div id="deathBox"></div></section>
@@ -137,6 +138,15 @@
       +'<tr><td>Ø Upgrades / Run</td><td class="num">'+round(t.avgRunUp)+'</td><td>wird investiert?</td></tr>'
       +'<tr><td>Revive-Rate</td><td class="num">'+pct((t.reviveRate||0)*(t.runs||0),t.runs||0)+'</td><td>wie oft „unbedingt weiter"</td></tr>'
       +'</tbody></table>'; $('ecoSec').hidden=false;
+
+    // Passivität / Camping
+    $('idleBox').innerHTML='<table><thead><tr><th>Kennzahl</th><th class="num">Wert</th><th>Lesart</th></tr></thead><tbody>'
+      +'<tr><td>Ø längste Idle-Strecke</td><td class="num">'+round(t.avgIdleMax)+' s</td><td>überlebt ohne Eingabe</td></tr>'
+      +'<tr><td>Max Idle-Strecke</td><td class="num">'+round(t.maxIdleMax)+' s</td><td>Rekord „Hände weg"</td></tr>'
+      +'<tr><td>Ø Idle-Anteil</td><td class="num">'+round(t.avgIdlePct)+' %</td><td>passiver Anteil je Runde</td></tr>'
+      +'<tr><td>Ø längste Idle bei <b>Siegen</b></td><td class="num">'+round(t.avgIdleMaxWon)+' s</td><td>hoch = Sieg ohne Spielen</td></tr>'
+      +'<tr><td>Camp-Siege (≥10 s idle)</td><td class="num">'+(t.campWins||0)+'</td><td>'+pct(t.campWins||0,t.wins||0)+' der Siege</td></tr>'
+      +'</tbody></table>'; $('idleSec').hidden=false;
 
     // Level-Funnel
     var fn=d.funnel||[], totalRuns=fn.reduce(function(a,r){ return a+(r.n||0); },0)||(t.runs||0);
