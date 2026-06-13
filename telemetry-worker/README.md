@@ -90,6 +90,22 @@ Rohdaten ziehen (z. B. für eigene Analysen):
 curl "https://…workers.dev/export?token=DEIN_TOKEN&format=ndjson" > runs.ndjson
 ```
 
+### Live-Dashboard
+
+`telemetry-worker/dashboard.html` ist eine eigenständige Admin-Seite (vanilla,
+keine Abhängigkeiten). Im Browser öffnen, Worker-URL + `ADMIN_TOKEN` eingeben
+(bleibt nur lokal) → zeigt Karten, Winrate je Modus/Diff, Top-Waffen und
+Synergie-Nutzung. Funktioniert, wenn der Worker CORS für die Herkunft der Seite
+erlaubt (`ALLOW_ORIGIN`). Nicht öffentlich verlinkt und per Token geschützt –
+die Seite ist kein Teil der PWA.
+
+### Automatisch per GitHub Action
+
+`.github/workflows/telemetry-stats.yml` generiert `STATS.md` täglich (und auf
+Knopfdruck) und commitet sie bei Änderung. Dazu im Repo zwei Secrets setzen
+(Settings → Secrets and variables → Actions): `TELEMETRY_BASE` (Worker-URL) und
+`ADMIN_TOKEN`. Ohne Secrets läuft der Job durch und überspringt die Generierung.
+
 ## Lokal testen
 
 ```bash
