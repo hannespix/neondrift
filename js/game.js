@@ -2357,7 +2357,7 @@
     let best=null,bd=99999; for(const o of obstacles){ const dx=o.cx-player.x,dy=o.cy-player.y,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
     if(!best) return; arcParticles(player.x,player.y-player.r,best.cx,best.cy);
     const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.45;
-    best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,h0.crit); if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+    best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,h0.crit); if(w.stun) applySlow(best,w.stun,0.1);   // Stun zentral über applySlow → respektiert CC-Sättigung & Elite-Widerstand (nicht direkt o.slow setzen)
     if(syn.wildarc){ best.burn=Math.max(best.burn||0,2.2); best.burnDmg=Math.max(best.burnDmg||0,1.3*(mods.wDmgMult||1)); }   // BRAND-BOGEN
     if(w.aoe) chainAoe(best.cx,best.cy,dd*0.5);
     const fx=best.cx,fy=best.cy,skip=[best]; if(syn.voltspark) synNovas.push({x:fx,y:fy}); if(best.hp<=0){ killObstacle(best); const ix=obstacles.indexOf(best); if(ix>=0)obstacles.splice(ix,1); }
@@ -2471,7 +2471,7 @@
     for(let h=0;h<jumps;h++){ let best=null,bd=185*185; for(const o of obstacles){ if(used.has(o)) continue; const dx=o.cx-cx,dy=o.cy-cy,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
       if(!best) break; used.add(best); arcParticles(cx,cy,best.cx,best.cy);
       const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.45;
-      best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,hh.crit); if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
+      best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,hh.crit); if(opts.stun) applySlow(best,opts.stun,0.1);   // Stun zentral über applySlow → CC-Sättigung & Elite-Widerstand greifen (kein direktes o.slow)
       if(syn.wildarc){ best.burn=Math.max(best.burn||0,2.2); best.burnDmg=Math.max(best.burnDmg||0,1.3*(mods.wDmgMult||1)); }   // BRAND-BOGEN (je Sprung)
       if(opts.aoe) chainAoe(best.cx,best.cy,dd*0.5);
       const nx=best.cx,ny=best.cy; if(syn.voltspark) synNovas.push({x:nx,y:ny});
