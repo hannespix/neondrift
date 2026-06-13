@@ -33,7 +33,13 @@ const fmtDur = (s) => {
   return h > 0 ? `${h} h ${m} min` : `${m} min`;
 };
 
-const url = base.replace(/\/+$/, '') + '/stats?token=' + encodeURIComponent(token);
+// Optionale Filter: VER (nur eine Spielversion) + SINCE_DAYS (nur letzte N Tage).
+// So bleibt die Auswertung aussagekräftig zum jeweiligen Balancing-Stand.
+const filterVer = process.env.VER || '';
+const sinceDays = Number(process.env.SINCE_DAYS) || 0;
+let url = base.replace(/\/+$/, '') + '/stats?token=' + encodeURIComponent(token);
+if (filterVer) url += '&ver=' + encodeURIComponent(filterVer);
+if (sinceDays > 0) url += '&sinceDays=' + sinceDays;
 const res = await fetch(url);
 if (!res.ok) {
   console.error('Worker antwortete mit HTTP ' + res.status + ' – Token/URL prüfen.');
@@ -51,7 +57,20 @@ const h2 = (s) => { L.push('', '## ' + s, ''); };
 
 L.push('# THRONERUSH – Telemetrie-Auswertung');
 L.push('');
-L.push('_Automatisch generiert: ' + new Date().toISOString() + '_');
+const fl = data.filter || {};
+const scope = (fl.ver ? '**nur Version ' + fl.ver + '**' : 'alle Versionen') + (fl.sinceDays ? ' · letzte ' + fl.sinceDays + ' Tage' : '');
+L.push('_Automatisch generiert: ' + new Date().toISOString() + ' · Auswertung: ' + scope + '_');
+L.push('');
+L.push('> Tipp: für eine versionsreine Auswertung `VER=vXYZ npm run stats` setzen (sonst werden Balancing-Daten über Versionen gemischt).');
+
+// ---- Versionen ----
+if ((data.versions || []).length) {
+  h2('🎮 Versionen');
+  L.push('| Version | Runs | Erster Run | Letzter Run |');
+  L.push('|---|---|---|---|');
+  const d10 = (ms) => (ms ? new Date(ms).toISOString().slice(0, 10) : '–');
+  for (const v of data.versions) L.push('| ' + (v.ver || '–') + ' | ' + (v.n || 0) + ' | ' + d10(v.first) + ' | ' + d10(v.last) + ' |');
+}
 
 // ---- Gesamt ----
 h2('Überblick');
