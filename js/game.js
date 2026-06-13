@@ -290,7 +290,7 @@
     if(id==='wcore'||id==='wtempo'||id==='critcore'||id==='critdmgcore') return 'power';
     return 'economy'; }
   // Werkstatt täglich zurücksetzen (Schalter); Trophäen bleiben immer
-  function dailyShopCheck(){ if(opt.dailyShop && meta.shopDate!==dailyLabel()){ meta.chips=0; meta.lvl={}; meta.shopDate=dailyLabel(); saveMeta(); } }
+  function dailyShopCheck(){ if(opt.dailyShop && meta.shopDate!==dailyLabel()){ meta.chips=0; meta.lvl={}; meta.research={active:null}; meta.shopDate=dailyLabel(); saveMeta(); } }   // laufende/eingereihte Forschung mit zurücksetzen, sonst schreibt sie nach dem Reset geschenkte Stufen in das geleerte meta.lvl
   const weaponUnlocked=id=> !!WID[id];   // alle Waffen direkt per Skillpunkt baubar – kein Coin-Bauplan mehr (eine Hürde)
   // Einmalige Migration: bereits gebaute Loadouts behalten ihre Waffen/Forks (sonst würden alte Builds beim Aktivieren der Coin-Sperre verschwinden)
   function migrateCoinSkills(){ if(meta.mig_cs) return; meta.mig_cs=1; meta.lvl=meta.lvl||{};
@@ -3959,7 +3959,7 @@
   const RESETS={
     // „Hangar & Werkstatt": ALLES Gekaufte zurück auf Werkszustand – Chips, Werkstatt-Upgrades (meta.lvl),
     // Hangar-Loadout (Waffen/Fusionen/Verstärken) UND Skillpunkte. Vorher blieben Waffen & Skillpunkte erhalten → Bug.
-    workshop:()=>{ meta.chips=0; meta.lvl={}; meta.loadout=null; meta.startKit=null; meta.ms={}; meta.sp=3; meta.spBought=0; saveMeta();
+    workshop:()=>{ meta.chips=0; meta.lvl={}; meta.research={active:null}; meta.loadout=null; meta.startKit=null; meta.ms={}; meta.sp=3; meta.spBought=0; saveMeta();   // Forschung mit leeren – sonst schließt ein altes Projekt ab und schenkt Stufen ins geleerte meta.lvl
       if(state===S.MENU){ skillPts=3; arsenal={slots:3,w:{}}; activeSyn=[]; synSeen={}; if(mods) mods.oc=0; }   // In-Memory nur im Menü angleichen (laufenden Run nicht stören)
       updateMenuChips(); },
     scores:()=>{ best={normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; saveScores(); },
