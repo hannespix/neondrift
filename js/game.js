@@ -23,7 +23,7 @@
     de:{
       tag:'Jede Sitzung ein Highscore', daily:'🗓 TÄGLICHE CHALLENGE', workshop:'WERKSTATT', settings:'⚙️ EINSTELLUNGEN',
       howTitle:'SO GEHT’S', howGo:'LOS!', howDodge:'Ausweichen', howDodgeD:'Steuere mit Finger/Maus, weiche den Hindernissen aus.', howCombo:'Knapp = Combo', howComboD:'Near-Misses bauen deine Combo auf – mehr Punkte & Coins.', howGear:'Münzen & Skill', howGearD:'Sammle Münzen 🪙 und Skillpunkte 💠 – in der Werkstatt 🛠️ rüstest du auf.',
-      tipSP:'💠 Skillpunkt!', tipSPd:'Werkstatt 🛠️ unten öffnen & aufrüsten', tipSyn:'🔗 Fusion möglich!', tipSynd:'Werkstatt → „Synergien": 2 Waffen verschmelzen', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab', coach_move:'🕹️ Bewegen', coach_moved:'Dein leuchtender Kern folgt Maus oder Finger. Lenk ihn ruhig durch die Lücken zwischen den Hindernissen.', coach_near:'✦ Near-Miss', coach_neard:'Ganz knapp an Gegnern vorbei = deine Combo steigt & es regnet mehr Münzen. Risiko lohnt sich!', coach_combo:'🔥 Combo-Faktor', coach_combod:'Jede 4. Combo-Stufe hebt deinen Punkte-Multiplikator. Bleib in Bewegung – ein Treffer setzt ihn zurück.', coach_beat:'🎵 Im Takt', coach_beatd:'Weich genau im Beat der Musik aus → „IM TAKT!": Extra-Combo, mehr Punkte und dein HYPE füllt schneller.',
+      tipSP:'💠 Skillpunkt!', tipSPd:'Werkstatt 🛠️ unten öffnen & aufrüsten', tipSyn:'🔗 Fusion möglich!', tipSynd:'Werkstatt → „Synergien": 2 Waffen verschmelzen', tipNear:'✦ Knapp!', tipNeard:'Near-Miss = Combo & mehr Coins', tipCurse:'🎲 Fluch', tipCursed:'Riskant, mehr Punkte – läuft ab', coach_move:'🕹️ Bewegen', coach_moved:'Dein leuchtender Kern folgt Maus oder Finger. Lenk ihn ruhig durch die Lücken zwischen den Hindernissen.', coach_near:'✦ Near-Miss', coach_neard:'Ganz knapp an Gegnern vorbei = deine Combo steigt & es regnet mehr Münzen. Risiko lohnt sich!', coach_combo:'🔥 Combo-Faktor', coach_combod:'Jede 4. Combo-Stufe hebt deinen Punkte-Multiplikator. Bleib in Bewegung – ein Treffer setzt ihn zurück.', coach_beat:'🎵 Im Takt', coach_beatd:'Weich genau im Beat der Musik aus → „IM TAKT!": Extra-Combo, mehr Punkte und dein HYPE füllt schneller.', coach_coin:'🪙 Münzen', coach_coind:'Münzen sind deine Währung. In der Werkstatt 🛠️ kaufst du dauerhafte Upgrades – auch zwischen den Runs.', coach_jump:'🦘 Sprung', coach_jumpd:'Tippe dein Schiff an → spring über Gefahr hinweg und entkomme. Lädt danach automatisch nach.', coach_hype:'🌈 HYPE-Meter', coach_hyped:'Near-Misses füllen den Balken oben. Ist er voll → HYPE: Score ×2, Münz-Magnet & Regenbogen-Trail.', coach_letter:'🔤 BEUTE', coach_letterd:'Sammle die Buchstaben der Reihe nach ein. Wort komplett = fette Beute-Belohnung!', coach_sp:'💠 Skillpunkt', coach_spd:'Öffne die Werkstatt 🛠️ unten und schalte im Fähigkeitsbaum neue Waffen & Kräfte frei.', coach_shield:'🛡️ Schild', coach_shieldd:'Der Ring um dein Schiff fängt genau einen Treffer ab. Danach ist er weg – hol dir Nachschub.', coach_syn:'🔗 Synergie', coach_synd:'Zwei Waffen lassen sich in der Werkstatt verschmelzen → neuer Effekt + ÜBERLADUNG. Probier es aus!',
       how:'Maus oder <b>Finger</b> · knapp vorbei = <b>Near-Miss-Bonus</b> · 🛡 sammeln · <b>ESC</b> = Menü', install:'📲 App installieren',
       ios:'Auf dem iPhone: <b>Teilen-Symbol</b> antippen → <b>„Zum Home-Bildschirm"</b> – dann läuft THRONERUSH als Vollbild-App.',
       m_normal:'ARCADE', m_normalD:'Levels, neue Formen, Boss-Wellen, Upgrade-Karten & Power-Ups. Das volle Programm.',
@@ -52,7 +52,7 @@
     en:{
       tag:'Every sitting a highscore', daily:'🗓 DAILY CHALLENGE', workshop:'WORKSHOP', settings:'⚙️ SETTINGS',
       howTitle:'HOW TO PLAY', howGo:'GO!', howDodge:'Dodge', howDodgeD:'Steer with finger/mouse, dodge the obstacles.', howCombo:'Close = Combo', howComboD:'Near-misses build your combo – more score & coins.', howGear:'Coins & Skill', howGearD:'Grab coins 🪙 and skill points 💠 – gear up in the Workshop 🛠️.',
-      tipSP:'💠 Skill point!', tipSPd:'Open the Workshop 🛠️ below to gear up', tipSyn:'🔗 Fusion ready!', tipSynd:'Workshop → “Synergies”: fuse two weapons', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off', coach_move:'🕹️ Move', coach_moved:'Your glowing core follows your mouse or finger. Steer it calmly through the gaps between obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Skim right past enemies = your combo climbs & more coins drop. Risk pays off!', coach_combo:'🔥 Combo Multiplier', coach_combod:'Every 4th combo step raises your score multiplier. Keep moving – one hit resets it.', coach_beat:'🎵 On Beat', coach_beatd:'Dodge right on the music’s beat → "ON BEAT!": bonus combo, more points and faster HYPE.',
+      tipSP:'💠 Skill point!', tipSPd:'Open the Workshop 🛠️ below to gear up', tipSyn:'🔗 Fusion ready!', tipSynd:'Workshop → “Synergies”: fuse two weapons', tipNear:'✦ Close!', tipNeard:'Near-miss = combo & more coins', tipCurse:'🎲 Curse', tipCursed:'Risky, more points – wears off', coach_move:'🕹️ Move', coach_moved:'Your glowing core follows your mouse or finger. Steer it calmly through the gaps between obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Skim right past enemies = your combo climbs & more coins drop. Risk pays off!', coach_combo:'🔥 Combo Multiplier', coach_combod:'Every 4th combo step raises your score multiplier. Keep moving – one hit resets it.', coach_beat:'🎵 On Beat', coach_beatd:'Dodge right on the music’s beat → "ON BEAT!": bonus combo, more points and faster HYPE.', coach_coin:'🪙 Coins', coach_coind:'Coins are your currency. In the Workshop 🛠️ you buy permanent upgrades – even between runs.', coach_jump:'🦘 Jump', coach_jumpd:'Tap your ship → leap over danger and escape. It recharges automatically afterwards.', coach_hype:'🌈 HYPE Meter', coach_hyped:'Near-misses fill the bar up top. When full → HYPE: score ×2, coin magnet & rainbow trail.', coach_letter:'🔤 BONUS', coach_letterd:'Collect the letters in order. Complete the word = big bonus reward!', coach_sp:'💠 Skill Point', coach_spd:'Open the Workshop 🛠️ below and unlock new weapons & powers in the skill tree.', coach_shield:'🛡️ Shield', coach_shieldd:'The ring around your ship blocks exactly one hit. Then it’s gone – grab more.', coach_syn:'🔗 Synergy', coach_synd:'Fuse two weapons in the Workshop → new effect + OVERLOAD. Give it a try!',
       how:'Mouse or <b>finger</b> · barely dodge = <b>near-miss bonus</b> · grab 🛡 · <b>ESC</b> = menu', install:'📲 Install app',
       ios:'On iPhone: tap the <b>Share</b> icon → <b>"Add to Home Screen"</b> – then THRONERUSH runs fullscreen.',
       m_normal:'ARCADE', m_normalD:'Levels, new shapes, boss waves, upgrade cards & power-ups. The full ride.',
@@ -81,7 +81,7 @@
     fr:{
       tag:'Chaque séance un highscore', daily:'🗓 DÉFI DU JOUR', workshop:'ATELIER', settings:'⚙️ RÉGLAGES',
       howTitle:'COMMENT JOUER', howGo:'C’EST PARTI !', howDodge:'Esquive', howDodgeD:'Pilote au doigt/à la souris, évite les obstacles.', howCombo:'Juste = Combo', howComboD:'Les near-miss montent ton combo – plus de score & de coins.', howGear:'Coins & Skill', howGearD:'Ramasse coins 🪙 et points 💠 – équipe-toi à l’Atelier 🛠️.',
-      tipSP:'💠 Point de skill !', tipSPd:'Ouvre l’Atelier 🛠️ en bas pour t’équiper', tipSyn:'🔗 Fusion possible !', tipSynd:'Atelier → « Synergies » : fusionne deux armes', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire', coach_move:'🕹️ Bouger', coach_moved:'Ton noyau lumineux suit la souris ou le doigt. Faufile-le tranquillement dans les trous entre les obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Frôle les ennemis = ton combo grimpe & plus de pièces tombent. Le risque paie !', coach_combo:'🔥 Multiplicateur', coach_combod:'Chaque 4e palier de combo augmente ton multiplicateur. Reste mobile – un coup le remet à zéro.', coach_beat:'🎵 Dans le rythme', coach_beatd:'Esquive pile sur le beat → « EN RYTHME » : combo bonus, plus de points et HYPE plus vite.',
+      tipSP:'💠 Point de skill !', tipSPd:'Ouvre l’Atelier 🛠️ en bas pour t’équiper', tipSyn:'🔗 Fusion possible !', tipSynd:'Atelier → « Synergies » : fusionne deux armes', tipNear:'✦ Juste !', tipNeard:'Near-miss = combo & plus de coins', tipCurse:'🎲 Malédiction', tipCursed:'Risqué, plus de points – temporaire', coach_move:'🕹️ Bouger', coach_moved:'Ton noyau lumineux suit la souris ou le doigt. Faufile-le tranquillement dans les trous entre les obstacles.', coach_near:'✦ Near-Miss', coach_neard:'Frôle les ennemis = ton combo grimpe & plus de pièces tombent. Le risque paie !', coach_combo:'🔥 Multiplicateur', coach_combod:'Chaque 4e palier de combo augmente ton multiplicateur. Reste mobile – un coup le remet à zéro.', coach_beat:'🎵 Dans le rythme', coach_beatd:'Esquive pile sur le beat → « EN RYTHME » : combo bonus, plus de points et HYPE plus vite.', coach_coin:'🪙 Pièces', coach_coind:'Les pièces sont ta monnaie. À l’Atelier 🛠️ tu achètes des améliorations permanentes – même entre les parties.', coach_jump:'🦘 Saut', coach_jumpd:'Touche ton vaisseau → saute par-dessus le danger et échappe-toi. Il se recharge ensuite tout seul.', coach_hype:'🌈 Jauge HYPE', coach_hyped:'Les near-miss remplissent la barre en haut. Pleine → HYPE : score ×2, aimant à pièces & traînée arc-en-ciel.', coach_letter:'🔤 BUTIN', coach_letterd:'Ramasse les lettres dans l’ordre. Mot complet = grosse récompense !', coach_sp:'💠 Point de skill', coach_spd:'Ouvre l’Atelier 🛠️ en bas et débloque de nouvelles armes & pouvoirs dans l’arbre.', coach_shield:'🛡️ Bouclier', coach_shieldd:'L’anneau autour de ton vaisseau bloque un seul coup. Ensuite il disparaît – reprends-en.', coach_syn:'🔗 Synergie', coach_synd:'Fusionne deux armes à l’Atelier → nouvel effet + SURCHARGE. Essaie !',
       how:'Souris ou <b>doigt</b> · frôler = <b>bonus near-miss</b> · choper 🛡 · <b>ESC</b> = menu', install:'📲 Installer l’appli',
       ios:'Sur iPhone : touche l’icône <b>Partager</b> → <b>« Sur l’écran d’accueil »</b> – THRONERUSH passe en plein écran.',
       m_normal:'ARCADE', m_normalD:'Niveaux, nouvelles formes, vagues de boss, cartes d’amélioration & power-ups. Le pack complet.',
@@ -907,8 +907,15 @@
     near:  {ico:'✦',  col:'#ff2e88'},
     combo: {ico:'🔥', col:'#ffe600'},
     beat:  {ico:'🎵', col:'#19f0ff'},
+    coin:  {ico:'🪙', col:'#ffe600'},
+    jump:  {ico:'🦘', col:'#19f0ff'},
+    hype:  {ico:'🌈', col:'#ff2ee0'},
+    letter:{ico:'🔤', col:'#2effc0'},
+    sp:    {ico:'💠', col:'#19f0ff'},
+    shield:{ico:'🛡️', col:'#2effc0'},
+    syn:   {ico:'🔗', col:'#ff2e88'},
   };
-  const LESSON_ORDER=['move','near','combo','beat'];   // Curriculum-Reihenfolge (wird schrittweise erweitert)
+  const LESSON_ORDER=['move','near','combo','beat','coin','jump','hype','letter','sp','shield','syn'];   // Curriculum-Reihenfolge
   function coach(key){ if(!LESSONS[key]) return; meta.seen=meta.seen||{}; if(meta.seen[key]) return; if(coachQueue.indexOf(key)>=0) return; coachQueue.push(key); }
   function tickCoach(dt){
     if(coachCard){ coachCard.t-=dt; if(coachCard.t<=0) coachCard=null; }
@@ -1495,7 +1502,7 @@
   // ---------- Bonus-Buchstaben: Wort aus t('bonusWord') einsammeln → Belohnung (mehrsprachig) ----------
   function spawnLetter(){ const word=t('bonusWord')||'BONUS', need=[]; for(let i=0;i<word.length;i++) if(!bonusGot[i]) need.push(i);
     if(!need.length) return; const idx=need[(Math.random()*need.length)|0];
-    letters.push({x:grand(40,W-40),y:-24,r:17,vy:68+difficulty*14,idx:idx,ch:word[idx],pulse:Math.random()*6.28}); }
+    letters.push({x:grand(40,W-40),y:-24,r:17,vy:68+difficulty*14,idx:idx,ch:word[idx],pulse:Math.random()*6.28}); coach('letter'); }
   function collectLetter(L){ const word=t('bonusWord')||'BONUS';
     sfxPow(); vibe(12); flash=Math.max(flash||0,0.25); flashColor='#ffe600'; spawnParticles(L.x,L.y,'#ffe600',12,220); floatText(L.x,L.y-18,L.ch,'#ffe600',20); beep(740,0.07,'triangle',0.18,180);
     if(!bonusGot[L.idx]){ bonusGot[L.idx]=1; addScore(40*Math.max(1,multiplier)); }
@@ -1689,7 +1696,7 @@
     sps.push({x:Math.max(20,Math.min(W-20,x+rand(-8,8))), y:Math.max(-20,y+rand(-6,6)), r:13, vy:40, pulse:Math.random()*6.28, rot:Math.random()*6.28}); }
   function collectSP(s){ skillPts++; runSPgain++; saveSP(); floatText(s.x,s.y-20,'💠 +1','#19f0ff',22); sfxPow();
     spawnParticles(s.x,s.y,'#19f0ff',16,240); flash=Math.min(0.5,(flash||0)+0.18); flashColor='#19f0ff'; vibe([12,16]); beep(1600,0.06,'square',0.12,300); updateAllBalances();
-    tutHint('sp',t('tipSP'),t('tipSPd'),'#19f0ff'); }   // erster Skillpunkt: zeig, wo man aufrüstet
+    coach('sp'); }   // erster Skillpunkt: Coach zeigt die Werkstatt
   // Boss-Drop: 0–3 Skillpunkte, gewichtet – meist 0/1 (1 ~50%), 2 sehr selten, 3 sehr sehr selten
   function grantBossSP(x,y){ const r=Math.random(); let n=r<0.41?0:(r<0.91?1:(r<0.985?2:3));
     if(runBosses<=2 && n<1) n=1;   // verlässlicher Progress-Einstieg: die ersten beiden Bosse geben sicher mind. 1 Skillpunkt
@@ -1809,7 +1816,7 @@
     if(tgt>runChipsPaid){ meta.chips=(meta.chips||0)+(tgt-runChipsPaid); coinSaveAcc+=(tgt-runChipsPaid); runChipsPaid=tgt; updateMenuChips(); }
     if(force||coinSaveAcc>=30){ saveMeta(); coinSaveAcc=0; } }
   // Sichtbare Coin-Belohnung an Ort X/Y (Dopamin: Gold-Pop). Quelle klar erkennbar (Orb/Combo/Boss).
-  function awardCoins(n,x,y,big){ n=Math.max(0,Math.round(n)); if(!n) return;
+  function awardCoins(n,x,y,big){ n=Math.max(0,Math.round(n)); if(!n) return; coach('coin');
     meta.chips=(meta.chips||0)+n; runChipsEarned+=n; coinSaveAcc+=n; updateMenuChips();
     if(x!=null) floatText(x,y,'+🪙'+n,'#ffd23f',big?22:16);
     if(coinSaveAcc>=30){ saveMeta(); coinSaveAcc=0; } }
@@ -1972,8 +1979,8 @@
     else if(jumpStock<mods.jumpMax){ jumpCharge+=dt/mods.jumpCd; if(jumpCharge>=1){ jumpCharge=0; jumpStock++; jumpReadyT=1.7; try{ beep(620,0.07,'triangle',0.16,820); setTimeout(()=>beep(930,0.08,'triangle',0.14,900),60); }catch(_){ } vibe(12); } }   // Sprung-Ladung wieder verfügbar → kleine Top-Meldung (auch bei Doppelsprung-Nachladungen)
     if(jumpReadyT>0) jumpReadyT-=dt;
     if(flungT>0){ flungT-=dt; tgt.x=flungX; tgt.y=flungY; if(invuln<flungT) invuln=flungT; }   // Boss-Katapult: Steuerung kurz gesperrt + Invuln, bis der Spieler sicher gelandet ist
-    if(mode!=='zen' && jumpStock>=1 && (elapsed||0)>6.5 && !(meta.seen&&meta.seen.jump)){ meta.seen=meta.seen||{}; meta.seen.jump=1; saveMeta(); banner={text:t('jumpHint'),sub:t('jumpHint2'),t:3.4,color:'#19f0ff'}; }   // einmaliges Tutorial: Tippen = Sprung (nach dem Story-Intro)
-    if(mode!=='zen' && opt.guns && ownedCount()>=2 && !(meta.seen&&meta.seen.syn2)) tutHint('syn2',t('tipSyn'),t('tipSynd'),'#ff2e88');   // 2 Waffen → Synergie-System einführen (richtiger Moment, nicht zu früh)
+    if(mode!=='zen' && jumpStock>=1 && (elapsed||0)>6.5) coach('jump');   // einmaliges Tutorial: Sprung (über Coach-Curriculum)
+    if(mode!=='zen' && opt.guns && ownedCount()>=2) coach('syn');   // 2 Waffen → Synergie-System (Coach)
     for(const k in effects) if(effects[k]>0) effects[k]-=dt;
     tickCurses(dt);   // zeitlich begrenzte Flüche herunterzählen + bei 0 zurücksetzen
 
@@ -1998,7 +2005,7 @@
     // HYPE-Meter: aktiv → läuft runter (Balken leert sich), sonst langsamer Idle-Drain
     if(hypeT>0){ hypeT-=dt; hype=Math.max(0,hypeT/6); if(hypeT<=0){ hype=0; floatText(player.x,player.y-42,t('hypeEnd'),'#ff2ee0',16); } } else hype=Math.max(0,hype-dt*0.04);
     if(mkTimer>0){ mkTimer-=dt; if(mkTimer<=0) mkCount=0; }   // Multikill-Fenster
-    coach('move'); tickCoach(dt);   // Onboarding-Coach (Lektion 'Bewegen' direkt beim Start)
+    coach('move'); if(shields>0) coach('shield'); tickCoach(dt);   // Onboarding-Coach (Bewegen direkt, Schild sobald vorhanden)
     { const ri=rankFor(score); if(ri>rankIdx){ rankIdx=ri; banner={text:t('promo'),sub:P('ranks')[ri]||'',t:2.4,color:'#ffe600'}; flash=Math.max(flash,0.4); flashColor='#ffe600'; vibe([15,25,15]); beep(660,0.08,'square',0.25); setTimeout(()=>beep(990,0.1,'square',0.22),90); } }   // Rang-Beförderung
     for(const m of missions){ if(!m.done && m.val()>=m.goal){ m.done=true; awardCoins(Math.round(m.rw*chipMult()*diffChip),player.x,player.y-52,true); banner={text:t('missionDone'),sub:missionText(m),t:2.6,color:'#2effc0'}; flash=Math.max(flash,0.4); flashColor='#2effc0'; vibe([15,25,15]); beep(880,0.08,'square',0.24); setTimeout(()=>beep(1175,0.1,'square',0.22),90); } }   // Run-Missionen erfüllt
     if(endless){ madness+=dt*0.0075; madnessTime+=dt; if(madnessTime>=60) unlockAch('madness'); }   // Wahnsinn-Modus eskaliert – aber gemächlich
@@ -2241,7 +2248,7 @@
   function doNear(o){ const onBeat=beatPulse>0.5; if(onBeat) runOnBeat++; combo+=1+mods.comboBonus+(onBeat?1:0); setMult(); refillCombo(); const g=(5+(onBeat?5:0))*multiplier; addScore(g);
     spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
     if(onBeat){ floatText(player.x,player.y-40,t('onBeat'),'#19f0ff',18); beep(1320,0.06,'triangle',0.22,300); coach('beat'); }   // Near-Miss im Takt → Extra-Combo & Punkte
-    if(hypeT<=0){ hype=Math.min(1,hype+(onBeat?0.085:0.05)); if(hype>=1) startHype(); }   // HYPE-Meter füllen (im Takt schneller)
+    if(hypeT<=0){ hype=Math.min(1,hype+(onBeat?0.085:0.05)); if(hype>=1) startHype(); if(hype>=0.5) coach('hype'); }   // HYPE-Meter füllen (im Takt schneller)
     director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
     coach('near');   // erster Near-Miss → Coach erklärt Combo/Münzen
