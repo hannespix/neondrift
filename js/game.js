@@ -8,6 +8,9 @@
     localStorage.setItem('thronerush_migrated','1'); } }catch(e){}
   const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
+  /* === AUTO-BALANCE START (wird von tools/auto-balance.mjs gepflegt – nur Werte, keine Logik!) === */
+  const BAL={ difficulty:1.00, spawnRate:1.00, eliteChance:1.00 };   // Multiplikatoren (1.00 = neutral). Höher = schwerer / mehr.
+  /* === AUTO-BALANCE END === */
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
   let frameMs=16, fxQ=1, qScale=1, vsyncMs=16;   // Performance-Governor: geglättete Frame-Zeit, FX-Qualität, interne Render-Skala, erkannte Bildwiederholrate
@@ -1493,7 +1496,7 @@
     o.hp=o.maxHp; o.hitFlash=0;
     const specials=obstacles.reduce((n,e)=>n+((e.elite||e.flank||e.shielded)?1:0),0), canSpecial=specials<Math.min(5,2+Math.floor((level||1)/4));   // gleichzeitige Sonder-Gegner deckeln → kein Schirm voller Homing/Schild (fair lesbar)
     // ---- Elite/Panzer: überlebt den Screen-Clear & widersteht CC → erzwingt im Lategame wieder echtes Ausweichen ----
-    if(canSpecial && grnd()<eliteChance()){
+    if(canSpecial && grnd()<eliteChance()*(BAL.eliteChance||1)){
       o.elite=true; o.ccRes=0.62;                     // stark CC-resistent: kaum bremsbar, nie einfrierbar (Konter gegen reine CC-Builds)
       o.maxHp=Math.round(o.maxHp*2.8)+3; o.hp=o.maxHp; // zäh: weglasern dauert, er kommt näher (Elites = Anker-Ziele, während Trash schmilzt)
       o.vy*=0.84; if(o.vx) o.vx*=0.84;                // langsamer = lesbarer, bedrohlich heranschwebender Tank
@@ -2028,7 +2031,7 @@
     saveRunT+=dt; if(saveRunT>=1.2){ saveRunT=0; saveRun(); }   // periodischer Snapshot (Reload-Fortsetzen)
     // Passivität: keine Eingabe in diesem Frame → eingabefreie Strecke wächst; sonst zurücksetzen. Längste Strecke + Idle-Anteil = „zu leicht / Campen"-Signal
     if(inputDirty){ idleStretch=0; inputDirty=false; } else { idleStretch+=dt; runIdleAcc+=dt; if(idleStretch>runIdleMax) runIdleMax=idleStretch; }
-    elapsed+=dt; const dMax=mode==='hardcore'?7.0:6.3, dT=Math.min(elapsed,200)/200; difficulty=1+dMax*Math.pow(dT,1.42);   // Feel-Good: sanftere Beschleunigung (längere Rampe 200s, etwas niedrigerer Deckel)
+    elapsed+=dt; const dMax=mode==='hardcore'?7.0:6.3, dT=Math.min(elapsed,200)/200; difficulty=(1+dMax*Math.pow(dT,1.42))*(BAL.difficulty||1);   // Feel-Good: sanftere Beschleunigung (längere Rampe 200s, etwas niedrigerer Deckel) · BAL.difficulty = Auto-Balance-Hebel
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     if(bossIntroT>0) bossIntroT-=dt;   // VS-Auftritt läuft in Echtzeit (auch während der Intro-Zeitlupe)
@@ -2125,7 +2128,7 @@
     else if(!bossActive && elapsed>14){ breatherT-=dt; if(breatherT<=0){ triggerBreather(); breatherT=rand(30,42); } }
     if(!bossActive && breatherActive<=0){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.28,(1.15-difficulty*0.05-level*0.022)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen); } }   // Feel-Good: etwas dünner (Basis 1.15 + Floor 0.28); dpsDen → starke Builds etwas dichter
+        spawnT=Math.max(0.24,(1.15-difficulty*0.05-level*0.022)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen/(BAL.spawnRate||1)); } }   // BAL.spawnRate >1 = dichtere Hindernisse   // Feel-Good: etwas dünner (Basis 1.15 + Floor 0.28); dpsDen → starke Builds etwas dichter
     // (Orbs entfernt – Münzen übernehmen Combo+Punkte+Geld)
     // Münzen fallen laufend (Haupt-Einkommensquelle), gelegentlich als ganze Gruppe
     coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
@@ -3307,7 +3310,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v332';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v333';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
