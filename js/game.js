@@ -1834,6 +1834,11 @@
       if(u.jump && mode==='zen') continue;   // Sprung-Upgrades nur wo der Sprung existiert
       out.push({kind:'pass',u}); }
     return out; }
+  // Build-Linien: Archetyp-Tags + sanfte Gewichtung → eine GEWOLLTE Linie entsteht, ohne den Roguelite-Zufall zu töten.
+  const BUILD_TAGS={jumpcd:'jump',jumpdouble:'jump',jumpstomp:'jump',jumpphase:'jump',blaster:'gun',twin:'gun',power:'gun',pierce:'gun',crit:'gun',critdmg:'gun',amp:'gun',tempo:'gun',missile:'control',flame:'control',frost:'control',chain:'control',nova:'control'};
+  const TAGICO={jump:'🦅',gun:'🔫',control:'❄️'};
+  function buildLean(){ const c={}; for(const id in upgradeCounts){ const tg=BUILD_TAGS[id]; if(tg) c[tg]=(c[tg]||0)+upgradeCounts[id]; } let best=null,bv=0; for(const k in c){ if(c[k]>bv){ bv=c[k]; best=k; } } return bv>=2?best:null; }   // erst ab 2 Picks zeichnet sich eine Linie ab
+  function offerWeight(o){ if(o.kind!=='pass') return 1; const tg=BUILD_TAGS[o.u.id]; return (tg&&tg===buildLean())?2.4:1; }   // passende Linie ~2.4× wahrscheinlicher (sanft, nichts ausgeschlossen)
   // Gibt es überhaupt einen freischaltbaren Knoten/eine holbare Waffe? (unabhängig von Punkten)
   // Mit Waffen ist ein Punkt IMMER einsetzbar (Fork/Waffe ODER universelles „Verstärken") → keine toten Punkte
   function skillSpendable(){ return !!opt.guns; }
@@ -1861,7 +1866,7 @@
     upgradeSub.textContent=(armed?(t('armUp')+level):(t('level')+' '+level+' · '+t('points')+' '+Math.round(score)))
       + ((hasSkillSpend())?(' · 💠'+skillPts+' '+t('skillPts')+' → 🎒'):'');
     const pool=offerPool(); const wp=pool.filter(o=>o.kind!=='pass'), pp=pool.filter(o=>o.kind==='pass');
-    let chosen=[]; const take=arr=>{ if(arr.length) chosen.push(arr.splice(Math.floor(Math.random()*arr.length),1)[0]); };
+    let chosen=[]; const take=arr=>{ if(!arr.length) return; let tot=0; for(const o of arr) tot+=offerWeight(o); let r=Math.random()*tot, idx=arr.length-1; for(let k=0;k<arr.length;k++){ r-=offerWeight(arr[k]); if(r<=0){ idx=k; break; } } chosen.push(arr.splice(idx,1)[0]); };   // gewichtete Auswahl (Build-Linie bevorzugt)
     if(armed){ while(chosen.length<2&&wp.length) take(wp); while(chosen.length<3&&pp.length) take(pp); while(chosen.length<3&&wp.length) take(wp); }
     else { while(chosen.length<3){ if((chosen.length<2||!pp.length)&&wp.length) take(wp); else if(pp.length) take(pp); else break; } }
     while(chosen.length<3 && (wp.length||pp.length)) take(wp.length?wp:pp);
@@ -1871,7 +1876,7 @@
     chosen.forEach(o=>{ const card=document.createElement('div'); let ico,name,desc,tag,cls='ucard';
       if(o.kind==='new'){ ico=WID[o.wid].ico; name=wName(o.wid); desc=wDesc(o.wid); tag='🆕 '+t('newWeapon'); cls+=' weapon wnew'; }
       else if(o.kind==='fork'){ ico=WID[o.wid].ico; name=wName(o.wid)+' · '+pName(o.path); desc=pDesc(o.path); tag='⌥ '+t('path'); cls+=' weapon wfork'; }
-      else { const u=o.u, lvl=(upgradeCounts[u.id]||0); ico=u.ico; name=uName(u.id); desc=uDesc(u.id); tag=(lvl>0?(t('level')+' '+lvl+'/'+u.max):('0/'+u.max)); if(u.wpass) cls+=' weapon'; }
+      else { const u=o.u, lvl=(upgradeCounts[u.id]||0); ico=u.ico; name=uName(u.id); desc=uDesc(u.id); tag=(lvl>0?(t('level')+' '+lvl+'/'+u.max):('0/'+u.max))+(BUILD_TAGS[u.id]?(' '+TAGICO[BUILD_TAGS[u.id]]):''); if(u.wpass) cls+=' weapon'; }
       card.className=cls; card.innerHTML=`<div class="ico">${ico}</div><h4>${name}</h4><p>${desc}</p><div class="stack">${tag}</div>`;
       card.addEventListener('click',()=>chooseOffer(o)); upgradeCards.appendChild(card);
     });
