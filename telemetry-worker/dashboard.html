@@ -51,9 +51,14 @@
   <div id="msg"></div>
 
   <div class="cards" id="cards"></div>
+  <section id="ecoSec" hidden><h2>💰 Ökonomie</h2><div id="ecoBox"></div></section>
+  <section id="funSec" hidden><h2>📉 Level-Funnel — wo enden Runs?</h2><div id="funBox"></div></section>
+  <section id="bossSec" hidden><h2>👾 Boss-Funnel &amp; Win-Rate</h2><div id="bossBox"></div></section>
+  <section id="deathSec" hidden><h2>💀 Todesursachen (verlorene Runs)</h2><div id="deathBox"></div></section>
   <section id="modeSec" hidden><h2>Nach Modus &amp; Schwierigkeit</h2><div id="modeBox"></div></section>
-  <section id="wpnSec" hidden><h2>Beliebteste Waffen</h2><div id="wpnBox"></div></section>
-  <section id="synSec" hidden><h2>Genutzte Synergien</h2><div id="synBox"></div></section>
+  <section id="wpnSec" hidden><h2>🔫 Waffen — Pick × Win</h2><div id="wpnBox"></div></section>
+  <section id="synSec" hidden><h2>✨ Synergien — Pick × Win</h2><div id="synBox"></div></section>
+  <section id="upSec" hidden><h2>⬆️ Upgrades — Pick × Win</h2><div id="upBox"></div></section>
 
   <footer>
     Hinweis: Funktioniert nur, wenn der Worker CORS für diese Seite erlaubt
@@ -97,15 +102,67 @@
     return html+'</tbody></table>';
   }
 
+  function fmtDur(s){ s=Math.round(s||0); var h=Math.floor(s/3600), m=Math.floor((s%3600)/60); return h>0?(h+' h '+m+' min'):(m+' min'); }
+
+  // Pick × Win-Tabelle (Balance): Name | Picks (Balken) | Winrate
+  function winTable(rows,nameKey,pickKey){
+    if(!rows||!rows.length) return '<div class="empty">Noch keine Daten.</div>';
+    var max=rows.reduce(function(m,r){ return Math.max(m,r[pickKey]||0); },0);
+    var html='<table><thead><tr><th>Name</th><th>Picks</th><th class="num">Winrate</th></tr></thead><tbody>';
+    rows.forEach(function(r,i){
+      html+='<tr><td>'+esc(r[nameKey])+'</td><td>'+meter((r[pickKey]||0)+'', r[pickKey]||0, max, COLORS[i%COLORS.length])+'</td>'
+          +'<td class="num">'+pct(r.wins||0, r[pickKey]||0)+'</td></tr>';
+    });
+    return html+'</tbody></table>';
+  }
+
   function render(d){
     var t=d.totals||{};
     $('cards').innerHTML=[
       ['Runs', t.runs||0],
+      ['Spieler', t.players||0],
+      ['Wiederkehrend', (d.returning||0)+' · '+pct(d.returning||0,t.players||0)],
       ['Siege', (t.wins||0)+' · '+pct(t.wins||0,t.runs||0)],
       ['Ø Level', round(t.avgLvl)],
       ['Ø Dauer', round(t.avgDurS,0)+' s'],
+      ['Gesamtspielzeit', fmtDur(t.totalDurS)],
       ['Top-Score', t.maxScore||0]
     ].map(function(c){ return '<div class="card"><div class="k">'+c[0]+'</div><div class="v">'+c[1]+'</div></div>'; }).join('');
+
+    // Ökonomie
+    $('ecoBox').innerHTML='<table><thead><tr><th>Kennzahl</th><th class="num">Wert</th><th>Lesart</th></tr></thead><tbody>'
+      +'<tr><td>Coins / Minute</td><td class="num">'+round(t.coinsPerMin,0)+'</td><td>Verdienstrate</td></tr>'
+      +'<tr><td>Ø Endguthaben (Chips)</td><td class="num">'+round(t.avgChipsBal,0)+'</td><td>hoch = zu billig/horten · ~0 = ausgehungert</td></tr>'
+      +'<tr><td>Ø ungenutzte Skillpunkte</td><td class="num">'+round(t.avgSpLeft)+'</td><td>hoch = Belohnung verpufft</td></tr>'
+      +'<tr><td>Ø Upgrades / Run</td><td class="num">'+round(t.avgRunUp)+'</td><td>wird investiert?</td></tr>'
+      +'<tr><td>Revive-Rate</td><td class="num">'+pct((t.reviveRate||0)*(t.runs||0),t.runs||0)+'</td><td>wie oft „unbedingt weiter"</td></tr>'
+      +'</tbody></table>'; $('ecoSec').hidden=false;
+
+    // Level-Funnel
+    var fn=d.funnel||[], totalRuns=fn.reduce(function(a,r){ return a+(r.n||0); },0)||(t.runs||0);
+    var maxLvl=fn.reduce(function(m,r){ return Math.max(m,r.lvl||0); },0);
+    if(maxLvl){
+      var fh='<table><thead><tr><th>Level</th><th>erreichten (≥)</th><th class="num">Anteil</th></tr></thead><tbody>';
+      for(var lv=1; lv<=maxLvl; lv++){
+        var reached=fn.filter(function(r){ return r.lvl>=lv; }).reduce(function(a,r){ return a+r.n; },0);
+        fh+='<tr><td>'+lv+'</td><td>'+meter(reached+'', reached, totalRuns, '#19f0ff')+'</td><td class="num">'+pct(reached,totalRuns)+'</td></tr>';
+      }
+      $('funBox').innerHTML=fh+'</tbody></table>';
+    } else $('funBox').innerHTML='<div class="empty">Noch keine Daten.</div>';
+    $('funSec').hidden=false;
+
+    // Boss-Funnel
+    var bf=d.bossFunnel||[];
+    if(bf.length){
+      var bh='<table><thead><tr><th>Boss</th><th>Runs</th><th class="num">Winrate</th></tr></thead><tbody>';
+      var bmax=bf.reduce(function(m,r){ return Math.max(m,r.runs||0); },0);
+      bf.forEach(function(r,i){ bh+='<tr><td>'+esc(r.boss)+'</td><td>'+meter((r.runs||0)+'', r.runs||0, bmax, COLORS[i%COLORS.length])+'</td><td class="num">'+pct(r.wins||0,r.runs||0)+'</td></tr>'; });
+      $('bossBox').innerHTML=bh+'</tbody></table>';
+    } else $('bossBox').innerHTML='<div class="empty">Noch keine Daten.</div>';
+    $('bossSec').hidden=false;
+
+    // Todesursachen
+    $('deathBox').innerHTML=rankTable(d.deaths,'death','n','Ursache','Tode'); $('deathSec').hidden=false;
 
     var modes=d.byMode||[];
     if(modes.length){
@@ -120,8 +177,9 @@
     } else $('modeBox').innerHTML='<div class="empty">Noch keine Daten.</div>';
     $('modeSec').hidden=false;
 
-    $('wpnBox').innerHTML=rankTable(d.weapons,'weapon','picks','Waffe','Picks'); $('wpnSec').hidden=false;
-    $('synBox').innerHTML=rankTable(d.synergies,'synergy','uses','Synergie','Nutzungen'); $('synSec').hidden=false;
+    $('wpnBox').innerHTML=winTable(d.weapons,'weapon','picks'); $('wpnSec').hidden=false;
+    $('synBox').innerHTML=winTable(d.synergies,'synergy','uses'); $('synSec').hidden=false;
+    $('upBox').innerHTML=winTable(d.upgrades,'upgrade','picks'); $('upSec').hidden=false;
   }
 
   function load(){
