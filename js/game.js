@@ -1853,13 +1853,13 @@
     // kein zweiter Pflicht-Screen mehr: Skillpunkte werden on-demand über Cockpit/Arsenal eingesetzt
     state=S.PLAY; invuln=Math.max(invuln,1.0); lastT=performance.now(); }
   function chooseOffer(o){ const before=Object.assign({},syn); let label='';
-    if(o.kind==='new'){ arsenal.w[o.wid]={lvl:1,f1:null,f2:null,f3:null,f4:null}; label=wName(o.wid); }
-    else if(o.kind==='fork'){ const a=arsenal.w[o.wid]; a[o.slot]=o.path; a.lvl++; label=wName(o.wid)+' · '+pName(o.path); }
-    else { o.u.apply(); upgradeCounts[o.u.id]=(upgradeCounts[o.u.id]||0)+1; label=uName(o.u.id); }
+    if(o.kind==='new'){ arsenal.w[o.wid]={lvl:1,f1:null,f2:null,f3:null,f4:null}; label=wName(o.wid); coachDyn('w_'+o.wid,'🔫',wName(o.wid),wDesc(o.wid),'#19f0ff'); }   // neue Waffe erklären
+    else if(o.kind==='fork'){ const a=arsenal.w[o.wid]; a[o.slot]=o.path; a.lvl++; label=wName(o.wid)+' · '+pName(o.path); coachDyn('f_'+o.path,'🧬',pName(o.path),pDesc(o.path),'#ff7ad9'); }   // Waffen-Pfad erklären
+    else { o.u.apply(); upgradeCounts[o.u.id]=(upgradeCounts[o.u.id]||0)+1; label=uName(o.u.id); coachDyn('u_'+o.u.id,o.u.ico||'⬆️',uName(o.u.id),uDesc(o.u.id),'#ffe600'); }   // Upgrade-Karte erklären
     recalcArsenal(); sfxPow(); vibe(15);
     banner={text:label.toUpperCase(),sub:t('activated'),t:1.6,color:'#ffe600'};
     for(const s of SYNERGIES){ if(syn[s.id]&&!before[s.id]){ banner={text:s.ico+' '+synName(s.id)+' · '+t('synUnlocked'),sub:synDesc(s.id),t:2.8,color:'#ff2e88'};
-      floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,flash+0.3); flashColor='#ff2e88'; } }
+      floatText(player.x,player.y-44,s.ico,'#ff2e88',32); flash=Math.min(0.7,flash+0.3); flashColor='#ff2e88'; coachDyn('syn_'+s.id,s.ico,synName(s.id),synDesc(s.id),'#ff2e88'); } }   // Synergie erklären
     closeUpgrade(); }
 
   // ---------- Hit ----------
@@ -3883,7 +3883,7 @@
       updateMenuChips(); },
     scores:()=>{ best={normal:0,hardcore:0,zen:0,daily:0,dailyDate:''}; saveScores(); },
     achskins:()=>{ meta.ach={}; meta.skins={}; meta.skin='std'; saveMeta(); shipSig=''; updateMenuChips(); },
-    coach:()=>{ meta.seen=meta.seen||{}; LESSON_ORDER.forEach(k=>delete meta.seen[k]); delete meta.seen.syn2; saveMeta(); },   // nur Coach-Lektionen leeren (Lore bleibt)
+    coach:()=>{ meta.seen=meta.seen||{}; Object.keys(meta.seen).forEach(k=>{ if(k==='howto'||k.indexOf('lore_')===0) return; delete meta.seen[k]; }); saveMeta(); },   // alle Coach-Lektionen (Kern + Effekte + Upgrades) leeren; Story/Howto bleibt
     all:()=>{ try{ ['thronerush_meta','thronerush_best','thronerush_opt','thronerush_lang','thronerush_run'].forEach(k=>localStorage.removeItem(k)); }catch(e){} try{ location.reload(); }catch(e){} }
   };
   let resetArmed=null, resetTimer=null;
