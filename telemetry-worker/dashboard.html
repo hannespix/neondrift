@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>THRONERUSH · Telemetrie-Dashboard</title>
+<style>
+  :root{ --bg:#0a0612; --panel:#160e26; --line:#2a1c44; --txt:#e8e0ff; --dim:#9b88c9;
+    --pink:#ff2e88; --cyan:#19f0ff; --yellow:#ffe600; --green:#2effc0; --purple:#c45bff; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:radial-gradient(1200px 800px at 70% -10%, #1a0f33 0%, var(--bg) 60%); color:var(--txt);
+    font-family:'Segoe UI',system-ui,sans-serif; padding:18px; }
+  h1{ font-size:20px; letter-spacing:.06em; margin:0 0 4px; color:var(--cyan); text-shadow:0 0 16px rgba(25,240,255,.4); }
+  .sub{ color:var(--dim); font-size:12px; margin-bottom:16px; }
+  .bar-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; margin-bottom:16px; }
+  input{ background:#0d0820; border:1px solid var(--line); color:var(--txt); border-radius:8px; padding:9px 11px; font-size:13px; }
+  input#base{ flex:1; min-width:260px; }
+  input#token{ width:180px; }
+  button{ background:linear-gradient(135deg,var(--pink),var(--purple)); border:0; color:#fff; font-weight:700;
+    letter-spacing:.04em; border-radius:8px; padding:10px 18px; cursor:pointer; box-shadow:0 0 18px rgba(255,46,136,.35); }
+  button:active{ transform:scale(.97); }
+  #msg{ font-size:13px; min-height:18px; margin-bottom:10px; }
+  #msg.err{ color:var(--pink); } #msg.ok{ color:var(--green); }
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:22px; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .card .k{ color:var(--dim); font-size:11px; text-transform:uppercase; letter-spacing:.08em; }
+  .card .v{ font-size:26px; font-weight:800; margin-top:4px; color:var(--cyan); }
+  section{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:18px; }
+  section h2{ font-size:14px; margin:0 0 12px; color:var(--yellow); letter-spacing:.04em; }
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  th,td{ text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); }
+  th{ color:var(--dim); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
+  td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .meter{ position:relative; background:#0d0820; border-radius:6px; height:18px; overflow:hidden; min-width:90px; }
+  .meter > i{ position:absolute; inset:0 auto 0 0; border-radius:6px; }
+  .meter > span{ position:relative; z-index:1; font-size:11px; padding:0 6px; line-height:18px; color:#fff; }
+  .empty{ color:var(--dim); font-size:13px; }
+  footer{ color:var(--dim); font-size:11px; margin-top:24px; line-height:1.6; }
+</style>
+</head>
+<body>
+  <h1>📊 THRONERUSH · Telemetrie</h1>
+  <div class="sub">Admin-Ansicht · liest <code>/stats</code> deines Telemetrie-Workers. Token bleibt nur lokal im Browser.</div>
+
+  <div class="bar-row">
+    <input id="base" type="url" placeholder="https://thronerush-telemetry.&lt;account&gt;.workers.dev" autocomplete="off">
+    <input id="token" type="password" placeholder="ADMIN_TOKEN" autocomplete="off">
+    <button id="load">Laden</button>
+  </div>
+  <div id="msg"></div>
+
+  <div class="cards" id="cards"></div>
+  <section id="modeSec" hidden><h2>Nach Modus &amp; Schwierigkeit</h2><div id="modeBox"></div></section>
+  <section id="wpnSec" hidden><h2>Beliebteste Waffen</h2><div id="wpnBox"></div></section>
+  <section id="synSec" hidden><h2>Genutzte Synergien</h2><div id="synBox"></div></section>
+
+  <footer>
+    Hinweis: Funktioniert nur, wenn der Worker CORS für diese Seite erlaubt
+    (<code>ALLOW_ORIGIN</code> auf diese Herkunft bzw. <code>*</code> setzen).
+    Die Endpunkte sind per <code>ADMIN_TOKEN</code> geschützt.
+  </footer>
+
+<script>
+(function(){
+  var $=function(id){ return document.getElementById(id); };
+  var COLORS=['#19f0ff','#ff2e88','#ffe600','#2effc0','#c45bff','#ff9a2e','#7cff2e'];
+  try{
+    $('base').value=localStorage.getItem('tr_dash_base')||'';
+    $('token').value=localStorage.getItem('tr_dash_token')||'';
+  }catch(e){}
+
+  function msg(text,cls){ var m=$('msg'); m.textContent=text||''; m.className=cls||''; }
+  function pct(a,b){ return b?((100*a)/b).toFixed(1)+'%':'–'; }
+  function round(n,d){ if(n==null) return '–'; return Number(n).toFixed(d==null?1:d); }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+
+  function meter(label,val,max,color){
+    var w=max>0?Math.max(2,Math.round(100*val/max)):0;
+    return '<div class="meter"><i style="width:'+w+'%;background:'+color+';box-shadow:0 0 12px '+color+'"></i>'
+         +'<span>'+esc(label)+'</span></div>';
+  }
+
+  function rankTable(rows, nameKey, valKey, nameHead, valHead){
+    if(!rows||!rows.length) return '<div class="empty">Noch keine Daten.</div>';
+    var max=rows.reduce(function(m,r){ return Math.max(m, r[valKey]||0); },0);
+    var html='<table><thead><tr><th>'+nameHead+'</th><th>Verteilung</th><th class="num">'+valHead+'</th></tr></thead><tbody>';
+    rows.forEach(function(r,i){
+      html+='<tr><td>'+esc(r[nameKey])+'</td><td>'+meter('', r[valKey]||0, max, COLORS[i%COLORS.length])+'</td>'
+          +'<td class="num">'+(r[valKey]||0)+'</td></tr>';
+    });
+    return html+'</tbody></table>';
+  }
+
+  function render(d){
+    var t=d.totals||{};
+    $('cards').innerHTML=[
+      ['Runs', t.runs||0],
+      ['Siege', (t.wins||0)+' · '+pct(t.wins||0,t.runs||0)],
+      ['Ø Level', round(t.avgLvl)],
+      ['Ø Dauer', round(t.avgDurS,0)+' s'],
+      ['Top-Score', t.maxScore||0]
+    ].map(function(c){ return '<div class="card"><div class="k">'+c[0]+'</div><div class="v">'+c[1]+'</div></div>'; }).join('');
+
+    var modes=d.byMode||[];
+    if(modes.length){
+      var maxRuns=modes.reduce(function(m,r){ return Math.max(m,r.runs||0); },0);
+      var html='<table><thead><tr><th>Modus</th><th>Diff</th><th>Runs</th><th>Winrate</th><th>Ø Level</th></tr></thead><tbody>';
+      modes.forEach(function(r,i){
+        html+='<tr><td>'+esc(r.mode)+'</td><td>'+esc(r.diff)+'</td>'
+            +'<td>'+meter((r.runs||0)+'', r.runs||0, maxRuns, COLORS[i%COLORS.length])+'</td>'
+            +'<td>'+pct(r.wins||0,r.runs||0)+'</td><td>'+round(r.avgLvl)+'</td></tr>';
+      });
+      $('modeBox').innerHTML=html+'</tbody></table>';
+    } else $('modeBox').innerHTML='<div class="empty">Noch keine Daten.</div>';
+    $('modeSec').hidden=false;
+
+    $('wpnBox').innerHTML=rankTable(d.weapons,'weapon','picks','Waffe','Picks'); $('wpnSec').hidden=false;
+    $('synBox').innerHTML=rankTable(d.synergies,'synergy','uses','Synergie','Nutzungen'); $('synSec').hidden=false;
+  }
+
+  function load(){
+    var base=($('base').value||'').trim().replace(/\/+$/,'');
+    var token=($('token').value||'').trim();
+    if(!base||!token){ msg('Worker-URL und Token eingeben.','err'); return; }
+    try{ localStorage.setItem('tr_dash_base',base); localStorage.setItem('tr_dash_token',token); }catch(e){}
+    msg('Lade …');
+    fetch(base+'/stats?token='+encodeURIComponent(token))
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status+(r.status===401?' – Token falsch?':'')); return r.json(); })
+      .then(function(d){ if(!d||!d.ok) throw new Error('Unerwartete Antwort'); render(d); msg('Aktualisiert · '+new Date().toLocaleString(),'ok'); })
+      .catch(function(e){ msg('Fehler: '+e.message+' (CORS? URL? Token?)','err'); });
+  }
+
+  $('load').addEventListener('click',load);
+  $('token').addEventListener('keydown',function(e){ if(e.key==='Enter') load(); });
+  if($('base').value && $('token').value) load();
+})();
+</script>
+</body>
+</html>

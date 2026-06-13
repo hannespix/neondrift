@@ -1,0 +1,54 @@
+name: Telemetrie → STATS.md
+
+# Generiert periodisch eine lesbare STATS.md aus den Telemetrie-Daten
+# (Worker /stats) und commitet sie, wenn sich etwas geändert hat.
+#
+# Voraussetzung: Repo-Secrets setzen (Settings → Secrets and variables → Actions):
+#   TELEMETRY_BASE  – Worker-URL, z. B. https://thronerush-telemetry.<acc>.workers.dev
+#   ADMIN_TOKEN     – derselbe Token wie im Worker
+# Ohne diese Secrets läuft der Job durch, überspringt aber die Generierung.
+
+on:
+  schedule:
+    - cron: '17 4 * * *'   # täglich 04:17 UTC
+  workflow_dispatch:        # manuell auslösbar
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telemetry-stats
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: STATS.md generieren
+        env:
+          TELEMETRY_BASE: ${{ secrets.TELEMETRY_BASE }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: |
+          if [ -z "$TELEMETRY_BASE" ] || [ -z "$ADMIN_TOKEN" ]; then
+            echo "::notice::TELEMETRY_BASE/ADMIN_TOKEN nicht gesetzt – Generierung übersprungen."
+            exit 0
+          fi
+          npm run stats
+
+      - name: STATS.md commiten (nur bei Änderung)
+        run: |
+          if [ ! -f STATS.md ] || git diff --quiet -- STATS.md; then
+            echo "Keine Änderung an STATS.md."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add STATS.md
+          git commit -m "chore: STATS.md aus Telemetrie aktualisieren"
+          git push
