@@ -1,0 +1,75 @@
+name: Auto-Balance (täglich)
+
+# Datengetriebener Game-Director: liest die Telemetrie, bewertet die aktuelle
+# Spielversion (Health-Score), vergleicht mit der Vorversion und passt die
+# Balancing-Knöpfe (BAL-Block in js/game.js) gedämpft an. Bei einer Änderung
+# wird GAME_VER + SW-Cache gebumpt und auf main gepusht → GitHub-Pages-Deploy
+# liefert die neue Version aus. So wird das Spiel Version für Version besser.
+#
+# Voraussetzungen (Repo-Secrets, schon für telemetry-stats gesetzt):
+#   TELEMETRY_BASE, ADMIN_TOKEN
+# Optionale Repo-Variablen (Settings → Variables) zum Justieren der Leitplanken:
+#   AB_MIN_RUNS   (Default 40)  – Mindest-Runs der aktuellen Version vor Anpassung
+#   AB_SOAK_HOURS (Default 18)  – Einwirkzeit, bevor neu justiert wird
+#
+# Stoppen: Datei tuning/AUTOPILOT_OFF anlegen (committen) → Loop pausiert sofort.
+
+on:
+  schedule:
+    - cron: '37 5 * * *'    # täglich 05:37 UTC (nach dem STATS-Job um 04:17)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Nur rechnen, nichts schreiben/committen'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-balance
+  cancel-in-progress: false
+
+jobs:
+  balance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Director ausführen
+        env:
+          TELEMETRY_BASE: ${{ secrets.TELEMETRY_BASE }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          MIN_RUNS: ${{ vars.AB_MIN_RUNS }}
+          SOAK_HOURS: ${{ vars.AB_SOAK_HOURS }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: |
+          if [ -z "$TELEMETRY_BASE" ] || [ -z "$ADMIN_TOKEN" ]; then
+            echo "::notice::TELEMETRY_BASE/ADMIN_TOKEN nicht gesetzt – Auto-Balance übersprungen."
+            exit 0
+          fi
+          node tools/auto-balance.mjs
+
+      - name: Syntax-Gate (kaputtes game.js wird nie deployt)
+        run: node --check js/game.js
+
+      - name: Commit & Push (nur bei echter Balancing-Änderung)
+        run: |
+          if git diff --quiet js/game.js; then
+            echo "Keine Balancing-Änderung – nichts zu committen."
+            exit 0
+          fi
+          VER=$(grep -oE "GAME_VER='v[0-9]+'" js/game.js | grep -oE 'v[0-9]+')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/game.js service-worker.js tuning/state.json BALANCING.md
+          git commit -m "auto-balance: Telemetrie-gesteuerte Anpassung → $VER
+
+          Automatisch vom Game-Director (tools/auto-balance.mjs) anhand der
+          Telemetrie gesetzt. Details: BALANCING.md."
+          git push

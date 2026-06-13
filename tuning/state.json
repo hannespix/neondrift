@@ -1,0 +1,11 @@
+{
+  "history": [
+    {
+      "ver": "v333",
+      "knobs": { "difficulty": 1, "spawnRate": 1, "eliteChance": 1 },
+      "score": null,
+      "runs": null,
+      "ts": 0
+    }
+  ]
+}
