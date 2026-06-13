@@ -1479,6 +1479,7 @@
     for(let k=0;k<n;k++) spawnCoin(cx+(k-(n-1)/2)*26, -22-Math.abs(k-(n-1)/2)*15, v); }
   const PUP=['shield','slow','magnet','bomb','double'];
   const PUPINFO={shield:{c:'#2effc0',g:'🛡'},slow:{c:'#5b9bff',g:'⏱'},magnet:{c:'#c45bff',g:'🧲'},bomb:{c:'#ff9a2e',g:'💣'},double:{c:'#ffe600',g:'✕2'}};
+  function pickPup(){ const noShield=PUP.filter(x=>x!=='shield'); if(shields>=3) return gpick(noShield); let t=gpick(PUP); if(t==='shield'&&grnd()<0.55) t=gpick(noShield); return t; }   // Schild deutlich seltener: nie bei vollem Schild (>=3), sonst 55% Reroll → weniger 'unsterblich'
   // ---------- Run-Missionen (Jetpack-Joyride-Style: 3 frische Ziele pro Run, mehrsprachig) ----------
   const MISSIONS=[
     {id:'near',   g:[25,40], rw:90,  val:()=>nearCount},
@@ -1525,9 +1526,9 @@
     for(let i=0;i<n;i++){ const got=bonusGot[i]; ctx.globalAlpha=got?1:0.3; ctx.fillStyle=got?'#ffe600':'#8a7a44';
       if(got&&fxQ>0.7){ ctx.shadowBlur=8; ctx.shadowColor='#ffe600'; } else ctx.shadowBlur=0; ctx.fillText(word[i],x0+i*cw,y); }
     ctx.globalAlpha=1; ctx.shadowBlur=0; ctx.restore(); }
-  function spawnPowerup(){ const t=gpick(PUP); powerups.push({x:grand(40,W-40),y:-24,r:16,vy:80+difficulty*18,type:t,pulse:Math.random()*6.28}); }
+  function spawnPowerup(){ const t=pickPup(); powerups.push({x:grand(40,W-40),y:-24,r:16,vy:80+difficulty*18,type:t,pulse:Math.random()*6.28}); }
   // Power-Up-Drop aus zerstörtem Gegner (Chance · von Glück skaliert)
-  function dropPowerup(x,y){ if(powerups.length>=4) return; const t=gpick(PUP);
+  function dropPowerup(x,y){ if(powerups.length>=4) return; const t=pickPup();
     powerups.push({x:Math.max(20,Math.min(W-20,x)),y,r:16,vy:70,type:t,pulse:Math.random()*6.28}); }
   // ---------- Sammelbare Upgrade-Symbole (positiv & Flüche) ----------
   // Gems sind reine Sammel-Belohnung: Chips-Bonus oder Schild-Auffüllung – optional ein Fluch (Gamble, erst ab ~3 Runs).
@@ -1536,7 +1537,7 @@
     const cur=(opt.curses&&statN('runs')>=3)?UPGRADES.filter(u=>u.curse&&CURSE_FX[u.id]):[];
     let kind='chips', u=null;
     if(cur.length && Math.random()<0.30){ u=pick(cur); kind='curse'; }        // Fluch: optionales Risiko-Gem, seltener
-    else if(shields<5 && Math.random()<0.45){ kind='heal'; }                   // Schild auffüllen (nur wenn nicht voll)
+    else if(shields<3 && Math.random()<0.22){ kind='heal'; }                   // Schild auffüllen: seltener & nur bei wenig Schild (Sustain runter)
     gems.push({x:rand(50,W-50),y:-28,r:17,vy:70+difficulty*14,u,kind,curse:kind==='curse',pulse:Math.random()*6.28,rot:0});
   }
   const GEM_ICO={chips:'🪙',heal:'🛡',curse:'🎲'}, GEM_COL={chips:'#ffe600',heal:'#2effc0'};
