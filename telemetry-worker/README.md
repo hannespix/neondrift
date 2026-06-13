@@ -24,7 +24,36 @@ nur die Endpunkt-URL.
 - Cloudflare-Account (kostenloser Tier reicht)
 - `npm i -g wrangler` und `wrangler login`
 
-## Deploy (einmalig)
+## Automatischer Deploy via GitHub Action (empfohlen)
+
+Der Workflow **`.github/workflows/deploy-telemetry.yml`** deployt den Worker und
+wendet ausstehende **D1-Migrationen** (`telemetry-worker/migrations/`) automatisch
+an – bei jedem Push auf `main`, der `telemetry-worker/**` betrifft (oder manuell
+über „Run workflow"). Danach ist **kein manuelles Einfügen in Cloudflare mehr
+nötig.**
+
+**Einmalige Einrichtung:**
+
+1. **API-Token** erstellen (Cloudflare → My Profile → API Tokens → Create Token →
+   Custom) mit den Rechten **Account › Workers Scripts › Edit** und
+   **Account › D1 › Edit**.
+2. Im GitHub-Repo unter **Settings → Secrets and variables → Actions** anlegen:
+   - `CLOUDFLARE_API_TOKEN` – der Token von oben
+   - `CLOUDFLARE_ACCOUNT_ID` – Account-ID (Dashboard, rechte Spalte)
+3. In `telemetry-worker/wrangler.toml` die echte **`database_id`** eintragen.
+4. `ADMIN_TOKEN` bleibt als Worker-Secret bestehen – `wrangler deploy` **löscht
+   keine vorhandenen Secrets**, also einmalig wie bisher per
+   `wrangler secret put ADMIN_TOKEN` (oder Dashboard) setzen.
+
+Solange `CLOUDFLARE_API_TOKEN` fehlt, überspringt der Job sauber (kein roter Lauf).
+
+**Migrationen pflegen:** Schema-Änderung = **neue** Datei `migrations/000N_*.sql`
+(fortlaufend nummeriert) mit den `ALTER`/`CREATE`-Statements. Die Action führt jede
+Datei genau einmal aus (Stand wird in der Tabelle `d1_migrations` getrackt).
+`migrate-v2.sql`/`migrate-v3.sql` sind nur noch manuelle Fallbacks für die alte
+Konsolen-Methode.
+
+## Deploy (einmalig, manuell – Alternative ohne CI)
 
 Alle Befehle aus dem Repo-Root.
 
