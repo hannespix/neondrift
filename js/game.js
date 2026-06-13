@@ -2855,12 +2855,21 @@
     ctx.beginPath(); rr(x-w/2,y-h/2,w,h,10); ctx.fill(); ctx.stroke(); ctx.shadowBlur=0;
     ctx.globalAlpha=al; ctx.fillStyle='#19f0ff'; ctx.fillText(txt,x,y+1); ctx.restore(); }
   // Aufladering des Sprung-Dash um das Schiff (füllt sich in JUMP_CD; bei „voll" sanft pulsierend)
-  function drawJumpRing(){ if(mode==='zen'||jumping>0) return; const x=player.x,y=player.y,rr=player.r+9, ready=jumpStock>=1;
+  function drawJumpRing(){ if(mode==='zen'||jumping>0) return; const x=player.x,y=player.y,rng=player.r+9, ready=jumpStock>=1, max=mods.jumpMax||1, pu=0.5+0.5*Math.sin((elapsed||0)*6);
     ctx.save(); ctx.lineWidth=2.6;
-    if(ready){ const pu=0.5+0.5*Math.sin((elapsed||0)*6); ctx.globalAlpha=0.45+0.45*pu; ctx.strokeStyle='#19f0ff'; if(fxQ>0.7){ ctx.shadowBlur=10; ctx.shadowColor='#19f0ff'; } ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke(); ctx.shadowBlur=0; }
-    if(jumpStock<mods.jumpMax){ ctx.globalAlpha=0.2; ctx.strokeStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,rr,0,6.28); ctx.stroke();
-      ctx.globalAlpha=0.9; ctx.strokeStyle='#19f0ff'; ctx.beginPath(); ctx.arc(x,y,rr,-Math.PI/2,-Math.PI/2+6.28*jumpCharge); ctx.stroke(); }
-    if(mods.jumpMax>1){ ctx.globalAlpha=1; for(let i=0;i<mods.jumpMax;i++){ const a=-Math.PI/2+(i-(mods.jumpMax-1)/2)*0.4, px=x+Math.cos(a)*(rr+7), py=y+Math.sin(a)*(rr+7); ctx.fillStyle=i<jumpStock?'#19f0ff':'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.arc(px,py,2.6,0,6.28); ctx.fill(); } }   // Ladungs-Pips
+    // Aufladering ums Schiff: ist mind. eine Ladung bereit, pulsiert der volle Ring; sonst füllt sich der Bogen in jumpCd
+    if(ready){ ctx.globalAlpha=0.4+0.4*pu; ctx.strokeStyle='#19f0ff'; if(fxQ>0.7){ ctx.shadowBlur=10; ctx.shadowColor='#19f0ff'; } ctx.beginPath(); ctx.arc(x,y,rng,0,6.28); ctx.stroke(); ctx.shadowBlur=0; }
+    if(jumpStock<max){ ctx.globalAlpha=0.18; ctx.strokeStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,rng,0,6.28); ctx.stroke();
+      ctx.globalAlpha=0.9; ctx.strokeStyle='#19f0ff'; ctx.beginPath(); ctx.arc(x,y,rng,-Math.PI/2,-Math.PI/2+6.28*jumpCharge); ctx.stroke(); }
+    // Klare Sprung-Ladungs-Anzeige als Chevrons ÜBER dem Schiff – immer sichtbar, fern von HYPE-Leiste & Bannern.
+    // Gefüllt + pulsierend = bereit · der ladende Chevron füllt sich von unten · Umriss = leere Ladung.
+    const cw=14, gap=5, total=max*cw+(max-1)*gap, bx=x-total/2, by=y-player.r-22;
+    const chev=cxv=>{ ctx.beginPath(); ctx.moveTo(cxv,by-7); ctx.lineTo(cxv+cw/2,by+5); ctx.lineTo(cxv-cw/2,by+5); ctx.closePath(); };
+    for(let i=0;i<max;i++){ const cxv=bx+i*(cw+gap)+cw/2, rdy=i<jumpStock, fill=rdy?1:(i===jumpStock?jumpCharge:0);
+      ctx.globalAlpha=0.9; ctx.lineWidth=1.6; ctx.strokeStyle=rdy?'#19f0ff':'rgba(255,255,255,0.4)'; chev(cxv); ctx.stroke();
+      if(fill>0){ ctx.save(); ctx.beginPath(); ctx.rect(cxv-cw,by+5-12*fill,cw*2,12*fill); ctx.clip();
+        ctx.globalAlpha=rdy?0.8+0.2*pu:0.55; ctx.fillStyle='#19f0ff'; if(fxQ>0.7&&rdy){ ctx.shadowBlur=9; ctx.shadowColor='#19f0ff'; }
+        chev(cxv); ctx.fill(); ctx.shadowBlur=0; ctx.restore(); } }
     ctx.restore(); }
   // Menü-Schaufenster: das aktuelle Schiff (Skin + Loadout-Detail) zentral vor der Sonne, sanft schwebend
   let menuShip=null, menuShipSig='';
