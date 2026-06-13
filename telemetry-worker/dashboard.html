@@ -65,10 +65,15 @@
 (function(){
   var $=function(id){ return document.getElementById(id); };
   var COLORS=['#19f0ff','#ff2e88','#ffe600','#2effc0','#c45bff','#ff9a2e','#7cff2e'];
+  // Voreingestellt, damit nichts eingetippt werden muss. Hinweis: Diese Seite wird
+  // öffentlich (GitHub Pages) ausgeliefert → der Token ist im Quelltext sichtbar.
+  // Vertretbar, da der Worker nur ANONYME Statistik liefert (keine PII/IP).
+  var PRESET_BASE='https://thronerush-telemetry.hannes-75b.workers.dev';
+  var PRESET_TOKEN='0f230a0b3653452f1d1742df1d45f2b32e288f90fa3a6814';
   try{
-    $('base').value=localStorage.getItem('tr_dash_base')||'';
-    $('token').value=localStorage.getItem('tr_dash_token')||'';
-  }catch(e){}
+    $('base').value=localStorage.getItem('tr_dash_base')||PRESET_BASE;
+    $('token').value=localStorage.getItem('tr_dash_token')||PRESET_TOKEN;
+  }catch(e){ $('base').value=PRESET_BASE; $('token').value=PRESET_TOKEN; }
 
   function msg(text,cls){ var m=$('msg'); m.textContent=text||''; m.className=cls||''; }
   function pct(a,b){ return b?((100*a)/b).toFixed(1)+'%':'–'; }
