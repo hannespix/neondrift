@@ -2640,15 +2640,20 @@
         ctx.save(); ctx.textBaseline='alphabetic'; ctx.font='600 12.5px Orbitron, sans-serif';
         const words=(C.desc||'').split(' '); let line='', lines=[];
         for(const w of words){ const tst=line?line+' '+w:w; if(ctx.measureText(tst).width>maxW && line){ lines.push(line); line=w; } else line=tst; } if(line) lines.push(line);
-        const ch=Math.max(82,40+lines.length*16+12), cy=H*0.72+(1-fin)*26;   // sanftes Hochgleiten beim Einblenden
+        const ch=Math.max(92,40+lines.length*16+24), cy=H*0.72+(1-fin)*26;   // sanftes Hochgleiten beim Einblenden (inkl. Fortschrittsleiste unten)
+        const dn=LESSON_ORDER.filter(k=>meta.seen&&meta.seen[k]).length, dtot=LESSON_ORDER.length;   // sichtbarer Lernfortschritt
         ctx.globalAlpha=a;
         ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.fillStyle='rgba(10,3,24,0.93)'; ctx.shadowBlur=26; ctx.shadowColor=C.col; ctx.fill(); ctx.shadowBlur=0;
         ctx.lineWidth=2; ctx.strokeStyle=C.col; ctx.globalAlpha=a*(0.55+0.45*Math.abs(Math.sin((elapsed||0)*3))); ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.stroke(); ctx.globalAlpha=a;   // sanft pulsierender Rand
         ctx.fillStyle=C.col; ctx.beginPath(); rr(cx+2,cy+8,5,ch-16,2.5); ctx.fill();   // Akzentbalken links
         ctx.textAlign='center'; ctx.font='32px sans-serif'; ctx.fillStyle='#fff'; ctx.fillText(C.ico,cx+40,cy+ch*0.5+11);
-        const tx=cx+padL; ctx.textAlign='left'; ctx.font='900 16px Orbitron, sans-serif'; ctx.fillStyle=C.col; ctx.fillText(C.title,tx,cy+28);
+        const tx=cx+padL; ctx.textAlign='right'; ctx.font='800 11px Orbitron, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillText('📚 '+dn+'/'+dtot,cx+cw-14,cy+27);
+        ctx.textAlign='left'; ctx.font='900 16px Orbitron, sans-serif'; ctx.fillStyle=C.col; ctx.fillText(C.title,tx,cy+28);
         ctx.font='600 12.5px Orbitron, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.92)';
         let ly=cy+47; for(const ln of lines){ ctx.fillText(ln,tx,ly); ly+=16; }
+        const bw2=cx+cw-14-tx, by2=cy+ch-13;   // dünne Fortschrittsleiste (entdeckte Mechaniken)
+        ctx.fillStyle='rgba(255,255,255,0.14)'; ctx.beginPath(); rr(tx,by2,bw2,4,2); ctx.fill();
+        ctx.fillStyle=C.col; ctx.beginPath(); rr(tx,by2,Math.max(4,bw2*dn/dtot),4,2); ctx.fill();
         ctx.restore(); }
       drawJumpReady();
     }
