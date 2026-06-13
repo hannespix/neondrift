@@ -210,8 +210,8 @@
   let meta=loadMeta();
   function loadMeta(){ try{ const r=JSON.parse(localStorage.getItem('thronerush_meta')); if(r&&typeof r==='object'){
     const ships=Array.isArray(r.ships)?r.ships:((r.customShip&&r.customShip.cells)?[{name:'Schiff 1',cells:r.customShip.cells}]:[]);   // Migration: alt-customShip -> ships[0]
-    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:(r.diff==null?2:r.diff),ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,startKit:(Array.isArray(r.startKit)?r.startKit:null),ms:(r.ms&&typeof r.ms==='object')?r.ms:{},sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0,seen:(r.seen&&typeof r.seen==='object')?r.seen:{}}; } }catch(e){}
-    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:2,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{},unlocks:{}}; }   // Standard-Schwierigkeit = Normalo (Index 2), auch nach Reset
+    return {chips:r.chips||0,lvl:r.lvl||{},won:r.won||0,shopDate:r.shopDate||'',ach:r.ach||{},stats:r.stats||{},skins:r.skins||{},skin:r.skin||'std',diff:(r.diff==null?2:r.diff),ships,shipSlot:r.shipSlot||0,loadout:(r.loadout&&typeof r.loadout==='object')?r.loadout:null,startKit:(Array.isArray(r.startKit)?r.startKit:null),ms:(r.ms&&typeof r.ms==='object')?r.ms:{},sp:(r.sp==null?1:Math.max(0,r.sp|0)),spBought:r.spBought||0,sp1:r.sp1||0,seen:(r.seen&&typeof r.seen==='object')?r.seen:{},research:(r.research&&typeof r.research==='object')?r.research:{active:null}}; } }catch(e){}
+    return {chips:0,lvl:{},won:0,shopDate:'',ach:{},stats:{},skins:{},skin:'std',diff:2,ships:[],shipSlot:0,loadout:null,sp:1,spBought:0,sp1:0,seen:{},unlocks:{},research:{active:null}}; }   // Standard-Schwierigkeit = Normalo (Index 2), auch nach Reset
   function saveMeta(){ try{ localStorage.setItem('thronerush_meta',JSON.stringify(meta)); }catch(e){} }
   // Skillpunkte sind persistent (Boss-Drops / seltene Drops / im Hangar für Coins kaufbar) → in meta.sp gespiegelt
   function saveSP(){ meta.sp=Math.max(0,skillPts|0); saveMeta(); }
@@ -226,6 +226,7 @@
   ];
   let diffMul=1, diffSpd=1, diffHp=1, diffDen=1, diffChip=1;   // werden beim Spielstart aus meta.diff abgeleitet
   const fmt=n=>{ n=Math.round(n||0); let s; if(n>=10000){ s=(n/1000).toFixed(n>=100000?0:1).replace(/\.0$/,'')+'k'; } else s=''+n; try{ if(lang==='de') return s.replace('.',','); }catch(e){} return s; };
+  const fmtTime=x=>{ x=Math.max(0,Math.ceil(x)); return x>=60?(Math.floor(x/60)+'m'+(x%60?(' '+(x%60)+'s'):'')):(x+'s'); };
   function statN(k){ return (meta.stats&&meta.stats[k])||0; }
   function addStat(k,n){ meta.stats=meta.stats||{}; meta.stats[k]=(meta.stats[k]||0)+n; }
   // Werkstatt-Upgrades: Kosten = Basis × Stufe^1.8 (zwischen linear & exponentiell) & immer krasser
@@ -247,6 +248,23 @@
   ];
   const metaCost=(m,lvl)=>Math.round(m.base*Math.pow(lvl+1,2.2)/10)*10;   // steilere Kurve: je höher die Stufe, desto teurer (krasser Grind oben)
   const metaLvl=id=>(meta.lvl&&meta.lvl[id])||0;
+  // ---------- Forschung: Echtzeit-Forschungssystem (offline-fähig über Zeitstempel) ----------
+  // Genau EINE aktive Forschung; läuft nach echter Uhr (auch App geschlossen). Abschluss erhöht meta.lvl[id] (wie früher der Kauf).
+  function researchState(){ if(!meta.research||typeof meta.research!=='object') meta.research={active:null}; return meta.research; }
+  function researchActive(){ return researchState().active||null; }
+  function researchSpeedFactor(){ return 1/(1+0.12*metaLvl('rspeed')); }   // jede Labor-Stufe −12% Forschungszeit (rspeed folgt als Shop-Item)
+  function metaDuration(m,lvl){ return Math.max(15,Math.round((20+metaCost(m,lvl)*0.05)*(lvl+1)*researchSpeedFactor())); }   // Sekunden: teurer & höhere Stufe = länger
+  function researchRemaining(){ const a=researchActive(); return a?Math.max(0,a.dur-(Date.now()-a.start)/1000):0; }
+  function researchProgress(){ const a=researchActive(); return a?Math.min(1,((Date.now()-a.start)/1000)/a.dur):0; }
+  function researchDone(){ const a=researchActive(); return !!a && researchRemaining()<=0; }
+  function accelerateCost(){ const a=researchActive(); return a?Math.max(10,Math.ceil(researchRemaining()*2)):0; }   // Coins zum Sofort-Fertigstellen (∝ Restzeit)
+  function applyResearchUnlock(id){ if(id==='slot') arsenal.slots=3+metaLvl('slot'); if(id.indexOf('sy_')===0||id==='synslot') recalcArsenal(); }   // Sofort-Effekte beim Abschluss
+  function startResearch(id){ const m=META.find(x=>x.id===id); if(!m) return false; const lvl=metaLvl(id);
+    if(lvl>=m.max || researchActive()) return false; const cost=metaCost(m,lvl); if((meta.chips||0)<cost) return false;
+    meta.chips-=cost; researchState().active={id,lvl,start:Date.now(),dur:metaDuration(m,lvl)}; saveMeta(); return true; }
+  function finishResearch(){ const a=researchActive(); if(!a) return null; meta.lvl=meta.lvl||{}; meta.lvl[a.id]=a.lvl+1; researchState().active=null; saveMeta(); applyResearchUnlock(a.id); return a.id; }
+  function accelerateResearch(){ const a=researchActive(); if(!a) return false; const c=accelerateCost(); if((meta.chips||0)<c) return false; meta.chips-=c; finishResearch(); return true; }
+  function tickResearch(){ return researchDone()?finishResearch():null; }   // schließt fertige (auch offline abgelaufene) Forschung ab
   // Roguelite: Start-Skillpunkte je Run = Basis 1 + Veteran-Bonus (freikaufbar). Der Run-Build wird beim Game Over zurückgesetzt.
   const starterSP=()=>1+metaLvl('veteran');
   // Günstigstes noch nicht ausgereiztes Werkstatt-Upgrade → Karotte auf dem Game-Over-Screen
@@ -3415,10 +3433,16 @@
   document.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ') return; const ib=e.target&&e.target.classList&&e.target.classList.contains('infoBtn')?e.target:null;
     if(ib){ e.preventDefault(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } });
   function metaCard(m){ const lvl=metaLvl(m.id), maxed=lvl>=m.max, cost=maxed?0:metaCost(m,lvl), afford=(meta.chips||0)>=cost;
-    const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
-    const btn=maxed?'<div class="cost done">MAX</div>':('<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+'</button>');
-    card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
-    const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id));
+    const a=researchActive(), here=!!(a&&a.id===m.id), busy=!!(a&&a.id!==m.id);
+    const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'')+(here?' researching':'');
+    let btn;
+    if(maxed) btn='<div class="cost done">MAX</div>';
+    else if(here) btn='<div class="cost rsch">🔬 '+fmtTime(researchRemaining())+'</div><button class="cost accel" type="button">⚡ '+fmt(accelerateCost())+'</button>';
+    else if(busy) btn='<div class="cost locked">🔬 belegt</div>';
+    else btn='<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+' · 🔬 '+fmtTime(metaDuration(m,lvl))+'</button>';
+    card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+(here?' · 🔬 läuft':'')+'</div>'+btn;
+    const ab=card.querySelector('button.accel'); if(ab) ab.addEventListener('click',()=>{ if(accelerateResearch()) sfxUpgrade(); renderShop(); });
+    else { const b=card.querySelector('button.cost'); if(b&&!busy) b.addEventListener('click',()=>buyMeta(m.id)); }
     return card; }
   function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy,tip}
     const right = o.state==='done' ? '<span class="wnode-done">✓</span>'
@@ -3473,6 +3497,7 @@
       row.appendChild(card); }
     host.appendChild(row); }
   function renderShop(){ shopChipsEl.textContent='🪙 '+fmt(meta.chips); renderShopReco();
+    clearTimeout(shopTick); if(researchActive()){ shopTick=setTimeout(()=>{ const sh=document.getElementById('shop'); if(sh&&!sh.classList.contains('hidden')){ tickResearch(); renderShop(); } },1000); }   // Timer live nachführen
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
     const tabsEl=document.getElementById(shopTabsHostId);
@@ -3485,11 +3510,11 @@
     if(shopTab==='synergy'){ renderSynergyTab(); return; }      // Fusionen: Slots + alle 21 Synergien kaufbar
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
-    if(lvl>=m.max) return; const cost=metaCost(m,lvl); if(coinShort(cost)) return;
-    meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; saveMeta();
-    if(id==='slot') arsenal.slots=3+metaLvl('slot');   // neuen Modul-Slot SOFORT nutzbar machen (sonst erst nach Neustart, da arsenal.slots nur in applyMeta() berechnet wird)
-    if(id.indexOf('sy_')===0||id==='synslot') recalcArsenal();   // gekaufte Fusion / neuer Fusions-Slot sofort aktiv (Auto-Slot, solange frei)
-    sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); }
+    if(lvl>=m.max) return;
+    if(researchActive()){ beep(170,0.06,'square',0.12); return; }   // Labor belegt: nur eine Forschung gleichzeitig
+    const cost=metaCost(m,lvl); if(coinShort(cost)) return;
+    if(startResearch(id)){ sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); }   // statt Sofortkauf: Echtzeit-Forschung starten (Abschluss → applyResearchUnlock)
+  }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
   function openArsenalView(tab){ if(state!==S.PAUSE && state!==S.MENU && state!==S.OVER && state!==S.UPGRADE) return;
@@ -4246,6 +4271,7 @@
     // senken, wenn Frames verloren gehen (>1.6× vsync); in Ruhe (<1.25×) umgekehrt wieder anheben.
     if(frameMs>vsyncMs*1.6){ if(fxQ>0.45) fxQ=Math.max(0.45,fxQ-0.04); else if(qScale>0.5){ qScale=Math.max(0.5,qScale-0.05); applyScale(); } }
     else if(frameMs<vsyncMs*1.25){ if(qScale<1){ qScale=Math.min(1,qScale+0.04); applyScale(); } else if(fxQ<1) fxQ=Math.min(1,fxQ+0.02); }
+    if(meta.research&&meta.research.active) tickResearch();
     if(state===S.PLAY){ if(coachPause) coachFreezeTick(dt); else update(dt); }
     else { elapsed=(elapsed||0)+dt; updateStars(dt);
       if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
@@ -4289,7 +4315,7 @@
         comboBarEl=document.getElementById('comboBar'),comboFillEl=comboBarEl.querySelector('i'),
         menuChipsEl=document.getElementById('menuChips'),chipsEarnedEl=document.getElementById('chipsEarned');
   // Shop-DOM ist umlenkbar: eigener Werkstatt-Screen (Menü) ODER Werkstatt-Reiter im Arsenal
-  let shopCards=document.getElementById('shopCards'), shopChipsEl=document.getElementById('shopChips'), shopHintEl=document.getElementById('shopHint'), shopTabsHostId='shopTabs';
+  let shopCards=document.getElementById('shopCards'), shopChipsEl=document.getElementById('shopChips'), shopHintEl=document.getElementById('shopHint'), shopTabsHostId='shopTabs', shopTick=0;
   function setShopHost(which){ if(which==='arsenal'){ shopCards=document.getElementById('arShopCards'); shopChipsEl=document.getElementById('arShopChips'); shopHintEl=document.getElementById('arShopHint'); shopTabsHostId='arShopTabs'; }
     else { shopCards=document.getElementById('shopCards'); shopChipsEl=document.getElementById('shopChips'); shopHintEl=document.getElementById('shopHint'); shopTabsHostId='shopTabs'; } }
   function updateDiffLabel(){ const e=document.getElementById('diffName'); if(e) e.textContent=(DIFFS[meta.diff||0]||DIFFS[0]).name; renderDiffInfo(); }
