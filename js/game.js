@@ -1152,7 +1152,7 @@
       activeSyn=meta.synSel.filter(id=>cand.includes(id)).slice(0,synSlots()); }
     for(const s of SYNERGIES) syn[s.id]=activeSyn.includes(s.id);
     for(const id of activeSyn) if(synCharge[id]===undefined) synCharge[id]=0;
-    if(syn.super&&wpn.chain) wpn.chain.jumps+=2;                 // SUPRALEITER: +2 Kettensprünge
+    if(syn.super&&wpn.chain) wpn.chain.jumps+=1;                 // SUPRALEITER: +1 Kettensprung (entschärft)
     if(syn.cryonova&&wpn.nova) wpn.nova.slow=true;              // CRYONOVA: Puls verlangsamt (stärker, s. fireNova)
     if(syn.plasma&&wpn.rail) wpn.rail.burn=true;                // PLASMA: Schiene entzündet
     if(syn.overclock&&wpn.blaster) wpn.blaster.rate*=1.6;       // ÜBERTAKTUNG: Blaster 60% schneller
@@ -2094,7 +2094,7 @@
       if(wpn.chain){   tChain-=dt; if(tChain<=0){ fireChainW();   tChain=1/wpn.chain.rate; } }
       if(wpn.nova){    tNova-=dt;  if(tNova<=0){  fireNova();     tNova=1/wpn.nova.rate; } }
       if(wpn.rail){    tRail-=dt;  if(tRail<=0){  fireRail();     tRail=1/wpn.rail.rate; } }
-      if(synNovas.length){ const q=synNovas; synNovas=[]; for(const p of q) miniNova(p.x,p.y); }   // VOLTBOGEN: gequeuete Mini-Novas
+      if(synNovas.length){ const q=synNovas.splice(0,6); for(const p of q) miniNova(p.x,p.y); }   // VOLTBOGEN: gequeuete Mini-Novas – max 6/Frame (deckelt die Ketten-Reaktion, Rest folgt)
       for(let i=beams.length-1;i>=0;i--){ beams[i].t-=dt; if(beams[i].t<=0) beams.splice(i,1); }
       for(let i=zaps.length-1;i>=0;i--){ zaps[i].t-=dt; if(zaps[i].t<=0) zaps.splice(i,1); }
       for(let i=novas.length-1;i>=0;i--){ novas[i].t+=dt; if(novas[i].t>=novas[i].life) novas.splice(i,1); }
@@ -2276,7 +2276,7 @@
   function muzAt(i){ const M=shipMuz(), m=M[((i%M.length)+M.length)%M.length]; return {x:player.x+m.x,y:player.y+m.y}; }
   function muzSpread(i,n){ const M=shipMuz(); if(n<=1||M.length<=1) return muzPrimary(); const m=M[Math.round(i*(M.length-1)/(n-1))]; return {x:player.x+m.x,y:player.y+m.y}; }
   function fireBlaster(){ const w=wpn.blaster, n=w.bolts, spd=640;
-    let teslaShot=false; if(syn.tesla){ teslaCount++; teslaShot=(teslaCount%3===0); }   // TESLA-SALVE: jeder 3. Bolzen verzweigt
+    let teslaShot=false; if(syn.tesla){ teslaCount++; teslaShot=(teslaCount%4===0); }   // TESLA-SALVE: jeder 4. Bolzen verzweigt (entschärft)
     const pyro=syn.pyrobolt, pdot=wpn.flame?wpn.flame.dot:0.9*(mods.wDmgMult||1);                                   // PYRO-BOLZEN: entzünden
     const cryo=syn.cryoshot, camt=wpn.frost?wpn.frost.slowAmt:0.55, cdur=wpn.frost?wpn.frost.slowDur:1.2;            // FROST-SALVE: verlangsamen
     const bp=synPartner('blaster'), pcol=bp?wepCol('blaster'):'#caffff', pcol2=bp?WID[bp].col:null;   // Fusions-Mix: Bolzen tragen die Mischfarbe + Partner-Glow
@@ -2303,7 +2303,7 @@
       boss.hp-=w.dmg; boss.hitFlash=0.07; arcParticles(player.x,player.y-player.r,boss.x,boss.y); beep(1200,0.03,'square',0.08,260); if(boss.hp<=0)startBossDeath(); return; } }
     let best=null,bd=99999; for(const o of obstacles){ const dx=o.cx-player.x,dy=o.cy-player.y,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
     if(!best) return; arcParticles(player.x,player.y-player.r,best.cx,best.cy);
-    const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.8;
+    const h0=rollHit(w.dmg); let dd=h0.dmg; if(syn.super&&best.slow>0) dd*=1.45;
     best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,h0.crit); if(w.stun){ best.slow=Math.max(best.slow||0,w.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
     if(syn.wildarc){ best.burn=Math.max(best.burn||0,2.2); best.burnDmg=Math.max(best.burnDmg||0,1.3*(mods.wDmgMult||1)); }   // BRAND-BOGEN
     if(w.aoe) chainAoe(best.cx,best.cy,dd*0.5);
@@ -2417,7 +2417,7 @@
   function chainLightning(x,y,dmg,jumps,opts){ opts=opts||{}; let cx=x,cy=y; const used=new Set(opts.skip||[]);
     for(let h=0;h<jumps;h++){ let best=null,bd=185*185; for(const o of obstacles){ if(used.has(o)) continue; const dx=o.cx-cx,dy=o.cy-cy,d=dx*dx+dy*dy; if(d<bd){bd=d;best=o;} }
       if(!best) break; used.add(best); arcParticles(cx,cy,best.cx,best.cy);
-      const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.8;
+      const hh=rollHit(dmg); let dd=hh.dmg; if(syn.super&&best.slow>0) dd*=1.45;
       best.hp-=dd; best.hitFlash=0.1; floatDamage(best.cx,best.cy-best.h*0.4,dd,hh.crit); if(opts.stun){ best.slow=Math.max(best.slow||0,opts.stun); best.slowAmt=Math.min(best.slowAmt!=null?best.slowAmt:1,0.1); }
       if(syn.wildarc){ best.burn=Math.max(best.burn||0,2.2); best.burnDmg=Math.max(best.burnDmg||0,1.3*(mods.wDmgMult||1)); }   // BRAND-BOGEN (je Sprung)
       if(opts.aoe) chainAoe(best.cx,best.cy,dd*0.5);
