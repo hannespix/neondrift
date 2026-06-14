@@ -1517,6 +1517,7 @@
     } else if(canSpecial && level>=4 && grnd()<Math.min(0.13,0.04+(level-4)*0.012)){   // SCHÜTZE: feuert vereinzelt ein langsames, telegrafiertes Geschoss auf dich (ab Lvl 4)
       o.shooter=true; o.fireT=rand(1.6,2.6); o.ccRes=0.2; coachDyn('enemy_shooter','🦑',t('ceShooter'),t('ceShooterD'),'#ff5ea8');
     }
+    rollCreature(o);   // prozeduralen Kreatur-Deskriptor festlegen (kennt jetzt Typ/Farbe)
     obstacles.push(o);
   }
   // ---------- Münz-Pickups: 1/2/5/10, höhere Beträge seltener & größer, manchmal in Gruppen (Combo + Punkte + Geld) ----------
@@ -2578,48 +2579,44 @@
 
   // ---------- Shapes ----------
   function rr(x,y,w,h,r){ ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath(); }
-  // ---------- Prozedurale Mini-Monster (Sci-Fi): Archetypen, Farben, Augen/Münder/Zungen/Zähne, Flügel, Waffen ----------
-  const _mon={};
+  // ---------- Prozedurale Sci-Fi-Kreaturen (sauberer Neon-Vektor-Look, nativ gezeichnet) ----------
   const REG_COLS=['#ff2e88','#19f0ff','#7cff2e','#ff9a2e','#c45bff','#ff5ea8','#2effc0','#ffe24d'];
-  function hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
-  function monsterSprite(o){ const tr=o.elite?'e':o.flank?'f':o.shielded?'s':o.shooter?'g':'n'; const key=o.color+'|'+(o.mv||0)+'|'+tr;
-    let m=_mon[key]; if(m) return m; m=buildMonster(o.color,o.mv||0,tr); _mon[key]=m; return m; }
-  function buildMonster(col,v,tr){
-    let s=(hashStr(col)^((v|0)*2654435761)^hashStr(tr))>>>0; const R=()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; }, ri=n=>(R()*n)|0, pk=a=>a[(R()*a.length)|0];
-    const GW=17, GH=16, cp=4, hx=8, top=2, bot=GH-3;
-    const grid=[]; for(let y=0;y<GH;y++) grid.push(new Array(GW).fill(0));
-    const set=(x,y,c)=>{ if(y<0||y>=GH||x<0||x>=GW) return; grid[y][x]=c; const mx=GW-1-x; if(mx>=0&&mx<GW) grid[y][mx]=c; };   // x-symmetrisch
-    const accent=pk(['#ffffff','#19f0ff','#ffe24d','#ff2e88','#2effc0','#c45bff','#ff9a2e','#9be7ff']);
-    const eyeCol=pk(['#ffffff','#19f0ff','#ffe24d','#2effc0','#ff2e88','#9be7ff']);
-    const isObj = tr==='n' && R()<0.28;   // inanimater Hazard (kein Gesicht): nur normale Gegner
-    const arche = isObj ? pk(['asteroid','crystal','mine','debris'])
-      : tr==='e'?pk(['heavy','insect','blob']) : tr==='g'?pk(['drone','blob','insect']) : tr==='f'?pk(['insect','dart']) : pk(['blob','insect','drone','crystal','amorph']);
-    // ---- Körper-Archetyp ----
-    if(arche==='blob'||arche==='heavy'||arche==='amorph'){ let w=2+ri(2); for(let y=top;y<=bot;y++){ w=Math.max(1,Math.min(7,w+(ri(3)-1)+(arche==='heavy'?1:0))); if(arche==='amorph'&&R()<0.3)w=Math.max(1,w-1); for(let x=0;x<=w;x++) set(hx-x,y,1); } }
-    else if(arche==='insect'||arche==='dart'){ for(let y=top;y<=bot;y++){ const w=arche==='dart'?Math.max(1,(4-Math.abs(y-(top+bot)/2)*0.7)|0):(2+(((y-top)%3===0)?2:0)); for(let x=0;x<=w;x++) set(hx-x,y,1); } if(R()<0.7) for(let y=top+1;y<bot;y+=2) set(hx-6,y,1); }   // Beinchen
-    else if(arche==='drone'||arche==='mine'){ const w=4+ri(2); for(let y=top+1;y<=bot-1;y++) for(let x=0;x<=w;x++) set(hx-x,y,1); for(let y=top+2;y<bot;y+=2) set(hx-1,y,2); }   // boxig + Panel-Linien
-    else if(arche==='crystal'){ for(let y=top;y<=bot;y++){ const w=Math.max(1,Math.min(y-top,bot-y)+1); for(let x=0;x<=w;x++) set(hx-x,y,1); } }
-    else { let w=3+ri(2); for(let y=top;y<=bot;y++){ w=Math.max(2,Math.min(7,w+(ri(3)-1))); for(let x=0;x<=w;x++) if(R()<0.9) set(hx-x,y,1); } }   // asteroid/debris: brüchig
-    if(arche==='mine'){ for(let k=0;k<5;k++){ const a=k*1.257; set(hx+(Math.cos(a)*6|0),top+5+(Math.sin(a)*5|0),4); } }   // Minen-Stacheln
-    // ---- Flügel (Flanker erzwungen, sonst Chance) ----
-    if(!isObj && (tr==='f'||R()<0.3)){ const wy=top+3+ri(3); for(let k=0;k<3+ri(2);k++){ set(hx-6-k,wy+k,4); set(hx-6-k,wy+k+1,4); } }
-    // ---- Waffe/Kanone (Schütze erzwungen) ----
-    if(!isObj && (tr==='g'||R()<0.13)){ const cy=bot-1; set(hx-2,cy,4); set(hx-2,cy+1,4); set(hx-2,cy+2,2); if(tr==='g'){ set(hx,cy+1,4); set(hx,cy+2,2); } }
-    // ---- Hörner/Antennen ----
-    if(!isObj && R()<0.6){ const ho=2+ri(2); set(hx-ho,top-1,1); if(R()<0.6) set(hx-ho,top-2,R()<0.5?3:1); }
-    if(!isObj && tr==='e'){ set(hx-3,top-1,2); set(hx-3,top-2,2); }
-    // ---- Augen (0..3) ----
-    if(!isObj){ const ne=pk([1,2,2,2,3,0]), ey=top+3+ri(2); if(ne===1){ set(hx,ey,3); set(hx,ey+1,2); } else if(ne>=2){ const exx=2+ri(2); set(hx-exx,ey,3); if(ne===3) set(hx,ey-1,3); } }
-    // ---- Mund + Zähne + Zunge ----
-    if(!isObj){ const mty=pk(['none','grin','fangs','teeth','o','none']), my=top+8+ri(2);
-      if(mty==='grin'){ for(let x=hx-2;x<=hx;x++) set(x,my,2); }
-      else if(mty==='o'){ set(hx,my,2); set(hx,my+1,2); }
-      else if(mty==='teeth'){ for(let x=hx-2;x<=hx;x++){ set(x,my,2); set(x,my+1,5); } }
-      else if(mty==='fangs'){ set(hx-2,my,2); set(hx-1,my,2); set(hx,my,2); set(hx-2,my+1,5); set(hx,my+1,5); }
-      if((mty==='o'||mty==='teeth'||mty==='fangs')&&R()<0.4){ set(hx,my+1,6); if(R()<0.5) set(hx,my+2,6); } }   // Zunge
-    const mk=(force)=>{ const c=document.createElement('canvas'); c.width=GW*cp; c.height=GH*cp; const g=c.getContext('2d');
-      for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){ const t=grid[y][x]; if(!t) continue; g.fillStyle=force||(t===1?col:t===2?'#0a0010':t===3?eyeCol:t===4?accent:t===5?'#ffffff':'#ff6a8a'); g.fillRect(x*cp,y*cp,cp,cp); } return c; };
-    return {c:mk(null),w:mk('#ffffff')}; }
+  function rollCreature(o){ const R=Math.random, pk=a=>a[(R()*a.length)|0];   // Deskriptor einmal pro Gegner (stabil, vielfältig)
+    const tr=o.elite?'e':o.flank?'f':o.shielded?'s':o.shooter?'g':'n';
+    const isObj = tr==='n' && R()<0.24;   // inanimater Hazard ohne Gesicht (Asteroid/Kristall/Schrott)
+    const arche = isObj?pk(['crystal','asteroid','debris'])
+      : tr==='e'?pk(['heavy','insect','blob']) : tr==='f'?pk(['insect','blob']) : tr==='g'?pk(['drone','blob']) : pk(['blob','insect','drone','amorph','crystal']);
+    const md={ arche, isObj,
+      accent: pk(['#ffffff','#19f0ff','#ffe24d','#ff2e88','#2effc0','#9be7ff','#ff9a2e']),
+      eyeCol: pk(['#ffffff','#19f0ff','#ffe24d','#2effc0','#ff2e88']),
+      eyesN: isObj?0:pk([1,2,2,2,3,0]), eyeF: 0.15+R()*0.12,
+      mouth: isObj?'none':pk(['none','grin','grin','fangs','teeth','o']), tongue: R()<0.35,
+      wings: (tr==='f')||(!isObj&&R()<0.28), cannon: (tr==='g')||(!isObj&&R()<0.12),
+      ant: isObj?0:pk([0,0,1,2]), sides: 5+((R()*4)|0) };
+    md.jag=[]; for(let i=0;i<md.sides;i++) md.jag.push(arche==='crystal'?0:(R()-0.5)*0.5);
+    o.md=md; }
+  function drawCreature(o,hit,frozen){ const md=o.md||(rollCreature(o),o.md), rx=o.w*0.56, ry=o.h*0.56;
+    const line=hit?'#ffffff':(frozen?'#cdf4ff':o.color), fill=hexA(o.color,hit?0.5:0.22), acc=hit?'#ffffff':md.accent;
+    if(md.wings){ ctx.lineWidth=2; ctx.strokeStyle=acc; ctx.fillStyle=hexA(md.accent,0.16);   // Flügel hinter Körper
+      for(const sg of [-1,1]){ ctx.beginPath(); ctx.moveTo(sg*rx*0.4,-ry*0.15); ctx.quadraticCurveTo(sg*rx*1.8,-ry*0.72,sg*rx*1.5,ry*0.55); ctx.quadraticCurveTo(sg*rx*0.85,ry*0.15,sg*rx*0.4,-ry*0.15); ctx.closePath(); ctx.fill(); ctx.stroke(); } }
+    if(md.cannon){ ctx.fillStyle=acc; ctx.strokeStyle=line; ctx.lineWidth=2; const cw=rx*0.34; ctx.fillRect(-cw/2,ry*0.5,cw,ry*0.6); ctx.strokeRect(-cw/2,ry*0.5,cw,ry*0.6); }   // Kanone
+    if(md.ant){ ctx.strokeStyle=line; ctx.lineWidth=2; for(let i=0;i<md.ant;i++){ const sg=i===0?-1:1; ctx.beginPath(); ctx.moveTo(sg*rx*0.3,-ry*0.7); ctx.lineTo(sg*rx*0.5,-ry*1.3); ctx.stroke(); ctx.fillStyle=md.eyeCol; ctx.beginPath(); ctx.arc(sg*rx*0.5,-ry*1.3,Math.max(1.6,rx*0.08),0,6.28); ctx.fill(); } }
+    ctx.lineWidth=hit?4:3; ctx.strokeStyle=line; ctx.fillStyle=fill;   // Körper
+    if(md.arche==='drone'){ ctx.beginPath(); rr(-rx*0.82,-ry*0.7,rx*1.64,ry*1.4,Math.min(rx,ry)*0.42); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(-rx*0.5,-ry*0.08); ctx.lineTo(rx*0.5,-ry*0.08); ctx.stroke(); }
+    else if(md.arche==='crystal'||md.arche==='asteroid'||md.arche==='debris'){ ctx.beginPath(); for(let i=0;i<md.sides;i++){ const a=i/md.sides*6.28-1.57, rr2=1+(md.jag[i]||0), px=Math.cos(a)*rx*rr2, py=Math.sin(a)*ry*rr2; i?ctx.lineTo(px,py):ctx.moveTo(px,py); } ctx.closePath(); ctx.fill(); ctx.stroke(); }
+    else { ctx.beginPath(); ctx.ellipse(0,0,rx,ry*(md.arche==='heavy'?1.04:1),0,0,6.28); ctx.fill(); ctx.stroke();
+      if(md.arche==='insect'){ ctx.lineWidth=2; for(const yy of [-0.35,0,0.35]){ ctx.beginPath(); ctx.moveTo(-rx*0.95,ry*yy*0.9); ctx.lineTo(-rx*0.5,ry*yy); ctx.moveTo(rx*0.95,ry*yy*0.9); ctx.lineTo(rx*0.5,ry*yy); ctx.stroke(); } }   // Beinchen
+      if(md.arche==='amorph'){ ctx.fillStyle=hexA(o.color,0.32); ctx.beginPath(); ctx.arc(rx*0.3,-ry*0.2,rx*0.26,0,6.28); ctx.fill(); } }
+    if(md.eyesN){ const sz=Math.max(2,Math.min(rx,ry)*md.eyeF), ec=hit?'#fff':md.eyeCol;   // leuchtende Augen + Pupille
+      const ps=md.eyesN===1?[[0,-ry*0.12]]:md.eyesN===2?[[-rx*0.34,-ry*0.18],[rx*0.34,-ry*0.18]]:[[-rx*0.38,-ry*0.06],[rx*0.38,-ry*0.06],[0,-ry*0.46]];
+      for(const p of ps){ if(fxQ>0.6){ ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(ec),p[0]-sz*2,p[1]-sz*2,sz*4,sz*4); ctx.globalCompositeOperation='source-over'; }
+        ctx.fillStyle=ec; ctx.beginPath(); ctx.arc(p[0],p[1],sz,0,6.28); ctx.fill(); ctx.fillStyle='#0a0010'; ctx.beginPath(); ctx.arc(p[0],p[1]+sz*0.18,sz*0.5,0,6.28); ctx.fill(); } }
+    if(md.mouth!=='none'){ const my=ry*0.42; ctx.strokeStyle=hit?'#fff':'#0a0010'; ctx.fillStyle='#0a0010'; ctx.lineWidth=2.4;   // Mund/Zähne/Zunge
+      if(md.mouth==='grin'){ ctx.beginPath(); ctx.arc(0,my-ry*0.25,rx*0.34,0.12*Math.PI,0.88*Math.PI); ctx.stroke(); }
+      else if(md.mouth==='o'){ ctx.beginPath(); ctx.arc(0,my,rx*0.17,0,6.28); ctx.fill(); if(md.tongue){ ctx.fillStyle='#ff6a8a'; ctx.beginPath(); ctx.arc(0,my+rx*0.08,rx*0.09,0,6.28); ctx.fill(); } }
+      else { const mw=rx*0.62, mh=ry*0.16; ctx.fillRect(-mw/2,my-mh/2,mw,mh); ctx.fillStyle='#fff'; const tn=md.mouth==='fangs'?2:4; for(let k=0;k<tn;k++){ const tx=-mw/2+mw*(k+0.5)/tn; ctx.beginPath(); ctx.moveTo(tx-mw*0.5/tn,my-mh/2); ctx.lineTo(tx+mw*0.5/tn,my-mh/2); ctx.lineTo(tx,my+mh/2); ctx.closePath(); ctx.fill(); }
+        if(md.tongue){ ctx.fillStyle='#ff6a8a'; ctx.fillRect(-rx*0.08,my,rx*0.16,ry*0.2); } } }
+  }
   function fireEnemyShot(o){ if(!player) return; const a=Math.atan2(player.y-o.cy,player.x-o.cx)+rand(-0.05,0.05), spd=145+difficulty*7;   // langsam & telegrafiert = fair dodgebar
     ebullets.push(eb(o.cx,o.cy+o.h*0.32,Math.cos(a)*spd,Math.sin(a)*spd)); spawnParticles(o.cx,o.cy+o.h*0.3,'#ff5ea8',5,170); beep(190,0.06,'square',0.12,-60); }
   function shapePath(sh,w,h){ const hw=w/2,hh=h/2; ctx.beginPath();
@@ -2754,9 +2751,8 @@
         ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(glowCol),-gr,-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
         const oc=(o.hitFlash>0)?'#ffffff':(frozen?'#bdefff':o.color);
         if(o.shape==='ring'){ ctx.strokeStyle=oc; ctx.lineWidth=o.w*0.26; ctx.beginPath(); ctx.arc(0,0,o.w*0.4,0,6.28); ctx.stroke(); }
-        else { const spr=monsterSprite(o), img=(o.hitFlash>0)?spr.w:spr.c, dw=o.w*1.25, dh=o.h*1.25;   // prozedurales Sci-Fi-Mini-Monster (aufrecht)
-          ctx.save(); ctx.rotate(-(o.rot||0)); ctx.imageSmoothingEnabled=false; ctx.drawImage(img,-dw/2,-dh/2,dw,dh); ctx.imageSmoothingEnabled=true;
-          if(o.shooter && o.fireT!=null){ const ch=Math.max(0,1-o.fireT/0.5); if(ch>0){ ctx.globalCompositeOperation='lighter'; ctx.fillStyle=hexA('#ff2e88',ch*0.75); ctx.beginPath(); ctx.arc(0,dh*0.12,dw*0.18*(0.6+ch*0.6),0,6.28); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }   // Schützen-Telegraph: roter Lade-Glow kurz vorm Schuss
+        else { ctx.save(); ctx.rotate(-(o.rot||0)); drawCreature(o,o.hitFlash>0,frozen);   // prozedurale Sci-Fi-Kreatur (Neon-Vektor, aufrecht)
+          if(o.shooter && o.fireT!=null){ const ch=Math.max(0,1-o.fireT/0.5); if(ch>0){ ctx.globalCompositeOperation='lighter'; ctx.fillStyle=hexA('#ff2e88',ch*0.8); ctx.beginPath(); ctx.arc(0,o.h*0.5,o.w*0.2*(0.6+ch*0.6),0,6.28); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }   // Schützen-Telegraph: roter Lade-Glow kurz vorm Schuss
           ctx.restore(); }
         if(frozen){ const op=Math.min(0.7,0.32+(1-(o.slowAmt!=null?o.slowAmt:1))*0.7);   // tiefer gefroren = dichtere Eiskruste
           ctx.globalAlpha=op; ctx.strokeStyle='#eaffff'; ctx.lineWidth=2; ctx.setLineDash([4,3]);
@@ -3440,7 +3436,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v351';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v352';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
