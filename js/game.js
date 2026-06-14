@@ -2203,7 +2203,7 @@
     else if(!bossActive && elapsed>14){ breatherT-=dt; if(breatherT<=0){ triggerBreather(); breatherT=rand(30,42); } }
     if(!bossActive && breatherActive<=0){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.24,(1.15-difficulty*0.05-level*0.022)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen/(BAL.spawnRate||1)); } }   // BAL.spawnRate >1 = dichtere Hindernisse   // Feel-Good: etwas dünner (Basis 1.15 + Floor 0.28); dpsDen → starke Builds etwas dichter
+        spawnT=Math.max(0.24,(1.15-difficulty*0.05-level*0.022)*(1+Math.max(0,4-level)*0.3)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen/(BAL.spawnRate||1)); } }   // früh viel dünner (Lvl-Rampe: L1 ~1.9× Pause), ab L4 normal; danach via difDen/dpsDen mit Stärke dichter
     // (Orbs entfernt – Münzen übernehmen Combo+Punkte+Geld)
     // Münzen fallen laufend (Haupt-Einkommensquelle), gelegentlich als ganze Gruppe
     coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
@@ -2575,8 +2575,10 @@
     else if(p.type==='slow'){ effects.slowmo=Math.min(8,4*mods.slowmoMult); floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); coachDyn('pslow','⏱',t('cefSlow'),t('cefSlowd'),'#5b9bff'); }   // CAP: Zeitlupe max 8s (vorher 30×mult → bis ~67s = unverwundbar)
     else if(p.type==='magnet'){ effects.magnet=30; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); coachDyn('pmagnet','🧲',t('cefMag'),t('cefMagd'),'#c45bff'); }
     else if(p.type==='double'){ effects.double=30; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); coachDyn('pdouble','✕2',t('cefDbl'),t('cefDbld'),'#ffe600'); }
-    else if(p.type==='bomb'){ let n=0; for(const o of obstacles){ if(o.chest){ openChest(o); continue; } spawnParticles(o.cx,o.cy,o.color,8,200); n++; addScore(3*multiplier); }
-      obstacles=[]; lasers=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:t('boom'),sub:n+t('boomSub'),t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,t('pBomb'),'#ff9a2e',16); coachDyn('pbomb','💣',t('cefBomb'),t('cefBombd'),'#ff9a2e'); }
+    else if(p.type==='bomb'){ const bdmg=(difHp()*diffHp)*6; let n=0;   // Explosion: Flächenschaden – kleine Gegner sterben, zähe (volle HP) überleben
+      for(let i=obstacles.length-1;i>=0;i--){ const o=obstacles[i]; o.hp-=bdmg; o.hitFlash=0.12; spawnParticles(o.cx,o.cy,o.color,5,200); if(o.hp<=0){ killObstacle(o); obstacles.splice(i,1); n++; } }
+      if(novas.length<18) novas.push({x:p.x,y:p.y,r0:14,rMax:Math.max(W,H)*1.1,t:0,life:0.5,col:'#ff9a2e',fill:true});   // sichtbare Schockwelle
+      lasers=[]; ebullets=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:t('boom'),sub:n+t('boomSub'),t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,t('pBomb'),'#ff9a2e',16); coachDyn('pbomb','💣',t('cefBomb'),t('cefBombd'),'#ff9a2e'); }
   }
 
   // ---------- Shapes ----------
@@ -2584,29 +2586,30 @@
   // ---------- Prozedurale Sci-Fi-Kreaturen (sauberer Neon-Vektor-Look, nativ gezeichnet) ----------
   const REG_COLS=['#ff2e88','#19f0ff','#7cff2e','#ff9a2e','#c45bff','#ff5ea8','#2effc0','#ffe24d'];
   function darkHex(h,f){ const n=parseInt(h.slice(1),16); return 'rgb('+Math.round(((n>>16)&255)*f)+','+Math.round(((n>>8)&255)*f)+','+Math.round((n&255)*f)+')'; }   // abgedunkelte Farbe → dezente Konturen
-  function rollCreature(o){ const R=Math.random, pk=a=>a[(R()*a.length)|0];   // baut ein Pixel-Grid (sauberer Pixel-Art-Look) einmal pro Gegner
+  function rollCreature(o){ const R=Math.random, pk=a=>a[(R()*a.length)|0];   // aspektgerechtes Pixel-Grid (quadratische Pixel statt Stauchung) einmal pro Gegner
     const tr=o.elite?'e':o.flank?'f':o.shielded?'s':o.shooter?'g':'n';
-    const isObj = tr==='n' && R()<0.2;   // inanimater Hazard ohne Gesicht (Kristall/Mine)
-    const arche = isObj?pk(['crystal','mine','crystal']) : tr==='e'?pk(['heavy','insect','blob']) : tr==='f'?pk(['insect','blob']) : tr==='g'?pk(['drone','blob']) : pk(['blob','insect','drone','blob']);
+    const lv=level||1, isObj = tr==='n' && R()<0.2, simple = tr==='n' && lv<=2;   // früh (Lvl 1–2): simple Blobs, wenig Vielfalt
+    const arche = simple?'blob' : isObj?pk(['crystal','mine','crystal']) : tr==='e'?pk(['heavy','insect','blob']) : tr==='f'?pk(['insect','blob']) : tr==='g'?pk(['drone','blob']) : pk(['blob','insect','drone','blob']);
     const eyeCol=pk(['#ffffff','#19f0ff','#ffe24d','#2effc0','#ff2e88']), accent=pk(['#ffffff','#19f0ff','#ffe24d','#ff2e88','#2effc0','#9be7ff','#ff9a2e']);
-    const eyesN=isObj?0:pk([1,2,2,2,3]), mouth=isObj?'none':pk(['none','grin','fangs','teeth','o']), tongue=R()<0.3;
-    const G=15, cx=7, top=2, bot=12, cy=7;
-    const grid=[]; for(let y=0;y<G;y++) grid.push(new Array(G).fill(0));
-    const set=(x,y,c)=>{ if(x<0||x>=G||y<0||y>=G) return; grid[y][x]=c; grid[y][G-1-x]=c; };   // x-symmetrisch
-    const rx=3+(arche==='heavy'?2:0)+(R()*1.4|0), ry=4+(R()*1.4|0);
+    const eyesN=isObj?0:(simple?pk([1,2]):pk([1,2,2,2,3])), mouth=isObj?'none':(simple?pk(['none','grin']):pk(['none','grin','fangs','teeth','o'])), tongue=!simple&&R()<0.3;
+    const GH=15, GW=Math.max(11,Math.min(31, Math.round((o.w/Math.max(1,o.h))*GH/2)*2+1));   // ungerade, an Hitbox-Aspekt → quadratische Pixel
+    const cx=(GW-1)/2, cy=7, top=2, bot=12;
+    const grid=[]; for(let y=0;y<GH;y++) grid.push(new Array(GW).fill(0));
+    const set=(x,y,c)=>{ if(x<0||x>=GW||y<0||y>=GH) return; grid[y][x]=c; grid[y][GW-1-x]=c; };   // x-symmetrisch
+    const rx=Math.max(2,cx-2-(R()*1.4|0)), ry=4+(R()*1.4|0)+(arche==='heavy'?1:0);
     const inB=(x,y)=>{ const dx=(x-cx)/rx, dy=(y-cy)/ry;
       if(arche==='crystal') return Math.abs(dx)+Math.abs(dy)<=1.04;   // Diamant
       if(arche==='drone') return Math.abs(x-cx)<=rx && y>=top+1 && y<=bot-1 && !((Math.abs(x-cx)===rx)&&(y===top+1||y===bot-1));   // boxig, abgerundete Ecken
       if(arche==='insect') return dx*dx+dy*dy<=1.0 && !((y-top)%4===3 && Math.abs(x-cx)>rx-1);   // segmentiert
       return dx*dx+dy*dy<=1.0; };   // blob/heavy/mine: Ellipse
     for(let y=top;y<=bot;y++) for(let x=0;x<=cx;x++) if(inB(x,y)) set(x,y,1);
-    for(let y=0;y<G;y++)for(let x=0;x<G;x++){ if(grid[y][x]) continue; if((y>0&&grid[y-1][x]===1)||(y<G-1&&grid[y+1][x]===1)||(x>0&&grid[y][x-1]===1)||(x<G-1&&grid[y][x+1]===1)) grid[y][x]=7; }   // Umriss (Code 7 = dezent, abgedunkelte Gegnerfarbe)
+    for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){ if(grid[y][x]) continue; if((y>0&&grid[y-1][x]===1)||(y<GH-1&&grid[y+1][x]===1)||(x>0&&grid[y][x-1]===1)||(x<GW-1&&grid[y][x+1]===1)) grid[y][x]=7; }   // dezenter Umriss (Code 7)
     if(arche==='insect'){ for(let y=top+2;y<bot;y+=3){ set(cx-rx-1,y,1); set(cx-rx-2,y,2); } }   // Beinchen
     if(arche==='mine'){ for(let k=0;k<6;k++){ const a=k*1.047; set(cx+Math.round(Math.cos(a)*(rx+1)),cy+Math.round(Math.sin(a)*(ry+1)),4); } }   // Stacheln
-    if(!isObj && R()<0.5){ set(cx-2,top-1,1); set(cx-2,top-2,3); }   // Antenne
+    if(!isObj && !simple && R()<0.5){ set(cx-2,top-1,1); set(cx-2,top-2,3); }   // Antenne
     if(!isObj && tr==='e'){ set(cx-2,top-1,2); set(cx-3,top-2,2); }   // Elite-Hörner
-    if(!isObj && (tr==='f'||R()<0.26)){ for(let k=1;k<=2;k++){ set(cx-rx-k,cy-1+k,4); set(cx-rx-k,cy+k,4); } }   // Flügel
-    if(!isObj && (tr==='g'||R()<0.12)){ set(cx-1,bot,4); set(cx-1,bot+1,4); set(cx-1,bot+2,2); }   // Kanone (Schütze)
+    if(!isObj && !simple && (tr==='f'||R()<0.26)){ for(let k=1;k<=2;k++){ set(cx-rx-k,cy-1+k,4); set(cx-rx-k,cy+k,4); } }   // Flügel
+    if(!isObj && (tr==='g'||(!simple&&R()<0.12))){ set(cx-1,bot,4); set(cx-1,bot+1,4); set(cx-1,bot+2,2); }   // Kanone (Schütze)
     if(eyesN){ const ey=top+2+(R()*2|0);   // leuchtende Augen + Pupille
       if(eyesN===1){ set(cx,ey,3); set(cx-1,ey,3); set(cx,ey+1,2); }
       else { const ox=2+(R()*1|0); set(cx-ox,ey,3); set(cx-ox,ey+1,2); if(eyesN===3) set(cx,ey-1,3); } }
@@ -2616,10 +2619,10 @@
       else if(mouth==='teeth'){ for(let x=cx-2;x<=cx;x++){ set(x,my,2); set(x,my+1,5); } }
       else if(mouth==='fangs'){ set(cx-2,my,2); set(cx-1,my,2); set(cx,my,2); set(cx-2,my+1,5); }
       if((mouth==='o'||mouth==='teeth'||mouth==='fangs')&&tongue) set(cx,my+1,6); }
-    o.grid=grid; o.gG=G; o.gEye=eyeCol; o.gAcc=accent; o.gLine=darkHex(o.color,0.45); }
-  function drawCreature(o,hit,frozen){ if(!o.grid) rollCreature(o); const G=o.gG, gr=o.grid;
-    const csx=o.w*1.3/G, csy=o.h*1.3/G, ox=-(G*csx)/2, oy=-(G*csy)/2, body=hit?'#ffffff':(frozen?'#bdefff':o.color);
-    for(let y=0;y<G;y++){ const row=gr[y]; for(let x=0;x<G;x++){ const t=row[x]; if(!t) continue;   // crisp Pixel-Render (kein Skalierungs-Matsch)
+    o.grid=grid; o.gG=GW; o.gH=GH; o.gEye=eyeCol; o.gAcc=accent; o.gLine=darkHex(o.color,0.45); }
+  function drawCreature(o,hit,frozen){ if(!o.grid) rollCreature(o); const GW=o.gG, GH=o.gH||GW, gr=o.grid;
+    const csx=o.w*1.3/GW, csy=o.h*1.3/GH, ox=-(GW*csx)/2, oy=-(GH*csy)/2, body=hit?'#ffffff':(frozen?'#bdefff':o.color);   // GW aspektgerecht → csx≈csy (quadratische Pixel)
+    for(let y=0;y<GH;y++){ const row=gr[y]; for(let x=0;x<GW;x++){ const t=row[x]; if(!t) continue;   // crisp Pixel-Render (kein Stauchen mehr)
       ctx.fillStyle = (hit&&t!==2&&t!==7)?'#ffffff' : t===1?body : t===2?'#0a0010' : t===7?(frozen?'#5a8aa6':o.gLine) : t===3?o.gEye : t===4?o.gAcc : t===5?'#ffffff' : '#ff6a8a';
       ctx.fillRect(Math.floor(ox+x*csx),Math.floor(oy+y*csy),Math.ceil(csx)+1,Math.ceil(csy)+1); } } }
   function fireEnemyShot(o){ if(!player) return; const a=Math.atan2(player.y-o.cy,player.x-o.cx)+rand(-0.05,0.05), spd=145+difficulty*7;   // langsam & telegrafiert = fair dodgebar
@@ -3444,7 +3447,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v355';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v356';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
