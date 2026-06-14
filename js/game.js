@@ -3315,7 +3315,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v337';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v338';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
@@ -3372,7 +3372,7 @@
       else nu.innerHTML=''; }
     const mh=document.getElementById('milestoneHit');
     if(mh){ if(msRes.hit.length){ mh.innerHTML='<span class="mhl">🎯 '+t('msReached')+'</span> '+msRes.hit.length+'× · <b>🪙 +'+msRes.chips+'</b>'; mh.classList.remove('hidden'); } else mh.classList.add('hidden'); }   // kompakt: Anzahl + Chips statt voller Liste (war beim Durchspielen eine 4-zeilige Wand)
-    deathMsg=pick(P('insults')); insultEl.textContent=deathMsg; if(quipEl) quipEl.style.display='none';   // nur EINE Spott-Zeile (Beleidigung); der separate Spruch war Doppelung
+    deathMsg=pick(P('insults')); insultEl.textContent=deathMsg; if(quipEl){ quipEl.style.display=''; quipEl.textContent=pick(P('quips')); }   // frecher Spruch bleibt – nur die Meilenstein-Wand + das Canvas-Geist-Duplikat waren der Clutter
     newrecEl.style.display=rec?'block':'none';   // deathMsg materialisiert sich auch im Canvas-Abgang
     overShown=false; setTimeout(()=>{ overShown=true; document.getElementById('over').classList.remove('hidden'); },1600);   // Explosion erst auswüten lassen; overShown stoppt das Canvas-Spott-Duplikat
   }
