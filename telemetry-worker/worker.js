@@ -373,6 +373,27 @@ async function handleLeaderboard(url, env) {
   return json({ ok: true, scope: daily ? 'daily' : 'all', mode, date: dailyDate, list, me }, 200, env);
 }
 
+// Moderation (Admin-Token): Leaderboard-Einträge löschen – per cid, per nick, oder alles (optional auf ein Board begrenzt).
+// Für ein öffentliches Board mit frei gewählten Namen nötig (anstößige Namen, Test-/Cheat-Einträge entfernen).
+async function handleScoreDelete(request, url, env) {
+  if (!adminOk(url, env)) return json({ ok: false, error: 'unauthorized' }, 401, env);
+  let body = {};
+  try { body = JSON.parse((await request.text()) || '{}'); } catch { body = {}; }
+  if (body.all) {
+    const r = await env.DB.prepare('DELETE FROM scores').run();
+    return json({ ok: true, deleted: 'all' }, 200, env);
+  }
+  if (body.cid) {
+    await env.DB.prepare('DELETE FROM scores WHERE cid = ?').bind(String(body.cid).slice(0, 32)).run();
+    return json({ ok: true, cid: String(body.cid).slice(0, 32) }, 200, env);
+  }
+  if (body.nick) {
+    await env.DB.prepare('DELETE FROM scores WHERE nick = ?').bind(String(body.nick).slice(0, MAX_NICK)).run();
+    return json({ ok: true, nick: String(body.nick).slice(0, MAX_NICK) }, 200, env);
+  }
+  return json({ ok: false, error: 'specify cid | nick | all' }, 400, env);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -381,6 +402,7 @@ export default {
     try {
       if (request.method === 'POST' && url.pathname === '/') return await handleIngest(request, env);
       if (request.method === 'POST' && url.pathname === '/score') return await handleScore(request, env);
+      if (request.method === 'POST' && url.pathname === '/score/delete') return await handleScoreDelete(request, url, env);
       if (request.method === 'GET' && url.pathname === '/leaderboard') return await handleLeaderboard(url, env);
       if (request.method === 'GET' && url.pathname === '/stats') return await handleStats(url, env);
       if (request.method === 'GET' && url.pathname === '/export') return await handleExport(url, env);
