@@ -1481,7 +1481,7 @@
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
     const sp=(52+Math.min(level*4.6,104)+Math.min(elapsed*0.6,74))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo: früh genauso langsam, aber Level-/Zeit-Caps höher → spätes Spiel bleibt fordernd (kein Speed-Plateau mehr)
-    const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3),mv:(Math.random()*8)|0};   // mv = Mini-Monster-Variante (prozedurales Pixel-Vieh)
+    const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3),mv:(Math.random()*12)|0};   // mv = Mini-Monster-Variante (prozedurales Sci-Fi-Vieh)
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
       o.cx=grand(o.w/2,W-o.w/2); o.cy=-o.h; o.vx=sh==='long'?0:grand(-30,30); o.vy=sp+grand(0,50);
@@ -1496,6 +1496,7 @@
     } else if(key==='pendulum'){ o.shape='ring'; o.color='#ff2eaa'; o.w=grand(36,52); o.h=o.w;
       o.baseX=grand(W*0.3,W*0.7); o.swing=grand(90,150); o.ang=grnd()*6.28; o.angVel=grand(2,3.2); o.vy=sp*0.8; o.cx=o.baseX; o.cy=-o.h;
     }
+    o.color=REG_COLS[(Math.random()*REG_COLS.length)|0];   // Farb-Vielfalt für normale Gegner (Specials überschreiben unten ihre Identitätsfarbe)
     o.maxHp=Math.max(1,Math.round(((o.w+o.h)/46+(o.shape==='long'?2:0)+(o.shape==='rect'?1:0))*difHp()*diffHp));
     o.hp=o.maxHp; o.hitFlash=0;
     const specials=obstacles.reduce((n,e)=>n+((e.elite||e.flank||e.shielded)?1:0),0), canSpecial=specials<Math.min(5,2+Math.floor((level||1)/4));   // gleichzeitige Sonder-Gegner deckeln → kein Schirm voller Homing/Schild (fair lesbar)
@@ -2577,22 +2578,48 @@
 
   // ---------- Shapes ----------
   function rr(x,y,w,h,r){ ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath(); }
-  // ---------- Prozedurale Mini-Monster (gecachte Pixel-Viecher statt nackter Formen) ----------
+  // ---------- Prozedurale Mini-Monster (Sci-Fi): Archetypen, Farben, Augen/Münder/Zungen/Zähne, Flügel, Waffen ----------
   const _mon={};
+  const REG_COLS=['#ff2e88','#19f0ff','#7cff2e','#ff9a2e','#c45bff','#ff5ea8','#2effc0','#ffe24d'];
   function hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
-  function monsterSprite(col,v){ const key=col+'|'+v; if(_mon[key]) return _mon[key];
-    const G=13, cp=4, S=G*cp, half=(G-1)/2; let s=(hashStr(col)^((v|0)*2654435761))>>>0; const R=()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; };
-    const grid=[]; for(let y=0;y<G;y++) grid.push(new Array(G).fill(0));
-    let hw=2+((R()*2)|0); const top=2, bot=G-2;          // symmetrischer Körper-Blob
-    for(let y=top;y<bot;y++){ hw=Math.max(1,Math.min(half-1,hw+((R()*3|0)-1))); for(let x=0;x<=hw;x++){ grid[y][half-x]=1; grid[y][half+x]=1; } }
-    if(R()<0.75){ [half-2,half+2].forEach(x=>{ if(grid[bot-1][x]) grid[bot][x]=1; }); }   // Füßchen
-    if(R()<0.6){ const hx=1+((R()*2)|0); grid[top-1][half-hx]=1; grid[top-1][half+hx]=1; if(R()<0.5){ grid[top-2][half-hx]=1; grid[top-2][half+hx]=1; } }   // Hörner/Antennen
-    if(R()<0.45){ for(let y=top+1;y<bot-1;y+=2){ for(let x=half-1;x>=0;x--){ if(grid[y][x]){ grid[y][x-1]=1; grid[y][G-1-(x-1)]=1; break; } } } }   // Seitenstacheln
-    const ey=top+2+((R()*2)|0), ex=1+((R()*2)|0); if(grid[ey]){ grid[ey][half-ex]=3; grid[ey][half+ex]=3; }   // Augen
-    const my=ey+2+((R()*2)|0); if(grid[my]){ const mw=1+((R()*2)|0); for(let x=half-mw;x<=half+mw;x++) if(grid[my][x]===1) grid[my][x]=2; }   // Mund
-    const mk=(force)=>{ const c=document.createElement('canvas'); c.width=c.height=S; const g=c.getContext('2d');
-      for(let y=0;y<G;y++)for(let x=0;x<G;x++){ const tt=grid[y][x]; if(!tt) continue; g.fillStyle=force||(tt===1?col:tt===2?'#0a0010':'#ffffff'); g.fillRect(x*cp,y*cp,cp,cp); } return c; };
-    _mon[key]={c:mk(null),w:mk('#ffffff')}; return _mon[key]; }
+  function monsterSprite(o){ const tr=o.elite?'e':o.flank?'f':o.shielded?'s':o.shooter?'g':'n'; const key=o.color+'|'+(o.mv||0)+'|'+tr;
+    let m=_mon[key]; if(m) return m; m=buildMonster(o.color,o.mv||0,tr); _mon[key]=m; return m; }
+  function buildMonster(col,v,tr){
+    let s=(hashStr(col)^((v|0)*2654435761)^hashStr(tr))>>>0; const R=()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; }, ri=n=>(R()*n)|0, pk=a=>a[(R()*a.length)|0];
+    const GW=17, GH=16, cp=4, hx=8, top=2, bot=GH-3;
+    const grid=[]; for(let y=0;y<GH;y++) grid.push(new Array(GW).fill(0));
+    const set=(x,y,c)=>{ if(y<0||y>=GH||x<0||x>=GW) return; grid[y][x]=c; const mx=GW-1-x; if(mx>=0&&mx<GW) grid[y][mx]=c; };   // x-symmetrisch
+    const accent=pk(['#ffffff','#19f0ff','#ffe24d','#ff2e88','#2effc0','#c45bff','#ff9a2e','#9be7ff']);
+    const eyeCol=pk(['#ffffff','#19f0ff','#ffe24d','#2effc0','#ff2e88','#9be7ff']);
+    const isObj = tr==='n' && R()<0.28;   // inanimater Hazard (kein Gesicht): nur normale Gegner
+    const arche = isObj ? pk(['asteroid','crystal','mine','debris'])
+      : tr==='e'?pk(['heavy','insect','blob']) : tr==='g'?pk(['drone','blob','insect']) : tr==='f'?pk(['insect','dart']) : pk(['blob','insect','drone','crystal','amorph']);
+    // ---- Körper-Archetyp ----
+    if(arche==='blob'||arche==='heavy'||arche==='amorph'){ let w=2+ri(2); for(let y=top;y<=bot;y++){ w=Math.max(1,Math.min(7,w+(ri(3)-1)+(arche==='heavy'?1:0))); if(arche==='amorph'&&R()<0.3)w=Math.max(1,w-1); for(let x=0;x<=w;x++) set(hx-x,y,1); } }
+    else if(arche==='insect'||arche==='dart'){ for(let y=top;y<=bot;y++){ const w=arche==='dart'?Math.max(1,(4-Math.abs(y-(top+bot)/2)*0.7)|0):(2+(((y-top)%3===0)?2:0)); for(let x=0;x<=w;x++) set(hx-x,y,1); } if(R()<0.7) for(let y=top+1;y<bot;y+=2) set(hx-6,y,1); }   // Beinchen
+    else if(arche==='drone'||arche==='mine'){ const w=4+ri(2); for(let y=top+1;y<=bot-1;y++) for(let x=0;x<=w;x++) set(hx-x,y,1); for(let y=top+2;y<bot;y+=2) set(hx-1,y,2); }   // boxig + Panel-Linien
+    else if(arche==='crystal'){ for(let y=top;y<=bot;y++){ const w=Math.max(1,Math.min(y-top,bot-y)+1); for(let x=0;x<=w;x++) set(hx-x,y,1); } }
+    else { let w=3+ri(2); for(let y=top;y<=bot;y++){ w=Math.max(2,Math.min(7,w+(ri(3)-1))); for(let x=0;x<=w;x++) if(R()<0.9) set(hx-x,y,1); } }   // asteroid/debris: brüchig
+    if(arche==='mine'){ for(let k=0;k<5;k++){ const a=k*1.257; set(hx+(Math.cos(a)*6|0),top+5+(Math.sin(a)*5|0),4); } }   // Minen-Stacheln
+    // ---- Flügel (Flanker erzwungen, sonst Chance) ----
+    if(!isObj && (tr==='f'||R()<0.3)){ const wy=top+3+ri(3); for(let k=0;k<3+ri(2);k++){ set(hx-6-k,wy+k,4); set(hx-6-k,wy+k+1,4); } }
+    // ---- Waffe/Kanone (Schütze erzwungen) ----
+    if(!isObj && (tr==='g'||R()<0.13)){ const cy=bot-1; set(hx-2,cy,4); set(hx-2,cy+1,4); set(hx-2,cy+2,2); if(tr==='g'){ set(hx,cy+1,4); set(hx,cy+2,2); } }
+    // ---- Hörner/Antennen ----
+    if(!isObj && R()<0.6){ const ho=2+ri(2); set(hx-ho,top-1,1); if(R()<0.6) set(hx-ho,top-2,R()<0.5?3:1); }
+    if(!isObj && tr==='e'){ set(hx-3,top-1,2); set(hx-3,top-2,2); }
+    // ---- Augen (0..3) ----
+    if(!isObj){ const ne=pk([1,2,2,2,3,0]), ey=top+3+ri(2); if(ne===1){ set(hx,ey,3); set(hx,ey+1,2); } else if(ne>=2){ const exx=2+ri(2); set(hx-exx,ey,3); if(ne===3) set(hx,ey-1,3); } }
+    // ---- Mund + Zähne + Zunge ----
+    if(!isObj){ const mty=pk(['none','grin','fangs','teeth','o','none']), my=top+8+ri(2);
+      if(mty==='grin'){ for(let x=hx-2;x<=hx;x++) set(x,my,2); }
+      else if(mty==='o'){ set(hx,my,2); set(hx,my+1,2); }
+      else if(mty==='teeth'){ for(let x=hx-2;x<=hx;x++){ set(x,my,2); set(x,my+1,5); } }
+      else if(mty==='fangs'){ set(hx-2,my,2); set(hx-1,my,2); set(hx,my,2); set(hx-2,my+1,5); set(hx,my+1,5); }
+      if((mty==='o'||mty==='teeth'||mty==='fangs')&&R()<0.4){ set(hx,my+1,6); if(R()<0.5) set(hx,my+2,6); } }   // Zunge
+    const mk=(force)=>{ const c=document.createElement('canvas'); c.width=GW*cp; c.height=GH*cp; const g=c.getContext('2d');
+      for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){ const t=grid[y][x]; if(!t) continue; g.fillStyle=force||(t===1?col:t===2?'#0a0010':t===3?eyeCol:t===4?accent:t===5?'#ffffff':'#ff6a8a'); g.fillRect(x*cp,y*cp,cp,cp); } return c; };
+    return {c:mk(null),w:mk('#ffffff')}; }
   function fireEnemyShot(o){ if(!player) return; const a=Math.atan2(player.y-o.cy,player.x-o.cx)+rand(-0.05,0.05), spd=145+difficulty*7;   // langsam & telegrafiert = fair dodgebar
     ebullets.push(eb(o.cx,o.cy+o.h*0.32,Math.cos(a)*spd,Math.sin(a)*spd)); spawnParticles(o.cx,o.cy+o.h*0.3,'#ff5ea8',5,170); beep(190,0.06,'square',0.12,-60); }
   function shapePath(sh,w,h){ const hw=w/2,hh=h/2; ctx.beginPath();
@@ -2727,7 +2754,7 @@
         ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(glowCol),-gr,-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
         const oc=(o.hitFlash>0)?'#ffffff':(frozen?'#bdefff':o.color);
         if(o.shape==='ring'){ ctx.strokeStyle=oc; ctx.lineWidth=o.w*0.26; ctx.beginPath(); ctx.arc(0,0,o.w*0.4,0,6.28); ctx.stroke(); }
-        else { const spr=monsterSprite(o.color,o.mv||0), img=(o.hitFlash>0)?spr.w:spr.c, dw=o.w*1.22, dh=o.h*1.22;   // prozedurales Mini-Monster (aufrecht, Rotation rausgerechnet)
+        else { const spr=monsterSprite(o), img=(o.hitFlash>0)?spr.w:spr.c, dw=o.w*1.25, dh=o.h*1.25;   // prozedurales Sci-Fi-Mini-Monster (aufrecht)
           ctx.save(); ctx.rotate(-(o.rot||0)); ctx.imageSmoothingEnabled=false; ctx.drawImage(img,-dw/2,-dh/2,dw,dh); ctx.imageSmoothingEnabled=true;
           if(o.shooter && o.fireT!=null){ const ch=Math.max(0,1-o.fireT/0.5); if(ch>0){ ctx.globalCompositeOperation='lighter'; ctx.fillStyle=hexA('#ff2e88',ch*0.75); ctx.beginPath(); ctx.arc(0,dh*0.12,dw*0.18*(0.6+ch*0.6),0,6.28); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }   // Schützen-Telegraph: roter Lade-Glow kurz vorm Schuss
           ctx.restore(); }
@@ -3413,7 +3440,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v350';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v351';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
