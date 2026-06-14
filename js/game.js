@@ -1307,7 +1307,7 @@
   // „Coverage": echtes Screen-Clear-Potenzial (Waffen + aktive Fusionen) – treibt die Elite-Häufigkeit,
   // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
-  const eliteChance=()=>(opt.guns&&level>=3)?Math.min(0.55,(0.02+(level-2)*0.027+coverage()*0.032+(endless?madness*0.5:0))*flowI):0;   // Klassen nach und nach: Elites ab Lvl 3 (Flow-Regler moduliert die Häufigkeit)
+  const eliteChance=()=>(opt.guns&&level>=3)?Math.min(0.5,(0.02+(level-2)*0.025+Math.min(0.18,coverage()*0.018)+(endless?madness*0.5:0))*flowI):0;   // Elites ab Lvl 3; coverage-Anteil gedeckelt → bricht die Elite↔Loot-Snowball-Schleife
   const flankChance=()=>(opt.guns&&level>=4)?Math.min(0.16,(0.01+(level-3)*0.01+coverage()*0.008)*flowI):0;   // Flanker (Camper-Konter) ab Lvl 4
   const shieldChance=()=>(opt.guns&&level>=5)?Math.min(0.14,(0.01+(level-4)*0.009+coverage()*0.006)*flowI):0;   // Schild-Gegner (Konter gegen reine Bolzen-DPS) ab Lvl 5
   // Zwischen-Runs lernen: aus den letzten Runs (gleicher Modus) ein Skill-Offset ableiten.
@@ -1621,13 +1621,15 @@
     skillPts++; return {kind:'sp'};
   }
   function dropLoot(x,y,source,final){ if(!loot) loot=[]; if(loot.length>14) return;
-    const find=(mods.powerupRate||1)*(diffChip||1);   // Glück × Schwierigkeitsgrad = einfacher Magic Find
+    const find=Math.min(1.8,(mods.powerupRate||1)*(diffChip||1));   // CAP gegen Snowball: Loot-Rate nicht durch Glück/Grad explodieren lassen
     let chance,boost;
     if(source==='boss'){ chance=1; boost=final?2.4:1.7; }
-    else if(source==='elite'){ chance=0.45*find; boost=1.5; }
-    else { chance=0.02*find; boost=1; }
+    else if(source==='elite'){ chance=0.4*find; boost=1.5; }
+    else { chance=0.018*find; boost=1; }
     if(Math.random()>=Math.min(1,chance)) return;
-    if(opt.guns){ const wc=source==='boss'?0.35:(source==='elite'?0.18:0.05);   // Waffen-Kiste (nur mit Waffen-System), Elites/Bosse häufiger
+    if(opt.guns){ const owned=ownedCount(), wepMul=Math.max(0.12,1-owned*0.26);   // PACING: je mehr Waffen besessen, desto seltener neue Kisten → kein plötzlicher Waffen-Flut
+      let wc=(source==='boss'?0.5:(source==='elite'?0.3:0.08))*wepMul;
+      if(source==='boss'&&owned<=1) wc=1;   // GARANTIE: erste Waffe vom (frühen) Boss → kein zähes Warten auf die 2. Waffe
       if(Math.random()<wc){ loot.push({x:Math.max(30,Math.min(W-30,x||W/2)),y:y||-20,r:17,vy:56+difficulty*12,it:{wep:true,col:'#caffff'},pulse:Math.random()*6.28,rot:0}); beep(740,0.06,'square',0.2,260); return; } }
     const rar=rollRarity(boost), it=rollItem(rar);
     loot.push({x:Math.max(30,Math.min(W-30,x||W/2)),y:y||-20,r:16,vy:58+difficulty*12,it,pulse:Math.random()*6.28,rot:0});
@@ -3387,7 +3389,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v348';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v349';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
