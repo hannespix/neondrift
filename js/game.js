@@ -1139,7 +1139,7 @@
   const critDmgCurve=pts=>1.5*(1-Math.exp(-Math.max(0,pts)/4));
   function recalcArsenal(){
     mods.critMult=2+critDmgCurve((upgradeCounts['critdmg']||0)+metaLvl('critdmgcore'));   // zentral aus der Kurve (nicht mehr linear aufaddiert)
-    const dm=(mods.wDmgMult||1)*(1+0.06*(mods.oc||0)), rm=mods.wRate||1, has=id=>!!arsenal.w[id]; wpn={}; syn={};   // Verstärken (Skillpunkt-Sink): +6% Schaden je Stufe
+    const dm=Math.min(9,(mods.wDmgMult||1)*(1+0.06*(mods.oc||0))), rm=Math.min(2.8,mods.wRate||1), has=id=>!!arsenal.w[id]; wpn={}; syn={};   // CAPS gegen Runaway: Schaden ≤9×, Feuerrate ≤2.8× (bremst v.a. unbegrenztes Loot-Stacking) · oc = +6%/Stufe
     if(has('blaster')){ const a=arsenal.w.blaster; let rate=3.2,dmg=1.15,bolts=1,spread=0.13,pierce=0;
       if(a.f1==='rapid'){rate*=1.5;dmg*=0.8;} if(a.f1==='heavy'){rate*=0.7;dmg*=2.0;}
       if(a.f2==='scatter'){bolts+=2;spread+=0.06;dmg*=0.78;} if(a.f2==='precise'){pierce+=2;dmg*=1.4;}
@@ -2560,7 +2560,7 @@
 
   function collectPup(p){ sfxPow(); vibe([15,15,15]); spawnParticles(p.x,p.y,PUPINFO[p.type].c,18,240); flash=0.4; flashColor=PUPINFO[p.type].c;
     if(p.type==='shield'){ shields=Math.min(shields+1,5); floatText(p.x,p.y-18,t('pSchild'),'#2effc0',16); }
-    else if(p.type==='slow'){ effects.slowmo=30*mods.slowmoMult; floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); coachDyn('pslow','⏱',t('cefSlow'),t('cefSlowd'),'#5b9bff'); }
+    else if(p.type==='slow'){ effects.slowmo=Math.min(8,4*mods.slowmoMult); floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); coachDyn('pslow','⏱',t('cefSlow'),t('cefSlowd'),'#5b9bff'); }   // CAP: Zeitlupe max 8s (vorher 30×mult → bis ~67s = unverwundbar)
     else if(p.type==='magnet'){ effects.magnet=30; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); coachDyn('pmagnet','🧲',t('cefMag'),t('cefMagd'),'#c45bff'); }
     else if(p.type==='double'){ effects.double=30; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); coachDyn('pdouble','✕2',t('cefDbl'),t('cefDbld'),'#ffe600'); }
     else if(p.type==='bomb'){ let n=0; for(const o of obstacles){ spawnParticles(o.cx,o.cy,o.color,8,200); n++; addScore(3*multiplier); }
@@ -3123,7 +3123,7 @@
   // ---------- Effekt-Timer-HUD (DOM, oben): aktive Effekte mit Countdown ----------
   // [key, icon, rest, max, farbe, label]
   function buildFxItems(){ const a=[]; if(!effects) return a;
-    if(effects.slowmo>0) a.push(['slowmo','⏱',effects.slowmo,30*(mods.slowmoMult||1),'#5b9bff',t('fxSlow')]);
+    if(effects.slowmo>0) a.push(['slowmo','⏱',effects.slowmo,Math.min(8,4*(mods.slowmoMult||1)),'#5b9bff',t('fxSlow')]);
     if(effects.magnet>0) a.push(['magnet','🧲',effects.magnet,30,'#c45bff',t('fxMagnet')]);
     if(effects.double>0) a.push(['double','✕2',effects.double,30,'#ffe600',t('fxDouble')]);
     for(const c of activeCurses){ const u=UPGRADES.find(x=>x.id===c.id); a.push(['cz_'+c.id,(u?u.ico:'🎲'),c.t,c.max,CURSE_COL[c.id]||'#ff3b6b',uName(c.id)+(c.stacks>1?(' ×'+c.stacks):'')]); }
@@ -3374,7 +3374,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v346';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v347';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
