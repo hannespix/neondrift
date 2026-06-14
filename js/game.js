@@ -458,7 +458,7 @@
   let breatherT=0, breatherActive=0, chestT=0;   // Feel-Good: Verschnaufpausen · chestT = Beute-Truhen-Timer
   // (HYPE-Meter & Takt-Ausweich-Bonus entfernt – fühlte sich random/unnötig an)
   let mkCount=0, mkTimer=0;   // Multikill-Feedback (sichtbare Staerke bei hoher DPS)
-  let coachQueue=[], coachCd=0, coachCard=null, coachPause=false;   // Onboarding-Coach: gestaffelte, einmalige Lektionen (nie zwei gleichzeitig); friert beim Erklären ein
+  let coachQueue=[], coachCd=0, coachCard=null, coachPause=false, coachBtn=null;   // Onboarding-Coach: gestaffelte, einmalige Lektionen (nie zwei gleichzeitig); friert beim Erklären ein. coachBtn = Trefferzone des WEITER-Buttons
   let flungT=0, flungX=0, flungY=0;   // Boss-Katapult: kurzer Steuer-Lock, der den Spieler nach dem Boss-Stomp in Sicherheit schleudert
   let jumpReadyT=0;   // kleine Top-Meldung, sobald der Sprung wieder verfügbar ist
   let jumpFromX=0, jumpFromY=0, jumpToX=0, jumpToY=0;   // gerichteter Sprung: deterministische Flugbahn Start→Landepunkt
@@ -903,7 +903,9 @@
   let tapT=0, tapSX=0, tapSY=0, tapOK=false;
   canvas.addEventListener('pointerdown',e=>{ tapT=performance.now(); tapSX=e.clientX; tapSY=e.clientY; tapOK=true; });
   canvas.addEventListener('pointermove',e=>{ if(tapOK&&(Math.abs(e.clientX-tapSX)>14||Math.abs(e.clientY-tapSY)>14)) tapOK=false; });
-  canvas.addEventListener('pointerup',()=>{ if(coachPause){ resumeCoach(); tapOK=false; return; } if(tapOK&&performance.now()-tapT<=300&&state===S.PLAY) tryJump(); tapOK=false; });
+  canvas.addEventListener('pointerup',e=>{ if(coachPause){ const r=canvas.getBoundingClientRect(), lx=e.clientX-r.left, ly=e.clientY-r.top;
+      if(coachBtn && lx>=coachBtn.x && lx<=coachBtn.x+coachBtn.w && ly>=coachBtn.y && ly<=coachBtn.y+coachBtn.h) resumeCoach();   // nur der WEITER-Button schließt die Tutorial-Karte (kein versehentliches Wegtippen)
+      tapOK=false; return; } if(tapOK&&performance.now()-tapT<=300&&state===S.PLAY) tryJump(); tapOK=false; });
   canvas.addEventListener('pointercancel',()=>{ tapOK=false; });
   window.addEventListener('keydown',e=>{ if(coachPause&&(e.code==='Space'||e.code==='Enter')){ resumeCoach(); e.preventDefault(); } });   // Desktop: Leertaste/Enter → weiter
 
@@ -970,7 +972,7 @@
     }
   }
   function coachFreezeTick(dt){ if(coachCard && coachCard.app<1) coachCard.app=Math.min(1,coachCard.app+dt/0.28); }   // im Freeze nur die Karte einblenden
-  function resumeCoach(){ if(!coachPause) return; coachPause=false; if(coachCard) coachCard.closing=true; coachCd=2.6; invuln=Math.max(invuln||0,0.6); try{ beep(720,0.06,'square',0.2); }catch(_){ } }   // Tippen → weiter, kurze Unverwundbarkeit zum Schutz
+  function resumeCoach(){ if(!coachPause) return; coachPause=false; coachBtn=null; if(coachCard) coachCard.closing=true; coachCd=2.6; invuln=Math.max(invuln||0,0.6); try{ beep(720,0.06,'square',0.2); }catch(_){ } }   // WEITER-Button → weiter, kurze Unverwundbarkeit zum Schutz
   // Schadenszahl (weiß = normal, rot = Krit). Mit Soft-Cap gegen Spam & nur wenn aktiviert.
   function floatDamage(x,y,amt,crit){ if(!opt.dmg||floaters.length>66) return; const a=Math.round(amt); if(a<=0) return;
     floaters.push({x:x+rand(-5,5),y,text:crit?(a+'!'):''+a,color:crit?'#ff3b3b':'#ffffff',size:crit?20:13,life:1,vy:-58,vx:rand(-14,14),dr:crit?1.25:1.8}); }
@@ -2831,7 +2833,7 @@
         ctx.save(); ctx.textBaseline='alphabetic'; ctx.font='600 12.5px Orbitron, sans-serif';
         const words=(C.desc||'').split(' '); let line='', lines=[];
         for(const w of words){ const tst=line?line+' '+w:w; if(ctx.measureText(tst).width>maxW && line){ lines.push(line); line=w; } else line=tst; } if(line) lines.push(line);
-        const core=LESSON_ORDER.indexOf(C.sk)>=0, tapH=coachPause?16:0;   // Fortschrittsleiste nur Kern-Lektionen · Platz für „Tippen zum Weiter"
+        const core=LESSON_ORDER.indexOf(C.sk)>=0, tapH=coachPause?38:0;   // Fortschrittsleiste nur Kern-Lektionen · Platz für den WEITER-Button
         const ch=Math.max(92,40+lines.length*16+(core?24:12)+tapH), cy=H*0.72+(1-C.app)*26;   // Hochgleiten via app (auch im Freeze)
         ctx.globalAlpha=a;
         ctx.beginPath(); rr(cx,cy,cw,ch,16); ctx.fillStyle='rgba(10,3,24,0.95)'; ctx.shadowBlur=26; ctx.shadowColor=C.col; ctx.fill(); ctx.shadowBlur=0;
@@ -2846,7 +2848,10 @@
         ctx.textAlign='left'; ctx.font='900 16px Orbitron, sans-serif'; ctx.fillStyle=C.col; ctx.fillText(C.title,tx,cy+28);
         ctx.font='600 12.5px Orbitron, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.92)';
         let ly=cy+47; for(const ln of lines){ ctx.fillText(ln,tx,ly); ly+=16; }
-        if(coachPause){ ctx.textAlign='center'; ctx.font='800 11px Orbitron, sans-serif'; ctx.globalAlpha=a*(0.6+0.4*Math.abs(Math.sin(performance.now()*0.005))); ctx.fillStyle=C.col; ctx.fillText(t('loreNext'),W/2,cy+ch-9); ctx.globalAlpha=a; }
+        if(coachPause){ const bw=Math.min(cw-36,160), bh=28, bx=cx+(cw-bw)/2, by=cy+ch-bh-8, pulse=0.78+0.22*Math.abs(Math.sin(performance.now()*0.005));   // WEITER-Button (nur er schließt die Karte)
+          ctx.beginPath(); rr(bx,by,bw,bh,14); ctx.globalAlpha=a*pulse; ctx.fillStyle=C.col; ctx.fill(); ctx.globalAlpha=a;
+          ctx.fillStyle='#08010f'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='800 13px Orbitron, sans-serif'; ctx.fillText(t('skillNext'),bx+bw/2,by+bh/2+1); ctx.textBaseline='alphabetic';
+          coachBtn={x:bx,y:by,w:bw,h:bh}; } else coachBtn=null;
         ctx.restore(); }
       drawJumpReady();
     }
@@ -3436,7 +3441,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v352';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v353';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
