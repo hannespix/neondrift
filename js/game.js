@@ -1519,7 +1519,7 @@
     } else if(canSpecial && level>=4 && grnd()<Math.min(0.13,0.04+(level-4)*0.012)){   // SCHÜTZE: feuert vereinzelt ein langsames, telegrafiertes Geschoss auf dich (ab Lvl 4)
       o.shooter=true; o.fireT=rand(1.6,2.6); o.ccRes=0.2; coachDyn('enemy_shooter','🦑',t('ceShooter'),t('ceShooterD'),'#ff5ea8');
     }
-    o.mob = !!(o.elite||o.flank||o.shielded||o.shooter) || (Math.random()<Math.min(0.35,0.12+(level||1)*0.03));   // überwiegend klassische Obstacles, dazwischen einzelne Mobs (mehr mit Level); Spezialgegner = immer Mob
+    o.mob = !!(o.elite||o.flank||o.shielded||o.shooter) || (Math.random()<Math.min(0.18,0.04+(level||1)*0.018));   // überwiegend Obstacles, nur SELTEN ein Mob (Spezialgegner immer Mob)
     if(o.mob) rollCreature(o);   // nur Mobs bekommen ein Monster-Aussehen
     obstacles.push(o);
   }
@@ -2763,7 +2763,10 @@
         else if(o.mob){ ctx.save(); ctx.rotate(-(o.rot||0)); drawCreature(o,o.hitFlash>0,frozen);   // Mob = prozedurales Pixel-Monster (aufrecht)
           if(o.shooter && o.fireT!=null){ const ch=Math.max(0,1-o.fireT/0.5); if(ch>0){ ctx.globalCompositeOperation='lighter'; ctx.fillStyle=hexA('#ff2e88',ch*0.8); ctx.beginPath(); ctx.arc(0,o.h*0.5,o.w*0.2*(0.6+ch*0.6),0,6.28); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }   // Schützen-Telegraph
           ctx.restore(); }
-        else { ctx.strokeStyle=oc; ctx.lineWidth=o.elite?4:3; ctx.fillStyle=hexA(o.color,o.hitFlash>0?0.4:0.16); shapePath(o.shape,o.w,o.h); ctx.fill(); ctx.stroke(); }   // klassisches Neon-Hindernis (geometrisch)
+        else { const gd=ctx.createLinearGradient(0,-o.h*0.6,0,o.h*0.6); gd.addColorStop(0,hexA(o.color,o.hitFlash>0?0.85:0.4)); gd.addColorStop(1,hexA(o.color,o.hitFlash>0?0.5:0.08));   // poliertes Neon-Hindernis: Verlauf (oben heller) + Rand + innerer Facetten-Schimmer
+          ctx.fillStyle=gd; shapePath(o.shape,o.w,o.h); ctx.fill();
+          ctx.strokeStyle=oc; ctx.lineWidth=o.elite?4:2.6; shapePath(o.shape,o.w,o.h); ctx.stroke();
+          ctx.strokeStyle=hexA('#ffffff',o.hitFlash>0?0.55:0.2); ctx.lineWidth=1.2; shapePath(o.shape,o.w*0.62,o.h*0.62); ctx.stroke(); }
         if(frozen){ const op=Math.min(0.7,0.32+(1-(o.slowAmt!=null?o.slowAmt:1))*0.7);   // tiefer gefroren = dichtere Eiskruste
           ctx.globalAlpha=op; ctx.strokeStyle='#eaffff'; ctx.lineWidth=2; ctx.setLineDash([4,3]);
           if(o.shape==='ring'){ ctx.beginPath(); ctx.arc(0,0,o.w*0.46,0,6.28); ctx.stroke(); } else { shapePath(o.shape,o.w*1.14,o.h*1.14); ctx.stroke(); }
@@ -3449,7 +3452,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v357';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v358';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
