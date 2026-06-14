@@ -276,6 +276,12 @@
     startNext(nextStart||Date.now()); saveMeta(); return a.id; }
   function accelerateResearch(){ const a=researchActive(); if(!a) return false; const c=accelerateCost(); if((meta.chips||0)<c) return false; meta.chips-=c; finishResearch(Date.now()); return true; }   // beschleunigt → nächstes Projekt startet JETZT
   function tickResearch(){ let r=null,g=0; while(researchDone()&&g++<60){ const a=researchActive(); r=finishResearch(a.start+a.dur*1000); } return r; }   // drainen: mehrere offline abgelaufene Projekte korrekt hintereinander abschließen
+  // Forschungs-Timer abgeschafft (Sofort-Kauf): evtl. noch laufende/eingereihte Forschung aus ALTEN Speicherständen sofort abschließen (war ja bereits bezahlt → Stufen gutschreiben), dann State leeren. Verhindert tote Timer-/Accelerate-UI.
+  function drainResearchInstant(){ const rs=researchState(); let changed=false,g=0;
+    while(rs.active&&g++<80){ const a=rs.active; meta.lvl=meta.lvl||{}; meta.lvl[a.id]=a.lvl+1; applyResearchUnlock(a.id); changed=true;
+      const q=rs.queue||[]; rs.active=q.length?q.shift():null; }
+    if(rs.queue&&rs.queue.length){ rs.queue=[]; changed=true; }
+    if(changed) saveMeta(); return changed; }
   // Roguelite: Start-Skillpunkte je Run = Basis 1 + Veteran-Bonus (freikaufbar). Der Run-Build wird beim Game Over zurückgesetzt.
   const starterSP=()=>1+metaLvl('veteran');
   // Günstigstes noch nicht ausgereiztes Werkstatt-Upgrade → Karotte auf dem Game-Over-Screen
@@ -3449,7 +3455,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v361';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v362';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
@@ -3621,19 +3627,12 @@
   document.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ') return; const ib=e.target&&e.target.classList&&e.target.classList.contains('infoBtn')?e.target:null;
     if(ib){ e.preventDefault(); showTip(decodeURIComponent(ib.dataset.tt||''),decodeURIComponent(ib.dataset.tx||''),ib); } });
   function metaCard(m,rr=renderShop){ const lvl=metaLvl(m.id), maxed=lvl>=m.max;
-    const a=researchActive(), here=!!(a&&a.id===m.id), qn=queuedCount(m.id);
-    const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'')+(here?' researching':'');
+    const card=document.createElement('div'); card.className='ucard'+(maxed?' maxed':'');
     let btn;
     if(maxed) btn='<div class="cost done">MAX</div>';
-    else if(here) btn='<div class="cost rsch">🔬 '+fmtTime(researchRemaining())+'</div><button class="cost accel" type="button">⚡ '+fmt(accelerateCost())+'</button>';
-    else if(a){ const pend=qn+(a.id===m.id?1:0), effLvl=lvl+pend, full=(researchState().queue||[]).length>=5;   // belegt → einreihbar
-      if(effLvl>=m.max) btn='<div class="cost done">MAX</div>';
-      else if(full) btn='<div class="cost locked">🔬 Queue voll</div>';
-      else { const c=metaCost(m,effLvl), aff=(meta.chips||0)>=c; btn='<button class="cost queue'+(aff?'':' locked')+'" type="button">＋ 🪙 '+c+'</button>'; } }
-    else { const cost=metaCost(m,lvl), afford=(meta.chips||0)>=cost; btn='<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+' · 🔬 '+fmtTime(metaDuration(m,lvl))+'</button>'; }
-    card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+(here?' · 🔬 läuft':'')+(qn>0?(' · ⏳×'+qn):'')+'</div>'+btn;
-    const ab=card.querySelector('button.accel'); if(ab) ab.addEventListener('click',()=>{ if(accelerateResearch()) sfxUpgrade(); rr(); });
-    else { const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id,rr)); }
+    else { const cost=metaCost(m,lvl), afford=(meta.chips||0)>=cost; btn='<button class="cost'+(afford?'':' locked')+'">🪙 '+cost+'</button>'; }   // SOFORT-KAUF – kein Timer/Queue/Accelerate mehr
+    card.innerHTML=infoBtn(shopName(m),FLAV(m.id),'cardInfo')+'<div class="ico">'+m.ico+'</div><h4>'+shopName(m)+'</h4><p>'+shopDesc(m)+'</p><div class="stack">'+t('level')+' '+lvl+'/'+m.max+'</div>'+btn;
+    const b=card.querySelector('button.cost'); if(b) b.addEventListener('click',()=>buyMeta(m.id,rr));
     return card; }
   function shopNode(o){ // o:{ico,title,sub,state:'done'|'buy'|'locked',cost,aff,buy,tip}
     const right = o.state==='done' ? '<span class="wnode-done">✓</span>'
@@ -3678,10 +3677,8 @@
       if(c.aff){ card.addEventListener('click',()=>buyMeta(c.m.id)); } else { card.setAttribute('aria-disabled','true'); card.addEventListener('click',()=>{ shopTab=shopCat(c.m.id); renderShop(); }); }   // leistbar → direkt kaufen; sonst zum passenden Reiter springen (Ziel ansteuern)
       row.appendChild(card); }
     host.appendChild(row); }
-  function renderShop(){ shopChipsEl.textContent='🪙 '+fmt(meta.chips); renderShopReco();
-    clearTimeout(shopTick); if(researchActive()){ shopTick=setTimeout(()=>{ const sh=document.getElementById('shop'), av=document.getElementById('arsenalView');
-      const vis=(sh&&!sh.classList.contains('hidden')) || (av&&!av.classList.contains('hidden')&&arsenalTab==='shop');   // Shop ist je nach Einstieg im alten #shop ODER im Arsenal-Hub (Forschungs-Reiter) sichtbar
-      if(vis){ tickResearch(); renderShop(); } },1000); }   // Timer live im Sekundentakt nachführen
+  function renderShop(){ drainResearchInstant(); shopChipsEl.textContent='🪙 '+fmt(meta.chips); renderShopReco();
+    clearTimeout(shopTick);   // Forschungs-Timer abgeschafft – kein Sekundentakt-Polling mehr
     if(shopHintEl) shopHintEl.textContent='dauerhaft gespeichert · immer teurer & krasser';
     // Tab-Leiste
     const tabsEl=document.getElementById(shopTabsHostId);
@@ -4469,7 +4466,7 @@
     // senken, wenn Frames verloren gehen (>1.6× vsync); in Ruhe (<1.25×) umgekehrt wieder anheben.
     if(frameMs>vsyncMs*1.6){ if(fxQ>0.45) fxQ=Math.max(0.45,fxQ-0.04); else if(qScale>0.5){ qScale=Math.max(0.5,qScale-0.05); applyScale(); } }
     else if(frameMs<vsyncMs*1.25){ if(qScale<1){ qScale=Math.min(1,qScale+0.04); applyScale(); } else if(fxQ<1) fxQ=Math.min(1,fxQ+0.02); }
-    if(meta.research&&meta.research.active) tickResearch();
+    if(meta.research&&(meta.research.active||(meta.research.queue&&meta.research.queue.length))) drainResearchInstant();   // Alt-Speicherstand mit laufender Forschung → sofort gutschreiben (läuft genau einmal)
     if(state===S.PLAY){ if(coachPause) coachFreezeTick(dt); else update(dt); }
     else { elapsed=(elapsed||0)+dt; updateStars(dt);
       if(particles)for(const p of particles){if(p.life<=0)continue;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=0.94;p.vy*=0.94;p.life-=p.decay;}
