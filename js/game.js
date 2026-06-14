@@ -2583,6 +2583,7 @@
   function rr(x,y,w,h,r){ ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath(); }
   // ---------- Prozedurale Sci-Fi-Kreaturen (sauberer Neon-Vektor-Look, nativ gezeichnet) ----------
   const REG_COLS=['#ff2e88','#19f0ff','#7cff2e','#ff9a2e','#c45bff','#ff5ea8','#2effc0','#ffe24d'];
+  function darkHex(h,f){ const n=parseInt(h.slice(1),16); return 'rgb('+Math.round(((n>>16)&255)*f)+','+Math.round(((n>>8)&255)*f)+','+Math.round((n&255)*f)+')'; }   // abgedunkelte Farbe → dezente Konturen
   function rollCreature(o){ const R=Math.random, pk=a=>a[(R()*a.length)|0];   // baut ein Pixel-Grid (sauberer Pixel-Art-Look) einmal pro Gegner
     const tr=o.elite?'e':o.flank?'f':o.shielded?'s':o.shooter?'g':'n';
     const isObj = tr==='n' && R()<0.2;   // inanimater Hazard ohne Gesicht (Kristall/Mine)
@@ -2599,7 +2600,7 @@
       if(arche==='insect') return dx*dx+dy*dy<=1.0 && !((y-top)%4===3 && Math.abs(x-cx)>rx-1);   // segmentiert
       return dx*dx+dy*dy<=1.0; };   // blob/heavy/mine: Ellipse
     for(let y=top;y<=bot;y++) for(let x=0;x<=cx;x++) if(inB(x,y)) set(x,y,1);
-    for(let y=0;y<G;y++)for(let x=0;x<G;x++){ if(grid[y][x]) continue; if((y>0&&grid[y-1][x]===1)||(y<G-1&&grid[y+1][x]===1)||(x>0&&grid[y][x-1]===1)||(x<G-1&&grid[y][x+1]===1)) grid[y][x]=2; }   // dunkler Umriss = Schlüssel für Pixel-Look
+    for(let y=0;y<G;y++)for(let x=0;x<G;x++){ if(grid[y][x]) continue; if((y>0&&grid[y-1][x]===1)||(y<G-1&&grid[y+1][x]===1)||(x>0&&grid[y][x-1]===1)||(x<G-1&&grid[y][x+1]===1)) grid[y][x]=7; }   // Umriss (Code 7 = dezent, abgedunkelte Gegnerfarbe)
     if(arche==='insect'){ for(let y=top+2;y<bot;y+=3){ set(cx-rx-1,y,1); set(cx-rx-2,y,2); } }   // Beinchen
     if(arche==='mine'){ for(let k=0;k<6;k++){ const a=k*1.047; set(cx+Math.round(Math.cos(a)*(rx+1)),cy+Math.round(Math.sin(a)*(ry+1)),4); } }   // Stacheln
     if(!isObj && R()<0.5){ set(cx-2,top-1,1); set(cx-2,top-2,3); }   // Antenne
@@ -2615,11 +2616,11 @@
       else if(mouth==='teeth'){ for(let x=cx-2;x<=cx;x++){ set(x,my,2); set(x,my+1,5); } }
       else if(mouth==='fangs'){ set(cx-2,my,2); set(cx-1,my,2); set(cx,my,2); set(cx-2,my+1,5); }
       if((mouth==='o'||mouth==='teeth'||mouth==='fangs')&&tongue) set(cx,my+1,6); }
-    o.grid=grid; o.gG=G; o.gEye=eyeCol; o.gAcc=accent; }
+    o.grid=grid; o.gG=G; o.gEye=eyeCol; o.gAcc=accent; o.gLine=darkHex(o.color,0.45); }
   function drawCreature(o,hit,frozen){ if(!o.grid) rollCreature(o); const G=o.gG, gr=o.grid;
     const csx=o.w*1.3/G, csy=o.h*1.3/G, ox=-(G*csx)/2, oy=-(G*csy)/2, body=hit?'#ffffff':(frozen?'#bdefff':o.color);
     for(let y=0;y<G;y++){ const row=gr[y]; for(let x=0;x<G;x++){ const t=row[x]; if(!t) continue;   // crisp Pixel-Render (kein Skalierungs-Matsch)
-      ctx.fillStyle = (hit&&t!==2)?'#ffffff' : t===1?body : t===2?'#0a0010' : t===3?o.gEye : t===4?o.gAcc : t===5?'#ffffff' : '#ff6a8a';
+      ctx.fillStyle = (hit&&t!==2&&t!==7)?'#ffffff' : t===1?body : t===2?'#0a0010' : t===7?(frozen?'#5a8aa6':o.gLine) : t===3?o.gEye : t===4?o.gAcc : t===5?'#ffffff' : '#ff6a8a';
       ctx.fillRect(Math.floor(ox+x*csx),Math.floor(oy+y*csy),Math.ceil(csx)+1,Math.ceil(csy)+1); } } }
   function fireEnemyShot(o){ if(!player) return; const a=Math.atan2(player.y-o.cy,player.x-o.cx)+rand(-0.05,0.05), spd=145+difficulty*7;   // langsam & telegrafiert = fair dodgebar
     ebullets.push(eb(o.cx,o.cy+o.h*0.32,Math.cos(a)*spd,Math.sin(a)*spd)); spawnParticles(o.cx,o.cy+o.h*0.3,'#ff5ea8',5,170); beep(190,0.06,'square',0.12,-60); }
@@ -3443,7 +3444,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v354';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v355';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
