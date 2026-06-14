@@ -1942,7 +1942,10 @@
   const BUILD_TAGS={jumpcd:'jump',jumpdouble:'jump',jumpstomp:'jump',jumpphase:'jump',jumpshock:'jump',jumpfrost:'jump',blaster:'gun',twin:'gun',power:'gun',pierce:'gun',crit:'gun',critdmg:'gun',amp:'gun',tempo:'gun',missile:'control',flame:'control',frost:'control',chain:'control',nova:'control'};
   const TAGICO={jump:'🦅',gun:'🔫',control:'❄️'};
   function buildLean(){ const c={}; for(const id in upgradeCounts){ const tg=BUILD_TAGS[id]; if(tg) c[tg]=(c[tg]||0)+upgradeCounts[id]; } let best=null,bv=0; for(const k in c){ if(c[k]>bv){ bv=c[k]; best=k; } } return bv>=2?best:null; }   // erst ab 2 Picks zeichnet sich eine Linie ab
-  function offerWeight(o){ if(o.kind!=='pass') return 1; const tg=BUILD_TAGS[o.u.id]; return (tg&&tg===buildLean())?2.4:1; }   // passende Linie ~2.4× wahrscheinlicher (sanft, nichts ausgeschlossen)
+  function offerWeight(o){ if(o.kind!=='pass') return 1; const tg=BUILD_TAGS[o.u.id];
+    if(tg&&tg===buildLean()) return 2.4;                                  // passende Build-Linie ~2.4× wahrscheinlicher (sanft, nichts ausgeschlossen)
+    if(o.u.jump && (upgradeCounts[o.u.id]||0)===0) return 1.8;            // noch nicht geholte Sprung-Upgrades bleiben gut auffindbar – sonst verdrängt eine Waffen-/Kontroll-Linie den Doppelsprung praktisch komplett
+    return 1; }
   // Gibt es überhaupt einen freischaltbaren Knoten/eine holbare Waffe? (unabhängig von Punkten)
   // Mit Waffen ist ein Punkt IMMER einsetzbar (Fork/Waffe ODER universelles „Verstärken") → keine toten Punkte
   function skillSpendable(){ return !!opt.guns; }
@@ -3471,7 +3474,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v367';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v368';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
