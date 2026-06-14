@@ -1,0 +1,48 @@
+name: Leaderboard aufräumen (Admin)
+
+# Manuell auslösbarer Wartungs-Workflow: löscht Leaderboard-Einträge über den
+# token-geschützten Worker-Endpunkt /score/delete. Nutzt dieselben Secrets wie die
+# Stats-Action (Settings → Secrets and variables → Actions):
+#   TELEMETRY_BASE  – Worker-URL (z. B. https://thronerush-telemetry.<acc>.workers.dev)
+#   ADMIN_TOKEN     – derselbe Token wie im Worker
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Was löschen?'
+        type: choice
+        options: [all, cid, nick]
+        default: all
+      value:
+        description: 'Wert für cid/nick (bei "all" egal)'
+        required: false
+        default: ''
+
+jobs:
+  wipe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Leaderboard-Eintrag/Board löschen
+        env:
+          TELEMETRY_BASE: ${{ secrets.TELEMETRY_BASE }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          TARGET: ${{ inputs.target }}
+          VALUE: ${{ inputs.value }}
+        run: |
+          set -e
+          if [ -z "$TELEMETRY_BASE" ] || [ -z "$ADMIN_TOKEN" ]; then
+            echo "::error::TELEMETRY_BASE/ADMIN_TOKEN nicht gesetzt – in Repo-Secrets eintragen."; exit 1
+          fi
+          BASE="${TELEMETRY_BASE%/}"
+          case "$TARGET" in
+            all)  BODY='{"all":true}' ;;
+            cid)  BODY="$(printf '{"cid":"%s"}' "$VALUE")" ;;
+            nick) BODY="$(printf '{"nick":"%s"}' "$VALUE")" ;;
+            *) echo "::error::unbekanntes target: $TARGET"; exit 1 ;;
+          esac
+          echo "POST $BASE/score/delete  →  $BODY"
+          curl -fsS -X POST "$BASE/score/delete?token=$ADMIN_TOKEN" \
+            -H 'Content-Type: application/json' -d "$BODY"
+          echo
+          echo "::notice::Leaderboard-Löschung ausgeführt ($TARGET)."
