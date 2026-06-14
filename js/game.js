@@ -9,7 +9,7 @@
   const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
   const S={MENU:0,PLAY:1,UPGRADE:2,OVER:3,PAUSE:4};
   /* === AUTO-BALANCE START (wird von tools/auto-balance.mjs gepflegt – nur Werte, keine Logik!) === */
-  const BAL={ difficulty:1.15, spawnRate:1.12, eliteChance:1.20 };   // Multiplikatoren (1.00 = neutral). Höher = schwerer / mehr.
+  const BAL={ difficulty:1.15, spawnRate:1.12, eliteChance:1.20, enemyHp:1.00 };   // Multiplikatoren (1.00 = neutral). Höher = schwerer / mehr.
   /* === AUTO-BALANCE END === */
   let state=S.MENU, mode='normal';
   let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0, lastT=0;
@@ -1298,9 +1298,9 @@
   // „Coverage": echtes Screen-Clear-Potenzial (Waffen + aktive Fusionen) – treibt die Elite-Häufigkeit,
   // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
-  const eliteChance=()=>(opt.guns&&level>=2)?Math.min(0.55,(0.02+(level-1)*0.027+coverage()*0.032+(endless?madness*0.5:0))*flowI):0;   // Flow-Regler moduliert die Elite-Haeufigkeit
-  const flankChance=()=>(opt.guns&&level>=3)?Math.min(0.16,(0.01+(level-2)*0.01+coverage()*0.008)*flowI):0;   // Flanker: zielsuchender Camper-Konter, seltener als Elites
-  const shieldChance=()=>(opt.guns&&level>=4)?Math.min(0.14,(0.01+(level-3)*0.009+coverage()*0.006)*flowI):0;   // Schild-Gegner: Konter gegen reine Bolzen-DPS (AoE/Elementar umgeht das Schild)
+  const eliteChance=()=>(opt.guns&&level>=3)?Math.min(0.55,(0.02+(level-2)*0.027+coverage()*0.032+(endless?madness*0.5:0))*flowI):0;   // Klassen nach und nach: Elites ab Lvl 3 (Flow-Regler moduliert die Häufigkeit)
+  const flankChance=()=>(opt.guns&&level>=4)?Math.min(0.16,(0.01+(level-3)*0.01+coverage()*0.008)*flowI):0;   // Flanker (Camper-Konter) ab Lvl 4
+  const shieldChance=()=>(opt.guns&&level>=5)?Math.min(0.14,(0.01+(level-4)*0.009+coverage()*0.006)*flowI):0;   // Schild-Gegner (Konter gegen reine Bolzen-DPS) ab Lvl 5
   // Zwischen-Runs lernen: aus den letzten Runs (gleicher Modus) ein Skill-Offset ableiten.
   // Viele Treffer & niedriges Level → struggelt → leichter (negativ). Wenig Treffer & hohes Level → souveraen → haerter (positiv). Gedeckelt ±0.15.
   function computeSkillBias(){ try{ const log=JSON.parse(localStorage.getItem('thronerush_tlog')||'[]'); if(!Array.isArray(log)) return 0;
@@ -1310,8 +1310,8 @@
     return Math.max(-0.15,Math.min(0.15,bias)); }catch(e){ return 0; } }
   // Obstacles-HP: folgt der Gesamt-DPS (konstante Time-to-Kill) + sanfter Level-Druck,
   // damit sich die Upgrade-Jagd lohnt – wer nicht aufrüstet, wird langsam überrannt.
-  const difHp  =()=>1.1+Math.sqrt(Math.max(0,gunDps()))*0.42+(level-1)*0.26;   // sublinear (sqrt DPS): TTK sinkt spuerbar mit Investment -> Aufruesten fuehlt sich stark an, Druck wandert zu Dichte/Elites
-  const introT =()=>Math.max(0,1-elapsed/22);   // Butter-Start: lange, sanfte Schonung in den ersten ~22s, fadet linear aus (gemütlicher Einstieg)
+  const difHp  =()=>(1.1+Math.pow(Math.max(0,gunDps()),0.88)*0.26+(level-1)*0.26)*(BAL.enemyHp||1);   // ~konstante TTK: HP wächst nun fast LINEAR mit DPS (Pow 0.88 statt sqrt) → starke Builds räumen dichte Wellen nicht mehr instant ab, der Dodge-Druck bleibt. BAL.enemyHp = Auto-Balance-Hebel
+  const introT =()=>Math.max(0,1-elapsed/28);   // Butter-Start: noch längere, sanfte Schonung (~28s) → anfangs ganz wenige, langsame Hindernisse, fadet linear aus
   // DPS-gekoppeltes Tempo: mehr Feuerkraft → schnellere Obstacles. Hält den Ausweich-Druck konstant (mit wenig DPS hat man Zeit zu zerstören, mit viel DPS kommt es schneller). Sanft & gedeckelt.
   const DPS_BASE=4;   // ~Start-Blaster-DPS als Referenz
   const dpsSpd =()=>1+Math.min(0.12,Math.max(0,gunDps()/DPS_BASE-1)*0.012);   // ENTKOPPELT: starke Builds machen das Spiel kaum noch schneller (max +12%)
@@ -1471,7 +1471,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(52+Math.min(level*5,64)+Math.min(elapsed*0.7,46))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo primär an DPS gekoppelt (dpsSpd) + milder Level-Druck; Start sehr langsam (Intro), reine Zeit zählt kaum noch
+    const sp=(52+Math.min(level*4.6,104)+Math.min(elapsed*0.6,74))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo: früh genauso langsam, aber Level-/Zeit-Caps höher → spätes Spiel bleibt fordernd (kein Speed-Plateau mehr)
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3)};
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -1638,7 +1638,7 @@
       move:moves[(R()*moves.length)|0], attack:atks[(R()*atks.length)|0],
       cx:W/2, cy:H*0.24, radX:Math.min(W*0.30,150+tier*8), radY:Math.min(H*0.11,60+tier*8),
       ang:R()*6.28, angVel:rand(0.6,1.0)*(R()<.5?1:-1)*(final?1.15:1), r:sp.rad,
-      maxHp:Math.max(40,Math.round(Math.pow(Math.max(0.5,bossDps()),0.85)*(13+bossNumber*1.0)*(final?2.0:1)*diffHp)), hp:0, t:0,   // sublinear (bossDps^0.85): starke Builds shreddern Bosse spürbar schneller, schwache haben ~konstante TTK (gefloort)
+      maxHp:Math.max(40,Math.round(Math.pow(Math.max(0.5,bossDps()),0.90)*(13+bossNumber*1.0)*(final?2.0:1)*diffHp*(BAL.enemyHp||1))), hp:0, t:0,   // bossDps^0.90 (näher an linear): Bosse schmelzen nicht mehr, TTK bleibt fordernd; BAL.enemyHp greift mit
       limit:final?9999:(22+bossNumber*2),
       hitFlash:0, shootT:1.5, warn:0, telegraph:false, fireGap:Math.max(0.9,2.5-bossNumber*0.1-Math.min(0.7,pwrSurv()*0.022)),
       dead:false, deathT:0, x:W/2, y:H*0.24, blink:0,
@@ -2002,7 +2002,7 @@
     saveRunT+=dt; if(saveRunT>=1.2){ saveRunT=0; saveRun(); }   // periodischer Snapshot (Reload-Fortsetzen)
     // Passivität: keine Eingabe in diesem Frame → eingabefreie Strecke wächst; sonst zurücksetzen. Längste Strecke + Idle-Anteil = „zu leicht / Campen"-Signal
     if(inputDirty){ idleStretch=0; inputDirty=false; } else { idleStretch+=dt; runIdleAcc+=dt; if(idleStretch>runIdleMax) runIdleMax=idleStretch; }
-    elapsed+=dt; const dMax=mode==='hardcore'?7.0:6.3, dT=Math.min(elapsed,200)/200; difficulty=(1+dMax*Math.pow(dT,1.42))*(BAL.difficulty||1);   // Feel-Good: sanftere Beschleunigung (längere Rampe 200s, etwas niedrigerer Deckel) · BAL.difficulty = Auto-Balance-Hebel
+    elapsed+=dt; const dMax=mode==='hardcore'?7.0:6.3, dT=Math.min(elapsed,260)/260; difficulty=(1+dMax*Math.pow(dT,1.42)+Math.max(0,level-8)*0.10)*(BAL.difficulty||1);   // Rampe 260s + sanfter Level-Term ab Lvl 8 → kein Schwierigkeits-Plateau mehr im langen Run · BAL.difficulty = Auto-Balance-Hebel
     const ts=effects.slowmo>0?0.42:1;
     if(invuln>0) invuln-=dt;
     if(bossIntroT>0) bossIntroT-=dt;   // VS-Auftritt läuft in Echtzeit (auch während der Intro-Zeitlupe)
@@ -3262,7 +3262,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v339';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v340';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
