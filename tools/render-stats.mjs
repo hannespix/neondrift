@@ -140,14 +140,19 @@ for (const d of deaths) L.push('| `' + d.death + '` | ' + d.n + ' | ' + pct(d.n,
 L.push('');
 L.push('_`obs:*` = Hindernis-Bewegungsmuster · `laser`/`bullet` = Boss · `boss:*` = während Boss-Kampf · `elite` = Panzer-Gegner._');
 
-// ---- Modus/Diff ----
-h2('Nach Modus & Schwierigkeit');
-L.push('| Modus | Diff | Runs | Siege | Winrate | Ø Level |');
-L.push('|---|---|---|---|---|---|');
+// ---- Modus/Diff: Schwierigkeitskurve ----
+h2('Schwierigkeitskurve (Modus × Grad)');
+L.push('| Modus | Grad | Runs | Winrate | Ø Dauer | Camping | Ø Level | Bewertung |');
+L.push('|---|---|---|---|---|---|---|---|');
 for (const r of data.byMode || []) {
-  L.push('| ' + r.mode + ' | ' + r.diff + ' | ' + r.runs + ' | ' + (r.wins || 0) +
-    ' | ' + pct(r.wins || 0, r.runs) + ' | ' + round(r.avgLvl) + ' |');
+  const runs = r.runs || 0, wr = runs ? (r.wins || 0) / runs : 0, idle = r.avgIdleMax || 0;
+  let flag = runs < 8 ? '· zu wenig' : wr > 0.32 ? '🟡 zu leicht' : wr < 0.08 ? '🔴 zu hart' : '🟢 gesund';
+  if (runs >= 8 && idle > 12) flag += ' 🅿️';
+  L.push('| ' + r.mode + ' | ' + r.diff + ' | ' + runs + ' | ' + pct(r.wins || 0, runs) +
+    ' | ' + round(r.avgDurS, 0) + ' s | ' + round(idle, 0) + ' s | ' + round(r.avgLvl) + ' | ' + flag + ' |');
 }
+L.push('');
+L.push('_🟢 gesund (Winrate ~10–28%) · 🟡 zu leicht · 🔴 zu hart · 🅿️ Camping. Knöpfe wirken global – einzelne Ausreißer = Kurvenform prüfen._');
 
 // ---- Build-Balance ----
 const balTable = (title, rows, nameKey, pickKey) => {
