@@ -208,8 +208,9 @@ async function handleStats(url, env) {
     .prepare('SELECT ver, COUNT(*) AS n, MIN(server_ts) AS first, MAX(server_ts) AS last FROM runs GROUP BY ver ORDER BY last DESC')
     .all()).results;
 
+  // Schwierigkeitskurve: pro Modus × Grad – Win-Rate, Ø-Dauer, Camping (Diagnose, ob die Kurve gesund ist)
   const byMode = await all(
-    'SELECT mode, diff, COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl FROM runs' + WHERE + ' GROUP BY mode, diff ORDER BY runs DESC'
+    'SELECT mode, diff, COUNT(*) AS runs, SUM(won) AS wins, AVG(lvl) AS avgLvl, AVG(durS) AS avgDurS, AVG(idleMax) AS avgIdleMax FROM runs' + WHERE + ' GROUP BY mode, diff ORDER BY mode, diff'
   );
   // Funnel: wie viele Runs enden auf Level N (Abbruch-Verteilung → Schwierigkeits-Wände)
   const funnel = await all('SELECT lvl, COUNT(*) AS n FROM runs' + WHERE + ' GROUP BY lvl ORDER BY lvl');
