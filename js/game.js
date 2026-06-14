@@ -447,10 +447,10 @@
   const JUMP_R=140;      // Sprung-Dash: Hüpf-/Unverwundbarkeits-Phase, vaultet aus der Klemme (Cooldown/Ladungen/Dauer via mods)
   const JUMP_RANGE=340;  // max. Sprungweite (× jumpVault): Tap weiter weg → Schiff kommt bei dieser Reichweite auf (kurz)
   let jumpCharge=0, jumpStock=1, jumping=0, jumpClutch=0, jumpClutchFired=false, jumpSeq=0;
-  let rankIdx=0, letters=[], letterT=0, bonusGot=[];   // Warblade-inspiriert: Rang-Beförderungen + Bonus-Buchstaben
-  let missions=[], runJumps=0, runOnBeat=0, runLetters=0;   // Run-Missionen + On-Beat-Bonus
+  let rankIdx=0;   // Rang-Beförderungen
+  let missions=[], runJumps=0;   // Run-Missionen
   let breatherT=0, breatherActive=0;   // Feel-Good: Verschnaufpausen
-  let hype=0, hypeT=0;   // HYPE-Meter: Near-Miss/On-Beat fuellt -> ~6s Score x2 + Muenz-Magnet + Regenbogen
+  // (HYPE-Meter & Takt-Ausweich-Bonus entfernt – fühlte sich random/unnötig an)
   let mkCount=0, mkTimer=0;   // Multikill-Feedback (sichtbare Staerke bei hoher DPS)
   let coachQueue=[], coachCd=0, coachCard=null, coachPause=false;   // Onboarding-Coach: gestaffelte, einmalige Lektionen (nie zwei gleichzeitig); friert beim Erklären ein
   let flungT=0, flungX=0, flungY=0;   // Boss-Katapult: kurzer Steuer-Lock, der den Spieler nach dem Boss-Stomp in Sicherheit schleudert
@@ -937,16 +937,13 @@
     move:  {ico:'🕹️', col:'#19f0ff'},
     near:  {ico:'✦',  col:'#ff2e88'},
     combo: {ico:'🔥', col:'#ffe600'},
-    beat:  {ico:'🎵', col:'#19f0ff'},
     coin:  {ico:'🪙', col:'#ffe600'},
     jump:  {ico:'🦘', col:'#19f0ff'},
-    hype:  {ico:'🌈', col:'#ff2ee0'},
-    letter:{ico:'🔤', col:'#2effc0'},
     sp:    {ico:'💠', col:'#19f0ff'},
     shield:{ico:'🛡️', col:'#2effc0'},
     syn:   {ico:'🔗', col:'#ff2e88'},
   };
-  const LESSON_ORDER=['move','near','combo','beat','coin','jump','hype','letter','sp','shield','syn'];   // Curriculum-Reihenfolge
+  const LESSON_ORDER=['move','near','combo','coin','jump','sp','shield','syn'];   // Curriculum-Reihenfolge
   function queueLesson(sk,ico,title,desc,col,ord){ meta.seen=meta.seen||{}; if(meta.seen[sk]) return; for(const c of coachQueue) if(c.sk===sk) return; coachQueue.push({sk:sk,ico:ico,title:title,desc:desc,col:col,ord:ord}); }
   function coach(key){ if(!LESSONS[key]) return; queueLesson(key,LESSONS[key].ico,t('coach_'+key),t('coach_'+key+'d'),LESSONS[key].col,LESSON_ORDER.indexOf(key)); }   // statische Kern-Lektion
   function coachDyn(sk,ico,title,desc,col){ queueLesson(sk,ico,title,desc,col,999); }   // dynamische Lektion (Upgrade/Waffe/Effekt) mit eigenem Text
@@ -1246,7 +1243,7 @@
     arsenal={slots:3,w:{}}; wpn={}; syn={}; activeSyn=[]; synSeen={}; synNovas=[]; synCharge={}; zenSynSel=null; skillPts=0; arsenalSkillMode=false;
     player={x:W/2,y:H*0.72,r:mods.playerR,trail:[]};
     tgt.x=W/2; tgt.y=H*0.72;
-    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; sps=[]; coinz=[]; beams=[]; zaps=[]; novas=[]; gibs=[]; letters=[]; bonusGot=[]; letterT=rand(6,10); rankIdx=0; coinT=rand(1,2);
+    obstacles=[]; orbs=[]; powerups=[]; clearParticles(); floaters=[]; lasers=[]; bullets=[]; gems=[]; sps=[]; coinz=[]; beams=[]; zaps=[]; novas=[]; gibs=[]; rankIdx=0; coinT=rand(1,2);
     score=0; displayScore=0; combo=0; multiplier=1; comboCoinBonus=0;
     elapsed=0; spawnT=0; orbT=0; powerupT=rand(7,12); difficulty=1;
     shake=0; flash=0; flashColor='#19f0ff'; nearGlow=0; nearCount=0; deathFlash=0; deathT=0; deathGather=false;
@@ -1258,7 +1255,7 @@
     comboTime=0; comboTimeMax=3.4; beatIdx=0; beatPulse=0; spawnQueued=false; orbQueued=false;
     director=0.5; overdrive=false; tBlast=0; tMiss=rand(0.3,0.7); tFlame=0; tFrost=0; tChain=rand(0.4,0.8); tNova=rand(0.5,1.0); tRail=rand(0.4,0.9); teslaCount=0; bossPending=false; boss=null; ebullets=[]; gemT=rand(8,13);
     endless=false; madness=0; wonThisRun=false; laserFinal=false;
-    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; runOnBeat=0; runLetters=0; inputDirty=false; idleStretch=0; runIdleMax=0; runIdleAcc=0; breatherT=rand(24,32); breatherActive=0; hype=0; hypeT=0; mkCount=0; mkTimer=0; coachQueue=[]; coachCd=0; coachCard=null; coachPause=false; pickMissions();
+    runOrbs=0; runPerfect=0; runBosses=0; madnessTime=0; runMaxMult=1; runSPgain=0; runHits=0; onbDrops=0; runChipsPaid=0; runChipsEarned=0; coinSaveAcc=0; runJumps=0; inputDirty=false; idleStretch=0; runIdleMax=0; runIdleAcc=0; breatherT=rand(24,32); breatherActive=0; mkCount=0; mkTimer=0; coachQueue=[]; coachCd=0; coachCard=null; coachPause=false; pickMissions();
     flowI=1; skillBias=computeSkillBias();   // Flow-Regler zuruecksetzen + Skill-Offset aus den letzten Runs lernen
     shipSeed=((daily?dailySeed():(Math.random()*1e9))|0)||1;
   }
@@ -1385,7 +1382,7 @@
       arsenal, activeSyn, synSeen, skillPts,
       player:{x:player.x,y:player.y,r:player.r},
       bossNumber, director, overdrive, endless, madness, wonThisRun, laserFinal,
-      comboTime, comboTimeMax, beatIdx, hype, hypeT,
+      comboTime, comboTimeMax, beatIdx,
       runOrbs, runPerfect, runBosses, madnessTime, runMaxMult, runChipsPaid, runChipsEarned, coinSaveAcc,
       shipSeed, curSong, commentT, egg67done, egg67T,
       tBlast, tMiss, tFlame, tFrost, tChain, tNova, tRail, teslaCount, gemT })); }catch(e){} }
@@ -1414,7 +1411,7 @@
     if(s.synSeen&&typeof s.synSeen==='object') synSeen=s.synSeen; skillPts=num(s.skillPts,0);
     bossNumber=num(s.bossNumber,1);
     director=num(s.director,0.5); overdrive=!!s.overdrive; endless=!!s.endless; madness=num(s.madness,0); wonThisRun=!!s.wonThisRun; laserFinal=!!s.laserFinal;
-    comboTime=num(s.comboTime,0); comboTimeMax=num(s.comboTimeMax,3.4); beatIdx=num(s.beatIdx,0)|0; hype=num(s.hype,0); hypeT=num(s.hypeT,0);
+    comboTime=num(s.comboTime,0); comboTimeMax=num(s.comboTimeMax,3.4); beatIdx=num(s.beatIdx,0)|0;
     runOrbs=num(s.runOrbs,0); runPerfect=num(s.runPerfect,0); runBosses=num(s.runBosses,0); madnessTime=num(s.madnessTime,0); runMaxMult=num(s.runMaxMult,1);
     runChipsPaid=num(s.runChipsPaid,0); runChipsEarned=num(s.runChipsEarned,0); coinSaveAcc=num(s.coinSaveAcc,0); if(!missions.length) pickMissions();
     shipSeed=num(s.shipSeed,shipSeed); curSong=num(s.curSong,curSong)|0; commentT=num(s.commentT,15); egg67done=!!s.egg67done; egg67T=num(s.egg67T,0);
@@ -1438,7 +1435,7 @@
     lastT=performance.now();
   }
 
-  function addScore(n){ score+=Math.round(n*mods.scoreMult*(effects.double>0?2:1)*(hypeT>0?2:1)); }
+  function addScore(n){ score+=Math.round(n*mods.scoreMult*(effects.double>0?2:1)); }
   function setMult(){ const m=1+Math.floor(combo/4); if(m>multiplier){ const prev=multiplier; multiplier=m; onComboUp(m,prev); } else multiplier=m; if(m>runMaxMult)runMaxMult=m; }
   // Combo-Hitze: Farbe steigt mit dem Multiplikator (cyan → mint → gold → orange → heißes Pink)
   function comboColor(m){ return m>=20?'#ff2e88':m>=15?'#ff9a2e':m>=10?'#ffe600':m>=5?'#2effc0':'#19f0ff'; }
@@ -1471,8 +1468,6 @@
     else if(kind===1){ banner={text:t('breather'),sub:t('brGift'),t:2.4,color:'#19f0ff'}; if(powerups.length<3) spawnPowerup(); }
     else { banner={text:t('breather'),sub:t('brSlow'),t:2.4,color:'#5b9bff'}; effects.slowmo=Math.max(effects.slowmo,2.4); }
     flash=Math.max(flash||0,0.25); flashColor='#2effc0'; beep(523,0.12,'sine',0.18); setTimeout(()=>beep(784,0.14,'sine',0.16),120); }
-  // HYPE zündet: ~6s Belohnungsfenster (Score x2 + Münz-Magnet + Regenbogen-Trail + Glow)
-  function startHype(){ hypeT=6; hype=1; banner={text:t('hypeTtl'),sub:t('hypeSub'),t:2.0,color:'#ff2ee0'}; flash=Math.max(flash||0,0.5); flashColor='#ff2ee0'; shake=Math.max(shake,11); vibe([25,40,25]); spawnParticles(player.x,player.y,'#ff2ee0',28,440); beep(523,0.09,'square',0.24); setTimeout(()=>beep(784,0.09,'square',0.24),80); setTimeout(()=>beep(1047,0.12,'square',0.24),160); }
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
@@ -1530,9 +1525,7 @@
     {id:'boss',   g:[1,2],   rw:120, val:()=>runBosses, noZen:true},
     {id:'level',  g:[4,7],   rw:100, val:()=>(level||1)},
     {id:'perfect',g:[5,9],   rw:100, val:()=>runPerfect},
-    {id:'jump',   g:[6,12],  rw:80,  val:()=>runJumps, noZen:true},
-    {id:'onbeat', g:[8,16],  rw:110, val:()=>runOnBeat},
-    {id:'beute',  g:[1,2],   rw:120, val:()=>runLetters}
+    {id:'jump',   g:[6,12],  rw:80,  val:()=>runJumps, noZen:true}
   ];
   function pickMissions(){ const pool=MISSIONS.filter(m=>!(m.noZen&&mode==='zen')); missions=[];
     for(let k=0;k<3 && pool.length;k++){ const m=pool.splice((Math.random()*pool.length)|0,1)[0];
@@ -1547,28 +1540,6 @@
   // ---------- Rang-Beförderungen (Warblade-inspiriert, mehrsprachig via P('ranks')) ----------
   const RANK_AT=[0,1500,4000,8000,15000,28000,50000,90000];   // Punkte-Schwellen je Rang
   function rankFor(sc){ let r=0; for(let i=0;i<RANK_AT.length;i++) if(sc>=RANK_AT[i]) r=i; return r; }
-  // ---------- Bonus-Buchstaben: Wort aus t('bonusWord') einsammeln → Belohnung (mehrsprachig) ----------
-  function spawnLetter(){ const word=t('bonusWord')||'BONUS', need=[]; for(let i=0;i<word.length;i++) if(!bonusGot[i]) need.push(i);
-    if(!need.length) return; const idx=need[(Math.random()*need.length)|0];
-    letters.push({x:grand(40,W-40),y:-24,r:17,vy:68+difficulty*14,idx:idx,ch:word[idx],pulse:Math.random()*6.28}); coach('letter'); }
-  function collectLetter(L){ const word=t('bonusWord')||'BONUS';
-    sfxPow(); vibe(12); flash=Math.max(flash||0,0.25); flashColor='#ffe600'; spawnParticles(L.x,L.y,'#ffe600',12,220); floatText(L.x,L.y-18,L.ch,'#ffe600',20); beep(740,0.07,'triangle',0.18,180);
-    if(!bonusGot[L.idx]){ bonusGot[L.idx]=1; addScore(40*Math.max(1,multiplier)); }
-    let done=true; for(let i=0;i<word.length;i++) if(!bonusGot[i]){ done=false; break; }
-    if(done) bonusComplete(); }
-  function bonusComplete(){ const reward=Math.round(140*chipMult()*diffChip);
-    awardCoins(reward,player.x,player.y-44,true); addScore(600*Math.max(1,multiplier));
-    if(jumpStock<mods.jumpMax) jumpStock=mods.jumpMax;   // nette Zugabe: Sprung-Ladungen auffüllen
-    banner={text:t('bonusDone'),sub:t('bonusSub'),t:2.8,color:'#ffe600'}; flash=0.55; flashColor='#ffe600'; shake=Math.max(shake,12); vibe([20,30,20]);
-    beep(660,0.09,'square',0.26); setTimeout(()=>beep(990,0.1,'square',0.24),90); setTimeout(()=>beep(1320,0.14,'square',0.26),190);
-    runLetters++; bonusGot=[]; }
-  // Fortschritts-Anzeige (Wort oben mittig: gesammelte Buchstaben leuchten)
-  function drawBonusTracker(){ if(state!==S.PLAY&&state!==S.PAUSE&&state!==S.UPGRADE) return;
-    const word=t('bonusWord')||''; if(!word) return; const n=word.length, cw=17, x0=W/2-(n*cw)/2+cw/2, y=44;
-    ctx.save(); ctx.font='900 14px Orbitron, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    for(let i=0;i<n;i++){ const got=bonusGot[i]; ctx.globalAlpha=got?1:0.3; ctx.fillStyle=got?'#ffe600':'#8a7a44';
-      if(got&&fxQ>0.7){ ctx.shadowBlur=8; ctx.shadowColor='#ffe600'; } else ctx.shadowBlur=0; ctx.fillText(word[i],x0+i*cw,y); }
-    ctx.globalAlpha=1; ctx.shadowBlur=0; ctx.restore(); }
   function spawnPowerup(){ const t=pickPup(); powerups.push({x:grand(40,W-40),y:-24,r:16,vy:80+difficulty*18,type:t,pulse:Math.random()*6.28}); }
   // Power-Up-Drop aus zerstörtem Gegner (Chance · von Glück skaliert)
   function dropPowerup(x,y){ if(powerups.length>=4) return; const t=pickPup();
@@ -2064,8 +2035,6 @@
     const od=multiplier>=8;
     if(od&&!overdrive){ banner={text:t('overdrive'),sub:t('overdriveSub'),t:1.8,color:'#19f0ff'}; flash=Math.max(flash,0.4); flashColor='#19f0ff'; vibe([20,30,20]); }
     overdrive=od;
-    // HYPE-Meter: aktiv → läuft runter (Balken leert sich), sonst langsamer Idle-Drain
-    if(hypeT>0){ hypeT-=dt; hype=Math.max(0,hypeT/6); if(hypeT<=0){ hype=0; floatText(player.x,player.y-42,t('hypeEnd'),'#ff2ee0',16); } } else hype=Math.max(0,hype-dt*0.04);
     if(mkTimer>0){ mkTimer-=dt; if(mkTimer<=0) mkCount=0; }   // Multikill-Fenster
     coach('move'); if(shields>0) coach('shield'); tickCoach(dt);   // Onboarding-Coach (Bewegen direkt, Schild sobald vorhanden)
     { const ri=rankFor(score); if(ri>rankIdx){ rankIdx=ri; banner={text:t('promo'),sub:P('ranks')[ri]||'',t:2.4,color:'#ffe600'}; flash=Math.max(flash,0.4); flashColor='#ffe600'; vibe([15,25,15]); beep(660,0.08,'square',0.25); setTimeout(()=>beep(990,0.1,'square',0.22),90); } }   // Rang-Beförderung
@@ -2134,11 +2103,6 @@
     coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
     // Power-Ups: Drops aus Gegnern (killObstacle) + leichte Grund-Spawn-Uhr, damit auch am Anfang welche kommen
     powerupT-=dt; if(powerupT<=0){ if(powerups.length<2 && !bossActive) spawnPowerup(); powerupT=rand(13,19); }
-    letterT-=dt; if(letterT<=0){ if(!bossActive && letters.length<2 && (level>=2||(elapsed||0)>38)) spawnLetter(); letterT=rand(7,12); }   // Bonus-Buchstaben streuen (Pacing: erst ab Lvl 2 / >38s → ruhiger Einstieg)
-    for(let i=letters.length-1;i>=0;i--){ const L=letters[i]; L.y+=L.vy*dt*ts; L.pulse+=dt*5;
-      const dx=player.x-L.x,dy=player.y-L.y,rr=player.r+L.r+4;
-      if(dx*dx+dy*dy<rr*rr){ collectLetter(L); letters.splice(i,1); continue; }
-      if(L.y>H+30) letters.splice(i,1); }
     // Auto-Fire (sobald eine Waffe ausgerüstet ist)
     // Auto-Fire pro Waffe (touch-freundlich: feuert selbstständig sobald Cooldown bereit, Zielen automatisch)
     if(opt.guns){
@@ -2274,7 +2238,7 @@
 
     // Skillpunkt-Drops – langsam sinkend, dezente Nah-Anziehung (wertvoll → fair einsammelbar), Magnet saugt voll
     for(let i=sps.length-1;i>=0;i--){ const s=sps[i]; s.pulse+=dt*4; s.rot+=dt*1.2;
-      const mag=effects.magnet>0||hypeT>0, pull=mag?460:90, rng=mag?Math.max(W,H)*0.25:150, dd=Math.hypot(player.x-s.x,player.y-s.y);   // Magnet max ¼ Bildschirm
+      const mag=effects.magnet>0, pull=mag?460:90, rng=mag?Math.max(W,H)*0.25:150, dd=Math.hypot(player.x-s.x,player.y-s.y);   // Magnet max ¼ Bildschirm
       if(dd>1&&dd<rng){ const a=Math.atan2(player.y-s.y,player.x-s.x); s.x+=Math.cos(a)*pull*dt; s.y+=Math.sin(a)*pull*dt; }
       s.y+=s.vy*dt*ts;
       const dx=player.x-s.x,dy=player.y-s.y,rr=player.r+s.r+6;
@@ -2284,7 +2248,7 @@
 
     // Münz-Pickups – sinken, Magnet/Nah-Sog; Wert × Combo-Multiplikator beim Einsammeln
     for(let i=coinz.length-1;i>=0;i--){ const c=coinz[i]; c.pulse+=dt*5; c.rot+=dt;
-      const mag=effects.magnet>0||hypeT>0, pull=mag?460:mods.magnetPassive, rng=mag?Math.max(W,H)*0.25:165, dd=Math.hypot(player.x-c.x,player.y-c.y);   // Magnet max ¼ Bildschirm
+      const mag=effects.magnet>0, pull=mag?460:mods.magnetPassive, rng=mag?Math.max(W,H)*0.25:165, dd=Math.hypot(player.x-c.x,player.y-c.y);   // Magnet max ¼ Bildschirm
       if(pull>0&&dd>1&&dd<rng){ const a=Math.atan2(player.y-c.y,player.x-c.x); c.x+=Math.cos(a)*pull*dt; c.y+=Math.sin(a)*pull*dt; }
       c.y+=c.vy*dt*ts;
       const dx=player.x-c.x,dy=player.y-c.y,rr=player.r+c.r+4;
@@ -2313,10 +2277,8 @@
     comboFillEl.style.transform='scaleX('+cf+')'; comboBarEl.classList.toggle('on',combo>0);
   }
 
-  function doNear(o){ const onBeat=beatPulse>0.5; if(onBeat) runOnBeat++; combo+=1+mods.comboBonus+(onBeat?1:0); setMult(); refillCombo(); const g=(5+(onBeat?5:0))*multiplier; addScore(g);
+  function doNear(o){ combo+=1+mods.comboBonus; setMult(); refillCombo(); const g=5*multiplier; addScore(g);
     spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
-    if(onBeat){ floatText(player.x,player.y-40,t('onBeat'),'#19f0ff',18); beep(1320,0.06,'triangle',0.22,300); coach('beat'); }   // Near-Miss im Takt → Extra-Combo & Punkte
-    if(hypeT<=0){ hype=Math.min(1,hype+(onBeat?0.085:0.05)); if(hype>=1) startHype(); if(hype>=0.5) coach('hype'); }   // HYPE-Meter füllen (im Takt schneller)
     director=Math.min(1,director+0.025);
     floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
     coach('near');   // erster Near-Miss → Coach erklärt Combo/Münzen
@@ -2585,13 +2547,7 @@
         ctx.fillStyle=hexA(inf.c,0.22); ctx.strokeStyle=inf.c; ctx.lineWidth=2.5; ctx.beginPath();ctx.arc(p.x,p.y,pr,0,6.28);ctx.fill();ctx.stroke();
         ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(inf.g,p.x,p.y+1); ctx.restore(); }
 
-      // Bonus-Buchstaben (Warblade-Style)
-      for(const L of letters){ const pr=L.r+Math.sin(L.pulse)*2, gr=pr*2.2; ctx.save();
-        ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite('#ffe600'),L.x-gr,L.y-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
-        ctx.fillStyle='rgba(26,18,0,0.85)'; ctx.beginPath(); ctx.arc(L.x,L.y,pr,0,6.28); ctx.fill();
-        ctx.lineWidth=2.2; ctx.strokeStyle='#ffe600'; ctx.stroke();
-        ctx.fillStyle='#ffe600'; ctx.font='900 '+Math.round(pr*1.25)+'px Orbitron, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(L.ch,L.x,L.y+1); ctx.restore(); }
-      ctx.textAlign='start'; ctx.textBaseline='alphabetic'; drawBonusTracker();
+      ctx.textAlign='start'; ctx.textBaseline='alphabetic';
 
       // sammel-symbole (rotierende raute): gold=Chips, cyan=Heilung, pink=Fluch
       for(const g of gems){ const pr=g.r+Math.sin(g.pulse)*2, col=g.curse?(CURSE_COL[g.u.id]||'#ff2e88'):(GEM_COL[g.kind]||'#ffe600'), gr=pr*2.4; ctx.save(); ctx.translate(g.x,g.y);
@@ -2664,7 +2620,7 @@
           ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(e.x,e.y,e.r*0.4,0,6.28); ctx.fill(); } }
 
       // player trail
-      const tcol=hypeT>0?('hsl('+Math.floor((elapsed*240)%360)+',100%,65%)'):comboColor(multiplier||1);   // Trail glüht in der Combo-Hitze-Farbe (visuelles „on fire")
+      const tcol=comboColor(multiplier||1);   // Trail glüht in der Combo-Hitze-Farbe (visuelles „on fire")
       for(let i=0;i<player.trail.length;i++){ const t=player.trail[i],a=i/player.trail.length; ctx.globalAlpha=a*0.5; ctx.fillStyle=tcol; ctx.beginPath(); ctx.arc(t.x,t.y,player.r*a*0.8,0,6.28); ctx.fill(); } ctx.globalAlpha=1;
 
       // player (mitwachsendes Pixel-Raumschiff)
@@ -2694,14 +2650,6 @@
         ctx.font='900 clamp(22px,6vw,40px) Orbitron, sans-serif'; ctx.shadowBlur=24; ctx.shadowColor=banner.color; ctx.fillStyle='#fff'; ctx.fillText(banner.text,W/2,H*0.32);
         if(banner.sub){ ctx.font='700 clamp(13px,3vw,18px) Orbitron, sans-serif'; ctx.fillStyle=banner.color; ctx.fillText(banner.sub,W/2,H*0.32+34); } ctx.restore(); }
       if(bossIntroT>0) drawBossIntro();
-      if(state===S.PLAY||state===S.PAUSE){ const hp=Math.max(0,Math.min(1,hype||0)), act=hypeT>0, bw=Math.min(180,W*0.5), bx=(W-bw)/2, by=70, bh=8;
-        ctx.save(); ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-        ctx.fillStyle='rgba(8,2,20,0.55)'; ctx.fillRect(bx-2,by-2,bw+4,bh+4);
-        if(act){ ctx.fillStyle='hsl('+Math.floor((elapsed*240)%360)+',100%,60%)'; ctx.fillRect(bx,by,bw*hp,bh); }
-        else { const grd=ctx.createLinearGradient(bx,0,bx+bw,0); grd.addColorStop(0,'#19f0ff'); grd.addColorStop(1,'#ff2ee0'); ctx.fillStyle=grd; ctx.fillRect(bx,by,bw*hp,bh); }
-        ctx.strokeStyle=act?'#fff':'rgba(255,255,255,0.25)'; ctx.lineWidth=1; ctx.strokeRect(bx,by,bw,bh);
-        ctx.font='800 11px Orbitron,sans-serif'; ctx.fillStyle=act?'#fff':(hp>=1?'#ff2ee0':'rgba(255,255,255,0.6)');
-        ctx.fillText(act?('🔥 '+t('hype')+' '+Math.ceil(hypeT)+'s'):t('hype'),W/2,by-5); ctx.restore(); }
       // Coach-Karte: animierte Tutorial-Einblendung unten-mittig — friert das Spiel ein, bis getippt wird
       if(coachCard && (state===S.PLAY||state===S.PAUSE)){ const C=coachCard;
         const a=Math.max(0,Math.min(1,C.closing?1-C.ct:C.app));
@@ -2745,7 +2693,6 @@
     if(overdrive&&opt.fx){ const hue=(elapsed||0)*0.7,
       r=Math.floor(128+127*Math.sin(hue)),g2=Math.floor(128+127*Math.sin(hue+2.09)),b=Math.floor(128+127*Math.sin(hue+4.19));
       ctx.fillStyle=`rgba(${r},${g2},${b},${0.05+0.03*(beatPulse||0)})`; ctx.fillRect(-40,-40,W+80,H+80); }
-    if(hypeT>0&&opt.fx){ const hh=(elapsed||0)*4, hr=Math.floor(128+127*Math.sin(hh)),hg=Math.floor(128+127*Math.sin(hh+2.09)),hb=Math.floor(128+127*Math.sin(hh+4.19)); ctx.fillStyle=`rgba(${hr},${hg},${hb},${0.07+0.05*(beatPulse||0)})`; ctx.fillRect(-40,-40,W+80,H+80); }   // HYPE-Regenbogen-Glow
     if(flash>0&&opt.fx){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.2):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }
     if(deathFlash>0){ ctx.fillStyle=hexA('#ffffff',Math.min(0.96,deathFlash)); ctx.fillRect(-40,-40,W+80,H+80);   // Nuklearblitz (bildfüllend)
       if(deathFlash<0.7){ ctx.fillStyle=hexA(deathGlow,Math.min(0.42,0.7-deathFlash)); ctx.fillRect(-40,-40,W+80,H+80); } }   // glühender Schein im Abklang (Varianten-Farbe)
@@ -3315,7 +3262,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v338';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v339';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
@@ -3327,7 +3274,7 @@
     dps:Math.round((gunDps()||0)*10)/10, surv:Math.round((pwrSurv()||0)*10)/10,
     wpn:Object.keys(arsenal.w||{}), syn:(activeSyn||[]).slice(), ups:Object.keys(upgradeCounts||{}), runUp:upN, coins:Math.round(earned||0),
     chipsBal:Math.round(meta.chips||0), spLeft:skillPts||0, revive:runContinued?1:0,
-    director:Math.round((director||0)*10)/10, jumps:runJumps||0, onBeat:runOnBeat||0,
+    director:Math.round((director||0)*10)/10, jumps:runJumps||0, onBeat:0,
     idleMax:Math.round((runIdleMax||0)*10)/10, idlePct:Math.round(((runIdleAcc||0)/Math.max(1,elapsed||0))*1000)/10,
     death:(wonThisRun?'':(deathCause||'unknown')) }; }
   function sendTelemetry(rec){ try{ if(!TELEMETRY_URL||!opt.telemetry) return;
@@ -4509,7 +4456,7 @@
   setInterval(()=>{ if(state===S.MENU) titleTag.textContent=pick(P('crazy')); },3200);
   // (Menü spielt jetzt den eigenen Chill-Track NEON CHILL – keine Song-Rotation mehr im Menü)
 
-  clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; sps=[]; beams=[]; zaps=[]; novas=[]; gibs=[]; letters=[]; bonusGot=[]; rankIdx=0;
+  clearParticles(); floaters=[]; obstacles=[]; orbs=[]; powerups=[]; lasers=[]; bullets=[]; ebullets=[]; boss=null; gems=[]; sps=[]; beams=[]; zaps=[]; novas=[]; gibs=[]; rankIdx=0;
   multiplier=1; combo=0; nearGlow=0; flash=0; shake=0; bossActive=false; elapsed=0;
   effects={slowmo:0,magnet:0,double:0,mirror:0}; mirrorOn=false; shields=0; invuln=0;
   // Reload/Browser-Aktualisierung: war ein Run aktiv, pausiert an gleicher Stelle wiederherstellen (statt Sprung ins Menü)
