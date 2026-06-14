@@ -495,6 +495,7 @@
   .btn{cursor:pointer;border:none;font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(15px,3.6vw,20px);letter-spacing:.1em;color:#08010f;
     padding:15px 38px;border-radius:50px;background:linear-gradient(120deg,var(--cyan),var(--pink));box-shadow:0 0 22px rgba(255,46,136,.6),0 0 50px rgba(25,240,255,.35);transition:transform .12s;}
   .btn:hover{transform:scale(1.06);}.btn:active{transform:scale(.97);}
+  .btn.needcoin{background:linear-gradient(120deg,#ffd23f,#ff9a2e);color:#1a0f00;box-shadow:0 0 22px rgba(255,210,63,.6),0 0 50px rgba(255,154,46,.35);}   /* Weiterleben ohne genug Coins → führt in den Coin-Shop */
   .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3);box-shadow:none;}
   .btn.ghost:hover{border-color:var(--cyan);}
 
