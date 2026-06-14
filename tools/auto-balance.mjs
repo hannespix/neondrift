@@ -40,6 +40,7 @@ const KNOBS = {
   difficulty:  { min: 0.70, max: 1.40, harder: true },
   spawnRate:   { min: 0.70, max: 1.40, harder: true },
   eliteChance: { min: 0.60, max: 1.60, harder: true },
+  enemyHp:     { min: 0.70, max: 1.60, harder: true },   // Gegner-Zähigkeit (TTK) – Haupthebel gegen 'zu leicht durch Builds'
 };
 // Ziel-Korridore für den Health-Score (Arcade: die meisten Runs gehen verloren, aber gewinnbar).
 const T = {
@@ -114,11 +115,11 @@ function desiredDirection(s) {
   const t = s.totals || {};
   const runs = t.runs || 0, wins = t.wins || 0;
   const winRate = runs ? wins / runs : 0;
-  const dir = { difficulty: 0, spawnRate: 0, eliteChance: 0 };
-  // Zu leicht?  → schwerer
-  if (winRate > T.winHi) { dir.difficulty += 1; dir.spawnRate += 1; }
+  const dir = { difficulty: 0, spawnRate: 0, eliteChance: 0, enemyHp: 0 };
+  // Zu leicht?  → schwerer (inkl. zäherer Gegner = längere TTK gegen starke Builds)
+  if (winRate > T.winHi) { dir.difficulty += 1; dir.spawnRate += 1; dir.enemyHp += 1; }
   // Zu schwer? → leichter
-  if (winRate < T.winLo) { dir.difficulty -= 1; dir.spawnRate -= 1; }
+  if (winRate < T.winLo) { dir.difficulty -= 1; dir.spawnRate -= 1; dir.enemyHp -= 1; }
   // Camping → aktiver erzwingen (Tempo + Elite hoch)
   if (wins > 0) {
     const idle = t.avgIdleMaxWon || 0, campShare = (t.campWins || 0) / wins;
