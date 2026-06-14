@@ -438,7 +438,7 @@
     setTimeout(()=>{ try{ window.removeEventListener('click',eat,{capture:true}); }catch(_){} },500);
     state=loreReturn; if(loreReturn===S.PLAY) lastT=performance.now(); try{ beep(440,0.06,'square',0.16); }catch(_){} }
   let elapsed, spawnT, orbT, powerupT, coinT, difficulty, shake, flash, flashColor, nearGlow, nearCount, deathFlash=0;
-  let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a', deathMsg='';   // Abgang: Timer + Loser-Materialisierung + Spott-Nachricht
+  let deathT=0, deathX=0, deathY=0, deathGather=false, deathGlow='#ff7a1a', deathMsg='', overShown=false;   // Abgang: Timer + Loser-Materialisierung + Spott-Nachricht; overShown = Over-Panel sichtbar
   let lastBossName='', lastRunRecord=false;   // für die teilbare Game-Over-Karte: zuletzt getroffener Meme-Boss + Rekord-Flag
   let level, levelTimer, levelDuration, unlocked, nextUpgradeAt, upStep;
   let bossActive, bossTimer, bossPhaseT, bossNumber, laserSpawnT, bossIntroT=0;
@@ -2761,7 +2761,7 @@
       ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,R,0,6.28); ctx.fill();
       ctx.font='900 '+Math.round(R*1.35)+'px Orbitron,monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(rev>0.92?'😈':'💀',cx,cy);
       // schadenfrohe Spott-Nachricht materialisiert sich
-      if(rev>0.45 && deathMsg){ ctx.globalAlpha=Math.min(1,(rev-0.45)/0.4); const gj=(1-rev)*5;
+      if(rev>0.45 && deathMsg && !overShown){ ctx.globalAlpha=Math.min(1,(rev-0.45)/0.4); const gj=(1-rev)*5;   // sobald das Over-Panel da ist: kein doppelter Spott mehr auf dem Canvas (Geist-Duplikat weg)
         ctx.font='900 21px Orbitron,sans-serif'; ctx.textBaseline='middle';
         const maxW=W*0.84, words=deathMsg.split(' '); let line='', lines=[];
         for(const w of words){ const tst=line?line+' '+w:w; if(ctx.measureText(tst).width>maxW && line){ lines.push(line); line=w; } else line=tst; } if(line) lines.push(line);
@@ -3297,7 +3297,7 @@
     {cols:['#ffd23f','#ff9a2e','#ff5edb','#ffffff','#fff7c0'], ring:'#fff7c0', glow:'#ff9a2e'}    // Sonnensturm
   ];
   function bigDeathBlast(x,y){ const diag=Math.hypot(W,H), V=pick(DEATHVARIANTS), ri=(a,b)=>(rand(a,b)|0);
-    deathT=0; deathX=x; deathY=y; deathGather=false; deathGlow=V.glow;
+    deathT=0; deathX=x; deathY=y; deathGather=false; deathGlow=V.glow; overShown=false;   // neuer Abgang → Canvas-Spott wieder erlaubt, bis das Panel erscheint
     deathFlash=1; flash=0.95; flashColor='#ffffff'; shake=rand(42,54);
     // ganzes Spielfeld detoniert mit
     for(const o of obstacles){ pixelBurst(o.cx,o.cy,o.color,o.maxHp||2); spawnGibs(o.cx,o.cy,4,V.cols,300,520); }
@@ -3315,7 +3315,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v336';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v337';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
@@ -3371,9 +3371,10 @@
         nu.innerHTML='<div class="nuhead"><span class="nul">'+t('nextUp')+'</span> '+nx.ico+' <b>'+nx.name+'</b> '+(aff?'<span class="nuok">✓ '+t('affordable')+'</span>':'<span class="nugap">'+fmt(nx.cost-have)+' '+t('toGo')+'</span>')+'</div><div class="nubar'+(aff?' full':'')+'"><i style="width:'+pct+'%"></i></div>'; }
       else nu.innerHTML=''; }
     const mh=document.getElementById('milestoneHit');
-    if(mh){ if(msRes.hit.length){ mh.innerHTML='<span class="mhl">🎯 '+t('msReached')+'</span> '+msRes.hit.map(m=>MSICO[m.type]+' '+msLabel(m)).join(' · ')+'  <b>🪙 +'+msRes.chips+'</b>'; mh.classList.remove('hidden'); } else mh.classList.add('hidden'); }
-    quipEl.textContent=pick(P('quips')); deathMsg=pick(P('insults')); insultEl.textContent=deathMsg; newrecEl.style.display=rec?'block':'none';   // deathMsg materialisiert sich auch im Canvas-Abgang
-    setTimeout(()=>document.getElementById('over').classList.remove('hidden'),1600);   // Explosion erst auswüten lassen
+    if(mh){ if(msRes.hit.length){ mh.innerHTML='<span class="mhl">🎯 '+t('msReached')+'</span> '+msRes.hit.length+'× · <b>🪙 +'+msRes.chips+'</b>'; mh.classList.remove('hidden'); } else mh.classList.add('hidden'); }   // kompakt: Anzahl + Chips statt voller Liste (war beim Durchspielen eine 4-zeilige Wand)
+    deathMsg=pick(P('insults')); insultEl.textContent=deathMsg; if(quipEl) quipEl.style.display='none';   // nur EINE Spott-Zeile (Beleidigung); der separate Spruch war Doppelung
+    newrecEl.style.display=rec?'block':'none';   // deathMsg materialisiert sich auch im Canvas-Abgang
+    overShown=false; setTimeout(()=>{ overShown=true; document.getElementById('over').classList.remove('hidden'); },1600);   // Explosion erst auswüten lassen; overShown stoppt das Canvas-Spott-Duplikat
   }
 
   // ---------- Teilen: Score-Karte als PNG ----------
