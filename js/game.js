@@ -1482,7 +1482,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(52+Math.min(level*4.6,104)+Math.min(elapsed*0.6,74))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo: früh genauso langsam, aber Level-/Zeit-Caps höher → spätes Spiel bleibt fordernd (kein Speed-Plateau mehr)
+    const sp=(46+Math.min(level*3.6,72)+Math.min(elapsed*0.45,46))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo runtergesetzt (weniger Hektik): langsamere Basis + niedrigere Level-/Zeit-Caps
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3),mv:(Math.random()*12)|0};   // mv = Mini-Monster-Variante (prozedurales Sci-Fi-Vieh)
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -2513,7 +2513,7 @@
     const pts=3*(o.maxHp||1); addScore(pts);
     mkTimer=0.7; mkCount++;
     if(mkCount===3||mkCount===6||mkCount===10||(mkCount>10&&mkCount%5===0)){ const mc=mkCount>=10?'#ff2ee0':(mkCount>=6?'#ff9a2e':'#ffe600'); floatText(player.x,player.y-58,t('multikill')+' ×'+mkCount,mc,22); addScore(Math.round(pts*mkCount*0.5)); beep(Math.min(1500,700+mkCount*30),0.08,'square',0.22); shake=Math.max(shake,7); }
-    pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
+    pixelBurst(o.cx,o.cy,o.color,Math.min(o.maxHp||1,10)); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);   // PERF: Partikel beim Kill gedeckelt (zähe Gegner spammten viele)
     sfxKill(); flash=Math.min(0.5,flash+0.12); flashColor=o.color; vibe(o.maxHp>=3?[18,14]:6);
     for(const sid of activeSyn) synCharge[sid]=Math.min(1,(synCharge[sid]||0)+1/16);   // ÜBERLADUNG lädt über Kills (voll = aktiver Fusions-Skill bereit)
     shake=Math.max(shake,o.maxHp>=3?6:3); director=Math.min(1,director+0.008);
@@ -2620,12 +2620,11 @@
       else if(mouth==='teeth'){ for(let x=cx-2;x<=cx;x++){ set(x,my,2); set(x,my+1,5); } }
       else if(mouth==='fangs'){ set(cx-2,my,2); set(cx-1,my,2); set(cx,my,2); set(cx-2,my+1,5); }
       if((mouth==='o'||mouth==='teeth'||mouth==='fangs')&&tongue) set(cx,my+1,6); }
-    o.grid=grid; o.gG=GW; o.gH=GH; o.gEye=eyeCol; o.gAcc=accent; o.gLine=darkHex(o.color,0.45); }
-  function drawCreature(o,hit,frozen){ if(!o.grid) rollCreature(o); const GW=o.gG, GH=o.gH||GW, gr=o.grid;
-    const csx=o.w*1.3/GW, csy=o.h*1.3/GH, ox=-(GW*csx)/2, oy=-(GH*csy)/2, body=hit?'#ffffff':(frozen?'#bdefff':o.color);   // GW aspektgerecht → csx≈csy (quadratische Pixel)
-    for(let y=0;y<GH;y++){ const row=gr[y]; for(let x=0;x<GW;x++){ const t=row[x]; if(!t) continue;   // crisp Pixel-Render (kein Stauchen mehr)
-      ctx.fillStyle = (hit&&t!==2&&t!==7)?'#ffffff' : t===1?body : t===2?'#0a0010' : t===7?(frozen?'#5a8aa6':o.gLine) : t===3?o.gEye : t===4?o.gAcc : t===5?'#ffffff' : '#ff6a8a';
-      ctx.fillRect(Math.floor(ox+x*csx),Math.floor(oy+y*csy),Math.ceil(csx)+1,Math.ceil(csy)+1); } } }
+    const gLine=darkHex(o.color,0.45), cp=4, bake=(wm)=>{ const c=document.createElement('canvas'); c.width=GW*cp; c.height=GH*cp; const g=c.getContext('2d');   // PERF: Sprite EINMAL backen statt pro Frame hunderte fillRect
+      for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){ const t=grid[y][x]; if(!t) continue; g.fillStyle=wm?((t===2||t===7)?'#0a0010':'#ffffff'):(t===1?o.color:t===2?'#0a0010':t===7?gLine:t===3?eyeCol:t===4?accent:t===5?'#ffffff':'#ff6a8a'); g.fillRect(x*cp,y*cp,cp,cp); } return c; };
+    o.spr=bake(false); o.sprW=bake(true); }
+  function drawCreature(o,hit){ if(!o.spr) rollCreature(o); const img=hit?o.sprW:o.spr, dw=o.w*1.3, dh=o.h*1.3;   // PERF: 1 drawImage (nearest-neighbor = crisp Pixel)
+    ctx.imageSmoothingEnabled=false; ctx.drawImage(img,-dw/2,-dh/2,dw,dh); ctx.imageSmoothingEnabled=true; }
   function fireEnemyShot(o){ if(!player) return; const a=Math.atan2(player.y-o.cy,player.x-o.cx)+rand(-0.05,0.05), spd=145+difficulty*7;   // langsam & telegrafiert = fair dodgebar
     ebullets.push(eb(o.cx,o.cy+o.h*0.32,Math.cos(a)*spd,Math.sin(a)*spd)); spawnParticles(o.cx,o.cy+o.h*0.3,'#ff5ea8',5,170); beep(190,0.06,'square',0.12,-60); }
   function shapePath(sh,w,h){ const hw=w/2,hh=h/2; ctx.beginPath();
@@ -2763,10 +2762,8 @@
         else if(o.mob){ ctx.save(); ctx.rotate(-(o.rot||0)); drawCreature(o,o.hitFlash>0,frozen);   // Mob = prozedurales Pixel-Monster (aufrecht)
           if(o.shooter && o.fireT!=null){ const ch=Math.max(0,1-o.fireT/0.5); if(ch>0){ ctx.globalCompositeOperation='lighter'; ctx.fillStyle=hexA('#ff2e88',ch*0.8); ctx.beginPath(); ctx.arc(0,o.h*0.5,o.w*0.2*(0.6+ch*0.6),0,6.28); ctx.fill(); ctx.globalCompositeOperation='source-over'; } }   // Schützen-Telegraph
           ctx.restore(); }
-        else { const gd=ctx.createLinearGradient(0,-o.h*0.6,0,o.h*0.6); gd.addColorStop(0,hexA(o.color,o.hitFlash>0?0.85:0.4)); gd.addColorStop(1,hexA(o.color,o.hitFlash>0?0.5:0.08));   // poliertes Neon-Hindernis: Verlauf (oben heller) + Rand + innerer Facetten-Schimmer
-          ctx.fillStyle=gd; shapePath(o.shape,o.w,o.h); ctx.fill();
-          ctx.strokeStyle=oc; ctx.lineWidth=o.elite?4:2.6; shapePath(o.shape,o.w,o.h); ctx.stroke();
-          ctx.strokeStyle=hexA('#ffffff',o.hitFlash>0?0.55:0.2); ctx.lineWidth=1.2; shapePath(o.shape,o.w*0.62,o.h*0.62); ctx.stroke(); }
+        else { ctx.fillStyle=hexA(o.color,o.hitFlash>0?0.5:0.18); ctx.strokeStyle=oc; ctx.lineWidth=o.elite?4:2.6; shapePath(o.shape,o.w,o.h); ctx.fill(); ctx.stroke();   // PERF: flacher Fill + Rand (kein Gradient pro Frame mehr)
+          if(fxQ>0.7){ ctx.strokeStyle=hexA('#ffffff',o.hitFlash>0?0.5:0.16); ctx.lineWidth=1.1; shapePath(o.shape,o.w*0.6,o.h*0.6); ctx.stroke(); } }   // dezenter innerer Schimmer nur bei FX-Budget
         if(frozen){ const op=Math.min(0.7,0.32+(1-(o.slowAmt!=null?o.slowAmt:1))*0.7);   // tiefer gefroren = dichtere Eiskruste
           ctx.globalAlpha=op; ctx.strokeStyle='#eaffff'; ctx.lineWidth=2; ctx.setLineDash([4,3]);
           if(o.shape==='ring'){ ctx.beginPath(); ctx.arc(0,0,o.w*0.46,0,6.28); ctx.stroke(); } else { shapePath(o.shape,o.w*1.14,o.h*1.14); ctx.stroke(); }
@@ -3452,7 +3449,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v358';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v359';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
