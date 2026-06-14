@@ -1316,8 +1316,11 @@
   // (director hoch = viele Near-Misses/Orbs ohne Treffer). Wird man getroffen, fällt director → Druck lässt nach.
   // So bleibt der Grund-Cap als Schutz für schwache Spieler, starke laufen der Schwierigkeit aber nicht mehr davon.
   const ddaPush=()=>Math.max(0,director-0.55)*2.2;
-  const difSpd =()=>(1+Math.min(0.55,pwrSurv()*0.020)+pwrSurv()*0.011*ddaPush()+(endless?Math.min(0.5,madness*0.3):0))*flowI;   // Endlos-Tempo GEDECKELT (max +50% statt unbegrenzt) → wird nicht mehr unspielbar schnell
-  const difDen =()=>Math.max(0.30,1-Math.min(0.30,pwrSurv()*0.012)-pwrSurv()*0.006*ddaPush()-(endless?Math.min(0.45,madness*0.5):0));   // Endlos: Druck über DICHTE statt Tempo
+  // Endgame-Eskalation: ab Lvl 12 darf der Druck die Sättigungs-Decke durchbrechen, die starke Builds OP werden lässt.
+  // lateDom senkt die Dichte-Floors mit der Endgame-Tiefe (max −0.14). Gegated über Level → frühe Spieler unberührt.
+  const lateDom=()=>Math.min(0.14,Math.max(0,(level||1)-12)*0.012);
+  const difSpd =()=>(1+Math.min(0.55,pwrSurv()*0.020)+pwrSurv()*0.013*ddaPush()+Math.min(0.45,Math.max(0,(level||1)-12)*0.010)*Math.min(1,0.4+ddaPush())+(endless?Math.min(0.5,madness*0.3):0))*flowI;   // + Endgame-Tempo (gegated über souveränes Spiel)
+  const difDen =()=>Math.max(0.30-lateDom(),1-Math.min(0.30,pwrSurv()*0.012)-pwrSurv()*0.009*ddaPush()-(endless?Math.min(0.45,madness*0.5):0));   // Floor sinkt im Endgame → dichtere Wellen gegen OP-Builds
   // „Coverage": echtes Screen-Clear-Potenzial (Waffen + aktive Fusionen) – treibt die Elite-Häufigkeit,
   // denn genau diese Flächendeckung lässt das Ausweichen sonst verschwinden.
   const coverage  =()=>opt.guns?(ownedCount()+activeSyn.length*1.3):0;
@@ -1494,7 +1497,7 @@
   function spawnObstacle(){
     const key=pickPattern();
     const hc=mode==='hardcore'?1.5:1, zc=mode==='zen'?0.75:1;
-    const sp=(46+Math.min(level*3.6,72)+Math.min(elapsed*0.45,46))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Tempo runtergesetzt (weniger Hektik): langsamere Basis + niedrigere Level-/Zeit-Caps
+    const sp=(46+Math.min(level*3.6,100)+Math.min(elapsed*0.45,46))*hc*zc*(mods.obSpeed||1)*(1+(director-0.5)*0.12)*dpsSpd()*difSpd()*(1-0.5*introT())*0.96*diffSpd;   // Level-Tempo-Cap 72→100 (Endgame bleibt nicht stehen); difSpd trägt zusätzlich die Endgame-/Dominanz-Eskalation
     const o={pattern:key,near:false,scored:false,trail:[],rot:0,vr:grand(-3,3),mv:(Math.random()*12)|0};   // mv = Mini-Monster-Variante (prozedurales Sci-Fi-Vieh)
     if(key==='straight'){ const sh=gpick(['rect','long','diamond']); o.shape=sh; o.color='#ff2e88';
       if(sh==='long'){o.w=grand(90,170);o.h=grand(20,28);} else if(sh==='diamond'){o.w=grand(34,52);o.h=o.w;} else {o.w=grand(30,58);o.h=grand(30,58);}
@@ -2219,7 +2222,7 @@
     else if(!bossActive && elapsed>14){ breatherT-=dt; if(breatherT<=0){ triggerBreather(); breatherT=rand(30,42); } }
     if(!bossActive && breatherActive<=0){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.3,(1.32-difficulty*0.05-level*0.022)*(1+Math.max(0,4-level)*0.3)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen/(BAL.spawnRate||1)); } }   // ruhiger: größere Basis-Pause (1.15→1.32) + höherer Floor (0.24→0.3) → weniger gleichzeitig auf dem Schirm
+        spawnT=Math.max(0.3-lateDom(),(1.32-difficulty*0.05-level*0.022)*(1+Math.max(0,4-level)*0.3)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen/(BAL.spawnRate||1)); } }   // Spawn-Floor sinkt im Endgame (lateDom) → durchbricht die Dichte-Decke, die starke Builds OP werden lässt
     // (Orbs entfernt – Münzen übernehmen Combo+Punkte+Geld)
     // Münzen fallen laufend (Haupt-Einkommensquelle), gelegentlich als ganze Gruppe
     coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
@@ -3474,7 +3477,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v368';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v369';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
