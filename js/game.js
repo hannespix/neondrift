@@ -2204,7 +2204,7 @@
     else if(!bossActive && elapsed>14){ breatherT-=dt; if(breatherT<=0){ triggerBreather(); breatherT=rand(30,42); } }
     if(!bossActive && breatherActive<=0){ spawnT-=dt; if(spawnT<=0) spawnQueued=true;
       if(spawnQueued && onStep){ spawnObstacle(); spawnQueued=false;
-        spawnT=Math.max(0.24,(1.15-difficulty*0.05-level*0.022)*(1+Math.max(0,4-level)*0.3)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen/(BAL.spawnRate||1)); } }   // früh viel dünner (Lvl-Rampe: L1 ~1.9× Pause), ab L4 normal; danach via difDen/dpsDen mit Stärke dichter
+        spawnT=Math.max(0.3,(1.32-difficulty*0.05-level*0.022)*(1+Math.max(0,4-level)*0.3)*(mods.spawnMult||1)*(1-(director-0.5)*0.28)*difDen()*dpsDen()*(1+1.9*introT())/diffDen/(BAL.spawnRate||1)); } }   // ruhiger: größere Basis-Pause (1.15→1.32) + höherer Floor (0.24→0.3) → weniger gleichzeitig auf dem Schirm
     // (Orbs entfernt – Münzen übernehmen Combo+Punkte+Geld)
     // Münzen fallen laufend (Haupt-Einkommensquelle), gelegentlich als ganze Gruppe
     coinT-=dt; if(coinT<=0){ if(!bossActive){ if(Math.random()<0.25) spawnCoinGroup(); else spawnCoin(); } coinT=rand(1.1,2.1); }
@@ -2393,12 +2393,12 @@
   }
 
   function doNear(o){ combo+=1+mods.comboBonus; setMult(); refillCombo(); const g=5*multiplier; addScore(g);
-    spawnParticles(player.x,player.y,'#ffe600',6,160); sfxNear(); bumpCombo(); vibe(8);
+    spawnParticles(player.x,player.y,'#ffe600',4,150); sfxNear(); bumpCombo(); vibe(6);   // ruhiger: weniger Partikel, KEIN '+x'-Text pro Near-Miss (war Dauer-Spam)
     director=Math.min(1,director+0.025);
-    floatText(player.x+rand(-10,10),player.y-20,'+'+g,'#ffe600',14); nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
+    nearGlow=Math.min(1,nearGlow+0.5); nearCount++;
     coach('near');   // erster Near-Miss → Coach erklärt Combo/Münzen
     unlockAch('firstNear');
-    if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',22); shake=Math.max(shake,7); vibe([10,15]);
+    if(nearCount%5===0){ floatText(player.x,player.y-46,pick(P('near')),'#19f0ff',20); shake=Math.max(shake,5); vibe([10,15]);
       awardCoins((2+multiplier*0.6)*chipMult()*diffChip,player.x+22,player.y-26); } }   // Combo-Strähne = Coin-Bündel (auch in BLITZ ohne Orbs)
   // Ultra-knapper Ausweicher → Extra-Bonus
   function perfectDodge(o){ const pb=Math.round(8*multiplier); addScore(pb); combo++; setMult(); refillCombo();
@@ -2585,7 +2585,7 @@
   // ---------- Shapes ----------
   function rr(x,y,w,h,r){ ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath(); }
   // ---------- Prozedurale Sci-Fi-Kreaturen (sauberer Neon-Vektor-Look, nativ gezeichnet) ----------
-  const REG_COLS=['#ff2e88','#19f0ff','#7cff2e','#ff9a2e','#c45bff','#ff5ea8','#2effc0','#ffe24d'];
+  const REG_COLS=['#ff2e88','#ff5ea8','#c45bff'];   // kohärente Signatur-Palette (Pink/Magenta/Violett) statt Regenbogen → weniger visueller Lärm
   function darkHex(h,f){ const n=parseInt(h.slice(1),16); return 'rgb('+Math.round(((n>>16)&255)*f)+','+Math.round(((n>>8)&255)*f)+','+Math.round((n&255)*f)+')'; }   // abgedunkelte Farbe → dezente Konturen
   function rollCreature(o){ const R=Math.random, pk=a=>a[(R()*a.length)|0];   // aspektgerechtes Pixel-Grid (quadratische Pixel statt Stauchung) einmal pro Gegner
     const tr=o.elite?'e':o.flank?'f':o.shielded?'s':o.shooter?'g':'n';
@@ -2880,7 +2880,7 @@
     if(overdrive&&opt.fx){ const hue=(elapsed||0)*0.7,
       r=Math.floor(128+127*Math.sin(hue)),g2=Math.floor(128+127*Math.sin(hue+2.09)),b=Math.floor(128+127*Math.sin(hue+4.19));
       ctx.fillStyle=`rgba(${r},${g2},${b},${0.05+0.03*(beatPulse||0)})`; ctx.fillRect(-40,-40,W+80,H+80); }
-    if(flash>0&&opt.fx){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.2):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }
+    if(flash>0&&opt.fx){ const m=flashColor.startsWith('#')?hexA(flashColor,flash*0.13):flashColor; ctx.fillStyle=m; ctx.fillRect(-40,-40,W+80,H+80); }   // sanfter (0.2→0.13): weniger Screen-Flash-Lärm
     if(deathFlash>0){ ctx.fillStyle=hexA('#ffffff',Math.min(0.96,deathFlash)); ctx.fillRect(-40,-40,W+80,H+80);   // Nuklearblitz (bildfüllend)
       if(deathFlash<0.7){ ctx.fillStyle=hexA(deathGlow,Math.min(0.42,0.7-deathFlash)); ctx.fillRect(-40,-40,W+80,H+80); } }   // glühender Schein im Abklang (Varianten-Farbe)
     // 😈 Loser-Materialisierung: nach der Explosion fügt sich der Verlierer wieder zusammen
@@ -3449,7 +3449,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v359';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v360';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
@@ -3693,13 +3693,9 @@
     if(shopTab==='weapons'){ renderWeaponTab(); return; }       // Waffen-Tab: Accordion-Skilltree pro Waffe
     META.filter(m=>shopCat(m.id)===shopTab).forEach(m=>shopCards.appendChild(metaCard(m))); }
   function buyMeta(id,rerender){ const m=META.find(x=>x.id===id); if(!m) return; const lvl=metaLvl(id);
-    if(lvl>=m.max) return;
-    if(!researchActive()){ const cost=metaCost(m,lvl); if(coinShort(cost)) return;
-      if(startResearch(id)){ sfxUpgrade(); vibe([15,20,15]); (rerender||renderShop)(); } return; }   // frei: Echtzeit-Forschung starten
-    const a=researchActive(), pend=queuedCount(id)+(a.id===id?1:0), effLvl=lvl+pend;   // belegt: in die Warteschlange einreihen
-    if(effLvl>=m.max || (researchState().queue||[]).length>=5){ beep(170,0.06,'square',0.12); return; }
-    if(coinShort(metaCost(m,effLvl))) return;
-    if(enqueueResearch(id)){ sfxUpgrade(); vibe([12,16,12]); (rerender||renderShop)(); }
+    if(lvl>=m.max) return; const cost=metaCost(m,lvl); if(coinShort(cost)) return;
+    meta.chips-=cost; meta.lvl=meta.lvl||{}; meta.lvl[id]=lvl+1; applyResearchUnlock(id); saveMeta();   // SOFORT-KAUF: kein Research-Timer/Queue mehr (weniger Reibung)
+    sfxUpgrade(); vibe([15,20,15]); updateMenuChips(); (rerender||renderShop)();
   }
 
   // ---------- Arsenal-Ansicht (In-Run, über Pause: Build ansehen, Waffe ablegen) ----------
