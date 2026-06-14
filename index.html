@@ -59,6 +59,7 @@
       <button id="dailyBtn" data-mode="daily">🗓 TÄGLICHE CHALLENGE</button>
       <div class="prepRow">
         <button id="shopBtn"><span id="shopLbl">🛠️ WERKSTATT</span> · <span id="menuChips">🪙 0</span></button>
+        <button id="lbBtn">🏆 BESTENLISTE</button>
       </div>
       <div class="iconRow">
         <button id="achBtn" title="Erfolge"><span class="ico">🏅</span><span class="iconLbl" id="lblAch">Erfolge</span></button>
@@ -269,7 +270,26 @@
     <div class="runsum" id="runSummary"></div>
     <div class="nextunlock" id="nextUnlock"></div>
     <div class="milestoneHit hidden" id="milestoneHit"></div>
-    <div class="btnrow"><button class="btn" id="againBtn">NOCHMAL</button><button class="btn ghost" id="overShopBtn">🚀 WERKSTATT</button><button class="btn ghost" id="shareBtn">📤 TEILEN</button><button class="btn ghost" id="menuBtn">MENÜ</button></div>
+    <div class="btnrow"><button class="btn" id="againBtn">NOCHMAL</button><button class="btn" id="saveScoreBtn">🏆 SCORE SPEICHERN</button><button class="btn ghost" id="overShopBtn">🚀 WERKSTATT</button><button class="btn ghost" id="shareBtn">📤 TEILEN</button><button class="btn ghost" id="menuBtn">MENÜ</button></div>
+  </div>
+
+  <div id="leaderboard" class="screen hidden">
+    <button class="closeBtn" id="lbCloseBtn" aria-label="Schließen">✕</button>
+    <div class="utitle" id="lbTitleEl" style="color:var(--yellow);text-shadow:0 0 20px var(--yellow);">🏆 BESTENLISTE</div>
+    <div class="lbTabs" id="lbTabs"></div>
+    <div class="lbList" id="lbList"></div>
+    <div class="lbMe" id="lbMe"></div>
+    <button class="btn ghost" id="lbBackBtn" style="margin-top:16px;">← ZURÜCK</button>
+  </div>
+
+  <div id="nickPrompt" class="screen hidden">
+    <div class="utitle" id="nickTitleEl" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan);">DEIN NAME</div>
+    <div class="usub" id="nickHintEl" style="max-width:340px;text-align:center;"></div>
+    <input id="nickInput" type="text" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    <div class="btnrow">
+      <button class="btn" id="nickSaveBtn">SPEICHERN</button>
+      <button class="btn ghost" id="nickCancelBtn">ABBRECHEN</button>
+    </div>
   </div>
 
   <div class="credit">THRONERUSH v54</div>

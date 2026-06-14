@@ -3,17 +3,13 @@
     {
       "ver": "v333",
       "knobs": { "difficulty": 1, "spawnRate": 1, "eliteChance": 1 },
-      "score": null,
-      "runs": null,
-      "ts": 0
+      "score": null, "runs": null, "ts": 0
     },
     {
       "ver": "v361",
       "knobs": { "difficulty": 1.15, "spawnRate": 1.12, "eliteChance": 1.20 },
       "prevKnobs": { "difficulty": 1, "spawnRate": 1, "eliteChance": 1 },
-      "score": null,
-      "runs": null,
-      "ts": 0,
+      "score": null, "runs": null, "ts": 0,
       "reason": ["manuelles erstes großes Rebalancing: Spiel war deutlich zu einfach → Tempo +15%, Dichte +12%, Elite +20%"]
     }
   ]

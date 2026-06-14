@@ -24,6 +24,35 @@ const MAX_BODY = 4096;          // Bytes – ein Run-Datensatz ist winzig
 const RATE_MAX = 30;            // max. Inserts …
 const RATE_WINDOW_MS = 60_000;  // … pro cid pro Minute
 
+// ---- Leaderboard ----
+const LB_MODES = new Set(['normal', 'hardcore']);  // Zen = entspannter Modus → kein Wettbewerb
+const MAX_NICK = 16;
+const SCORE_RATE_MAX = 20;      // max. Score-Submits pro cid pro Minute
+const MAX_SCORE = 1e10;
+// Minimal-Filter gegen die gröbsten Namen (zensiert, statt abzulehnen). Bewusst kurz gehalten.
+const BAD_WORDS = ['fuck', 'shit', 'nigger', 'nigga', 'fag', 'cunt', 'bitch', 'nazi', 'hitler', 'rape'];
+function censorNick(s) {
+  let out = s;
+  for (const w of BAD_WORDS) {
+    out = out.replace(new RegExp(w, 'ig'), (m) => '*'.repeat(m.length));
+  }
+  return out;
+}
+function cleanNick(v) {
+  let s = (typeof v === 'string' ? v : '')
+    .normalize('NFC')
+    .replace(/[\u0000-\u001f\u007f-\u009f]/g, "") // Steuerzeichen
+    .replace(/[<>]/g, '')                          // kein Markup
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, MAX_NICK);
+  return censorNick(s).slice(0, MAX_NICK);
+}
+function cleanDate(v) {
+  const s = (typeof v === 'string' ? v : '').slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : '';
+}
+
 function cors(env) {
   const origin = (env && env.ALLOW_ORIGIN) || '*';
   return {
@@ -257,6 +286,93 @@ async function handleExport(url, env) {
   });
 }
 
+// ---- Leaderboard: öffentlich (kein Admin-Token). Scores sind client-gemeldet → grobe Caps + Rate-Limit. ----
+function sanitizeScore(rec) {
+  if (!rec || typeof rec !== 'object') throw new Error('bad');
+  const nick = cleanNick(rec.nick);
+  if (!nick) throw new Error('no nick');
+  const cid = typeof rec.cid === 'string' ? rec.cid.slice(0, 32) : '';
+  if (!cid) throw new Error('no cid');
+  const m0 = typeof rec.mode === 'string' ? rec.mode.slice(0, 16) : 'normal';
+  const mode = LB_MODES.has(m0) ? m0 : 'normal';
+  const daily = rec.daily ? 1 : 0;
+  const dailyDate = daily ? cleanDate(rec.dailyDate) : '';
+  if (daily && !dailyDate) throw new Error('bad date');
+  const int = (v, lo, hi) => { let n = Math.round(Number(v)); if (!Number.isFinite(n)) n = 0; return Math.max(lo, Math.min(hi, n)); };
+  return {
+    nick, cid, mode, daily, dailyDate,
+    score: int(rec.score, 0, MAX_SCORE),
+    lvl: int(rec.lvl, 0, 9999),
+    boss: int(rec.boss, 0, 9999),
+    ver: typeof rec.ver === 'string' ? rec.ver.slice(0, 16) : '',
+  };
+}
+
+async function rankFor(env, board, score) {
+  const r = await env.DB.prepare(
+    'SELECT COUNT(*) AS n FROM scores WHERE daily=? AND dailyDate=? AND mode=? AND score>?'
+  ).bind(board.daily, board.dailyDate, board.mode, score).first();
+  return ((r && r.n) || 0) + 1;
+}
+
+async function handleScore(request, env) {
+  const len = Number(request.headers.get('content-length') || 0);
+  if (len > MAX_BODY) return json({ ok: false, error: 'too large' }, 413, env);
+  let raw;
+  try { raw = await request.text(); } catch { return json({ ok: false, error: 'no body' }, 400, env); }
+  if (raw.length > MAX_BODY) return json({ ok: false, error: 'too large' }, 413, env);
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch { return json({ ok: false, error: 'bad json' }, 400, env); }
+  let r;
+  try { r = sanitizeScore(parsed); } catch { return json({ ok: false, error: 'bad record' }, 422, env); }
+
+  const since = Date.now() - RATE_WINDOW_MS;
+  const cnt = await env.DB.prepare('SELECT COUNT(*) AS n FROM scores WHERE cid=? AND server_ts>?')
+    .bind(r.cid, since).first();
+  if (cnt && cnt.n >= SCORE_RATE_MAX) return json({ ok: false, error: 'rate limited' }, 429, env);
+
+  // Genau ein Eintrag pro Spieler pro Board – Bestwert gewinnt (Upsert über UNIQUE-Index).
+  await env.DB.prepare(
+    `INSERT INTO scores (server_ts, ver, cid, nick, score, mode, daily, dailyDate, lvl, boss)
+     VALUES (?,?,?,?,?,?,?,?,?,?)
+     ON CONFLICT(cid, daily, dailyDate, mode) DO UPDATE SET
+       nick=excluded.nick, ver=excluded.ver, server_ts=excluded.server_ts,
+       lvl=CASE WHEN excluded.score>scores.score THEN excluded.lvl ELSE scores.lvl END,
+       boss=CASE WHEN excluded.score>scores.score THEN excluded.boss ELSE scores.boss END,
+       score=MAX(scores.score, excluded.score)`
+  ).bind(Date.now(), r.ver, r.cid, r.nick, r.score, r.mode, r.daily, r.dailyDate, r.lvl, r.boss).run();
+
+  const best = await env.DB.prepare(
+    'SELECT score FROM scores WHERE cid=? AND daily=? AND dailyDate=? AND mode=?'
+  ).bind(r.cid, r.daily, r.dailyDate, r.mode).first();
+  const myScore = best ? best.score : r.score;
+  const rank = await rankFor(env, r, myScore);
+  return json({ ok: true, rank, score: myScore }, 200, env);
+}
+
+async function handleLeaderboard(url, env) {
+  const daily = url.searchParams.get('scope') === 'daily' ? 1 : 0;
+  const m0 = url.searchParams.get('mode') || 'normal';
+  const mode = LB_MODES.has(m0) ? m0 : 'normal';
+  const dailyDate = daily ? cleanDate(url.searchParams.get('date') || '') : '';
+  if (daily && !dailyDate) return json({ ok: false, error: 'bad date' }, 422, env);
+  const limit = Math.min(Math.max(Number(url.searchParams.get('limit')) || 50, 1), 100);
+
+  const rows = (await env.DB.prepare(
+    'SELECT nick, score, lvl, boss FROM scores WHERE daily=? AND dailyDate=? AND mode=? ORDER BY score DESC, server_ts ASC LIMIT ?'
+  ).bind(daily, dailyDate, mode, limit).all()).results;
+  const list = rows.map((r, i) => ({ rank: i + 1, nick: r.nick, score: r.score, lvl: r.lvl, boss: r.boss }));
+
+  let me = null;
+  const cid = (url.searchParams.get('cid') || '').slice(0, 32);
+  if (cid) {
+    const b = await env.DB.prepare('SELECT score FROM scores WHERE cid=? AND daily=? AND dailyDate=? AND mode=?')
+      .bind(cid, daily, dailyDate, mode).first();
+    if (b) me = { rank: await rankFor(env, { daily, dailyDate, mode }, b.score), score: b.score };
+  }
+  return json({ ok: true, scope: daily ? 'daily' : 'all', mode, date: dailyDate, list, me }, 200, env);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -264,6 +380,8 @@ export default {
 
     try {
       if (request.method === 'POST' && url.pathname === '/') return await handleIngest(request, env);
+      if (request.method === 'POST' && url.pathname === '/score') return await handleScore(request, env);
+      if (request.method === 'GET' && url.pathname === '/leaderboard') return await handleLeaderboard(url, env);
       if (request.method === 'GET' && url.pathname === '/stats') return await handleStats(url, env);
       if (request.method === 'GET' && url.pathname === '/export') return await handleExport(url, env);
       if (request.method === 'GET' && url.pathname === '/') return json({ ok: true, service: 'thronerush-telemetry' }, 200, env);
