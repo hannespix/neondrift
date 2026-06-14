@@ -1635,12 +1635,6 @@
   }
   function affTxt(a){ return '+'+a.v+(a.id==='magnet'?'':'%')+' '+t('aff_'+a.id); }
   function collectLoot(L){ const it=L.it;
-    if(it.chest){ const n=3+((Math.random()*3)|0);   // Beute-Truhe öffnen → Loot-Explosion (geboostete Rarität)
-      for(let k=0;k<n;k++){ const item=(opt.guns&&Math.random()<0.22)?{wep:true,col:'#caffff'}:rollItem(rollRarity(2.0));
-        loot.push({x:Math.max(30,Math.min(W-30,L.x+rand(-48,48))),y:L.y+rand(-16,12),r:item.wep?17:16,vy:rand(26,74),it:item,pulse:Math.random()*6.28,rot:0}); }
-      const cb=Math.round((40+difficulty*12)*(diffChip||1)); awardCoins(cb,L.x,L.y-22,true);
-      spawnParticles(L.x,L.y,'#ffd23f',30,440); flash=Math.min(0.6,flash+0.2); flashColor='#ffd23f'; shake=Math.max(shake,12); sfxUpgrade(); vibe([25,40,25]);
-      banner={text:'📦 '+t('chestOpen'),sub:'🪙 +'+cb,t:2.0,color:'#ffd23f'}; director=Math.min(1,director+0.02); lore('vault'); return; }
     if(it.wep){ const r=grantWeaponDrop();   // Waffen-Kiste
       spawnParticles(L.x,L.y,it.col,18,300); flash=Math.min(0.55,flash+0.16); flashColor=it.col; sfxUpgrade(); vibe([16,22,16]); runLoot++; coach('wcrate');
       if(r.kind==='discover'){ banner={text:'✦ '+t('lootDiscover').toUpperCase(),sub:WID[r.id].ico+' '+wName(r.id),t:2.8,color:'#ffd23f'}; floatText(L.x,L.y-20,WID[r.id].ico,'#ffd23f',30); shake=Math.max(shake,10); beep(1175,0.12,'square',0.28,200); }
@@ -1657,9 +1651,16 @@
     banner={text:'✦ '+t('loot_'+it.rar).toUpperCase(),sub:parts.join('  ·  '),t:2.2,color:it.col};
     floatText(L.x,L.y-18,'✦',it.col,22); director=Math.min(1,director+0.01);
   }
-  function spawnChest(){ if(!loot) loot=[]; if(loot.some(L=>L.it&&L.it.chest)) return;   // nur eine Truhe gleichzeitig
-    loot.push({x:rand(70,W-70),y:-30,r:24,vy:32+difficulty*5,it:{chest:true,col:'#ffd23f'},pulse:Math.random()*6.28,rot:0});
+  function spawnChest(){ if(!opt.guns) return; if(obstacles.some(o=>o.chest)) return;   // schießbare Truhe (nur mit Waffen), max 1 gleichzeitig
+    const w=48, hp=Math.max(12,Math.round(gunDps()*1.1+difficulty*3));   // HP ~1–1.5s Beschuss, skaliert mit deinem DPS
+    obstacles.push({chest:true,pattern:'straight',shape:'rect',color:'#ffd23f',w:w,h:w,cx:rand(70,W-70),cy:-w,vx:0,vy:34+difficulty*5,maxHp:hp,hp:hp,hitFlash:0,trail:[],rot:0,vr:0,near:false,scored:true});
     beep(523,0.09,'square',0.2); setTimeout(()=>beep(740,0.08,'square',0.18),90); coach('chest'); }
+  function openChest(o){ const n=3+((Math.random()*3)|0);   // Truhe kaputtgeschossen → Loot-Explosion (geboostete Rarität)
+    for(let k=0;k<n;k++){ const item=(opt.guns&&Math.random()<0.22)?{wep:true,col:'#caffff'}:rollItem(rollRarity(2.0));
+      loot.push({x:Math.max(30,Math.min(W-30,o.cx+rand(-48,48))),y:o.cy+rand(-16,12),r:item.wep?17:16,vy:rand(26,74),it:item,pulse:Math.random()*6.28,rot:0}); }
+    const cb=Math.round((40+difficulty*12)*(diffChip||1)); awardCoins(cb,o.cx,o.cy-22,true);
+    spawnParticles(o.cx,o.cy,'#ffd23f',30,440); pixelBurst(o.cx,o.cy,'#ffd23f',8); flash=Math.min(0.6,flash+0.2); flashColor='#ffd23f'; shake=Math.max(shake,12); sfxKill(); vibe([25,40,25]);
+    banner={text:'📦 '+t('chestOpen'),sub:'🪙 +'+cb,t:2.0,color:'#ffd23f'}; director=Math.min(1,director+0.02); lore('vault'); }
 
   // ---------- Boss ----------
   function startBoss(){
@@ -2252,6 +2253,7 @@
         o.cx+=Math.sign(tx-o.cx)*Math.min(Math.abs(tx-o.cx),pull);
         if(o.cx<o.w/2)o.cx=o.w/2; else if(o.cx>W-o.w/2)o.cx=W-o.w/2; }
 
+      if(o.chest){ if(o.cy-o.h>H+48) obstacles.splice(i,1); continue; }   // Truhe: harmlos für den Spieler (kein Schaden/Near-Miss) – nur von Waffen zerstörbar
       const hw=o.w/2,hh=o.h/2;
       // Rotations- & formgenaue Hitbox (fairer als die alte AABB für alle Formen)
       let lx=player.x-o.cx, ly=player.y-o.cy;
@@ -2497,7 +2499,8 @@
   function spawnGibs(x,y,n,cols,spd,grav){ n=Math.max(2,Math.round(n*fxQ));
     for(let i=0;i<n;i++){ if(gibs.length>140) gibs.shift(); const a=Math.random()*6.28, s=rand(spd*0.35,spd);
       gibs.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-rand(60,200),rot:Math.random()*6.28,vr:rand(-10,10),size:rand(4,12),color:cols[(Math.random()*cols.length)|0],life:rand(0.8,1.6),grav:grav||520}); } }
-  function killObstacle(o){ const pts=3*(o.maxHp||1); addScore(pts);
+  function killObstacle(o){ if(o.chest){ openChest(o); return; }   // Truhe kaputtgeschossen → Loot-Explosion (kein Standard-Kill/Score)
+    const pts=3*(o.maxHp||1); addScore(pts);
     mkTimer=0.7; mkCount++;
     if(mkCount===3||mkCount===6||mkCount===10||(mkCount>10&&mkCount%5===0)){ const mc=mkCount>=10?'#ff2ee0':(mkCount>=6?'#ff9a2e':'#ffe600'); floatText(player.x,player.y-58,t('multikill')+' ×'+mkCount,mc,22); addScore(Math.round(pts*mkCount*0.5)); beep(Math.min(1500,700+mkCount*30),0.08,'square',0.22); shake=Math.max(shake,7); }
     pixelBurst(o.cx,o.cy,o.color,o.maxHp); floatText(o.cx,o.cy-12,'+'+pts,o.color,14);
@@ -2563,7 +2566,7 @@
     else if(p.type==='slow'){ effects.slowmo=Math.min(8,4*mods.slowmoMult); floatText(p.x,p.y-18,t('pSlow'),'#5b9bff',16); coachDyn('pslow','⏱',t('cefSlow'),t('cefSlowd'),'#5b9bff'); }   // CAP: Zeitlupe max 8s (vorher 30×mult → bis ~67s = unverwundbar)
     else if(p.type==='magnet'){ effects.magnet=30; floatText(p.x,p.y-18,t('pMagnet'),'#c45bff',16); coachDyn('pmagnet','🧲',t('cefMag'),t('cefMagd'),'#c45bff'); }
     else if(p.type==='double'){ effects.double=30; floatText(p.x,p.y-18,t('pDouble'),'#ffe600',16); coachDyn('pdouble','✕2',t('cefDbl'),t('cefDbld'),'#ffe600'); }
-    else if(p.type==='bomb'){ let n=0; for(const o of obstacles){ spawnParticles(o.cx,o.cy,o.color,8,200); n++; addScore(3*multiplier); }
+    else if(p.type==='bomb'){ let n=0; for(const o of obstacles){ if(o.chest){ openChest(o); continue; } spawnParticles(o.cx,o.cy,o.color,8,200); n++; addScore(3*multiplier); }
       obstacles=[]; lasers=[]; shake=18; flash=0.6; flashColor='#ff9a2e'; vibe([50,30,50]); banner={text:t('boom'),sub:n+t('boomSub'),t:1.6,color:'#ff9a2e'}; floatText(p.x,p.y-18,t('pBomb'),'#ff9a2e',16); coachDyn('pbomb','💣',t('cefBomb'),t('cefBombd'),'#ff9a2e'); }
   }
 
@@ -2660,13 +2663,14 @@
         ctx.beginPath(); ctx.moveTo(0,-pr); ctx.lineTo(pr,0); ctx.lineTo(0,pr); ctx.lineTo(-pr,0); ctx.closePath(); ctx.fill(); ctx.stroke();
         ctx.rotate(-g.rot); ctx.fillStyle='#fff'; ctx.font='15px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(g.curse?g.u.ico:GEM_ICO[g.kind],0,1); ctx.restore(); }
 
-      // Beute-Drops (Phase 2): seltenheits-farbiger Sechseck-Kristall mit ✦
+      // Beute-Drops (Phase 2): SAMMELBAR → einheitlicher pulsierender Sammel-Halo (klar von Gegnern unterscheidbar). Waffen-Kiste=Quadrat/🔫, Affix-Kern=Sechseck/✦
       if(loot) for(const L of loot){ const it=L.it, pr=L.r+Math.sin(L.pulse)*2.2, col=it.col, gr=pr*2.6; ctx.save(); ctx.translate(L.x,L.y);
         ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite(col),-gr,-gr,gr*2,gr*2); ctx.globalCompositeOperation='source-over';
+        const hr=pr+5+Math.sin(L.pulse*1.6)*2.2; ctx.strokeStyle='rgba(255,255,255,'+(0.5+0.25*Math.sin(L.pulse*1.6))+')'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(0,0,hr,0,6.28); ctx.stroke();   // Sammel-Halo = „einfliegen zum Aufsammeln"
         ctx.rotate(L.rot); ctx.strokeStyle=col; ctx.lineWidth=2.6; ctx.fillStyle=hexA(col,0.20);
-        if(it.chest||it.wep){ const s=pr*(it.chest?0.96:0.92); ctx.beginPath(); ctx.rect(-s,-s,s*2,s*2); ctx.fill(); ctx.stroke(); }   // Truhe/Waffen-Kiste = Quadrat
+        if(it.wep){ const s=pr*0.92; ctx.beginPath(); ctx.rect(-s,-s,s*2,s*2); ctx.fill(); ctx.stroke(); }   // Waffen-Kiste = Quadrat
         else { ctx.beginPath(); for(let k=0;k<6;k++){ const a=k/6*6.283; const px=Math.cos(a)*pr,py=Math.sin(a)*pr; if(k) ctx.lineTo(px,py); else ctx.moveTo(px,py); } ctx.closePath(); ctx.fill(); ctx.stroke(); }   // Affix-Kern = Sechseck
-        ctx.rotate(-L.rot); ctx.fillStyle='#fff'; ctx.font=(it.chest?'20px':it.wep?'15px':'900 13px')+' '+(it.chest||it.wep?'Space Mono, monospace':'Orbitron, sans-serif'); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(it.chest?'📦':(it.wep?'🔫':'✦'),0,1); ctx.restore(); }
+        ctx.rotate(-L.rot); ctx.fillStyle='#fff'; ctx.font=(it.wep?'15px Space Mono, monospace':'900 13px Orbitron, sans-serif'); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(it.wep?'🔫':'✦',0,1); ctx.restore(); }
 
       // Skillpunkt-Drops: leuchtende cyan Raute (💠) mit hellem Kern + Funkeln
       for(const s of sps){ const pr=s.r+Math.sin(s.pulse)*2, col='#19f0ff', gr=pr*2.9; ctx.save(); ctx.translate(s.x,s.y);
@@ -2682,6 +2686,15 @@
 
       // obstacles
       for(const o of obstacles){
+        if(o.chest){ const fr=Math.max(0,o.hp/o.maxHp), s=o.w*0.5, hit=o.hitFlash>0; ctx.save(); ctx.translate(o.cx,o.cy);   // Beute-Truhe = goldene Kiste zum KAPUTTSCHIESSEN (HP-Leiste + Risse, kein Sammel-Halo)
+          ctx.globalCompositeOperation='lighter'; ctx.drawImage(glowSprite('#ffd23f'),-o.w,-o.w,o.w*2,o.w*2); ctx.globalCompositeOperation='source-over';
+          ctx.strokeStyle=hit?'#fff':'#ffd23f'; ctx.lineWidth=3.2; ctx.fillStyle=hexA('#ffd23f',hit?0.4:0.18); ctx.beginPath(); ctx.rect(-s,-s,s*2,s*2); ctx.fill(); ctx.stroke();
+          ctx.strokeStyle=hexA('#fff7d6',0.6); ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(-s,-s*0.12); ctx.lineTo(s,-s*0.12); ctx.stroke();   // Deckel-Linie
+          ctx.fillStyle='#fff'; ctx.font='20px Space Mono, monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('📦',0,2);
+          if(fr<0.66){ ctx.strokeStyle='#fff7d6'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(-s*0.35,-s); ctx.lineTo(0,0); ctx.lineTo(-s*0.12,s); if(fr<0.33){ ctx.moveTo(s*0.32,-s); ctx.lineTo(s*0.05,0); ctx.lineTo(s*0.22,s); } ctx.stroke(); }   // Risse je nach Schaden
+          ctx.restore();
+          ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.fillRect(o.cx-s,o.cy-s-9,s*2,4); ctx.fillStyle='#ffd23f'; ctx.fillRect(o.cx-s,o.cy-s-9,s*2*fr,4);   // HP-Leiste
+          continue; }
         if(o.pattern!=='straight'&&o.trail.length){ for(let i=0;i<o.trail.length;i++){ const t=o.trail[i],a=i/o.trail.length;
           ctx.globalAlpha=a*0.28; ctx.fillStyle=o.color; ctx.beginPath(); ctx.arc(t.x,t.y,o.w*0.18*a,0,6.28); ctx.fill(); } ctx.globalAlpha=1; }
         ctx.save(); ctx.translate(o.cx,o.cy); ctx.rotate(o.rot||0);
@@ -3374,7 +3387,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v347';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v348';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
