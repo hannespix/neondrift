@@ -118,9 +118,13 @@ ignoriert sie korrekt.
 | Methode | Pfad | Zweck |
 |---|---|---|
 | `POST` | `/` | einen Run-Datensatz speichern (vom Spiel) |
+| `POST` | `/score` | Leaderboard-Eintrag (Opt-in): `{nick, cid, score, mode, daily, dailyDate, lvl, boss, ver}`. Bereinigt Nickname, Rate-Limit pro cid, **Upsert** auf den Bestwert pro Board. Antwort: `{ok, rank, score}`. |
+| `GET` | `/leaderboard?scope=all\|daily&mode=normal\|hardcore&date=YYYY-MM-DD&limit=N&cid=…` | **Öffentlich** (kein Token). Top-N eines Boards + optional `me:{rank,score}` für die mitgegebene `cid`. `scope=daily` braucht `date`. |
 | `GET` | `/stats?token=…` | Aggregate als JSON (Admin). Optional `&ver=v332` (nur eine Spielversion) und `&sinceDays=7` (nur letzte N Tage) – für versionsreines Balancing. |
 | `GET` | `/export?token=…&format=ndjson\|json&limit=N` | Rohdaten (Admin) |
 | `GET` | `/` | Health-Check |
+
+**Leaderboard-Hinweise:** Boards sind *Global pro Modus* (`scope=all`) und *Daily pro Tag* (`scope=daily`, Seed für alle gleich). Zen ist absichtlich nicht ranglistenfähig. Scores sind client-gemeldet (Casual-Game) → grobe Sanity-Caps + Rate-Limit, keine starke Anti-Cheat-Garantie. Migration: `migrations/0003_leaderboard.sql` (von der GitHub Action automatisch angewendet).
 
 ## Auswertung als Markdown
 

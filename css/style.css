@@ -896,3 +896,25 @@
 #pauseMissions .pmRow{display:flex;justify-content:space-between;gap:10px;font-size:13px;background:rgba(25,240,255,.06);border:1px solid rgba(25,240,255,.18);border-radius:8px;padding:5px 10px;text-align:left;}
 #pauseMissions .pmRow.done{color:#2effc0;border-color:rgba(46,255,192,.5);background:rgba(46,255,192,.08);}
 #pauseMissions .pmProg{opacity:.8;font-family:'Space Mono',monospace;white-space:nowrap;}
+
+/* ===== Leaderboard & Nickname (v363) ===== */
+.lbTabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 14px}
+.lbTab{padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#cfe;font:700 13px Orbitron,sans-serif;cursor:pointer;letter-spacing:.5px}
+.lbTab.on{border-color:var(--yellow);color:var(--yellow);box-shadow:0 0 14px rgba(255,230,0,.35);background:rgba(255,230,0,.08)}
+.lbList{width:min(440px,92vw);max-height:52vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px;-webkit-overflow-scrolling:touch}
+.lbRow{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.lbRow .lbR{flex:0 0 38px;text-align:center;font:800 15px Orbitron,sans-serif;color:#9fb}
+.lbRow .lbN{flex:1 1 auto;font:700 15px Orbitron,sans-serif;color:#eaf6ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lbRow .lbS{flex:0 0 auto;font:800 15px Orbitron,sans-serif;color:var(--yellow)}
+.lbRow.top1{border-color:rgba(255,215,0,.6);background:rgba(255,215,0,.10)}
+.lbRow.top2{border-color:rgba(200,210,230,.5)}
+.lbRow.top3{border-color:rgba(205,127,50,.5)}
+.lbRow.me{border-color:var(--cyan);box-shadow:0 0 12px rgba(25,240,255,.3);background:rgba(25,240,255,.08)}
+.lbEmpty,.lbErr,.lbLoading{padding:26px 12px;text-align:center;color:#9ab;font:600 14px Orbitron,sans-serif;opacity:.8}
+.lbMe{margin-top:12px;min-height:1.2em;font:700 14px Orbitron,sans-serif;color:var(--cyan)}
+.lbMe .lbYouTag{color:#9ab;font-weight:600;margin-right:6px}
+#nickPrompt{z-index:60}
+#nickInput{margin:14px 0;width:min(280px,80vw);padding:12px 14px;border-radius:12px;border:1px solid var(--cyan);background:rgba(0,0,0,.35);color:#eaf6ff;font:800 18px Orbitron,sans-serif;text-align:center;letter-spacing:1px;outline:none}
+#nickInput:focus{box-shadow:0 0 16px rgba(25,240,255,.4)}
+#nickInput.shake{animation:nickShake .4s}
+@keyframes nickShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
