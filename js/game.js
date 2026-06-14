@@ -2938,13 +2938,23 @@
     {id:'toxic',ach:'mega',   hull:'#0f3a1a',edge:'#7cff2e',acc:'#2effc0'},
     {id:'gold', ach:'won',    hull:'#3a3206',edge:'#ffe600',acc:'#fff3a0'},
     {id:'glitch',ach:'madness',hull:'#241a2a',edge:'#ff2e88',acc:'#19f0ff',rnd:true},
-    {id:'rainbow',cost:1500,  hull:'#16384a',edge:'#19f0ff',acc:'#19f0ff',rnd:true}
+    {id:'rainbow',cost:1500,  hull:'#16384a',edge:'#19f0ff',acc:'#19f0ff',rnd:true},
+    // Neue Coin-Skins (v364): faire Kosmetik – Coins kaufen Aussehen, nicht Macht
+    {id:'ice',    cost:300,  hull:'#0a2a3a',edge:'#7fe8ff',acc:'#ffffff'},
+    {id:'mint',   cost:400,  hull:'#0a3a2a',edge:'#2effc0',acc:'#aaffea'},
+    {id:'ember',  cost:450,  hull:'#3a1206',edge:'#ff5a1e',acc:'#ffd23f'},
+    {id:'aqua',   cost:500,  hull:'#06303a',edge:'#19f0ff',acc:'#7cff2e'},
+    {id:'void',   cost:600,  hull:'#140a24',edge:'#7b2eff',acc:'#c45bff'},
+    {id:'crimson',cost:700,  hull:'#3a0610',edge:'#ff2e4e',acc:'#ff8aa0'},
+    {id:'mono',   cost:800,  hull:'#222b33',edge:'#dfeaf2',acc:'#ffffff'},
+    {id:'cyber',  cost:900,  hull:'#2a2406',edge:'#ffe600',acc:'#19f0ff'},
+    {id:'nebula', cost:1200, hull:'#1a1030',edge:'#ff5ea8',acc:'#7b2eff',rnd:true}
   ];
   const curSkin=()=>SKINS.find(s=>s.id===(meta.skin||'std'))||SKINS[0];
   const SKINTR={
-    de:{std:'Standard',pink:'Magenta',sun:'Sonne',vapor:'Vapor',toxic:'Toxisch',gold:'Gold',glitch:'Glitch',rainbow:'Regenbogen'},
-    en:{std:'Default',pink:'Magenta',sun:'Sun',vapor:'Vapor',toxic:'Toxic',gold:'Gold',glitch:'Glitch',rainbow:'Rainbow'},
-    fr:{std:'Défaut',pink:'Magenta',sun:'Soleil',vapor:'Vapor',toxic:'Toxique',gold:'Or',glitch:'Glitch',rainbow:'Arc-en-ciel'}
+    de:{std:'Standard',pink:'Magenta',sun:'Sonne',vapor:'Vapor',toxic:'Toxisch',gold:'Gold',glitch:'Glitch',rainbow:'Regenbogen',ice:'Eis',mint:'Minze',ember:'Glut',aqua:'Aqua',void:'Leere',crimson:'Karmesin',mono:'Mono',cyber:'Cyber',nebula:'Nebula'},
+    en:{std:'Default',pink:'Magenta',sun:'Sun',vapor:'Vapor',toxic:'Toxic',gold:'Gold',glitch:'Glitch',rainbow:'Rainbow',ice:'Ice',mint:'Mint',ember:'Ember',aqua:'Aqua',void:'Void',crimson:'Crimson',mono:'Mono',cyber:'Cyber',nebula:'Nebula'},
+    fr:{std:'Défaut',pink:'Magenta',sun:'Soleil',vapor:'Vapor',toxic:'Toxique',gold:'Or',glitch:'Glitch',rainbow:'Arc-en-ciel',ice:'Glace',mint:'Menthe',ember:'Braise',aqua:'Aqua',void:'Vide',crimson:'Cramoisi',mono:'Mono',cyber:'Cyber',nebula:'Nébuleuse'}
   };
   const skinName=id=>((SKINTR[lang]&&SKINTR[lang][id])||SKINTR.en[id]||id);
   const MAXSHIPS=6;
@@ -3455,7 +3465,7 @@
     setTimeout(()=>{ spawnGibs(x,rand(H*0.08,H*0.26),ri(28,40),V.cols,rand(440,520),540); deathFlash=Math.max(deathFlash,0.45); },ri(200,260));
     setTimeout(()=>{ for(let k=0;k<4;k++) spawnGibs(rand(W*0.15,W*0.85),rand(-30,H*0.18),ri(14,20),V.cols,rand(380,440),560); },ri(460,560)); }
   // ---------- Anonyme Telemetrie (Balancing/Tuning) – kein PII; lokales Log immer, Cloud-Versand nur opt-in + URL gesetzt ----------
-  const GAME_VER='v363';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
+  const GAME_VER='v364';   // mit der service-worker-CACHE-Version synchron halten (taucht in der Telemetrie als `ver` auf)
   const TELEMETRY_URL='https://thronerush-telemetry.hannes-75b.workers.dev/';   // Cloudflare-Worker → D1. Versand greift nur bei Opt-in (Einwilligungsabfrage beim Start). Siehe telemetry-worker/README.md.
   function telemetryCid(){ try{ let c=localStorage.getItem('thronerush_cid'); if(!c){ c=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('thronerush_cid',c); } return c; }catch(e){ return 'anon'; } }
   function runRecord(earned){
